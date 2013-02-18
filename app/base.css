@@ -68,7 +68,17 @@ a.button.icon {
   width:100%;
   }
 
+body.xray #map { background:#000; }
+
+#map .xray,
 #map .zoomer { margin-top:40px; }
+
+#map .xray {
+  position:absolute;
+  left:80px;
+  top:10px;
+  z-index:1000;
+  }
 
 #menu {
   position:fixed;

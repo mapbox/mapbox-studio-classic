@@ -15,7 +15,12 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 app.param('project', function(req, res, next) {
     var id = req.query.id;
     var data = req.method === 'PUT' ? req.body : false;
-    tm.project(id, data, !!data, function(err, project) {
+    tm.project({
+        id: id,
+        data: data,
+        perm: !!data,
+        xray: req.query.xray
+    }, function(err, project) {
         if (err) return next(err);
         req.project = project;
         return next();

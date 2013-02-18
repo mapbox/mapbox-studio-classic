@@ -35,7 +35,9 @@
     </div>
     <%= project.name || 'Untitled' %>
   </div>
-  <div id='map'></div>
+  <div id='map'>
+    <a href='#xray' class='xray button icon'>◐</a>
+  </div>
 </div>
 
 <div id='docs' class='column'>
@@ -66,6 +68,7 @@
 <script>
 var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>'] }));
 map.centerzoom({lon:0,lat:0},2);
+map.setZoomRange(0,22);
 map.ui.zoombox.add();
 map.ui.zoomer.add();
 
@@ -81,6 +84,7 @@ var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k
   var completer = cartoCompletion(memo[k], window.cartoRef);
 
   /*
+  @TODO
   function updateSelectors(model) {
       var ids = _.map(model.get('Layer').pluck('id'),
           function(x) { return '#' + x; });
@@ -116,6 +120,7 @@ Editor.prototype.events = {
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tab',
   'click #docs nav a': 'docs',
+  'click a.xray': 'xray',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -184,9 +189,19 @@ Editor.prototype.save = function(ev) {
   this.model.save({ styles:styles }, { success:_(this.refresh).bind(this) });
 };
 Editor.prototype.refresh = function(ev) {
+  $('body').removeClass('xray');
   map.removeLayerAt(0);
-  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&updated' + (+new Date) ] }));
+  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&updated=' + (+new Date) ] }));
 };
+Editor.prototype.xray = function(ev) {
+  if ($('body').hasClass('xray')) return this.refresh();
+
+  $('body').addClass('xray');
+  map.removeLayerAt(0);
+  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&xray=1&updated=' + (+new Date) ] }));
+  return false;
+};
+
 
 new Editor({
   el: document.body,

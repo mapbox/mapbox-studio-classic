@@ -2,7 +2,8 @@
     "name": "MapBox Streets",
     "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/mbstreets2/{z}/{x}/{y}.data" ],
     "minzoom": 0,
-    "maxzoom": 8,
+    "maxzoom": 15,
+    "maskLevel": 8,
     "layers": {
         "landuse": {},
         "ocean": {},
