@@ -1,0 +1,24 @@
+{
+    "name": "tm2",
+    "version": "0.0.0",
+    "main": "./index",
+    "engines": {
+        "node": "0.8.x"
+    },
+    "dependencies": {
+        "express": "3.1.x",
+        "connect": "2.7.x",
+        "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
+        "underscore": "1.4.x",
+        "tilejson": "0.3.x",
+        "mbtiles": "0.2.x",
+        "mkdirp": "0.3.x",
+        "mapnik": "git+ssh://git@github.com:mapbox/node-mapnik-data-tile.git",
+        "carto": "git+ssh://git@github.com:mapbox/carto.git",
+        "dt": "git+ssh://git@github.com:mapbox/dtdev.git"
+    },
+    "devDependencies": {
+        "mocha": "1.8.x"
+    },
+    "private": true
+}

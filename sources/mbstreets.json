@@ -1,0 +1,32 @@
+{
+    "name": "MapBox Streets",
+    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/mbstreets2/{z}/{x}/{y}.data" ],
+    "minzoom": 0,
+    "maxzoom": 8,
+    "layers": {
+        "landuse": {},
+        "ocean": {},
+        "waterway": {},
+        "water": {},
+        "aeroway": {},
+        "barrier_line": {},
+        "building": {},
+        "landuse_band": {},
+        "landuse_overlay": {},
+        "tunnel": {},
+        "road": {},
+        "bridge": {},
+        "admin": {},
+        "country_label_line": {},
+        "country_label": {},
+        "marine_label": {},
+        "state_label": {},
+        "place": {},
+        "water_label": {},
+        "area_label": {},
+        "rail_station": {},
+        "airport": {},
+        "road_label": {},
+        "waterway_label": {}
+    }
+}

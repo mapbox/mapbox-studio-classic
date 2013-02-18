@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/codemirror.css' rel='stylesheet' />
+  <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/app/base.css' rel='stylesheet' />
+</head>
+
+<body id='view'>
+
+<div id='menu'>
+  <h3>Project</h3>
+  <a href='#settings'>Settings</a>
+  <a href='#export'>Export</a>
+  <a href='#sources'>Datasources</a>
+  <a href='#interaction'>Interaction</a>
+  <h3>Application</h3>
+  <a href='/projects'>Projects</a>
+  <a href='/library'>Data library</a>
+  <a href='/preferences'>Preferences</a>
+</div>
+<div id='full'></div>
+<div id='title'>
+  <div class='left'>
+    <a class='button menu n' href='#menu'>☰</a>
+    <a class='button menu y' href='#'>✕</a>
+    <a class='button save' href='#'>✔ Save</a>
+  </div>
+  <div class='right'>
+    <a class='button full n' href='#full'>⇆</a>
+    <a class='button full y' href='#'>✕</a>
+  </div>
+  <%= obj.name || 'Untitled' %>
+</div>
+<div id='docs'></div>
+<div id='code'>
+  <div class='left'>
+    <a class='button docs n' href='#docs'>{}</a>
+    <a class='button docs y' href='#'>✕</a>
+  </div>
+  <div id='tabs'><!--
+    <% _(styles).keys().forEach(function(k,i) { %>
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'-')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='delete'>✕</span></a><!--
+    <% }); %>
+  --></div>
+  <div id='editor'></div>
+</div>
+
+<script src='/ext/underscore-min.js'></script>
+<script src='/ext/codemirror.js'></script>
+<script src='/ext/zepto.js'></script>
+<script src='/ext/backbone.js'></script>
+<script src='/ext/mapbox.js'></script>
+<script>
+var map = mapbox.map('full', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=id%>'] }));
+map.centerzoom({lon:0,lat:0},2);
+map.ui.zoombox.add();
+map.ui.zoomer.add();
+
+var code = _(<%=JSON.stringify(styles)%>).reduce(function(memo, value, k) {
+  memo[k] = CodeMirror(document.getElementById('editor'), {
+    value: value,
+    lineNumbers: true
+  });
+  memo[k].display.wrapper.id = 'code-' + k.replace(/[^\w+]/g,'-');
+  return memo;
+}, {});
+_(code).toArray().shift().display.wrapper.className += ' active';
+
+var Project = Backbone.Model.extend({});
+Project.prototype.url = function() {
+  return '/project?id=' + this.get('id');
+};
+
+var Editor = Backbone.View.extend({});
+Editor.prototype.events = {
+  'click a.button.save': 'save',
+  'click #tabs a.tab span.delete': 'deltab',
+  'click #tabs a.tab': 'tab',
+  'keydown': 'keys'
+};
+Editor.prototype.keys = function(ev) {
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
+  switch (ev.which) {
+  case 83: // s
+    this.save();
+    break;
+  case 187: // +
+    map.zoomBy(1);
+    break;
+  case 189: // -
+    map.zoomBy(-1);
+    break;
+  case 72: // h
+    map.panBy(64, 0);
+    break;
+  case 74: // j
+    map.panBy(0, -64);
+    break;
+  case 75: // k
+    map.panBy(0, 64);
+    break;
+  case 76: // l
+    map.panBy(-64, 0);
+    break;
+  default:
+    return true;
+  }
+  return false;
+};
+Editor.prototype.tab = function(ev) {
+  $('#code .active').removeClass('active');
+  $(ev.currentTarget).addClass('active');
+  $('#' + ev.currentTarget.href.split('#').pop()).addClass('active');
+  return false;
+};
+Editor.prototype.deltab = function(ev) {
+  var styles = this.model.get('styles');
+  var parent = $(ev.currentTarget).parent();
+  var target = parent.attr('rel');
+  if (!styles[target]) return false;
+  if (confirm('Remove stylesheet "' + target + '"?')) {
+    $(code[target].display.wrapper).remove();
+    parent.remove();
+    delete styles[target];
+    delete code[target];
+    this.model.set({styles:styles});
+    // Set first tab to active.
+    if (parent.is('.active') && $('a.tab').size())
+        this.tab({ currentTarget:$('a.tab').get(0) });
+  }
+  return false;
+};
+Editor.prototype.save = function(ev) {
+  var styles = _(code).reduce(function(memo, cm, k) {
+      memo[k] = cm.getValue();
+      return memo;
+  }, {})
+  this.model.save({ styles:styles }, { success:_(this.refresh).bind(this) });
+};
+Editor.prototype.refresh = function(ev) {
+  map.removeLayerAt(0);
+  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=id%>&updated' + (+new Date) ] }));
+};
+
+new Editor({
+  el: document.body,
+  model: new Project(<%= JSON.stringify(obj) %>)
+});
+</script>
+</body>
+
+</html>
