@@ -1,17 +1,17 @@
 @font-face {
   font-family:Opensans;
-  src: url('opensans-regular.woff') format('woff');
+  src: url('../ext/opensans-regular.woff') format('woff');
   }
 
 @font-face {
   font-family:Opensans;
   font-weight:bold;
-  src: url('opensans-bold.woff') format('woff');
+  src: url('../ext/opensans-bold.woff') format('woff');
   }
 
 @font-face {
   font-family:Droidsansmono;
-  src: url('droidsansmono.woff') format('woff');
+  src: url('../ext/droidsansmono.woff') format('woff');
   }
 
 * {
