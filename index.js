@@ -9,8 +9,8 @@ var argv = require('optimist')
 var app = express();
 app.use(express.bodyParser());
 app.use(app.router);
-app.use('/app', express.static(__dirname + '/app'));
-app.use('/ext', express.static(__dirname + '/ext'));
+app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
+app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('project', function(req, res, next) {
     var id = req.query.id;
@@ -28,7 +28,10 @@ app.put('/:project(project)', function(req, res, next) {
 
 app.get('/:project(project)', function(req, res, next) {
     res.set({'content-type':'text/html'});
-    return res.send(tm.templates.project(req.project.data));
+    return res.send(tm.templates.project({
+        cartoRef: require('carto').tree.Reference.data,
+        project: req.project.data
+    }));
 });
 
 app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
@@ -44,6 +47,16 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
         res.set(headers);
         return res.send(data);
     });
+});
+
+app.get('/app/lib.js', function(req, res, next) {
+    res.set({
+        'content-type':'application/javascript',
+        'cache-control':'max-age=3600'
+    });
+    res.send(tm.templates.libjs({
+        cartoRef: require('carto').tree.Reference.data
+    }));
 });
 
 app.get('/', function(req, res, next) {

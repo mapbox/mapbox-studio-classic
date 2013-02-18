@@ -10,7 +10,7 @@
 
 <body id='view'>
 
-<div id='menu'>
+<div id='menu' class='column'>
   <h3>Project</h3>
   <a href='#settings'>Settings</a>
   <a href='#export'>Export</a>
@@ -21,27 +21,34 @@
   <a href='/library'>Data library</a>
   <a href='/preferences'>Preferences</a>
 </div>
-<div id='full'></div>
-<div id='title'>
-  <div class='left'>
-    <a class='button menu n' href='#menu'>☰</a>
-    <a class='button menu y' href='#'>✕</a>
-    <a class='button save' href='#'>✔ Save</a>
+
+<div id='full' class='column'>
+  <div id='title'>
+    <div class='left'>
+      <a class='button menu n icon' href='#menu'>☰</a>
+      <a class='button menu y icon' href='#'>✕</a>
+      <a class='button save' href='#'>✔ Save</a>
+    </div>
+    <div class='right'>
+      <a class='button full n icon' href='#full'>⇆</a>
+      <a class='button full y icon' href='#'>✕</a>
+    </div>
+    <%= project.name || 'Untitled' %>
   </div>
-  <div class='right'>
-    <a class='button full n' href='#full'>⇆</a>
-    <a class='button full y' href='#'>✕</a>
-  </div>
-  <%= obj.name || 'Untitled' %>
+  <div id='map'></div>
 </div>
-<div id='docs'></div>
-<div id='code'>
+
+<div id='docs' class='column'>
+<%= this['projectCartoRef'](cartoRef) %>
+</div>
+
+<div id='code' class='column'>
   <div class='left'>
-    <a class='button docs n' href='#docs'>{}</a>
-    <a class='button docs y' href='#'>✕</a>
+    <a class='button docs n icon' href='#docs'>{}</a>
+    <a class='button docs y icon' href='#'>✕</a>
   </div>
   <div id='tabs'><!--
-    <% _(styles).keys().forEach(function(k,i) { %>
+    <% _(project.styles).keys().forEach(function(k,i) { %>
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'-')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='delete'>✕</span></a><!--
     <% }); %>
   --></div>
@@ -53,21 +60,50 @@
 <script src='/ext/zepto.js'></script>
 <script src='/ext/backbone.js'></script>
 <script src='/ext/mapbox.js'></script>
+<script src='/app/lib.js'></script>
+<script src='/app/codemirror.carto.js'></script>
+<script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var map = mapbox.map('full', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=id%>'] }));
+var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>'] }));
 map.centerzoom({lon:0,lat:0},2);
 map.ui.zoombox.add();
 map.ui.zoomer.add();
 
-var code = _(<%=JSON.stringify(styles)%>).reduce(function(memo, value, k) {
+var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k) {
   memo[k] = CodeMirror(document.getElementById('editor'), {
     value: value,
-    lineNumbers: true
+    lineNumbers: true,
+    mode: {
+      name: 'carto',
+      reference: window.cartoRef
+    }
   });
-  memo[k].display.wrapper.id = 'code-' + k.replace(/[^\w+]/g,'-');
+  var completer = cartoCompletion(memo[k], window.cartoRef);
+
+  /*
+  function updateSelectors(model) {
+      var ids = _.map(model.get('Layer').pluck('id'),
+          function(x) { return '#' + x; });
+      var classes = _(model.get('Layer').pluck('class')).chain().map(
+          function(c) {
+              if (c == undefined) return '';
+              var cs = c.split(' ');
+              if (cs[0] == '') return '';
+              return _.map(cs, function(x) { return '.' + x; });
+          }).flatten().compact().value();
+      cartoCompleter.ids(ids);
+      cartoCompleter.classes(classes);
+  }
+  this.model.bind('change', updateSelectors);
+  updateSelectors(this.model);
+  */
+
+  memo[k].setOption('onKeyEvent', completer.onKeyEvent);
+  memo[k].setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
+  memo[k].getWrapperElement().id = 'code-' + k.replace(/[^\w+]/g,'-');
   return memo;
 }, {});
-_(code).toArray().shift().display.wrapper.className += ' active';
+_(code).toArray().shift().getWrapperElement().className += ' active';
 
 var Project = Backbone.Model.extend({});
 Project.prototype.url = function() {
@@ -79,6 +115,7 @@ Editor.prototype.events = {
   'click a.button.save': 'save',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tab',
+  'click #docs nav a': 'docs',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -110,6 +147,12 @@ Editor.prototype.keys = function(ev) {
   }
   return false;
 };
+Editor.prototype.docs = function(ev) {
+  $('#docs .active').removeClass('active');
+  $(ev.currentTarget).addClass('active');
+  $('#' + ev.currentTarget.href.split('#').pop()).addClass('active');
+  return false;
+};
 Editor.prototype.tab = function(ev) {
   $('#code .active').removeClass('active');
   $(ev.currentTarget).addClass('active');
@@ -122,7 +165,7 @@ Editor.prototype.deltab = function(ev) {
   var target = parent.attr('rel');
   if (!styles[target]) return false;
   if (confirm('Remove stylesheet "' + target + '"?')) {
-    $(code[target].display.wrapper).remove();
+    $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];
     delete code[target];
@@ -142,12 +185,12 @@ Editor.prototype.save = function(ev) {
 };
 Editor.prototype.refresh = function(ev) {
   map.removeLayerAt(0);
-  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=id%>&updated' + (+new Date) ] }));
+  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&updated' + (+new Date) ] }));
 };
 
 new Editor({
   el: document.body,
-  model: new Project(<%= JSON.stringify(obj) %>)
+  model: new Project(<%= JSON.stringify(project) %>)
 });
 </script>
 </body>

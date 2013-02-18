@@ -1,0 +1,1 @@
+window.cartoRef = <%=JSON.stringify(cartoRef)%>;
