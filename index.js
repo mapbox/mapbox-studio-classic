@@ -28,7 +28,7 @@ app.param('project', function(req, res, next) {
 });
 
 app.put('/:project(project)', function(req, res, next) {
-    res.send({});
+    res.send({mtime:req.project.data.mtime});
 });
 
 app.get('/:project(project)', function(req, res, next) {
@@ -49,6 +49,7 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
         } else if (err) {
             return next(err);
         }
+        headers['cache-control'] = 'max-age=3600';
         res.set(headers);
         return res.send(data);
     });
@@ -66,11 +67,7 @@ app.get('/app/lib.js', function(req, res, next) {
 
 app.get('/', function(req, res, next) {
     res.set({'content-type':'text/html'});
-    return res.send(tm.templates.project({
-        id: 'necountries',
-        name: 'Natural Earth Countries',
-        styles: 'Map { background-color:#fff; }\n\n#necountries { polygon-fill:#000; }'
-    }));
+    return res.send('Hello world');
 });
 
 app.listen(22209);

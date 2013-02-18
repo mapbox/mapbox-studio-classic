@@ -66,7 +66,7 @@
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>'] }));
+var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'] }));
 map.centerzoom({lon:0,lat:0},2);
 map.setZoomRange(0,22);
 map.ui.zoombox.add();
@@ -191,14 +191,14 @@ Editor.prototype.save = function(ev) {
 Editor.prototype.refresh = function(ev) {
   $('body').removeClass('xray');
   map.removeLayerAt(0);
-  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&updated=' + (+new Date) ] }));
+  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
 };
 Editor.prototype.xray = function(ev) {
   if ($('body').hasClass('xray')) return this.refresh();
 
   $('body').addClass('xray');
   map.removeLayerAt(0);
-  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&xray=1&updated=' + (+new Date) ] }));
+  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&xray=1&mtime=' + this.model.get('mtime') ] }));
   return false;
 };
 
