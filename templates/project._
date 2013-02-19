@@ -16,8 +16,8 @@
 
 <div id='menu' class='column ui'>
   <nav><!--
-    --><a href='#menu-layers' class='major active'>Layers</a><!--
-    --><a href='#menu-util' class='minor'>⚙</a>
+    --><a href='#menu-util' class='minor'>⚙</a><!--
+    --><a href='#menu-layers' class='major active'>Layers</a>
   </nav>
   <div id='menu-layers' class='active'>
     <%= _(sources).map(this.source).join('\n') %>

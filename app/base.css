@@ -83,7 +83,7 @@ nav > a {
   }
 
 #full {
-  position:fixed;
+  position:absolute;
   width:50%;
   left:0px;
   top:0px;
@@ -110,7 +110,7 @@ body.xray #map { background:#000; }
   }
 
 #menu {
-  position:fixed;
+  position:absolute;
   left:-50%;
   width:25%;
   bottom:0px;
@@ -134,7 +134,7 @@ body.xray #map { background:#000; }
   background:#333;
   font-weight:normal;
   box-shadow:inset rgba(255,255,255,0.1) 0px 0px 0px 1px;
-  position:absolute; top:5px; left:37.5%;
+  position:absolute; top:5px; left:62.5%;
   width:100px; margin-left:-50px;
   text-align:center;
   }
@@ -282,13 +282,14 @@ body.xray #map { background:#000; }
   }
 
 #data {
-  position:fixed;
-  z-index:1;
-  top:0px; bottom:0px; left:125%;
+  position:absolute;
+  z-index:1002;
+  left:25%; bottom:100%;
   width:75%; height:100%;
   background:#444;
+  -webkit-transition:bottom 200ms;
   }
-#data:target { left:25%; }
+#data:target { bottom:0%; }
 
 div.source { position:relative; }
 div.source section { cursor:pointer; }
@@ -303,7 +304,7 @@ div.source section > * {
 #menu-layers div.source > section { display:none; }
 
 #code {
-  position:fixed;
+  position:absolute;
   left:50%;
   top:0px;
   bottom:0px;
@@ -381,6 +382,7 @@ div.source section > * {
   position:absolute;
   left:0%; bottom:100%;
   width:50%; height:100%;
+  z-index:1002;
   background:#444;
   -webkit-transition:bottom 200ms;
   }
