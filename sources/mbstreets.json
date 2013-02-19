@@ -1,33 +1,124 @@
 {
-    "name": "MapBox Streets",
+    "name": "MapBox OSM",
     "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/mbstreets2/{z}/{x}/{y}.data" ],
     "minzoom": 0,
     "maxzoom": 15,
     "maskLevel": 8,
     "layers": {
-        "landuse": {},
-        "ocean": {},
-        "waterway": {},
-        "water": {},
-        "aeroway": {},
-        "barrier_line": {},
-        "building": {},
-        "landuse_band": {},
-        "landuse_overlay": {},
-        "tunnel": {},
-        "road": {},
-        "bridge": {},
-        "admin": {},
-        "country_label_line": {},
-        "country_label": {},
-        "marine_label": {},
-        "state_label": {},
-        "place": {},
-        "water_label": {},
-        "area_label": {},
-        "rail_station": {},
-        "airport": {},
-        "road_label": {},
-        "waterway_label": {}
+        "landuse": {
+            "geometry": "polygon",
+            "minzoom": 7,
+            "description": "Land areas and land use.",
+            "attributes": {
+                "type": "String. Common: wood, grass, park."
+            }
+        },
+        "ocean": {
+        },
+        "waterway": {
+            "minzoom": 8
+        },
+        "water": {
+            "minzoom": 3
+        },
+        "aeroway": {
+            "minzoom": 10
+        },
+        "barrier_line": {
+            "minzoom": 14
+        },
+        "building": {
+            "minzoom": 13
+        },
+        "landuse_band": {
+            "minzoom": 13
+        },
+        "landuse_overlay": {
+            "minzoom": 8
+        },
+        "tunnel": {
+            "minzoom": 13
+        },
+        "road": {
+            "minzoom": 5
+        },
+        "bridge": {
+            "minzoom": 13
+        },
+        "admin": {
+            "minzoom": 2
+        },
+        "country_label_line": {
+            "minzoom": 3,
+            "maxzoom": 6
+        },
+        "country_label": {
+            "minzoom": 2,
+            "maxzoom": 10
+        },
+        "marine_label": {
+            "minzoom": 3,
+            "maxzoom": 7
+        },
+        "state_label": {
+            "minzoom": 4,
+            "maxzoom": 10
+        },
+        "place": {
+            "minzoom": 4
+        },
+        "water_label": {
+            "minzoom": 8
+        },
+        "area_label": {
+            "minzoom": 14
+        },
+        "rail_station": {
+            "geometry": "point",
+            "description": "Train and subway stations.",
+            "minzoom": 14,
+            "attributes": {
+                "osm_id": "Number. OSM ID.",
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "class": "String (subway, light, rail).",
+                "network": "String. Rail network.",
+                "group": "String (name, network). Field used to group stations."
+            }
+        },
+        "airport": {
+            "geometry": "point",
+            "description": "Airports.",
+            "minzoom": 10,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "class": "String (default, international, military, heliport).",
+                "ref": "String. Reference code.",
+                "area": "Number. Geographic area."
+            }
+        },
+        "road_label": {
+            "geometry": "line",
+            "description": "Labels for roads, tunnels, bridges.",
+            "minzoom": 10,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "class": "String (motorway, main, street, pedestrian, path, service).",
+                "ref": "String. Reference code.",
+                "reflen": "Number. Ref length."
+            }
+        },
+        "waterway_label": {
+            "geometry": "line",
+            "description": "Labels for waterways.",
+            "minzoom": 13,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "type": "String (river, stream, canal)."
+            }
+        }
     }
 }

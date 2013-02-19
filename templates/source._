@@ -1,0 +1,27 @@
+<div id='source-<%=obj.id%>' class='source'>
+<section>
+  <h2><%= obj.name %></h2>
+  <p><%= obj.description || 'No description.' %></p>
+  <small class='layers'><%= _(obj.layers||{}).keys().join(', ') %></small>
+</section>
+<h3 class='remote'><%= obj.name %></h3>
+<a href='#delete' class='delete'>✕</a>
+<% _(obj.layers).chain().pairs().reverse().each(function(l) { %>
+<a id='menu-layers-<%=l[0]%>' href='#menu-layers-<%=l[0]%>'>
+  <%=l[0]%>
+  <span class='geometry <%=l[1].geometry||'unknown'%>'></span>
+  <span class='zooms'>
+    <% if (!l[1].maxzoom) { %>
+    z<%= l[1].minzoom||0 %>+
+    <% } else { %>
+    z<%= l[1].minzoom||0 %>-<%= l[1].maxzoom||22 %>
+    <% } %>
+  </span>
+  <small class='desc'><%=l[1].description||'No description.'%></small>
+  <% _(l[1].attributes||{}).each(function(desc,name) { %>
+  <small><code><%=name%></code> <%=desc||'No description.'%></small>
+  <% }); %>
+  <span class='moreless'></span>
+</a>
+<% }); %>
+</div>

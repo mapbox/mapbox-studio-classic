@@ -4,6 +4,17 @@
     "minzoom": 0,
     "maxzoom": 5,
     "layers": {
-        "necountries": {}
+        "necountries": {
+            "geometry": "polygon",
+            "description": "Administrative level 0 countries.",
+            "attributes": {
+                "NAME": "String. Country name.",
+                "ABBREV": "String. Abbreviated name.",
+                "POSTAL": "String. Postal name.",
+                "NAME_FORMA": "String. Formal name.",
+                "POP_EST": "Number. Estimated population.",
+                "GDP_MD_EST": "Number. Estimated median GDP."
+            }
+        }
     }
 }

@@ -35,6 +35,12 @@ app.get('/:project(project)', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.project({
         cartoRef: require('carto').tree.Reference.data,
+        sources: _(req.project.data.sources).map(function(s) {
+            return tm.sources[s];
+        }),
+        library: _(tm.sources).filter(function(source, s) {
+            return !_(req.project.data.sources).include(s);
+        }),
         project: req.project.data
     }));
 });

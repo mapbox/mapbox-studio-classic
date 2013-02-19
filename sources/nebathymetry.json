@@ -4,6 +4,13 @@
     "minzoom": 0,
     "maxzoom": 5,
     "layers": {
-        "nebathymetry": {}
+        "nebathymetry": {
+            "geometry": "polygon",
+            "description": "Bathymetry created from SRTM Plus.",
+            "attributes": {
+                "DEPTH": "Number. Depth in meters.",
+                "DEPTH_GRP": "String. Group."
+            }
+        }
     }
 }

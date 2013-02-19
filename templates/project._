@@ -10,20 +10,35 @@
 
 <body id='view'>
 
-<div id='menu' class='column'>
-  <h3>Project</h3>
-  <a href='#settings'>Settings</a>
-  <a href='#export'>Export</a>
-  <a href='#sources'>Datasources</a>
-  <a href='#interaction'>Interaction</a>
-  <h3>Application</h3>
-  <a href='/projects'>Projects</a>
-  <a href='/library'>Data library</a>
-  <a href='/preferences'>Preferences</a>
+<div id='data' class='column ui'>
+<%= _(library).map(this.source).join('\n') %>
+</div>
+
+<div id='menu' class='column ui'>
+  <nav><!--
+    --><a href='#menu-layers' class='major active'>Layers</a><!--
+    --><a href='#menu-util' class='minor'>✿</a>
+  </nav>
+  <div id='menu-layers' class='active'>
+    <%= _(sources).map(this.source).join('\n') %>
+  </div>
+  <div id='menu-util'>
+    <h3>Project</h3>
+    <a href='#settings'>Settings</a>
+    <a href='#export'>Export</a>
+    <a href='#upload'>Upload</a>
+    <a href='#interaction'>Interaction</a>
+    <h3>TileMill</h3>
+    <a href='/projects'>Recent projects</a>
+    <a href='/library'>Data library</a>
+    <a href='/preferences'>Preferences</a>
+  </div>
+  <a href='#data' class='button icon data n'>✚</a>
+  <a href='#menu' class='button icon data y'>✕</a>
 </div>
 
 <div id='full' class='column'>
-  <div id='title'>
+  <div id='title' class='ui'>
     <div class='left'>
       <a class='button menu n icon' href='#menu'>☰</a>
       <a class='button menu y icon' href='#'>✕</a>
@@ -40,8 +55,8 @@
   </div>
 </div>
 
-<div id='docs' class='column'>
-<%= this['projectCartoRef'](cartoRef) %>
+<div id='docs' class='column ui'>
+  <%= this['projectCartoRef'](cartoRef) %>
 </div>
 
 <div id='code' class='column'>
@@ -49,11 +64,11 @@
     <a class='button docs n icon' href='#docs'>{}</a>
     <a class='button docs y icon' href='#'>✕</a>
   </div>
-  <div id='tabs'><!--
+  <nav id='tabs'><!--
     <% _(project.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'-')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='delete'>✕</span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='delete'>✕</span></a><!--
     <% }); %>
-  --></div>
+  --></nav>
   <div id='editor'></div>
 </div>
 
@@ -104,7 +119,7 @@ var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k
 
   memo[k].setOption('onKeyEvent', completer.onKeyEvent);
   memo[k].setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
-  memo[k].getWrapperElement().id = 'code-' + k.replace(/[^\w+]/g,'-');
+  memo[k].getWrapperElement().id = 'code-' + k.replace(/[^\w+]/g,'_');
   return memo;
 }, {});
 _(code).toArray().shift().getWrapperElement().className += ' active';
@@ -118,8 +133,13 @@ var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
   'click #tabs a.tab span.delete': 'deltab',
-  'click #tabs a.tab': 'tab',
-  'click #docs nav a': 'docs',
+  'click #tabs a.tab': 'tabbed',
+  'click #docs nav a': 'tabbed',
+  'click #menu nav a': 'tabbed',
+  'click #menu-layers a': 'tabbed',
+  'click #menu-layers a .moreless': 'moreless',
+  'click #data section': 'data',
+  'click #menu-layers a.delete': 'data',
   'click a.xray': 'xray',
   'keydown': 'keys'
 };
@@ -152,16 +172,27 @@ Editor.prototype.keys = function(ev) {
   }
   return false;
 };
-Editor.prototype.docs = function(ev) {
-  $('#docs .active').removeClass('active');
+Editor.prototype.tabbed = function(ev) {
+  var target = ev.currentTarget.href.split('#').pop();
+  var context = target.split('-').slice(0,-1).join('-');
+  $('#' + context + ' .active').removeClass('active');
+  //$(ev.currentTarget).siblings().removeClass('active');
   $(ev.currentTarget).addClass('active');
-  $('#' + ev.currentTarget.href.split('#').pop()).addClass('active');
+  $('#' + target).addClass('active');
   return false;
 };
-Editor.prototype.tab = function(ev) {
-  $('#code .active').removeClass('active');
-  $(ev.currentTarget).addClass('active');
-  $('#' + ev.currentTarget.href.split('#').pop()).addClass('active');
+Editor.prototype.moreless = function(ev) {
+  var parent = $(ev.currentTarget).parent();
+  parent.toggleClass('more');
+  return false;
+};
+Editor.prototype.data = function(ev) {
+  var target = $(ev.currentTarget).parent();
+  if (target.parents('#menu-layers').size()) {
+    target.prependTo($('#data'));
+  } else {
+    target.prependTo($('#menu-layers'));
+  }
   return false;
 };
 Editor.prototype.deltab = function(ev) {
@@ -183,15 +214,22 @@ Editor.prototype.deltab = function(ev) {
 };
 Editor.prototype.save = function(ev) {
   var styles = _(code).reduce(function(memo, cm, k) {
-      memo[k] = cm.getValue();
-      return memo;
-  }, {})
-  this.model.save({ styles:styles }, { success:_(this.refresh).bind(this) });
+    memo[k] = cm.getValue();
+    return memo;
+  }, {});
+  var sources = $('#menu-layers div.source').map(function() {
+    return $(this).attr('id').split('source-').pop();
+  });
+  this.model.save({
+    sources:sources,
+    styles:styles
+  }, { success:_(this.refresh).bind(this) });
 };
 Editor.prototype.refresh = function(ev) {
   $('body').removeClass('xray');
   map.removeLayerAt(0);
   map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
+  return false;
 };
 Editor.prototype.xray = function(ev) {
   if ($('body').hasClass('xray')) return this.refresh();
@@ -201,7 +239,6 @@ Editor.prototype.xray = function(ev) {
   map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&xray=1&mtime=' + this.model.get('mtime') ] }));
   return false;
 };
-
 
 new Editor({
   el: document.body,
