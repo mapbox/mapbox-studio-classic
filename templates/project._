@@ -82,8 +82,8 @@
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
 var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'] }));
-map.centerzoom({lon:0,lat:0},2);
-map.setZoomRange(0,22);
+map.centerzoom({lon:<%=project.center[0]%>,lat:<%=project.center[1]%>},<%=project.center[2]%>);
+map.setZoomRange(<%=project.minzoom%>,<%=project.maxzoom%>);
 map.ui.zoombox.add();
 map.ui.zoomer.add();
 
@@ -213,17 +213,19 @@ Editor.prototype.deltab = function(ev) {
   return false;
 };
 Editor.prototype.save = function(ev) {
-  var styles = _(code).reduce(function(memo, cm, k) {
+  var attr = {}
+  attr.styles = _(code).reduce(function(memo, cm, k) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
-  var sources = $('#menu-layers div.source').map(function() {
+  attr.sources = $('#menu-layers div.source').map(function() {
     return $(this).attr('id').split('source-').pop();
   });
-  this.model.save({
-    sources:sources,
-    styles:styles
-  }, { success:_(this.refresh).bind(this) });
+
+  if (this.model.get('_prefs').saveCenter)
+    attr.center = [ map.center().lon, map.center().lat, map.zoom() ];
+
+  this.model.save(attr, { success:_(this.refresh).bind(this) });
 };
 Editor.prototype.refresh = function(ev) {
   $('body').removeClass('xray');
