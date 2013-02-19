@@ -129,11 +129,14 @@ body.xray #map { background:#000; }
 #menu nav a.active { background:rgba(0,0,0,0.2); }
 #menu nav a:first-child { border:0px; }
 #menu nav a.major { width:75%; }
-#menu > a.button {
+#menu > a.data {
   display:none;
-  background:#444;
-  box-shadow:inset rgba(255,255,255,0.2) 0px 0px 0px 1px;
-  position:absolute; top:5px; left:5px;
+  background:#333;
+  font-weight:normal;
+  box-shadow:inset rgba(255,255,255,0.1) 0px 0px 0px 1px;
+  position:absolute; top:5px; left:37.5%;
+  width:100px; margin-left:-50px;
+  text-align:center;
   }
 #menu > div {
   display:none;

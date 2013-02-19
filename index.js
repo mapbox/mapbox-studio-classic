@@ -28,8 +28,7 @@ app.param('project', function(req, res, next) {
     tm.project({
         id: id,
         data: data,
-        perm: !tmp && !!data,
-        xray: req.query.xray
+        perm: !tmp && !!data
     }, function(err, project) {
         if (err) return next(err);
         req.project = project;

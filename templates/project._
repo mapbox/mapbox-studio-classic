@@ -17,7 +17,7 @@
 <div id='menu' class='column ui'>
   <nav><!--
     --><a href='#menu-layers' class='major active'>Layers</a><!--
-    --><a href='#menu-util' class='minor'>✿</a>
+    --><a href='#menu-util' class='minor'>⚙</a>
   </nav>
   <div id='menu-layers' class='active'>
     <%= _(sources).map(this.source).join('\n') %>
@@ -33,8 +33,8 @@
     <a href='/library'>Data library</a>
     <a href='/preferences'>Preferences</a>
   </div>
-  <a href='#data' class='button icon data n'>✚</a>
-  <a href='#menu' class='button icon data y'>✕</a>
+  <a href='#data' class='button data n'>✚ Layers</a>
+  <a href='#menu' class='button data y'>✕ Layers</a>
 </div>
 
 <div id='full' class='column'>
@@ -54,9 +54,7 @@
     </div>
     <%= project.name || 'Untitled' %>
   </div>
-  <div id='map'>
-    <a href='#xray' class='xray button icon'>◐</a>
-  </div>
+  <div id='map'></div>
 </div>
 
 <div id='docs' class='column ui'>
@@ -155,7 +153,6 @@ Editor.prototype.events = {
   'click #menu-layers a .moreless': 'moreless',
   'click #data section': 'data',
   'click #menu-layers a.delete': 'data',
-  'click a.xray': 'xray',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -251,17 +248,8 @@ Editor.prototype.saveas = function(ev) {
   }});
 };
 Editor.prototype.refresh = function(ev) {
-  $('body').removeClass('xray');
   map.removeLayerAt(0);
   map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
-  return false;
-};
-Editor.prototype.xray = function(ev) {
-  if ($('body').hasClass('xray')) return this.refresh();
-
-  $('body').addClass('xray');
-  map.removeLayerAt(0);
-  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&xray=1&mtime=' + this.model.get('mtime') ] }));
   return false;
 };
 
