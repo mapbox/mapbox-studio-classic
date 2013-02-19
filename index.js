@@ -14,15 +14,26 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('project', function(req, res, next) {
     var id = req.query.id;
-    var data = req.method === 'PUT' ? req.body : false;
+    var tmp = id && tm.tmpid(id);
+    if (req.method === 'PUT') {
+        var data = req.body;
+    } else if (tmp && req.path === '/project') {
+        var data = {
+            styles: { 'style.mss': 'Map {\n  background-color:#ace;\n}\n\n#necountries {\n  polygon-fill:#fff;\n}' },
+            sources: ['necountries']
+        };
+    } else {
+        var data = false;
+    }
     tm.project({
         id: id,
         data: data,
-        perm: !!data,
+        perm: !tmp && !!data,
         xray: req.query.xray
     }, function(err, project) {
         if (err) return next(err);
         req.project = project;
+        req.project.data._tmp = tmp;
         return next();
     });
 });
@@ -71,9 +82,9 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/', function(req, res, next) {
-    res.set({'content-type':'text/html'});
-    return res.send('Hello world');
+app.get('/:newproject()', function(req, res, next) {
+    res.redirect('/project?id=' + tm.tmpid());
 });
 
-app.listen(22209);
+app.listen(3000);
+console.log('TM2 @ http://localhost:3000/')

@@ -20,10 +20,13 @@
   }
 
 html, body { height:100%; }
+
+body,
+input { font:normal 14px/20px Opensans,sans-serif; }
+
 body {
   margin:0px;
   padding:0px;
-  font:normal 14px/20px Opensans,sans-serif;
   background:#444;
   color:#444;
   overflow:hidden;
@@ -50,10 +53,14 @@ section > *:last-child { margin-bottom:0px; }
 
 a { color:inherit; text-decoration:none; }
 
+input[type=button],
+input[type=submit],
 a.button {
   display:inline-block;
   font-weight:bold;
   color:#fff;
+  border:0px;
+  cursor:pointer;
   background:rgba(0,0,0,0.8);
   padding:5px 10px;
   vertical-align:middle;
@@ -400,6 +407,49 @@ div.source section > * {
 #docs nav a:nth-child(1),
 #docs nav a:nth-child(2) { width:12.5%; }
 #docs nav a.active { background:rgba(0,0,0,0.2); }
+
+.modal { display:none; }
+.modal:target {
+  display:block;
+  position:absolute;
+  z-index:1;
+  left:50%; top:20%;
+  padding:20px;
+  border-radius:4px;
+  width:320px;
+  background:#444;
+  box-shadow:rgba(0,0,0,0.2) 0px 0px 0px 3px;
+  margin:0px 0px 0px -160px;
+  }
+.modal .close {
+  position:absolute; top:-10px; right:-10px;
+  border-radius:50%;
+  }
+#mask {
+  display:none;
+  position:absolute;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.8);
+  }
+.modal:target ~ #mask { display:block; }
+
+/* Forms */
+select,
+input[type=text],
+input[type=search],
+input[type=password],
+textarea {
+  display:inline-block;
+  max-width:100%;
+  vertical-align:middle;
+  height:30px;
+  padding:5px;
+  border-radius:2px;
+  background:#eee;
+  border:1px solid rgba(0,0,0,0.2);
+  box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 1px;
+  -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 1px;
+  }
 
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }

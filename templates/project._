@@ -42,7 +42,11 @@
     <div class='left'>
       <a class='button menu n icon' href='#menu'>☰</a>
       <a class='button menu y icon' href='#'>✕</a>
-      <a class='button save' href='#'>✔ Save</a>
+      <% if (project._tmp) { %>
+        <a class='button' href='#saveas'>✔ Save as</a>
+      <% } else { %>
+        <a class='button save' href='#'>✔ Save</a>
+      <% } %>
     </div>
     <div class='right'>
       <a class='button full n icon' href='#full'>⇆</a>
@@ -71,6 +75,16 @@
   --></nav>
   <div id='editor'></div>
 </div>
+
+<% if (project._tmp) { %>
+<div id='saveas' class='modal ui'>
+  <a class='button icon close' href='#'>✕</a>
+  <input type='text' placeholder='/path/to/project.tm2' size='25' id='saveas-filepath'/>
+  <a href='#' class='saveas button'>✔ Save</a>
+</div>
+<% } %>
+
+<div id='mask'></div>
 
 <script src='/ext/underscore-min.js'></script>
 <script src='/ext/codemirror.js'></script>
@@ -132,6 +146,7 @@ Project.prototype.url = function() {
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
+  'click a.button.saveas': 'saveas',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tabbed',
   'click #docs nav a': 'tabbed',
@@ -212,8 +227,8 @@ Editor.prototype.deltab = function(ev) {
   }
   return false;
 };
-Editor.prototype.save = function(ev) {
-  var attr = {}
+Editor.prototype.save = function(ev, options) {
+  var attr = {};
   attr.styles = _(code).reduce(function(memo, cm, k) {
     memo[k] = cm.getValue();
     return memo;
@@ -225,7 +240,15 @@ Editor.prototype.save = function(ev) {
   if (this.model.get('_prefs').saveCenter)
     attr.center = [ map.center().lon, map.center().lat, map.zoom() ];
 
-  this.model.save(attr, { success:_(this.refresh).bind(this) });
+  options = options || { success:_(this.refresh).bind(this) };
+  this.model.save(attr, options);
+};
+Editor.prototype.saveas = function(ev) {
+  var id = $('#saveas-filepath').val();
+  this.model.set({id:id});
+  this.save(null, {success:function() {
+    window.location = '/project?id=' + id;
+  }});
 };
 Editor.prototype.refresh = function(ev) {
   $('body').removeClass('xray');
