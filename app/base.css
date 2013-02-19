@@ -416,9 +416,7 @@ div.source section > * {
 .modal { display:none; }
 .modal:target {
   display:block;
-  position:absolute;
-  z-index:1;
-  left:50%; top:20%;
+  position:absolute; left:50%; top:20%; z-index:2001;
   padding:20px;
   border-radius:4px;
   width:320px;
@@ -432,7 +430,7 @@ div.source section > * {
   }
 #mask {
   display:none;
-  position:absolute;
+  position:absolute; z-index:2000;
   width:100%; height:100%;
   background:rgba(0,0,0,0.8);
   }
