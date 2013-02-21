@@ -68,13 +68,37 @@
             "maxzoom": 10
         },
         "place": {
-            "minzoom": 4
+            "geometry": "point",
+            "description": "Places.",
+            "minzoom": 4,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "type": "String. (city, town).",
+                "scalerank": "Number. Rank of place importance.",
+                "ldir": "Number. Direction of label."
+            }
         },
         "water_label": {
-            "minzoom": 8
+            "geometry": "point",
+            "description": "Labels for water areas.",
+            "minzoom": 8,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "area": "Number. Geographic area."
+            }
         },
         "area_label": {
-            "minzoom": 14
+            "geometry": "point",
+            "description": "Labels for landuse areas.",
+            "minzoom": 14,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "class": "String (hospital, park, school, cemetary, sport, military).",
+                "area": "Number. Geographic area."
+            }
         },
         "rail_station": {
             "geometry": "point",
