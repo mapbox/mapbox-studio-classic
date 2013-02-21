@@ -188,11 +188,7 @@ body.xray #map { background:#000; }
   text-overflow:ellipsis;
   }
 #menu-layers a.active { color:#fff; background:#333; }
-#menu-layers .geometry {
-  position:absolute; left:0px;
-  text-align:center;
-  width:20px;
-  }
+#menu-layers .geometry { display:inline-block; width:20px; }
 #menu-layers .geometry::before { content:'◌'; }
 #menu-layers .geometry.point::before { content:'⚫'; }
 #menu-layers .geometry.line::before { content:'━'; }

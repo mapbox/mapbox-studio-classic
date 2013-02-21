@@ -8,8 +8,8 @@
 <a href='#delete' class='delete'>✕</a>
 <% _(obj.layers).chain().pairs().reverse().each(function(l) { %>
 <a id='menu-layers-<%=l[0]%>' href='#menu-layers-<%=l[0]%>'>
-  <%=l[0]%>
   <span class='geometry <%=l[1].geometry||'unknown'%>'></span>
+  <%=l[0]%>
   <span class='zooms'>
     <% if (!l[1].maxzoom) { %>
     z<%= l[1].minzoom||0 %>+
