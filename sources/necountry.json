@@ -3,11 +3,11 @@
     "description": "Country boundaries and metadata.",
     "author": "Natural Earth",
     "image": "http://www.naturalearthdata.com/wp-content/uploads/2009/09/thumb_countries.png",
-    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/necountries/{z}/{x}/{y}.data" ],
+    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/necountry/{z}/{x}/{y}.data" ],
     "minzoom": 0,
     "maxzoom": 5,
     "layers": {
-        "necountries": {
+        "country": {
             "geometry": "polygon",
             "description": "Administrative level 0 countries.",
             "attributes": {

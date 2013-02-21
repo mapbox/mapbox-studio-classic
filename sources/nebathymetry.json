@@ -7,7 +7,7 @@
     "minzoom": 0,
     "maxzoom": 5,
     "layers": {
-        "nebathymetry": {
+        "bathymetry": {
             "geometry": "polygon",
             "description": "Bathymetry created from SRTM Plus.",
             "attributes": {
