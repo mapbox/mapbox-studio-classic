@@ -206,6 +206,10 @@ Editor.prototype.data = function(ev) {
   if (target.parents('#menu-layers').size()) {
     target.prependTo($('#data'));
   } else {
+    // Remove all other layers as we don't support compositing for now.
+    $('#menu-layers > div.source').each(function() {
+        $(this).prependTo('#data');
+    });
     target.prependTo($('#menu-layers'));
   }
   return false;
