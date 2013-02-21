@@ -71,7 +71,6 @@
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='delete'>✕</span></a><!--
     <% }); %>
   --></nav>
-  <div id='editor'></div>
 </div>
 
 <% if (project._tmp) { %>
@@ -100,7 +99,7 @@ map.ui.zoombox.add();
 map.ui.zoomer.add();
 
 var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k) {
-  memo[k] = CodeMirror(document.getElementById('editor'), {
+  memo[k] = CodeMirror(document.getElementById('code'), {
     value: value,
     lineNumbers: true,
     mode: {

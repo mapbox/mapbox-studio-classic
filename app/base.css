@@ -465,8 +465,12 @@ pre,
   visibility:hidden;
   }
 .CodeMirror-scroll { height:100%; }
-.CodeMirror-gutter { background:#eee; width:39px !important; }
 .CodeMirror.active { visibility:visible; }
+.CodeMirror-gutter {
+  background:#eee;
+  width:39px !important;
+  border-right:1px solid #ddd;
+  }
 
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
