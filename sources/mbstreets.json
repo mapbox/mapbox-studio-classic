@@ -1,5 +1,8 @@
 {
-    "name": "MapBox OSM",
+    "name": "MapBox Streets",
+    "description": "Global map data based on OpenStreetMap and other open data sources.",
+    "author": "MapBox",
+    "image": "http://farm8.staticflickr.com/7122/7448973246_a4d2966e97_m.jpg",
     "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/mbstreets2/{z}/{x}/{y}.data" ],
     "minzoom": 0,
     "maxzoom": 15,

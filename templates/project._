@@ -17,7 +17,7 @@
 <div id='menu' class='column ui'>
   <nav><!--
     --><a href='#menu-util' class='minor'>⚙</a><!--
-    --><a href='#menu-layers' class='major active'>Layers</a>
+    --><a href='#menu-layers' class='major active'>Data</a>
   </nav>
   <div id='menu-layers' class='active'>
     <%= _(sources).map(this.source).join('\n') %>
@@ -33,8 +33,8 @@
     <a href='/library'>Data library</a>
     <a href='/preferences'>Preferences</a>
   </div>
-  <a href='#data' class='button data n'>✚ Layers</a>
-  <a href='#menu' class='button data y'>✕ Layers</a>
+  <a href='#data' class='button data n'>✚ Data</a>
+  <a href='#menu' class='button data y'>✕ Data</a>
 </div>
 
 <div id='full' class='column'>

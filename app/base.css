@@ -288,7 +288,19 @@ body.xray #map { background:#000; }
 #data:target { bottom:0%; }
 
 div.source { position:relative; }
-div.source section { cursor:pointer; }
+div.source section {
+  padding-left:100px;
+  cursor:pointer;
+  }
+div.source section .image {
+  position:absolute;
+  left:20px; top:20px; width:60px; height:60px;
+  background-color:rgba(0,0,0,0.1);
+  background-size:cover;
+  background-position:50% 50%;
+  border-radius:4px;
+  box-shadow:inset rgba(0,0,0,0.2) 0px 0px 0px 3px;
+  }
 div.source section > * {
   display:block;
   white-space:nowrap;

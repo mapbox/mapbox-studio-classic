@@ -1,8 +1,17 @@
+<% var layerCount = _(obj.layers||{}).size(); %>
 <div id='source-<%=obj.id%>' class='source'>
 <section>
+  <% if (obj.image) { %>
+  <div class='image' style='background-image:url("<%=obj.image%>")'></div>
+  <% } %>
   <h2><%= obj.name %></h2>
-  <p><%= obj.description || 'No description.' %></p>
-  <small class='layers'><%= _(obj.layers||{}).keys().join(', ') %></small>
+  <%= obj.description || 'No description.' %>
+  <small class='layers'>
+    <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>
+    <% if (obj.author) { %>
+    from <%= obj.author %>
+    <% } %>
+  </small>
 </section>
 <h3 class='remote'><%= obj.name %></h3>
 <a href='#delete' class='delete'>✕</a>
