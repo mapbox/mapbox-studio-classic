@@ -155,6 +155,10 @@ Editor.prototype.events = {
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
+  // Escape. Collapses windows, dialogs, modals, etc.
+  if (ev.which === 27) {
+    window.location.href = '#';
+  }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
   switch (ev.which) {
   case 83: // s
