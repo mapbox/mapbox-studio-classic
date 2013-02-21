@@ -468,6 +468,7 @@ pre,
   width:100%; height:auto;
   visibility:hidden;
   }
+.CodeMirror-scroll { height:100%; }
 .CodeMirror-gutter { background:#eee; width:39px !important; }
 .CodeMirror.active { visibility:visible; }
 
