@@ -117,7 +117,18 @@ nav > a {
   top:0px; bottom:0px; left:0px;
   width:100%;
   }
+#map #zoomedto,
 #map .zoomer { margin-top:40px; }
+#map #zoomedto {
+  background:rgba(48,48,48,0.9);
+  border-radius:3px;
+  width:30px; height:20px;
+  text-align:center;
+  font-weight:bold;
+  font-size:10px;
+  position:absolute; left:75px; top:15px; z-index:1000;
+  }
+#map #zoomedto::before { content:'z'; }
 #title {
   background:rgba(48,48,48,0.9);
   border-bottom:1px solid rgba(0,0,0,0.2);

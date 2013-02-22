@@ -36,9 +36,15 @@
     <input id='maxzoom' name='maxzoom' class='max' type='range' value='22' min='0' max='22' step='1' onchange='rangeLimit(this, "min", "#minzoom");' />
   </section>
 </form>
-<div id='export' class='column ui pane util'></div>
-<div id='upload' class='column ui pane util'></div>
-<div id='interaction' class='column ui pane util'></div>
+<div id='export' class='column ui pane util'>
+  <a class='button icon close' href='#menu'>✕</a>
+</div>
+<div id='upload' class='column ui pane util'>
+  <a class='button icon close' href='#menu'>✕</a>
+</div>
+<div id='interaction' class='column ui pane util'>
+  <a class='button icon close' href='#menu'>✕</a>
+</div>
 
 <div id='menu' class='column ui'>
   <nav><!--
@@ -80,7 +86,9 @@
     </div>
     <%= project.name || 'Untitled' %>
   </div>
-  <div id='map'></div>
+  <div id='map'>
+    <div id='zoomedto' class='ui'><%= project.center[2] %></div>
+  </div>
 </div>
 
 <div id='docs' class='column ui'>
@@ -132,6 +140,8 @@ map.centerzoom({lon:<%=project.center[0]%>,lat:<%=project.center[1]%>},<%=projec
 map.setZoomRange(<%=project.minzoom%>,<%=project.maxzoom%>);
 map.ui.zoombox.add();
 map.ui.zoomer.add();
+map.addCallback('zoomed', function() { $('#zoomedto').text(map.zoom()|0); });
+map.addCallback('extentset', function() { $('#zoomedto').text(map.zoom()|0); });
 
 var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k) {
   memo[k] = CodeMirror(document.getElementById('code'), {
