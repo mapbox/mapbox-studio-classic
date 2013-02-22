@@ -3,7 +3,7 @@
     "description": "Global map data based on OpenStreetMap and other open data sources.",
     "author": "MapBox",
     "image": "http://farm8.staticflickr.com/7122/7448973246_a4d2966e97_m.jpg",
-    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/mbstreets2/{z}/{x}/{y}.data" ],
+    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/mbstreets3/{z}/{x}/{y}.data" ],
     "minzoom": 0,
     "maxzoom": 15,
     "maskLevel": 8,
@@ -15,8 +15,6 @@
             "attributes": {
                 "type": "String. Common: wood, grass, park."
             }
-        },
-        "ocean": {
         },
         "waterway": {
             "minzoom": 8
@@ -31,9 +29,6 @@
             "minzoom": 14
         },
         "building": {
-            "minzoom": 13
-        },
-        "landuse_band": {
             "minzoom": 13
         },
         "landuse_overlay": {
