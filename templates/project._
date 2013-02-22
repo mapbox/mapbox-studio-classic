@@ -10,9 +10,35 @@
 
 <body id='view'>
 
-<div id='data' class='column ui'>
+<div id='data' class='column ui pane'>
 <%= _(library).map(this.source).join('\n') %>
 </div>
+
+<form id='settings' class='column ui pane util'>
+  <a class='button icon close' href='#menu'>✕</a>
+  <section>
+    <h2>Settings</h2>
+  </section>
+  <section>
+    <label class='inline'>Name</label>
+    <input name='name' type='text' value='<%= project.name %>' placeholder='' />
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <input name='description' type='text' value='<%= project.description %>' placeholder='' />
+  </section>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input id='minzoom' name='minzoom' class='min' type='range' value='0' min='0' max='22' step='1' onchange='rangeLimit(this, "max", "#maxzoom");' />
+  </section>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input id='maxzoom' name='maxzoom' class='max' type='range' value='22' min='0' max='22' step='1' onchange='rangeLimit(this, "min", "#minzoom");' />
+  </section>
+</form>
+<div id='export' class='column ui pane util'></div>
+<div id='upload' class='column ui pane util'></div>
+<div id='interaction' class='column ui pane util'></div>
 
 <div id='menu' class='column ui'>
   <nav><!--
@@ -92,6 +118,15 @@
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
+var rangeLimit = function(el, bound, target) {
+  var limit = parseInt($(target).val(),10);
+  if (bound === 'max') {
+    el.value = parseInt(el.value, 10) < limit ? el.value : limit;
+  } else {
+    el.value = parseInt(el.value, 10) > limit ? el.value : limit;
+  }
+};
+
 var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'] }));
 map.centerzoom({lon:<%=project.center[0]%>,lat:<%=project.center[1]%>},<%=project.center[2]%>);
 map.setZoomRange(<%=project.minzoom%>,<%=project.maxzoom%>);
