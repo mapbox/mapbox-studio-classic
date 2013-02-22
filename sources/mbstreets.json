@@ -17,50 +17,123 @@
             }
         },
         "waterway": {
-            "minzoom": 8
+            "minzoom": 8,
+            "geometry": "line",
+            "description": "Rivers, streams, and other waterways."
         },
         "water": {
-            "minzoom": 3
+            "minzoom": 3,
+            "geometry": "polygon",
+            "description": "Oceans, lakes, ponds, and other bodies of water."
         },
         "aeroway": {
-            "minzoom": 10
+            "minzoom": 10,
+            "geometry": "line",
+            "description": "Aeroway runways and areas.",
+            "attributes": {
+                "type": "String. (apron, taxiway, helipad, runway)."
+            }
         },
         "barrier_line": {
-            "minzoom": 14
+            "minzoom": 14,
+            "geometry": "line",
+            "description": "Various barriers.",
+            "attributes": {
+                "class": "String. (gate, fence, hedge, land)."
+            }
         },
         "building": {
-            "minzoom": 13
+            "minzoom": 13,
+            "geometry": "polygon",
+            "description": "Building footprints."
         },
         "landuse_overlay": {
-            "minzoom": 8
+            "minzoom": 8,
+            "geometry": "polygon",
+            "description": "Overlay shapes for landuse.",
+            "attributes": {
+                "class": "String. (basin, breakwater, pier, wetland, wetland_noveg)."
+            }
         },
         "tunnel": {
-            "minzoom": 13
+            "minzoom": 13,
+            "geometry": "line",
+            "description": "Underground tunnels.",
+            "attributes": {
+                "class": "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway).",
+                "oneway": "Number. (1 or 0)."
+            }
         },
         "road": {
-            "minzoom": 5
+            "minzoom": 5,
+            "geometry": "line",
+            "description": "Ground level roads.",
+            "attributes": {
+                "class": "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway).",
+                "oneway": "Number. (1 or 0)."
+            }
         },
         "bridge": {
-            "minzoom": 13
+            "minzoom": 13,
+            "geometry": "line",
+            "description": "Above ground bridges.",
+            "attributes": {
+                "class": "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway).",
+                "oneway": "Number. (1 or 0)."
+            }
         },
         "admin": {
-            "minzoom": 2
+            "minzoom": 2,
+            "geometry": "line",
+            "description": "Administrative (country, province) boundaries.",
+            "attributes": {
+                "admin_level": "Number. Administrative level.",
+                "maritime": "Number. (1 or 0).",
+                "disputed": "Number. (1 or 0)."
+            }
         },
         "country_label_line": {
             "minzoom": 3,
-            "maxzoom": 6
+            "maxzoom": 6,
+            "geometry": "line",
+            "description": "Helper lines for country labels in dense areas.",
+            "attributes": {
+                "z_min": "Number. Recommended min zoom level to show line.",
+                "z_max": "Number. Recommended max zoom level to show line."
+            }
         },
         "country_label": {
             "minzoom": 2,
-            "maxzoom": 10
+            "maxzoom": 10,
+            "geometry": "point",
+            "description": "Country labels.",
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "scalerank": "Number. Rank of label importance."
+            }
         },
         "marine_label": {
             "minzoom": 3,
-            "maxzoom": 7
+            "maxzoom": 7,
+            "geometry": "point",
+            "description": "Labels for oceans, seas, and other bodies of water.",
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "labelrank": "Number. Rank of label importance.",
+                "placement": "String. (point or line)."
+            }
         },
         "state_label": {
             "minzoom": 4,
-            "maxzoom": 10
+            "maxzoom": 10,
+            "geometry": "point",
+            "description": "State and province labels.",
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English."
+            }
         },
         "place": {
             "geometry": "point",
@@ -70,7 +143,7 @@
                 "name": "String. Localized.",
                 "name_en": "String. English.",
                 "type": "String. (city, town).",
-                "scalerank": "Number. Rank of place importance.",
+                "scalerank": "Number. Rank of label importance.",
                 "ldir": "Number. Direction of label."
             }
         },
