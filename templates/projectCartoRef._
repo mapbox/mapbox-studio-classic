@@ -143,7 +143,7 @@
 </article>
 
 <% _(symbolizers).each(function(symbolizer, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='pane'>
+<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>'>
   <section><h2><%= name %></h2></section>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })
