@@ -21,11 +21,15 @@
   </section>
   <section>
     <label class='inline'>Name</label>
-    <input name='name' type='text' value='<%= project.name %>' placeholder='' />
+    <input name='name' type='text' value='<%= project.name %>' placeholder='' size='40' />
   </section>
   <section>
     <label class='inline'>Description</label>
-    <input name='description' type='text' value='<%= project.description %>' placeholder='' />
+    <textarea name='description' type='text' placeholder='' cols='40' rows='8'></textarea>
+  </section>
+  <section>
+    <label class='inline'>Attribution</label>
+    <input name='attribution' type='text' placeholder='' value='<%= project.attribution %>' size='40'></textarea>
   </section>
   <section>
     <label class='inline'>Minzoom</label>
@@ -300,7 +304,9 @@ Editor.prototype.saveas = function(ev) {
   }});
 };
 Editor.prototype.refresh = function(ev) {
-  map.removeLayerAt(0);
+  var layer = map.getLayerAt(0);
+  map.removeLayer(layer);
+  layer.destroy();
   map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
   return false;
 };
