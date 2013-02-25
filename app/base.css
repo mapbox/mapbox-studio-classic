@@ -104,7 +104,7 @@ nav > a {
 .pane > * { display:none; }
 .pane:target > * { display:block; }
 .pane:target { bottom:0%; }
-.pane .close { position:fixed; right:10px; top:10px; }
+.pane .close { position:absolute; right:10px; top:10px; }
 
 /* Map */
 #full {
