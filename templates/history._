@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/app/base.css' rel='stylesheet' />
+</head>
+
+<body id='view'>
+
+<div id='history' class='ui'>
+<% _(history).chain()
+  .sortBy(function(project) { return project.mtime })
+  .each(function(project) { %>
+<section>
+  <h3><a href='/project?id=<%=project._id%>'><%= project.name || 'Untitled' %></a></h3>
+  <code><%= project._id.split('/').pop() %></code>
+</section>
+<% }); %>
+</div>
+
+</body>
+
+</html>

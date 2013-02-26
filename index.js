@@ -30,11 +30,29 @@ app.param('project', function(req, res, next) {
         data: data,
         perm: !tmp && !!data
     }, function(err, project) {
+        if (err && !tmp) tm.history(id, true);
         if (err) return next(err);
+
+        tm.history(id);
         req.project = project;
         req.project.data._tmp = tmp;
         return next();
     });
+});
+
+app.param('history', function(req, res, next) {
+    req.history = {};
+    var history = tm.history().concat([]); // Clone.
+
+    var load = function() {
+        if (!history.length) return next();
+        var id = history.shift();
+        tm.projectInfo(id, function(err, info) {
+            if (!err) req.history[id] = info;
+            load();
+        });
+    };
+    load();
 });
 
 app.put('/:project(project)', function(req, res, next) {
@@ -81,8 +99,15 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/:newproject()', function(req, res, next) {
+app.get('/:newproject(new)', function(req, res, next) {
     res.redirect('/project?id=' + tm.tmpid());
+});
+
+app.get('/:history()', function(req, res, next) {
+    res.set({'content-type':'text/html'});
+    return res.send(tm.templates.history({
+        history: req.history
+    }));
 });
 
 app.use(function(err, req, res, next) {
