@@ -117,15 +117,15 @@
 <% if (project._tmp) { %>
 <form id='saveas' class='modal ui'>
   <a class='button icon close' href='#'>✕</a>
-  <input type='text' placeholder='/path/to/project.tm2' size='25' id='saveas-filepath'/>
+  <input type='text' placeholder='/path/to/project.tm2' size='20' id='saveas-filepath'/>
   <input type='submit' value='✔ Save'/>
 </form>
 <% } %>
 
 <form id='addtab' class='modal ui'>
   <a class='button icon close' href='#'>✕</a>
-  <input type='text' placeholder='filename.mss' size='25' id='addtab-filename' pattern='\w+\.mss'/>
-  <input type='submit' value='✔ Save'/>
+  <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
+  <input type='submit' value='✚ New tab'/>
 </form>
 
 <div id='mask'></div>

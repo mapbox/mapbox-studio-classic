@@ -84,16 +84,19 @@ a { color:inherit; text-decoration:none; }
 input[type=button],
 input[type=submit],
 a.button {
+  color:inherit;
   display:inline-block;
   font-weight:bold;
-  color:#fff;
   border:0px;
   cursor:pointer;
-  background:rgba(0,0,0,0.8);
   padding:5px 10px;
   vertical-align:middle;
   border-radius:4px;
   }
+
+.ui input[type=button],
+.ui input[type=submit],
+.ui a.button { background:rgba(0,0,0,0.8); }
 
 a.button.icon {
   width:30px;
