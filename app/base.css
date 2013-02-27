@@ -51,10 +51,31 @@ h1,h2 { font-size:125%; }
 p { margin-bottom:10px; }
 
 section {
+  float:left;
+  width:50%;
+  position:relative;
+  min-height:100px;
   padding:20px 40px 19px;
+  border-right:1px solid rgba(0,0,0,0.2);
   border-bottom:1px solid rgba(0,0,0,0.2);
   }
 section > *:last-child { margin-bottom:0px; }
+section.thumbed { padding-left:100px; }
+section .image {
+  position:absolute;
+  left:20px; top:20px; width:60px; height:60px;
+  background-color:rgba(0,0,0,0.1);
+  background-size:cover;
+  background-position:50% 50%;
+  border-radius:4px;
+  box-shadow:inset rgba(0,0,0,0.2) 0px 0px 0px 3px;
+  }
+section > * {
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  }
 
 a { color:inherit; text-decoration:none; }
 
@@ -113,7 +134,9 @@ nav > a {
   left:0px;
   top:0px;
   bottom:0px;
+  overflow:auto;
   }
+#full.wide { width:100%; }
 #map {
   background:#fff;
   position:absolute !important;
@@ -168,6 +191,10 @@ nav > a {
 #menu nav a {
   padding:10px 10px 9px;
   width:25%;
+  border-left:1px solid rgba(0,0,0,0.2);
+  }
+#menu nav h3 {
+  padding:10px 20px 9px;
   border-left:1px solid rgba(0,0,0,0.2);
   }
 #menu nav a.active { background:rgba(0,0,0,0.2); }
@@ -280,25 +307,7 @@ nav > a {
 
 /* Data library */
 div.source { position:relative; }
-div.source section {
-  padding-left:100px;
-  cursor:pointer;
-  }
-div.source section .image {
-  position:absolute;
-  left:20px; top:20px; width:60px; height:60px;
-  background-color:rgba(0,0,0,0.1);
-  background-size:cover;
-  background-position:50% 50%;
-  border-radius:4px;
-  box-shadow:inset rgba(0,0,0,0.2) 0px 0px 0px 3px;
-  }
-div.source section > * {
-  display:block;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  }
+div.source section { cursor:pointer; }
 #data div.source > a,
 #data div.source > h3,
 #menu-layers div.source > section { display:none; }
@@ -448,6 +457,9 @@ div.source section > * {
 #docs nav a:nth-child(2) { width:12.5%; }
 #docs nav a.active { background:rgba(0,0,0,0.2); }
 
+/* Project history */
+#history { padding-top:40px; }
+
 /* Modal popup */
 .modal { display:none; }
 .modal:target {
@@ -560,4 +572,5 @@ span.cm-carto-filter             { color:#66475B; }
 @media (max-width:800px) {
   body { font-size:12px; }
   pre, .CodeMirror { font-size:11px; }
+  section { float:none; width:auto; }
   }

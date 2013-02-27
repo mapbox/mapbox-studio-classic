@@ -9,15 +9,41 @@
 
 <body id='view'>
 
+<div id='menu' class='column ui'>
+  <nav>
+    <h3>TileMill</h3>
+  </nav>
+  <div id='menu-util' class='active'>
+    <a href='#'>Recent projects</a>
+    <a href='/library'>Data library</a>
+    <a href='/preferences'>Preferences</a>
+  </div>
+</div>
+
+<div id='full' class='column wide'>
+<div id='title' class='ui'>
+  <div class='left'>
+    <a class='button menu n icon' href='#menu'>☰</a>
+    <a class='button menu y icon' href='#'>✕</a>
+  </div>
+  <div class='right'>
+    <a href='/new' class='button'>✚ Project</a>
+    <a href='#browse' class='button'>⧉ Browse</a>
+  </div>
+  <h3>Recent projects</h3>
+</div>
 <div id='history' class='ui'>
 <% _(history).chain()
   .sortBy(function(project) { return project.mtime })
   .each(function(project) { %>
-<section>
+<section class='thumbed'>
+  <a href='/project?id=<%=project._id%>' class='image' <% if (obj.image) { %>style='background-image:url("/thumb.png?id=<%=project._id%>")'<% } %>></a>
   <h3><a href='/project?id=<%=project._id%>'><%= project.name || 'Untitled' %></a></h3>
   <code><%= project._id.split('/').pop() %></code>
+  <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
 </section>
 <% }); %>
+</div>
 </div>
 
 </body>

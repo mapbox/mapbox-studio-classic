@@ -1,11 +1,9 @@
 <% var layerCount = _(obj.layers||{}).size(); %>
 <div id='source-<%=obj.id%>' class='source'>
-<section>
-  <% if (obj.image) { %>
-  <div class='image' style='background-image:url("<%=obj.image%>")'></div>
-  <% } %>
+<section class='thumbed'>
+  <div class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></div>
   <h2><%= obj.name %></h2>
-  <%= obj.description || 'No description.' %>
+  <div class='desc'><%= obj.description || 'No description.' %></div>
   <small class='layers'>
     <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>
     <% if (obj.author) { %>
