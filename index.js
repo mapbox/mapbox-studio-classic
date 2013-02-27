@@ -123,8 +123,16 @@ app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
     if (err && 'z' in req.params) return res.send(404);
     // Otherwise 500 for now.
-    return res.send(err, 500);
+    if (/application\/json/.test(req.headers.accept)) {
+        res.set({'content-type':'application/javascript'});
+        res.send({message:err.toString()}, 500);
+    } else if (/text\/html/.test(req.headers.accept)) {
+        // @TODO error page template.
+        res.send(err.toString(), 500);
+    } else {
+        res.send(err.toString(), 500);
+    }
 });
 
 app.listen(3000);
-console.log('TM2 @ http://localhost:3000/')
+console.log('TM2 @ http://localhost:3000/');

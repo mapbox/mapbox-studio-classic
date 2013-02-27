@@ -548,12 +548,32 @@ label.inline { display:inline-block; width:100px; }
   width:100%; height:auto;
   visibility:hidden;
   }
+.CodeMirror-lines,
+.CodeMirror-gutter-text { padding:0px; }
+.CodeMirror-gutter-text pre { padding:0px 5px; }
+.CodeMirror-lines { padding:0px 10px; }
 .CodeMirror-scroll { height:100%; }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror-gutter {
   background:#eee;
   width:39px !important;
   border-right:1px solid #ddd;
+  }
+.CodeMirror-gutter .error {
+  position:relative;
+  background:#ff8;
+  color:#880;
+  }
+.CodeMirror-gutter .carto-error {
+  position:absolute; left:0%; bottom:100%;
+  display:block;
+  background:#ff8;
+  font-size:80%;
+  white-space:normal !important;
+  text-align:left;
+  width:240px;
+  padding:5px 10px;
+  border-radius:0px 3px 3px 0px;
   }
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
