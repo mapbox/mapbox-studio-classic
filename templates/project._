@@ -300,30 +300,38 @@ Editor.prototype.save = function(ev, options) {
   this.model.save(attr, options);
 };
 Editor.prototype.error = function(model, resp) {
-    if (!resp.responseText) {
-        // @TODO error modal.
-        // will hit this if the server is offline and the user tries to save
-        // We attach a error message to this resp object so that that the Modal can display it
-        // resp.err_message = 'Could not save project "' + model.id + '"';
-        return;
-    }
+  this.clearErrors();
+
+  if (!resp.responseText) {
+    // @TODO error modal.
+    // will hit this if the server is offline and the user tries to save
+    // We attach a error message to this resp object so that that the Modal can display it
+    // resp.err_message = 'Could not save project "' + model.id + '"';
+    return;
+  }
 
     // Assume carto.js specific error array format response.
-    _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
-        .compact()
-        .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
-        .each(function(e) {
-            if (!e.length) {
-                // non line-specific error.
-                // @TODO show this globally (error modal) somehow.
-            } else {
-                var id = e[2];
-                var ln = parseInt(e[3]) - 1;
-                code[id]._cartoErrors = code[id]._cartoErrors || [];
-                code[id]._cartoErrors.push(ln);
-                code[id].setMarker(ln, '%N%<span class="carto-error">'+e[5]+'</span>', 'error');
-            }
-        });
+  _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
+    .compact()
+    .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
+    .each(function(e) {
+      if (!e.length) {
+        // non line-specific error.
+        // @TODO show this globally (error modal) somehow.
+      } else {
+        var id = e[2];
+        var ln = parseInt(e[3]) - 1;
+        code[id]._cartoErrors = code[id]._cartoErrors || [];
+        code[id]._cartoErrors.push(ln);
+        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='ui close icon'>✕</a>"+e[5]+"</span>", 'error');
+      }
+    });
+};
+Editor.prototype.clearErrors = function() {
+  _(code).each(function(cm) {
+    _(cm._cartoErrors||[]).each(cm.clearMarker);
+    delete cm._cartoErrors;
+  });
 };
 Editor.prototype.saveas = function(ev) {
   var id = $('#saveas-filepath').val();
@@ -334,11 +342,7 @@ Editor.prototype.saveas = function(ev) {
   });
 };
 Editor.prototype.refresh = function(ev) {
-  // Clear code errors.
-  _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearMarker);
-    delete cm._cartoErrors;
-  });
+  this.clearErrors();
   // Refresh map layer.
   var layer = map.getLayerAt(0);
   map.removeLayer(layer);
