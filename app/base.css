@@ -362,6 +362,13 @@ div.source section { cursor:pointer; }
   background:#eee;
   border-right:1px solid #ddd;
   }
+#code .right {
+  position:absolute; right:0px;
+  width:40px; height:40px;
+  padding:5px;
+  background:#eee;
+  border-bottom:1px solid #ddd;
+  }
 #code .docs {
   position:absolute;
   left:5px;
@@ -372,7 +379,7 @@ div.source section { cursor:pointer; }
 #tabs {
   position:absolute;
   left:40px;
-  right:0px;
+  right:40px;
   height:40px;
   border-bottom:1px solid #ddd;
   background:#eee;
