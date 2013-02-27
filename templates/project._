@@ -15,7 +15,7 @@
 </div>
 
 <form id='settings' class='column ui pane util'>
-  <a class='button icon close' href='#menu'>✕</a>
+  <a class='button icon close' href='#menu'></a>
   <section>
     <h2>Settings</h2>
   </section>
@@ -41,13 +41,13 @@
   </section>
 </form>
 <div id='export' class='column ui pane util'>
-  <a class='button icon close' href='#menu'>✕</a>
+  <a class='button icon close' href='#menu'></a>
 </div>
 <div id='upload' class='column ui pane util'>
-  <a class='button icon close' href='#menu'>✕</a>
+  <a class='button icon close' href='#menu'></a>
 </div>
 <div id='interaction' class='column ui pane util'>
-  <a class='button icon close' href='#menu'>✕</a>
+  <a class='button icon close' href='#menu'></a>
 </div>
 
 <div id='menu' class='column ui'>
