@@ -214,6 +214,16 @@
                 "name_en": "String. English.",
                 "type": "String (river, stream, canal)."
             }
+        },
+        "building_label": {
+            "geometry": "point",
+            "description": "Labels for buildings.",
+            "minzoom": 13,
+            "attributes": {
+                "name": "String. Localized.",
+                "name_en": "String. English.",
+                "area": "The size of the building in Mercator square meters."
+            }
         }
     }
 }
