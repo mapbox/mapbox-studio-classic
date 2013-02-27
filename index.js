@@ -89,6 +89,15 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
     });
 });
 
+app.get('/thumb.png', function(req, res, next) {
+    if (!req.query.id) return next(new Error('No id specified'));
+    tm.projectThumb({id:req.query.id}, function(err, thumb) {
+        if (err) return next(err);
+        res.set({'content-type':'image/png'});
+        res.send(thumb);
+    });
+});
+
 app.get('/app/lib.js', function(req, res, next) {
     res.set({
         'content-type':'application/javascript',

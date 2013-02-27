@@ -37,7 +37,7 @@
   .sortBy(function(project) { return project.mtime })
   .each(function(project) { %>
 <section class='thumbed'>
-  <a href='/project?id=<%=project._id%>' class='image' <% if (obj.image) { %>style='background-image:url("/thumb.png?id=<%=project._id%>")'<% } %>></a>
+  <a href='/project?id=<%=project._id%>' class='image' style='background-image:url("/thumb.png?id=<%=project._id%>")'></a>
   <h3><a href='/project?id=<%=project._id%>'><%= project.name || 'Untitled' %></a></h3>
   <code><%= project._id.split('/').pop() %></code>
   <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
