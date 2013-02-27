@@ -2,7 +2,7 @@
 <div id='source-<%=obj.id%>' class='source'>
 <section class='thumbed'>
   <div class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></div>
-  <h2><%= obj.name %></h2>
+  <h3><%= obj.name %></h3>
   <div class='desc'><%= obj.description || 'No description.' %></div>
   <small class='layers'>
     <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>

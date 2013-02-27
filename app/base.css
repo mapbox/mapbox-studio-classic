@@ -51,16 +51,18 @@ h1,h2 { font-size:125%; }
 p { margin-bottom:10px; }
 
 section {
-  float:left;
-  width:50%;
-  position:relative;
-  min-height:100px;
   padding:20px 40px 19px;
   border-right:1px solid rgba(0,0,0,0.2);
   border-bottom:1px solid rgba(0,0,0,0.2);
   }
 section > *:last-child { margin-bottom:0px; }
-section.thumbed { padding-left:100px; }
+section.thumbed {
+  position:relative;
+  padding-left:100px;
+  float:left;
+  width:50%;
+  min-height:100px;
+  }
 section .image {
   position:absolute;
   left:20px; top:20px; width:60px; height:60px;
