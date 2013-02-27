@@ -52,7 +52,7 @@
 
 <div id='menu' class='column ui'>
   <nav><!--
-    --><a href='#menu-util' class='minor'>⚙</a><!--
+    --><a href='#menu-util' class='minor icon conf'></a><!--
     --><a href='#menu-layers' class='major active'>Data</a>
   </nav>
   <div id='menu-layers' class='active'>
@@ -69,24 +69,24 @@
     <a href='/library'>Data library</a>
     <a href='/preferences'>Preferences</a>
   </div>
-  <a href='#data' class='button data n'>✚ Data</a>
-  <a href='#menu' class='button data y'>✕ Data</a>
+  <a href='#data' class='button data-n icon plus'>Data</a>
+  <a href='#menu' class='button data-y icon close'>Data</a>
 </div>
 
 <div id='full' class='column'>
   <div id='title' class='ui'>
     <div class='left'>
-      <a class='button menu n icon' href='#menu'>☰</a>
-      <a class='button menu y icon' href='#'>✕</a>
+      <a class='button menu-n icon menu' href='#menu'></a>
+      <a class='button menu-y icon close' href='#'></a>
       <% if (project._tmp) { %>
-        <a class='button' href='#saveas'>✔ Save as</a>
+        <a class='button icon okay' href='#saveas'>Save as</a>
       <% } else { %>
-        <a class='button save' href='#'>✔ Save</a>
+        <a class='button icon okay save' href='#'>Save</a>
       <% } %>
     </div>
     <div class='right'>
-      <a class='button full n icon' href='#full'>⇆</a>
-      <a class='button full y icon' href='#'>✕</a>
+      <a class='button full-n icon full' href='#full'></a>
+      <a class='button full-y icon close' href='#'></a>
     </div>
     <%= project.name || 'Untitled' %>
   </div>
@@ -101,31 +101,31 @@
 
 <div id='code' class='column'>
   <div class='left'>
-    <a class='button docs n icon' href='#docs'>{}</a>
-    <a class='button docs y icon' href='#'>✕</a>
+    <a class='button docs-n icon code' href='#docs'></a>
+    <a class='button docs-y icon close' href='#'></a>
   </div>
   <nav id='tabs'><!--
     <% _(project.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='delete'>✕</span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--
     <% }); %>
   --></nav>
   <div class='right'>
-    <a class='button icon' href='#addtab'>✚</a>
+    <a class='button icon plus' href='#addtab'></a>
   </div>
 </div>
 
 <% if (project._tmp) { %>
 <form id='saveas' class='modal ui'>
-  <a class='button icon close' href='#'>✕</a>
+  <a class='button icon close' href='#'></a>
   <input type='text' placeholder='/path/to/project.tm2' size='20' id='saveas-filepath'/>
-  <input type='submit' value='✔ Save'/>
+  <input type='submit' value='Save'/>
 </form>
 <% } %>
 
 <form id='addtab' class='modal ui'>
-  <a class='button icon close' href='#'>✕</a>
+  <a class='button icon close' href='#'></a>
   <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
-  <input type='submit' value='✚ New tab'/>
+  <input type='submit' value='New tab'/>
 </form>
 
 <div id='mask'></div>
@@ -280,7 +280,7 @@ Editor.prototype.data = function(ev) {
 Editor.prototype.addtab = function(ev) {
   var filename = $('#addtab-filename').val();
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='tab'>"+filename+" <span class='delete'>✕</span></a>").appendTo('nav#tabs');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='tab'>"+filename+" <span class='icon close delete'></span></a>").appendTo('nav#tabs');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';

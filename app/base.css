@@ -99,10 +99,37 @@ a.button {
 .ui a.button { background:rgba(0,0,0,0.8); }
 
 a.button.icon {
-  width:30px;
-  padding:5px;
+  height:30px;
   text-align:center;
   }
+a.button.icon:empty { width:30px; padding:5px; }
+
+.icon:before {
+  content:'';
+  width:20px; height:20px;
+  display:inline-block;
+  vertical-align:middle;
+  background-image:url(./sprite.png);
+  background-repeat:no-repeat;
+  background-position-x:20px;
+  background-position-y:0px;
+  }
+.ui .icon:before { background-position-y:-20px; }
+.icon.menu:before { background-position-x:0px; }
+.icon.edit:before { background-position-x:-20px; }
+.icon.search:before { background-position-x:-40px; }
+.icon.close:before { background-position-x:-60px; }
+.icon.full:before { background-position-x:-80px; }
+.icon.plus:before { background-position-x:-100px; }
+.icon.line:before { background-position-x:-120px; }
+.icon.point:before { background-position-x:-140px; }
+.icon.polygon:before { background-position-x:-160px; }
+.icon.conf:before { background-position-x:-180px; }
+.icon.code:before { background-position-x:-200px; }
+.icon.folder:before { background-position-x:-220px; }
+.icon.tooltip:before { background-position-x:-240px; }
+.icon.upload:before { background-position-x:-260px; }
+.icon.okay:before { background-position-x:-280px; }
 
 nav { white-space:nowrap; }
 nav > a {
@@ -205,7 +232,8 @@ nav > a {
 #menu nav a.active { background:rgba(0,0,0,0.2); }
 #menu nav a:first-child { border:0px; }
 #menu nav a.major { width:75%; }
-#menu > a.data {
+#menu > a.data-y,
+#menu > a.data-n {
   display:none;
   background:#333;
   font-weight:normal;
@@ -269,12 +297,9 @@ nav > a {
   overflow:hidden;
   text-overflow:ellipsis;
   }
+#menu-layers .geometry { opacity:0.6; }
 #menu-layers a.active { color:#fff; background:#333; }
-#menu-layers .geometry { display:inline-block; width:20px; }
-#menu-layers .geometry::before { content:'◌'; }
-#menu-layers .geometry.point::before { content:'⚫'; }
-#menu-layers .geometry.line::before { content:'━'; }
-#menu-layers .geometry.polygon::before { content:'◢'; }
+#menu-layers a.active .geometry { opacity:1; }
 #menu-layers .zooms {
   position:absolute; right:0px; top:13px;
   background:rgba(0,0,0,0.1);
@@ -329,24 +354,24 @@ div.source section { cursor:pointer; }
 #full:target ~ #code { left:100%; }
 
 /* Button visibility/clickability */
-.menu.y { display:none; }
-.full.y { display:none; }
-.docs.y { display:none; }
-.data.y { display:none; }
+a.menu-y { display:none; }
+a.full-y { display:none; }
+a.docs-y { display:none; }
+a.data-y { display:none; }
 .pane:target ~ * a.minor,
 .pane:target ~ * a.major,
-#menu:target ~ * .full.n,
-#full:target .menu.n { pointer-events:none; opacity:0.5; }
-#menu:target ~ * .menu.y,
-#data:target ~ * .data.y,
-#full:target .full.y { display:inline-block; }
-#menu:target ~ * .menu.n,
-#full:target .full.n { display:none; }
+#menu:target ~ * a.full-n,
+#full:target     a.menu-n { pointer-events:none; opacity:0.5; }
+#menu:target ~ * a.menu-y,
+#data:target ~ * a.data-y,
+#full:target     a.full-y { display:inline-block; }
+#menu:target ~ * a.menu-n,
+#full:target     a.full-n { display:none; }
 
 /* Overrides for util panes vs. Menu */
-#menu-layers.active ~ a.data.n { display:block; }
-.util:target ~ * a.data.n,
-.util:target ~ * a.data.y { display:none !important; }
+#menu-layers.active ~ a.data-n { display:block; }
+.util:target ~ * a.data-n,
+.util:target ~ * a.data-y { display:none !important; }
 .util:target ~ #menu #menu-util { display:block; }
 .util:target ~ #menu #menu-layers { display:none; }
 
@@ -368,11 +393,11 @@ div.source section { cursor:pointer; }
 #code .right {
   position:absolute; right:0px;
   width:40px; height:40px;
-  padding:5px;
   background:#eee;
   border-bottom:1px solid #ddd;
   }
-#code .docs {
+#code .left a,
+#code .right a {
   position:absolute;
   left:5px;
   top:5px;
@@ -443,8 +468,8 @@ div.source section { cursor:pointer; }
   -webkit-transition:bottom 200ms;
   }
 #docs:target { bottom:0%; }
-#docs:target ~ * .docs.y { display:block; }
-#docs:target ~ * .docs.n { display:none; }
+#docs:target ~ * a.docs-y { display:block; }
+#docs:target ~ * a.docs-n { display:none; }
 #docs article {
   position:absolute;
   top:90px; bottom:0px; width:100%;

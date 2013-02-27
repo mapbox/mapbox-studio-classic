@@ -23,12 +23,12 @@
 <div id='full' class='column wide'>
 <div id='title' class='ui'>
   <div class='left'>
-    <a class='button menu n icon' href='#menu'>☰</a>
-    <a class='button menu y icon' href='#'>✕</a>
+    <a class='button menu-n icon menu' href='#menu'></a>
+    <a class='button menu-y icon close' href='#'></a>
   </div>
   <div class='right'>
-    <a href='/new' class='button'>✚ Project</a>
-    <a href='#browse' class='button'>⧉ Browse</a>
+    <a href='/new' class='button icon plus'>Project</a>
+    <!--<a href='#browse' class='button icon folder'>Browse</a>-->
   </div>
   <h3>Recent projects</h3>
 </div>
