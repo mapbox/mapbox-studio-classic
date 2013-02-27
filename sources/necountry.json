@@ -3,7 +3,7 @@
     "description": "Country boundaries and metadata.",
     "author": "Natural Earth",
     "image": "http://www.naturalearthdata.com/wp-content/uploads/2009/09/thumb_countries.png",
-    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/necountry/{z}/{x}/{y}.data" ],
+    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/necountry/{z}/{x}/{y}.vector.pbf" ],
     "minzoom": 0,
     "maxzoom": 5,
     "layers": {
