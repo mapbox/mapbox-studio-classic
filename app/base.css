@@ -250,7 +250,10 @@ nav > a {
   padding:10px 20px 9px;
   border-left:1px solid rgba(0,0,0,0.1);
   }
-#menu nav a.active { background:transparent; }
+#menu nav a.active {
+  background:transparent;
+  border-color:transparent;
+  }
 #menu nav a:first-child { border:0px; }
 #menu nav a.major { width:75%; }
 #menu .data-y,
@@ -287,7 +290,10 @@ nav > a {
 #settings:target ~ * a[href='#settings'],
 #export:target   ~ * a[href='#export'],
 #upload:target   ~ * a[href='#upload'],
-#interaction:target ~ * a[href='#interaction'] { background:rgba(0,0,0,0.1); }
+#interaction:target ~ * a[href='#interaction'] {
+  background:rgba(0,0,0,0.1);
+  border-color:transparent;
+  }
 
 /* Data menu */
 #menu-layers a,
@@ -455,8 +461,9 @@ a.data-y { display:none; }
   line-height:20px;
   text-align:center;
   border-radius:50%;
+  opacity:0.5;
   }
-#tabs a.tab span.delete:hover { background:rgba(0,0,0,0.05); }
+#tabs a.tab span.delete:hover { background:rgba(0,0,0,0.1); }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
 #tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
