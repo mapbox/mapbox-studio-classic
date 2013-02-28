@@ -194,7 +194,7 @@ nav > a {
   }
 #full.wide { width:100%; }
 #map {
-  background:#fff;
+  background:#ddd url(canvas.png);
   position:absolute !important;
   top:40px; bottom:0px; left:0px;
   width:100%;
