@@ -6,6 +6,7 @@
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/base.css' rel='stylesheet' />
+  <title><%= project.name %></title>
 </head>
 
 <body id='view'>
@@ -29,26 +30,29 @@
   </section>
   <section>
     <label class='inline'>Description</label>
-    <textarea name='description' type='text' placeholder='' cols='40' rows='8'></textarea>
+    <textarea name='description' type='text' cols='40' rows='8'><%= project.description %></textarea>
   </section>
   <section>
     <label class='inline'>Attribution</label>
-    <input name='attribution' type='text' placeholder='' value='<%= project.attribution %>' size='40'></textarea>
+    <input name='attribution' type='text' placeholder='<%= project.attribution %>' value='<%= project.attribution %>' size='40'></textarea>
   </section>
   <section>
     <label class='inline'>Minzoom</label>
-    <input id='minzoom' name='minzoom' class='min' type='range' value='0' min='0' max='22' step='1' onchange='rangeLimit(this, "max", "#maxzoom");' />
+    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= project.minzoom %>' min='0' max='22' step='1' onchange='rangeLimit(this, "max", "#maxzoom");' />
   </section>
   <section>
     <label class='inline'>Maxzoom</label>
-    <input id='maxzoom' name='maxzoom' class='max' type='range' value='22' min='0' max='22' step='1' onchange='rangeLimit(this, "min", "#minzoom");' />
+    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= project.maxzoom %>' min='0' max='22' step='1' onchange='rangeLimit(this, "min", "#minzoom");' />
+  </section>
+  <section>
+    <input type='submit' value='Save' class='wide' />
   </section>
 </form>
 <div id='export' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
-</div>
-<div id='upload' class='column pane util'>
-  <a class='button icon close' href='#menu'></a>
+  <section>
+    <h2>Export</h2>
+  </section>
 </div>
 <div id='interaction' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
@@ -66,7 +70,6 @@
     <h3>Project</h3>
     <a class='icon conf' href='#settings'>Settings</a>
     <a class='icon export' href='#export'>Export</a>
-    <a class='icon upload' href='#upload'>Upload</a>
     <a class='icon tooltip' href='#interaction'>Interaction</a>
     <h3>TileMill</h3>
     <a class='icon grid' href='/'>Recent projects</a>
@@ -211,6 +214,7 @@ Project.prototype.url = function() {
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
+  'submit #settings': 'save',
   'submit #saveas': 'saveas',
   'submit #addtab': 'addtab',
   'click #tabs a.tab span.delete': 'deltab',
@@ -311,6 +315,16 @@ Editor.prototype.deltab = function(ev) {
 };
 Editor.prototype.save = function(ev, options) {
   var attr = {};
+  // Grab settings form values.
+  _($('#settings').serializeArray()).reduce(function(memo, field) {
+    if (field.name === 'minzoom' || field.name === 'maxzoom') {
+      memo[field.name] = parseInt(field.value,10);
+    } else if (field.name && field.value) {
+      memo[field.name] = field.value;
+    }
+    return memo;
+  }, attr);
+  // Grab styles, sources.
   attr.styles = _(code).reduce(function(memo, cm, k) {
     memo[k] = cm.getValue();
     return memo;
@@ -327,6 +341,11 @@ Editor.prototype.save = function(ev, options) {
     error: _(this.error).bind(this)
   };
   this.model.save(attr, options);
+
+  // Back out of any panes that save the project.
+  if (window.location.hash === '#settings') window.location.hash = '#menu';
+
+  return false;
 };
 Editor.prototype.error = function(model, resp) {
   this.clearErrors();
@@ -378,6 +397,11 @@ Editor.prototype.refresh = function(ev) {
   map.removeLayer(layer);
   layer.destroy();
   map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
+  // Refresh map title.
+  $('title').text(this.model.get('name'));
+  $('#title h3').text(this.model.get('name'));
+  // Refresh map zoom range.
+  map.setZoomRange(this.model.get('minzoom'),this.model.get('maxzoom'));
   return false;
 };
 

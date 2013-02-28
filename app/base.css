@@ -116,6 +116,9 @@ input[type=submit]:active,
   box-shadow:inset rgba(0,0,0,0.2) 0px 1px 3px 0px;
   }
 
+input[type=button],
+input[type=submit] { background:rgba(255,255,255,0.8); }
+
 .ui input[type=button],
 .ui input[type=submit],
 .ui .button { background:rgba(0,0,0,0.2); }
@@ -124,6 +127,13 @@ input[type=submit]:active,
 .ui input[type=submit]:active,
 .ui .button.active,
 .ui .button:active { background:rgba(0,0,0,0.4); }
+
+.button.wide,
+input.wide[type=button],
+input.wide[type=submit] {
+  min-width:80px;
+  text-align:center;
+  }
 
 .button.icon {
   height:30px;
@@ -614,6 +624,14 @@ textarea {
   box-shadow:inset #ddd 0px 0px 0px 2px;
   }
 textarea { resize:none; height:100px; }
+input[type=text]:focus,
+input[type=search]:focus,
+input[type=password]:focus,
+textarea:focus {
+  background:#fff;
+  border-color:#888;
+  outline:none;
+  }
 input[type=range],
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance:none;
