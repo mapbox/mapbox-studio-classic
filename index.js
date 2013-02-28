@@ -33,7 +33,7 @@ app.param('project', function(req, res, next) {
         if (err && !tmp) tm.history(id, true);
         if (err) return next(err);
 
-        tm.history(id);
+        if (!tmp) tm.history(id);
         req.project = project;
         req.project.data._tmp = tmp;
         return next();
@@ -48,7 +48,11 @@ app.param('history', function(req, res, next) {
         if (!history.length) return next();
         var id = history.shift();
         tm.projectInfo(id, function(err, info) {
-            if (!err) req.history[id] = info;
+            if (err) {
+                tm.history(id, true);
+            } else {
+                req.history[id] = info;
+            }
             load();
         });
     };
