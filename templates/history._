@@ -13,9 +13,9 @@
 <div id='title' class='ui'>
   <div class='left'>
     <span class='joined'><!--
-    --><a href='/' class='button icon plus active'></a><!--
-    --><a href='/library' class='button icon folder'></a><!--
-    --><a href='/settings' class='button icon conf'></a><!--
+    --><a href='/' class='button icon grid active'></a><!--
+    --><a href='/library' class='button icon book'></a><!--
+    --><a href='/settings' class='button icon gear'></a><!--
     --></span>
   </div>
   <div class='right'>

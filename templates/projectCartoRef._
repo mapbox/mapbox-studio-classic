@@ -1,5 +1,5 @@
 <nav><!--
-  --><a href='#docs-intro' class='home active'>⟰</a><!--
+  --><a href='#docs-intro' class='icon home active'></a><!--
   <% _(symbolizers).chain().keys().each(function(name, i) { %>
   --><a href='#docs-<%= name.replace(/[^\w+]/g,'_') %>'><%= name %></a><% if (i%4 === 3) { %><br/><% } %><!--
   <% }); %>

@@ -154,6 +154,12 @@ input[type=submit]:active,
 .icon.tooltip:before { background-position-x:-240px; }
 .icon.upload:before { background-position-x:-260px; }
 .icon.okay:before { background-position-x:-280px; }
+.icon.grid:before { background-position-x:-300px; }
+.icon.book:before { background-position-x:-320px; }
+.icon.gear:before { background-position-x:-340px; }
+.icon.export:before { background-position-x:-360px; }
+.icon.home:before { background-position-x:-380px; }
+.icon.star:before { background-position-x:-400px; }
 
 nav { white-space:nowrap; }
 nav > a {
@@ -285,7 +291,7 @@ nav > a {
   padding:10px 20px 9px;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
-#menu-util > a { padding-left:30px; }
+#menu-util > a.icon:before { margin-right:5px; }
 #menu-util > a:hover { background-color:rgba(255,255,255,0.1); }
 #settings:target ~ * a[href='#settings'],
 #export:target   ~ * a[href='#export'],
@@ -516,6 +522,7 @@ a.data-y { display:none; }
   }
 #docs nav a {
   overflow:hidden;
+  height:30px;
   padding:5px 10px 4px;
   border-bottom:1px solid #ccc;
   border-left:1px solid #ccc;

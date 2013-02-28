@@ -64,14 +64,14 @@
   </div>
   <div id='menu-util'>
     <h3>Project</h3>
-    <a href='#settings'>Settings</a>
-    <a href='#export'>Export</a>
-    <a href='#upload'>Upload</a>
-    <a href='#interaction'>Interaction</a>
+    <a class='icon conf' href='#settings'>Settings</a>
+    <a class='icon export' href='#export'>Export</a>
+    <a class='icon upload' href='#upload'>Upload</a>
+    <a class='icon tooltip' href='#interaction'>Interaction</a>
     <h3>TileMill</h3>
-    <a href='/'>Recent projects</a>
-    <a href='/library'>Data library</a>
-    <a href='/preferences'>Preferences</a>
+    <a class='icon grid' href='/'>Recent projects</a>
+    <a class='icon book' href='/library'>Data library</a>
+    <a class='icon gear' href='/preferences'>Preferences</a>
   </div>
   <a href='#data' class='button data-n icon plus'>Data</a>
   <a href='#menu' class='button data-y icon close'>Data</a>
