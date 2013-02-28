@@ -1,0 +1,15 @@
+name: Bathymetry
+description: Ocean bathymetry data based on SRTM Plus.
+author: Natural Earth
+image: "http://www.naturalearthdata.com/wp-content/uploads/2009/09/bathymetry_thumb.gif"
+tiles: 
+  - "http://mapbox-dtdev.s3.amazonaws.com/nebathymetry/{z}/{x}/{y}.vector.pbf"
+minzoom: 0
+maxzoom: 5
+layers: 
+  bathymetry: 
+    geometry: polygon
+    description: Bathymetry created from SRTM Plus.
+    attributes: 
+      DEPTH: Number. Depth in meters.
+      DEPTH_GRP: String. Group.
