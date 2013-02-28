@@ -215,7 +215,7 @@ nav > a {
   left:0% !important;
   width:100% !important;
   }
-.zoomer { margin-top:40px; }
+.zoomer { margin-top:40px; z-index:0; }
 #zoomedto {
   background:rgba(48,48,48,0.9);
   border-radius:3px;
@@ -428,7 +428,6 @@ a.data-y { display:none; }
   position:absolute;
   left:50%; top:0px; bottom:0px;
   width:50%;
-  z-index:2;
   background:#f8f8f8;
   background-image:-webkit-linear-gradient(#f8f8f8 75%,#eee);
   }
@@ -512,7 +511,6 @@ a.data-y { display:none; }
   position:absolute;
   left:0%; bottom:100%;
   width:50%; height:100%;
-  z-index:2;
   background:#ddd;
   -webkit-transition:bottom 200ms;
   }
