@@ -10,11 +10,15 @@
 
 <body id='view'>
 
-<div id='data' class='column ui pane'>
-<%= _(library).map(this.source).join('\n') %>
+<div id='data' class='column pane'>
+  <a class='button icon close' href='#menu'></a>
+  <section>
+    <h2>Data library</h2>
+  </section>
+  <%= _(library).map(this.source).join('\n') %>
 </div>
 
-<form id='settings' class='column ui pane util'>
+<form id='settings' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
   <section>
     <h2>Settings</h2>
@@ -40,20 +44,20 @@
     <input id='maxzoom' name='maxzoom' class='max' type='range' value='22' min='0' max='22' step='1' onchange='rangeLimit(this, "min", "#minzoom");' />
   </section>
 </form>
-<div id='export' class='column ui pane util'>
+<div id='export' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
 </div>
-<div id='upload' class='column ui pane util'>
+<div id='upload' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
 </div>
-<div id='interaction' class='column ui pane util'>
+<div id='interaction' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
 </div>
 
 <div id='menu' class='column ui'>
   <nav><!--
     --><a href='#menu-util' class='minor icon conf'></a><!--
-    --><a href='#menu-layers' class='major active'>Data</a>
+    --><a href='#menu-layers' class='major icon plus active'>Data</a>
   </nav>
   <div id='menu-layers' class='active'>
     <%= _(sources).map(this.source).join('\n') %>
@@ -88,14 +92,14 @@
       <a class='button full-n icon full' href='#full'></a>
       <a class='button full-y icon close' href='#'></a>
     </div>
-    <%= project.name || 'Untitled' %>
+    <h3><%= project.name || 'Untitled' %></h3>
   </div>
   <div id='map'>
-    <div id='zoomedto' class='ui'><%= project.center[2] %></div>
   </div>
+  <div id='zoomedto' class='ui'><%= project.center[2] %></div>
 </div>
 
-<div id='docs' class='column ui'>
+<div id='docs' class='column'>
   <%= this['projectCartoRef'](cartoRef) %>
 </div>
 
@@ -213,7 +217,7 @@ Editor.prototype.events = {
   'click #menu nav a': 'tabbed',
   'click #menu-layers a': 'tabbed',
   'click #menu-layers a .moreless': 'moreless',
-  'click #data section': 'data',
+  'click #data a.section': 'data',
   'click #menu-layers a.delete': 'data',
   'keydown': 'keys'
 };
@@ -267,11 +271,11 @@ Editor.prototype.moreless = function(ev) {
 Editor.prototype.data = function(ev) {
   var target = $(ev.currentTarget).parent();
   if (target.parents('#menu-layers').size()) {
-    target.prependTo($('#data'));
+    target.appendTo($('#data'));
   } else {
     // Remove all other layers as we don't support compositing for now.
     $('#menu-layers > div.source').each(function() {
-        $(this).prependTo('#data');
+      $(this).appendTo('#data');
     });
     target.prependTo($('#menu-layers'));
   }

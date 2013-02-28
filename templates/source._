@@ -1,20 +1,20 @@
 <% var layerCount = _(obj.layers||{}).size(); %>
 <div id='source-<%=obj.id%>' class='source'>
-<section class='thumbed'>
-  <div class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></div>
-  <h3><%= obj.name %></h3>
-  <div class='desc'><%= obj.description || 'No description.' %></div>
+<a class='section thumbed'>
+  <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
+  <strong><%= obj.name %></strong>
+  <span class='desc'><%= obj.description || 'No description.' %></span>
   <small class='layers'>
     <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>
     <% if (obj.author) { %>
     from <%= obj.author %>
     <% } %>
   </small>
-</section>
+</a>
 <h3 class='remote'><%= obj.name %></h3>
-<a href='#delete' class='delete'>✕</a>
+<a class='delete icon close' href='#delete'></a>
 <% _(obj.layers).chain().pairs().reverse().each(function(l) { %>
-<a id='menu-layers-<%=l[0]%>' href='#menu-layers-<%=l[0]%>'>
+<a class='layer' id='menu-layers-<%=l[0]%>' href='#menu-layers-<%=l[0]%>'>
   <span class='geometry icon <%=l[1].geometry||'unknown'%>'></span>
   <%=l[0]%>
   <span class='zooms'>
@@ -28,7 +28,7 @@
   <% _(l[1].attributes||{}).each(function(desc,name) { %>
   <small><code><%=name%></code> <%=desc||'No description.'%></small>
   <% }); %>
-  <span class='moreless'></span>
+  <span class='icon moreless'></span>
 </a>
 <% }); %>
 </div>
