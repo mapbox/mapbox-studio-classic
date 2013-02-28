@@ -136,6 +136,7 @@
 
 <script src='/ext/underscore-min.js'></script>
 <script src='/ext/codemirror.js'></script>
+<script src='/ext/codemirror.runmode.js'></script>
 <script src='/ext/zepto.js'></script>
 <script src='/ext/backbone.js'></script>
 <script src='/ext/mapbox.js'></script>
@@ -383,6 +384,13 @@ Editor.prototype.refresh = function(ev) {
 new Editor({
   el: document.body,
   model: new Project(<%= JSON.stringify(project) %>)
+});
+
+// Syntax highlighting for carto ref.
+$('pre.carto-snippet').each(function(i, elem) {
+  var text = $(elem).text();
+  $(elem).empty();
+  CodeMirror.runMode(text, {name:'carto',reference:window.cartoRef}, $(elem).get(0));
 });
 </script>
 </body>

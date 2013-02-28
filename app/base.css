@@ -88,6 +88,13 @@ a.section:hover { background-color:#eee; }
 
 a { color:inherit; text-decoration:none; }
 
+section pre {
+  padding:5px 0px;
+  background:#eee;
+  overflow:auto;
+  }
+section .CodeMirror { display:block; position:static; height:400px; visibility:visible; }
+
 input[type=button],
 input[type=submit],
 .button {
@@ -543,6 +550,25 @@ a.data-y { display:none; }
 #docs nav a:nth-child(1),
 #docs nav a:nth-child(2) { width:12.5%; }
 #docs nav a.active { background:#eee; }
+
+#docs code.type,
+#docs code.value,
+#docs code.value:after { margin-left:5px; }
+#docs code.type,
+#docs code.options { color:#999; }
+#docs code.value   {
+  background:#eee;
+  color:#708;
+  padding:3px 5px;
+  }
+#docs code.value:after {
+  content:'default';
+  font-family:Opensans,sans; color:#999;
+  font-style:italic;
+  }
+#docs code.value,
+#docs code.options { font-size:80%; }
+#docs code.options { display:block; margin-bottom:10px; }
 
 /* Project history */
 #history { padding-top:40px; }
