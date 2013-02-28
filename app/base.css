@@ -32,6 +32,7 @@ body {
   margin:0px;
   padding:0px;
   background:#ddd;
+  background-image:-webkit-linear-gradient(#ddd 75%,#bbb);
   color:#444;
   overflow:hidden;
   }
@@ -77,8 +78,7 @@ section .image {
   border-radius:4px;
   box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 3px;
   }
-a.section > *,
-section > * {
+a.section > * {
   display:block;
   white-space:nowrap;
   overflow:hidden;
@@ -181,6 +181,7 @@ nav > a {
   left:25%; bottom:100%;
   width:75%; height:100%;
   background:#ddd;
+  background-image:-webkit-linear-gradient(#ddd 75%,#bbb);
   overflow:auto;
   -webkit-transition:bottom 200ms;
   }
@@ -242,6 +243,7 @@ nav > a {
   bottom:0px;
   top:0px;
   background:#444;
+  background-image:-webkit-linear-gradient(#444 75%,#333);
   border-right:1px solid rgba(0,0,0,0.1);
   }
 #menu nav { height:40px; }
@@ -418,6 +420,7 @@ a.data-y { display:none; }
   width:50%;
   z-index:2;
   background:#f8f8f8;
+  background-image:-webkit-linear-gradient(#f8f8f8 75%,#eee);
   }
 #code .left {
   position:absolute;
@@ -545,11 +548,11 @@ a.data-y { display:none; }
   border-radius:4px;
   width:320px;
   background:#444;
-  box-shadow:rgba(0,0,0,0.2) 0px 0px 0px 3px;
+  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 3px;
   margin:0px 0px 0px -160px;
   }
 .modal .close {
-  position:absolute; top:-10px; right:-10px;
+  position:absolute; top:-15px; right:-15px;
   border-radius:50%;
   }
 #mask {
@@ -628,6 +631,7 @@ label.inline { display:inline-block; width:100px; }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror-gutter {
   background:#eee;
+  background-image:-webkit-linear-gradient(#eee 75%,#ddd);
   width:39px !important;
   border-right:1px solid #ddd;
   }
