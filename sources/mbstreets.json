@@ -3,7 +3,7 @@
     "description": "Global map data based on OpenStreetMap and other open data sources.",
     "author": "MapBox",
     "image": "http://farm8.staticflickr.com/7122/7448973246_a4d2966e97_m.jpg",
-    "tiles": [ "http://mapbox-dtdev.s3.amazonaws.com/{prefix}/mbstreets4/{z}/{x}/{y}.data" ],
+    "tiles": [ "http://mapbox-streets-v2.s3.amazonaws.com/{prefix}/{z}/{x}/{y}.vector.pbf" ],
     "minzoom": 0,
     "maxzoom": 14,
     "maskLevel": 8,
@@ -135,7 +135,7 @@
                 "name_en": "String. English."
             }
         },
-        "place": {
+        "place_label": {
             "geometry": "point",
             "description": "Places.",
             "minzoom": 4,
@@ -168,7 +168,7 @@
                 "area": "Number. Geographic area."
             }
         },
-        "rail_station": {
+        "rail_station_label": {
             "geometry": "point",
             "description": "Train and subway stations.",
             "minzoom": 14,
@@ -181,7 +181,7 @@
                 "group": "String (name, network). Field used to group stations."
             }
         },
-        "airport": {
+        "airport_label": {
             "geometry": "point",
             "description": "Airports.",
             "minzoom": 10,
