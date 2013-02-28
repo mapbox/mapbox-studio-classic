@@ -197,9 +197,8 @@ nav > a {
   left:0px;
   top:0px;
   bottom:0px;
-  overflow:auto;
+  overflow:hidden;
   }
-#full.wide { width:100%; }
 #map {
   background:#ddd url(canvas.png);
   position:absolute !important;

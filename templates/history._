@@ -9,7 +9,6 @@
 
 <body id='view'>
 
-<div id='full' class='column wide'>
 <div id='title' class='ui'>
   <div class='left'>
     <span class='joined'><!--
@@ -35,7 +34,6 @@
   <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
 </a>
 <% }); %>
-</div>
 </div>
 
 </body>
