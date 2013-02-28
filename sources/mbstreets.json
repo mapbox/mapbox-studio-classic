@@ -62,6 +62,9 @@
             "attributes": {
                 "class": "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway).",
                 "oneway": "Number. (1 or 0)."
+            },
+            "properties": {
+                "group-by": "layer"
             }
         },
         "road": {
@@ -80,6 +83,9 @@
             "attributes": {
                 "class": "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway).",
                 "oneway": "Number. (1 or 0)."
+            },
+            "properties": {
+                "group-by": "layer"
             }
         },
         "admin": {
