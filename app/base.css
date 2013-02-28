@@ -206,6 +206,17 @@ nav > a {
   top:40px; bottom:0px; left:0px;
   width:100%;
   }
+/* Map is oversized to accommodate fullscreen view. */
+#map {
+  left:-50% !important;
+  width:200% !important;
+  -webkit-transition:left 200ms;
+  }
+#full:target #map {
+  left:0% !important;
+  width:100% !important;
+  }
+.zoomer { margin-top:40px; }
 #zoomedto {
   background:rgba(48,48,48,0.9);
   border-radius:3px;

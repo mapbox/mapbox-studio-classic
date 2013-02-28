@@ -157,6 +157,7 @@ map.centerzoom({lon:<%=project.center[0]%>,lat:<%=project.center[1]%>},<%=projec
 map.setZoomRange(<%=project.minzoom%>,<%=project.maxzoom%>);
 map.ui.zoombox.add();
 map.ui.zoomer.add();
+map.ui.zoomer.appendTo($('#full').get(0));
 map.addCallback('zoomed', function() { $('#zoomedto').text(map.zoom()|0); });
 map.addCallback('extentset', function() { $('#zoomedto').text(map.zoom()|0); });
 
