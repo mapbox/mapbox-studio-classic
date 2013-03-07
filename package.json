@@ -19,7 +19,7 @@
         "js-yaml": "2.0.x",
         "mapnik": "git+ssh://git@github.com:mapbox/node-mapnik-data-tile.git",
         "carto": "git+ssh://git@github.com:mapbox/carto.git",
-        "dt": "git+ssh://git@github.com:mapbox/dtdev.git"
+        "tilelive-vector": "git+ssh://git@github.com:mapbox/tilelive-vector.git"
     },
     "devDependencies": {
         "mocha": "1.8.x"
