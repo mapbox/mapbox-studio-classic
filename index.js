@@ -60,7 +60,10 @@ app.param('history', function(req, res, next) {
 });
 
 app.put('/:project(project)', function(req, res, next) {
-    res.send({mtime:req.project.data.mtime});
+    res.send({
+        mtime:req.project.data.mtime,
+        background:req.project.data.background
+    });
 });
 
 app.get('/:project(project)', function(req, res, next) {

@@ -97,8 +97,7 @@
     </div>
     <h3><%= project.name || 'Untitled' %></h3>
   </div>
-  <div id='map'>
-  </div>
+  <div id='map' style='background-color:<%=project.background%>;'></div>
   <div id='zoomedto' class='ui'><%= project.center[2] %></div>
 </div>
 
@@ -397,6 +396,11 @@ Editor.prototype.refresh = function(ev) {
   map.removeLayer(layer);
   layer.destroy();
   map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
+
+  // Set canvas background color.
+  if (this.model.get('background'))
+    $('#map').css({'background-color':this.model.get('background')});
+
   // Refresh map title.
   $('title').text(this.model.get('name'));
   $('#title h3').text(this.model.get('name'));
