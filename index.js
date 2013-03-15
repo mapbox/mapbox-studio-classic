@@ -15,7 +15,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('project', function(req, res, next) {
     var id = req.query.id;
-    var tmp = id && project.tmpid(id);
+    var tmp = id && tm.tmpid(id);
     if (req.method === 'PUT') {
         var data = req.body;
     } else if (tmp && req.path === '/project') {
@@ -117,7 +117,7 @@ app.get('/app/lib.js', function(req, res, next) {
 });
 
 app.get('/:newproject(new)', function(req, res, next) {
-    res.redirect('/project?id=' + project.tmpid());
+    res.redirect('/project?id=' + tm.tmpid());
 });
 
 app.get('/:history()', function(req, res, next) {
