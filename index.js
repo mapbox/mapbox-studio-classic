@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
+var project = require('./lib/project');
 var express = require('express');
 var argv = require('optimist')
     .config('config')
@@ -14,7 +15,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('project', function(req, res, next) {
     var id = req.query.id;
-    var tmp = id && tm.tmpid(id);
+    var tmp = id && project.tmpid(id);
     if (req.method === 'PUT') {
         var data = req.body;
     } else if (tmp && req.path === '/project') {
@@ -25,7 +26,7 @@ app.param('project', function(req, res, next) {
     } else {
         var data = false;
     }
-    tm.project({
+    project({
         id: id,
         data: data,
         perm: !tmp && !!data
@@ -47,7 +48,7 @@ app.param('history', function(req, res, next) {
     var load = function() {
         if (!history.length) return next();
         var id = history.shift();
-        tm.projectInfo(id, function(err, info) {
+        project.info(id, function(err, info) {
             if (err) {
                 tm.history(id, true);
             } else {
@@ -71,9 +72,9 @@ app.get('/:project(project)', function(req, res, next) {
     return res.send(tm.templates.project({
         cartoRef: require('carto').tree.Reference.data,
         sources: _(req.project.data.sources).map(function(s) {
-            return tm.sources[s];
+            return project.sources[s];
         }),
-        library: _(tm.sources).filter(function(source, s) {
+        library: _(project.sources).filter(function(source, s) {
             return !_(req.project.data.sources).include(s);
         }),
         project: req.project.data
@@ -98,7 +99,7 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
 
 app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.projectThumb({id:req.query.id}, function(err, thumb) {
+    project.thumb({id:req.query.id}, function(err, thumb) {
         if (err) return next(err);
         res.set({'content-type':'image/png'});
         res.send(thumb);
@@ -116,7 +117,7 @@ app.get('/app/lib.js', function(req, res, next) {
 });
 
 app.get('/:newproject(new)', function(req, res, next) {
-    res.redirect('/project?id=' + tm.tmpid());
+    res.redirect('/project?id=' + project.tmpid());
 });
 
 app.get('/:history()', function(req, res, next) {
