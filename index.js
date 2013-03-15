@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
+var source = require('./lib/source');
 var project = require('./lib/project');
 var express = require('express');
 var argv = require('optimist')
@@ -71,10 +72,8 @@ app.get('/:project(project)', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.project({
         cartoRef: require('carto').tree.Reference.data,
-        sources: _(req.project.data.sources).map(function(s) {
-            return project.sources[s];
-        }),
-        library: _(project.sources).filter(function(source, s) {
+        sources: [req.project._backend.data],
+        library: _(source.library).filter(function(source, s) {
             return !_(req.project.data.sources).include(s);
         }),
         project: req.project.data
