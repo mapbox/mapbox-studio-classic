@@ -1,4 +1,4 @@
-<% var layerCount = _(obj.layers||{}).size(); %>
+<% var layerCount = _(obj.Layer||{}).size(); %>
 <div id='source-<%=obj.id%>' class='source'>
 <a class='section thumbed'>
   <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
@@ -13,19 +13,19 @@
 </a>
 <h3 class='remote'><%= obj.name %></h3>
 <a class='delete icon close' href='#delete'></a>
-<% _(obj.layers).chain().pairs().reverse().each(function(l) { %>
-<a class='layer' id='menu-layers-<%=l[0]%>' href='#menu-layers-<%=l[0]%>'>
-  <span class='geometry icon <%=l[1].geometry||'unknown'%>'></span>
-  <%=l[0]%>
+<% _(obj.Layer).chain().reverse().each(function(l) { %>
+<a class='layer' id='menu-layers-<%=l.id%>' href='#menu-layers-<%=l.id%>'>
+  <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
+  <%=l.id%>
   <span class='zooms'>
-    <% if (!l[1].maxzoom) { %>
-    z<%= l[1].minzoom||0 %>+
+    <% if (!(l.properties||{}).maxzoom) { %>
+    z<%= (l.properties||{}).minzoom||0 %>+
     <% } else { %>
-    z<%= l[1].minzoom||0 %>-<%= l[1].maxzoom||22 %>
+    z<%= (l.properties||{}).minzoom||0 %>-<%= (l.properties||{}).maxzoom||22 %>
     <% } %>
   </span>
-  <small class='desc'><%=l[1].description||'No description.'%></small>
-  <% _(l[1].attributes||{}).each(function(desc,name) { %>
+  <small class='desc'><%=l.description||'No description.'%></small>
+  <% _(l.help||{}).each(function(desc,name) { %>
   <small><code><%=name%></code> <%=desc||'No description.'%></small>
   <% }); %>
   <span class='icon moreless'></span>

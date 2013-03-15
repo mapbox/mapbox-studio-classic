@@ -6,10 +6,11 @@ tiles:
   - "http://mapbox-dtdev.s3.amazonaws.com/nebathymetry/{z}/{x}/{y}.vector.pbf"
 minzoom: 0
 maxzoom: 5
-layers: 
-  bathymetry: 
-    geometry: polygon
-    description: Bathymetry created from SRTM Plus.
-    attributes: 
+Layer: 
+  - id: bathymetry
+    help: 
       DEPTH: Number. Depth in meters.
       DEPTH_GRP: String. Group.
+    geometry: polygon
+    description: Bathymetry created from SRTM Plus.
+    properties: {}

@@ -6,14 +6,15 @@ tiles:
   - "http://mapbox-dtdev.s3.amazonaws.com/necountry/{z}/{x}/{y}.vector.pbf"
 minzoom: 0
 maxzoom: 5
-layers: 
-  country: 
-    geometry: polygon
-    description: Administrative level 0 countries.
-    attributes: 
+Layer: 
+  - id: country
+    help: 
       NAME: String. Country name.
       ABBREV: String. Abbreviated name.
       POSTAL: String. Postal name.
       NAME_FORMA: String. Formal name.
       POP_EST: Number. Estimated population.
       GDP_MD_EST: Number. Estimated median GDP.
+    geometry: polygon
+    description: Administrative level 0 countries.
+    properties: {}

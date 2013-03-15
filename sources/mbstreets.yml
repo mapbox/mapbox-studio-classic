@@ -7,182 +7,206 @@ tiles:
 minzoom: 0
 maxzoom: 14
 maskLevel: 8
-layers: 
-  landuse: 
-    geometry: polygon
-    minzoom: 7
-    description: Land areas and land use.
-    attributes: 
+Layer: 
+  - id: landuse
+    help: 
       type: "String. Common: wood, grass, park."
-  waterway: 
-    minzoom: 8
+    geometry: polygon
+    description: Land areas and land use.
+    properties: 
+      minzoom: 7
+  - id: waterway
+    help: !<tag:yaml.org,2002:js/undefined> ""
     geometry: line
     description: "Rivers, streams, and other waterways."
-  water: 
-    minzoom: 3
+    properties: 
+      minzoom: 8
+  - id: water
+    help: !<tag:yaml.org,2002:js/undefined> ""
     geometry: polygon
     description: "Oceans, lakes, ponds, and other bodies of water."
-  aeroway: 
-    minzoom: 10
+    properties: 
+      minzoom: 3
+  - id: aeroway
+    help: 
+      type: "String. (apron, taxiway, helipad, runway)."
     geometry: line
     description: Aeroway runways and areas.
-    attributes: 
-      type: "String. (apron, taxiway, helipad, runway)."
-  barrier_line: 
-    minzoom: 14
+    properties: 
+      minzoom: 10
+  - id: barrier_line
+    help: 
+      class: "String. (gate, fence, hedge, land)."
     geometry: line
     description: Various barriers.
-    attributes: 
-      class: "String. (gate, fence, hedge, land)."
-  building: 
-    minzoom: 13
+    properties: 
+      minzoom: 14
+  - id: building
+    help: !<tag:yaml.org,2002:js/undefined> ""
     geometry: polygon
     description: Building footprints.
-  landuse_overlay: 
-    minzoom: 8
+    properties: 
+      minzoom: 13
+  - id: landuse_overlay
+    help: 
+      class: "String. (basin, breakwater, pier, wetland, wetland_noveg)."
     geometry: polygon
     description: Overlay shapes for landuse.
-    attributes: 
-      class: "String. (basin, breakwater, pier, wetland, wetland_noveg)."
-  tunnel: 
-    minzoom: 13
+    properties: 
+      minzoom: 8
+  - id: tunnel
+    help: 
+      class: "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway)."
+      oneway: Number. (1 or 0).
     geometry: line
     description: Underground tunnels.
-    attributes: 
+    properties: 
+      minzoom: 13
+  - id: road
+    help: 
       class: "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway)."
       oneway: Number. (1 or 0).
-    properties: 
-      "group-by": layer
-  road: 
-    minzoom: 5
     geometry: line
     description: Ground level roads.
-    attributes: 
+    properties:
+      "group-by": layer
+      minzoom: 5
+  - id: bridge
+    help: 
       class: "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway)."
       oneway: Number. (1 or 0).
-  bridge: 
-    minzoom: 13
     geometry: line
     description: Above ground bridges.
-    attributes: 
-      class: "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway)."
-      oneway: Number. (1 or 0).
-    properties: 
+    properties:
       "group-by": layer
-  admin: 
-    minzoom: 2
-    geometry: line
-    description: "Administrative (country, province) boundaries."
-    attributes: 
+      minzoom: 13
+  - id: admin
+    help: 
       admin_level: Number. Administrative level.
       maritime: Number. (1 or 0).
       disputed: Number. (1 or 0).
-  country_label_line: 
-    minzoom: 3
-    maxzoom: 6
     geometry: line
-    description: Helper lines for country labels in dense areas.
-    attributes: 
+    description: "Administrative (country, province) boundaries."
+    properties: 
+      minzoom: 2
+  - id: country_label_line
+    help: 
       z_min: Number. Recommended min zoom level to show line.
       z_max: Number. Recommended max zoom level to show line.
-  country_label: 
-    minzoom: 2
-    maxzoom: 10
-    geometry: point
-    description: Country labels.
-    attributes: 
+    geometry: line
+    description: Helper lines for country labels in dense areas.
+    properties: 
+      minzoom: 3
+      maxzoom: 6
+  - id: country_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       scalerank: Number. Rank of label importance.
-  marine_label: 
-    minzoom: 3
-    maxzoom: 7
     geometry: point
-    description: "Labels for oceans, seas, and other bodies of water."
-    attributes: 
+    description: Country labels.
+    properties: 
+      minzoom: 2
+      maxzoom: 10
+  - id: marine_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       labelrank: Number. Rank of label importance.
       placement: String. (point or line).
-  state_label: 
-    minzoom: 4
-    maxzoom: 10
     geometry: point
-    description: State and province labels.
-    attributes: 
+    description: "Labels for oceans, seas, and other bodies of water."
+    properties: 
+      minzoom: 3
+      maxzoom: 7
+  - id: state_label
+    help: 
       name: String. Localized.
       name_en: String. English.
-  place_label: 
     geometry: point
-    description: Places.
-    minzoom: 4
-    attributes: 
+    description: State and province labels.
+    properties: 
+      minzoom: 4
+      maxzoom: 10
+  - id: place_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       type: "String. (city, town)."
       scalerank: Number. Rank of label importance.
       ldir: Number. Direction of label.
-  water_label: 
     geometry: point
-    description: Labels for water areas.
-    minzoom: 8
-    attributes: 
+    description: Places.
+    properties: 
+      minzoom: 4
+  - id: water_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       area: Number. Geographic area.
-  area_label: 
     geometry: point
-    description: Labels for landuse areas.
-    minzoom: 14
-    attributes: 
+    description: Labels for water areas.
+    properties: 
+      minzoom: 8
+  - id: area_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       class: "String (hospital, park, school, cemetary, sport, military)."
       area: Number. Geographic area.
-  rail_station_label: 
     geometry: point
-    description: Train and subway stations.
-    minzoom: 14
-    attributes: 
+    description: Labels for landuse areas.
+    properties: 
+      minzoom: 14
+  - id: rail_station_label
+    help: 
       osm_id: Number. OSM ID.
       name: String. Localized.
       name_en: String. English.
       class: "String (subway, light, rail)."
       network: String. Rail network.
       group: "String (name, network). Field used to group stations."
-  airport_label: 
     geometry: point
-    description: Airports.
-    minzoom: 10
-    attributes: 
+    description: Train and subway stations.
+    properties: 
+      minzoom: 14
+  - id: airport_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       class: "String (default, international, military, heliport)."
       ref: String. Reference code.
       area: Number. Geographic area.
-  road_label: 
-    geometry: line
-    description: "Labels for roads, tunnels, bridges."
-    minzoom: 10
-    attributes: 
+    geometry: point
+    description: Airports.
+    properties: 
+      minzoom: 10
+  - id: road_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       class: "String (motorway, main, street, pedestrian, path, service)."
       ref: String. Reference code.
       reflen: Number. Ref length.
-  waterway_label: 
     geometry: line
-    description: Labels for waterways.
-    minzoom: 13
-    attributes: 
+    description: "Labels for roads, tunnels, bridges."
+    properties: 
+      minzoom: 10
+  - id: waterway_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       type: "String (river, stream, canal)."
-  building_label: 
-    geometry: point
-    description: Labels for buildings.
-    minzoom: 13
-    attributes: 
+    geometry: line
+    description: Labels for waterways.
+    properties: 
+      minzoom: 13
+  - id: building_label
+    help: 
       name: String. Localized.
       name_en: String. English.
       area: The size of the building in Mercator square meters.
+    geometry: point
+    description: Labels for buildings.
+    properties: 
+      minzoom: 13
