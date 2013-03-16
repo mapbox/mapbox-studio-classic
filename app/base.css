@@ -163,8 +163,10 @@ input.wide[type=submit] {
 .icon.full:before { background-position-x:-80px; }
 .icon.plus:before { background-position-x:-100px; }
 .icon.line:before { background-position-x:-120px; }
+.icon.linestring:before { background-position-x:-120px; }
 .icon.point:before { background-position-x:-140px; }
 .icon.polygon:before { background-position-x:-160px; }
+.icon.multipolygon:before { background-position-x:-160px; }
 .icon.conf:before { background-position-x:-180px; }
 .icon.code:before { background-position-x:-200px; }
 .icon.folder:before { background-position-x:-220px; }
