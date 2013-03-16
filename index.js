@@ -19,8 +19,8 @@ app.param('project', function(req, res, next) {
         var data = req.body;
     } else if (tmp && req.path === '/project') {
         var data = {
-            styles: { 'style.mss': 'Map {\n  background-color:#b8dee6;\n}\n\n#country {\n    ::outline {\n    line-color: #85c5d3;\n    line-width: 2;\n    line-join: round;\n  }\n  polygon-fill:#fff;\n}' },
-            sources: ['necountry']
+            styles: { 'style.mss': 'Map {\n  background-color:#fff;\n}\n\n#water {\n  polygon-fill:#b8dee6;\n}\n\n#road {\n  line-color:#ccc;\n}\n\n#admin {\n  line-color:rgba(0,32,64,0.2);\n}' },
+            sources: ['mbstreets']
         };
     } else {
         var data = false;
