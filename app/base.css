@@ -354,11 +354,14 @@ nav > a {
   position:absolute; right:10px; top:10px;
   display:block;
   background:#444;
-  border:5px solid #333;
-  width:10px; height:10px;
-  border-radius:50%;
+  padding:0px 10px;
+  text-transform:uppercase;
+  font-weight:normal;
+  font-size:10px;
+  border-radius:2px;
   }
-#menu-layers h3.remote::before { background:#8c8; }
+#menu-layers h3.remote::before { background:#4aa; content:'Remote'; }
+#menu-layers h3.local::before { background:#c64; content:'Local'; }
 #menu-layers a {
   color:#aaa;
   white-space:nowrap;
