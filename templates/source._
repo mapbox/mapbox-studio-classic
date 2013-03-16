@@ -13,7 +13,7 @@
 </a>
 <h3 class='remote'><%= obj.name %></h3>
 <a class='delete icon close' href='#delete'></a>
-<% _(obj.Layer).chain().reverse().each(function(l) { %>
+<% _(obj.Layer).chain().clone().reverse().each(function(l) { %>
 <a class='layer' id='menu-layers-<%=l.id%>' href='#menu-layers-<%=l.id%>'>
   <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
   <%=l.id%>
