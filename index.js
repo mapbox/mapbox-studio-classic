@@ -128,7 +128,7 @@ app.get('/:history()', function(req, res, next) {
 
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
-    if (err && 'z' in req.params) return res.send(404);
+    if (err && 'z' in req.params) return res.send(err.toString(), 404);
     // Otherwise 500 for now.
     if (/application\/json/.test(req.headers.accept)) {
         res.set({'content-type':'application/javascript'});
