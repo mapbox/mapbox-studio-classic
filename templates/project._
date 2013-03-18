@@ -100,6 +100,7 @@
     <h3><%= project.name || 'Untitled' %></h3>
   </div>
   <div id='map' style='background-color:<%=project.background%>;'></div>
+  <div id='map-overlay'></div>
   <div id='zoomedto' class='ui'><%= project.center[2] %></div>
 </div>
 
@@ -322,6 +323,9 @@ Editor.prototype.recache = function(ev) {
   return false;
 };
 Editor.prototype.save = function(ev, options) {
+  // Set map in loading state.
+  $('#full').addClass('loading');
+
   var attr = {};
   // Grab settings form values.
   _($('#settings').serializeArray()).reduce(function(memo, field) {
@@ -413,8 +417,12 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map title.
   $('title').text(this.model.get('name'));
   $('#title h3').text(this.model.get('name'));
+
   // Refresh map zoom range.
   map.setZoomRange(this.model.get('minzoom'),this.model.get('maxzoom'));
+
+  // Remove loading state from map.
+  $('#full').removeClass('loading');
   return false;
 };
 

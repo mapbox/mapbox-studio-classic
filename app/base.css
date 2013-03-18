@@ -246,6 +246,28 @@ nav > a {
   position:absolute; left:75px; top:55px;
   }
 #zoomedto::before { content:'z'; }
+#map-overlay {
+  position:absolute;
+  top:0px; bottom:0px; width:100%;
+  background:rgba(64,64,64,0.4);
+  z-index:-1;
+  opacity:0;
+  -webkit-transition:opacity 200ms ease-in 100ms, z-index 200ms ease-in 100ms;
+  }
+#map-overlay:before {
+  content:'';
+  width:40px;
+  height:40px;
+  position:absolute; left:50%; top:50%;
+  margin:-20px 0px 0px -20px;
+  border-radius:50%;
+  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 10px;
+  background:#444 url(spinner.gif) 50% 50% no-repeat;
+  }
+.loading #map-overlay {
+  z-index:1000;
+  opacity:1;
+  }
 #title {
   background:#444;
   border-bottom:1px solid rgba(0,0,0,0.1);
