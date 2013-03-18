@@ -47,6 +47,11 @@
     <label class='range' id='maxzoom-val'><%= project.maxzoom %></label>
   </section>
   <section>
+    <label class='inline'>Scale</label>
+    <input id='scale' name='scale' type='range' value='<%= project.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
+    <label class='range' id='scale-val'><%= project.scale %></label>
+  </section>
+  <section>
     <input type='submit' value='Save' class='wide' />
   </section>
 </form>
@@ -329,7 +334,7 @@ Editor.prototype.save = function(ev, options) {
   var attr = {};
   // Grab settings form values.
   _($('#settings').serializeArray()).reduce(function(memo, field) {
-    if (field.name === 'minzoom' || field.name === 'maxzoom') {
+    if (field.name === 'minzoom' || field.name === 'maxzoom' || field.name === 'scale') {
       memo[field.name] = parseInt(field.value,10);
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
