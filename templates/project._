@@ -345,8 +345,11 @@ Editor.prototype.save = function(ev, options) {
     return $(this).attr('id').split('source-').pop();
   });
 
-  if (this.model.get('_prefs').saveCenter)
-    attr.center = [ map.center().lon, map.center().lat, map.zoom() ];
+  if (this.model.get('_prefs').saveCenter) {
+    var lon = map.center().lon % 360;
+    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
+    attr.center = [lon , map.center().lat, map.zoom() ];
+  }
 
   options = options || {
     success:_(this.refresh).bind(this),
