@@ -324,6 +324,9 @@ nav > a {
   }
 #menu-util > a.icon:before { margin-right:5px; }
 #menu-util > a:hover { background-color:rgba(255,255,255,0.1); }
+#menu-util > a:not([href]) { color:#888; }
+#menu-util > a:not([href]):hover { background-color:transparent; }
+#menu-util > a:not([href]):before { opacity:0.5; }
 #settings:target ~ * a[href='#settings'],
 #export:target   ~ * a[href='#export'],
 #upload:target   ~ * a[href='#upload'],

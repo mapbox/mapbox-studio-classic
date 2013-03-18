@@ -71,12 +71,12 @@
   <div id='menu-util'>
     <h3>Project</h3>
     <a class='icon conf' href='#settings'>Settings</a>
-    <a class='icon export' href='#export'>Export</a>
-    <a class='icon tooltip' href='#interaction'>Interaction</a>
+    <a class='icon export'>Export</a>
+    <a class='icon tooltip'>Interaction</a>
     <h3>TileMill</h3>
     <a class='icon grid' href='/'>Recent projects</a>
-    <a class='icon book' href='/library'>Data library</a>
-    <a class='icon gear' href='/preferences'>Preferences</a>
+    <a class='icon book'>Data library</a>
+    <a class='icon gear'>Preferences</a>
   </div>
   <a href='#data' class='button data-n icon plus'>Data</a>
   <a href='#menu' class='button data-y icon close'>Data</a>
