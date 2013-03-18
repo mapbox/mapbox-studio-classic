@@ -15,6 +15,12 @@ app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('project', function(req, res, next) {
+    if (req.method === 'PUT' && req.body._recache && req.query.id) {
+        source.invalidate(req.query.id, next);
+    } else {
+        next();
+    }
+}, function(req, res, next) {
     var id = req.query.id;
     var tmp = id && tm.tmpid(id);
     if (req.method === 'PUT') {
@@ -40,12 +46,6 @@ app.param('project', function(req, res, next) {
         req.project.data._tmp = tmp;
         return next();
     });
-}, function(req, res, next) {
-    if (req.method === 'PUT' && req.body._recache) {
-        req.project._backend.recache(function(err) { next(err); });
-    } else {
-        next();
-    }
 });
 
 app.param('history', function(req, res, next) {
