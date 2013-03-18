@@ -38,11 +38,13 @@
   </section>
   <section>
     <label class='inline'>Minzoom</label>
-    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= project.minzoom %>' min='0' max='22' step='1' onchange='rangeLimit(this, "max", "#maxzoom");' />
+    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= project.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <label class='range' id='minzoom-val'><%= project.minzoom %></label>
   </section>
   <section>
     <label class='inline'>Maxzoom</label>
-    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= project.maxzoom %>' min='0' max='22' step='1' onchange='rangeLimit(this, "min", "#minzoom");' />
+    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= project.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <label class='range' id='maxzoom-val'><%= project.maxzoom %></label>
   </section>
   <section>
     <input type='submit' value='Save' class='wide' />
@@ -146,13 +148,14 @@
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var rangeLimit = function(el, bound, target) {
+var rangeHandler = function(el, bound, target) {
   var limit = parseInt($(target).val(),10);
   if (bound === 'max') {
     el.value = parseInt(el.value, 10) < limit ? el.value : limit;
   } else {
     el.value = parseInt(el.value, 10) > limit ? el.value : limit;
   }
+  $('#' + el.id + '-val').text(el.value);
 };
 
 var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'] }));

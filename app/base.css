@@ -668,6 +668,13 @@ input[type=range]::-webkit-slider-thumb {
 
 label.inline { display:inline-block; width:100px; }
 
+label.range {
+  display:inline-block;
+  width:30px;
+  font-weight:bold;
+  text-align:center;
+  }
+
 /* CodeMirror*/
 .CodeMirror,
 .CodeMirror * {
