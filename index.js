@@ -103,6 +103,11 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
     });
 });
 
+app.get('/:project(project).xml', function(req, res, next) {
+    res.set({'content-type':'text/xml'});
+    return res.send(req.project._xml);
+});
+
 app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
     project.thumb({id:req.query.id}, function(err, thumb) {
