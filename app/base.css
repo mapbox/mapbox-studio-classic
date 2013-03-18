@@ -376,7 +376,13 @@ nav > a {
   }
 #menu-layers .status {
   position:absolute;
-  top:5px; right:5px;
+  top:10px; right:10px;
+  font-size:80%;
+  }
+#menu-layers .status * {
+  padding-top:0px;
+  padding-bottom:0px;
+  height:20px;
   }
 #menu-layers .status.remote * { background-color:#48a; }
 #menu-layers .status.local * { background-color:#c84; }
