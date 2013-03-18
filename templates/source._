@@ -11,7 +11,16 @@
     <% } %>
   </small>
 </a>
-<h3 class='<%= obj.tiles ? 'remote' : 'local' %>'><%= obj.name %></h3>
+<h3><%= obj.name %></h3>
+<div class='joined status <%= obj.tiles ? 'remote' : 'local' %>'>
+  <% if (obj.tiles) { %>
+  <span class='button'>Remote</span><!--
+  --><a class='button icon recache' href='#recache'></a>
+  <% } else { %>
+  <span class='button'>Local</span><!--
+  --><a class='button icon recache' href='#recache'></a>
+  <% } %>
+</div>
 <a class='delete icon close' href='#delete'></a>
 <% _(obj.Layer).chain().clone().reverse().each(function(l) { %>
 <a class='layer' id='menu-layers-<%=l.id%>' href='#menu-layers-<%=l.id%>'>

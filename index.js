@@ -40,6 +40,12 @@ app.param('project', function(req, res, next) {
         req.project.data._tmp = tmp;
         return next();
     });
+}, function(req, res, next) {
+    if (req.method === 'PUT' && req.body._recache) {
+        req.project._backend.recache(function(err) { next(err); });
+    } else {
+        next();
+    }
 });
 
 app.param('history', function(req, res, next) {
@@ -63,6 +69,7 @@ app.param('history', function(req, res, next) {
 
 app.put('/:project(project)', function(req, res, next) {
     res.send({
+        _recache:false,
         mtime:req.project.data.mtime,
         background:req.project.data.background
     });

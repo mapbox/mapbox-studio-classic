@@ -179,6 +179,7 @@ input.wide[type=submit] {
 .icon.export:before { background-position-x:-360px; }
 .icon.home:before { background-position-x:-380px; }
 .icon.star:before { background-position-x:-400px; }
+.icon.recache:before { background-position-x:-420px; }
 
 nav { white-space:nowrap; }
 nav > a {
@@ -336,35 +337,31 @@ nav > a {
   }
 
 /* Data menu */
-#menu-layers a,
-#menu-layers h3 {
+#menu-layers h3,
+#menu-layers a.layer {
   display:block;
   padding:10px 20px 9px;
   white-space:nowrap;
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
+
 #menu-layers a.delete {
   position:absolute; right:0px; top:1px;
   border:0px; height:38px; padding:9px 10px 9px;
   background:#444;
   display:none;
   }
-#data:target ~ * #menu-layers a.delete { display:block; }
-#data:target ~ * #menu-layers h3::before { display:none; }
-#menu-layers h3::before {
-  content:'';
-  position:absolute; right:10px; top:10px;
-  display:block;
-  background:#444;
-  padding:0px 10px;
-  text-transform:uppercase;
-  font-weight:normal;
-  font-size:10px;
-  border-radius:2px;
+#menu-layers .status {
+  position:absolute;
+  top:5px; right:5px;
   }
-#menu-layers h3.remote::before { background:#4aa; content:'Remote'; }
-#menu-layers h3.local::before { background:#c64; content:'Local'; }
+#menu-layers .status.remote * { background-color:#48a; }
+#menu-layers .status.local * { background-color:#c84; }
+
+#data:target ~ * #menu-layers a.delete { display:block; }
+#data:target ~ * #menu-layers .status { display:none; }
+
 #menu-layers a {
   color:#aaa;
   white-space:nowrap;
