@@ -56,7 +56,7 @@ Layer:
     geometry: line
     description: Underground tunnels.
     properties: 
-      minzoom: 13
+      minzoom: 12
   - id: road
     help: 
       class: "String. (motorway, main, street, street_limited, major_rail, minor_rail, service, path, driveway)."
@@ -74,7 +74,7 @@ Layer:
     description: Above ground bridges.
     properties:
       "group-by": layer
-      minzoom: 13
+      minzoom: 12
   - id: admin
     help: 
       admin_level: Number. Administrative level.
