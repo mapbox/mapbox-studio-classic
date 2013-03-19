@@ -26,7 +26,7 @@
   </section>
   <section>
     <label class='inline'>Name</label>
-    <input name='name' type='text' value='<%= project.name %>' placeholder='' size='40' />
+    <input name='name' type='text' value='<%= _(project.name).escape() %>' placeholder='' size='40' />
   </section>
   <section>
     <label class='inline'>Description</label>
@@ -34,7 +34,7 @@
   </section>
   <section>
     <label class='inline'>Attribution</label>
-    <input name='attribution' type='text' placeholder='<%= project.attribution %>' value='<%= project.attribution %>' size='40'></textarea>
+    <input name='attribution' type='text' value='<%= _(project.attribution).escape() %>' size='40'></textarea>
   </section>
   <section>
     <label class='inline'>Minzoom</label>
