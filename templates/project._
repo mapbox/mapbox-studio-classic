@@ -60,6 +60,18 @@
   <section>
     <h2>Export</h2>
   </section>
+  <section>
+    <label class='inline'>Style</label>
+    <code><a class='icon padded file' href='/project.xml?id=<%=project.id%>' target='_blank'>project.xml</a></code>
+  </section>
+  <section>
+    <label class='inline'>Datasource</label>
+    <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
+  </section>
+  <section>
+    <input type='button' value='Save XML' class='wide bake' />
+    <small>Write style and datasource XML files to project</small>
+  </section>
 </div>
 <div id='interaction' class='column pane util'>
   <a class='button icon close' href='#menu'></a>
@@ -75,13 +87,13 @@
   </div>
   <div id='menu-util'>
     <h3>Project</h3>
-    <a class='icon conf' href='#settings'>Settings</a>
-    <a class='icon export'>Export</a>
-    <a class='icon tooltip'>Interaction</a>
+    <a class='icon padded conf' href='#settings'>Settings</a>
+    <a class='icon padded export' href='#export'>Export</a>
+    <a class='icon padded tooltip'>Interaction</a>
     <h3>TileMill</h3>
-    <a class='icon grid' href='/'>Recent projects</a>
-    <a class='icon book'>Data library</a>
-    <a class='icon gear'>Preferences</a>
+    <a class='icon padded grid' href='/'>Recent projects</a>
+    <a class='icon padded book'>Data library</a>
+    <a class='icon padded gear'>Preferences</a>
   </div>
   <a href='#data' class='button data-n icon plus'>Data</a>
   <a href='#menu' class='button data-y icon close'>Data</a>
@@ -223,6 +235,7 @@ var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
   'click a.button.recache': 'recache',
+  'click input.bake': 'bake',
   'submit #settings': 'save',
   'submit #saveas': 'saveas',
   'submit #addtab': 'addtab',
@@ -327,6 +340,11 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
+Editor.prototype.bake = function(ev) {
+  this.model.set({_bake:true});
+  this.save(ev);
+  return false;
+};
 Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
   $('#full').addClass('loading');
@@ -363,7 +381,7 @@ Editor.prototype.save = function(ev, options) {
   this.model.save(attr, options);
 
   // Back out of any panes that save the project.
-  if (window.location.hash === '#settings') window.location.hash = '#menu';
+  if (['#settings', '#export'].indexOf(window.location.hash) >= 0) window.location.hash = '#menu';
 
   return false;
 };

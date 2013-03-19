@@ -23,6 +23,7 @@ app.param('project', function(req, res, next) {
 }, function(req, res, next) {
     var id = req.query.id;
     var tmp = id && tm.tmpid(id);
+    var data = false;
     if (req.method === 'PUT') {
         var data = req.body;
     } else if (tmp && req.path === '/project') {
@@ -30,20 +31,48 @@ app.param('project', function(req, res, next) {
             styles: { 'style.mss': 'Map {\n  background-color:#fff;\n}\n\n#water {\n  polygon-fill:#b8dee6;\n}\n\n#road {\n  line-color:#ccc;\n}\n\n#admin {\n  line-color:rgba(0,32,64,0.2);\n}' },
             sources: ['mbstreets']
         };
-    } else {
-        var data = false;
     }
     project({
         id: id,
         data: data,
-        perm: !tmp && !!data
+        perm: !tmp && !!data,
+        bake: data && data._bake
     }, function(err, project) {
         if (err && !tmp) tm.history(id, true);
         if (err) return next(err);
-
         if (!tmp) tm.history(id);
         req.project = project;
         req.project.data._tmp = tmp;
+        return next();
+    });
+}, function(req, res, next) {
+    if (req.method === 'PUT' && req.body._bake && req.project) {
+        source({
+            id: req.project._backend.data._id,
+            data: req.project._backend.data,
+            perm: true,
+            bake: true
+        }, function(err, source) {
+            if (err) return next(err);
+            next();
+        });
+    } else {
+        next();
+    }
+});
+
+app.param('source', function(req, res, next) {
+    var id = req.query.id;
+    var tmp = id && tm.tmpid(id);
+    var data = false;
+    if (req.method === 'PUT') var data = req.body;
+    source({
+        id: id,
+        data: data,
+        perm: !tmp && !!data
+    }, function(err, source) {
+        if (err) return next(err);
+        req.source = source;
         return next();
     });
 });
@@ -69,6 +98,7 @@ app.param('history', function(req, res, next) {
 
 app.put('/:project(project)', function(req, res, next) {
     res.send({
+        _bake:false,
         _recache:false,
         mtime:req.project.data.mtime,
         background:req.project.data.background
@@ -106,6 +136,11 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
 app.get('/:project(project).xml', function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.project._xml);
+});
+
+app.get('/:source(source).xml', function(req, res, next) {
+    res.set({'content-type':'text/xml'});
+    return res.send(req.source._xml);
 });
 
 app.get('/thumb.png', function(req, res, next) {

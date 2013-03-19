@@ -133,6 +133,7 @@ input.wide[type=button],
 input.wide[type=submit] {
   min-width:80px;
   text-align:center;
+  margin-right:10px;
   }
 
 .button.icon {
@@ -180,6 +181,8 @@ input.wide[type=submit] {
 .icon.home:before { background-position-x:-380px; }
 .icon.star:before { background-position-x:-400px; }
 .icon.recache:before { background-position-x:-420px; }
+.icon.file:before { background-position-x:-440px; }
+.icon.padded:before { margin-right:5px; }
 
 nav { white-space:nowrap; }
 nav > a {
@@ -345,7 +348,6 @@ nav > a {
   padding:10px 20px 9px;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
-#menu-util > a.icon:before { margin-right:5px; }
 #menu-util > a:hover { background-color:rgba(255,255,255,0.1); }
 #menu-util > a:not([href]) { color:#888; }
 #menu-util > a:not([href]):hover { background-color:transparent; }

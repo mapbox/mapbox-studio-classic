@@ -27,12 +27,13 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.7683716"
-     inkscape:cx="427.96188"
-     inkscape:cy="38.969502"
+     inkscape:zoom="5.9604645"
+     inkscape:cx="442.25544"
+     inkscape:cy="4.8851985"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true">
+     showgrid="false"
+     inkscape:snap-bbox="true">
     <inkscape:grid
        type="xygrid"
        id="grid4167"
@@ -318,5 +319,15 @@
        id="path3809"
        d="m 430.71875,1035.9872 -3.5625,2.125 2.84375,2.8438 0.21875,-1.5625 c 1.55048,0.1163 2.78125,1.3884 2.78125,2.9687 0,0.4635 -0.12481,0.8894 -0.3125,1.2813 l 1.5,1.4687 c 1.28141,-1.9408 1.05229,-4.5727 -0.65625,-6.2812 -0.84999,-0.85 -1.92246,-1.2955 -3.03125,-1.4063 z m -4.90625,3.625 c -1.28141,1.9408 -1.05229,4.5727 0.65625,6.2813 0.84662,0.8466 1.92761,1.3211 3.03125,1.4375 l -0.21875,1.4062 3.5625,-2.125 -2.84375,-2.8437 -0.21875,1.5625 C 428.23077,1045.2146 427,1043.9425 427,1042.3622 c 0,-0.4635 0.12481,-0.8894 0.3125,-1.2812 z"
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.05500000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 445.5 4 C 445.223 4 445 4.223 445 4.5 L 445 15.5 C 445 15.777 445.223 16 445.5 16 L 454.5 16 C 454.777 16 455 15.777 455 15.5 L 455 8 L 452 8 L 451 8 L 451 7 L 451 4 L 445.5 4 z M 452 4 L 452 7 L 455 7 L 455 6.5 L 452.5 4 L 452 4 z "
+       transform="translate(0,1012.3622)"
+       id="rect3032" />
+    <path
+       id="path3811"
+       d="m 445.5,1036.3622 c -0.277,0 -0.5,0.223 -0.5,0.5 l 0,11 c 0,0.277 0.223,0.5 0.5,0.5 l 9,0 c 0.277,0 0.5,-0.223 0.5,-0.5 l 0,-7.5 -3,0 -1,0 0,-1 0,-3 -5.5,0 z m 6.5,0 0,3 3,0 0,-0.5 -2.5,-2.5 -0.5,0 z"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.05500000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
