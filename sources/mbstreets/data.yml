@@ -16,17 +16,13 @@ Layer:
     properties: 
       minzoom: 7
   - id: waterway
-    help: !<tag:yaml.org,2002:js/undefined> ""
     geometry: line
     description: "Rivers, streams, and other waterways."
     properties: 
       minzoom: 8
   - id: water
-    help: !<tag:yaml.org,2002:js/undefined> ""
     geometry: polygon
     description: "Oceans, lakes, ponds, and other bodies of water."
-    properties: 
-      minzoom: 3
   - id: aeroway
     help: 
       type: "String. (apron, taxiway, helipad, runway)."
@@ -42,7 +38,6 @@ Layer:
     properties: 
       minzoom: 14
   - id: building
-    help: !<tag:yaml.org,2002:js/undefined> ""
     geometry: polygon
     description: Building footprints.
     properties: 
