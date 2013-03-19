@@ -26,15 +26,15 @@
   </section>
   <section>
     <label class='inline'>Name</label>
-    <input name='name' type='text' value='<%= _(project.name).escape() %>' placeholder='' size='40' />
+    <input class='stretch' name='name' type='text' value='<%= _(project.name).escape() %>'/>
   </section>
   <section>
     <label class='inline'>Description</label>
-    <textarea name='description' type='text' cols='40' rows='8'><%= project.description %></textarea>
+    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= project.description %></textarea>
   </section>
   <section>
     <label class='inline'>Attribution</label>
-    <input name='attribution' type='text' value='<%= _(project.attribution).escape() %>' size='40'></textarea>
+    <input class='stretch' name='attribution' type='text' value='<%= _(project.attribution).escape() %>'></textarea>
   </section>
   <section>
     <label class='inline'>Minzoom</label>

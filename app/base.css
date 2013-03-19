@@ -695,6 +695,9 @@ input[type=range]::-webkit-slider-thumb {
   box-shadow:#eee 300px 0px 0px 290px;
   }
 
+input.stretch,
+textarea.stretch { width:100%; }
+
 label.inline { display:inline-block; width:100px; }
 
 label.range {
