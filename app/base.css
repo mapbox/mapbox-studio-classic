@@ -450,10 +450,6 @@ a.menu-y { display:none; }
 a.full-y { display:none; }
 a.docs-y { display:none; }
 a.data-y { display:none; }
-.pane:target ~ * a.minor,
-.pane:target ~ * a.major,
-.menu:target ~ * a.full-n,
-#full:target     a.menu-n { pointer-events:none; }
 .menu:target ~ * a.menu-y,
 #data:target ~ * a.data-y,
 #full:target     a.full-y { display:inline-block; }

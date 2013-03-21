@@ -104,14 +104,13 @@
     <div class='left'>
       <span class='joined'>
         <a class='button icon conf' href='#util'></a><!--
-        --><a class='button icon layers' href='#layers'></a>
-        <!--<a class='button menu-y icon close' href='#'></a>-->
-      </span>
+        --><a class='button icon layers' href='#layers'></a><!--
       <% if (project._tmp) { %>
-        <a class='button icon okay' href='#saveas'>Save as</a>
+        --><a class='button icon okay' href='#saveas'>Save as</a>
       <% } else { %>
-        <a class='button icon okay save' href='#'>Save</a>
+        --><a class='button icon okay save' href='#'>Save</a>
       <% } %>
+      </span>
     </div>
     <div class='right'>
       <a class='button full-n icon full' href='#full'></a>
