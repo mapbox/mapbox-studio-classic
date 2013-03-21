@@ -9,10 +9,10 @@
   <title><%= project.name %></title>
 </head>
 
-<body id='view'>
+<body id='view' class='dark'>
 
 <div id='data' class='column pane'>
-  <a class='button icon close' href='#menu'></a>
+  <a class='button icon close' href='#layers'></a>
   <section>
     <h2>Data library</h2>
   </section>
@@ -20,7 +20,7 @@
 </div>
 
 <form id='settings' class='column pane util'>
-  <a class='button icon close' href='#menu'></a>
+  <a class='button icon close' href='#util'></a>
   <section>
     <h2>Settings</h2>
   </section>
@@ -56,7 +56,7 @@
   </section>
 </form>
 <div id='export' class='column pane util'>
-  <a class='button icon close' href='#menu'></a>
+  <a class='button icon close' href='#util'></a>
   <section>
     <h2>Export</h2>
   </section>
@@ -74,36 +74,39 @@
   </section>
 </div>
 <div id='interaction' class='column pane util'>
-  <a class='button icon close' href='#menu'></a>
+  <a class='button icon close' href='#util'></a>
 </div>
 
-<div id='menu' class='column ui'>
-  <nav><!--
-    --><a href='#menu-util' class='minor icon conf'></a><!--
-    --><a href='#menu-layers' class='major icon plus active'>Data</a>
+<div id='layers' class='menu column ui'>
+  <nav>
+    <a href='#' class='button icon close pinned'></a>
+    <a href='#data' class='button data-n icon plus'>Data</a>
+    <a href='#layers' class='button data-y icon close'>Data</a>
   </nav>
-  <div id='menu-layers' class='active'>
-    <%= _(sources).map(this.source).join('\n') %>
-  </div>
-  <div id='menu-util'>
+  <%= _(sources).map(this.source).join('\n') %>
+</div>
+
+<div id='util' class='menu column ui'>
+  <nav>
+    <a href='#' class='button icon close pinned'></a>
     <h3>Project</h3>
-    <a class='icon padded conf' href='#settings'>Settings</a>
-    <a class='icon padded export' href='#export'>Export</a>
-    <a class='icon padded tooltip'>Interaction</a>
-    <h3>TileMill</h3>
-    <a class='icon padded grid' href='/'>Recent projects</a>
-    <a class='icon padded book'>Data library</a>
-    <a class='icon padded gear'>Preferences</a>
+  </nav>
+  <a class='icon padded conf' href='#settings'>Settings</a>
+  <a class='icon padded export' href='#export'>Export</a>
+  <a class='icon padded tooltip'>Interaction</a>
+  <div class='centered'>
+    <a class='icon padded grid button' href='/'>Recent projects</a>
   </div>
-  <a href='#data' class='button data-n icon plus'>Data</a>
-  <a href='#menu' class='button data-y icon close'>Data</a>
 </div>
 
 <div id='full' class='column'>
   <div id='title' class='ui'>
     <div class='left'>
-      <a class='button menu-n icon menu' href='#menu'></a>
-      <a class='button menu-y icon close' href='#'></a>
+      <span class='joined'>
+        <a class='button icon conf' href='#util'></a><!--
+        --><a class='button icon layers' href='#layers'></a>
+        <!--<a class='button menu-y icon close' href='#'></a>-->
+      </span>
       <% if (project._tmp) { %>
         <a class='button icon okay' href='#saveas'>Save as</a>
       <% } else { %>
@@ -243,10 +246,10 @@ Editor.prototype.events = {
   'click #tabs a.tab': 'tabbed',
   'click #docs nav a': 'tabbed',
   'click #menu nav a': 'tabbed',
-  'click #menu-layers a': 'tabbed',
-  'click #menu-layers a .moreless': 'moreless',
+  'click #layers a': 'tabbed',
+  'click #layers a .moreless': 'moreless',
   'click #data a.section': 'data',
-  'click #menu-layers a.delete': 'data',
+  'click #layers a.delete': 'data',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -298,14 +301,14 @@ Editor.prototype.moreless = function(ev) {
 };
 Editor.prototype.data = function(ev) {
   var target = $(ev.currentTarget).parent();
-  if (target.parents('#menu-layers').size()) {
+  if (target.parents('#layers').size()) {
     target.appendTo($('#data'));
   } else {
     // Remove all other layers as we don't support compositing for now.
-    $('#menu-layers > div.source').each(function() {
+    $('#layers > div.source').each(function() {
       $(this).appendTo('#data');
     });
-    target.prependTo($('#menu-layers'));
+    target.prependTo($('#layers'));
   }
   return false;
 };
@@ -364,7 +367,7 @@ Editor.prototype.save = function(ev, options) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.sources = $('#menu-layers div.source').map(function() {
+  attr.sources = $('#layers div.source').map(function() {
     return $(this).attr('id').split('source-').pop();
   });
 

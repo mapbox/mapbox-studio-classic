@@ -29,7 +29,7 @@ with no sources. Once vector tile compositing is available revisit.
 -->
 
 <% _(obj.Layer).chain().clone().reverse().each(function(l) { %>
-<a class='layer' id='menu-layers-<%=l.id%>' href='#menu-layers-<%=l.id%>'>
+<a class='layer' id='layers-<%=l.id%>' href='#layers-<%=l.id%>'>
   <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
   <%=l.id%>
   <span class='zooms'>
