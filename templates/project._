@@ -308,7 +308,7 @@ Editor.prototype.data = function(ev) {
     $('#layers > div.source').each(function() {
       $(this).appendTo('#data');
     });
-    target.prependTo($('#layers'));
+    target.appendTo($('#layers'));
   }
   return false;
 };
