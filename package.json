@@ -18,7 +18,7 @@
         "sphericalmercator": "1.0.x",
         "js-yaml": "2.0.x",
         "mapnik": "git+ssh://git@github.com:mapbox/node-mapnik-data-tile.git",
-        "carto": "git+ssh://git@github.com:mapbox/carto.git",
+        "carto": "git+ssh://git@github.com:mapbox/carto.git#49c81edd3ac57a3c3ced2c0c4d335423b4329df8",
         "tilelive-bridge": "git+ssh://git@github.com:mapbox/tilelive-bridge.git",
         "tilelive-vector": "git+ssh://git@github.com:mapbox/tilelive-vector.git"
     },
