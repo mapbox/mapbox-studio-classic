@@ -267,18 +267,6 @@ Editor.prototype.keys = function(ev) {
   case 189: // -
     map.zoomBy(-1);
     break;
-  case 72: // h
-    map.panBy(64, 0);
-    break;
-  case 74: // j
-    map.panBy(0, -64);
-    break;
-  case 75: // k
-    map.panBy(0, 64);
-    break;
-  case 76: // l
-    map.panBy(-64, 0);
-    break;
   default:
     return true;
   }
