@@ -296,6 +296,9 @@ nav > a {
   right:5px; top:5px;
   }
 
+/* Error tiles */
+.map-tile-loaded:not([src]) { background:url(errortile.png) no-repeat; }
+
 /* Menu (off-canvas) */
 .menu {
   position:absolute;
