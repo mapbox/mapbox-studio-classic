@@ -3,7 +3,7 @@ description: Global map data based on OpenStreetMap and other open data sources.
 author: MapBox
 image: "http://farm8.staticflickr.com/7122/7448973246_a4d2966e97_m.jpg"
 tiles: 
-  - "http://a.tiles.mapbox.com/dev/764e0b8d/{prefix}/{z}/{x}/{y}.vector.pbf"
+  - "http://d1s11ojcu7opje.cloudfront.net/dev/764e0b8d/{prefix}/{z}/{x}/{y}.vector.pbf"
 minzoom: 0
 maxzoom: 14
 maskLevel: 8
