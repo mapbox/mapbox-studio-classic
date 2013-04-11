@@ -181,8 +181,7 @@ app.use(function(err, req, res, next) {
         res.set({'content-type':'application/javascript'});
         res.send({message:err.toString()}, 500);
     } else if (/text\/html/.test(req.headers.accept)) {
-        // @TODO error page template.
-        res.send(err.toString(), 500);
+        res.send(tm.templates.error({ error:err }));
     } else {
         res.send(err.toString(), 500);
     }
