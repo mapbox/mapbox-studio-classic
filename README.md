@@ -1,6 +1,6 @@
 TM2
 ---
-Sketching out what a datatile-based TileMill might look like.
+Sketching out what a vector tile-based TileMill might look like.
 
 ### Mac OS X
 
