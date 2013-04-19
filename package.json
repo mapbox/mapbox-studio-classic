@@ -18,9 +18,9 @@
         "sphericalmercator": "1.0.x",
         "js-yaml": "2.0.x",
         "mapnik": "https://github.com/mapnik/node-mapnik/tarball/vector-tile",
-        "carto": "git+ssh://git@github.com:mapbox/carto.git#49c81edd3ac57a3c3ced2c0c4d335423b4329df8",
-        "tilelive-bridge": "git+ssh://git@github.com:mapbox/tilelive-bridge.git",
-        "tilelive-vector": "git+ssh://git@github.com:mapbox/tilelive-vector.git"
+        "carto": "https://github.com/mapbox/carto/tarball/49c81edd3ac57a3c3ced2c0c4d335423b4329df8",
+        "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/master",
+        "tilelive-vector": "https://github.com/mapbox/tilelive-vector/tarball/master"
     },
     "devDependencies": {
         "mocha": "1.8.x"
