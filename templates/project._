@@ -11,7 +11,7 @@
 
 <body id='view' class='dark'>
 
-<div id='data' class='column pane'>
+<div id='data' class='column pane todo'>
   <a class='button icon close' href='#layers'></a>
   <section>
     <h2>Data library</h2>

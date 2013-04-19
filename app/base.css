@@ -761,6 +761,26 @@ span.cm-carto-comment            { color:#999; }
 span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
+/* TODO overlay */
+.todo::after {
+  z-index:0;
+  content:'';
+  position:absolute; width:100%; height:100%;
+  background:#ddd; opacity:0.75;
+  }
+.todo::before {
+  z-index:1;
+  content:'TODO';
+  position:absolute; left:50%; top:50%;
+  margin:-50px 0px 0px -50px;
+  height:100px; width:100px;
+  background:#fff; border-radius:50%;
+  text-align:center; line-height:100px;
+  font-size:125%; font-weight:bold;
+  text-align:center;
+  color:#888;
+  }
+
 /* Media queries */
 @media (max-width:800px) {
   body { font-size:12px; }
