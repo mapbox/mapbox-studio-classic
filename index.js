@@ -106,6 +106,15 @@ app.put('/:project(project)', function(req, res, next) {
 });
 
 app.get('/:project(project)', function(req, res, next) {
+    tm.dirfiles(process.env.HOME, function(err, dirfiles) {
+        if (err) return next(err);
+        req.browse = {
+            cwd: process.env.HOME,
+            dir: dirfiles.filter(function(s) { return s.type === 'dir' })
+        };
+        return next();
+    });
+}, function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.project({
         cartoRef: require('carto').tree.Reference.data,
@@ -113,6 +122,7 @@ app.get('/:project(project)', function(req, res, next) {
         library: _(source.library).filter(function(source, s) {
             return !_(req.project.data.sources).include(s);
         }),
+        browse: req.browse,
         project: req.project.data
     }));
 });
@@ -141,6 +151,14 @@ app.get('/:project(project).xml', function(req, res, next) {
 app.get('/:source(source).xml', function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.source._xml);
+});
+
+app.get('/browse/saveas*', function(req, res, next) {
+    tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
+        if (err) return next(err);
+        dirfiles = dirfiles.filter(function(s) { return s.type === 'dir' });
+        res.send(dirfiles);
+    });
 });
 
 app.get('/thumb.png', function(req, res, next) {

@@ -143,14 +143,25 @@
 </div>
 
 <% if (project._tmp) { %>
-<form id='saveas' class='modal ui'>
+<form id='saveas' class='modal browse ui'>
   <a class='button icon close' href='#'></a>
-  <input type='text' placeholder='/path/to/project.tm2' size='20' id='saveas-filepath'/>
-  <input type='submit' value='Save'/>
+  <div class='cwd'>
+    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
+    <strong><%= browse.cwd %></strong>
+  </div>
+  <div class='dir'>
+    <% _(browse.dir).each(function(file) { %>
+    <a href='#<%=file.path%>'><%=file.basename%></a>
+    <% }); %>
+  </div>
+  <div class='field centered'>
+    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' />
+    <input type='submit' value='Save'/>
+  </div>
 </form>
 <% } %>
 
-<form id='addtab' class='modal ui'>
+<form id='addtab' class='modal ui centered'>
   <a class='button icon close' href='#'></a>
   <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
   <input type='submit' value='New tab'/>
@@ -249,6 +260,8 @@ Editor.prototype.events = {
   'click #layers a .moreless': 'moreless',
   'click #data a.section': 'data',
   'click #layers a.delete': 'data',
+  'click .browse .cwd a': 'browse',
+  'click .browse .dir a': 'browse',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -410,7 +423,11 @@ Editor.prototype.clearErrors = function() {
   });
 };
 Editor.prototype.saveas = function(ev) {
-  var id = $('#saveas-filepath').val();
+  if (!$('#saveas-filepath').val()) return false;
+  var id = $('#saveas-filepath').data('cwd');
+  id += id === '/'
+    ? $('#saveas-filepath').val()
+    : '/' + $('#saveas-filepath').val();
   this.model.set({id:id});
   this.save(null, {
     success: function() { window.location = '/project?id=' + id; },
@@ -439,6 +456,25 @@ Editor.prototype.refresh = function(ev) {
 
   // Remove loading state from map.
   $('#full').removeClass('loading');
+  return false;
+};
+Editor.prototype.browse = function(ev) {
+  var browse = $(ev.currentTarget).parents('.browse');
+  var cwd = $(ev.currentTarget).attr('href').split('#').pop();
+  $.ajax({
+    url: '/browse/' + $(browse).attr('id') + cwd,
+    dataType: 'json',
+    success: function(resp) {
+      $('input[type=text]', browse).data('cwd', cwd);
+      $('.cwd strong', browse).text(cwd);
+      $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
+      $('.dir', browse).html(resp.map(function(f) {
+        return "<a href='#" + f.path + "'>" + f.basename + "</a>";
+      }).join('\n'));
+    },
+    // @TODO
+    error: function(resp) {}
+  });
   return false;
 };
 

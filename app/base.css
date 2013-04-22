@@ -109,6 +109,7 @@ input[type=submit],
   font-weight:bold;
   border:0px;
   cursor:pointer;
+  margin:0px;
   padding:5px 10px;
   vertical-align:middle;
   border-radius:4px;
@@ -610,9 +611,8 @@ a.data-y { display:none; }
 #history { padding-top:40px; }
 
 /* Modal popup */
-.modal { display:none; }
-.modal:target {
-  display:block;
+.modal {
+  display:none;
   position:absolute; left:50%; top:20%; z-index:2001;
   padding:20px;
   border-radius:4px;
@@ -631,6 +631,7 @@ a.data-y { display:none; }
   width:100%; height:100%;
   background:rgba(0,0,0,0.8);
   }
+.modal:target,
 .modal:target ~ #mask { display:block; }
 
 /* Forms */
@@ -644,9 +645,11 @@ textarea {
   vertical-align:middle;
   height:30px;
   padding:5px;
+  margin:0px;
   border-radius:2px;
   background:#eee;
-  border:1px solid #bbb;
+  border:0px solid #bbb;
+  outline:0px;
   box-shadow:inset #ddd 0px 0px 0px 2px;
   }
 textarea { resize:none; height:100px; }
@@ -779,6 +782,42 @@ span.cm-carto-filter             { color:#66475B; }
   font-size:125%; font-weight:bold;
   text-align:center;
   color:#888;
+  }
+
+/* File browse modal */
+.modal.browse {
+  top:10%; bottom:10%;
+  padding:0px;
+  }
+.modal.browse .cwd,
+.modal.browse .dir,
+.modal.browse .field { position:absolute; width:100%; }
+.modal.browse .cwd {
+  z-index:1;
+  height:50px;
+  padding:10px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  border-bottom:1px solid rgba(0,0,0,0.1);
+  }
+.modal.browse .cwd a { margin-right:10px; }
+.modal.browse .field {
+  z-index:1;
+  bottom:0px;
+  height:50px;
+  padding:9px 20px 10px;
+  border-top:1px solid rgba(0,0,0,0.1);
+  }
+.modal.browse .dir {
+  top:50px; bottom:50px;
+  overflow:auto;
+  background:#3c3c3c;
+  }
+.modal.browse .dir a {
+  display:block;
+  padding:10px 20px 9px;
+  border-bottom:1px solid rgba(0,0,0,0.1);
   }
 
 /* Media queries */
