@@ -1,12 +1,24 @@
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
+var fs = require('fs');
+var path = require('path');
 var source = require('./lib/source');
 var project = require('./lib/project');
 var express = require('express');
 var argv = require('optimist')
     .config('config')
     .argv;
+
+// Load defaults for new projects.
+var defaults = {};
+project({id:path.dirname(require.resolve('tm2-default-style'))}, function(err, proj) {
+    if (err) throw err;
+    var data = JSON.parse(JSON.stringify(proj.data));
+    delete data.id;
+    delete data._id;
+    defaults.project = data;
+});
 
 var app = express();
 app.use(express.bodyParser());
@@ -27,10 +39,7 @@ app.param('project', function(req, res, next) {
     if (req.method === 'PUT') {
         var data = req.body;
     } else if (tmp && req.path === '/project') {
-        var data = {
-            styles: { 'style.mss': 'Map {\n  background-color:#fff;\n}\n\n#water {\n  polygon-fill:#b8dee6;\n}\n\n#road {\n  line-color:#ccc;\n}\n\n#admin {\n  line-color:rgba(0,32,64,0.2);\n}' },
-            sources: ['mbstreets']
-        };
+        var data = defaults.project;
     }
     project({
         id: id,
