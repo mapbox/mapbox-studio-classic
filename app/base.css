@@ -196,7 +196,7 @@ input.wide[type=submit] {
 nav { white-space:nowrap; }
 nav > a {
   display:inline-block;
-  text-align:center;
+  text-align:left;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -507,7 +507,7 @@ a.data-y { display:none; }
   }
 #tabs a.tab {
   border-right:1px solid #ddd;
-  padding:10px 30px 9px 10px;
+  padding:10px 10px 9px 10px;
   position:relative;
   background:#eee;
   overflow:hidden;
@@ -516,14 +516,17 @@ a.data-y { display:none; }
 #tabs a.tab.active {
   background:#f8f8f8;
   border-bottom:1px solid #f8f8f8;
+  padding-right:30px;
   }
 #tabs a.tab span.delete {
+  display:none;
+  }
+#tabs a.tab.active span.delete {
   display:block;
   position:absolute;
   right:5px; top:10px;
   width:20px;
   line-height:20px;
-  text-align:center;
   border-radius:50%;
   opacity:0.5;
   }
