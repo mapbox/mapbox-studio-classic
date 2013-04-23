@@ -151,11 +151,11 @@
   </div>
   <div class='dir'>
     <% _(browse.dir).each(function(file) { %>
-    <a href='#<%=file.path%>'><%=file.basename%></a>
+    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
     <% }); %>
   </div>
   <div class='field centered'>
-    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' />
+    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' pattern='\w+\.tm2'/>
     <input type='submit' value='Save'/>
   </div>
 </form>
@@ -469,7 +469,7 @@ Editor.prototype.browse = function(ev) {
       $('.cwd strong', browse).text(cwd);
       $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
       $('.dir', browse).html(resp.map(function(f) {
-        return "<a href='#" + f.path + "'>" + f.basename + "</a>";
+        return "<a class='icon folder padded' href='#" + f.path + "'>" + f.basename + "</a>";
       }).join('\n'));
     },
     // @TODO

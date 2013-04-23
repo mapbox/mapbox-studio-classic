@@ -189,6 +189,8 @@ input.wide[type=submit] {
 .icon.star:before { background-position-x:-400px; }
 .icon.recache:before { background-position-x:-420px; }
 .icon.file:before { background-position-x:-440px; }
+.icon.prev:before { background-position-x:-460px; }
+.icon.next:before { background-position-x:-480px; }
 .icon.padded:before { margin-right:5px; }
 
 nav { white-space:nowrap; }
@@ -817,6 +819,9 @@ span.cm-carto-filter             { color:#66475B; }
 .modal.browse .dir a {
   display:block;
   padding:10px 20px 9px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
 

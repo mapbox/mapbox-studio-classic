@@ -165,7 +165,9 @@ app.get('/:source(source).xml', function(req, res, next) {
 app.get('/browse/saveas*', function(req, res, next) {
     tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
         if (err) return next(err);
-        dirfiles = dirfiles.filter(function(s) { return s.type === 'dir' });
+        dirfiles = dirfiles.filter(function(s) {
+            return s.type === 'dir' && path.extname(s.path) !== '.tm2'
+        });
         res.send(dirfiles);
     });
 });
