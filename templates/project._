@@ -161,6 +161,11 @@
 </form>
 <% } %>
 
+<div id='error' class='modal ui centered'>
+  <a class='button icon close' href='#'></a>
+  <div class='message'></div>
+</div>
+
 <form id='addtab' class='modal ui centered'>
   <a class='button icon close' href='#'></a>
   <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
@@ -389,34 +394,34 @@ Editor.prototype.save = function(ev, options) {
   return false;
 };
 Editor.prototype.error = function(model, resp) {
-  this.clearErrors();
+  this.errorClear();
 
-  if (!resp.responseText) {
-    // @TODO error modal.
-    // will hit this if the server is offline and the user tries to save
-    // We attach a error message to this resp object so that that the Modal can display it
-    // resp.err_message = 'Could not save project "' + model.id + '"';
-    return;
-  }
+  if (!resp.responseText)
+    return this.errorModal('Could not save project "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
     .compact()
     .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
-    .each(function(e) {
-      if (!e.length) {
-        // non line-specific error.
-        // @TODO show this globally (error modal) somehow.
-      } else {
+    .each(_(function(e) {
+      if (_(e).isArray()) {
         var id = e[2];
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
         code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+      } else {
+        return this.errorModal(e);
       }
-    });
+    }).bind(this));
 };
-Editor.prototype.clearErrors = function() {
+Editor.prototype.errorModal = function(text) {
+  $('#error .message').text(text);
+  window.location.hash = '#error';
+};
+Editor.prototype.errorClear = function() {
+  $('#error .message').text('');
+  $('#full').removeClass('loading');
   _(code).each(function(cm) {
     _(cm._cartoErrors||[]).each(cm.clearMarker);
     delete cm._cartoErrors;
@@ -436,7 +441,8 @@ Editor.prototype.saveas = function(ev) {
   return false;
 };
 Editor.prototype.refresh = function(ev) {
-  this.clearErrors();
+  this.errorClear();
+
   // Refresh map layer.
   var layer = map.getLayerAt(0);
   map.removeLayer(layer);
@@ -453,9 +459,6 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map zoom range.
   map.setZoomRange(this.model.get('minzoom'),this.model.get('maxzoom'));
-
-  // Remove loading state from map.
-  $('#full').removeClass('loading');
   return false;
 };
 Editor.prototype.browse = function(ev) {
