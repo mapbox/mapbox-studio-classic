@@ -477,22 +477,6 @@ a.data-y { display:none; }
   background:#f8f8f8;
   background-image:-webkit-linear-gradient(#f8f8f8 75%,#eee);
   }
-@media (min-width: 1580px) {
-  #code {
-    left:55%;
-    width:45%;
-  }
-  #full { width:55%; }
-  .pane:target ~ #full,
-  .menu:target ~ #full { width:50%; }
-}
-@media (min-width: 1780px) {
-  #code {
-    left:60%;
-    width:40%;
-  }
-  #full { width:60%; }
-}
 #code .left {
   position:absolute;
   width:40px; height:40px;
@@ -850,4 +834,16 @@ span.cm-carto-filter             { color:#66475B; }
   pre, .CodeMirror { font-size:11px; }
   a.section,
   section { float:none; width:auto; }
+  }
+@media (min-width: 1580px) {
+  #code { left:55%; width:45%; }
+  #docs,
+  #full { width:55%; }
+  .pane:target ~ #full,
+  .menu:target ~ #full { width:50%; }
+  }
+@media (min-width: 1780px) {
+  #code { left:60%; width:40%; }
+  #docs,
+  #full { width:60%; }
   }
