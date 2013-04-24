@@ -6,11 +6,9 @@ Overview
 
 Each vector tiles for each zoom level contains only the information that would be appropriate for rendering at that scale. For example, the `place_label` layer contains only major cities at zoom level 4, but contains all sizes of cities, towns, and villages at zoom level 10. Line and polygon information is generalized at lower zoom levels, not containing more detail than is necessary.
 
-<!-- TODO
 ### `class` vs `type`
 
-Most layers have a `class` or a `type` field to distinguish different types of objects in the layer.
--->
+Most layers have a `class` or a `type` field to distinguish different types of objects in the layer. Values of `type` are transferred directly from an OpenStreetMap tag value. For example a value of `river` comes from the tag `waterway=river`. On the other hand, `class` values represent a generalized or derived classification to simplify styling. A value of `park` could come from one of many tags, such as `leisure=park`, `tourism=zoo`, or `boundary=national_park`.
 
 ### `osm_id`
 
