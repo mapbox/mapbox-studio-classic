@@ -31,7 +31,6 @@ Most objects have a `osm_id` number. These are derived from object IDs in OpenSt
 Layers
 ------
 
-
 ### Area Layers
 
 At lower zoom levels, small areas are not included in the vector tiles. As you zoom in you will see more and more appear.
@@ -60,15 +59,25 @@ The road layer contains multiple geometry types: points, lines, and polygons. Th
     ['mapnik::geometry_type'=3] { /* polygons */ }
 
 
-- multiple geometry types per table & how to deal with it in code
-- roads vs bridges vs tunnels. Design strategies?
-
-
 ### Label Layers
 
+Label layers help you style the labels for objects that have names.
+
 The order of the layers represents the order in which they are rendered. Objects in layers at the top of the list will be drawn on top of objects in layers at the bottom. (This is why all the top layers are for labels and the bottom ones are for landuse/landcover areas.)
+
+#### Areas
+
+Labels for polygons are stored in the vector tiles as points. These layers will have an `area` field to tell you how big the polygon they represent is.
+
+#### Extra attributes for styling
 
 City points use some extra fields to allow for better styling at low zoom levels. The `scalerank` value is a subjective representation of cultural/cartographic significance from 1 (high significance) to 9. Many cities lack a scalerank value entirely and should be considered lowest on the significance scale. There is also a `ldir` field that can help set the initial label direction to try when using `text-placement-type: simple`. See the TileMill [Advanced Label Placement][1] guide for details.
 
 [1]: http://mapbox.com/tilemill/docs/guides/labels-advanced/
+
+Country labels also have a `scalerank` field that can be used to fit more labels on the map at low zoom levels by giving smaller countries a smaller text-size.
+
+#### Limited subset
+
+To save on file size, all possible labels are not included in each vector tile, but a limited number of the most important ones bases on what could and should be reasonably labeled. For example, a very short road might not be in the `road_label` layer because there wouldn't be room to label it anyway.
 
