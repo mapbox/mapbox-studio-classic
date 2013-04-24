@@ -41,9 +41,8 @@ with no sources. Once vector tile compositing is available revisit.
   </span>
   <small class='desc'><%=l.description||'No description.'%></small>
   <% _(l.help||{}).each(function(desc,name) { %>
-  <small><code><%=name%></code> <%=desc||'No description.'%></small>
+  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
   <% }); %>
-  <span class='icon moreless'></span>
 </a>
 <% }); %>
 </div>
