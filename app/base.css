@@ -408,7 +408,7 @@ nav > a {
 #layers small {
   display:none;
   color:#aaa;
-  -webkit-transition:margin-left 200ms;
+  -webkit-transition:200ms;
   }
 #layers small.desc {
   white-space:nowrap;
