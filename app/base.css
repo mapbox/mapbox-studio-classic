@@ -407,31 +407,25 @@ nav > a {
   }
 #layers small {
   display:none;
-  width:200%;
   color:#aaa;
+  -webkit-transition:200ms;
+  }
+#layers small.desc {
   white-space:nowrap;
-  overflow:hidden;
   text-overflow:ellipsis;
-  -webkit-transition:margin-left 200ms;
   }
 #layers .active small { display:block; }
-#layers .more small { margin-left:-100%; }
-#layers code {
+#layers .field {
+  margin-left:80px;
+  white-space:normal;
+}
+#layers .field code {
   color:#ff8;
   display:inline-block;
+  margin-left:-80px;
   width:80px;
   overflow:hidden;
   }
-#layers .moreless {
-  position:absolute; bottom:0px; right:0px;
-  display:none;
-  background:#222;
-  text-align:center;
-  width:20px;
-  }
-#layers .moreless::before { content:'✚'; }
-#layers .more .moreless::before { content:'✖'; }
-#layers .active .moreless { display:block; }
 
 /* Data library */
 div.source { position:relative; }
