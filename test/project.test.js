@@ -1,0 +1,142 @@
+var fs = require('fs');
+var path = require('path');
+var assert = require('assert');
+var project = require('../lib/project');
+var defpath = path.dirname(require.resolve('tm2-default-style'));
+
+describe('project', function() {
+    var tmpPerm = '/tmp/tm2-perm-' + (+new Date);
+    var tmpBake = '/tmp/tm2-bake-' + (+new Date);
+    var data = {
+        name:'tmp-1234',
+        sources:['mbstreets'],
+        styles:{
+            'a.mss': '#water { polygon-fill:#fff }',
+            'b.mss': '#landuse { polygon-fill:#000 }'
+        }
+    };
+    after(function(done) {
+        setTimeout(function() {
+            fs.unlinkSync(tmpPerm + '/project.yml');
+            fs.unlinkSync(tmpPerm + '/a.mss');
+            fs.unlinkSync(tmpPerm + '/b.mss');
+            fs.unlinkSync(tmpPerm + '/.thumb.png');
+            fs.rmdirSync(tmpPerm);
+            fs.unlinkSync(tmpBake + '/project.xml');
+            fs.unlinkSync(tmpBake + '/project.yml');
+            fs.unlinkSync(tmpBake + '/a.mss');
+            fs.unlinkSync(tmpBake + '/b.mss');
+            fs.unlinkSync(tmpBake + '/.thumb.png');
+            fs.rmdirSync(tmpBake);
+            done();
+        }, 250);
+    });
+    it('loads default project from disk', function(done) {
+        project({id:defpath}, function(err, proj) {
+            assert.ifError(err);
+            assert.ok('style.mss' in proj.data.styles, 'project load expands stylesheets');
+            assert.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'project load determines map BG color');
+            done();
+        });
+    });
+    it('saves project in memory', function(done) {
+        project({id:'tmp-1234', data:data}, function(err, source) {
+            assert.ifError(err);
+            assert.ok(source);
+            done();
+        })
+    });
+    it('saves project to disk', function(done) {
+        project({id:tmpPerm, data:data, perm:true}, function(err, source) {
+            assert.ifError(err);
+            assert.ok(source);
+            assert.ok(/maxzoom: 22/.test(fs.readFileSync(tmpPerm + '/project.yml', 'utf8')), 'saves project.yml');
+            assert.equal(data.styles['a.mss'], fs.readFileSync(tmpPerm + '/a.mss', 'utf8'), 'saves a.mss');
+            assert.equal(data.styles['b.mss'], fs.readFileSync(tmpPerm + '/b.mss', 'utf8'), 'saves b.mss');
+            done();
+        })
+    });
+    it('bakes mapnik XML to disk', function(done) {
+        project({id:tmpBake, data:data, perm:true, bake:true}, function(err, source) {
+            assert.ifError(err);
+            assert.ok(source);
+            assert.ok(/<Map srs/.test(fs.readFileSync(tmpBake + '/project.xml', 'utf8')), 'saves project.xml');
+            done();
+        })
+    });
+});
+
+describe('project.info', function() {
+    it('fails on bad path', function(done) {
+        project.info('/path/does/not/exist', function(err, info) {
+            assert.ok(err);
+            assert.equal('ENOENT', err.code);
+            done();
+        });
+    });
+    it('reads project YML', function(done) {
+        project.info(defpath, function(err, info) {
+            assert.ifError(err);
+            assert.equal(info.minzoom, 0);
+            assert.equal(info.maxzoom, 22);
+            assert.equal(info.sources.length, 1);
+            assert.deepEqual(info.styles, ['style.mss']);
+            assert.equal(info._id, defpath, 'project.info adds _id key');
+            done();
+        });
+    });
+});
+
+describe('project.toXML', function() {
+    it('fails on invalid source', function(done) {
+        project.toXML({
+            _id:'tmp-1234',
+            sources:['foobar']
+        }, function(err, xml) {
+            assert.ok(err);
+            assert.equal('ENOENT', err.code);
+            done();
+        });
+    });
+    it('compiles', function(done) {
+        project.toXML({
+            _id:'tmp-1234',
+            sources:['mbstreets'],
+            styles:{'style.mss': '#water { polygon-fill:#fff }'}
+        }, function(err, xml) {
+            assert.ifError(err);
+            assert.ok(/<Map srs/.test(xml), 'looks like Mapnik XML');
+            assert.ok(/<Layer name="water"/.test(xml), 'includes layer');
+            assert.ok(/group-by="layer"/.test(xml), 'includes layer properties');
+            assert.ok(/<PolygonSymbolizer fill="#ffffff"/.test(xml), 'includes rule');
+            assert.ok(!/<Parameter/.test(xml), 'no data params => no xml params');
+            done();
+        });
+    });
+    it('compiles data params', function(done) {
+        project.toXML({
+            _id:'tmp-1234',
+            sources:['mbstreets'],
+            name:'test',
+            description:'test project',
+            attribution:'test',
+            bounds:[-180,-85,180,85],
+            center:[0,0,3],
+            minzoom:0,
+            maxzoom:22,
+            customproperty:'foobar'
+        }, function(err, xml) {
+            assert.ifError(err);
+            assert.ok(/<Map srs/.test(xml));
+            assert.ok(/<Parameter name="name"/.test(xml));
+            assert.ok(/<Parameter name="description"/.test(xml));
+            assert.ok(/<Parameter name="attribution"/.test(xml));
+            assert.ok(/<Parameter name="bounds">-180,-85,180,85/.test(xml));
+            assert.ok(/<Parameter name="center">0,0,3/.test(xml));
+            assert.ok(/<Parameter name="minzoom">0/.test(xml));
+            assert.ok(/<Parameter name="maxzoom">22/.test(xml));
+            assert.ok(!/<Parameter name="custom/.test(xml));
+            done();
+        });
+    });
+});
