@@ -10,12 +10,14 @@ maskLevel: 8
 Layer: 
   - id: landuse
     help: 
-      type: "String. Common: wood, grass, park."
+      class: "String. (cemetery, hospital, industrial, park, parking, pitch, sand, school, wood)."
     geometry: polygon
-    description: Land areas and land use.
+    description: Land use and land cover areas.
     properties: 
       minzoom: 7
   - id: waterway
+    help:
+      type: "String. (canal, ditch, drain, river, stream)."
     geometry: line
     description: "Rivers, streams, and other waterways."
     properties: 
@@ -44,7 +46,7 @@ Layer:
       minzoom: 13
   - id: landuse_overlay
     help: 
-      class: "String. (basin, breakwater, pier, wetland, wetland_noveg)."
+      class: "String. (breakwater, pier, wetland, wetland_noveg)."
     geometry: polygon
     description: Overlay shapes for landuse.
     properties: 
@@ -127,9 +129,9 @@ Layer:
     help: 
       name: String. Localized.
       name_en: String. English.
-      type: "String. (city, town)."
-      scalerank: Number. Rank of label importance.
-      ldir: Number. Direction of label.
+      type: "String. (city, town, village, hamlet, neighbourhood)."
+      scalerank: Number. Rank of label importance for major cities.
+      ldir: Number. Label direction hint for major cities.
     geometry: point
     description: Places.
     properties: 
@@ -147,7 +149,7 @@ Layer:
     help: 
       name: String. Localized.
       name_en: String. English.
-      class: "String (hospital, park, school, cemetary, sport, military)."
+      class: "String. (cemetery, hospital, industrial, island, park, parking, pitch, sand, school, wetland, wetland_noveg, wood)."
       area: Number. Geographic area.
     geometry: point
     description: Labels for landuse areas.
