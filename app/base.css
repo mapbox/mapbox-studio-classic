@@ -613,7 +613,13 @@ a.data-y { display:none; }
 #docs code.options { display:block; margin-bottom:10px; }
 
 /* Project history */
-#history { padding-top:40px; }
+#history {
+  position:absolute;
+  top:40px;
+  bottom:0px;
+  width:100%;
+  overflow:auto;
+  }
 
 /* Modal popup */
 .modal {
@@ -847,3 +853,17 @@ span.cm-carto-filter             { color:#66475B; }
   #docs,
   #full { width:60%; }
   }
+
+/* Clearfix */
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  }
+.clearfix { display: inline-block; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* End hide from IE-mac */

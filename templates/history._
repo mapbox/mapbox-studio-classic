@@ -25,7 +25,7 @@
   </div>
   <h3>Recent projects</h3>
 </div>
-<div id='history'>
+<div id='history' class='clearfix'>
 <% _(history).chain()
   .sortBy(function(project) { return project.mtime })
   .each(function(project) { %>
