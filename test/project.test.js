@@ -17,17 +17,14 @@ describe('project', function() {
     };
     after(function(done) {
         setTimeout(function() {
-            fs.unlinkSync(tmpPerm + '/project.yml');
-            fs.unlinkSync(tmpPerm + '/a.mss');
-            fs.unlinkSync(tmpPerm + '/b.mss');
-            fs.unlinkSync(tmpPerm + '/.thumb.png');
-            fs.rmdirSync(tmpPerm);
-            fs.unlinkSync(tmpBake + '/project.xml');
-            fs.unlinkSync(tmpBake + '/project.yml');
-            fs.unlinkSync(tmpBake + '/a.mss');
-            fs.unlinkSync(tmpBake + '/b.mss');
-            fs.unlinkSync(tmpBake + '/.thumb.png');
-            fs.rmdirSync(tmpBake);
+            ['project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
+                try { fs.unlinkSync(tmpPerm + '/' + file) } catch(err) {};
+            });
+            try { fs.rmdirSync(tmpPerm) } catch(err) {};
+            ['project.xml', 'project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
+                try { fs.unlinkSync(tmpBake + '/' + file) } catch(err) {};
+            });
+            try { fs.rmdirSync(tmpBake) } catch(err) {};
             done();
         }, 250);
     });
