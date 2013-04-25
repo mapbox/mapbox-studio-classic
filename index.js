@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
