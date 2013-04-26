@@ -154,7 +154,7 @@ Layer:
     geometry: point
     description: Labels for landuse areas.
     properties: 
-      minzoom: 14
+      minzoom: 8
   - id: rail_station_label
     help: 
       osm_id: Number. OSM ID.
