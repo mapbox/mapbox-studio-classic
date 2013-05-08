@@ -124,7 +124,8 @@ input[type=submit]:active,
   }
 
 input[type=button],
-input[type=submit] { background:rgba(255,255,255,0.8); }
+input[type=submit],
+.button.submit { background:rgba(255,255,255,0.8); }
 
 .ui input[type=button],
 .ui input[type=submit],

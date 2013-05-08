@@ -49,8 +49,7 @@ app.param('project', function(req, res, next) {
     project({
         id: id,
         data: data,
-        perm: !tmp && !!data,
-        bake: data && data._bake
+        perm: !tmp && !!data
     }, function(err, project) {
         if (err && !tmp) tm.history(id, true);
         if (err) return next(err);
@@ -60,12 +59,11 @@ app.param('project', function(req, res, next) {
         return next();
     });
 }, function(req, res, next) {
-    if (req.method === 'PUT' && req.body._bake && req.project) {
+    if (req.method === 'PUT' && req.project) {
         source({
             id: req.project._backend.data._id,
             data: req.project._backend.data,
-            perm: true,
-            bake: true
+            perm: true
         }, function(err, source) {
             if (err) return next(err);
             next();
@@ -112,7 +110,6 @@ app.param('history', function(req, res, next) {
 
 app.put('/:project(project)', function(req, res, next) {
     res.send({
-        _bake:false,
         _recache:false,
         mtime:req.project.data.mtime,
         background:req.project.data.background
@@ -167,11 +164,32 @@ app.get('/:source(source).xml', function(req, res, next) {
     return res.send(req.source._xml);
 });
 
+app.post('/export/:project(package)', function(req, res, next) {
+    project.toPackage({
+        id: req.project.data.id,
+        filepath: req.body && req.body.filepath
+    }, function(err) {
+        if (err) next(err);
+        res.send({});
+    });
+});
+
 app.get('/browse/saveas*', function(req, res, next) {
     tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
         if (err) return next(err);
         dirfiles = dirfiles.filter(function(s) {
             return s.type === 'dir' && path.extname(s.path) !== '.tm2'
+        });
+        res.send(dirfiles);
+    });
+});
+
+app.get('/browse/exportas*', function(req, res, next) {
+    tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
+        if (err) return next(err);
+        dirfiles = dirfiles.filter(function(s) {
+            if (s.type === 'dir') return path.extname(s.path) !== '.tm2';
+            if (s.type === 'file') return path.extname === '.tm2z';
         });
         res.send(dirfiles);
     });

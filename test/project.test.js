@@ -6,7 +6,6 @@ var defpath = path.dirname(require.resolve('tm2-default-style'));
 
 describe('project', function() {
     var tmpPerm = '/tmp/tm2-perm-' + (+new Date);
-    var tmpBake = '/tmp/tm2-bake-' + (+new Date);
     var data = {
         name:'tmp-1234',
         sources:['mbstreets'],
@@ -21,10 +20,6 @@ describe('project', function() {
                 try { fs.unlinkSync(tmpPerm + '/' + file) } catch(err) {};
             });
             try { fs.rmdirSync(tmpPerm) } catch(err) {};
-            ['project.xml', 'project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
-                try { fs.unlinkSync(tmpBake + '/' + file) } catch(err) {};
-            });
-            try { fs.rmdirSync(tmpBake) } catch(err) {};
             done();
         }, 250);
     });
@@ -50,14 +45,7 @@ describe('project', function() {
             assert.ok(/maxzoom: 22/.test(fs.readFileSync(tmpPerm + '/project.yml', 'utf8')), 'saves project.yml');
             assert.equal(data.styles['a.mss'], fs.readFileSync(tmpPerm + '/a.mss', 'utf8'), 'saves a.mss');
             assert.equal(data.styles['b.mss'], fs.readFileSync(tmpPerm + '/b.mss', 'utf8'), 'saves b.mss');
-            done();
-        })
-    });
-    it('bakes mapnik XML to disk', function(done) {
-        project({id:tmpBake, data:data, perm:true, bake:true}, function(err, source) {
-            assert.ifError(err);
-            assert.ok(source);
-            assert.ok(/<Map srs/.test(fs.readFileSync(tmpBake + '/project.xml', 'utf8')), 'saves project.xml');
+            assert.ok(/<Map srs/.test(fs.readFileSync(tmpPerm + '/project.xml', 'utf8')), 'saves project.xml');
             done();
         })
     });

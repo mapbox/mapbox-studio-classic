@@ -17,6 +17,8 @@
         "dirty": "0.9.x",
         "sphericalmercator": "1.0.x",
         "js-yaml": "2.0.x",
+        "fstream": "0.1.x",
+        "tar": "0.1.x",
         "mapnik": "https://github.com/mapnik/node-mapnik/tarball/vector-tile",
         "carto": "https://github.com/mapbox/carto/tarball/49c81edd3ac57a3c3ced2c0c4d335423b4329df8",
         "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/master",
