@@ -16,10 +16,11 @@ describe('project', function() {
     };
     after(function(done) {
         setTimeout(function() {
-            ['project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
+            ['project.xml','project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
                 try { fs.unlinkSync(tmpPerm + '/' + file) } catch(err) {};
             });
             try { fs.rmdirSync(tmpPerm) } catch(err) {};
+            try { fs.unlinkSync(tmpPerm + '.tm2z') } catch(err) {};
             done();
         }, 250);
     });
@@ -48,6 +49,21 @@ describe('project', function() {
             assert.ok(/<Map srs/.test(fs.readFileSync(tmpPerm + '/project.xml', 'utf8')), 'saves project.xml');
             done();
         })
+    });
+    it ('packages project to tm2z', function(done) {
+        project.toPackage({id:tmpPerm, filepath:tmpPerm + '.tm2z'}, function(err) {
+            assert.ifError(err);
+            var stat = fs.statSync(tmpPerm + '.tm2z');
+            assert.ok(fs.existsSync(tmpPerm + '.tm2z'));
+            assert.ok(stat.isFile(), 'writes file');
+            assert.ok(846, stat.size, 'with correct size');
+            require('child_process').exec('tar -ztf ' + tmpPerm + '.tm2z', function(err, stdout, stderr) {
+                assert.ifError(err, 'tar succeeds in reading tm2z');
+                assert.equal('', stderr, 'without errors');
+                assert.ok(/\/project.xml/.test(stdout), 'lists files');
+                done();
+            });
+        });
     });
 });
 
