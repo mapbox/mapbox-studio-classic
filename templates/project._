@@ -68,7 +68,7 @@
     <% }); %>
   </div>
   <div class='field centered'>
-    <input type='text' placeholder='project.tm2z' size='20' id='exportas-filepath' data-cwd='<%= browse.cwd %>' pattern='\w+\.tm2z'/>
+    <input type='text' placeholder='project.tm2z' size='20' id='exportas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2z'/>
     <input type='submit' value='Export'/>
   </div>
 </form>
@@ -176,7 +176,7 @@
     <% }); %>
   </div>
   <div class='field centered'>
-    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' pattern='\w+\.tm2'/>
+    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2'/>
     <input type='submit' value='Save'/>
   </div>
 </form>
