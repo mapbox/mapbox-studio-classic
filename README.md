@@ -54,6 +54,12 @@ Currently TM2 focuses on editing **Projects**. There currently is no UI for work
 Building TM2
 ------------
 
+Dependencies are:
+
+ - Mapnik master (2.2-pre)
+ - Node.js v0.8 or v0.10
+ - Protobuf compiler and libprotobuf-lite
+
 ### Mac OS X
 
 Make sure you have node and libprotobuf installed. You can do this with homebrew
@@ -71,9 +77,12 @@ Finally install and run TileMill 2:
 
 ### Ubuntu Linux
 
-    sudo add-apt-repository -y ppa:mapnik/nightly-trunk
-    sudo apt-get update
-    sudo apt-get install protobuf-compiler libprotobuf-dev libmapnik libmapnik-dev mapnik-utils
+Warning: TM2 depends on a Mapnik version that is not compatible with the existing Mapnik that will have been installed by the TileMill 0.10.x package. It is not recommended to try to run both TileMill and TM2 on the same linux machine.
+
+    echo 'Yes' | sudo apt-add-repository ppa:chris-lea/node.js
+    echo 'Yes' | sudo add-apt-repository ppa:mapnik/nightly-trunk
+    sudo apt-get update -y
+    sudo apt-get install -y nodejs protobuf-compiler libprotobuf-lite7 libprotobuf-dev libmapnik libmapnik-dev make
 
     git clone https://github.com/mapbox/tm2.git
     cd tm2
