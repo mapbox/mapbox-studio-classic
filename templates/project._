@@ -11,6 +11,8 @@
 
 <body id='view' class='dark'>
 
+<div id='perf'></div>
+
 <div id='data' class='column pane todo'>
   <a class='button icon close' href='#layers'></a>
   <section>
@@ -141,7 +143,7 @@
   </div>
   <div id='map' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay'></div>
-  <div id='zoomedto' class='ui'><%= project.center[2] %></div>
+  <div id='zoomedto' class='ui z<%=project.center[2]%>'></div>
 </div>
 
 <div id='docs' class='column'>
@@ -214,6 +216,52 @@ var rangeHandler = function(el, bound, target) {
   }
   $('#' + el.id + '-val').text(el.value);
 };
+var statHandler = function() {
+  if (document.cookie.indexOf('rendertime') === -1) return;
+  var max = 200;
+  var stats = _(document.cookie
+    .split('rendertime=').pop()
+    .split(';').shift()
+    .split('.')).reduce(function(memo, z) {
+    z = z.split('-');
+    if (z.length !== 4) return memo;
+    memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
+    return memo;
+  }, {});
+  var html = "<a href='#' class='button icon close'></a>";
+  for (var z = 0; z < 22; z++) {
+    var s = stats[z];
+    var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
+    var w = s ? Math.round((s[2]-s[0])/max*100) : null;
+    var a = s ? Math.round((s[1]-s[0])/(s[2]-s[0])*100) : null;
+    html += [
+      "<a href='#zoomedto' class='z z",z,"'>",
+      "<strong>z",z,"</strong>",
+      s ? "<span class='range' style='margin-left:"+l+"%; width:"+w+"%;'>" : '',
+      s ? "<span class='marker' style='left:"+a+"%'></span>" : '',
+      s ? "</span>" : '',
+      s ? "<span class='avg'>"+s[1]+"ms</span>" : '',
+      "</a>"
+    ].join('');
+  }
+  $('#zoomedto').html(html);
+};
+
+mapbox.layer.prototype.getTileComplete = function() {
+    if (!this._tileComplete) {
+        var theLayer = this;
+        this._tileComplete = function(manager, tile) {
+            theLayer.tiles[tile.id] = tile;
+            theLayer.positionTile(tile);
+            // Support style transition if available.
+            tile.style.visibility = 'inherit';
+            tile.className = 'map-tile-loaded';
+            // Load time.
+            statHandler();
+        };
+    }
+    return this._tileComplete;
+};
 
 var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'] }));
 map.centerzoom({lon:<%=project.center[0]%>,lat:<%=project.center[1]%>},<%=project.center[2]%>);
@@ -221,8 +269,9 @@ map.setZoomRange(<%=project.minzoom%>,<%=project.maxzoom%>);
 map.ui.zoombox.add();
 map.ui.zoomer.add();
 map.ui.zoomer.appendTo($('#full').get(0));
-map.addCallback('zoomed', function() { $('#zoomedto').text(map.zoom()|0); });
-map.addCallback('extentset', function() { $('#zoomedto').text(map.zoom()|0); });
+map.addCallback('zoomed', function() { $('#zoomedto').attr('class', 'ui z' + (map.zoom()|0)); });
+map.addCallback('extentset', function() { $('#zoomedto').attr('class', 'ui z' + (map.zoom()|0)); });
+statHandler();
 
 var Tab = function(id, value) {
   var tab = CodeMirror(document.getElementById('code'), {

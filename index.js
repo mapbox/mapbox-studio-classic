@@ -126,6 +126,12 @@ app.get('/:project(project)', function(req, res, next) {
         return next();
     });
 }, function(req, res, next) {
+    var stats = project.stats(req.project.data.id);
+    res.cookie('rendertime', _(stats).reduce(function(memo, stat, z) {
+        memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+        return memo;
+    }, []).join('.'));
+
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.project({
         cartoRef: require('carto').tree.Reference.data,
@@ -142,12 +148,20 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
+
     req.project.getTile(z,x,y, function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
         } else if (err) {
             return next(err);
         }
+
+        var stats = project.stats(req.project.data.id, z, data._rendertime);
+        res.cookie('rendertime', _(stats).reduce(function(memo, stat, z) {
+            memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+            return memo;
+        }, []).join('.'));
+
         headers['cache-control'] = 'max-age=3600';
         res.set(headers);
         return res.send(data);
