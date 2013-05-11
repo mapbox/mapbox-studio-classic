@@ -217,10 +217,10 @@ var rangeHandler = function(el, bound, target) {
   $('#' + el.id + '-val').text(el.value);
 };
 var statHandler = function() {
-  if (document.cookie.indexOf('rendertime') === -1) return;
+  if (document.cookie.indexOf('drawtime') === -1) return;
   var max = 200;
   var stats = _(document.cookie
-    .split('rendertime=').pop()
+    .split('drawtime=').pop()
     .split(';').shift()
     .split('.')).reduce(function(memo, z) {
     z = z.split('-');
