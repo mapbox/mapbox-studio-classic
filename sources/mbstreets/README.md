@@ -36,7 +36,15 @@ Most objects have a `osm_id` number. These are derived from object IDs in OpenSt
 
 ### Names
 
-The label layers currently contain 5 name columns: `name` for default local names, `name_en` for English names, `name_fr` for French names, `name_es` for Spanish names, and `name_de` for German names. Translated names are not available for all entities. Where no translated name is available, the English, French, Spanish, and German name columns fall back to local names. Where the local name is in a non-Latin writing system, the French, Spanish, and German name columns will fall back to English if available rather than the local name.
+The label layers currently contain 5 name columns:
+
+- `name` for default local names
+- `name_en` for English names
+- `name_fr` for French names
+- `name_es` for Spanish names
+- `name_de` for German names
+
+Translated names are not available for all entities. Where no translated name is available, the English, French, Spanish, and German name columns fall back to local names. Where the local name is in a non-Latin writing system, the French, Spanish, and German name columns will fall back to English if available rather than the local name.
 
 English street names have had abbreviations applied for suffixes, directional prefixes, and other commonly-abbreviated words.
 
