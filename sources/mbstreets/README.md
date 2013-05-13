@@ -92,7 +92,7 @@ Country labels also have a `scalerank` field that can be used to fit more labels
 
 #### Avoiding cut-off labels
 
-With traditional map tile rendering, metatiles are a common approach to reducing the occurrence of cut-off labels at tile edges.
+With traditional map tile rendering, metatiles are a common approach to reducing the occurrence of cut-off labels and markers at tile edges. Vector tile rendering cannot do this so your styles will need to take extra care to keep things seamless. Very large markers, very large text sizes, and very long labels should be avoided. Wrap your point labels to 200-250 pixels with `text-wrap-width: 200` and `text-wrap-before: true`.
 
 #### Limited subset
 
