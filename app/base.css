@@ -254,17 +254,15 @@ nav > a {
   right:0px;
   top:40px;
   margin:10px 10px 0px 0px;
+  height:0px;
   background:rgba(64,64,64,0);
-  -moz-transition:background 100ms;
-  -webkit-transition:background 100ms;
   }
 #zoomedto .z {
   display:none;
-  padding:0px 0px 0px 30px;
+  padding:0px 0px 0px 60px;
   position:relative;
   border-radius:3px;
-  width:70px; height:20px;
-  overflow:hidden;
+  width:100px; height:20px;
   font-weight:bold;
   font-size:10px;
   }
@@ -278,16 +276,25 @@ nav > a {
   }
 #zoomedto .range {
   height:2px;
+  position:absolute;
+  overflow:hidden;
+  left:65px;
+  right:5px;
+  top:9px;
+  background:rgba(0,0,0,0.1);
+  display:block;
+  }
+#zoomedto .minmax {
+  height:2px;
   display:block;
   background:rgba(255,255,255,0.2);
-  position:relative;
+  position:absolute;
   }
 #zoomedto .marker {
   position:absolute;
   display:block;
   width:2px;
   height:2px;
-  margin:0px 0px 0px -1px;
   background:#ff8;
   }
 #zoomedto .avg {
@@ -326,10 +333,13 @@ nav > a {
   }
 #zoomedto:target {
   z-index:1;
+  overflow:hidden;
   background:rgba(64,64,64,1);
   height:120px;
   left:0px;
   margin:0px;
+  -moz-transition:height 100ms;
+  -webkit-transition:height 100ms;
   }
 #zoomedto:target .z0,
 #zoomedto:target .z6,

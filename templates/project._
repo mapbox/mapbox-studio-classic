@@ -216,9 +216,9 @@ var rangeHandler = function(el, bound, target) {
   }
   $('#' + el.id + '-val').text(el.value);
 };
-var statHandler = function() {
+var statHandler = _(function() {
   if (document.cookie.indexOf('drawtime') === -1) return;
-  var max = 200;
+  var max = 300;
   var stats = _(document.cookie
     .split('drawtime=').pop()
     .split(';').shift()
@@ -233,19 +233,20 @@ var statHandler = function() {
     var s = stats[z];
     var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
     var w = s ? Math.round((s[2]-s[0])/max*100) : null;
-    var a = s ? Math.round((s[1]-s[0])/(s[2]-s[0])*100) : null;
+    var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
     html += [
       "<a href='#zoomedto' class='z z",z,"'>",
       "<strong>z",z,"</strong>",
-      s ? "<span class='range' style='margin-left:"+l+"%; width:"+w+"%;'>" : '',
-      s ? "<span class='marker' style='left:"+a+"%'></span>" : '',
-      s ? "</span>" : '',
       s ? "<span class='avg'>"+s[1]+"ms</span>" : '',
+      s ? "<span class='range'>" : '',
+      s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
+      s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
+      s ? "</span>" : '',
       "</a>"
     ].join('');
   }
   $('#zoomedto').html(html);
-};
+}).throttle(50);
 
 mapbox.layer.prototype.getTileComplete = function() {
     if (!this._tileComplete) {
