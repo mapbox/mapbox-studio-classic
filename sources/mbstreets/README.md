@@ -4,7 +4,14 @@ MapBox Streets Vector Tiles
 Overview
 --------
 
-Each vector tiles for each zoom level contains only the information that would be appropriate for rendering at that scale. For example, the `place_label` layer contains only major cities at zoom level 4, but contains all sizes of cities, towns, and villages at zoom level 10. Line and polygon information is generalized at lower zoom levels, not containing more detail than is necessary.
+### Zoom levels
+
+For zoom levels 0 through 13, each vector tile contains only the information that would be appropriate for rendering at that scale of its given zoom level. For example, the `place_label` layer contains only major cities at zoom level 4, but contains all sizes of cities, towns, and villages at zoom level 10. Line and polygon information is generalized at lower zoom levels, not containing more detail than is necessary.
+
+To reduce rendering time and disk space usage, zoom levels 15 and above are not rendered into vector tiles. Zoom level 14 contains all of the information and detail needed for rendering itself plus all zoom levels above. This is important to consider for styling - you safely render "everything" in a data tile from Z0-13, but starting at Z14 you will likely want to start restricting things (eg watch out for labels on very small buildings).
+
+Attributes
+----------
 
 ### `class` vs `type`
 
@@ -26,6 +33,12 @@ Most objects have a `osm_id` number. These are derived from object IDs in OpenSt
 - IDs of relations that are lines are increased by 2\*10^12  (1 becomes 2000000000001)
 - IDs of relations that are polygons are increased by 3\*10^12 (1 becomes 3000000000001)
 -->
+
+### Names
+
+The label layers currently contain 5 name columns: `name` for default local names, `name_en` for English names, `name_fr` for French names, `name_es` for Spanish names, and `name_de` for German names. Translated names are not available for all entities. Where no translated name is available, the English, French, Spanish, and German name columns fall back to local names. Where the local name is in a non-Latin writing system, the French, Spanish, and German name columns will fall back to English if available rather than the local name.
+
+English street names have had abbreviations applied for suffixes, directional prefixes, and other commonly-abbreviated words.
 
 
 Layers
@@ -67,7 +80,7 @@ The order of the layers represents the order in which they are rendered. Objects
 
 #### Areas
 
-Labels for polygons are stored in the vector tiles as points. These layers will have an `area` field to tell you how big the polygon they represent is.
+Labels for polygons are stored in the vector tiles as points. These layers will have an `area` field to tell you how big the polygon they represent is. This is useful for restricting labels of small objects at zoom level 14 and above.
 
 #### Extra attributes for styling
 
@@ -77,7 +90,12 @@ City points use some extra fields to allow for better styling at low zoom levels
 
 Country labels also have a `scalerank` field that can be used to fit more labels on the map at low zoom levels by giving smaller countries a smaller text-size.
 
+#### Avoiding cut-off labels
+
+With traditional map tile rendering, metatiles are a common approach to reducing the occurrence of cut-off labels at tile edges.
+
 #### Limited subset
 
 To save on file size, all possible labels are not included in each vector tile, but a limited number of the most important ones bases on what could and should be reasonably labeled. For example, a very short road might not be in the `road_label` layer because there wouldn't be room to label it anyway.
 
+The vector tiles also omit parks, water bodies, POIs, etc that are mapped only as nodes. The main reason is that there is no way to determine the size or importance of these things. Future versions of the vector tiles schema will likely contain more of these, but not all of them.
