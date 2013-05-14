@@ -71,6 +71,16 @@ app.param('project', function(req, res, next) {
     } else {
         next();
     }
+}, function(req, res, next) {
+    if (!req.project) return next();
+
+    // Set drawtime cookie for a given project.
+    var stats = project.stats(req.project.data.id);
+    res.cookie('drawtime', _(stats).reduce(function(memo, stat, z) {
+        memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+        return memo;
+    }, []).join('.'));
+    next();
 });
 
 app.param('source', function(req, res, next) {
@@ -148,6 +158,10 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
         } else if (err) {
             return next(err);
         }
+
+        // Add times for this tile render to project stats.
+        project.stats(req.project.data.id, z, data._drawtime);
+
         headers['cache-control'] = 'max-age=3600';
         res.set(headers);
         return res.send(data);
