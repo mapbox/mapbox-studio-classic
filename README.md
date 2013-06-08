@@ -62,11 +62,13 @@ Dependencies are:
 
 ### Mac OS X
 
-Make sure you have node and libprotobuf installed. You can do this with homebrew
+First update your homebrew to ensure the recently released Mapnik v2.2.0 is available:
 
-    brew install node protobuf
+    brew update mapnik
 
-Then install the Mapnik OS X SDK via [these instructions](https://gist.github.com/springmeyer/f2f85aad63f1597ddd5b).
+Then install mapnik, node, and libprotobuf with homebrew:
+
+    brew install mapnik node protobuf
 
 Finally install and run TileMill 2:
 
