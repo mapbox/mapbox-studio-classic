@@ -56,7 +56,7 @@ Building TM2
 
 Dependencies are:
 
- - Mapnik master (2.2-pre)
+ - Mapnik v2.2.0
  - Node.js v0.8 or v0.10
  - Protobuf compiler and libprotobuf-lite
 
@@ -82,7 +82,7 @@ Finally install and run TileMill 2:
 Warning: TM2 depends on a Mapnik version that is not compatible with the existing Mapnik that will have been installed by the TileMill 0.10.x package. It is not recommended to try to run both TileMill and TM2 on the same linux machine.
 
     echo 'Yes' | sudo apt-add-repository ppa:chris-lea/node.js
-    echo 'Yes' | sudo add-apt-repository ppa:mapnik/nightly-trunk
+    echo 'Yes' | sudo add-apt-repository ppa:mapnik/v2.2.0
     sudo apt-get update -y
     sudo apt-get install -y nodejs protobuf-compiler libprotobuf-lite7 libprotobuf-dev libmapnik libmapnik-dev make
 
