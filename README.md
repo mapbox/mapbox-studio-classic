@@ -64,7 +64,7 @@ Dependencies are:
 
 First update your homebrew to ensure the recently released Mapnik v2.2.0 is available:
 
-    brew update mapnik
+    brew update
 
 Then install mapnik, node, and libprotobuf with homebrew:
 
