@@ -81,6 +81,7 @@ Finally install and run TileMill 2:
 
 Warning: TM2 depends on a Mapnik version that is not compatible with the existing Mapnik that will have been installed by the TileMill 0.10.x package. It is not recommended to try to run both TileMill and TM2 on the same linux machine.
 
+    sudo apt-get install python-software-properties
     echo 'Yes' | sudo apt-add-repository ppa:chris-lea/node.js
     echo 'Yes' | sudo add-apt-repository ppa:mapnik/v2.2.0
     sudo apt-get update -y
