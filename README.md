@@ -64,11 +64,13 @@ Dependencies are:
 
 First update your homebrew to ensure the recently released Mapnik v2.2.0 is available:
 
-    brew update mapnik
+    brew update
 
-Then install mapnik, node, and libprotobuf with homebrew:
+Then install/upgrade mapnik, node, and libprotobuf with homebrew:
 
-    brew install mapnik node protobuf
+    brew install mapnik || brew upgrade mapnik
+    brew install node || brew upgrade node
+    brew install protobuf || brew upgrade protobuf
 
 Finally install and run TileMill 2:
 
