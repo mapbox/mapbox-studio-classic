@@ -110,7 +110,6 @@ describe('project.toXML', function() {
             assert.ok(/<Layer name="water"/.test(xml), 'includes layer');
             assert.ok(/group-by="layer"/.test(xml), 'includes layer properties');
             assert.ok(/<PolygonSymbolizer fill="#ffffff"/.test(xml), 'includes rule');
-            assert.ok(!/<Parameter/.test(xml), 'no data params => no xml params');
             done();
         });
     });
@@ -136,6 +135,7 @@ describe('project.toXML', function() {
             assert.ok(/<Parameter name="center">0,0,3/.test(xml));
             assert.ok(/<Parameter name="minzoom">0/.test(xml));
             assert.ok(/<Parameter name="maxzoom">22/.test(xml));
+            assert.ok(/<Parameter name="sources"><\!\[CDATA\[mbstreets\]\]>/.test(xml));
             assert.ok(!/<Parameter name="custom/.test(xml));
             done();
         });
