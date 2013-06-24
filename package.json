@@ -21,7 +21,7 @@
         "fstream": "0.1.x",
         "tar": "0.1.x",
         "mapnik": "1.0.0",
-        "carto": "https://github.com/mapbox/carto/tarball/49c81edd3ac57a3c3ced2c0c4d335423b4329df8",
+        "carto": "https://github.com/mapbox/carto/tarball/master",
         "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/master",
         "tilelive-vector": "https://github.com/mapbox/tilelive-vector/tarball/master",
         "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
