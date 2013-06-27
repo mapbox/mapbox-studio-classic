@@ -2,8 +2,9 @@
     "name": "tm2",
     "version": "0.0.0",
     "main": "./index",
+    "engineStrict": true,
     "engines": {
-        "node": "0.8.x"
+        "node": "0.8.x || 0.10.x"
     },
     "dependencies": {
         "express": "3.1.x",
@@ -17,13 +18,21 @@
         "dirty": "0.9.x",
         "sphericalmercator": "1.0.x",
         "js-yaml": "2.0.x",
-        "mapnik": "git+ssh://git@github.com:mapbox/node-mapnik-data-tile.git",
-        "carto": "git+ssh://git@github.com:mapbox/carto.git",
-        "tilelive-bridge": "git+ssh://git@github.com:mapbox/tilelive-bridge.git",
-        "tilelive-vector": "git+ssh://git@github.com:mapbox/tilelive-vector.git"
+        "fstream": "0.1.x",
+        "tar": "0.1.x",
+        "mapnik": "1.0.0",
+        "carto": "https://github.com/mapbox/carto/tarball/master",
+        "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/master",
+        "tilelive-vector": "https://github.com/mapbox/tilelive-vector/tarball/master",
+        "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
+        "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master"
     },
     "devDependencies": {
         "mocha": "1.8.x"
+    },
+    "scripts": {
+        "start": "./index.js",
+        "test": "mocha -R spec"
     },
     "private": true
 }

@@ -1,3 +1,0 @@
-<% _(obj).each(function(layer) { %>
-#<%=layer.id%> {}
-<% }); %>

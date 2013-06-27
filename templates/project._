@@ -11,7 +11,9 @@
 
 <body id='view' class='dark'>
 
-<div id='data' class='column pane'>
+<div id='perf'></div>
+
+<div id='data' class='column pane todo'>
   <a class='button icon close' href='#layers'></a>
   <section>
     <h2>Data library</h2>
@@ -55,6 +57,23 @@
     <input type='submit' value='Save' class='wide' />
   </section>
 </form>
+<% if (!project._tmp) { %>
+<form id='exportas' class='modal browse ui'>
+  <a class='button icon close' href='#'></a>
+  <div class='cwd'>
+    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
+    <strong><%= browse.cwd %></strong>
+  </div>
+  <div class='dir'>
+    <% _(browse.dir).each(function(file) { %>
+    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
+    <% }); %>
+  </div>
+  <div class='field centered'>
+    <input type='text' placeholder='project.tm2z' size='20' id='exportas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2z'/>
+    <input type='submit' value='Export'/>
+  </div>
+</form>
 <div id='export' class='column pane util'>
   <a class='button icon close' href='#util'></a>
   <section>
@@ -69,10 +88,10 @@
     <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
   </section>
   <section>
-    <input type='button' value='Save XML' class='wide bake' />
-    <small>Write style and datasource XML files to project</small>
+    <a class='button wide icon file submit' href='#exportas'>Save package</a>
   </section>
 </div>
+<% } %>
 <div id='interaction' class='column pane util'>
   <a class='button icon close' href='#util'></a>
 </div>
@@ -92,7 +111,11 @@
     <h3>Project</h3>
   </nav>
   <a class='icon padded conf' href='#settings'>Settings</a>
+  <% if (!project._tmp) { %>
   <a class='icon padded export' href='#export'>Export</a>
+  <% } else { %>
+  <a class='icon padded export'>Export</a>
+  <% } %>
   <a class='icon padded tooltip'>Interaction</a>
   <div class='centered'>
     <a class='icon padded grid button' href='/'>Recent projects</a>
@@ -118,9 +141,9 @@
     </div>
     <h3><%= project.name || 'Untitled' %></h3>
   </div>
-  <div id='map' style='background-color:<%=project.background%>;'></div>
+  <div id='map' class='dark' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay'></div>
-  <div id='zoomedto' class='ui'><%= project.center[2] %></div>
+  <div id='zoomedto' class='ui z<%=project.center[2]%>'></div>
 </div>
 
 <div id='docs' class='column'>
@@ -143,14 +166,30 @@
 </div>
 
 <% if (project._tmp) { %>
-<form id='saveas' class='modal ui'>
+<form id='saveas' class='modal browse ui'>
   <a class='button icon close' href='#'></a>
-  <input type='text' placeholder='/path/to/project.tm2' size='20' id='saveas-filepath'/>
-  <input type='submit' value='Save'/>
+  <div class='cwd'>
+    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
+    <strong><%= browse.cwd %></strong>
+  </div>
+  <div class='dir'>
+    <% _(browse.dir).each(function(file) { %>
+    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
+    <% }); %>
+  </div>
+  <div class='field centered'>
+    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2'/>
+    <input type='submit' value='Save'/>
+  </div>
 </form>
 <% } %>
 
-<form id='addtab' class='modal ui'>
+<div id='message' class='modal ui centered'>
+  <a class='button icon close' href='#'></a>
+  <div class='message'></div>
+</div>
+
+<form id='addtab' class='modal ui centered'>
   <a class='button icon close' href='#'></a>
   <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
   <input type='submit' value='New tab'/>
@@ -177,15 +216,52 @@ var rangeHandler = function(el, bound, target) {
   }
   $('#' + el.id + '-val').text(el.value);
 };
+var statHandler = _(function() {
+  if (document.cookie.indexOf('drawtime') === -1) return;
+  var max = 300;
+  var stats = _(document.cookie
+    .split('drawtime=').pop()
+    .split(';').shift()
+    .split('.')).reduce(function(memo, z) {
+    z = z.split('-');
+    if (z.length !== 4) return memo;
+    memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
+    return memo;
+  }, {});
+  var html = "<a href='#' class='button icon close'></a>";
+  for (var z = 0; z < 22; z++) {
+    var s = stats[z];
+    var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
+    var w = s ? Math.round((s[2]-s[0])/max*100) : null;
+    var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
+    html += [
+      "<a href='#zoomedto' class='z z",z,"'>",
+      "<strong>z",z,"</strong>",
+      s ? "<span class='avg'>"+s[1]+"ms</span>" : '',
+      s ? "<span class='range'>" : '',
+      s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
+      s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
+      s ? "</span>" : '',
+      "</a>"
+    ].join('');
+  }
+  $('#zoomedto').html(html);
+}).throttle(50);
 
-var map = mapbox.map('map', mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'] }));
-map.centerzoom({lon:<%=project.center[0]%>,lat:<%=project.center[1]%>},<%=project.center[2]%>);
-map.setZoomRange(<%=project.minzoom%>,<%=project.maxzoom%>);
-map.ui.zoombox.add();
-map.ui.zoomer.add();
-map.ui.zoomer.appendTo($('#full').get(0));
-map.addCallback('zoomed', function() { $('#zoomedto').text(map.zoom()|0); });
-map.addCallback('extentset', function() { $('#zoomedto').text(map.zoom()|0); });
+var map = L.mapbox.map('map');
+var tiles = L.mapbox.tileLayer({
+  tiles: ['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'],
+  minzoom: <%= project.minzoom %>,
+  maxzoom: <%= project.maxzoom %>
+})
+.on('tileload', statHandler)
+.addTo(map);
+map.setView([<%=project.center[1]%>, <%=project.center[0]%>], <%=project.center[2]%>);
+map.on('zoomend', function() { $('#zoomedto').attr('class', 'ui z' + (map.getZoom()|0)); });
+map.options.minZoom = <%= project.minzoom %>;
+map.options.maxZoom = <%= project.maxzoom %>;
+
+statHandler();
 
 var Tab = function(id, value) {
   var tab = CodeMirror(document.getElementById('code'), {
@@ -237,9 +313,9 @@ var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
   'click a.button.recache': 'recache',
-  'click input.bake': 'bake',
   'submit #settings': 'save',
   'submit #saveas': 'saveas',
+  'submit #exportas': 'exportas',
   'submit #addtab': 'addtab',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tabbed',
@@ -249,6 +325,8 @@ Editor.prototype.events = {
   'click #layers a .moreless': 'moreless',
   'click #data a.section': 'data',
   'click #layers a.delete': 'data',
+  'click .browse .cwd a': 'browse',
+  'click .browse .dir a': 'browse',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -266,18 +344,6 @@ Editor.prototype.keys = function(ev) {
     break;
   case 189: // -
     map.zoomBy(-1);
-    break;
-  case 72: // h
-    map.panBy(64, 0);
-    break;
-  case 74: // j
-    map.panBy(0, -64);
-    break;
-  case 75: // k
-    map.panBy(0, 64);
-    break;
-  case 76: // l
-    map.panBy(-64, 0);
     break;
   default:
     return true;
@@ -342,11 +408,6 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
-Editor.prototype.bake = function(ev) {
-  this.model.set({_bake:true});
-  this.save(ev);
-  return false;
-};
 Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
   $('#full').addClass('loading');
@@ -371,9 +432,9 @@ Editor.prototype.save = function(ev, options) {
   });
 
   if (this.model.get('_prefs').saveCenter) {
-    var lon = map.center().lon % 360;
+    var lon = map.getCenter().lng % 360;
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr.center = [lon , map.center().lat, map.zoom() ];
+    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
 
   options = options || {
@@ -388,41 +449,45 @@ Editor.prototype.save = function(ev, options) {
   return false;
 };
 Editor.prototype.error = function(model, resp) {
-  this.clearErrors();
+  this.messageClear();
 
-  if (!resp.responseText) {
-    // @TODO error modal.
-    // will hit this if the server is offline and the user tries to save
-    // We attach a error message to this resp object so that that the Modal can display it
-    // resp.err_message = 'Could not save project "' + model.id + '"';
-    return;
-  }
+  if (!resp.responseText)
+    return this.messageModal('Could not save project "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
     .compact()
     .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
-    .each(function(e) {
-      if (!e.length) {
-        // non line-specific error.
-        // @TODO show this globally (error modal) somehow.
-      } else {
+    .each(_(function(e) {
+      if (_(e).isArray()) {
         var id = e[2];
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
         code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+      } else {
+        return this.messageModal(e);
       }
-    });
+    }).bind(this));
 };
-Editor.prototype.clearErrors = function() {
+Editor.prototype.messageModal = function(text) {
+  $('#message .message').text(text);
+  window.location.hash = '#message';
+};
+Editor.prototype.messageClear = function() {
+  $('#message .message').text('');
+  $('#full').removeClass('loading');
   _(code).each(function(cm) {
     _(cm._cartoErrors||[]).each(cm.clearMarker);
     delete cm._cartoErrors;
   });
 };
 Editor.prototype.saveas = function(ev) {
-  var id = $('#saveas-filepath').val();
+  if (!$('#saveas-filepath').val()) return false;
+  var id = $('#saveas-filepath').data('cwd');
+  id += id === '/'
+    ? $('#saveas-filepath').val()
+    : '/' + $('#saveas-filepath').val();
   this.model.set({id:id});
   this.save(null, {
     success: function() { window.location = '/project?id=' + id; },
@@ -431,12 +496,19 @@ Editor.prototype.saveas = function(ev) {
   return false;
 };
 Editor.prototype.refresh = function(ev) {
-  this.clearErrors();
+  this.messageClear();
+
   // Refresh map layer.
-  var layer = map.getLayerAt(0);
-  map.removeLayer(layer);
-  layer.destroy();
-  map.addLayer(mapbox.layer().tilejson({ tiles:['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ] }));
+  map.removeLayer(tiles);
+  tiles = L.mapbox.tileLayer({
+    tiles: ['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ],
+    minzoom: this.model.get('minzoom'),
+    maxzoom: this.model.get('maxzoom')
+  })
+  .on('tileload', statHandler)
+  .addTo(map);
+  map.options.minZoom = this.model.get('minzoom');
+  map.options.maxZoom = this.model.get('maxzoom');
 
   // Set canvas background color.
   if (this.model.get('background'))
@@ -446,14 +518,46 @@ Editor.prototype.refresh = function(ev) {
   $('title').text(this.model.get('name'));
   $('#title h3').text(this.model.get('name'));
 
-  // Refresh map zoom range.
-  map.setZoomRange(this.model.get('minzoom'),this.model.get('maxzoom'));
-
-  // Remove loading state from map.
-  $('#full').removeClass('loading');
   return false;
 };
-
+Editor.prototype.browse = function(ev) {
+  var browse = $(ev.currentTarget).parents('.browse');
+  var cwd = $(ev.currentTarget).attr('href').split('#').pop();
+  $.ajax({
+    url: '/browse/' + $(browse).attr('id') + cwd,
+    dataType: 'json',
+    success: function(resp) {
+      $('input[type=text]', browse).data('cwd', cwd);
+      $('.cwd strong', browse).text(cwd);
+      $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
+      $('.dir', browse).html(resp.map(function(f) {
+        return "<a class='icon folder padded' href='#" + f.path + "'>" + f.basename + "</a>";
+      }).join('\n'));
+    },
+    // @TODO
+    error: function(resp) {}
+  });
+  return false;
+};
+Editor.prototype.exportas = function(ev) {
+  if (!$('#exportas-filepath').val()) return false;
+  var filepath = $('#exportas-filepath').data('cwd');
+  filepath += filepath === '/'
+    ? $('#exportas-filepath').val()
+    : '/' + $('#exportas-filepath').val();
+  $.ajax({
+    url: '/export/package?id=' + this.model.id,
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify({ filepath:filepath }),
+    success: _(function(resp) {
+      this.messageModal('Package "'+filepath+'" saved.');
+    }).bind(this),
+    error: function(resp) {}
+  });
+  return false;
+};
 new Editor({
   el: document.body,
   model: new Project(<%= JSON.stringify(project) %>)

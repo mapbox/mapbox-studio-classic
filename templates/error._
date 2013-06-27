@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/app/base.css' rel='stylesheet' />
+</head>
+
+<body id='view'>
+
+<%
+var title = 'Error';
+var message = error.message || error.toString();
+switch (error.code) {
+case 'ENOENT':
+  title = 'Not found';
+  message = "Couldn't open file at <em>" + error.path + "</em>";
+  break;
+};
+%>
+
+<div id='error'>
+<div class='message'>
+  <h2><%= title %></h2>
+  <%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %>
+</div>
+<div class='centered ui'>
+  <a class='button icon grid' href='/'>Back home</a>
+</div>
+</div>
+
+<style type='text/css'>
+/* Error page */
+#error {
+  text-align:center;
+  padding:40px;
+  }
+.message {
+  padding:40px;
+  margin:0px auto 20px;
+  max-width:320px;
+  background:#fff;
+  border-radius:4px;
+  }
+.message h2 { margin-bottom:10px; }
+.message .long { word-break:break-all };
+</style>
+
+</body>
+
+</html>
