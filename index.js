@@ -148,11 +148,11 @@ app.get('/:project(project)', function(req, res, next) {
     }));
 });
 
-app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
+app.get('/:project(project)/:z/:x/:y.:format', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
-    req.project.getTile(z,x,y, function(err, data, headers) {
+    var done = function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
         } else if (err) {
@@ -165,7 +165,9 @@ app.get('/:project(project)/:z/:x/:y.png', function(req, res, next) {
         headers['cache-control'] = 'max-age=3600';
         res.set(headers);
         return res.send(data);
-    });
+    };
+    done.format = req.params.format || 'png';
+    req.project.getTile(z,x,y, done);
 });
 
 app.get('/:project(project).xml', function(req, res, next) {
