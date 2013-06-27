@@ -141,7 +141,7 @@
     </div>
     <h3><%= project.name || 'Untitled' %></h3>
   </div>
-  <div id='map' style='background-color:<%=project.background%>;'></div>
+  <div id='map' class='dark' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='zoomedto' class='ui z<%=project.center[2]%>'></div>
 </div>

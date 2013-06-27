@@ -232,16 +232,16 @@ nav > a {
   bottom:0px;
   overflow:hidden;
   }
-#map {
-  background:#ddd url(canvas.png);
-  position:absolute !important;
-  top:40px; bottom:0px; left:0px;
-  width:100%;
-  }
 /* Map is oversized to accommodate fullscreen view. */
 #map {
-  left:-50% !important;
-  width:200% !important;
+  background:#ddd url(canvas.png);
+  position:absolute;
+  top:40px;
+  bottom:0px;
+  left:-50%;
+  width:200%;
+  transition:left 200ms;
+  -moz-transition:left 200ms;
   -webkit-transition:left 200ms;
   }
 #full:target #map {
