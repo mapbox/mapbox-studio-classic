@@ -264,6 +264,23 @@ var tiles = L.mapbox.tileLayer({
 })
 .on('tileload', statHandler)
 .addTo(map);
+
+// @TODO enable/disable this layer + control based on project's
+// current interactivity state.
+var grids = L.mapbox.gridLayer({
+  grids: ['/project/{z}/{x}/{y}.grid.json?id=<%=project.id%>&mtime=<%=project.mtime%>'],
+  minzoom: <%= project.minzoom %>,
+  maxzoom: <%= project.maxzoom %>
+});
+var gridcontrol = L.mapbox.gridControl(grids, {
+  follow: true,
+  template: <%= JSON.stringify(project.template||'') %>
+});
+map.addControl(gridcontrol);
+<% if (project.template && project.interactivity_layer) { %>
+grids.addTo(map);
+<% } %>
+
 map.setView([<%=project.center[1]%>, <%=project.center[0]%>], <%=project.center[2]%>);
 map.on('zoomend', function() { $('#zoomedto').attr('class', 'ui z' + (map.getZoom()|0)); });
 map.options.minZoom = <%= project.minzoom %>;
@@ -535,6 +552,14 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map title.
   $('title').text(this.model.get('name'));
   $('#title h3').text(this.model.get('name'));
+
+  // Refresh gridcontrol template.
+  gridcontrol.setTemplate(this.model.get('template'));
+  if (this.model.get('template') && this.model.get('interactivity_layer')) {
+    map.addLayer(grids);
+  } else {
+    map.removeLayer(grids);
+  }
 
   return false;
 };

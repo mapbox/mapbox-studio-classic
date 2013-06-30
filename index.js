@@ -148,6 +148,22 @@ app.get('/:project(project)', function(req, res, next) {
     }));
 });
 
+app.get('/:project(project)/:z/:x/:y.grid.json', function(req, res, next) {
+    var z = req.params.z | 0;
+    var x = req.params.x | 0;
+    var y = req.params.y | 0;
+    req.project.getGrid(z,x,y, function(err, data, headers) {
+        if (err && err.message === 'Tilesource not loaded') {
+            return res.redirect(req.path);
+        } else if (err) {
+            return next(err);
+        }
+        headers['cache-control'] = 'max-age=3600';
+        res.set(headers);
+        return res.json(data);
+    });
+});
+
 app.get('/:project(project)/:z/:x/:y.:format', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
@@ -168,22 +184,6 @@ app.get('/:project(project)/:z/:x/:y.:format', function(req, res, next) {
     };
     done.format = req.params.format || 'png';
     req.project.getTile(z,x,y, done);
-});
-
-app.get('/:project(project)/:z/:x/:y.grid.json', function(req, res, next) {
-    var z = req.params.z | 0;
-    var x = req.params.x | 0;
-    var y = req.params.y | 0;
-    req.project.getGrid(z,x,y, function(err, data, headers) {
-        if (err && err.message === 'Tilesource not loaded') {
-            return res.redirect(req.path);
-        } else if (err) {
-            return next(err);
-        }
-        headers['cache-control'] = 'max-age=3600';
-        res.set(headers);
-        return res.jsonp(data);
-    });
 });
 
 app.get('/:project(project).xml', function(req, res, next) {
