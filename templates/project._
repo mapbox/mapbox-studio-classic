@@ -92,9 +92,6 @@
   </section>
 </div>
 <% } %>
-<div id='interaction' class='column pane util'>
-  <a class='button icon close' href='#util'></a>
-</div>
 
 <div id='layers' class='menu column ui'>
   <nav>
@@ -116,7 +113,6 @@
   <% } else { %>
   <a class='icon padded export'>Export</a>
   <% } %>
-  <a class='icon padded tooltip'>Interaction</a>
   <div class='centered'>
     <a class='icon padded grid button' href='/'>Recent projects</a>
   </div>
@@ -156,6 +152,7 @@
     <a class='button docs-y icon close' href='#'></a>
   </div>
   <nav id='tabs'><!--
+    --><a rel='template' href='#code-template' class='tab mini'><span class='icon tooltip'></span></a><!--
     <% _(project.styles).keys().forEach(function(k,i) { %>
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--
     <% }); %>
@@ -163,6 +160,17 @@
   <div class='right'>
     <a class='button icon plus' href='#addtab'></a>
   </div>
+  <form id='interactivity'>
+    <label>Layer</label>
+    <select name='interactivity_layer'>
+      <option name=''>&lt; choose layer &gt;</option>
+      <% _(sources).each(function(source) { %>
+      <% _(source.Layer||{}).each(function(l) { %>
+      <option name='<%=l.id%>' <% if (project.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+      <% }); %>
+      <% }); %>
+    </select>
+  </form>
 </div>
 
 <% if (project._tmp) { %>
@@ -302,6 +310,10 @@ var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k
   memo[k] = Tab(k, value);
   return memo;
 }, {});
+
+// Add in interactivity template.
+code['template'] = Tab('template', <%=JSON.stringify(project.template)%>);
+
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
 var Project = Backbone.Model.extend({});
@@ -422,14 +434,20 @@ Editor.prototype.save = function(ev, options) {
     }
     return memo;
   }, attr);
+  // Grab interactivity form values.
+  _($('#interactivity').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = field.value;
+    return memo;
+  }, attr);
   // Grab styles, sources.
   attr.styles = _(code).reduce(function(memo, cm, k) {
-    memo[k] = cm.getValue();
+    if (k !== 'template') memo[k] = cm.getValue();
     return memo;
   }, {});
   attr.sources = $('#layers div.source').map(function() {
     return $(this).attr('id').split('source-').pop();
   });
+  attr.template = code.template ? code.template.getValue() : '';
 
   if (this.model.get('_prefs').saveCenter) {
     var lon = map.getCenter().lng % 360;
