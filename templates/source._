@@ -149,14 +149,7 @@ Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
-//  'click a.button.recache': 'recache',
-//  'submit #settings': 'save',
-//  'submit #saveas': 'saveas',
-//  'submit #exportas': 'exportas',
   'submit #addlayer': 'addlayer',
-//  'click #tabs a.tab span.delete': 'deltab',
-//  'click .browse .cwd a': 'browse',
-//  'click .browse .dir a': 'browse',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -211,28 +204,6 @@ Editor.prototype.addlayer = function(ev) {
   }
   return false;
 };
-Editor.prototype.deltab = function(ev) {
-  var styles = this.model.get('styles');
-  var parent = $(ev.currentTarget).parent();
-  var target = parent.attr('rel');
-  if (!styles[target]) return false;
-  if (confirm('Remove stylesheet "' + target + '"?')) {
-    $(code[target].getWrapperElement()).remove();
-    parent.remove();
-    delete styles[target];
-    delete code[target];
-    this.model.set({styles:styles});
-    // Set first tab to active.
-    if (parent.is('.active') && $('a.tab').size())
-      this.tab({ currentTarget:$('a.tab').get(0) });
-  }
-  return false;
-};
-Editor.prototype.recache = function(ev) {
-  this.model.set({_recache:true});
-  this.save(ev);
-  return false;
-};
 Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
   // $('#full').addClass('loading');
@@ -246,10 +217,6 @@ Editor.prototype.save = function(ev, options) {
   // Grab layers.
   attr.Layer = _(layers).map(function(l) { return l.get() });
 
-
-  // Grab layers.
-  // attr.Layers = this.model.get('Layer')
-
   // if (this.model.get('_prefs').saveCenter) {
   //   var lon = map.getCenter().lng % 360;
   //   lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
@@ -262,105 +229,6 @@ Editor.prototype.save = function(ev, options) {
   };
   this.model.save(attr, options);
 
-  return false;
-};
-Editor.prototype.error = function(model, resp) {
-  this.messageClear();
-
-  if (!resp.responseText)
-    return this.messageModal('Could not save project "' + model.id + '"');
-
-    // Assume carto.js specific error array format response.
-  _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
-    .compact()
-    .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
-    .each(_(function(e) {
-      if (_(e).isArray()) {
-        var id = e[2];
-        var ln = parseInt(e[3]) - 1;
-        code[id]._cartoErrors = code[id]._cartoErrors || [];
-        code[id]._cartoErrors.push(ln);
-        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
-      } else {
-        return this.messageModal(e);
-      }
-    }).bind(this));
-};
-Editor.prototype.messageModal = function(text) {
-  $('#message .message').text(text);
-  window.location.hash = '#message';
-};
-Editor.prototype.messageClear = function() {
-  $('#message .message').text('');
-  $('#full').removeClass('loading');
-  _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearMarker);
-    delete cm._cartoErrors;
-  });
-};
-Editor.prototype.saveas = function(ev) {
-  if (!$('#saveas-filepath').val()) return false;
-  var id = $('#saveas-filepath').data('cwd');
-  id += id === '/'
-    ? $('#saveas-filepath').val()
-    : '/' + $('#saveas-filepath').val();
-  this.model.set({id:id});
-  this.save(null, {
-    success: function() { window.location = '/project?id=' + id; },
-    error: _(this.error).bind(this)
-  });
-  return false;
-};
-Editor.prototype.refresh = function(ev) {
-  this.messageClear();
-
-  // Refresh map layer.
-  map.removeLayer(tiles);
-  tiles = L.mapbox.tileLayer({
-    tiles: ['/source/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
-    minzoom: this.model.get('minzoom'),
-    maxzoom: this.model.get('maxzoom')
-  })
-  .on('tileload', statHandler)
-  .addTo(map);
-  map.options.minZoom = this.model.get('minzoom');
-  map.options.maxZoom = this.model.get('maxzoom');
-
-  // Set canvas background color.
-  if (this.model.get('background'))
-    $('#map').css({'background-color':this.model.get('background')});
-
-  // Refresh map title.
-  $('title').text(this.model.get('name'));
-  $('#title .name').text(this.model.get('name') || 'Untitled');
-
-  // Refresh gridcontrol template.
-  gridcontrol.setTemplate(this.model.get('template'));
-  if (this.model.get('template') && this.model.get('interactivity_layer')) {
-    map.addLayer(grids);
-  } else {
-    map.removeLayer(grids);
-  }
-
-  return false;
-};
-Editor.prototype.browse = function(ev) {
-  var browse = $(ev.currentTarget).parents('.browse');
-  var cwd = $(ev.currentTarget).attr('href').split('#').pop();
-  $.ajax({
-    url: '/browse/' + $(browse).attr('id') + cwd,
-    dataType: 'json',
-    success: function(resp) {
-      $('input[type=text]', browse).data('cwd', cwd);
-      $('.cwd strong', browse).text(cwd);
-      $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
-      $('.dir', browse).html(resp.map(function(f) {
-        return "<a class='icon folder padded' href='#" + f.path + "'>" + f.basename + "</a>";
-      }).join('\n'));
-    },
-    // @TODO
-    error: function(resp) {}
-  });
   return false;
 };
 new Editor({
