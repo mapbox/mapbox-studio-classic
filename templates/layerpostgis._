@@ -1,0 +1,55 @@
+<form class='editor' id='layers-<%=obj.id%>'>
+  <nav>
+    <span class='joined'>
+      <a href='#layers-<%=obj.id%>' class='button icon conf active'></a><!--
+      --><a href='#layers-<%=obj.id%>-sql' class='button icon edit'></a>
+    </span>
+    <a href='#' class='button icon close'></a>
+  </nav>
+  <section>
+    <h2><%= obj.id %></h2>
+    <input type='hidden' name='id' value='<%=obj.id%>' />
+    <input type='hidden' name='name' value='<%=obj.id%>' />
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+  </section>
+  <section>
+    <label>PostGIS<label>
+    <div class='joined'>
+      <input type='text' id='Datasource-user' name='Datasource-user' value='<%= obj.Datasource.user %>' placeholder='user' /><!--
+      --><input type='text' id='Datasource-dbname' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' placeholder='db' /><!--
+      --><input type='text' id='Datasource-host' name='Datasource-host' value='<%= obj.Datasource.host %>' placeholder='host' />
+    </div>
+    <input type='hidden' id='Datasource-type' name='Datasource-type' value='postgis' />
+    <input type='hidden' id='Datasource-max_size' name='Datasource-max_size' value='512' />
+  </section>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input id='properties-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <label class='range' id='properties-minzoom-val'><%= obj.properties.minzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input id='properties-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <label class='range' id='properties-maxzoom-val'><%= obj.properties.maxzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Buffer size</label>
+    <input id='properties-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='512' step='4' onchange='rangeHandler(this, "min", "#minzoom");'/>
+    <label class='range' id='properties-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
+  </section>
+</form>
+<div class='editor' id='layers-<%=obj.id%>-sql'>
+  <nav>
+    <span class='joined'>
+      <a href='#layers-<%=obj.id%>' class='button icon conf'></a><!--
+      --><a href='#layers-<%=obj.id%>-sql' class='button icon edit active'></a>
+    </span>
+    <a href='#' class='button icon close'></a>
+  </nav>
+  <section>
+    <h2><%= obj.id %></h2>
+  </section>
+</div>

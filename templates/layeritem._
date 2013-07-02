@@ -1,0 +1,13 @@
+<a class='layer' href='#layers-<%=obj.id%>'>
+  <span class='geometry icon <%=obj.geometry||'unknown'%>'></span>
+  <%=obj.id%>
+  <% if (obj.Datasource.type) { %>
+  <span class='zooms'>
+    <%= (obj.Datasource.type) %>
+  </span>
+  <% } %>
+  <small class='desc'><%=obj.description||'No description.'%></small>
+  <% _(obj.help||{}).each(function(desc,name) { %>
+  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
+  <% }); %>
+</a>

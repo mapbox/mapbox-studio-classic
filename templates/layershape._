@@ -1,0 +1,35 @@
+<form class='editor' id='layers-<%=obj.id%>'>
+  <nav><a href='#' class='button icon close'></a></nav>
+  <section>
+    <h2><%= obj.id %></h2>
+    <input type='hidden' name='id' value='<%=obj.id%>' />
+    <input type='hidden' name='name' value='<%=obj.id%>' />
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+  </section>
+  <section>
+    <label>Shapefile<label>
+    <input type='hidden' id='Datasource-type' name='Datasource-type' value='shape' />
+    <div class='joined'>
+      <input size='60' type='text' id='Datasource-file' name='Datasource-file' value='<%= obj.Datasource.file %>' /><!--
+      --><a href='#browse' class='button icon'></a>
+    </div>
+  </section>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input id='properties-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <label class='range' id='properties-minzoom-val'><%= obj.properties.minzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input id='properties-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <label class='range' id='properties-maxzoom-val'><%= obj.properties.maxzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Buffer size</label>
+    <input id='properties-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='512' step='4' onchange='rangeHandler(this, "min", "#minzoom");'/>
+    <label class='range' id='properties-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
+  </section>
+</form>

@@ -6,6 +6,7 @@
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/project.css' rel='stylesheet' />
   <title><%= project.name %></title>
 </head>
 
@@ -18,7 +19,7 @@
   <section>
     <h2>Data library</h2>
   </section>
-  <%= _(library).map(this.source).join('\n') %>
+  <%= _(library).map(this.sourceitem).join('\n') %>
 </div>
 
 <form id='settings' class='column pane util'>
@@ -76,33 +77,37 @@
   </div>
 </form>
 <% } %>
-<div id='util' class='menu column ui'>
-  <div>
+<div id='util' class='menu column ui hide'>
+  <nav class='menu-title'>
     <a class='icon padded prev button' href='/'>Home</a>
-  </div>
+  </nav>
   <% if (!project._tmp) { %>
-  <h3>Export</h3>
-  <section>
-    <label class='inline'>Style</label>
-    <code><a class='icon padded file' href='/project.xml?id=<%=project.id%>' target='_blank'>project.xml</a></code>
-  </section>
-  <section>
-    <label class='inline'>Datasource</label>
-    <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
-  </section>
-  <section class='centered'>
-    <a class='button wide icon file submit' href='#exportas'>Save package</a>
-  </section>
+  <div class='menu-content'>
+    <h3>Export</h3>
+    <div class='item'>
+      <label class='inline'>Style</label>
+      <code><a class='icon padded file' href='/project.xml?id=<%=project.id%>' target='_blank'>project.xml</a></code>
+    </div>
+    <div class='item'>
+      <label class='inline'>Datasource</label>
+      <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
+    </div>
+    <div class='item centered'>
+      <a class='button wide icon file submit' href='#exportas'>Save package</a>
+    </div>
+  </div>
   <% } %>
 </div>
 
-<div id='layers' class='menu column ui'>
-  <nav>
-    <a href='#' class='button icon close pinned'></a>
-    <a href='#data' class='button data-n icon plus'>Data</a>
-    <a href='#layers' class='button data-y icon close'>Data</a>
+<div id='layers' class='menu column ui hide'>
+  <nav class='menu-title centered'>
+    <a href='#' class='button icon close left'></a>
+    <a href='#data' class='button title data-n icon plus'>Data</a>
+    <a href='#layers' class='button title data-y icon close'>Data</a>
   </nav>
-  <%= _(sources).map(this.source).join('\n') %>
+  <div class='menu-content'>
+  <%= _(sources).map(this.sourceitem).join('\n') %>
+  </div>
 </div>
 
 <div id='full' class='column'>
@@ -132,7 +137,7 @@
 </div>
 
 <div id='docs' class='column'>
-  <%= this['projectCartoRef'](cartoRef) %>
+  <%= this['projectdocs'](cartoRef) %>
 </div>
 
 <div id='code' class='column'>

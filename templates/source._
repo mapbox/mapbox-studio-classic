@@ -1,48 +1,378 @@
-<% var layerCount = _(obj.Layer||{}).size(); %>
-<div id='source-<%=obj.id%>' class='source'>
-<a class='section thumbed'>
-  <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
-  <strong><%= obj.name %></strong>
-  <span class='desc'><%= obj.description || 'No description.' %></span>
-  <small class='layers'>
-    <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>
-    <% if (obj.author) { %>
-    from <%= obj.author %>
-    <% } %>
-  </small>
-</a>
-<h3><%= obj.name %></h3>
-<div class='joined status <%= obj.tiles ? 'remote' : 'local' %>'>
-  <% if (obj.tiles) { %>
-  <span class='button'>Remote</span><!--
-  --><a class='button icon recache' href='#recache'></a>
-  <% } else { %>
-  <span class='button'>Local</span><!--
-  --><a class='button icon recache' href='#recache'></a>
-  <% } %>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/codemirror.css' rel='stylesheet' />
+  <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/source.css' rel='stylesheet' />
+  <title><%= source.name %></title>
+</head>
+
+<body id='view' class='dark'>
+
+<div id='perf'></div>
+
+<div id='editor' class='column ui'>
+  <div id='title'>
+    <div class='left joined'>
+      <a class='button icon prev' href='/'></a><!--
+      <% if (source._tmp) { %>
+      --><a class='button icon okay' href='#saveas'>Save as</a>
+      <% } else { %>
+      --><a class='button icon okay save' href='#'>Save</a>
+      <% } %>
+    </div>
+    <h3 class='name'><%= source.name || 'Untitled' %></h3>
+  </div>
+  <% _(source.Layer).each(function(l) { print(this.layerpostgis(l)) }.bind(this)); %>
+  <form id='settings' class='ui'>
+    <section>
+      <label class='inline'>Name</label>
+      <input class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+    </section>
+    <section>
+      <label class='inline'>Description</label>
+      <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+    </section>
+    <section>
+      <label class='inline'>Attribution</label>
+      <input class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+    </section>
+    <section>
+      <label class='inline'>Minzoom</label>
+      <input id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+      <label class='range' id='minzoom-val'><%= source.minzoom %></label>
+    </section>
+    <section>
+      <label class='inline'>Maxzoom</label>
+      <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+      <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
+    </section>
+  </form>
 </div>
 
-<!--
-@TODO currently this button is a trap as it can leave a project in a state
-with no sources. Once vector tile compositing is available revisit.
-<a class='delete icon close' href='#delete'></a>
--->
-
-<% _(obj.Layer).chain().clone().reverse().each(function(l) { %>
-<a class='layer' id='layers-<%=l.id%>' href='#layers-<%=l.id%>'>
-  <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
-  <%=l.id%>
-  <span class='zooms'>
-    <% if (!(l.properties||{}).maxzoom) { %>
-    z<%= (l.properties||{}).minzoom||0 %>+
-    <% } else { %>
-    z<%= (l.properties||{}).minzoom||0 %>-<%= (l.properties||{}).maxzoom||22 %>
-    <% } %>
-  </span>
-  <small class='desc'><%=l.description||'No description.'%></small>
-  <% _(l.help||{}).each(function(desc,name) { %>
-  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
-  <% }); %>
-</a>
-<% }); %>
+<div id='layers' class='menu column ui'>
+  <nav class='menu-title centered'>
+    <a href='#addlayer' class='button icon plus title'>Layers</a>
+  </nav>
+  <div class='menu-content'>
+  <% _(source.Layer).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
+  </div>
 </div>
+
+<div id='inspector' class='column'>
+  <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
+  <div id='map-overlay'></div>
+  <div id='zoomedto' class='ui z<%=source._prefs.center[2]%>'></div>
+</div>
+
+<div id='message' class='modal ui centered'>
+  <a class='button icon close' href='#'></a>
+  <div class='message'></div>
+</div>
+
+<form id='addlayer' class='modal ui centered'>
+  <a class='button icon close' href='#'></a>
+  <p class='joined'>
+    <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
+    --><select name='type'>
+      <option value='postgis'>postgis</option>
+      <option value='shape'>shapefile</option>
+      <option value='geojson' disabled='disabled'>geojson</option>
+      <option value='sqlite' disabled='disabled'>sqlite</option>
+      <option value='csv' disabled='disabled'>csv</option>
+    </select>
+  </p>
+  <input type='submit' value='New layer'/>
+</form>
+
+<div id='mask'></div>
+
+<script src='/ext/underscore-min.js'></script>
+<script src='/ext/codemirror.js'></script>
+<script src='/ext/codemirror.runmode.js'></script>
+<script src='/ext/codemirror.sql.js'></script>
+<script src='/ext/zepto.js'></script>
+<script src='/ext/backbone.js'></script>
+<script src='/ext/mapbox.js'></script>
+<script src='/app/lib.js'></script>
+
+<script>
+var Layer = function(id, datasource) {
+  var code;
+  if (datasource.type === 'postgis') {
+    code = CodeMirror(document.getElementById('layers-' + id + '-sql'), {
+      value: datasource.table,
+      lineNumbers: true,
+      mode: 'text/x-plsql'
+    });
+    code.getWrapperElement().id = 'layers-' + id + '-sql-code';
+  }
+  var layer = { code: code, form: $('#layers-' + id) };
+  layer.get = function() {
+    var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
+      var group = field.name.split('-')[0];
+      var name = field.name.split('-').slice(1).join('-');
+      switch (group) {
+      case 'properties':
+        memo.properties = memo.properties || {};
+        memo.properties[name] = isNaN(parseInt(field.value,10)) ? field.value : parseInt(field.value, 10);
+        break;
+      case 'Datasource':
+        memo.Datasource = memo.Datasource || {};
+        memo.Datasource[name] = isNaN(parseInt(field.value,10)) ? field.value : parseInt(field.value, 10);
+        break;
+      default:
+        memo[field.name] = field.value;
+        break;
+      }
+      return memo;
+    }, {});
+    if (code) {
+      attr.Datasource = attr.Datasource || {};
+      attr.Datasource.table = code.getValue();
+    }
+    return attr;
+  };
+  return layer;
+};
+var layers = _(<%=JSON.stringify(source.Layer)%>).reduce(function(memo, l) {
+  memo[l.id] = Layer(l.id, l.Datasource);
+  return memo;
+}, {});
+
+var Source = Backbone.Model.extend({});
+Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
+
+var Editor = Backbone.View.extend({});
+Editor.prototype.events = {
+  'click a.button.save': 'save',
+//  'click a.button.recache': 'recache',
+//  'submit #settings': 'save',
+//  'submit #saveas': 'saveas',
+//  'submit #exportas': 'exportas',
+  'submit #addlayer': 'addlayer',
+//  'click #tabs a.tab span.delete': 'deltab',
+//  'click .browse .cwd a': 'browse',
+//  'click .browse .dir a': 'browse',
+  'keydown': 'keys'
+};
+Editor.prototype.keys = function(ev) {
+  // Escape. Collapses windows, dialogs, modals, etc.
+  if (ev.which === 27) {
+    window.location.href = '#';
+  }
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
+  switch (ev.which) {
+  case 83: // s
+    this.save();
+    break;
+  default:
+    return true;
+  }
+  return false;
+};
+Editor.prototype.addlayer = function(ev) {
+  var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = field.value;
+    return memo;
+  }, {});
+
+  if (!values.id || !templates['layer' + values.type]) return false;
+
+  var Layer = this.model.get('Layer');
+  if (!_(Layer).any(function(l) { return l.id === values.id })) {
+    var layer = {
+      id: values.id,
+      properties: {
+        minzoom:0,
+        maxzoom:22,
+        'buffer-size':0
+      },
+      Datasource: {}
+    };
+    $('#editor').prepend(templates['layer' + values.type](layer));
+    $('#layers .menu-content').prepend(templates['layeritem'](layer));
+
+    // For postgis sources, add an SQL code editor.
+    // @TODO sqlite
+    if (values.type === 'postgis') {
+        code[values.id] = Tab('layers-' + values.id + '-sql', '');
+    }
+
+    Layer.unshift(layer);
+    this.model.set({Layer:Layer});
+
+    window.location.hash = '#layers-' + values.id;
+  } else {
+    window.location.hash = '#';
+  }
+  return false;
+};
+Editor.prototype.deltab = function(ev) {
+  var styles = this.model.get('styles');
+  var parent = $(ev.currentTarget).parent();
+  var target = parent.attr('rel');
+  if (!styles[target]) return false;
+  if (confirm('Remove stylesheet "' + target + '"?')) {
+    $(code[target].getWrapperElement()).remove();
+    parent.remove();
+    delete styles[target];
+    delete code[target];
+    this.model.set({styles:styles});
+    // Set first tab to active.
+    if (parent.is('.active') && $('a.tab').size())
+      this.tab({ currentTarget:$('a.tab').get(0) });
+  }
+  return false;
+};
+Editor.prototype.recache = function(ev) {
+  this.model.set({_recache:true});
+  this.save(ev);
+  return false;
+};
+Editor.prototype.save = function(ev, options) {
+  // Set map in loading state.
+  // $('#full').addClass('loading');
+
+  // Grab settings form values.
+  var attr = _($('#settings').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = isNaN(parseInt(field.value,10)) ? field.value : parseInt(field.value, 10);
+    return memo;
+  }, {});
+
+  // Grab layers.
+  attr.Layer = _(layers).map(function(l) { return l.get() });
+
+
+  // Grab layers.
+  // attr.Layers = this.model.get('Layer')
+
+  // if (this.model.get('_prefs').saveCenter) {
+  //   var lon = map.getCenter().lng % 360;
+  //   lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
+  //   attr.center = [lon , map.getCenter().lat, map.getZoom() ];
+  // }
+
+  options = options || {
+    success:_(this.refresh).bind(this),
+    error: _(this.error).bind(this)
+  };
+  this.model.save(attr, options);
+
+  return false;
+};
+Editor.prototype.error = function(model, resp) {
+  this.messageClear();
+
+  if (!resp.responseText)
+    return this.messageModal('Could not save project "' + model.id + '"');
+
+    // Assume carto.js specific error array format response.
+  _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
+    .compact()
+    .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
+    .each(_(function(e) {
+      if (_(e).isArray()) {
+        var id = e[2];
+        var ln = parseInt(e[3]) - 1;
+        code[id]._cartoErrors = code[id]._cartoErrors || [];
+        code[id]._cartoErrors.push(ln);
+        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+      } else {
+        return this.messageModal(e);
+      }
+    }).bind(this));
+};
+Editor.prototype.messageModal = function(text) {
+  $('#message .message').text(text);
+  window.location.hash = '#message';
+};
+Editor.prototype.messageClear = function() {
+  $('#message .message').text('');
+  $('#full').removeClass('loading');
+  _(code).each(function(cm) {
+    _(cm._cartoErrors||[]).each(cm.clearMarker);
+    delete cm._cartoErrors;
+  });
+};
+Editor.prototype.saveas = function(ev) {
+  if (!$('#saveas-filepath').val()) return false;
+  var id = $('#saveas-filepath').data('cwd');
+  id += id === '/'
+    ? $('#saveas-filepath').val()
+    : '/' + $('#saveas-filepath').val();
+  this.model.set({id:id});
+  this.save(null, {
+    success: function() { window.location = '/project?id=' + id; },
+    error: _(this.error).bind(this)
+  });
+  return false;
+};
+Editor.prototype.refresh = function(ev) {
+  this.messageClear();
+
+  // Refresh map layer.
+  map.removeLayer(tiles);
+  tiles = L.mapbox.tileLayer({
+    tiles: ['/source/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
+    minzoom: this.model.get('minzoom'),
+    maxzoom: this.model.get('maxzoom')
+  })
+  .on('tileload', statHandler)
+  .addTo(map);
+  map.options.minZoom = this.model.get('minzoom');
+  map.options.maxZoom = this.model.get('maxzoom');
+
+  // Set canvas background color.
+  if (this.model.get('background'))
+    $('#map').css({'background-color':this.model.get('background')});
+
+  // Refresh map title.
+  $('title').text(this.model.get('name'));
+  $('#title .name').text(this.model.get('name') || 'Untitled');
+
+  // Refresh gridcontrol template.
+  gridcontrol.setTemplate(this.model.get('template'));
+  if (this.model.get('template') && this.model.get('interactivity_layer')) {
+    map.addLayer(grids);
+  } else {
+    map.removeLayer(grids);
+  }
+
+  return false;
+};
+Editor.prototype.browse = function(ev) {
+  var browse = $(ev.currentTarget).parents('.browse');
+  var cwd = $(ev.currentTarget).attr('href').split('#').pop();
+  $.ajax({
+    url: '/browse/' + $(browse).attr('id') + cwd,
+    dataType: 'json',
+    success: function(resp) {
+      $('input[type=text]', browse).data('cwd', cwd);
+      $('.cwd strong', browse).text(cwd);
+      $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
+      $('.dir', browse).html(resp.map(function(f) {
+        return "<a class='icon folder padded' href='#" + f.path + "'>" + f.basename + "</a>";
+      }).join('\n'));
+    },
+    // @TODO
+    error: function(resp) {}
+  });
+  return false;
+};
+new Editor({
+  el: document.body,
+  model: new Source(<%= JSON.stringify(source) %>)
+});
+
+var templates = {};
+templates.layeritem = <%= this.layeritem.source %>;
+templates.layershape = <%= this.layershape.source %>;
+templates.layerpostgis = <%= this.layerpostgis.source %>;
+</script>
+</body>
+
+</html>
