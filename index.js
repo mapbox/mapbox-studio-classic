@@ -87,7 +87,11 @@ app.param('source', function(req, res, next) {
     var id = req.query.id;
     var tmp = id && tm.tmpid(id);
     var data = false;
-    if (req.method === 'PUT') var data = req.body;
+    if (req.method === 'PUT') {
+        var data = req.body;
+    } else if (tmp && req.path === '/source') {
+        var data = {};
+    }
     source({
         id: id,
         data: data,
@@ -194,6 +198,19 @@ app.get('/:project(project).xml', function(req, res, next) {
 app.get('/:source(source).xml', function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.source._xml);
+});
+
+app.get('/:source(source)', function(req, res, next) {
+    res.set({'content-type':'text/html'});
+    return res.send(tm.templates.source({
+        source: req.source.data
+    }));
+});
+
+app.put('/:source(source)', function(req, res, next) {
+    res.send({
+        mtime:req.source.data.mtime
+    });
 });
 
 app.post('/export/:project(package)', function(req, res, next) {
