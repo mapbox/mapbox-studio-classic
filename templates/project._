@@ -22,7 +22,7 @@
 </div>
 
 <form id='settings' class='column pane util'>
-  <a class='button icon close' href='#util'></a>
+  <a class='button icon close' href='#'></a>
   <section>
     <h2>Settings</h2>
   </section>
@@ -57,6 +57,7 @@
     <input type='submit' value='Save' class='wide' />
   </section>
 </form>
+
 <% if (!project._tmp) { %>
 <form id='exportas' class='modal browse ui'>
   <a class='button icon close' href='#'></a>
@@ -74,11 +75,13 @@
     <input type='submit' value='Export'/>
   </div>
 </form>
-<div id='export' class='column pane util'>
-  <a class='button icon close' href='#util'></a>
-  <section>
-    <h2>Export</h2>
-  </section>
+<% } %>
+<div id='util' class='menu column ui'>
+  <div>
+    <a class='icon padded prev button' href='/'>Home</a>
+  </div>
+  <% if (!project._tmp) { %>
+  <h3>Export</h3>
   <section>
     <label class='inline'>Style</label>
     <code><a class='icon padded file' href='/project.xml?id=<%=project.id%>' target='_blank'>project.xml</a></code>
@@ -87,11 +90,11 @@
     <label class='inline'>Datasource</label>
     <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
   </section>
-  <section>
+  <section class='centered'>
     <a class='button wide icon file submit' href='#exportas'>Save package</a>
   </section>
+  <% } %>
 </div>
-<% } %>
 
 <div id='layers' class='menu column ui'>
   <nav>
@@ -102,28 +105,11 @@
   <%= _(sources).map(this.source).join('\n') %>
 </div>
 
-<div id='util' class='menu column ui'>
-  <nav>
-    <a href='#' class='button icon close pinned'></a>
-    <h3>Project</h3>
-  </nav>
-  <a class='icon padded conf' href='#settings'>Settings</a>
-  <% if (!project._tmp) { %>
-  <a class='icon padded export' href='#export'>Export</a>
-  <% } else { %>
-  <a class='icon padded export'>Export</a>
-  <% } %>
-  <div class='centered'>
-    <a class='icon padded grid button' href='/'>Recent projects</a>
-  </div>
-</div>
-
 <div id='full' class='column'>
   <div id='title' class='ui'>
     <div class='left'>
       <span class='joined'>
-        <a class='button icon conf' href='#util'></a><!--
-        --><a class='button icon layers' href='#layers'></a><!--
+      <a class='button icon layers' href='#layers'></a><!--
       <% if (project._tmp) { %>
         --><a class='button icon okay' href='#saveas'>Save as</a>
       <% } else { %>
@@ -135,7 +121,10 @@
       <a class='button full-n icon full' href='#full'></a>
       <a class='button full-y icon close' href='#'></a>
     </div>
-    <h3><%= project.name || 'Untitled' %></h3>
+    <h3>
+      <span class='name'><%= project.name || 'Untitled' %></span>
+      <a class='icon gear' href='#settings'></a>
+    </h3>
   </div>
   <div id='map' class='dark' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay'></div>
@@ -551,7 +540,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title h3').text(this.model.get('name'));
+  $('#title .name').text(this.model.get('name') || 'Untitled');
 
   // Refresh gridcontrol template.
   gridcontrol.setTemplate(this.model.get('template'));

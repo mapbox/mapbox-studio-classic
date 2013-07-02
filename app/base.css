@@ -56,6 +56,7 @@ h1,h2,h3,h4,h5,h6,p {
   }
 h1,h2 { font-size:125%; }
 p { margin-bottom:10px; }
+a { color:inherit; text-decoration:none; }
 
 a.section,
 section {
@@ -92,7 +93,13 @@ a.section > * {
   }
 a.section:hover { background-color:#eee; }
 
-a { color:inherit; text-decoration:none; }
+.ui a.section,
+.ui section { border-color:rgba(0,0,0,0.1); }
+.menu a.section,
+.menu section {
+  border-right:0px;
+  padding:10px 20px 9px;
+  }
 
 section pre {
   padding:5px 0px;
@@ -473,6 +480,12 @@ nav > a {
 .menu > nav h3 { padding:5px; }
 .menu > nav a.pinned { position:absolute; left:5px; }
 .menu:target { display:block; }
+.menu .floor {
+  position:absolute;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  }
 
 /* Util menu */
 #util > a,
@@ -486,12 +499,6 @@ nav > a {
 #util > a:not([href]) { color:#888; }
 #util > a:not([href]):hover { background-color:transparent; }
 #util > a:not([href]):before { opacity:0.5; }
-#settings:target ~ * a[href='#settings'],
-#export:target   ~ * a[href='#export'],
-#upload:target   ~ * a[href='#upload'] {
-  background:rgba(0,0,0,0.1);
-  border-color:transparent;
-  }
 
 /* Data menu */
 #layers h3,
