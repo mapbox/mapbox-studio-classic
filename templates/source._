@@ -14,8 +14,8 @@
 
 <div id='perf'></div>
 
-<div id='editor' class='column ui'>
-  <div id='title'>
+<div id='full' class='column ui'>
+  <div id='title' class='ui'>
     <div class='left joined'>
       <a class='button icon prev' href='/'></a><!--
       <% if (source._tmp) { %>
@@ -24,33 +24,14 @@
       --><a class='button icon okay save' href='#'>Save</a>
       <% } %>
     </div>
-    <h3 class='name'><%= source.name || 'Untitled' %></h3>
+    <h3>
+      <span class='name'><%= source.name || 'Untitled' %></span>
+      <a class='icon gear' href='#settings'></a>
+    </h3>
   </div>
-  <% _(source.Layer).each(function(l) { print(this.layerpostgis(l)) }.bind(this)); %>
-  <form id='settings' class='ui'>
-    <section>
-      <label class='inline'>Name</label>
-      <input class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
-    </section>
-    <section>
-      <label class='inline'>Description</label>
-      <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
-    </section>
-    <section>
-      <label class='inline'>Attribution</label>
-      <input class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
-    </section>
-    <section>
-      <label class='inline'>Minzoom</label>
-      <input id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-      <label class='range' id='minzoom-val'><%= source.minzoom %></label>
-    </section>
-    <section>
-      <label class='inline'>Maxzoom</label>
-      <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-      <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
-    </section>
-  </form>
+  <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
+  <div id='map-overlay'></div>
+  <div id='zoomedto' class='ui z<%=source._prefs.center[2]%>'></div>
 </div>
 
 <div id='layers' class='menu column ui'>
@@ -61,12 +42,40 @@
   <% _(source.Layer).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
   </div>
 </div>
-
-<div id='inspector' class='column'>
-  <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
-  <div id='map-overlay'></div>
-  <div id='zoomedto' class='ui z<%=source._prefs.center[2]%>'></div>
+<div id='editor'>
+<% _(source.Layer).each(function(l) {
+  var type = l.Datasource.type;
+  if (this['layer' + type]) print(this['layer' + type](l))
+}.bind(this)); %>
 </div>
+<form id='settings' class='pane column ui'>
+  <a class='button icon close' href='#'></a>
+  <section>
+    <h2>Settings</h2>
+  </section>
+  <section>
+    <label class='inline'>Name</label>
+    <input class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+  </section>
+  <section>
+    <label class='inline'>Attribution</label>
+    <input class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+  </section>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <label class='range' id='minzoom-val'><%= source.minzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
+  </section>
+</form>
 
 <div id='message' class='modal ui centered'>
   <a class='button icon close' href='#'></a>
@@ -100,6 +109,18 @@
 <script src='/app/lib.js'></script>
 
 <script>
+var map = L.mapbox.map('map');
+var tiles = L.mapbox.tileLayer({
+  tiles: ['/project/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=<%=source.mtime%>'],
+  minzoom: <%= source.minzoom %>,
+  maxzoom: <%= source.maxzoom %>
+})
+// .on('tileload', statHandler)
+.addTo(map);
+map.setView([<%=source._prefs.center[1]%>, <%=source._prefs.center[0]%>], <%=source._prefs.center[2]%>);
+map.options.minZoom = <%= source.minzoom %>;
+map.options.maxZoom = <%= source.maxzoom %>;
+
 var Layer = function(id, datasource) {
   var code;
   if (datasource.type === 'postgis') {
@@ -118,14 +139,14 @@ var Layer = function(id, datasource) {
       switch (group) {
       case 'properties':
         memo.properties = memo.properties || {};
-        memo.properties[name] = isNaN(parseInt(field.value,10)) ? field.value : parseInt(field.value, 10);
+        memo.properties[name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
         break;
       case 'Datasource':
         memo.Datasource = memo.Datasource || {};
-        memo.Datasource[name] = isNaN(parseInt(field.value,10)) ? field.value : parseInt(field.value, 10);
+        memo.Datasource[name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
         break;
       default:
-        memo[field.name] = field.value;
+        memo[field.name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
         break;
       }
       return memo;
@@ -175,8 +196,7 @@ Editor.prototype.addlayer = function(ev) {
 
   if (!values.id || !templates['layer' + values.type]) return false;
 
-  var Layer = this.model.get('Layer');
-  if (!_(Layer).any(function(l) { return l.id === values.id })) {
+  if (!layers[values.id]) {
     var layer = {
       id: values.id,
       properties: {
@@ -184,19 +204,13 @@ Editor.prototype.addlayer = function(ev) {
         maxzoom:22,
         'buffer-size':0
       },
-      Datasource: {}
+      Datasource: {
+        type: values.type
+      }
     };
     $('#editor').prepend(templates['layer' + values.type](layer));
     $('#layers .menu-content').prepend(templates['layeritem'](layer));
-
-    // For postgis sources, add an SQL code editor.
-    // @TODO sqlite
-    if (values.type === 'postgis') {
-        code[values.id] = Tab('layers-' + values.id + '-sql', '');
-    }
-
-    Layer.unshift(layer);
-    this.model.set({Layer:Layer});
+    layers[values.id] = Layer(values.id, layer.Datasource);
 
     window.location.hash = '#layers-' + values.id;
   } else {
@@ -204,13 +218,43 @@ Editor.prototype.addlayer = function(ev) {
   }
   return false;
 };
+Editor.prototype.error = function(model, resp) {
+  this.messageClear();
+
+  if (!resp.responseText)
+    return this.messageModal('Could not save project "' + model.id + '"');
+
+    // Assume carto.js specific error array format response.
+  _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
+    .compact()
+    .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
+    .each(_(function(e) {
+      if (_(e).isArray()) {
+        var id = e[2];
+        var ln = parseInt(e[3]) - 1;
+        code[id]._cartoErrors = code[id]._cartoErrors || [];
+        code[id]._cartoErrors.push(ln);
+        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+      } else {
+        return this.messageModal(e);
+      }
+    }).bind(this));
+};
+Editor.prototype.messageModal = function(text) {
+  $('#message .message').text(text);
+  window.location.hash = '#message';
+};
+Editor.prototype.messageClear = function() {
+  $('#message .message').text('');
+  $('#full').removeClass('loading');
+};
 Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
-  // $('#full').addClass('loading');
+  $('#full').addClass('loading');
 
   // Grab settings form values.
   var attr = _($('#settings').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = isNaN(parseInt(field.value,10)) ? field.value : parseInt(field.value, 10);
+    memo[field.name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
     return memo;
   }, {});
 
@@ -228,6 +272,27 @@ Editor.prototype.save = function(ev, options) {
     error: _(this.error).bind(this)
   };
   this.model.save(attr, options);
+
+  return false;
+};
+Editor.prototype.refresh = function(ev) {
+  this.messageClear();
+
+  // Refresh map layer.
+  map.removeLayer(tiles);
+  tiles = L.mapbox.tileLayer({
+    tiles: ['/project/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
+    minzoom: this.model.get('minzoom'),
+    maxzoom: this.model.get('maxzoom')
+  })
+  //.on('tileload', statHandler)
+  .addTo(map);
+  map.options.minZoom = this.model.get('minzoom');
+  map.options.maxZoom = this.model.get('maxzoom');
+
+  // Refresh map title.
+  $('title').text(this.model.get('name'));
+  $('#title .name').text(this.model.get('name') || 'Untitled');
 
   return false;
 };

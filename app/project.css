@@ -21,6 +21,12 @@
   left:0% !important;
   width:100% !important;
   }
+.leaflet-left {
+  left:25%;
+  transition:left 200ms;
+  -moz-transition:left 200ms;
+  -webkit-transition:left 200ms;
+  }
 
 /* Code pane */
 #code {
@@ -200,9 +206,7 @@ div.source a.section { cursor:pointer; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
-.pane:target ~ #full,
 .menu:target ~ #full { left:25%; }
-.pane:target ~ #code,
 .menu:target ~ #code { left:75%; }
 #full:target { width:100%; }
 #full:target ~ #code { left:100%; }

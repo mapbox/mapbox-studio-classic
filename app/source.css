@@ -1,36 +1,33 @@
-#layers {
-  margin-bottom:25%;
-  left:75%;
-  }
-#inspector {
+#full {
   display:block;
   position:absolute;
-  bottom:0%; left:75%;
-  width:25%; padding-bottom:25%;
+  bottom:0%; left:0%; top:0%;
+  width:50%;
   }
 #map {
   background-color:#222;
   position:absolute;
-  width:100%;
-  height:100%;
+  width:100%; top:40px; bottom:0px;
   }
-#editor {
+
+#layers {
   position:absolute;
-  left:0%; top:0%; bottom:0%;
-  width:75%;
+  left:50%; top:0%; bottom:0%;
+  width:50%;
   overflow:auto;
   }
-#settings,
+
 .editor {
-  visibility:hidden;
   position:absolute;
+  left:50%; top:0%; bottom:0%;
+  width:50%;
   overflow:auto;
-  top:40px; bottom:0%;
-  width:100%;
   z-index:-1;
+  background:#444;
+  background-image:-webkit-linear-gradient(#444 75%,#333);
+  visibility:hidden;
   }
 .editor > * { display:none; }
-
 .editor:target { visibility:visible; z-index:0; }
 .editor:target > * { display:block; }
 
@@ -44,9 +41,6 @@
   display:block;
   }
 .editor:target .CodeMirror { visibility:visible; }
-
-#settings { visibility:visible; z-index:0; }
-.editor:target ~ #settings { visibility:hidden; z-index:-1; }
 
 #stats {
   border-top:1px solid rgba(0,0,0,0.1);

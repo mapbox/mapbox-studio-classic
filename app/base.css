@@ -183,6 +183,7 @@ input.wide[type=submit] {
 .icon.point:before { background-position-x:-140px; }
 .icon.polygon:before { background-position-x:-160px; }
 .icon.multipolygon:before { background-position-x:-160px; }
+.icon.unknown:before { background-position-x:-500px; }
 .icon.conf:before { background-position-x:-180px; }
 .icon.code:before { background-position-x:-200px; }
 .icon.folder:before { background-position-x:-220px; }
@@ -218,8 +219,8 @@ nav > a {
 .pane {
   position:absolute;
   z-index:1002;
-  left:25%; bottom:100%;
-  width:75%; height:100%;
+  left:50%; bottom:100%;
+  width:50%; height:100%;
   background:#ddd;
   background-image:-webkit-linear-gradient(#ddd 75%,#bbb);
   overflow:auto;
@@ -243,11 +244,7 @@ nav > a {
   z-index:0;
   }
 .leaflet-left {
-  left:25%;
   z-index:0;
-  transition:left 200ms;
-  -moz-transition:left 200ms;
-  -webkit-transition:left 200ms;
   }
 #zoomedto {
   position:absolute;
@@ -545,8 +542,8 @@ nav > a {
 
 /* Titlebar */
 #title {
-  background:#444;
-  border-bottom:1px solid rgba(0,0,0,0.1);
+  background:#ddd;
+  border-bottom:1px solid #ccc;
   padding:10px 10px 9px;
   height:40px;
   position:absolute;
@@ -561,6 +558,10 @@ nav > a {
 #title .right {
   position:absolute;
   right:5px; top:5px;
+  }
+#title.ui {
+  background:#444;
+  border-color:rgba(0,0,0,0.1);
   }
 
 /* Project history */

@@ -59,6 +59,7 @@ app.param('project', function(req, res, next) {
         return next();
     });
 }, function(req, res, next) {
+    // @TODO remove this -- sources should be edited through source UI.
     if (req.method === 'PUT' && req.project) {
         source({
             id: req.project._backend.data._id,
@@ -84,6 +85,12 @@ app.param('project', function(req, res, next) {
 });
 
 app.param('source', function(req, res, next) {
+    if (req.method === 'PUT' && req.query.id) {
+        source.invalidate(req.query.id, next);
+    } else {
+        next();
+    }
+}, function(req, res, next) {
     var id = req.query.id;
     var tmp = id && tm.tmpid(id);
     var data = false;
@@ -99,6 +106,20 @@ app.param('source', function(req, res, next) {
     }, function(err, source) {
         if (err) return next(err);
         req.source = source;
+        return next();
+    });
+}, function(req, res, next) {
+    project({
+        id: req.query.id,
+        data: {
+            styles: [tm.templates.stylesxray(_(req.source.data.Layer).pluck('id'))],
+            sources: [req.query.id]
+        },
+        perm: false
+    }, function(err, project) {
+        if (err) return next(err);
+        req.project = project;
+        req.project.data._tmp = true;
         return next();
     });
 });
@@ -152,7 +173,7 @@ app.get('/:project(project)', function(req, res, next) {
     }));
 });
 
-app.get('/:project(project)/:z/:x/:y.grid.json', function(req, res, next) {
+app.get('/:project(project|source)/:z/:x/:y.grid.json', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
@@ -168,7 +189,7 @@ app.get('/:project(project)/:z/:x/:y.grid.json', function(req, res, next) {
     });
 });
 
-app.get('/:project(project)/:z/:x/:y.:format', function(req, res, next) {
+app.get('/:project(project|source)/:z/:x/:y.:format', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;

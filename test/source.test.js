@@ -90,9 +90,7 @@ describe('source local', function() {
         source({id:tmp, data:data, perm:true}, function(err, source) {
             assert.ifError(err);
             assert.ok(source);
-            // @TODO data.yml is currently not saved because it blows away
-            // multiline strings.
-            // assert.ok(/maxzoom: 6/.test(fs.readFileSync(tmp + '/data.yml', 'utf8')), 'saves data.yml');
+            assert.ok(/maxzoom: 6/.test(fs.readFileSync(tmp + '/data.yml', 'utf8')), 'saves data.yml');
             assert.ok(/<Map srs/.test(fs.readFileSync(tmp + '/data.xml', 'utf8')), 'saves data.xml');
             done();
         });

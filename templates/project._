@@ -22,7 +22,7 @@
   <%= _(library).map(this.sourceitem).join('\n') %>
 </div>
 
-<form id='settings' class='column pane util'>
+<form id='settings' class='column pane'>
   <a class='button icon close' href='#'></a>
   <section>
     <h2>Settings</h2>
@@ -111,7 +111,7 @@
 </div>
 
 <div id='full' class='column'>
-  <div id='title' class='ui'>
+  <div id='title'>
     <div class='left'>
       <span class='joined'>
       <a class='button icon layers' href='#layers'></a><!--
