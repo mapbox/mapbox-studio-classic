@@ -21,18 +21,13 @@ Most layers have a `class` or a `type` field to distinguish different types of o
 
 Most objects have a `osm_id` number. These are derived from object IDs in OpenStreetMap database and are useful for identifying specific features. Because OpenStreetMap has three overlapping sets of ID number spaces, the `osm_id`s in the vector tiles have been modified to make them unique:
 
-<!-- V2 -->
-- IDs of nodes are multiplied by -1 (1 becomes -1)
-- IDs of ways stay the same (1 stays 1)
-- IDs of relations are increased by 10^12 (1 becomes 1000000000001)
-
-<!-- V3, coming soon
 - IDs of nodes are multiplied by -1 (1 becomes -1)
 - IDs of ways that are lines stay the same (1 stays 1)
 - IDs of ways that are polygons are increased by 10^12 (1 becomes 1000000000001)
 - IDs of relations that are lines are increased by 2\*10^12  (1 becomes 2000000000001)
 - IDs of relations that are polygons are increased by 3\*10^12 (1 becomes 3000000000001)
--->
+
+Some objects are unable to be tied to an OSM ID, either because they are not based on OSM data or because they have been processed too extensively. These have an `osm_id` of `0` in the vector tiles and include coastal/ocean water polygons, low-zoom state boundaries, and low-zoom label connector lines.
 
 ### Names
 
