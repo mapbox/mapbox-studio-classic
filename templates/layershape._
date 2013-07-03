@@ -1,4 +1,4 @@
-<form class='editor column ui' id='layers-<%=obj.id%>'>
+<form class='editor column dark w2 l2' id='layers-<%=obj.id%>'>
   <nav><a href='#' class='button icon close'></a></nav>
   <section>
     <h2><%= obj.id %></h2>

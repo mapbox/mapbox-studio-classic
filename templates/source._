@@ -14,8 +14,8 @@
 
 <div id='perf'></div>
 
-<div id='full' class='column ui'>
-  <div id='title' class='ui'>
+<div id='full' class='column dark w2 l0'>
+  <div id='title' class='dark'>
     <div class='left joined'>
       <a class='button icon prev' href='/'></a><!--
       <% if (source._tmp) { %>
@@ -31,10 +31,10 @@
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
-  <div id='zoomedto' class='ui z<%=source._prefs.center[2]%>'></div>
+  <div id='zoomedto' class='dark z<%=source._prefs.center[2]%>'></div>
 </div>
 
-<div id='layers' class='menu column ui'>
+<div id='layers' class='menu column dark w2 l2'>
   <nav class='menu-title centered'>
     <a href='#addlayer' class='button icon plus title'>Layers</a>
   </nav>
@@ -48,7 +48,7 @@
   if (this['layer' + type]) print(this['layer' + type](l))
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane column ui'>
+<form id='settings' class='pane dark w2 l2'>
   <a class='button icon close' href='#'></a>
   <section>
     <h2>Settings</h2>
@@ -77,12 +77,12 @@
   </section>
 </form>
 
-<div id='message' class='modal ui centered'>
+<div id='message' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
   <div class='message'></div>
 </div>
 
-<form id='addlayer' class='modal ui centered'>
+<form id='addlayer' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
   <p class='joined'>
     <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--

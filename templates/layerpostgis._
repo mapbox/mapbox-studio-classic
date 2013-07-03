@@ -1,4 +1,4 @@
-<form class='editor column ui' id='layers-<%=obj.id%>'>
+<form class='editor column dark w2 l2' id='layers-<%=obj.id%>'>
   <nav>
     <span class='joined'>
       <a href='#layers-<%=obj.id%>' class='button icon conf active'></a><!--
@@ -41,7 +41,7 @@
     <label class='range' id='properties-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
   </section>
 </form>
-<div class='editor column ui' id='layers-<%=obj.id%>-sql'>
+<div class='editor column dark w2 l2' id='layers-<%=obj.id%>-sql'>
   <nav>
     <span class='joined'>
       <a href='#layers-<%=obj.id%>' class='button icon conf'></a><!--

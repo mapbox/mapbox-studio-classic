@@ -9,7 +9,7 @@
 
 <body id='view'>
 
-<div id='title' class='ui'>
+<div id='title' class='dark'>
   <div class='left'>
     <% /*
     <span class='joined'><!--

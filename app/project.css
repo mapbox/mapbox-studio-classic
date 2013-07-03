@@ -1,12 +1,6 @@
 /* Map is oversized to accommodate fullscreen view. */
-#full {
-  position:absolute;
-  width:50%;
-  left:0px;
-  top:0px;
-  bottom:0px;
-  overflow:hidden;
-  }
+#full { overflow:hidden; }
+
 #map {
   position:absolute;
   top:40px;
@@ -29,12 +23,8 @@
   }
 
 /* Code pane */
-#code {
-  position:absolute;
-  left:50%; top:0px; bottom:0px;
-  width:50%;
-  background:#f8f8f8;
-  }
+#code { background:#f8f8f8; }
+
 #code .left {
   position:absolute; left:0px; top:0px;
   width:40px; height:40px;
@@ -139,14 +129,6 @@
   }
 
 /* Carto ref docs */
-#docs {
-  position:absolute;
-  left:0%; bottom:100%;
-  width:50%; height:100%;
-  background:#ddd;
-  -webkit-transition:bottom 200ms;
-  }
-#docs:target { bottom:0%; }
 #docs:target ~ * a.docs-y { display:block; }
 #docs:target ~ * a.docs-n { display:none; }
 #docs:target nav,
@@ -206,10 +188,12 @@ div.source a.section { cursor:pointer; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
-.menu:target ~ #full { left:25%; }
-.menu:target ~ #code { left:75%; }
+#data:target ~ .l0,
+.menu:target ~ .l0 { left:25%; }
+#data:target ~ .l2,
+.menu:target ~ .l2 { left:75%; }
 #full:target { width:100%; }
-#full:target ~ #code { left:100%; }
+#full:target ~ .l2 { left:100%; }
 #full:target .leaflet-left { left:0%; }
 
 #perf:target ~ #full { bottom:40px; }

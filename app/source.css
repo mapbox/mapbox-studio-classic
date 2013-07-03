@@ -1,26 +1,10 @@
-#full {
-  display:block;
-  position:absolute;
-  bottom:0%; left:0%; top:0%;
-  width:50%;
-  }
 #map {
   background-color:#222;
   position:absolute;
   width:100%; top:40px; bottom:0px;
   }
 
-#layers {
-  position:absolute;
-  left:50%; top:0%; bottom:0%;
-  width:50%;
-  overflow:auto;
-  }
-
 .editor {
-  position:absolute;
-  left:50%; top:0%; bottom:0%;
-  width:50%;
   overflow:auto;
   z-index:-1;
   background:#444;

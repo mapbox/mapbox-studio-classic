@@ -10,11 +10,11 @@
   <title><%= project.name %></title>
 </head>
 
-<body id='view' class='dark'>
+<body id='view'>
 
 <div id='perf'></div>
 
-<div id='data' class='column pane todo'>
+<div id='data' class='pane w3 l1 todo'>
   <a class='button icon close' href='#layers'></a>
   <section>
     <h2>Data library</h2>
@@ -22,7 +22,7 @@
   <%= _(library).map(this.sourceitem).join('\n') %>
 </div>
 
-<form id='settings' class='column pane'>
+<form id='settings' class='pane w2 l2'>
   <a class='button icon close' href='#'></a>
   <section>
     <h2>Settings</h2>
@@ -60,7 +60,7 @@
 </form>
 
 <% if (!project._tmp) { %>
-<form id='exportas' class='modal browse ui'>
+<form id='exportas' class='modal browse dark'>
   <a class='button icon close' href='#'></a>
   <div class='cwd'>
     <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
@@ -77,7 +77,7 @@
   </div>
 </form>
 <% } %>
-<div id='util' class='menu column ui hide'>
+<div id='util' class='menu column dark hide'>
   <nav class='menu-title'>
     <a class='icon padded prev button' href='/'>Home</a>
   </nav>
@@ -99,7 +99,7 @@
   <% } %>
 </div>
 
-<div id='layers' class='menu column ui hide'>
+<div id='layers' class='menu column w1 dark hide'>
   <nav class='menu-title centered'>
     <a href='#' class='button icon close left'></a>
     <a href='#data' class='button title data-n icon plus'>Data</a>
@@ -110,7 +110,7 @@
   </div>
 </div>
 
-<div id='full' class='column'>
+<div id='full' class='column w2 l0'>
   <div id='title'>
     <div class='left'>
       <span class='joined'>
@@ -131,16 +131,16 @@
       <a class='icon gear' href='#settings'></a>
     </h3>
   </div>
-  <div id='map' class='dark' style='background-color:<%=project.background%>;'></div>
+  <div id='map' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay'></div>
-  <div id='zoomedto' class='ui z<%=project.center[2]%>'></div>
+  <div id='zoomedto' class='z<%=project.center[2]%>'></div>
 </div>
 
-<div id='docs' class='column'>
+<div id='docs' class='pane w2'>
   <%= this['projectdocs'](cartoRef) %>
 </div>
 
-<div id='code' class='column'>
+<div id='code' class='column w2 l2'>
   <div class='left'>
     <a class='button docs-n icon code' href='#docs'></a>
     <a class='button docs-y icon close' href='#'></a>
@@ -168,7 +168,7 @@
 </div>
 
 <% if (project._tmp) { %>
-<form id='saveas' class='modal browse ui'>
+<form id='saveas' class='modal browse dark'>
   <a class='button icon close' href='#'></a>
   <div class='cwd'>
     <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
@@ -186,15 +186,17 @@
 </form>
 <% } %>
 
-<div id='message' class='modal ui centered'>
+<div id='message' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
   <div class='message'></div>
 </div>
 
-<form id='addtab' class='modal ui centered'>
+<form id='addtab' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
-  <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
-  <input type='submit' value='New tab'/>
+  <span class='joined'>
+    <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
+    --><input type='submit' value='New tab'/>
+  </span>
 </form>
 
 <div id='mask'></div>
@@ -276,7 +278,7 @@ grids.addTo(map);
 <% } %>
 
 map.setView([<%=project.center[1]%>, <%=project.center[0]%>], <%=project.center[2]%>);
-map.on('zoomend', function() { $('#zoomedto').attr('class', 'ui z' + (map.getZoom()|0)); });
+map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
 map.options.minZoom = <%= project.minzoom %>;
 map.options.maxZoom = <%= project.maxzoom %>;
 
