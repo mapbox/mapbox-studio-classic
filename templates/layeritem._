@@ -1,5 +1,7 @@
 <a class='layer' href='#layers-<%=obj.id%>'>
-  <span class='geometry icon <%=obj.geometry||'unknown'%>'></span>
+  <span class='icon xrayswatch
+    <%=obj.status === 0 ? 'disabled' : ''%>
+    <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></span>
   <%=obj.id%>
   <% if (obj.Datasource.type) { %>
   <span class='zooms'>

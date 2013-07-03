@@ -12,7 +12,7 @@
   </small>
 </a>
 <h3><%= obj.name %></h3>
-<div class='joined status <%= obj.tiles ? 'remote' : 'local' %>'>
+<div class='joined sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
   <% if (obj.tiles) { %>
   <span class='button'>Remote</span><!--
   --><a class='button icon recache' href='#recache'></a>

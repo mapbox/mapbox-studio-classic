@@ -1,9 +1,12 @@
 <form class='editor column dark w2 l2' id='layers-<%=obj.id%>'>
   <nav><a href='#' class='button icon close'></a></nav>
   <section>
-    <h2><%= obj.id %></h2>
+    <h2>
+      <%= obj.id %>
+    </h2>
     <input type='hidden' name='id' value='<%=obj.id%>' />
     <input type='hidden' name='name' value='<%=obj.id%>' />
+    <input type='hidden' name='status' value='<%='status' in obj ? obj.status : 1 %>' />
   </section>
   <section>
     <label class='inline'>Description</label>

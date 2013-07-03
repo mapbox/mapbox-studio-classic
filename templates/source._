@@ -112,7 +112,7 @@ var map = L.mapbox.map('map');
 var tiles = L.mapbox.tileLayer({
   tiles: ['/project/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=<%=source.mtime%>'],
   minzoom: <%= source.minzoom %>,
-  maxzoom: <%= source.maxzoom %>
+  maxzoom: 22
 })
 .on('tileload', statHandler('srcbytes'))
 .addTo(map);
@@ -122,7 +122,7 @@ statHandler('srcbytes')();
 map.setView([<%=source._prefs.center[1]%>, <%=source._prefs.center[0]%>], <%=source._prefs.center[2]%>);
 map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
 map.options.minZoom = <%= source.minzoom %>;
-map.options.maxZoom = <%= source.maxzoom %>;
+map.options.maxZoom = 22;
 
 var Layer = function(id, datasource) {
   var code;
@@ -173,6 +173,7 @@ Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
+  'click a.layer .xrayswatch': 'togglelayer',
   'submit #addlayer': 'addlayer',
   'keydown': 'keys'
 };
@@ -188,6 +189,18 @@ Editor.prototype.keys = function(ev) {
     break;
   default:
     return true;
+  }
+  return false;
+};
+Editor.prototype.togglelayer = function(ev) {
+  var target = $(ev.currentTarget);
+  var status = $('input[name=status]', target.parent().attr('href'));
+  if (status.val() === '0') {
+    target.removeClass('disabled');
+    status.val('1');
+  } else {
+    target.addClass('disabled');
+    status.val('0');
   }
   return false;
 };
@@ -264,11 +277,13 @@ Editor.prototype.save = function(ev, options) {
   // Grab layers.
   attr.Layer = _(layers).map(function(l) { return l.get() });
 
-  // if (this.model.get('_prefs').saveCenter) {
-  //   var lon = map.getCenter().lng % 360;
-  //   lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-  //   attr.center = [lon , map.getCenter().lat, map.getZoom() ];
-  // }
+  // Save center.
+  if (this.model.get('_prefs').saveCenter) {
+    var lon = map.getCenter().lng % 360;
+    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
+    attr._prefs = attr._prefs || {};
+    attr._prefs.center = [lon , map.getCenter().lat, map.getZoom() ];
+  }
 
   options = options || {
     success:_(this.refresh).bind(this),
@@ -286,12 +301,12 @@ Editor.prototype.refresh = function(ev) {
   tiles = L.mapbox.tileLayer({
     tiles: ['/project/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
-    maxzoom: this.model.get('maxzoom')
+    maxzoom: 22
   })
   .on('tileload', statHandler('srcbytes'))
   .addTo(map);
   map.options.minZoom = this.model.get('minzoom');
-  map.options.maxZoom = this.model.get('maxzoom');
+  map.options.maxZoom = 22;
 
   // Refresh map title.
   $('title').text(this.model.get('name'));

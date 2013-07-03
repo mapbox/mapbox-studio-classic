@@ -528,18 +528,18 @@ nav > a {
   background:#444;
   display:none;
   }
-#layers .status {
+#layers .sourcetype {
   position:absolute;
   top:10px; right:10px;
   font-size:80%;
   }
-#layers .status * {
+#layers .sourcetype * {
   padding-top:0px;
   padding-bottom:0px;
   height:20px;
   }
-#layers .status.remote * { background-color:#48a; }
-#layers .status.local * { background-color:#c84; }
+#layers .sourcetype.remote * { background-color:#48a; }
+#layers .sourcetype.local * { background-color:#c84; }
 
 #data:target ~ #layers { display:block; }
 #data:target ~ #layers a.delete { display:block; }
@@ -582,6 +582,16 @@ nav > a {
   width:80px;
   overflow:hidden;
   }
+
+.xrayswatch {
+  display:inline-block;
+  border-radius:2px;
+  background:rgba(0,0,0,0.1);
+  margin-right:5px;
+  box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
+  }
+.xrayswatch.disabled { background:rgba(0,0,0,0.1) !important; }
+.xrayswatch.disabled::before { visibility:hidden; }
 
 /* Titlebar */
 #title {

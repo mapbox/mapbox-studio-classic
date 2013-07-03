@@ -119,7 +119,7 @@ app.param('source', function(req, res, next) {
     project({
         id: req.query.id,
         data: {
-            styles: [tm.templates.stylesxray(_(req.source.data.Layer).pluck('id'))],
+            styles: [tm.templates.xraystyles(_(req.source.data.Layer).pluck('id'))],
             sources: [req.query.id]
         },
         perm: false
