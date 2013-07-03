@@ -16,12 +16,11 @@
 
 <div id='full' class='column dark w2 l0'>
   <div id='title' class='dark'>
-    <div class='left joined'>
-      <a class='button icon prev' href='/'></a><!--
+    <div class='left'>
       <% if (source._tmp) { %>
-      --><a class='button icon okay' href='#saveas'>Save as</a>
+      <a class='button icon okay' href='#saveas'>Save as</a>
       <% } else { %>
-      --><a class='button icon okay save' href='#'>Save</a>
+      <a class='button icon okay save' href='#'>Save</a>
       <% } %>
     </div>
     <h3>
@@ -115,8 +114,11 @@ var tiles = L.mapbox.tileLayer({
   minzoom: <%= source.minzoom %>,
   maxzoom: <%= source.maxzoom %>
 })
-// .on('tileload', statHandler)
+.on('tileload', statHandler)
 .addTo(map);
+
+statHandler();
+
 map.setView([<%=source._prefs.center[1]%>, <%=source._prefs.center[0]%>], <%=source._prefs.center[2]%>);
 map.options.minZoom = <%= source.minzoom %>;
 map.options.maxZoom = <%= source.maxzoom %>;

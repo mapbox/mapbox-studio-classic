@@ -277,6 +277,7 @@ nav > a {
   width:100px; height:20px;
   font-weight:bold;
   font-size:10px;
+  line-height:19px;
   }
 #zoomedto strong {
   position:absolute;
@@ -284,7 +285,7 @@ nav > a {
   padding:0px 5px;
   width:30px;
   text-align:center;
-  border-right:1px solid #ddd;
+  border-right:1px solid #ccc;
   }
 #zoomedto .range {
   height:2px;
@@ -410,6 +411,36 @@ nav > a {
   display:block;
   bottom:5px; right:5px;
   }
+
+.dark #zoomedto { background:#282828; }
+.dark #zoomedto.z0 .z0,
+.dark #zoomedto.z1 .z1,
+.dark #zoomedto.z2 .z2,
+.dark #zoomedto.z3 .z3,
+.dark #zoomedto.z4 .z4,
+.dark #zoomedto.z5 .z5,
+.dark #zoomedto.z6 .z6,
+.dark #zoomedto.z7 .z7,
+.dark #zoomedto.z8 .z8,
+.dark #zoomedto.z9 .z9,
+.dark #zoomedto.z10 .z10,
+.dark #zoomedto.z11 .z11,
+.dark #zoomedto.z12 .z12,
+.dark #zoomedto.z13 .z13,
+.dark #zoomedto.z14 .z14,
+.dark #zoomedto.z15 .z15,
+.dark #zoomedto.z16 .z16,
+.dark #zoomedto.z17 .z17,
+.dark #zoomedto.z18 .z18,
+.dark #zoomedto.z19 .z19,
+.dark #zoomedto.z20 .z20,
+.dark #zoomedto.z21 .z21,
+.dark #zoomedto.z22 .z22 { background:#333; }
+.dark #zoomedto .z,
+.dark #zoomedto strong { border-color:#222; }
+
+.leaflet-container.dark .leaflet-bar,
+.leaflet-container.dark .leaflet-bar a { border-color:#222; }
 
 #map-overlay {
   position:absolute;

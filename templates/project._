@@ -211,47 +211,6 @@
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var rangeHandler = function(el, bound, target) {
-  var limit = parseInt($(target).val(),10);
-  if (bound === 'max') {
-    el.value = parseInt(el.value, 10) < limit ? el.value : limit;
-  } else {
-    el.value = parseInt(el.value, 10) > limit ? el.value : limit;
-  }
-  $('#' + el.id + '-val').text(el.value);
-};
-var statHandler = _(function() {
-  if (document.cookie.indexOf('drawtime') === -1) return;
-  var max = 300;
-  var stats = _(document.cookie
-    .split('drawtime=').pop()
-    .split(';').shift()
-    .split('.')).reduce(function(memo, z) {
-    z = z.split('-');
-    if (z.length !== 4) return memo;
-    memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
-    return memo;
-  }, {});
-  var html = "<a href='#' class='button icon close'></a>";
-  for (var z = 0; z < 22; z++) {
-    var s = stats[z];
-    var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
-    var w = s ? Math.round((s[2]-s[0])/max*100) : null;
-    var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
-    html += [
-      "<a href='#zoomedto' class='z z",z,"'>",
-      "<strong>z",z,"</strong>",
-      s ? "<span class='avg'>"+s[1]+"ms</span>" : '',
-      s ? "<span class='range'>" : '',
-      s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
-      s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
-      s ? "</span>" : '',
-      "</a>"
-    ].join('');
-  }
-  $('#zoomedto').html(html);
-}).throttle(50);
-
 var map = L.mapbox.map('map');
 var tiles = L.mapbox.tileLayer({
   tiles: ['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'],
