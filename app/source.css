@@ -4,49 +4,18 @@
   width:100%; top:40px; bottom:0px;
   }
 
-.editor {
-  overflow:auto;
-  z-index:-1;
-  background:#444;
-  background-image:-webkit-linear-gradient(#444 75%,#333);
+.editor > div.sql {
+  position:absolute;
+  top:50px; bottom:0px; width:100%;
+  display:block;
   visibility:hidden;
   }
-.editor > * { display:none; }
-.editor:target { visibility:visible; z-index:0; }
-.editor:target > * { display:block; }
+.editor .CodeMirror { top:60px; }
 
-.editor nav {
-  position:absolute;
-  right:10px;
-  top:10px;
-  }
-.editor .CodeMirror {
-  top:50px;
-  display:block;
-  }
-.editor:target .CodeMirror { visibility:visible; }
+.editor nav .icon.conf,
+.sql .editor nav .icon.edit { background-color:rgba(0,0,0,0.4); }
+.sql .editor nav .icon.conf { background-color:rgba(0,0,0,0.2); }
 
-#stats {
-  border-top:1px solid rgba(0,0,0,0.1);
-  background:rgba(0,0,0,0.1);
-  position:absolute;
-  left:0%; top:75%; bottom:0%;
-  width:75%;
-  padding:10px;
-  white-space:nowrap;
-  }
-#stats .z {
-  display:inline-block;
-  width:4.54%;
-  height:100%;
-  padding:10px 5px;
-  border-radius:4px;
-  }
-#stats .z .bar {
-  display:block;
-  margin:0px auto;
-  width:6px;
-  height:100%;
-  background:#282828;
-  border-radius:2px;
-  }
+.sql .editor > div.conf { visibility:hidden; }
+.sql .editor > div.sql { visibility:visible; }
+.sql .editor .CodeMirror { visibility:visible; }

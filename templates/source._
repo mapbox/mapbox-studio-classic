@@ -127,12 +127,12 @@ map.options.maxZoom = 22;
 var Layer = function(id, datasource) {
   var code;
   if (datasource.type === 'postgis') {
-    code = CodeMirror(document.getElementById('layers-' + id + '-sql'), {
+    code = CodeMirror($('#layers-' + id + ' div.sql').get(0), {
       value: datasource.table,
       lineNumbers: true,
       mode: 'text/x-plsql'
     });
-    code.getWrapperElement().id = 'layers-' + id + '-sql-code';
+    code.getWrapperElement().id = 'layers-' + id + '-code';
   }
   var layer = { code: code, form: $('#layers-' + id) };
   layer.get = function() {
@@ -173,6 +173,8 @@ Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
+  'click .editor nav a.conf': 'togglemode',
+  'click .editor nav a.edit': 'togglemode',
   'click a.layer .xrayswatch': 'togglelayer',
   'submit #addlayer': 'addlayer',
   'keydown': 'keys'
@@ -189,6 +191,15 @@ Editor.prototype.keys = function(ev) {
     break;
   default:
     return true;
+  }
+  return false;
+};
+Editor.prototype.togglemode = function(ev) {
+  var target = $(ev.currentTarget);
+  if (target.attr('href').split('#mode-').pop() === 'sql') {
+    $('body').addClass('sql');
+  } else {
+    $('body').removeClass('sql');
   }
   return false;
 };

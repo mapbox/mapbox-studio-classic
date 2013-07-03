@@ -243,7 +243,11 @@ nav > a {
 .pane > * { display:none; }
 .pane:target > * { display:block; }
 .pane:target { bottom:0%; }
-.pane .close { position:absolute; right:10px; top:10px; }
+.pane nav {
+  position:absolute;
+  right:10px;
+  top:10px;
+  }
 
 .pane.dark {
   background:#444;
