@@ -114,12 +114,13 @@ var tiles = L.mapbox.tileLayer({
   minzoom: <%= source.minzoom %>,
   maxzoom: <%= source.maxzoom %>
 })
-.on('tileload', statHandler)
+.on('tileload', statHandler('srcbytes'))
 .addTo(map);
 
-statHandler();
+statHandler('srcbytes')();
 
 map.setView([<%=source._prefs.center[1]%>, <%=source._prefs.center[0]%>], <%=source._prefs.center[2]%>);
+map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
 map.options.minZoom = <%= source.minzoom %>;
 map.options.maxZoom = <%= source.maxzoom %>;
 
@@ -287,7 +288,7 @@ Editor.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
-  //.on('tileload', statHandler)
+  .on('tileload', statHandler('srcbytes'))
   .addTo(map);
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');

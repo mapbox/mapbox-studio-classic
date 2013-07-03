@@ -10,35 +10,41 @@ var rangeHandler = function(el, bound, target) {
   $('#' + el.id + '-val').text(el.value);
 };
 
-var statHandler = _(function() {
-  if (document.cookie.indexOf('drawtime') === -1) return;
-  var max = 300;
-  var stats = _(document.cookie
-    .split('drawtime=').pop()
-    .split(';').shift()
-    .split('.')).reduce(function(memo, z) {
-    z = z.split('-');
-    if (z.length !== 4) return memo;
-    memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
-    return memo;
-  }, {});
-  var html = "<a href='#' class='button icon close'></a>";
-  for (var z = 0; z < 22; z++) {
-    var s = stats[z];
-    var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
-    var w = s ? Math.round((s[2]-s[0])/max*100) : null;
-    var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
-    html += [
-      "<a href='#zoomedto' class='z z",z,"'>",
-      "<strong>z",z,"</strong>",
-      s ? "<span class='avg'>"+s[1]+"ms</span>" : '',
-      s ? "<span class='range'>" : '',
-      s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
-      s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
-      s ? "</span>" : '',
-      "</a>"
-    ].join('');
-  }
-  $('#zoomedto').html(html);
-}).throttle(50);
+var statHandler = function(key) {
+  var unit = key === 'srcbytes' ? 'k' : 'ms';
+  return _(function() {
+    if (document.cookie.indexOf(key) === -1) return;
+    var max = 300;
+    var stats = _(document.cookie
+      .split(key + '=').pop()
+      .split(';').shift()
+      .split('.')).reduce(function(memo, z) {
+      z = z.split('-');
+      if (z.length !== 4) return memo;
+      memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
+      return memo;
+    }, {});
+    var html = "<a href='#' class='button icon close'></a>";
+    for (var z = 0; z < 22; z++) {
+      var s = stats[z];
+      if (key === 'srcbytes' && s) {
+        s = s.map(function(v) { return Math.round(v * 0.001) });
+      }
+      var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
+      var w = s ? Math.round((s[2]-s[0])/max*100) : null;
+      var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
+      html += [
+        "<a href='#zoomedto' class='z z",z,"'>",
+        "<strong>z",z,"</strong>",
+        s ? "<span class='avg'>"+s[1]+unit+"</span>" : '',
+        s ? "<span class='range'>" : '',
+        s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
+        s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
+        s ? "</span>" : '',
+        "</a>"
+      ].join('');
+    }
+    $('#zoomedto').html(html);
+  }).throttle(50);
+};
 

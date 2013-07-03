@@ -76,11 +76,18 @@ app.param('project', function(req, res, next) {
     if (!req.project) return next();
 
     // Set drawtime cookie for a given project.
-    var stats = project.stats(req.project.data.id);
-    res.cookie('drawtime', _(stats).reduce(function(memo, stat, z) {
-        memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
-        return memo;
-    }, []).join('.'));
+    res.cookie('drawtime', _(project.stats(req.project.data.id, 'drawtime'))
+        .reduce(function(memo, stat, z) {
+            memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+            return memo;
+        }, []).join('.'));
+
+    // Set srcbytes cookie for a given project.
+    res.cookie('srcbytes', _(project.stats(req.project.data.id, 'srcbytes')).
+        reduce(function(memo, stat, z) {
+            memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+            return memo;
+        }, []).join('.'));
     next();
 });
 
@@ -200,8 +207,9 @@ app.get('/:project(project|source)/:z/:x/:y.:format', function(req, res, next) {
             return next(err);
         }
 
-        // Add times for this tile render to project stats.
-        project.stats(req.project.data.id, z, data._drawtime);
+        // Add stats for this tile render to project stats.
+        project.stats(req.project.data.id, 'drawtime', z, data._drawtime);
+        project.stats(req.project.data.id, 'srcbytes', z, data._srcbytes);
 
         headers['cache-control'] = 'max-age=3600';
         res.set(headers);
