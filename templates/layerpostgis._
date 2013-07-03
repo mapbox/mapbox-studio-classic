@@ -12,7 +12,6 @@
     </h2>
     <input type='hidden' name='id' value='<%=obj.id%>' />
     <input type='hidden' name='name' value='<%=obj.id%>' />
-    <input type='hidden' name='status' value='<%='status' in obj ? obj.status : 1 %>' />
   </section>
   <div class='conf'>
     <section>

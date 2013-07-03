@@ -204,15 +204,7 @@ Editor.prototype.togglemode = function(ev) {
   return false;
 };
 Editor.prototype.togglelayer = function(ev) {
-  var target = $(ev.currentTarget);
-  var status = $('input[name=status]', target.parent().attr('href'));
-  if (status.val() === '0') {
-    target.removeClass('disabled');
-    status.val('1');
-  } else {
-    target.addClass('disabled');
-    status.val('0');
-  }
+  $(ev.currentTarget).toggleClass('disabled');
   return false;
 };
 Editor.prototype.addlayer = function(ev) {
@@ -288,13 +280,18 @@ Editor.prototype.save = function(ev, options) {
   // Grab layers.
   attr.Layer = _(layers).map(function(l) { return l.get() });
 
-  // Save center.
+  // Save center, disabled layers.
+  attr._prefs = attr._prefs || {};
   if (this.model.get('_prefs').saveCenter) {
     var lon = map.getCenter().lng % 360;
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr._prefs = attr._prefs || {};
     attr._prefs.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
+  attr._prefs.disabled = _($('#layers a.layer').map(function(v) {
+    return $('.xrayswatch.disabled', this).size()
+        ? $(this).attr('href').split('#layers-').pop()
+        : false;
+  })).compact();
 
   options = options || {
     success:_(this.refresh).bind(this),
@@ -334,6 +331,7 @@ var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
+templates.xraycolor = <%= this.xraycolor.source %>;
 </script>
 </body>
 
