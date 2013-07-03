@@ -117,7 +117,7 @@ app.param('source', function(req, res, next) {
     });
 }, function(req, res, next) {
     project({
-        id: req.query.id,
+        id: tm.md5id(req.query.id),
         data: {
             styles: [tm.templates.xraystyles(_(req.source.data.Layer).pluck('id'))],
             sources: [req.query.id]
@@ -127,6 +127,7 @@ app.param('source', function(req, res, next) {
         if (err) return next(err);
         req.project = project;
         req.project.data._tmp = true;
+        req.source.data._project = tm.md5id(req.query.id);
         return next();
     });
 });

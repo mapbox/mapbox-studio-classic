@@ -110,7 +110,7 @@
 <script>
 var map = L.mapbox.map('map');
 var tiles = L.mapbox.tileLayer({
-  tiles: ['/project/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=<%=source.mtime%>'],
+  tiles: ['/project/{z}/{x}/{y}.png?id=<%=source._project%>&mtime=<%=source.mtime%>'],
   minzoom: <%= source.minzoom %>,
   maxzoom: 22
 })
@@ -310,7 +310,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/project/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
+    tiles: ['/project/{z}/{x}/{y}.png?id=<%=source._project%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
     maxzoom: 22
   })
