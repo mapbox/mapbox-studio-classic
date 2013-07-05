@@ -48,7 +48,7 @@
 }.bind(this)); %>
 </div>
 <form id='settings' class='pane dark w2 l2'>
-  <a class='button icon close' href='#'></a>
+  <nav><a class='button icon close' href='#'></a></nav>
   <section>
     <h2>Settings</h2>
   </section>
