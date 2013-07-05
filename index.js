@@ -159,7 +159,7 @@ app.put('/:project(project)', function(req, res, next) {
     });
 });
 
-app.get('/:project(project)', function(req, res, next) {
+app.get('/:history():project(project)', function(req, res, next) {
     tm.dirfiles(process.env.HOME, function(err, dirfiles) {
         if (err) return next(err);
         req.browse = {
@@ -177,7 +177,8 @@ app.get('/:project(project)', function(req, res, next) {
             return !_(req.project.data.sources).include(s);
         }),
         browse: req.browse,
-        project: req.project.data
+        project: req.project.data,
+        history: req.history
     }));
 });
 
@@ -230,10 +231,11 @@ app.get('/:source(source).xml', function(req, res, next) {
     return res.send(req.source._xml);
 });
 
-app.get('/:source(source)', function(req, res, next) {
+app.get('/:history():source(source)', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.source({
-        source: req.source.data
+        source: req.source.data,
+        history: req.history
     }));
 });
 
@@ -297,11 +299,8 @@ app.get('/:newproject(new)', function(req, res, next) {
     res.redirect('/project?id=' + tm.tmpid());
 });
 
-app.get('/:history()', function(req, res, next) {
-    res.set({'content-type':'text/html'});
-    return res.send(tm.templates.history({
-        history: req.history
-    }));
+app.get('/', function(req, res, next) {
+    res.redirect('/project?id=' + tm.tmpid());
 });
 
 app.use(function(err, req, res, next) {

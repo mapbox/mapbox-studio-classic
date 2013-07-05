@@ -47,7 +47,24 @@
   if (this['layer' + type]) print(this['layer' + type](l))
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane dark w2 l2'>
+<form id='settings' class='overlay'>
+<div class='pane transparent dark w2 l0'>
+  <nav>
+    <a class='button icon plus' href='/new'>New project</a>
+  </nav>
+  <section><h2>Projects</h2></section>
+  <% _(history).chain()
+    .sortBy(function(project) { return project.mtime })
+    .each(function(project) { %>
+  <a class='section thumbed' href='/project?id=<%=project._id%>'>
+    <span class='image' style='background-image:url("/thumb.png?id=<%=project._id%>")'></span>
+    <strong><%= project.name || 'Untitled' %></strong>
+    <code><%= project._id.split('/').pop() %></code>
+    <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
+  </a>
+  <% }); %>
+</div>
+<div class='pane dark w2 l2'>
   <nav><a class='button icon close' href='#'></a></nav>
   <section>
     <h2>Settings</h2>
@@ -74,6 +91,7 @@
     <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
     <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
   </section>
+</div>
 </form>
 
 <div id='message' class='modal dark centered'>
