@@ -25,7 +25,7 @@
 </div>
 
 <form id='settings' class='overlay'>
-<div class='pane transparent dark w2 l0'>
+<div class='pane transparent w2 l0'>
   <nav>
     <a class='button icon plus' href='/new'>New project</a>
   </nav>

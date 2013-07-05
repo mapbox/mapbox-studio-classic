@@ -91,7 +91,7 @@ a.section > * {
   overflow:hidden;
   text-overflow:ellipsis;
   }
-a.section:hover { background-color:#eee; }
+a.section:hover { background-color:rgba(255,255,255,0.4); }
 
 .dark section,
 .dark a.section { border-color:rgba(0,0,0,0.1); }
@@ -233,7 +233,7 @@ nav > a {
 .overlay {
   position:absolute;
   top:0px; bottom:0px; width:100%;
-  background:rgba(48,48,48,0.95);
+  background:rgba(240,240,240,0.95);
   opacity:0;
   z-index:-1;
   -webkit-transition:opacity 200ms, z-index 200ms;
@@ -244,6 +244,7 @@ nav > a {
   }
 .overlay > * { display:none; }
 .overlay:target > * { display:block; }
+.overlay.dark { background-color:rgba(48,48,48,0.95); }
 
 .pane {
   position:absolute;
@@ -261,18 +262,15 @@ nav > a {
 .pane:target > * { display:block; }
 .overlay:target .pane,
 .pane:target { bottom:0%; }
-
 .pane nav {
   position:absolute;
   right:10px;
   top:10px;
   }
-
 .pane.dark {
   background:#444;
   background-image:-webkit-linear-gradient(#444 75%,#333);
   }
-
 .pane.transparent { background:transparent; }
 
 /* Map */
