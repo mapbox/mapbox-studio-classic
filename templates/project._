@@ -24,8 +24,8 @@
   <%= _(library).map(this.sourceitem).join('\n') %>
 </div>
 
-<form id='settings' class='overlay'>
-<div class='pane transparent w2 l0'>
+<form id='settings' class='pane w4 l0'>
+<div class='column w2 l0 lighten'>
   <nav>
     <a class='button icon plus' href='/new'>New project</a>
   </nav>
@@ -41,7 +41,7 @@
   </a>
   <% }); %>
 </div>
-<div class='pane w2 l2'>
+<div class='column w2 l2'>
   <nav>
     <a class='button icon close' href='#'></a>
   </nav>

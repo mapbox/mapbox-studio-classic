@@ -230,21 +230,8 @@ nav > a {
 .l3 { left:75%; }
 .l4 { left:100%; }
 
-.overlay {
-  position:absolute;
-  top:0px; bottom:0px; width:100%;
-  background:rgba(240,240,240,0.95);
-  opacity:0;
-  z-index:-1;
-  -webkit-transition:opacity 200ms, z-index 200ms;
-  }
-.overlay:target {
-  opacity:1;
-  z-index:1000;
-  }
-.overlay > * { display:none; }
-.overlay:target > * { display:block; }
-.overlay.dark { background-color:rgba(48,48,48,0.95); }
+.darken { background:rgba(0,0,0,0.4); }
+.lighten { background:rgba(255,255,255,0.4); }
 
 .pane {
   position:absolute;
@@ -271,7 +258,6 @@ nav > a {
   background:#444;
   background-image:-webkit-linear-gradient(#444 75%,#333);
   }
-.pane.transparent { background:transparent; }
 
 /* Map */
 #map {

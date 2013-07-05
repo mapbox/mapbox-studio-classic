@@ -47,8 +47,8 @@
   if (this['layer' + type]) print(this['layer' + type](l))
 }.bind(this)); %>
 </div>
-<form id='settings' class='overlay dark'>
-<div class='pane transparent w2 l0'>
+<form id='settings' class='pane dark w4 l0'>
+<div class='column w2 l0 darken'>
   <nav>
     <a class='button icon plus' href='/new'>New project</a>
   </nav>
@@ -64,7 +64,7 @@
   </a>
   <% }); %>
 </div>
-<div class='pane dark w2 l2'>
+<div class='column w2 l2'>
   <nav><a class='button icon close' href='#'></a></nav>
   <section>
     <h2>Settings</h2>
