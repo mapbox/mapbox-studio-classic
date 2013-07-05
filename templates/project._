@@ -77,49 +77,10 @@
   </section>
   <section>
     <input type='submit' value='Save' class='wide' />
+    <a href='/export/package?id=<%=project.id%>' class='button wide submit'>Export</a>
   </section>
 </div>
 </form>
-
-<% if (!project._tmp) { %>
-<form id='exportas' class='modal browse dark'>
-  <a class='button icon close' href='#'></a>
-  <div class='cwd'>
-    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
-    <strong><%= browse.cwd %></strong>
-  </div>
-  <div class='dir'>
-    <% _(browse.dir).each(function(file) { %>
-    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
-    <% }); %>
-  </div>
-  <div class='field centered'>
-    <input type='text' placeholder='project.tm2z' size='20' id='exportas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2z'/>
-    <input type='submit' value='Export'/>
-  </div>
-</form>
-<% } %>
-<div id='util' class='menu column dark hide'>
-  <nav class='menu-title'>
-    <a class='icon padded prev button' href='/'>Home</a>
-  </nav>
-  <% if (!project._tmp) { %>
-  <div class='menu-content'>
-    <h3>Export</h3>
-    <div class='item'>
-      <label class='inline'>Style</label>
-      <code><a class='icon padded file' href='/project.xml?id=<%=project.id%>' target='_blank'>project.xml</a></code>
-    </div>
-    <div class='item'>
-      <label class='inline'>Datasource</label>
-      <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
-    </div>
-    <div class='item centered'>
-      <a class='button wide icon file submit' href='#exportas'>Save package</a>
-    </div>
-  </div>
-  <% } %>
-</div>
 
 <div id='layers' class='menu column w1 dark hide'>
   <nav class='menu-title centered'>
@@ -148,10 +109,10 @@
       <a class='button full-n icon full' href='#full'></a>
       <a class='button full-y icon close' href='#'></a>
     </div>
-    <h3>
+    <h3><a href='#settings'>
       <span class='name'><%= project.name || 'Untitled' %></span>
-      <a class='icon gear' href='#settings'></a>
-    </h3>
+      <span class='icon gear' href='#settings'></span>
+    </a></h3>
   </div>
   <div id='map' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
@@ -321,7 +282,6 @@ Editor.prototype.events = {
   'click a.button.recache': 'recache',
   'submit #settings': 'save',
   'submit #saveas': 'saveas',
-  'submit #exportas': 'exportas',
   'submit #addtab': 'addtab',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tabbed',
@@ -455,9 +415,6 @@ Editor.prototype.save = function(ev, options) {
   };
   this.model.save(attr, options);
 
-  // Back out of any panes that save the project.
-  if (['#settings', '#export'].indexOf(window.location.hash) >= 0) window.location.hash = '#menu';
-
   return false;
 };
 Editor.prototype.error = function(model, resp) {
@@ -555,25 +512,6 @@ Editor.prototype.browse = function(ev) {
       }).join('\n'));
     },
     // @TODO
-    error: function(resp) {}
-  });
-  return false;
-};
-Editor.prototype.exportas = function(ev) {
-  if (!$('#exportas-filepath').val()) return false;
-  var filepath = $('#exportas-filepath').data('cwd');
-  filepath += filepath === '/'
-    ? $('#exportas-filepath').val()
-    : '/' + $('#exportas-filepath').val();
-  $.ajax({
-    url: '/export/package?id=' + this.model.id,
-    type: 'POST',
-    dataType: 'json',
-    contentType: 'application/json',
-    data: JSON.stringify({ filepath:filepath }),
-    success: _(function(resp) {
-      this.messageModal('Package "'+filepath+'" saved.');
-    }).bind(this),
     error: function(resp) {}
   });
   return false;

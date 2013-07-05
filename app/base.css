@@ -258,6 +258,7 @@ nav > a {
   background:#444;
   background-image:-webkit-linear-gradient(#444 75%,#333);
   }
+.pane > .column { overflow:auto; }
 
 /* Map */
 #map {

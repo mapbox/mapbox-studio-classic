@@ -245,13 +245,15 @@ app.put('/:source(source)', function(req, res, next) {
     });
 });
 
-app.post('/export/:project(package)', function(req, res, next) {
+app.get('/export/:project(package)', function(req, res, next) {
+    var basename = path.basename(req.project.data.id, '.tm2');
+    res.setHeader('content-disposition', 'attachment; filename="'+basename+'.tm2z"');
     project.toPackage({
         id: req.project.data.id,
-        filepath: req.body && req.body.filepath
+        stream: res
     }, function(err) {
         if (err) next(err);
-        res.send({});
+        res.end();
     });
 });
 
