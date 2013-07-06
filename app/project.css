@@ -185,7 +185,7 @@ div.source a.section { cursor:pointer; }
 #data div.source > a.close,
 #data div.source > a.layer,
 #data div.source > .sourcetype,
-#layers div.source > a.section { display:none; }
+#layers div.source > .cell { display:none; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */

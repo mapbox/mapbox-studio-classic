@@ -1,0 +1,33 @@
+<nav>
+  <a class='button icon plus' href='/new'>New project</a>
+</nav>
+
+<section><h2>Projects</h2></section>
+
+<div class='grid clearfix'>
+<% _(obj.style).chain()
+  .sortBy(function(project) { return project.mtime })
+  .each(function(project) { %>
+<a class='cell' href='/project?id=<%=project.id%>'><span class='thumbed'>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
+  <strong><%= project.name || 'Untitled' %></strong>
+  <code><%= project.id.split('/').pop() %></code>
+  <small><%= (new Date(project.mtime)).format('M j Y') %></small>
+</span></a>
+<% }); %>
+</div>
+
+<section><h2>Sources</h2></section>
+
+<div class='grid clearfix'>
+<% _(obj.source).chain()
+  .sortBy(function(project) { return project.mtime })
+  .each(function(project) { %>
+<a class='cell' href='/source?id=<%=project.id%>'><span class='thumbed'>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
+  <strong><%= project.name || 'Untitled' %></strong>
+  <code><%= project.id.split('/').pop() %></code>
+  <small><%= (new Date(project.mtime)).format('M j Y') %></small>
+</span></a>
+<% }); %>
+</div>

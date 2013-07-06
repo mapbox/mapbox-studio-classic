@@ -1,6 +1,6 @@
 <% var layerCount = _(obj.Layer||{}).size(); %>
 <div id='source-<%=obj.id%>' class='source'>
-<a class='section thumbed'>
+<a href='#data' class='cell'><span class='thumbed'>
   <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
   <strong><%= obj.name %></strong>
   <span class='desc'><%= obj.description || 'No description.' %></span>
@@ -10,7 +10,8 @@
     from <%= obj.author %>
     <% } %>
   </small>
-</a>
+</span></a>
+
 <h3><%= obj.name %></h3>
 <div class='joined sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
   <% if (obj.tiles) { %>

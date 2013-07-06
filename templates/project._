@@ -21,25 +21,14 @@
   <section>
     <h2>Data library</h2>
   </section>
-  <%= _(library).map(this.sourceitem).join('\n') %>
+  <div class='clearfix grid'>
+    <%= _(library).map(this.sourceitem).join('\n') %>
+  </div>
 </div>
 
 <form id='settings' class='pane w4 l0'>
 <div class='column w2 l0 lighten'>
-  <nav>
-    <a class='button icon plus' href='/new'>New project</a>
-  </nav>
-  <section><h2>Projects</h2></section>
-  <% _(history).chain()
-    .sortBy(function(project) { return project.mtime })
-    .each(function(project) { %>
-  <a class='section thumbed' href='/project?id=<%=project.id%>'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
-    <strong><%= project.name || 'Untitled' %></strong>
-    <code><%= project.id.split('/').pop() %></code>
-    <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
-  </a>
-  <% }); %>
+  <%= this.history(history) %>
 </div>
 <div class='column w2 l2'>
   <nav>
@@ -288,7 +277,7 @@ Editor.prototype.events = {
   'click #docs nav a': 'tabbed',
   'click #menu nav a': 'tabbed',
   'click #layers a': 'tabbed',
-  'click #data a.section': 'data',
+  'click #data a': 'data',
   'click #layers a.delete': 'data',
   'click .browse .cwd a': 'browse',
   'click .browse .dir a': 'browse',
@@ -327,11 +316,11 @@ Editor.prototype.tabbed = function(ev) {
 Editor.prototype.data = function(ev) {
   var target = $(ev.currentTarget).parent();
   if (target.parents('#layers').size()) {
-    target.appendTo($('#data'));
+    target.appendTo($('#data .grid'));
   } else {
     // Remove all other layers as we don't support compositing for now.
     $('#layers div.source').each(function() {
-      $(this).appendTo('#data');
+      $(this).appendTo('#data .grid');
     });
     target.appendTo($('#layers .menu-content'));
   }

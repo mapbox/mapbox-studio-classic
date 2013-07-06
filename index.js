@@ -50,27 +50,12 @@ app.param('project', function(req, res, next) {
         data: data,
         perm: !tmp && !!data
     }, function(err, project) {
-        if (err && !tmp) tm.history(id, true);
         if (err) return next(err);
-        if (!tmp) tm.history(id);
+        if (!tmp) tm.history('style', id);
         req.project = project;
         req.project.data._tmp = tmp;
         return next();
     });
-}, function(req, res, next) {
-    // @TODO remove this -- sources should be edited through source UI.
-    if (req.method === 'PUT' && req.project) {
-        source({
-            id: req.project._backend.data.id,
-            data: req.project._backend.data,
-            perm: true
-        }, function(err, source) {
-            if (err) return next(err);
-            next();
-        });
-    } else {
-        next();
-    }
 }, function(req, res, next) {
     if (!req.project) return next();
 
@@ -111,6 +96,7 @@ app.param('source', function(req, res, next) {
         perm: !tmp && !!data
     }, function(err, source) {
         if (err) return next(err);
+        if (!tmp) tm.history('source', id);
         req.source = source;
         return next();
     });
@@ -133,21 +119,33 @@ app.param('source', function(req, res, next) {
 
 app.param('history', function(req, res, next) {
     req.history = {};
-    var history = tm.history().concat([]); // Clone.
+    var history = tm.history();
+    var types = Object.keys(history);
 
-    var load = function() {
-        if (!history.length) return next();
-        var id = history.shift();
-        project.info(id, function(err, info) {
+    if (!types.length) return next();
+
+    var load = function(type, queue) {
+        if (!queue.length && !types.length) return next();
+        if (!queue.length) {
+            type = types.shift();
+            queue = history[type].slice(0);
+            return load(type, queue);
+        }
+        var id = queue.shift();
+        var method = type === 'style' ? project.info : source.info;
+        method(id, function(err, info) {
             if (err) {
-                tm.history(id, true);
+                tm.history(type, id, true);
             } else {
-                req.history[id] = info;
+                req.history[type] = req.history[type] || {};
+                req.history[type][id] = info;
             }
-            load();
+            load(type, queue);
         });
     };
-    load();
+    var type = types.shift();
+    var queue = history[type].slice(0);
+    load(type, queue);
 });
 
 app.put('/:project(project)', function(req, res, next) {

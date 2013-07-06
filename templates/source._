@@ -49,20 +49,7 @@
 </div>
 <form id='settings' class='pane dark w4 l0'>
 <div class='column w2 l0 darken'>
-  <nav>
-    <a class='button icon plus' href='/new'>New project</a>
-  </nav>
-  <section><h2>Projects</h2></section>
-  <% _(history).chain()
-    .sortBy(function(project) { return project.mtime })
-    .each(function(project) { %>
-  <a class='section thumbed' href='/project?id=<%=project.id%>'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
-    <strong><%= project.name || 'Untitled' %></strong>
-    <code><%= project.id.split('/').pop() %></code>
-    <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
-  </a>
-  <% }); %>
+  <%= this.history(history) %>
 </div>
 <div class='column w2 l2'>
   <nav><a class='button icon close' href='#'></a></nav>
