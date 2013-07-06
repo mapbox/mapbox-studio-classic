@@ -155,6 +155,8 @@ var Layer = function(id, datasource) {
   var layer = { code: code, form: $('#layers-' + id) };
   layer.get = function() {
     var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
+      // @TODO determine what causes empty field names.
+      if (!field.name) return memo;
       var group = field.name.split('-')[0];
       var name = field.name.split('-').slice(1).join('-');
       switch (group) {
