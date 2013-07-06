@@ -82,7 +82,7 @@ describe('project.info', function() {
             assert.equal(info.maxzoom, 22);
             assert.equal(info.sources.length, 1);
             assert.deepEqual(info.styles, ['style.mss']);
-            assert.equal(info._id, defpath, 'project.info adds _id key');
+            assert.equal(info.id, defpath, 'project.info adds id key');
             done();
         });
     });
@@ -91,7 +91,7 @@ describe('project.info', function() {
 describe('project.toXML', function() {
     it('fails on invalid source', function(done) {
         project.toXML({
-            _id:'tmp-1234',
+            id:'tmp-1234',
             sources:['foobar']
         }, function(err, xml) {
             assert.ok(err);
@@ -101,7 +101,7 @@ describe('project.toXML', function() {
     });
     it('compiles', function(done) {
         project.toXML({
-            _id:'tmp-1234',
+            id:'tmp-1234',
             sources:['mbstreets'],
             styles:{'style.mss': '#water { polygon-fill:#fff }'}
         }, function(err, xml) {
@@ -115,7 +115,7 @@ describe('project.toXML', function() {
     });
     it('compiles data params', function(done) {
         project.toXML({
-            _id:'tmp-1234',
+            id:'tmp-1234',
             sources:['mbstreets'],
             name:'test',
             description:'test project',

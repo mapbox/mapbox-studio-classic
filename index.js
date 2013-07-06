@@ -21,7 +21,6 @@ project({id:path.dirname(require.resolve('tm2-default-style'))}, function(err, p
     if (err) throw err;
     var data = JSON.parse(JSON.stringify(proj.data));
     delete data.id;
-    delete data._id;
     defaults.project = data;
 });
 
@@ -33,7 +32,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('project', function(req, res, next) {
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
-        source.invalidate(source.resolve(req.query.id, req.body.sources[0]), next);
+        source.invalidate(req.body.sources[0], next);
     } else {
         next();
     }
@@ -62,7 +61,7 @@ app.param('project', function(req, res, next) {
     // @TODO remove this -- sources should be edited through source UI.
     if (req.method === 'PUT' && req.project) {
         source({
-            id: req.project._backend.data._id,
+            id: req.project._backend.data.id,
             data: req.project._backend.data,
             perm: true
         }, function(err, source) {

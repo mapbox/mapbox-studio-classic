@@ -56,10 +56,10 @@
   <% _(history).chain()
     .sortBy(function(project) { return project.mtime })
     .each(function(project) { %>
-  <a class='section thumbed' href='/project?id=<%=project._id%>'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=project._id%>")'></span>
+  <a class='section thumbed' href='/project?id=<%=project.id%>'>
+    <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
     <strong><%= project.name || 'Untitled' %></strong>
-    <code><%= project._id.split('/').pop() %></code>
+    <code><%= project.id.split('/').pop() %></code>
     <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
   </a>
   <% }); %>
