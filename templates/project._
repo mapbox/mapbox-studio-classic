@@ -288,7 +288,6 @@ Editor.prototype.events = {
   'click #docs nav a': 'tabbed',
   'click #menu nav a': 'tabbed',
   'click #layers a': 'tabbed',
-  'click #layers a .moreless': 'moreless',
   'click #data a.section': 'data',
   'click #layers a.delete': 'data',
   'click .browse .cwd a': 'browse',
@@ -323,11 +322,6 @@ Editor.prototype.tabbed = function(ev) {
   //$(ev.currentTarget).siblings().removeClass('active');
   $(ev.currentTarget).addClass('active');
   $('#' + target).addClass('active');
-  return false;
-};
-Editor.prototype.moreless = function(ev) {
-  var parent = $(ev.currentTarget).parent();
-  parent.toggleClass('more');
   return false;
 };
 Editor.prototype.data = function(ev) {
