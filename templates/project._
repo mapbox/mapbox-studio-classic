@@ -14,7 +14,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane w3 l1 todo'>
+<div id='data' class='pane w3 l1'>
   <nav>
     <a class='button icon close' href='#layers'></a>
   </nav>
@@ -336,10 +336,10 @@ Editor.prototype.data = function(ev) {
     target.appendTo($('#data'));
   } else {
     // Remove all other layers as we don't support compositing for now.
-    $('#layers > div.source').each(function() {
+    $('#layers div.source').each(function() {
       $(this).appendTo('#data');
     });
-    target.appendTo($('#layers'));
+    target.appendTo($('#layers .menu-content'));
   }
   return false;
 };
