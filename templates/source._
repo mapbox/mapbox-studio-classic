@@ -295,7 +295,7 @@ Editor.prototype.save = function(ev, options) {
   var attr = _($('#settings').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
     return memo;
-  }, {});
+  }, this.model.attributes);
 
   // Grab layers.
   attr.Layer = _(layers).map(function(l) { return l.get() });
