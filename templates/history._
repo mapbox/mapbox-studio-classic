@@ -9,7 +9,7 @@
   .sortBy(function(project) { return project.mtime })
   .each(function(project) { %>
 <a class='cell' href='/project?id=<%=project.id%>'><span class='thumbed'>
-  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
   <strong><%= project.name || 'Untitled' %></strong>
   <code><%= project.id.split('/').pop() %></code>
   <small><%= (new Date(project.mtime)).format('M j Y') %></small>
@@ -24,7 +24,7 @@
   .sortBy(function(project) { return project.mtime })
   .each(function(project) { %>
 <a class='cell' href='/source?id=<%=project.id%>'><span class='thumbed'>
-  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>")'></span>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
   <strong><%= project.name || 'Untitled' %></strong>
   <code><%= project.id.split('/').pop() %></code>
   <small><%= (new Date(project.mtime)).format('M j Y') %></small>

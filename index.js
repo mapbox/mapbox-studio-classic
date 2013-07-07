@@ -265,7 +265,10 @@ app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
     project.thumb({id:req.query.id}, function(err, thumb) {
         if (err) return next(err);
-        res.set({'content-type':'image/png'});
+        var headers = {};
+        headers['cache-control'] = 'max-age=3600';
+        headers['content-type'] = 'image/png';
+        res.set(headers);
         res.send(thumb);
     });
 });
