@@ -796,6 +796,13 @@ label.range {
   box-shadow:#333 300px 0px 0px 290px;
   }
 
+select:disabled,
+input[type=text]:disabled,
+input[type=range]:disabled,
+input[type=search]:disabled,
+input[type=password]:disabled,
+textarea:disabled { opacity:0.5; }
+
 /* CodeMirror*/
 .CodeMirror,
 .CodeMirror * {

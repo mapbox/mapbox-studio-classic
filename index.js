@@ -7,6 +7,7 @@ var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
 var fs = require('fs');
+var url = require('url');
 var path = require('path');
 var source = require('./lib/source');
 var project = require('./lib/project');
@@ -217,6 +218,7 @@ app.get('/:source(source).xml', function(req, res, next) {
 app.get('/:history():source(source)', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.source({
+        remote: !!url.parse(req.query.id).protocol,
         source: req.source.data,
         history: req.history
     }));

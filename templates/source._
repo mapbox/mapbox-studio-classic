@@ -35,7 +35,11 @@
 
 <div id='layers' class='menu column dark w2 l2'>
   <nav class='menu-title centered'>
+    <% if (remote) { %>
+    <h3>Layers</h3>
+    <% } else { %>
     <a href='#addlayer' class='button icon plus title'>Layers</a>
+    <% } %>
   </nav>
   <div class='menu-content'>
   <% _(source.Layer).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
@@ -43,7 +47,7 @@
 </div>
 <div id='editor'>
 <% _(source.Layer).each(function(l) {
-  var type = l.Datasource.type;
+  var type = l.Datasource.type || 'unknown';
   if (this['layer' + type]) print(this['layer' + type](l))
 }.bind(this)); %>
 </div>
@@ -53,29 +57,30 @@
 </div>
 <div class='column w2 l2'>
   <nav><a class='button icon close' href='#'></a></nav>
+  <% var disabled = remote ? "disabled='disabled'" : ''; %>
   <section>
     <h2>Settings</h2>
   </section>
   <section>
     <label class='inline'>Name</label>
-    <input class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+    <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
   </section>
   <section>
     <label class='inline'>Description</label>
-    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+    <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
   </section>
   <section>
     <label class='inline'>Attribution</label>
-    <input class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+    <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
   </section>
   <section>
     <label class='inline'>Minzoom</label>
-    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
     <label class='range' id='minzoom-val'><%= source.minzoom %></label>
   </section>
   <section>
     <label class='inline'>Maxzoom</label>
-    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
     <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
   </section>
 </div>
