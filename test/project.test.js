@@ -87,7 +87,7 @@ describe('project.info', function() {
             assert.equal(info.minzoom, 0);
             assert.equal(info.maxzoom, 22);
             assert.equal(info.sources.length, 1);
-            assert.deepEqual(info.styles, ['style.mss']);
+            assert.ok(/background-color:#fff/.test(info.styles['style.mss']));
             assert.equal(info.id, defpath, 'project.info adds id key');
             done();
         });
