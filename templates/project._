@@ -277,7 +277,7 @@ Editor.prototype.events = {
   'click #docs nav a': 'tabbed',
   'click #menu nav a': 'tabbed',
   'click #layers a': 'tabbed',
-  'click #data a': 'data',
+  'click #data .source a': 'data',
   'click #layers a.delete': 'data',
   'click .browse .cwd a': 'browse',
   'click .browse .dir a': 'browse',
