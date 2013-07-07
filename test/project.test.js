@@ -47,7 +47,13 @@ describe('project', function() {
             assert.equal(data.styles['a.mss'], fs.readFileSync(tmpPerm + '/a.mss', 'utf8'), 'saves a.mss');
             assert.equal(data.styles['b.mss'], fs.readFileSync(tmpPerm + '/b.mss', 'utf8'), 'saves b.mss');
             assert.ok(/<Map srs/.test(fs.readFileSync(tmpPerm + '/project.xml', 'utf8')), 'saves project.xml');
-            done();
+            // This setTimeout is here because thumbnail generation on save
+            // is an optimistic operation (e.g. callback does not wait for it
+            // to complete).
+            setTimeout(function() {
+                assert.ok(fs.existsSync(tmpPerm + '/.thumb.png'), 'saves thumb');
+                done();
+            }, 500);
         })
     });
     it ('packages project to tm2z', function(done) {

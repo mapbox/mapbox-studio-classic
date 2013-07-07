@@ -1,0 +1,2 @@
+--timeout 10000ms
+--reporter spec

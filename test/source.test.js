@@ -10,6 +10,7 @@ describe('source remote', function() {
             assert.equal('MapBox Streets', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
+            assert.ok(!!source.project);
             done();
         });
     });
@@ -45,18 +46,18 @@ describe('source local', function() {
         minzoom: 0,
         maxzoom: 6,
         Layer: [ {
-            id: 'land',
-            name: 'land',
-            geometry: 'polygon',
+            id: 'box',
+            name: 'box',
+            description: '',
             srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
+            properties: {
+                'buffer-size': 0,
+                minzoom: 0,
+                maxzoom: 6
+            },
             Datasource: {
-                type: 'postgis',
-                table: 'land',
-                geometry_field: 'geom',
-                extent: '-20037508.34,-20037508.34,20037508.34,20037508.34',
-                dbname: 'test',
-                user: 'postgres',
-                host: 'localhost'
+                file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+                type: 'shape'
             }
         } ]
     };
@@ -76,6 +77,7 @@ describe('source local', function() {
             assert.equal('Test source', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(6, source.data.maxzoom);
+            assert.ok(!!source.project);
             done();
         });
     });
@@ -92,7 +94,13 @@ describe('source local', function() {
             assert.ok(source);
             assert.ok(/maxzoom: 6/.test(fs.readFileSync(tmp + '/data.yml', 'utf8')), 'saves data.yml');
             assert.ok(/<Map srs/.test(fs.readFileSync(tmp + '/data.xml', 'utf8')), 'saves data.xml');
-            done();
+            // This setTimeout is here because thumbnail generation on save
+            // is an optimistic operation (e.g. callback does not wait for it
+            // to complete).
+            setTimeout(function() {
+                assert.ok(fs.existsSync(tmp + '/.thumb.png'), 'saves thumb');
+                done();
+            }, 1000);
         });
     });
 });

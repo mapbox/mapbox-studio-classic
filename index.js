@@ -98,21 +98,7 @@ app.param('source', function(req, res, next) {
         if (err) return next(err);
         if (!tmp) tm.history('source', id);
         req.source = source;
-        return next();
-    });
-}, function(req, res, next) {
-    project({
-        id: tm.md5id(req.query.id),
-        data: {
-            styles: [tm.templates.xraystyles(req.source.data)],
-            sources: [req.query.id]
-        },
-        perm: false
-    }, function(err, project) {
-        if (err) return next(err);
         req.project = project;
-        req.project.data._tmp = true;
-        req.source.data._project = tm.md5id(req.query.id);
         return next();
     });
 });
