@@ -1,0 +1,14 @@
+<a class='layer' href='#layers-<%=obj.id%>'>
+  <span class='icon xrayswatch
+    <%=obj.status === 0 ? 'disabled' : ''%>
+    <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></span>
+  <%=obj.id%>
+  <% if (obj.Datasource.type) { %>
+  <span class='datasource'><%= (obj.Datasource.type) %></span>
+  <span class='icon close delete'></span>
+  <% } %>
+  <small class='desc'><%=obj.description||'No description.'%></small>
+  <% _(obj.help||{}).each(function(desc,name) { %>
+  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
+  <% }); %>
+</a>

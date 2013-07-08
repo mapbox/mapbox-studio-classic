@@ -1,0 +1,21 @@
+<%
+// Required vars
+// - id, the form ID
+// - cwd, absolute path from which to begin browsing
+// - placeholder, optional input field placeholder
+// - pattern, optional input field pattern
+// - label, optional defaults to 'Save'
+%>
+<form id='<%=obj.id%>' class='modal browser dark'>
+  <a class='button icon close' href='#'></a>
+  <div class='cwd'>
+    <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
+    <strong><%=cwd%></strong>
+  </div>
+  <div class='list'></div>
+  <div class='field centered joined'><!--
+    --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
+    --><input type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
+    --><input type='submit' value='<%=obj.label||'Save'%>'/>
+  </div>
+</form>

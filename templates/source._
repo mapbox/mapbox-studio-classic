@@ -1,48 +1,455 @@
-<% var layerCount = _(obj.Layer||{}).size(); %>
-<div id='source-<%=obj.id%>' class='source'>
-<a class='section thumbed'>
-  <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
-  <strong><%= obj.name %></strong>
-  <span class='desc'><%= obj.description || 'No description.' %></span>
-  <small class='layers'>
-    <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>
-    <% if (obj.author) { %>
-    from <%= obj.author %>
-    <% } %>
-  </small>
-</a>
-<h3><%= obj.name %></h3>
-<div class='joined status <%= obj.tiles ? 'remote' : 'local' %>'>
-  <% if (obj.tiles) { %>
-  <span class='button'>Remote</span><!--
-  --><a class='button icon recache' href='#recache'></a>
-  <% } else { %>
-  <span class='button'>Local</span><!--
-  --><a class='button icon recache' href='#recache'></a>
-  <% } %>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/codemirror.css' rel='stylesheet' />
+  <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/source.css' rel='stylesheet' />
+  <title><%= source.name %></title>
+</head>
+
+<body id='view' class='dark'>
+
+<div id='perf'></div>
+
+<div id='full' class='column dark w2 l0'>
+  <div id='title' class='dark'>
+    <div class='left'>
+      <% if (source._tmp) { %>
+      <a class='button icon okay' href='#saveas'>Save as</a>
+      <% } else { %>
+      <a class='button icon okay save' href='#'>Save</a>
+      <% } %>
+    </div>
+    <h3><a href='#settings'>
+      <span class='name'><%= source.name || 'Untitled' %></span>
+      <span class='icon gear' href='#settings'></span>
+    </a></h3>
+  </div>
+  <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
+  <div id='map-overlay'></div>
+  <div id='map-errors'></div>
+  <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
 </div>
 
-<!--
-@TODO currently this button is a trap as it can leave a project in a state
-with no sources. Once vector tile compositing is available revisit.
-<a class='delete icon close' href='#delete'></a>
--->
-
-<% _(obj.Layer).chain().clone().reverse().each(function(l) { %>
-<a class='layer' id='layers-<%=l.id%>' href='#layers-<%=l.id%>'>
-  <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
-  <%=l.id%>
-  <span class='zooms'>
-    <% if (!(l.properties||{}).maxzoom) { %>
-    z<%= (l.properties||{}).minzoom||0 %>+
+<div id='layers' class='menu column dark w2 l2'>
+  <nav class='menu-title centered'>
+    <% if (remote) { %>
+    <h3>Layers</h3>
     <% } else { %>
-    z<%= (l.properties||{}).minzoom||0 %>-<%= (l.properties||{}).maxzoom||22 %>
+    <a href='#addlayer' class='button icon plus title'>Layers</a>
     <% } %>
-  </span>
-  <small class='desc'><%=l.description||'No description.'%></small>
-  <% _(l.help||{}).each(function(desc,name) { %>
-  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
-  <% }); %>
-</a>
-<% }); %>
+  </nav>
+  <div class='menu-content'>
+  <% _(source.Layer).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
+  </div>
 </div>
+<div id='editor'>
+<% _(source.Layer).each(function(l) {
+  var type = l.Datasource.type || 'unknown';
+  if (this['layer' + type]) print(this['layer' + type](_({tm:tm}).extend(l)))
+}.bind(this)); %>
+</div>
+<form id='settings' class='pane dark w4 l0'>
+<div class='column w2 l0 darken'>
+  <%= this.history(history) %>
+</div>
+<div class='column w2 l2'>
+  <nav><a class='button icon close' href='#'></a></nav>
+  <% var disabled = remote ? "disabled='disabled'" : ''; %>
+  <section>
+    <h2>Settings</h2>
+  </section>
+  <section>
+    <label class='inline'>Name</label>
+    <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+  </section>
+  <section>
+    <label class='inline'>Attribution</label>
+    <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+  </section>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <label class='range' id='minzoom-val'><%= source.minzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
+  </section>
+  <section class='righted'>
+    <a href='#' class='button wide submit icon okay save'>Save</a>
+  </section>
+</div>
+</form>
+
+<% if (source._tmp) print(this.modalbrowser({
+  id: 'saveas',
+  cwd: cwd,
+  placeholder: 'project.tm2',
+  pattern: '[\\w+\\d+\\.\\/_-]+\\.tm2'
+})); %>
+
+<% print(this.modalbrowser({
+  id: 'browsefile',
+  cwd: cwd,
+  label: 'Select'
+})); %>
+
+<%= this.modalmessage() %>
+
+<form id='addlayer' class='modal dark centered'>
+  <a class='button icon close' href='#'></a>
+  <p class='joined'>
+    <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
+    --><select name='type'>
+      <option value='postgis'>postgis</option>
+      <option value='shape'>shapefile</option>
+      <option value='geojson'>geojson</option>
+      <option value='sqlite'>sqlite</option>
+      <option value='csv'>csv</option>
+    </select>
+  </p>
+  <input type='submit' value='New layer'/>
+</form>
+
+<div id='mask'></div>
+
+<script src='/ext/underscore-min.js'></script>
+<script src='/ext/codemirror.js'></script>
+<script src='/ext/codemirror.runmode.js'></script>
+<script src='/ext/codemirror.sql.js'></script>
+<script src='/ext/jquery-2.0.3.min.js'></script>
+<script src='/ext/jquery.sortable.js'></script>
+<script src='/ext/backbone.js'></script>
+<script src='/ext/mapbox.js'></script>
+<script src='/app/lib.js'></script>
+
+<script>
+var map = L.mapbox.map('map');
+var tiles = L.mapbox.tileLayer({
+  tiles: ['/project/{z}/{x}/{y}.png?id=<%=source._project%>&mtime=<%=source.mtime%>'],
+  minzoom: <%= source.minzoom %>,
+  maxzoom: 22
+})
+.on('tileload', statHandler('srcbytes'))
+.on('load', errorHandler)
+.addTo(map);
+
+statHandler('srcbytes')();
+
+map.setView([<%=source.center[1]%>, <%=source.center[0]%>], <%=source.center[2]%>);
+map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
+map.options.minZoom = <%= source.minzoom %>;
+map.options.maxZoom = 22;
+
+var Layer = function(id, datasource) {
+  var code;
+  if (datasource.type === 'postgis' || datasource.type === 'sqlite') {
+    code = CodeMirror($('#layers-' + id + ' div.sql').get(0), {
+      value: datasource.table,
+      lineNumbers: true,
+      mode: 'text/x-plsql'
+    });
+    code.getWrapperElement().id = 'layers-' + id + '-code';
+  }
+  var layer = {
+    code: code,
+    form: $('#layers-' + id),
+    item: $('#layers a.layer[href=#layers-'+id+']')
+  };
+  layer.get = function() {
+    var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
+      // @TODO determine what causes empty field names.
+      if (!field.name) return memo;
+      var group = field.name.split('-')[0];
+      var name = field.name.split('-').slice(1).join('-');
+      switch (group) {
+      case 'properties':
+        memo.properties = memo.properties || {};
+        memo.properties[name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+        break;
+      case 'Datasource':
+        memo.Datasource = memo.Datasource || {};
+        memo.Datasource[name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+        break;
+      default:
+        memo[field.name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+        break;
+      }
+      return memo;
+    }, {});
+    if (code) {
+      attr.Datasource = attr.Datasource || {};
+      attr.Datasource.table = code.getValue();
+    }
+    return attr;
+  };
+  return layer;
+};
+var layers = _(<%=JSON.stringify(source.Layer)%>).reduce(function(memo, l) {
+  memo[l.id] = Layer(l.id, l.Datasource);
+  return memo;
+}, {});
+
+var Source = Backbone.Model.extend({});
+Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
+
+var Editor = Backbone.View.extend({});
+Editor.prototype.events = {
+  'click a.button.save': 'save',
+  'click .editor nav a.conf': 'togglemode',
+  'click .editor nav a.edit': 'togglemode',
+  'click a.layer .delete': 'deletelayer',
+  'click a.layer .xrayswatch': 'togglelayer',
+  'click a.browsefile': 'browsefile',
+  'submit #addlayer': 'addlayer',
+  'keydown': 'keys'
+};
+Editor.prototype.keys = function(ev) {
+  // Escape. Collapses windows, dialogs, modals, etc.
+  if (ev.which === 27) {
+    window.location.href = '#';
+  }
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
+  switch (ev.which) {
+  case 83: // s
+    this.save();
+    break;
+  default:
+    return true;
+  }
+  return false;
+};
+Editor.prototype.togglemode = function(ev) {
+  var target = $(ev.currentTarget);
+  if (target.attr('href').split('#mode-').pop() === 'sql') {
+    $('body').addClass('sql');
+  } else {
+    $('body').removeClass('sql');
+  }
+  return false;
+};
+Editor.prototype.togglelayer = function(ev) {
+  $(ev.currentTarget).toggleClass('disabled');
+  return false;
+};
+Editor.prototype.addlayer = function(ev) {
+  var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = field.value;
+    return memo;
+  }, {});
+
+  if (!values.id || !templates['layer' + values.type]) return false;
+
+  if (!layers[values.id]) {
+    var layer = {
+      tm: tm,
+      id: values.id,
+      properties: {
+        minzoom:0,
+        maxzoom:22,
+        'buffer-size':0
+      },
+      Datasource: {
+        type: values.type
+      }
+    };
+    $('#editor').prepend(templates['layer' + values.type](layer));
+    $('#layers .menu-content').prepend(templates['layeritem'](layer));
+    layers[values.id] = Layer(values.id, layer.Datasource);
+
+    window.location.hash = '#layers-' + values.id;
+    $('#layers .menu-content').sortable('destroy').sortable();
+  } else {
+    window.location.hash = '#';
+  }
+  return false;
+};
+Editor.prototype.deletelayer = function(ev) {
+  var id = $(ev.currentTarget).parent().attr('href').split('#layers-').pop();
+  if (!layers[id]) return false;
+  if (confirm('Remove layer "' + id + '"?')) {
+    layers[id].form.remove();
+    layers[id].item.remove();
+    $('#layers .menu-content').sortable('destroy').sortable();
+    delete layers[id];
+  }
+  window.location.href = '#';
+  return false;
+};
+Editor.prototype.error = function(model, resp) {
+  this.messageClear();
+
+  if (!resp.responseText)
+    return this.messageModal('Could not save project "' + model.id + '"');
+
+    // Assume carto.js specific error array format response.
+  _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
+    .compact()
+    .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
+    .each(_(function(e) {
+      if (_(e).isArray()) {
+        var id = e[2];
+        var ln = parseInt(e[3]) - 1;
+        code[id]._cartoErrors = code[id]._cartoErrors || [];
+        code[id]._cartoErrors.push(ln);
+        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+      } else {
+        return this.messageModal(e);
+      }
+    }).bind(this));
+};
+Editor.prototype.messageModal = function(text) {
+  $('#message .message').text(text);
+  window.location.hash = '#message';
+};
+Editor.prototype.messageClear = function() {
+  $('#message .message').text('');
+  $('#full').removeClass('loading');
+};
+Editor.prototype.save = function(ev, options) {
+  // Set map in loading state.
+  $('#full').addClass('loading');
+
+  // Grab settings form values.
+  var attr = _($('#settings').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+    return memo;
+  }, this.model.attributes);
+
+  // Grab layers.
+  attr.Layer = _(layers).map(function(l) { return l.get() });
+
+  // Save center, disabled layers.
+  attr._prefs = attr._prefs || {};
+  if (this.model.get('_prefs').saveCenter) {
+    var lon = map.getCenter().lng % 360;
+    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
+    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
+  }
+  attr._prefs.disabled = _($('#layers a.layer').map(function(v) {
+    return $('.xrayswatch.disabled', this).size()
+        ? $(this).attr('href').split('#layers-').pop()
+        : false;
+  })).compact();
+
+  options = options || {
+    success:_(this.refresh).bind(this),
+    error: _(this.error).bind(this)
+  };
+  this.model.save(attr, options);
+
+  return ev && !!$(ev.currentTarget).is('a');
+};
+Editor.prototype.refresh = function(ev) {
+  this.messageClear();
+
+  // Refresh map layer.
+  map.removeLayer(tiles);
+  tiles = L.mapbox.tileLayer({
+    tiles: ['/project/{z}/{x}/{y}.png?id=<%=source._project%>&mtime=' + this.model.get('mtime') ],
+    minzoom: this.model.get('minzoom'),
+    maxzoom: 22
+  })
+  .on('tileload', statHandler('srcbytes'))
+  .on('load', errorHandler)
+  .addTo(map);
+  map.options.minZoom = this.model.get('minzoom');
+  map.options.maxZoom = 22;
+
+  // Refresh map title.
+  $('title').text(this.model.get('name'));
+  $('#title .name').text(this.model.get('name') || 'Untitled');
+
+  return false;
+};
+Editor.prototype.browsefile = function(ev) {
+  var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
+  $('.browsefile-pending').removeClass('browsefile-pending');
+  target.addClass('browsefile-pending');
+  $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
+  $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
+};
+var editor = new Editor({
+  el: document.body,
+  model: new Source(<%= JSON.stringify(source) %>)
+});
+
+<% if (source._tmp) { %>
+// Browse view.
+new views.Browser({
+  el: $('#saveas'),
+  filter: function(file) {
+    return file.type === 'dir' && file.basename.indexOf('.tm2') === -1;
+  },
+  callback: function(err, id) {
+    if (err) return false; // @TODO
+    editor.model.set({id:id});
+    editor.save(null, {
+      success: function() { window.location = '/source?id=' + id; },
+      error: _(editor.error).bind(editor)
+    });
+    return false;
+  }
+});
+<% } %>
+
+<% if (!remote) { %>
+// File browser.
+new views.Browser({
+  el: $('#browsefile'),
+  filter: function(file) {
+    var target = $('.browsefile-pending');
+    var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
+    if (pattern) {
+        return file.type === 'dir' || pattern.test(file.basename);
+    } else {
+        return file.type === 'dir';
+    }
+  },
+  callback: function(err, filepath) {
+    var target = $('.browsefile-pending');
+    if (err || !target.size()) {
+      window.location.href = '#';
+    } else {
+      target.val(filepath);
+      window.location.href = '#' + target.parents('form').attr('id');
+    }
+  }
+});
+// Sortable layers.
+$('#layers .menu-content').sortable();
+$('#layers .menu-content').bind('sortupdate', function(ev, ui) {
+  var ids = $('#layers .menu-content a.layer').map(function() {
+    return $(this).attr('href').split('#layers-').pop();
+  }).get();
+  layers = _(ids).reduce(function(memo, id) {
+    memo[id] = layers[id];
+    return memo;
+  }, {});
+});
+<% } %>
+
+var templates = {};
+templates.layeritem = <%= this.layeritem.source %>;
+templates.layershape = <%= this.layershape.source %>;
+templates.layerpostgis = <%= this.layerpostgis.source %>;
+templates.layergeojson = <%= this.layergeojson.source %>;
+templates.layersqlite = <%= this.layersqlite.source %>;
+templates.layercsv = <%= this.layercsv.source %>;
+templates.xraycolor = <%= this.xraycolor.source %>;
+
+var tm = {};
+tm.srs = <%= JSON.stringify(tm.srs) %>;
+</script>
+</body>
+
+</html>

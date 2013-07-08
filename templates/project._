@@ -6,23 +6,34 @@
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/project.css' rel='stylesheet' />
   <title><%= project.name %></title>
 </head>
 
-<body id='view' class='dark'>
+<body id='view'>
 
 <div id='perf'></div>
 
-<div id='data' class='column pane todo'>
-  <a class='button icon close' href='#layers'></a>
+<div id='data' class='pane w3 l1'>
+  <nav>
+    <a class='button icon close' href='#layers'></a>
+  </nav>
   <section>
     <h2>Data library</h2>
   </section>
-  <%= _(library).map(this.source).join('\n') %>
+  <div class='clearfix grid'>
+    <%= _(library).map(this.sourceitem).join('\n') %>
+  </div>
 </div>
 
-<form id='settings' class='column pane util'>
-  <a class='button icon close' href='#'></a>
+<form id='settings' class='pane w4 l0'>
+<div class='column w2 l0 lighten'>
+  <%= this.history(history) %>
+</div>
+<div class='column w2 l2'>
+  <nav>
+    <a class='button icon close' href='#'></a>
+  </nav>
   <section>
     <h2>Settings</h2>
   </section>
@@ -53,60 +64,26 @@
     <input id='scale' name='scale' type='range' value='<%= project.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
     <label class='range' id='scale-val'><%= project.scale %></label>
   </section>
-  <section>
-    <input type='submit' value='Save' class='wide' />
+  <section class='righted'>
+    <a href='#' class='button wide submit icon okay save'>Save</a>
+    <a href='/export/package?id=<%=project.id%>' class='button wide submit icon package'>Package</a>
   </section>
-</form>
-
-<% if (!project._tmp) { %>
-<form id='exportas' class='modal browse ui'>
-  <a class='button icon close' href='#'></a>
-  <div class='cwd'>
-    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
-    <strong><%= browse.cwd %></strong>
-  </div>
-  <div class='dir'>
-    <% _(browse.dir).each(function(file) { %>
-    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
-    <% }); %>
-  </div>
-  <div class='field centered'>
-    <input type='text' placeholder='project.tm2z' size='20' id='exportas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2z'/>
-    <input type='submit' value='Export'/>
-  </div>
-</form>
-<% } %>
-<div id='util' class='menu column ui'>
-  <div>
-    <a class='icon padded prev button' href='/'>Home</a>
-  </div>
-  <% if (!project._tmp) { %>
-  <h3>Export</h3>
-  <section>
-    <label class='inline'>Style</label>
-    <code><a class='icon padded file' href='/project.xml?id=<%=project.id%>' target='_blank'>project.xml</a></code>
-  </section>
-  <section>
-    <label class='inline'>Datasource</label>
-    <code><a class='icon padded file' href='/source.xml?id=<%=project.sources[0]%>' target='_blank'>data.xml</a></code>
-  </section>
-  <section class='centered'>
-    <a class='button wide icon file submit' href='#exportas'>Save package</a>
-  </section>
-  <% } %>
 </div>
+</form>
 
-<div id='layers' class='menu column ui'>
-  <nav>
-    <a href='#' class='button icon close pinned'></a>
-    <a href='#data' class='button data-n icon plus'>Data</a>
-    <a href='#layers' class='button data-y icon close'>Data</a>
+<div id='layers' class='menu column w1 dark hide'>
+  <nav class='menu-title centered'>
+    <a href='#' class='button icon close left'></a>
+    <a href='#data' class='button title data-n icon plus'>Data</a>
+    <a href='#layers' class='button title data-y icon close'>Data</a>
   </nav>
-  <%= _(sources).map(this.source).join('\n') %>
+  <div class='menu-content'>
+  <%= _(sources).map(this.sourceitem).join('\n') %>
+  </div>
 </div>
 
-<div id='full' class='column'>
-  <div id='title' class='ui'>
+<div id='full' class='column w2 l0'>
+  <div id='title'>
     <div class='left'>
       <span class='joined'>
       <a class='button icon layers' href='#layers'></a><!--
@@ -121,21 +98,22 @@
       <a class='button full-n icon full' href='#full'></a>
       <a class='button full-y icon close' href='#'></a>
     </div>
-    <h3>
+    <h3><a href='#settings'>
       <span class='name'><%= project.name || 'Untitled' %></span>
-      <a class='icon gear' href='#settings'></a>
-    </h3>
+      <span class='icon gear' href='#settings'></span>
+    </a></h3>
   </div>
-  <div id='map' class='dark' style='background-color:<%=project.background%>;'></div>
-  <div id='map-overlay'></div>
-  <div id='zoomedto' class='ui z<%=project.center[2]%>'></div>
+  <div id='map' style='background-color:<%=project.background%>;'></div>
+  <div id='map-overlay' class='overlay'></div>
+  <div id='map-errors'></div>
+  <div id='zoomedto' class='z<%=project.center[2]%>'></div>
 </div>
 
-<div id='docs' class='column'>
-  <%= this['projectCartoRef'](cartoRef) %>
+<div id='docs' class='pane w2'>
+  <%= this['projectdocs'](cartoRef) %>
 </div>
 
-<div id='code' class='column'>
+<div id='code' class='column w2 l2'>
   <div class='left'>
     <a class='button docs-n icon code' href='#docs'></a>
     <a class='button docs-y icon close' href='#'></a>
@@ -152,44 +130,31 @@
   <form id='interactivity'>
     <label>Layer</label>
     <select name='interactivity_layer'>
-      <option name=''>&lt; choose layer &gt;</option>
+      <option value=''>&lt; choose layer &gt;</option>
       <% _(sources).each(function(source) { %>
       <% _(source.Layer||{}).each(function(l) { %>
-      <option name='<%=l.id%>' <% if (project.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+      <option value='<%=l.id%>' <% if (project.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
       <% }); %>
       <% }); %>
     </select>
   </form>
 </div>
 
-<% if (project._tmp) { %>
-<form id='saveas' class='modal browse ui'>
-  <a class='button icon close' href='#'></a>
-  <div class='cwd'>
-    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
-    <strong><%= browse.cwd %></strong>
-  </div>
-  <div class='dir'>
-    <% _(browse.dir).each(function(file) { %>
-    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
-    <% }); %>
-  </div>
-  <div class='field centered'>
-    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2'/>
-    <input type='submit' value='Save'/>
-  </div>
-</form>
-<% } %>
+<% if (project._tmp) print(this.modalbrowser({
+  id: 'saveas',
+  cwd: cwd,
+  placeholder: 'project.tm2',
+  pattern: '[\\w+\\d+\\.-]+\\.tm2'
+})); %>
 
-<div id='message' class='modal ui centered'>
-  <a class='button icon close' href='#'></a>
-  <div class='message'></div>
-</div>
+<%= this.modalmessage() %>
 
-<form id='addtab' class='modal ui centered'>
+<form id='addtab' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
-  <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/>
-  <input type='submit' value='New tab'/>
+  <span class='joined'>
+    <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
+    --><input type='submit' value='New tab'/>
+  </span>
 </form>
 
 <div id='mask'></div>
@@ -197,61 +162,22 @@
 <script src='/ext/underscore-min.js'></script>
 <script src='/ext/codemirror.js'></script>
 <script src='/ext/codemirror.runmode.js'></script>
-<script src='/ext/zepto.js'></script>
+<script src='/ext/jquery-2.0.3.min.js'></script>
+<script src='/ext/jquery.sortable.js'></script>
 <script src='/ext/backbone.js'></script>
 <script src='/ext/mapbox.js'></script>
 <script src='/app/lib.js'></script>
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var rangeHandler = function(el, bound, target) {
-  var limit = parseInt($(target).val(),10);
-  if (bound === 'max') {
-    el.value = parseInt(el.value, 10) < limit ? el.value : limit;
-  } else {
-    el.value = parseInt(el.value, 10) > limit ? el.value : limit;
-  }
-  $('#' + el.id + '-val').text(el.value);
-};
-var statHandler = _(function() {
-  if (document.cookie.indexOf('drawtime') === -1) return;
-  var max = 300;
-  var stats = _(document.cookie
-    .split('drawtime=').pop()
-    .split(';').shift()
-    .split('.')).reduce(function(memo, z) {
-    z = z.split('-');
-    if (z.length !== 4) return memo;
-    memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
-    return memo;
-  }, {});
-  var html = "<a href='#' class='button icon close'></a>";
-  for (var z = 0; z < 22; z++) {
-    var s = stats[z];
-    var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
-    var w = s ? Math.round((s[2]-s[0])/max*100) : null;
-    var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
-    html += [
-      "<a href='#zoomedto' class='z z",z,"'>",
-      "<strong>z",z,"</strong>",
-      s ? "<span class='avg'>"+s[1]+"ms</span>" : '',
-      s ? "<span class='range'>" : '',
-      s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
-      s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
-      s ? "</span>" : '',
-      "</a>"
-    ].join('');
-  }
-  $('#zoomedto').html(html);
-}).throttle(50);
-
 var map = L.mapbox.map('map');
 var tiles = L.mapbox.tileLayer({
   tiles: ['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'],
   minzoom: <%= project.minzoom %>,
   maxzoom: <%= project.maxzoom %>
 })
-.on('tileload', statHandler)
+.on('tileload', statHandler('drawtime'))
+.on('load', errorHandler)
 .addTo(map);
 
 // @TODO enable/disable this layer + control based on project's
@@ -271,11 +197,11 @@ grids.addTo(map);
 <% } %>
 
 map.setView([<%=project.center[1]%>, <%=project.center[0]%>], <%=project.center[2]%>);
-map.on('zoomend', function() { $('#zoomedto').attr('class', 'ui z' + (map.getZoom()|0)); });
+map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
 map.options.minZoom = <%= project.minzoom %>;
 map.options.maxZoom = <%= project.maxzoom %>;
 
-statHandler();
+statHandler('drawtime')();
 
 var Tab = function(id, value) {
   var tab = CodeMirror(document.getElementById('code'), {
@@ -332,19 +258,14 @@ Editor.prototype.events = {
   'click a.button.save': 'save',
   'click a.button.recache': 'recache',
   'submit #settings': 'save',
-  'submit #saveas': 'saveas',
-  'submit #exportas': 'exportas',
   'submit #addtab': 'addtab',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tabbed',
   'click #docs nav a': 'tabbed',
   'click #menu nav a': 'tabbed',
   'click #layers a': 'tabbed',
-  'click #layers a .moreless': 'moreless',
-  'click #data a.section': 'data',
+  'click #data .source a': 'data',
   'click #layers a.delete': 'data',
-  'click .browse .cwd a': 'browse',
-  'click .browse .dir a': 'browse',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -377,21 +298,16 @@ Editor.prototype.tabbed = function(ev) {
   $('#' + target).addClass('active');
   return false;
 };
-Editor.prototype.moreless = function(ev) {
-  var parent = $(ev.currentTarget).parent();
-  parent.toggleClass('more');
-  return false;
-};
 Editor.prototype.data = function(ev) {
   var target = $(ev.currentTarget).parent();
   if (target.parents('#layers').size()) {
-    target.appendTo($('#data'));
+    target.appendTo($('#data .grid'));
   } else {
     // Remove all other layers as we don't support compositing for now.
-    $('#layers > div.source').each(function() {
-      $(this).appendTo('#data');
+    $('#layers div.source').each(function() {
+      $(this).appendTo('#data .grid');
     });
-    target.appendTo($('#layers'));
+    target.appendTo($('#layers .menu-content'));
   }
   return false;
 };
@@ -452,7 +368,7 @@ Editor.prototype.save = function(ev, options) {
   }, {});
   attr.sources = $('#layers div.source').map(function() {
     return $(this).attr('id').split('source-').pop();
-  });
+  }).get();
   attr.template = code.template ? code.template.getValue() : '';
 
   if (this.model.get('_prefs').saveCenter) {
@@ -467,10 +383,7 @@ Editor.prototype.save = function(ev, options) {
   };
   this.model.save(attr, options);
 
-  // Back out of any panes that save the project.
-  if (['#settings', '#export'].indexOf(window.location.hash) >= 0) window.location.hash = '#menu';
-
-  return false;
+  return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.error = function(model, resp) {
   this.messageClear();
@@ -506,19 +419,6 @@ Editor.prototype.messageClear = function() {
     delete cm._cartoErrors;
   });
 };
-Editor.prototype.saveas = function(ev) {
-  if (!$('#saveas-filepath').val()) return false;
-  var id = $('#saveas-filepath').data('cwd');
-  id += id === '/'
-    ? $('#saveas-filepath').val()
-    : '/' + $('#saveas-filepath').val();
-  this.model.set({id:id});
-  this.save(null, {
-    success: function() { window.location = '/project?id=' + id; },
-    error: _(this.error).bind(this)
-  });
-  return false;
-};
 Editor.prototype.refresh = function(ev) {
   this.messageClear();
 
@@ -529,7 +429,8 @@ Editor.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
-  .on('tileload', statHandler)
+  .on('tileload', statHandler('drawtime'))
+  .on('load', errorHandler)
   .addTo(map);
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
@@ -552,48 +453,28 @@ Editor.prototype.refresh = function(ev) {
 
   return false;
 };
-Editor.prototype.browse = function(ev) {
-  var browse = $(ev.currentTarget).parents('.browse');
-  var cwd = $(ev.currentTarget).attr('href').split('#').pop();
-  $.ajax({
-    url: '/browse/' + $(browse).attr('id') + cwd,
-    dataType: 'json',
-    success: function(resp) {
-      $('input[type=text]', browse).data('cwd', cwd);
-      $('.cwd strong', browse).text(cwd);
-      $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
-      $('.dir', browse).html(resp.map(function(f) {
-        return "<a class='icon folder padded' href='#" + f.path + "'>" + f.basename + "</a>";
-      }).join('\n'));
-    },
-    // @TODO
-    error: function(resp) {}
-  });
-  return false;
-};
-Editor.prototype.exportas = function(ev) {
-  if (!$('#exportas-filepath').val()) return false;
-  var filepath = $('#exportas-filepath').data('cwd');
-  filepath += filepath === '/'
-    ? $('#exportas-filepath').val()
-    : '/' + $('#exportas-filepath').val();
-  $.ajax({
-    url: '/export/package?id=' + this.model.id,
-    type: 'POST',
-    dataType: 'json',
-    contentType: 'application/json',
-    data: JSON.stringify({ filepath:filepath }),
-    success: _(function(resp) {
-      this.messageModal('Package "'+filepath+'" saved.');
-    }).bind(this),
-    error: function(resp) {}
-  });
-  return false;
-};
-new Editor({
+var editor = new Editor({
   el: document.body,
   model: new Project(<%= JSON.stringify(project) %>)
 });
+
+<% if (project._tmp) { %>
+var browser = new views.Browser({
+  el: $('#saveas'),
+  filter: function(file) {
+    return file.type === 'dir' && file.basename.indexOf('.tm2') === -1;
+  },
+  callback: function(err, id) {
+    if (err) return false; // @TODO
+    editor.model.set({id:id});
+    editor.save(null, {
+      success: function() { window.location = '/project?id=' + id; },
+      error: _(editor.error).bind(editor)
+    });
+    return false;
+  }
+});
+<% } %>
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

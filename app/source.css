@@ -1,0 +1,21 @@
+#map {
+  background-color:#222;
+  position:absolute;
+  width:100%; top:40px; bottom:0px;
+  }
+
+.editor > div.sql {
+  position:absolute;
+  top:50px; bottom:0px; width:100%;
+  display:block;
+  visibility:hidden;
+  }
+.editor .CodeMirror { top:60px; }
+
+.editor nav .icon.conf,
+.sql .editor nav .icon.edit { background-color:rgba(0,0,0,0.4); }
+.sql .editor nav .icon.conf { background-color:rgba(0,0,0,0.2); }
+
+.sql .editor > div.conf { visibility:hidden; }
+.sql .editor > div.sql { visibility:visible; }
+.sql .editor .CodeMirror { visibility:visible; }

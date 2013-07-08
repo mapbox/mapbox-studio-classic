@@ -25,7 +25,7 @@ case 'ENOENT':
   <h2><%= title %></h2>
   <%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %>
 </div>
-<div class='centered ui'>
+<div class='centered dark'>
   <a class='button icon grid' href='/'>Back home</a>
 </div>
 </div>

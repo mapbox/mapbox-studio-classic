@@ -1,43 +1,32 @@
-<!DOCTYPE html>
-<html>
+<nav class='joined'><!--
+  --><a class='button icon plus submit' href='/new/project'>Project</a><!--
+  --><a class='button icon plus submit' href='/new/source'>Source</a>
+</nav>
 
-<head>
-  <meta charset='UTF-8'/>
-  <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/app/base.css' rel='stylesheet' />
-</head>
+<section><h2>Projects</h2></section>
 
-<body id='view'>
-
-<div id='title' class='ui'>
-  <div class='left'>
-    <% /*
-    <span class='joined'><!--
-    --><a href='/' class='button icon grid active'></a><!--
-    --><a class='button icon book'></a><!--
-    --><a class='button icon gear'></a><!--
-    --></span>
-    */ %>
-  </div>
-  <div class='right'>
-    <a href='/new' class='button icon plus'>New</a>
-    <!--<a href='#browse' class='button icon folder'>Browse</a>-->
-  </div>
-  <h3>Recent projects</h3>
-</div>
-<div id='history' class='clearfix'>
-<% _(history).chain()
+<div class='grid clearfix'>
+<% _(obj.style).chain()
   .sortBy(function(project) { return project.mtime })
   .each(function(project) { %>
-<a class='section thumbed' href='/project?id=<%=project._id%>'>
-  <span class='image' style='background-image:url("/thumb.png?id=<%=project._id%>")'></span>
+<a class='cell' href='/project?id=<%=project.id%>'><span class='thumbed'>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
   <strong><%= project.name || 'Untitled' %></strong>
-  <code><%= project._id.split('/').pop() %></code>
-  <small>Updated <%= (new Date(project.mtime)).format('M j Y') %></small>
-</a>
+  <code><%= project.id.split('/').pop() %></code>
+</span></a>
 <% }); %>
 </div>
 
-</body>
+<section><h2>Sources</h2></section>
 
-</html>
+<div class='grid clearfix'>
+<% _(obj.source).chain()
+  .sortBy(function(project) { return project.mtime })
+  .each(function(project) { %>
+<a class='cell' href='/source?id=<%=project.id%>'><span class='thumbed'>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
+  <strong><%= project.name || 'Untitled' %></strong>
+  <code><%= project.id.split('/').pop() %></code>
+</span></a>
+<% }); %>
+</div>
