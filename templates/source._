@@ -83,6 +83,9 @@
     <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
     <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
   </section>
+  <section class='righted'>
+    <a href='#' class='button wide submit icon okay save'>Save</a>
+  </section>
 </div>
 </form>
 
@@ -342,7 +345,7 @@ Editor.prototype.save = function(ev, options) {
   };
   this.model.save(attr, options);
 
-  return false;
+  return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.refresh = function(ev) {
   this.messageClear();

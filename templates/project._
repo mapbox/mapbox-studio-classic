@@ -64,9 +64,9 @@
     <input id='scale' name='scale' type='range' value='<%= project.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
     <label class='range' id='scale-val'><%= project.scale %></label>
   </section>
-  <section>
-    <input type='submit' value='Save' class='wide' />
-    <a href='/export/package?id=<%=project.id%>' class='button wide submit'>Export</a>
+  <section class='righted'>
+    <a href='#' class='button wide submit icon okay save'>Save</a>
+    <a href='/export/package?id=<%=project.id%>' class='button wide submit icon package'>Package</a>
   </section>
 </div>
 </form>
@@ -381,7 +381,7 @@ Editor.prototype.save = function(ev, options) {
   };
   this.model.save(attr, options);
 
-  return false;
+  return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.error = function(model, resp) {
   this.messageClear();

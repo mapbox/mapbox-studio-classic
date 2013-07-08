@@ -189,7 +189,6 @@ input.wide[type=submit] {
 .icon.point:before { background-position-x:-140px; }
 .icon.polygon:before { background-position-x:-160px; }
 .icon.multipolygon:before { background-position-x:-160px; }
-.icon.unknown:before { background-position-x:-500px; }
 .icon.conf:before { background-position-x:-180px; }
 .icon.code:before { background-position-x:-200px; }
 .icon.dir:before { background-position-x:-220px; }
@@ -206,6 +205,8 @@ input.wide[type=submit] {
 .icon.file:before { background-position-x:-440px; }
 .icon.prev:before { background-position-x:-460px; }
 .icon.next:before { background-position-x:-480px; }
+.icon.unknown:before { background-position-x:-500px; }
+.icon.package:before { background-position-x:-520px; }
 .icon.padded:before { margin-right:5px; }
 
 nav { white-space:nowrap; }
