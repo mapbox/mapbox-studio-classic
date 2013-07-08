@@ -57,7 +57,7 @@
     <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
     <% } %>
     <section class='righted'>
-      <a href='#delete-<%=obj.id%>' class='button submit icon close delete'>Remove layer</a>
+      <a href='#' class='button submit icon okay'>Done</a>
     </section>
   </div>
   <div class='sql'>

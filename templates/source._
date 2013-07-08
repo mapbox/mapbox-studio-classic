@@ -202,7 +202,7 @@ Editor.prototype.events = {
   'click a.button.save': 'save',
   'click .editor nav a.conf': 'togglemode',
   'click .editor nav a.edit': 'togglemode',
-  'click .editor a.delete': 'deletelayer',
+  'click a.layer .delete': 'deletelayer',
   'click a.layer .xrayswatch': 'togglelayer',
   'click a.browsefile': 'browsefile',
   'submit #addlayer': 'addlayer',
@@ -269,7 +269,7 @@ Editor.prototype.addlayer = function(ev) {
   return false;
 };
 Editor.prototype.deletelayer = function(ev) {
-  var id = $(ev.currentTarget).attr('href').split('#delete-').pop();
+  var id = $(ev.currentTarget).parent().attr('href').split('#layers-').pop();
   if (!layers[id]) return false;
   if (confirm('Remove layer "' + id + '"?')) {
     layers[id].form.remove();

@@ -4,9 +4,8 @@
     <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></span>
   <%=obj.id%>
   <% if (obj.Datasource.type) { %>
-  <span class='zooms'>
-    <%= (obj.Datasource.type) %>
-  </span>
+  <span class='datasource'><%= (obj.Datasource.type) %></span>
+  <span class='icon close delete'></span>
   <% } %>
   <small class='desc'><%=obj.description||'No description.'%></small>
   <% _(obj.help||{}).each(function(desc,name) { %>

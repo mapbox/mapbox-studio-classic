@@ -42,6 +42,6 @@
     <label class='range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
   </section>
   <section class='righted'>
-    <a href='#delete-<%=obj.id%>' class='button submit icon close delete'>Remove layer</a>
+    <a href='#' class='button submit icon okay'>Done</a>
   </section>
 </form>

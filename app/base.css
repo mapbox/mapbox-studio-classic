@@ -596,13 +596,21 @@ nav > a {
 #layers .geometry { opacity:0.6; }
 #layers a.active { color:#fff; background:rgba(0,0,0,0.1); border-color:transparent; }
 #layers a.active .geometry { opacity:1; }
-#layers .zooms {
+#layers .delete {
+  position:absolute;
+  right:5px; top:10px;
+  border-radius:50%;
+  }
+#layers .delete:hover { background:rgba(0,0,0,0.1); }
+#layers .zooms,
+#layers .datasource {
   position:absolute; right:0px; top:13px;
   background:rgba(0,0,0,0.1);
   padding:3px 5px;
   border-radius:2px 0px 0px 2px;
   font-size:10px; line-height:10px;
   }
+#layers .datasource { right:30px; border-radius:2px; }
 #layers small {
   display:none;
   color:#aaa;
