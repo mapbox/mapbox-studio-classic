@@ -407,7 +407,7 @@ $('#layers .menu-content').sortable();
 $('#layers .menu-content').bind('sortupdate', function(ev, ui) {
   var ids = $('#layers .menu-content a.layer').map(function() {
     return $(this).attr('href').split('#layers-').pop();
-  });
+  }).get();
   layers = _(ids).reduce(function(memo, id) {
     memo[id] = layers[id];
     return memo;
