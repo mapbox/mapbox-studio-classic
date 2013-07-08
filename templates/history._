@@ -13,7 +13,6 @@
   <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
   <strong><%= project.name || 'Untitled' %></strong>
   <code><%= project.id.split('/').pop() %></code>
-  <small><%= (new Date(project.mtime)).format('M j Y') %></small>
 </span></a>
 <% }); %>
 </div>
@@ -28,7 +27,6 @@
   <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
   <strong><%= project.name || 'Untitled' %></strong>
   <code><%= project.id.split('/').pop() %></code>
-  <small><%= (new Date(project.mtime)).format('M j Y') %></small>
 </span></a>
 <% }); %>
 </div>

@@ -81,19 +81,19 @@ section:last-child { border-bottom:0px; }
 
 .thumbed {
   display:block;
-  padding:15px 30px;
+  padding:10px 15px;
   position:relative;
-  padding-left:90px;
-  min-height:90px;
+  padding-left:75px;
+  min-height:60px;
   border-radius:4px;
   }
 .thumbed .image {
   position:absolute;
-  left:15px; top:15px; width:60px; height:60px;
+  left:0px; top:0px; width:60px; height:60px;
   background-color:rgba(0,0,0,0.1);
   background-size:cover;
   background-position:50% 50%;
-  border-radius:4px;
+  border-radius:4px 0px 0px 4px;
   box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 3px;
   }
 .thumbed > * {

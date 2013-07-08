@@ -4,12 +4,6 @@
   <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
   <strong><%= obj.name %></strong>
   <span class='desc'><%= obj.description || 'No description.' %></span>
-  <small class='layers'>
-    <%= layerCount %> <%= layerCount === 1 ? 'layer' : 'layers' %>
-    <% if (obj.author) { %>
-    from <%= obj.author %>
-    <% } %>
-  </small>
 </span></a>
 
 <h3><%= obj.name %></h3>
