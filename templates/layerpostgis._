@@ -21,9 +21,9 @@
     <section>
       <label>PostGIS<label>
       <p class='joined'>
-        <input type='text' name='Datasource-user' value='<%= obj.Datasource.user %>' placeholder='user' /><!--
-        --><input type='text' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' placeholder='db' /><!--
-        --><input type='text' name='Datasource-host' value='<%= obj.Datasource.host %>' placeholder='host' />
+        <input type='text' name='Datasource-user' size='12' value='<%= obj.Datasource.user %>' placeholder='user' /><!--
+        --><input type='text' name='Datasource-dbname' size='12' value='<%= obj.Datasource.dbname %>' placeholder='db' /><!--
+        --><input type='text' name='Datasource-host' size='12' value='<%= obj.Datasource.host %>' placeholder='host' />
       </p>
       <input type='hidden' name='Datasource-type' value='postgis' />
       <input type='hidden' name='Datasource-max_size' value='512' />
