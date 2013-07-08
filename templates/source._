@@ -108,7 +108,7 @@
     --><select name='type'>
       <option value='postgis'>postgis</option>
       <option value='shape'>shapefile</option>
-      <option value='geojson' disabled='disabled'>geojson</option>
+      <option value='geojson'>geojson</option>
       <option value='sqlite' disabled='disabled'>sqlite</option>
       <option value='csv'>csv</option>
     </select>
@@ -436,6 +436,7 @@ var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
+templates.layergeojson = <%= this.layergeojson.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 
