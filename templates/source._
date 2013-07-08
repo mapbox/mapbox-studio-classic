@@ -30,7 +30,7 @@
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
-  <div id='zoomedto' class='dark z<%=source._prefs.center[2]%>'></div>
+  <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
 </div>
 
 <div id='layers' class='menu column dark w2 l2'>
@@ -143,7 +143,7 @@ var tiles = L.mapbox.tileLayer({
 
 statHandler('srcbytes')();
 
-map.setView([<%=source._prefs.center[1]%>, <%=source._prefs.center[0]%>], <%=source._prefs.center[2]%>);
+map.setView([<%=source.center[1]%>, <%=source.center[0]%>], <%=source.center[2]%>);
 map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
 map.options.minZoom = <%= source.minzoom %>;
 map.options.maxZoom = 22;
@@ -331,7 +331,7 @@ Editor.prototype.save = function(ev, options) {
   if (this.model.get('_prefs').saveCenter) {
     var lon = map.getCenter().lng % 360;
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr._prefs.center = [lon , map.getCenter().lat, map.getZoom() ];
+    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
   attr._prefs.disabled = _($('#layers a.layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
