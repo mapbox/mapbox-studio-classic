@@ -240,6 +240,7 @@ Editor.prototype.addlayer = function(ev) {
 
   if (!layers[values.id]) {
     var layer = {
+      tm: tm,
       id: values.id,
       properties: {
         minzoom:0,
@@ -404,6 +405,9 @@ templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
+
+var tm = {};
+tm.srs = <%= JSON.stringify(tm.srs) %>;
 </script>
 </body>
 
