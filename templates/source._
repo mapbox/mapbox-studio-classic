@@ -122,7 +122,8 @@
 <script src='/ext/codemirror.js'></script>
 <script src='/ext/codemirror.runmode.js'></script>
 <script src='/ext/codemirror.sql.js'></script>
-<script src='/ext/zepto.js'></script>
+<script src='/ext/jquery-2.0.3.min.js'></script>
+<script src='/ext/jquery.sortable.js'></script>
 <script src='/ext/backbone.js'></script>
 <script src='/ext/mapbox.js'></script>
 <script src='/app/lib.js'></script>
@@ -256,6 +257,7 @@ Editor.prototype.addlayer = function(ev) {
     layers[values.id] = Layer(values.id, layer.Datasource);
 
     window.location.hash = '#layers-' + values.id;
+    $('#layers .menu-content').sortable('destroy').sortable();
   } else {
     window.location.hash = '#';
   }
@@ -377,6 +379,8 @@ new views.Browser({
 });
 <% } %>
 
+<% if (!remote) { %>
+// File browser.
 new views.Browser({
   el: $('#browsefile'),
   filter: function(file) {
@@ -398,6 +402,18 @@ new views.Browser({
     }
   }
 });
+// Sortable layers.
+$('#layers .menu-content').sortable();
+$('#layers .menu-content').bind('sortupdate', function(ev, ui) {
+  var ids = $('#layers .menu-content a.layer').map(function() {
+    return $(this).attr('href').split('#layers-').pop();
+  });
+  layers = _(ids).reduce(function(memo, id) {
+    memo[id] = layers[id];
+    return memo;
+  }, {});
+});
+<% } %>
 
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;

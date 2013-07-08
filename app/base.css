@@ -517,9 +517,12 @@ nav > a {
   }
 .menu h3,
 .menu .item,
-.menu .layer {
+.menu .layer,
+.menu .sortable-dragging,
+.menu .sortable-placeholder {
   display:block;
   padding:10px 20px 9px;
+  min-height:40px;
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
@@ -540,6 +543,15 @@ nav > a {
   width:100px;
   }
 .menu nav a.button.title:active { background-color:#333; }
+
+/* Sortable states */
+.menu .sortable-placeholder { background:rgba(0,0,0,0.1); }
+.menu .sortable-dragging {
+  background:#444;
+  padding:9px 19px;
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:4px;
+  }
 
 .hide { display:none; }
 .hide:target { display:block; }

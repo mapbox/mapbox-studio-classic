@@ -161,7 +161,8 @@
 <script src='/ext/underscore-min.js'></script>
 <script src='/ext/codemirror.js'></script>
 <script src='/ext/codemirror.runmode.js'></script>
-<script src='/ext/zepto.js'></script>
+<script src='/ext/jquery-2.0.3.min.js'></script>
+<script src='/ext/jquery.sortable.js'></script>
 <script src='/ext/backbone.js'></script>
 <script src='/ext/mapbox.js'></script>
 <script src='/app/lib.js'></script>
