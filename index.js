@@ -58,20 +58,6 @@ app.param('project', function(req, res, next) {
     });
 }, function(req, res, next) {
     if (!req.project) return next();
-
-    // Set drawtime cookie for a given project.
-    res.cookie('drawtime', _(project.stats(req.project.data.id, 'drawtime'))
-        .reduce(function(memo, stat, z) {
-            memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
-            return memo;
-        }, []).join('.'));
-
-    // Set srcbytes cookie for a given project.
-    res.cookie('srcbytes', _(project.stats(req.project.data.id, 'srcbytes')).
-        reduce(function(memo, stat, z) {
-            memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
-            return memo;
-        }, []).join('.'));
     next();
 });
 
@@ -180,12 +166,30 @@ app.get('/:project(project|source)/:z/:x/:y.:format', function(req, res, next) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
         } else if (err) {
+            // Set errors cookie for this project.
+            project.error(req.project.data.id, err);
+            res.cookie('errors', _(project.error(req.project.data.id)).join('|'));
             return next(err);
         }
 
-        // Add stats for this tile render to project stats.
+        // Set drawtime cookie for a given project.
         project.stats(req.project.data.id, 'drawtime', z, data._drawtime);
+        res.cookie('drawtime', _(project.stats(req.project.data.id, 'drawtime'))
+            .reduce(function(memo, stat, z) {
+                memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+                return memo;
+            }, []).join('.'));
+
+        // Set srcbytes cookie for a given project.
         project.stats(req.project.data.id, 'srcbytes', z, data._srcbytes);
+        res.cookie('srcbytes', _(project.stats(req.project.data.id, 'srcbytes')).
+            reduce(function(memo, stat, z) {
+                memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
+                return memo;
+            }, []).join('.'));
+
+        // Clear out tile errors.
+        res.cookie('errors', '');
 
         headers['cache-control'] = 'max-age=3600';
         res.set(headers);

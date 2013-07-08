@@ -30,6 +30,7 @@
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
+  <div id='map-errors'></div>
   <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
 </div>
 
@@ -139,6 +140,7 @@ var tiles = L.mapbox.tileLayer({
   maxzoom: 22
 })
 .on('tileload', statHandler('srcbytes'))
+.on('load', errorHandler)
 .addTo(map);
 
 statHandler('srcbytes')();
@@ -358,6 +360,7 @@ Editor.prototype.refresh = function(ev) {
     maxzoom: 22
   })
   .on('tileload', statHandler('srcbytes'))
+  .on('load', errorHandler)
   .addTo(map);
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = 22;

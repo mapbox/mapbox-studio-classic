@@ -10,6 +10,20 @@ var rangeHandler = function(el, bound, target) {
   $('#' + el.id + '-val').text(el.value);
 };
 
+var errorHandler = _(function() {
+  if (document.cookie.indexOf('errors') === -1) return;
+  var html = document.cookie
+    .split('errors=').pop()
+    .split(';')
+    .shift()
+    .split('|')
+    .filter(function(msg) { return msg })
+    .map(function(msg) {
+      return "<div class='msg'>" + decodeURIComponent(msg) + "</div>";
+    });
+  $('#map-errors').html(html);
+}).throttle(50);
+
 var statHandler = function(key) {
   var unit = key === 'srcbytes' ? 'k' : 'ms';
   return _(function() {

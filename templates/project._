@@ -105,6 +105,7 @@
   </div>
   <div id='map' style='background-color:<%=project.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
+  <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=project.center[2]%>'></div>
 </div>
 
@@ -176,6 +177,7 @@ var tiles = L.mapbox.tileLayer({
   maxzoom: <%= project.maxzoom %>
 })
 .on('tileload', statHandler('drawtime'))
+.on('load', errorHandler)
 .addTo(map);
 
 // @TODO enable/disable this layer + control based on project's
@@ -428,6 +430,7 @@ Editor.prototype.refresh = function(ev) {
     maxzoom: this.model.get('maxzoom')
   })
   .on('tileload', statHandler('drawtime'))
+  .on('load', errorHandler)
   .addTo(map);
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
