@@ -1,0 +1,47 @@
+<form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
+  <nav><a href='#' class='button icon close'></a></nav>
+  <section>
+    <h2>
+      <%= obj.id %>
+    </h2>
+    <input type='hidden' name='id' value='<%=obj.id%>' />
+    <input type='hidden' name='name' value='<%=obj.id%>' />
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+  </section>
+  <section>
+    <label>GeoJSON<label>
+    <input type='hidden' name='Datasource-type' value='geojson' />
+    <div class='joined'>
+      <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.json' pattern='[\w+\d+\.\/_-]+\.(json|geojson|JSON)'/><!--
+      --><a href='#browsefile' class='button icon dir browsefile'></a>
+    </div>
+  </section>
+  <section>
+    <label class='inline'>Projection</label>
+    <select name='srs'>
+      <option value='<%=tm.srs['900913']%>' <% if (tm.srs['900913'] === obj.srs) { %>selected='selected'<% }%>>900913</option>
+      <option value='<%=tm.srs['WGS84']%>' <% if (tm.srs['WGS84'] === obj.srs) { %>selected='selected'<% }%>>WGS84</option>
+    </select>
+  </section>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input id='<%=obj.id%>-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#<%=obj.id%>-maxzoom");' />
+    <label class='range' id='<%=obj.id%>-minzoom-val'><%= obj.properties.minzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input id='<%=obj.id%>-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#<%=obj.id%>-minzoom");' />
+    <label class='range' id='<%=obj.id%>-maxzoom-val'><%= obj.properties.maxzoom %></label>
+  </section>
+  <section>
+    <label class='inline'>Buffer size</label>
+    <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='512' step='4' onchange='rangeHandler(this);'/>
+    <label class='range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
+  </section>
+  <section class='righted'>
+    <a href='#' class='button submit icon okay'>Done</a>
+  </section>
+</form>

@@ -47,7 +47,13 @@ describe('project', function() {
             assert.equal(data.styles['a.mss'], fs.readFileSync(tmpPerm + '/a.mss', 'utf8'), 'saves a.mss');
             assert.equal(data.styles['b.mss'], fs.readFileSync(tmpPerm + '/b.mss', 'utf8'), 'saves b.mss');
             assert.ok(/<Map srs/.test(fs.readFileSync(tmpPerm + '/project.xml', 'utf8')), 'saves project.xml');
-            done();
+            // This setTimeout is here because thumbnail generation on save
+            // is an optimistic operation (e.g. callback does not wait for it
+            // to complete).
+            setTimeout(function() {
+                assert.ok(fs.existsSync(tmpPerm + '/.thumb.png'), 'saves thumb');
+                done();
+            }, 500);
         })
     });
     it ('packages project to tm2z', function(done) {
@@ -81,8 +87,8 @@ describe('project.info', function() {
             assert.equal(info.minzoom, 0);
             assert.equal(info.maxzoom, 22);
             assert.equal(info.sources.length, 1);
-            assert.deepEqual(info.styles, ['style.mss']);
-            assert.equal(info._id, defpath, 'project.info adds _id key');
+            assert.ok(/background-color:#fff/.test(info.styles['style.mss']));
+            assert.equal(info.id, defpath, 'project.info adds id key');
             done();
         });
     });
@@ -91,7 +97,7 @@ describe('project.info', function() {
 describe('project.toXML', function() {
     it('fails on invalid source', function(done) {
         project.toXML({
-            _id:'tmp-1234',
+            id:'tmp-1234',
             sources:['foobar']
         }, function(err, xml) {
             assert.ok(err);
@@ -101,7 +107,7 @@ describe('project.toXML', function() {
     });
     it('compiles', function(done) {
         project.toXML({
-            _id:'tmp-1234',
+            id:'tmp-1234',
             sources:['mbstreets'],
             styles:{'style.mss': '#water { polygon-fill:#fff }'}
         }, function(err, xml) {
@@ -115,7 +121,7 @@ describe('project.toXML', function() {
     });
     it('compiles data params', function(done) {
         project.toXML({
-            _id:'tmp-1234',
+            id:'tmp-1234',
             sources:['mbstreets'],
             name:'test',
             description:'test project',

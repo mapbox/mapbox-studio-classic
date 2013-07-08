@@ -1,0 +1,16 @@
+<%
+function tocolor(str) {
+  var rgb = [0, 0, 0];
+  for (var i = 0; i < str.length; i++) {
+    rgb[i % 3] = (rgb[i % 3] + (str.charCodeAt(i) % 12)) % 12;
+  }
+  var r = 4 + rgb[0];
+  var g = 4 + rgb[1];
+  var b = 4 + rgb[2];
+  r = (r * 16) + r;
+  g = (g * 16) + g;
+  b = (b * 16) + b;
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + '0.5)';
+};
+print(tocolor(obj));
+%>

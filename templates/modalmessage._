@@ -1,0 +1,4 @@
+<div id='message' class='modal dark centered'>
+  <a class='button icon close' href='#'></a>
+  <div class='message'></div>
+</div>
