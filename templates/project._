@@ -129,39 +129,24 @@
   <form id='interactivity'>
     <label>Layer</label>
     <select name='interactivity_layer'>
-      <option name=''>&lt; choose layer &gt;</option>
+      <option value=''>&lt; choose layer &gt;</option>
       <% _(sources).each(function(source) { %>
       <% _(source.Layer||{}).each(function(l) { %>
-      <option name='<%=l.id%>' <% if (project.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+      <option value='<%=l.id%>' <% if (project.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
       <% }); %>
       <% }); %>
     </select>
   </form>
 </div>
 
-<% if (project._tmp) { %>
-<form id='saveas' class='modal browse dark'>
-  <a class='button icon close' href='#'></a>
-  <div class='cwd'>
-    <a href='#<%= browse.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
-    <strong><%= browse.cwd %></strong>
-  </div>
-  <div class='dir'>
-    <% _(browse.dir).each(function(file) { %>
-    <a class='icon folder padded' href='#<%=file.path%>'><%=file.basename%></a>
-    <% }); %>
-  </div>
-  <div class='field centered'>
-    <input type='text' placeholder='project.tm2' size='20' id='saveas-filepath' data-cwd='<%= browse.cwd %>' pattern='[\w+\d+\.-]+\.tm2'/>
-    <input type='submit' value='Save'/>
-  </div>
-</form>
-<% } %>
+<% if (project._tmp) print(this.modalbrowser({
+  id: 'saveas',
+  cwd: cwd,
+  placeholder: 'project.tm2',
+  pattern: '[\\w+\\d+\\.-]+\\.tm2'
+})); %>
 
-<div id='message' class='modal dark centered'>
-  <a class='button icon close' href='#'></a>
-  <div class='message'></div>
-</div>
+<%= this.modalmessage() %>
 
 <form id='addtab' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
@@ -270,7 +255,6 @@ Editor.prototype.events = {
   'click a.button.save': 'save',
   'click a.button.recache': 'recache',
   'submit #settings': 'save',
-  'submit #saveas': 'saveas',
   'submit #addtab': 'addtab',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tabbed',
@@ -279,8 +263,6 @@ Editor.prototype.events = {
   'click #layers a': 'tabbed',
   'click #data .source a': 'data',
   'click #layers a.delete': 'data',
-  'click .browse .cwd a': 'browse',
-  'click .browse .dir a': 'browse',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -434,19 +416,6 @@ Editor.prototype.messageClear = function() {
     delete cm._cartoErrors;
   });
 };
-Editor.prototype.saveas = function(ev) {
-  if (!$('#saveas-filepath').val()) return false;
-  var id = $('#saveas-filepath').data('cwd');
-  id += id === '/'
-    ? $('#saveas-filepath').val()
-    : '/' + $('#saveas-filepath').val();
-  this.model.set({id:id});
-  this.save(null, {
-    success: function() { window.location = '/project?id=' + id; },
-    error: _(this.error).bind(this)
-  });
-  return false;
-};
 Editor.prototype.refresh = function(ev) {
   this.messageClear();
 
@@ -480,29 +449,28 @@ Editor.prototype.refresh = function(ev) {
 
   return false;
 };
-Editor.prototype.browse = function(ev) {
-  var browse = $(ev.currentTarget).parents('.browse');
-  var cwd = $(ev.currentTarget).attr('href').split('#').pop();
-  $.ajax({
-    url: '/browse/' + $(browse).attr('id') + cwd,
-    dataType: 'json',
-    success: function(resp) {
-      $('input[type=text]', browse).data('cwd', cwd);
-      $('.cwd strong', browse).text(cwd);
-      $('.cwd a', browse).attr('href', '#' + cwd.split('/').slice(0,-1).join('/'));
-      $('.dir', browse).html(resp.map(function(f) {
-        return "<a class='icon folder padded' href='#" + f.path + "'>" + f.basename + "</a>";
-      }).join('\n'));
-    },
-    // @TODO
-    error: function(resp) {}
-  });
-  return false;
-};
-new Editor({
+var editor = new Editor({
   el: document.body,
   model: new Project(<%= JSON.stringify(project) %>)
 });
+
+<% if (project._tmp) { %>
+var browser = new views.Browser({
+  el: $('#saveas'),
+  filter: function(file) {
+    return file.type === 'dir' && file.basename.indexOf('.tm2') === -1;
+  },
+  callback: function(err, id) {
+    if (err) return false; // @TODO
+    editor.model.set({id:id});
+    editor.save(null, {
+      success: function() { window.location = '/project?id=' + id; },
+      error: _(editor.error).bind(editor)
+    });
+    return false;
+  }
+});
+<% } %>
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

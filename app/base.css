@@ -189,7 +189,7 @@ input.wide[type=submit] {
 .icon.unknown:before { background-position-x:-500px; }
 .icon.conf:before { background-position-x:-180px; }
 .icon.code:before { background-position-x:-200px; }
-.icon.folder:before { background-position-x:-220px; }
+.icon.dir:before { background-position-x:-220px; }
 .icon.tooltip:before { background-position-x:-240px; }
 .icon.upload:before { background-position-x:-260px; }
 .icon.okay:before { background-position-x:-280px; }
@@ -881,15 +881,15 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
 
-/* File browse modal */
-.modal.browse {
+/* File browser modal */
+.modal.browser {
   top:10%; bottom:10%;
   padding:0px;
   }
-.modal.browse .cwd,
-.modal.browse .dir,
-.modal.browse .field { position:absolute; width:100%; }
-.modal.browse .cwd {
+.modal.browser .cwd,
+.modal.browser .list,
+.modal.browser .field { position:absolute; width:100%; }
+.modal.browser .cwd {
   z-index:1;
   height:50px;
   padding:10px;
@@ -898,22 +898,22 @@ span.cm-carto-filter             { color:#66475B; }
   text-overflow:ellipsis;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
-.modal.browse .cwd a { margin-right:10px; }
-.modal.browse .field {
+.modal.browser .cwd a { margin-right:10px; }
+.modal.browser .field {
   z-index:1;
   bottom:0px;
   height:50px;
   padding:9px 20px 10px;
   border-top:1px solid rgba(0,0,0,0.1);
   }
-.modal.browse .dir {
+.modal.browser .list {
   top:50px; bottom:50px;
   overflow:auto;
   background:#3c3c3c;
   }
-.modal.browse .dir a {
+.modal.browser .list a {
   display:block;
-  padding:10px 20px 9px;
+  padding:5px 20px 4px;
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;

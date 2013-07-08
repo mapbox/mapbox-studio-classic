@@ -1,5 +1,6 @@
-<nav>
-  <a class='button icon plus' href='/new'>New project</a>
+<nav class='joined'><!--
+  --><a class='button icon plus submit' href='/new/project'>Project</a><!--
+  --><a class='button icon plus submit' href='/new/source'>Source</a>
 </nav>
 
 <section><h2>Projects</h2></section>

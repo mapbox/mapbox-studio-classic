@@ -54,7 +54,6 @@ app.param('project', function(req, res, next) {
         if (err) return next(err);
         if (!tmp) tm.history('style', id);
         req.project = project;
-        req.project.data._tmp = tmp;
         return next();
     });
 }, function(req, res, next) {
@@ -144,23 +143,14 @@ app.put('/:project(project)', function(req, res, next) {
 });
 
 app.get('/:history():project(project)', function(req, res, next) {
-    tm.dirfiles(process.env.HOME, function(err, dirfiles) {
-        if (err) return next(err);
-        req.browse = {
-            cwd: process.env.HOME,
-            dir: dirfiles.filter(function(s) { return s.type === 'dir' })
-        };
-        return next();
-    });
-}, function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.project({
+        cwd: process.env.HOME,
         cartoRef: require('carto').tree.Reference.data,
         sources: [req.project._backend.data],
         library: _(source.library).filter(function(source, s) {
             return !_(req.project.data.sources).include(s);
         }),
-        browse: req.browse,
         project: req.project.data,
         history: req.history
     }));
@@ -218,6 +208,7 @@ app.get('/:source(source).xml', function(req, res, next) {
 app.get('/:history():source(source)', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.source({
+        cwd: process.env.HOME,
         remote: !!url.parse(req.query.id).protocol,
         source: req.source.data,
         history: req.history
@@ -242,23 +233,9 @@ app.get('/export/:project(package)', function(req, res, next) {
     });
 });
 
-app.get('/browse/saveas*', function(req, res, next) {
+app.get('/browse*', function(req, res, next) {
     tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
         if (err) return next(err);
-        dirfiles = dirfiles.filter(function(s) {
-            return s.type === 'dir' && path.extname(s.path) !== '.tm2'
-        });
-        res.send(dirfiles);
-    });
-});
-
-app.get('/browse/exportas*', function(req, res, next) {
-    tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
-        if (err) return next(err);
-        dirfiles = dirfiles.filter(function(s) {
-            if (s.type === 'dir') return path.extname(s.path) !== '.tm2';
-            if (s.type === 'file') return path.extname === '.tm2z';
-        });
         res.send(dirfiles);
     });
 });
@@ -285,8 +262,12 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/:newproject(new)', function(req, res, next) {
+app.get('/new/project', function(req, res, next) {
     res.redirect('/project?id=' + tm.tmpid());
+});
+
+app.get('/new/source', function(req, res, next) {
+    res.redirect('/source?id=' + tm.tmpid());
 });
 
 app.get('/', function(req, res, next) {

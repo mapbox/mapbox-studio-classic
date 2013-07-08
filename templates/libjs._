@@ -48,3 +48,63 @@ var statHandler = function(key) {
   }).throttle(50);
 };
 
+var views = {};
+
+views.Browser = Backbone.View.extend({});
+views.Browser.prototype.events = {
+  'click .cwd a': 'browse',
+  'click .list a': 'browse',
+  'submit': 'submit'
+};
+views.Browser.prototype.initialize = function(options) {
+  this.callback = options.callback || function() {};
+  this.filter = options.filter || function(f) { return true };
+  this.cwd = this.$('input[name=cwd]').val();
+  return this.render();
+};
+views.Browser.prototype.render = function() {
+  var view = this;
+  $.ajax({
+    url: '/browse/' + view.cwd,
+    dataType: 'json',
+    success: function(resp) {
+      view.$('input[name=cwd]').val(view.cwd);
+      view.$('.cwd strong').text(view.cwd);
+      view.$('.cwd a').attr('href', '#' + view.cwd.split('/').slice(0,-1).join('/'));
+      view.$('.list').html(_(resp).chain()
+        .filter(view.filter)
+        .map(function(f) {
+          return "<a class='icon " + f.type + " padded' href='#" + f.path + "'>" + f.basename + "</a>";
+        })
+        .value()
+        .join('\n'));
+    },
+    // @TODO
+    error: function(resp) {}
+  });
+};
+views.Browser.prototype.submit = function(ev) {
+  // Grab settings form values.
+  var values = _($(this.el).serializeArray()).reduce(function(memo, field) {
+    if (field.name && field.value) {
+      memo[field.name] = field.value;
+    }
+    return memo;
+  }, {});
+  if (!values.basename) return false;
+  if (!this.callback) return false;
+  this.callback(null, values.basename[0] === '/'
+    ? values.basename
+    : values.cwd + '/' + values.basename);
+  return false;
+};
+views.Browser.prototype.browse = function(ev) {
+  var target = $(ev.currentTarget);
+  if (target.is('.dir') || target.is('.prev')) {
+    this.cwd = target.attr('href').split('#').pop();
+    this.render();
+  } else if (target.is('.file')) {
+    this.$('input[name=basename]').val(target.text());
+  }
+  return false;
+};

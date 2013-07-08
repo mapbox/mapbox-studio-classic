@@ -1,0 +1,20 @@
+<%
+// Required vars
+// - id, the form ID
+// - cwd, absolute path from which to begin browsing
+// - placeholder, input field placeholder
+// - pattern, input field pattern
+%>
+<form id='<%=id%>' class='modal browser dark'>
+  <a class='button icon close' href='#'></a>
+  <div class='cwd'>
+    <a href='#<%= cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
+    <strong><%=cwd%></strong>
+  </div>
+  <div class='list'></div>
+  <div class='field centered'>
+    <input type='text' placeholder='<%=placeholder%>' size='20' name='basename' pattern='<%=pattern%>'/>
+    <input type='hidden' name='cwd' value='<%=cwd%>' />
+    <input type='submit' value='Save'/>
+  </div>
+</form>

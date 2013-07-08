@@ -86,10 +86,13 @@
 </div>
 </form>
 
-<div id='message' class='modal dark centered'>
-  <a class='button icon close' href='#'></a>
-  <div class='message'></div>
-</div>
+<% if (source._tmp) print(this.modalbrowser({
+  id: 'saveas',
+  cwd: cwd,
+  placeholder: 'project.tm2',
+  pattern: '[\\w+\\d+\\.-]+\\.tm2'
+})); %>
+<%= this.modalmessage() %>
 
 <form id='addlayer' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
@@ -334,10 +337,29 @@ Editor.prototype.refresh = function(ev) {
 
   return false;
 };
-new Editor({
+var editor = new Editor({
   el: document.body,
   model: new Source(<%= JSON.stringify(source) %>)
 });
+
+<% if (source._tmp) { %>
+// Browse view.
+new views.Browser({
+  el: $('#saveas'),
+  filter: function(file) {
+    return file.type === 'dir' && file.basename.indexOf('.tm2') === -1;
+  },
+  callback: function(err, id) {
+    if (err) return false; // @TODO
+    editor.model.set({id:id});
+    editor.save(null, {
+      success: function() { window.location = '/source?id=' + id; },
+      error: _(editor.error).bind(editor)
+    });
+    return false;
+  }
+});
+<% } %>
 
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
