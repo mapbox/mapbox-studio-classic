@@ -43,7 +43,9 @@ body.dark {
   }
 
 .dark { color:#fff; }
+.lefted { text-align:left; }
 .centered { text-align:center; }
+.righted { text-align:right; }
 
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:transparent; border-left:1px solid rgba(0,0,0,0.1); }
@@ -64,6 +66,7 @@ section {
   border-bottom:1px solid #ccc;
   }
 section > *:last-child { margin-bottom:0px; }
+section:last-child { border-bottom:0px; }
 
 .dark section,
 .dark a.section { border-color:rgba(0,0,0,0.1); }

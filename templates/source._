@@ -155,7 +155,11 @@ var Layer = function(id, datasource) {
     });
     code.getWrapperElement().id = 'layers-' + id + '-code';
   }
-  var layer = { code: code, form: $('#layers-' + id) };
+  var layer = {
+    code: code,
+    form: $('#layers-' + id),
+    item: $('#layers a.layer[href=#layers-'+id+']')
+  };
   layer.get = function() {
     var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
       // @TODO determine what causes empty field names.
@@ -198,6 +202,7 @@ Editor.prototype.events = {
   'click a.button.save': 'save',
   'click .editor nav a.conf': 'togglemode',
   'click .editor nav a.edit': 'togglemode',
+  'click .editor a.delete': 'deletelayer',
   'click a.layer .xrayswatch': 'togglelayer',
   'click a.browsefile': 'browsefile',
   'submit #addlayer': 'addlayer',
@@ -261,6 +266,18 @@ Editor.prototype.addlayer = function(ev) {
   } else {
     window.location.hash = '#';
   }
+  return false;
+};
+Editor.prototype.deletelayer = function(ev) {
+  var id = $(ev.currentTarget).attr('href').split('#delete-').pop();
+  if (!layers[id]) return false;
+  if (confirm('Remove layer "' + id + '"?')) {
+    layers[id].form.remove();
+    layers[id].item.remove();
+    $('#layers .menu-content').sortable('destroy').sortable();
+    delete layers[id];
+  }
+  window.location.href = '#';
   return false;
 };
 Editor.prototype.error = function(model, resp) {

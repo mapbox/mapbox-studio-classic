@@ -41,4 +41,7 @@
     <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='512' step='4' onchange='rangeHandler(this);'/>
     <label class='range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
   </section>
+  <section class='righted'>
+    <a href='#delete-<%=obj.id%>' class='button submit icon close delete'>Remove layer</a>
+  </section>
 </form>
