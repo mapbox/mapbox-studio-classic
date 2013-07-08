@@ -112,7 +112,7 @@
       <option value='postgis'>postgis</option>
       <option value='shape'>shapefile</option>
       <option value='geojson'>geojson</option>
-      <option value='sqlite' disabled='disabled'>sqlite</option>
+      <option value='sqlite'>sqlite</option>
       <option value='csv'>csv</option>
     </select>
   </p>
@@ -150,7 +150,7 @@ map.options.maxZoom = 22;
 
 var Layer = function(id, datasource) {
   var code;
-  if (datasource.type === 'postgis') {
+  if (datasource.type === 'postgis' || datasource.type === 'sqlite') {
     code = CodeMirror($('#layers-' + id + ' div.sql').get(0), {
       value: datasource.table,
       lineNumbers: true,
@@ -440,6 +440,7 @@ templates.layeritem = <%= this.layeritem.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layergeojson = <%= this.layergeojson.source %>;
+templates.layersqlite = <%= this.layersqlite.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 
