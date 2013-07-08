@@ -32,6 +32,13 @@
       <label class='inline'>Extent</label><input type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
     </section>
     <section>
+      <label class='inline'>Projection</label>
+      <select name='srs'>
+        <option value='<%=tm.srs['900913']%>' <% if (tm.srs['900913'] === obj.srs) { %>selected='selected'<% }%>>900913</option>
+        <option value='<%=tm.srs['WGS84']%>' <% if (tm.srs['WGS84'] === obj.srs) { %>selected='selected'<% }%>>WGS84</option>
+      </select>
+    </section>
+    <section>
       <label class='inline'>Minzoom</label>
       <input id='<%=obj.id%>-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#<%=obj.id%>-maxzoom");' />
       <label class='range' id='<%=obj.id%>-minzoom-val'><%= obj.properties.minzoom %></label>
