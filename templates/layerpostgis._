@@ -21,30 +21,30 @@
     <section>
       <label>PostGIS<label>
       <p class='joined'>
-        <input type='text' id='Datasource-user' name='Datasource-user' value='<%= obj.Datasource.user %>' placeholder='user' /><!--
-        --><input type='text' id='Datasource-dbname' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' placeholder='db' /><!--
-        --><input type='text' id='Datasource-host' name='Datasource-host' value='<%= obj.Datasource.host %>' placeholder='host' />
+        <input type='text' name='Datasource-user' value='<%= obj.Datasource.user %>' placeholder='user' /><!--
+        --><input type='text' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' placeholder='db' /><!--
+        --><input type='text' name='Datasource-host' value='<%= obj.Datasource.host %>' placeholder='host' />
       </p>
-      <input type='hidden' id='Datasource-type' name='Datasource-type' value='postgis' />
-      <input type='hidden' id='Datasource-max_size' name='Datasource-max_size' value='512' />
+      <input type='hidden' name='Datasource-type' value='postgis' />
+      <input type='hidden' name='Datasource-max_size' value='512' />
     </section>
     <section>
-      <label class='inline'>Extent</label><input type='text' id='Datasource-extent' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
+      <label class='inline'>Extent</label><input type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
     </section>
     <section>
       <label class='inline'>Minzoom</label>
-      <input id='properties-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-      <label class='range' id='properties-minzoom-val'><%= obj.properties.minzoom %></label>
+      <input id='<%=obj.id%>-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#<%=obj.id%>-maxzoom");' />
+      <label class='range' id='<%=obj.id%>-minzoom-val'><%= obj.properties.minzoom %></label>
     </section>
     <section>
       <label class='inline'>Maxzoom</label>
-      <input id='properties-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-      <label class='range' id='properties-maxzoom-val'><%= obj.properties.maxzoom %></label>
+      <input id='<%=obj.id%>-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#<%=obj.id%>-minzoom");' />
+      <label class='range' id='<%=obj.id%>-maxzoom-val'><%= obj.properties.maxzoom %></label>
     </section>
     <section>
       <label class='inline'>Buffer size</label>
-      <input id='properties-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='512' step='4' onchange='rangeHandler(this, "min", "#minzoom");'/>
-      <label class='range' id='properties-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
+      <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='512' step='4' onchange='rangeHandler(this);'/>
+      <label class='range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
     </section>
     <% if (obj.properties['group-by']) { %>
     <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
@@ -53,8 +53,8 @@
   <div class='sql'>
     <section>
       <span class='joined'>
-      <input id='Datasource-geometry_field' name='Datasource-geometry_field' placeholder='geometry field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
-      --><input id='Datasource-key_field' name='Datasource-key_field' placeholder='key field' type='text' value='<%= obj.Datasource['key_field'] || '' %>'/>
+      <input name='Datasource-geometry_field' placeholder='geometry field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
+      --><input name='Datasource-key_field' placeholder='key field' type='text' value='<%= obj.Datasource['key_field'] || '' %>'/>
       </span>
     </section>
   </div>

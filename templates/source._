@@ -90,8 +90,17 @@
   id: 'saveas',
   cwd: cwd,
   placeholder: 'project.tm2',
-  pattern: '[\\w+\\d+\\.-]+\\.tm2'
+  pattern: '[\\w+\\d+\\.\\/_-]+\\.tm2'
 })); %>
+
+<% print(this.modalbrowser({
+  id: 'browsefile',
+  cwd: cwd,
+  label: 'Select',
+  placeholder: 'data.shp',
+  pattern: '[\\w+\\d+\\.\\/_-]+\\.(shp|SHP)'
+})); %>
+
 <%= this.modalmessage() %>
 
 <form id='addlayer' class='modal dark centered'>
@@ -191,6 +200,7 @@ Editor.prototype.events = {
   'click .editor nav a.conf': 'togglemode',
   'click .editor nav a.edit': 'togglemode',
   'click a.layer .xrayswatch': 'togglelayer',
+  'click a.browsefile': 'browsefile',
   'submit #addlayer': 'addlayer',
   'keydown': 'keys'
 };
@@ -337,6 +347,11 @@ Editor.prototype.refresh = function(ev) {
 
   return false;
 };
+Editor.prototype.browsefile = function(ev) {
+  var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
+  $('.browsefile-pending').removeClass('browsefile-pending');
+  target.addClass('browsefile-pending');
+};
 var editor = new Editor({
   el: document.body,
   model: new Source(<%= JSON.stringify(source) %>)
@@ -360,6 +375,22 @@ new views.Browser({
   }
 });
 <% } %>
+
+new views.Browser({
+  el: $('#browsefile'),
+  filter: function(file) {
+    return file.type === 'dir' || /\.shp$/i.test(file.basename);
+  },
+  callback: function(err, filepath) {
+    var target = $('.browsefile-pending');
+    if (err || !target.size()) {
+      window.location.href = '#';
+    } else {
+      target.val(filepath);
+      window.location.href = '#' + target.parents('form').attr('id');
+    }
+  }
+});
 
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
