@@ -48,7 +48,7 @@
 <div id='editor'>
 <% _(source.Layer).each(function(l) {
   var type = l.Datasource.type || 'unknown';
-  if (this['layer' + type]) print(this['layer' + type](l))
+  if (this['layer' + type]) print(this['layer' + type](_({tm:tm}).extend(l)))
 }.bind(this)); %>
 </div>
 <form id='settings' class='pane dark w4 l0'>
@@ -96,9 +96,7 @@
 <% print(this.modalbrowser({
   id: 'browsefile',
   cwd: cwd,
-  label: 'Select',
-  placeholder: 'data.shp',
-  pattern: '[\\w+\\d+\\.\\/_-]+\\.(shp|SHP)'
+  label: 'Select'
 })); %>
 
 <%= this.modalmessage() %>
@@ -112,7 +110,7 @@
       <option value='shape'>shapefile</option>
       <option value='geojson' disabled='disabled'>geojson</option>
       <option value='sqlite' disabled='disabled'>sqlite</option>
-      <option value='csv' disabled='disabled'>csv</option>
+      <option value='csv'>csv</option>
     </select>
   </p>
   <input type='submit' value='New layer'/>
@@ -351,6 +349,8 @@ Editor.prototype.browsefile = function(ev) {
   var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
   $('.browsefile-pending').removeClass('browsefile-pending');
   target.addClass('browsefile-pending');
+  $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
+  $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
 };
 var editor = new Editor({
   el: document.body,
@@ -379,7 +379,13 @@ new views.Browser({
 new views.Browser({
   el: $('#browsefile'),
   filter: function(file) {
-    return file.type === 'dir' || /\.shp$/i.test(file.basename);
+    var target = $('.browsefile-pending');
+    var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
+    if (pattern) {
+        return file.type === 'dir' || pattern.test(file.basename);
+    } else {
+        return file.type === 'dir';
+    }
   },
   callback: function(err, filepath) {
     var target = $('.browsefile-pending');
@@ -396,6 +402,7 @@ var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
+templates.layercsv = <%= this.layercsv.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 </script>
 </body>

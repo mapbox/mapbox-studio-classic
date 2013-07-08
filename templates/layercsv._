@@ -12,12 +12,19 @@
     <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
   </section>
   <section>
-    <label>Shapefile<label>
-    <input type='hidden' name='Datasource-type' value='shape' />
+    <label>CSV<label>
+    <input type='hidden' name='Datasource-type' value='csv' />
     <div class='joined'>
-      <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.shp' pattern='[\w+\d+\.\/_-]+\.(shp|SHP)'/><!--
+      <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.csv' pattern='[\w+\d+\.\/_-]+\.(csv|CSV)'/><!--
       --><a href='#browsefile' class='button icon dir browsefile'></a>
     </div>
+  </section>
+  <section>
+    <label class='inline'>Projection</label>
+    <select name='srs'>
+      <option value='<%=tm.srs['WGS84']%>' <% if (tm.srs['WGS84'] === obj.srs) { %>selected='selected'<% }%>>WGS84</option>
+      <option value='<%=tm.srs['900913']%>' <% if (tm.srs['900913'] === obj.srs) { %>selected='selected'<% }%>>900913</option>
+    </select>
   </section>
   <section>
     <label class='inline'>Minzoom</label>

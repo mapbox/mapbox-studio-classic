@@ -208,6 +208,7 @@ app.get('/:source(source).xml', function(req, res, next) {
 app.get('/:history():source(source)', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.source({
+        tm: tm,
         cwd: process.env.HOME,
         remote: !!url.parse(req.query.id).protocol,
         source: req.source.data,
