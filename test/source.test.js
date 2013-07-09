@@ -7,7 +7,7 @@ describe('source remote', function() {
     it('loads', function(done) {
         source({id:'mapbox://mapbox.mapbox-streets-v2'}, function(err, source) {
             assert.ifError(err);
-            assert.equal('MapBox Streets', source.data.name);
+            assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
             assert.ok(!!source.project);
@@ -17,7 +17,7 @@ describe('source remote', function() {
     it('loads legacy mbstreets', function(done) {
         source({id:'mbstreets'}, function(err, source) {
             assert.ifError(err);
-            assert.equal('MapBox Streets', source.data.name);
+            assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
             done();
