@@ -5,7 +5,7 @@ var source = require('../lib/source');
 
 describe('source remote', function() {
     it('loads', function(done) {
-        source({id:'mapbox://mapbox.mapbox-streets-v2'}, function(err, source) {
+        source({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
             assert.ifError(err);
             assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
@@ -31,7 +31,7 @@ describe('source remote', function() {
         });
     });
     it('noop remote write', function(done) {
-        source({id:'mapbox://mapbox.mapbox-streets-v2', data:{}}, function(err, source) {
+        source({id:'mapbox:///mapbox.mapbox-streets-v2', data:{}}, function(err, source) {
             assert.ifError(err);
             done();
         });
