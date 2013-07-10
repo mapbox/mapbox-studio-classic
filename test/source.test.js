@@ -37,7 +37,7 @@ describe('source remote', function() {
     it('error bad protocol', function(done) {
         source({id:'http://www.google.com'}, function(err, source) {
             assert.ok(err);
-            assert.equal('Unsupported source protocol', err.message);
+            assert.equal('Invalid source protocol', err.message);
             done();
         });
     });

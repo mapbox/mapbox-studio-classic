@@ -18,7 +18,7 @@ var argv = require('optimist')
 
 // Load defaults for new projects.
 var defaults = {};
-project.info(path.dirname(require.resolve('tm2-default-style')), function(err, info) {
+project.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
     if (err) throw err;
     var data = JSON.parse(JSON.stringify(info));
     delete data.id;
