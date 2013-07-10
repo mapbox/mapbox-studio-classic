@@ -25,7 +25,7 @@ describe('source remote', function() {
             done();
         });
     });
-    it('loads legacy mbstreets', function(done) {
+    it.skip('loads legacy mbstreets', function(done) {
         source({id:'mbstreets'}, function(err, source) {
             assert.ifError(err);
             assert.equal('MapBox Streets V2', source.data.name);

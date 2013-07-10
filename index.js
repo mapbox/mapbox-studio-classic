@@ -39,7 +39,7 @@ app.param('project', function(req, res, next) {
     }
 }, function(req, res, next) {
     var id = req.query.id;
-    var tmp = id && tm.tmpid(id);
+    var tmp = id && project.tmpid(id);
     var data = false;
     if (req.method === 'PUT') {
         var data = req.body;
@@ -69,7 +69,7 @@ app.param('source', function(req, res, next) {
     }
 }, function(req, res, next) {
     var id = req.query.id;
-    var tmp = id && tm.tmpid(id);
+    var tmp = id && source.tmpid(id);
     var data = false;
     if (req.method === 'PUT') {
         var data = req.body;
@@ -247,8 +247,15 @@ app.get('/browse*', function(req, res, next) {
 
 app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
+    if (url.parse(req.query.id).protocol !== 'tmstyle:') {
+        req.query.id = project.tmpid(req.query.id, true);
+    }
     project.thumb({id:req.query.id}, function(err, thumb) {
-        if (err) return next(err);
+        if (err && err.message === 'Tile does not exist') {
+            return res.send(err.toString(), 404);
+        } else if (err) {
+            return next(err);
+        }
         var headers = {};
         headers['cache-control'] = 'max-age=3600';
         headers['content-type'] = 'image/png';
@@ -268,15 +275,15 @@ app.get('/app/lib.js', function(req, res, next) {
 });
 
 app.get('/new/project', function(req, res, next) {
-    res.redirect('/project?id=' + tm.tmpid());
+    res.redirect('/project?id=' + project.tmpid());
 });
 
 app.get('/new/source', function(req, res, next) {
-    res.redirect('/source?id=' + tm.tmpid());
+    res.redirect('/source?id=' + source.tmpid());
 });
 
 app.get('/', function(req, res, next) {
-    res.redirect('/project?id=' + tm.tmpid());
+    res.redirect('/project?id=' + project.tmpid());
 });
 
 //app.use(function(err, req, res, next) {
