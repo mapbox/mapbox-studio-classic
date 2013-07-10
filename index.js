@@ -279,19 +279,19 @@ app.get('/', function(req, res, next) {
     res.redirect('/project?id=' + tm.tmpid());
 });
 
-app.use(function(err, req, res, next) {
-    // Error on loading a tile, send 404.
-    if (err && 'z' in req.params) return res.send(err.toString(), 404);
-    // Otherwise 500 for now.
-    if (/application\/json/.test(req.headers.accept)) {
-        res.set({'content-type':'application/javascript'});
-        res.send({message:err.toString()}, 500);
-    } else if (/text\/html/.test(req.headers.accept)) {
-        res.send(tm.templates.error({ error:err }));
-    } else {
-        res.send(err.toString(), 500);
-    }
-});
+//app.use(function(err, req, res, next) {
+//    // Error on loading a tile, send 404.
+//    if (err && 'z' in req.params) return res.send(err.toString(), 404);
+//    // Otherwise 500 for now.
+//    if (/application\/json/.test(req.headers.accept)) {
+//        res.set({'content-type':'application/javascript'});
+//        res.send({message:err.toString()}, 500);
+//    } else if (/text\/html/.test(req.headers.accept)) {
+//        res.send(tm.templates.error({ error:err }));
+//    } else {
+//        res.send(err.toString(), 500);
+//    }
+//});
 
 app.listen(3000);
 console.log('TM2 @ http://localhost:3000/');

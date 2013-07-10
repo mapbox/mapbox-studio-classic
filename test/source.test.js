@@ -2,10 +2,21 @@ var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var source = require('../lib/source');
+var tilelive = require('tilelive');
 
 describe('source remote', function() {
     it('loads', function(done) {
-        source({id:'mapbox://mapbox.mapbox-streets-v2'}, function(err, source) {
+        source({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
+            assert.ifError(err);
+            assert.equal('MapBox Streets V2', source.data.name);
+            assert.equal(0, source.data.minzoom);
+            assert.equal(14, source.data.maxzoom);
+            assert.ok(!!source.project);
+            done();
+        });
+    });
+    it('loads via tilelive', function(done) {
+        tilelive.load('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
             assert.ifError(err);
             assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
@@ -31,7 +42,7 @@ describe('source remote', function() {
         });
     });
     it('noop remote write', function(done) {
-        source({id:'mapbox://mapbox.mapbox-streets-v2', data:{}}, function(err, source) {
+        source({id:'mapbox:///mapbox.mapbox-streets-v2', data:{}}, function(err, source) {
             assert.ifError(err);
             done();
         });
@@ -72,7 +83,17 @@ describe('source local', function() {
         }, 250);
     });
     it('loads', function(done) {
-        source({id:__dirname + '/fixtures-localsource'}, function(err, source) {
+        source({id:'tmsource://' + __dirname + '/fixtures-localsource'}, function(err, source) {
+            assert.ifError(err);
+            assert.equal('Test source', source.data.name);
+            assert.equal(0, source.data.minzoom);
+            assert.equal(6, source.data.maxzoom);
+            assert.ok(!!source.project);
+            done();
+        });
+    });
+    it('loads via tilelive', function(done) {
+        tilelive.load('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
             assert.ifError(err);
             assert.equal('Test source', source.data.name);
             assert.equal(0, source.data.minzoom);
@@ -82,14 +103,14 @@ describe('source local', function() {
         });
     });
     it('saves source in memory', function(done) {
-        source({id:'tmp-1234', data:data}, function(err, source) {
+        source({id:'tmsource:///tmp-1234', data:data}, function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             done();
         });
     });
     it('saves source to disk', function(done) {
-        source({id:tmp, data:data, perm:true}, function(err, source) {
+        source({id:'tmsource://' + tmp, data:data, perm:true}, function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             assert.ok(/maxzoom: 6/.test(fs.readFileSync(tmp + '/data.yml', 'utf8')), 'saves data.yml');
