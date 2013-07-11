@@ -9,7 +9,7 @@
 <% _(obj.style).chain()
   .sortBy(function(item) { return -1 * item.mtime })
   .each(function(item) { %>
-<a class='cell' href='/project?id=<%=item.id%>'><span class='thumbed'>
+<a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed'>
   <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
   <strong><%= item.name || 'Untitled' %></strong>
   <code><%= item.id.split('/').pop() %></code>

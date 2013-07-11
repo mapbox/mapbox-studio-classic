@@ -10,19 +10,19 @@ var fs = require('fs');
 var url = require('url');
 var path = require('path');
 var source = require('./lib/source');
-var project = require('./lib/project');
+var style = require('./lib/style');
 var express = require('express');
 var argv = require('optimist')
     .config('config')
     .argv;
 
-// Load defaults for new projects.
+// Load defaults for new styles.
 var defaults = {};
-project.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
+style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
     if (err) throw err;
     var data = JSON.parse(JSON.stringify(info));
     delete data.id;
-    defaults.project = data;
+    defaults.style = data;
 });
 
 var app = express();
@@ -31,7 +31,7 @@ app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
-app.param('project', function(req, res, next) {
+app.param('style', function(req, res, next) {
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
         source.invalidate(req.body.sources[0], next);
     } else {
@@ -39,25 +39,25 @@ app.param('project', function(req, res, next) {
     }
 }, function(req, res, next) {
     var id = req.query.id;
-    var tmp = id && project.tmpid(id);
+    var tmp = id && style.tmpid(id);
     var data = false;
     if (req.method === 'PUT') {
         var data = req.body;
-    } else if (tmp && req.path === '/project') {
-        var data = defaults.project;
+    } else if (tmp && req.path === '/style') {
+        var data = defaults.style;
     }
-    project({
+    style({
         id: id,
         data: data,
         perm: !tmp && !!data
-    }, function(err, project) {
+    }, function(err, style) {
         if (err) return next(err);
         if (!tmp) tm.history('style', id);
-        req.project = project;
+        req.style = style;
         return next();
     });
 }, function(req, res, next) {
-    if (!req.project) return next();
+    if (!req.style) return next();
     next();
 });
 
@@ -84,7 +84,7 @@ app.param('source', function(req, res, next) {
         if (err) return next(err);
         if (!tmp) tm.history('source', id);
         req.source = source;
-        req.project = project;
+        req.style = style;
         return next();
     });
 });
@@ -104,7 +104,7 @@ app.param('history', function(req, res, next) {
             return load(type, queue);
         }
         var id = queue.shift();
-        var method = type === 'style' ? project.info : source.info;
+        var method = type === 'style' ? style.info : source.info;
         method(id, function(err, info) {
             if (err) {
                 tm.history(type, id, true);
@@ -120,33 +120,33 @@ app.param('history', function(req, res, next) {
     load(type, queue);
 });
 
-app.put('/:project(project)', function(req, res, next) {
+app.put('/:style(style)', function(req, res, next) {
     res.send({
         _recache:false,
-        mtime:req.project.data.mtime,
-        background:req.project.data.background
+        mtime:req.style.data.mtime,
+        background:req.style.data.background
     });
 });
 
-app.get('/:project(project):history()', function(req, res, next) {
+app.get('/:style(style):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
-    return res.send(tm.templates.project({
+    return res.send(tm.templates.style({
         cwd: process.env.HOME,
         cartoRef: require('carto').tree.Reference.data,
-        sources: [req.project._backend.data],
+        sources: [req.style._backend.data],
         library: _(source.library).filter(function(source, s) {
-            return !_(req.project.data.sources).include(s);
+            return !_(req.style.data.sources).include(s);
         }),
-        project: req.project.data,
+        style: req.style.data,
         history: req.history
     }));
 });
 
-app.get('/:project(project|source)/:z/:x/:y.grid.json', function(req, res, next) {
+app.get('/:style(style|source)/:z/:x/:y.grid.json', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
-    req.project.getGrid(z,x,y, function(err, data, headers) {
+    req.style.getGrid(z,x,y, function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
         } else if (err) {
@@ -158,7 +158,7 @@ app.get('/:project(project|source)/:z/:x/:y.grid.json', function(req, res, next)
     });
 });
 
-app.get('/:project(project|source)/:z/:x/:y.:format', function(req, res, next) {
+app.get('/:style(style|source)/:z/:x/:y.:format', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
@@ -166,23 +166,23 @@ app.get('/:project(project|source)/:z/:x/:y.:format', function(req, res, next) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
         } else if (err) {
-            // Set errors cookie for this project.
-            project.error(req.project.data.id, err);
-            res.cookie('errors', _(project.error(req.project.data.id)).join('|'));
+            // Set errors cookie for this style.
+            style.error(req.style.data.id, err);
+            res.cookie('errors', _(style.error(req.style.data.id)).join('|'));
             return next(err);
         }
 
-        // Set drawtime cookie for a given project.
-        project.stats(req.project.data.id, 'drawtime', z, data._drawtime);
-        res.cookie('drawtime', _(project.stats(req.project.data.id, 'drawtime'))
+        // Set drawtime cookie for a given style.
+        style.stats(req.style.data.id, 'drawtime', z, data._drawtime);
+        res.cookie('drawtime', _(style.stats(req.style.data.id, 'drawtime'))
             .reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
                 return memo;
             }, []).join('.'));
 
-        // Set srcbytes cookie for a given project.
-        project.stats(req.project.data.id, 'srcbytes', z, data._srcbytes);
-        res.cookie('srcbytes', _(project.stats(req.project.data.id, 'srcbytes')).
+        // Set srcbytes cookie for a given style.
+        style.stats(req.style.data.id, 'srcbytes', z, data._srcbytes);
+        res.cookie('srcbytes', _(style.stats(req.style.data.id, 'srcbytes')).
             reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
                 return memo;
@@ -196,12 +196,12 @@ app.get('/:project(project|source)/:z/:x/:y.:format', function(req, res, next) {
         return res.send(data);
     };
     done.format = req.params.format || 'png';
-    req.project.getTile(z,x,y, done);
+    req.style.getTile(z,x,y, done);
 });
 
-app.get('/:project(project).xml', function(req, res, next) {
+app.get('/:style(style).xml', function(req, res, next) {
     res.set({'content-type':'text/xml'});
-    return res.send(req.project._xml);
+    return res.send(req.style._xml);
 });
 
 app.get('/:source(source).xml', function(req, res, next) {
@@ -226,11 +226,11 @@ app.put('/:source(source)', function(req, res, next) {
     });
 });
 
-app.get('/export/:project(package)', function(req, res, next) {
-    var basename = path.basename(req.project.data.id, '.tm2');
+app.get('/export/:style(package)', function(req, res, next) {
+    var basename = path.basename(req.style.data.id, '.tm2');
     res.setHeader('content-disposition', 'attachment; filename="'+basename+'.tm2z"');
-    project.toPackage({
-        id: req.project.data.id,
+    style.toPackage({
+        id: req.style.data.id,
         stream: res
     }, function(err) {
         if (err) next(err);
@@ -247,7 +247,7 @@ app.get('/browse*', function(req, res, next) {
 
 app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    project.thumb({id:req.query.id}, function(err, thumb) {
+    style.thumb({id:req.query.id}, function(err, thumb) {
         if (err && err.message === 'Tile does not exist') {
             return res.send(err.toString(), 404);
         } else if (err) {
@@ -272,7 +272,7 @@ app.get('/app/lib.js', function(req, res, next) {
 });
 
 app.get('/new/style', function(req, res, next) {
-    res.redirect('/project?id=' + project.tmpid());
+    res.redirect('/style?id=' + style.tmpid());
 });
 
 app.get('/new/source', function(req, res, next) {
@@ -280,7 +280,7 @@ app.get('/new/source', function(req, res, next) {
 });
 
 app.get('/', function(req, res, next) {
-    res.redirect('/project?id=' + project.tmpid());
+    res.redirect('/style?id=' + style.tmpid());
 });
 
 //app.use(function(err, req, res, next) {

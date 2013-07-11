@@ -18,7 +18,7 @@
 </div>
 
 <!--
-@TODO currently this button is a trap as it can leave a project in a state
+@TODO currently this button is a trap as it can leave a style in a state
 with no sources. Once vector tile compositing is available revisit.
 <a class='delete icon close' href='#delete'></a>
 -->

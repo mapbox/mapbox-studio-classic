@@ -94,7 +94,7 @@
 <% if (source._tmp) print(this.modalbrowser({
   id: 'saveas',
   cwd: cwd,
-  placeholder: 'project.tm2',
+  placeholder: 'style.tm2',
   pattern: '[\\w+\\d+\\.\\/_-]+\\.tm2'
 })); %>
 
@@ -136,7 +136,7 @@
 <script>
 var map = L.mapbox.map('map');
 var tiles = L.mapbox.tileLayer({
-  tiles: ['/project/{z}/{x}/{y}.png?id=<%=source._project%>&mtime=<%=source.mtime%>'],
+  tiles: ['/style/{z}/{x}/{y}.png?id=<%=source._style%>&mtime=<%=source.mtime%>'],
   minzoom: <%= source.minzoom %>,
   maxzoom: 22
 })
@@ -290,7 +290,7 @@ Editor.prototype.error = function(model, resp) {
   this.messageClear();
 
   if (!resp.responseText)
-    return this.messageModal('Could not save project "' + model.id + '"');
+    return this.messageModal('Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -357,7 +357,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/project/{z}/{x}/{y}.png?id=<%=source._project%>&mtime=' + this.model.get('mtime') ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=<%=source._style%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
     maxzoom: 22
   })

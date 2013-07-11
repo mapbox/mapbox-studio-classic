@@ -6,8 +6,8 @@
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/base.css' rel='stylesheet' />
-  <link href='/app/project.css' rel='stylesheet' />
-  <title><%= project.name %></title>
+  <link href='/app/style.css' rel='stylesheet' />
+  <title><%= style.name %></title>
 </head>
 
 <body id='view'>
@@ -39,34 +39,34 @@
   </section>
   <section>
     <label class='inline'>Name</label>
-    <input class='stretch' name='name' type='text' value='<%= _(project.name).escape() %>'/>
+    <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
   </section>
   <section>
     <label class='inline'>Description</label>
-    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= project.description %></textarea>
+    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
   </section>
   <section>
     <label class='inline'>Attribution</label>
-    <input class='stretch' name='attribution' type='text' value='<%= _(project.attribution).escape() %>'></textarea>
+    <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
   </section>
   <section>
     <label class='inline'>Minzoom</label>
-    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= project.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-    <label class='range' id='minzoom-val'><%= project.minzoom %></label>
+    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+    <label class='range' id='minzoom-val'><%= style.minzoom %></label>
   </section>
   <section>
     <label class='inline'>Maxzoom</label>
-    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= project.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-    <label class='range' id='maxzoom-val'><%= project.maxzoom %></label>
+    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+    <label class='range' id='maxzoom-val'><%= style.maxzoom %></label>
   </section>
   <section>
     <label class='inline'>Scale</label>
-    <input id='scale' name='scale' type='range' value='<%= project.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-    <label class='range' id='scale-val'><%= project.scale %></label>
+    <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
+    <label class='range' id='scale-val'><%= style.scale %></label>
   </section>
   <section class='righted'>
     <a href='#' class='button wide submit icon okay save'>Save</a>
-    <a href='/export/package?id=<%=project.id%>' class='button wide submit icon package'>Package</a>
+    <a href='/export/package?id=<%=style.id%>' class='button wide submit icon package'>Package</a>
   </section>
 </div>
 </form>
@@ -87,7 +87,7 @@
     <div class='left'>
       <span class='joined'>
       <a class='button icon layers' href='#layers'></a><!--
-      <% if (project._tmp) { %>
+      <% if (style._tmp) { %>
         --><a class='button icon okay' href='#saveas'>Save as</a>
       <% } else { %>
         --><a class='button icon okay save' href='#'>Save</a>
@@ -99,18 +99,18 @@
       <a class='button full-y icon close' href='#'></a>
     </div>
     <h3><a href='#settings'>
-      <span class='name'><%= project.name || 'Untitled' %></span>
+      <span class='name'><%= style.name || 'Untitled' %></span>
       <span class='icon gear' href='#settings'></span>
     </a></h3>
   </div>
-  <div id='map' style='background-color:<%=project.background%>;'></div>
+  <div id='map' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
-  <div id='zoomedto' class='z<%=project.center[2]%>'></div>
+  <div id='zoomedto' class='z<%=style.center[2]%>'></div>
 </div>
 
 <div id='docs' class='pane w2'>
-  <%= this['projectdocs'](cartoRef) %>
+  <%= this['styledocs'](cartoRef) %>
 </div>
 
 <div id='code' class='column w2 l2'>
@@ -120,7 +120,7 @@
   </div>
   <nav id='tabs'><!--
     --><a rel='template' href='#code-template' class='tab mini'><span class='icon tooltip'></span></a><!--
-    <% _(project.styles).keys().forEach(function(k,i) { %>
+    <% _(style.styles).keys().forEach(function(k,i) { %>
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--
     <% }); %>
   --></nav>
@@ -133,17 +133,17 @@
       <option value=''>&lt; choose layer &gt;</option>
       <% _(sources).each(function(source) { %>
       <% _(source.Layer||{}).each(function(l) { %>
-      <option value='<%=l.id%>' <% if (project.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+      <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
       <% }); %>
       <% }); %>
     </select>
   </form>
 </div>
 
-<% if (project._tmp) print(this.modalbrowser({
+<% if (style._tmp) print(this.modalbrowser({
   id: 'saveas',
   cwd: cwd,
-  placeholder: 'project.tm2',
+  placeholder: 'style.tm2',
   pattern: '[\\w+\\d+\\.-]+\\.tm2'
 })); %>
 
@@ -172,34 +172,34 @@
 <script>
 var map = L.mapbox.map('map');
 var tiles = L.mapbox.tileLayer({
-  tiles: ['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=<%=project.mtime%>'],
-  minzoom: <%= project.minzoom %>,
-  maxzoom: <%= project.maxzoom %>
+  tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&mtime=<%=style.mtime%>'],
+  minzoom: <%= style.minzoom %>,
+  maxzoom: <%= style.maxzoom %>
 })
 .on('tileload', statHandler('drawtime'))
 .on('load', errorHandler)
 .addTo(map);
 
-// @TODO enable/disable this layer + control based on project's
+// @TODO enable/disable this layer + control based on style's
 // current interactivity state.
 var grids = L.mapbox.gridLayer({
-  grids: ['/project/{z}/{x}/{y}.grid.json?id=<%=project.id%>&mtime=<%=project.mtime%>'],
-  minzoom: <%= project.minzoom %>,
-  maxzoom: <%= project.maxzoom %>
+  grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=<%=style.mtime%>'],
+  minzoom: <%= style.minzoom %>,
+  maxzoom: <%= style.maxzoom %>
 });
 var gridcontrol = L.mapbox.gridControl(grids, {
   follow: true,
-  template: <%= JSON.stringify(project.template||'') %>
+  template: <%= JSON.stringify(style.template||'') %>
 });
 map.addControl(gridcontrol);
-<% if (project.template && project.interactivity_layer) { %>
+<% if (style.template && style.interactivity_layer) { %>
 grids.addTo(map);
 <% } %>
 
-map.setView([<%=project.center[1]%>, <%=project.center[0]%>], <%=project.center[2]%>);
+map.setView([<%=style.center[1]%>, <%=style.center[0]%>], <%=style.center[2]%>);
 map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
-map.options.minZoom = <%= project.minzoom %>;
-map.options.maxZoom = <%= project.maxzoom %>;
+map.options.minZoom = <%= style.minzoom %>;
+map.options.maxZoom = <%= style.maxzoom %>;
 
 statHandler('drawtime')();
 
@@ -238,19 +238,19 @@ var Tab = function(id, value) {
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
 };
-var code = _(<%=JSON.stringify(project.styles)%>).reduce(function(memo, value, k) {
+var code = _(<%=JSON.stringify(style.styles)%>).reduce(function(memo, value, k) {
   memo[k] = Tab(k, value);
   return memo;
 }, {});
 
 // Add in interactivity template.
-code['template'] = Tab('template', <%=JSON.stringify(project.template)%>);
+code['template'] = Tab('template', <%=JSON.stringify(style.template)%>);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
-var Project = Backbone.Model.extend({});
-Project.prototype.url = function() {
-  return '/project?id=' + this.get('id');
+var Style = Backbone.Model.extend({});
+Style.prototype.url = function() {
+  return '/style?id=' + this.get('id');
 };
 
 var Editor = Backbone.View.extend({});
@@ -389,7 +389,7 @@ Editor.prototype.error = function(model, resp) {
   this.messageClear();
 
   if (!resp.responseText)
-    return this.messageModal('Could not save project "' + model.id + '"');
+    return this.messageModal('Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -425,7 +425,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/project/{z}/{x}/{y}.png?id=<%=project.id%>&mtime=' + this.model.get('mtime') ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
@@ -455,10 +455,10 @@ Editor.prototype.refresh = function(ev) {
 };
 var editor = new Editor({
   el: document.body,
-  model: new Project(<%= JSON.stringify(project) %>)
+  model: new Style(<%= JSON.stringify(style) %>)
 });
 
-<% if (project._tmp) { %>
+<% if (style._tmp) { %>
 var browser = new views.Browser({
   el: $('#saveas'),
   filter: function(file) {
@@ -469,7 +469,7 @@ var browser = new views.Browser({
     var id = 'tmstyle://' + filepath;
     editor.model.set({id:id});
     editor.save(null, {
-      success: function() { window.location = '/project?id=' + id; },
+      success: function() { window.location = '/style?id=' + id; },
       error: _(editor.error).bind(editor)
     });
     return false;

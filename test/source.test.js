@@ -11,7 +11,7 @@ describe('source remote', function() {
             assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
-            assert.ok(!!source.project);
+            assert.ok(!!source.style);
             done();
         });
     });
@@ -21,7 +21,7 @@ describe('source remote', function() {
             assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
-            assert.ok(!!source.project);
+            assert.ok(!!source.style);
             done();
         });
     });
@@ -79,7 +79,7 @@ describe('source local', function() {
             assert.equal('Test source', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(6, source.data.maxzoom);
-            assert.ok(!!source.project);
+            assert.ok(!!source.style);
             done();
         });
     });
@@ -89,7 +89,7 @@ describe('source local', function() {
             assert.equal('Test source', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(6, source.data.maxzoom);
-            assert.ok(!!source.project);
+            assert.ok(!!source.style);
             done();
         });
     });

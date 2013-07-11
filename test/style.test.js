@@ -1,10 +1,10 @@
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
-var project = require('../lib/project');
+var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
 
-describe('project', function() {
+describe('style', function() {
     var tmpPerm = '/tmp/tm2-perm-' + (+new Date);
     var data = {
         name:'tmp-1234',
@@ -24,23 +24,23 @@ describe('project', function() {
             done();
         }, 250);
     });
-    it('loads default project from disk', function(done) {
-        project({id:'tmstyle:///' + defpath}, function(err, proj) {
+    it('loads default style from disk', function(done) {
+        style({id:'tmstyle:///' + defpath}, function(err, proj) {
             assert.ifError(err);
-            assert.ok('style.mss' in proj.data.styles, 'project load expands stylesheets');
-            assert.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'project load determines map BG color');
+            assert.ok('style.mss' in proj.data.styles, 'style load expands stylesheets');
+            assert.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'style load determines map BG color');
             done();
         });
     });
-    it('saves project in memory', function(done) {
-        project({id:'tmstyle:///tmp-1234', data:data}, function(err, source) {
+    it('saves style in memory', function(done) {
+        style({id:'tmstyle:///tmp-1234', data:data}, function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             done();
         })
     });
-    it('saves project to disk', function(done) {
-        project({id:'tmstyle://' + tmpPerm, data:data, perm:true}, function(err, source) {
+    it('saves style to disk', function(done) {
+        style({id:'tmstyle://' + tmpPerm, data:data, perm:true}, function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             assert.ok(/maxzoom: 22/.test(fs.readFileSync(tmpPerm + '/project.yml', 'utf8')), 'saves project.yml');
@@ -56,8 +56,8 @@ describe('project', function() {
             }, 500);
         })
     });
-    it ('packages project to tm2z', function(done) {
-        project.toPackage({id:'tmstyle://' + tmpPerm, filepath:tmpPerm + '.tm2z'}, function(err) {
+    it ('packages style to tm2z', function(done) {
+        style.toPackage({id:'tmstyle://' + tmpPerm, filepath:tmpPerm + '.tm2z'}, function(err) {
             assert.ifError(err);
             var stat = fs.statSync(tmpPerm + '.tm2z');
             assert.ok(fs.existsSync(tmpPerm + '.tm2z'));
@@ -73,27 +73,27 @@ describe('project', function() {
     });
 });
 
-describe('project.info', function() {
+describe('style.info', function() {
     it('fails on bad path', function(done) {
-        project.info('tmstyle:///path/does/not/exist', function(err, info) {
+        style.info('tmstyle:///path/does/not/exist', function(err, info) {
             assert.ok(err);
             assert.equal('ENOENT', err.code);
             done();
         });
     });
-    it('reads project YML', function(done) {
-        project.info('tmstyle://' + defpath, function(err, info) {
+    it('reads style YML', function(done) {
+        style.info('tmstyle://' + defpath, function(err, info) {
             assert.ifError(err);
             assert.equal(info.minzoom, 0);
             assert.equal(info.maxzoom, 22);
             assert.equal(info.source, 'mapbox:///mapbox.mapbox-streets-v3');
             assert.ok(/background-color:#fff/.test(info.styles['style.mss']));
-            assert.equal(info.id, 'tmstyle://' + defpath, 'project.info adds id key');
+            assert.equal(info.id, 'tmstyle://' + defpath, 'style.info adds id key');
             done();
         });
     });
     it('resolves self-alias', function(done) {
-        project.info('tmstyle://' + __dirname + '/fixtures-localsource', function(err, info) {
+        style.info('tmstyle://' + __dirname + '/fixtures-localsource', function(err, info) {
             assert.ifError(err);
             assert.equal('tmsource://' + __dirname + '/fixtures-localsource', info.source);
             done();
@@ -102,9 +102,9 @@ describe('project.info', function() {
 
 });
 
-describe('project.toXML', function() {
+describe('style.toXML', function() {
     it('fails on invalid source', function(done) {
-        project.toXML({
+        style.toXML({
             id:'tmstyle:///tmp-1234',
             source:'tmsource:///foobar'
         }, function(err, xml) {
@@ -114,7 +114,7 @@ describe('project.toXML', function() {
         });
     });
     it('compiles', function(done) {
-        project.toXML({
+        style.toXML({
             id:'tmstyle:///tmp-1234',
             source:'mapbox:///mapbox.mapbox-streets-v2',
             styles:{'style.mss': '#water { polygon-fill:#fff }'}
@@ -128,11 +128,11 @@ describe('project.toXML', function() {
         });
     });
     it('compiles data params', function(done) {
-        project.toXML({
+        style.toXML({
             id:'tmstyle:///tmp-1234',
             source:'mapbox:///mapbox.mapbox-streets-v2',
             name:'test',
-            description:'test project',
+            description:'test style',
             attribution:'test',
             bounds:[-180,-85,180,85],
             center:[0,0,3],
