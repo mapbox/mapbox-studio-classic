@@ -390,8 +390,9 @@ new views.Browser({
   filter: function(file) {
     return file.type === 'dir' && file.basename.indexOf('.tm2') === -1;
   },
-  callback: function(err, id) {
+  callback: function(err, filepath) {
     if (err) return false; // @TODO
+    var id = 'tmsource://' + filepath;
     editor.model.set({id:id});
     editor.save(null, {
       success: function() { window.location = '/source?id=' + id; },

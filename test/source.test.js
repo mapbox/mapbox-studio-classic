@@ -25,15 +25,6 @@ describe('source remote', function() {
             done();
         });
     });
-    it.skip('loads legacy mbstreets', function(done) {
-        source({id:'mbstreets'}, function(err, source) {
-            assert.ifError(err);
-            assert.equal('MapBox Streets V2', source.data.name);
-            assert.equal(0, source.data.minzoom);
-            assert.equal(14, source.data.maxzoom);
-            done();
-        });
-    });
     it('error bad protocol', function(done) {
         source({id:'http://www.google.com'}, function(err, source) {
             assert.ok(err);

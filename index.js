@@ -214,7 +214,7 @@ app.get('/:history():source(source)', function(req, res, next) {
     return res.send(tm.templates.source({
         tm: tm,
         cwd: process.env.HOME,
-        remote: !!url.parse(req.query.id).protocol,
+        remote: url.parse(req.query.id).protocol !== 'tmsource:',
         source: req.source.data,
         history: req.history
     }));
@@ -247,9 +247,6 @@ app.get('/browse*', function(req, res, next) {
 
 app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    if (url.parse(req.query.id).protocol !== 'tmstyle:') {
-        req.query.id = project.tmpid(req.query.id, true);
-    }
     project.thumb({id:req.query.id}, function(err, thumb) {
         if (err && err.message === 'Tile does not exist') {
             return res.send(err.toString(), 404);

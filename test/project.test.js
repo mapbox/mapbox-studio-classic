@@ -8,7 +8,7 @@ describe('project', function() {
     var tmpPerm = '/tmp/tm2-perm-' + (+new Date);
     var data = {
         name:'tmp-1234',
-        sources:['mapbox:///mapbox.mapbox-streets-v2'],
+        source:'mapbox:///mapbox.mapbox-streets-v2',
         styles:{
             'a.mss': '#water { polygon-fill:#fff }',
             'b.mss': '#landuse { polygon-fill:#000 }'
@@ -86,7 +86,7 @@ describe('project.info', function() {
             assert.ifError(err);
             assert.equal(info.minzoom, 0);
             assert.equal(info.maxzoom, 22);
-            assert.equal(info.sources.length, 1);
+            assert.equal(info.source, 'mapbox:///mapbox.mapbox-streets-v3');
             assert.ok(/background-color:#fff/.test(info.styles['style.mss']));
             assert.equal(info.id, 'tmstyle://' + defpath, 'project.info adds id key');
             done();
@@ -98,7 +98,7 @@ describe('project.toXML', function() {
     it('fails on invalid source', function(done) {
         project.toXML({
             id:'tmstyle:///tmp-1234',
-            sources:['tmsource:///foobar']
+            source:'tmsource:///foobar'
         }, function(err, xml) {
             assert.ok(err);
             assert.equal('ENOENT', err.code);
@@ -108,7 +108,7 @@ describe('project.toXML', function() {
     it('compiles', function(done) {
         project.toXML({
             id:'tmstyle:///tmp-1234',
-            sources:['mapbox:///mapbox.mapbox-streets-v2'],
+            source:'mapbox:///mapbox.mapbox-streets-v2',
             styles:{'style.mss': '#water { polygon-fill:#fff }'}
         }, function(err, xml) {
             assert.ifError(err);
@@ -122,7 +122,7 @@ describe('project.toXML', function() {
     it('compiles data params', function(done) {
         project.toXML({
             id:'tmstyle:///tmp-1234',
-            sources:['mapbox:///mapbox.mapbox-streets-v2'],
+            source:'mapbox:///mapbox.mapbox-streets-v2',
             name:'test',
             description:'test project',
             attribution:'test',
@@ -141,7 +141,7 @@ describe('project.toXML', function() {
             assert.ok(/<Parameter name="center">0,0,3/.test(xml));
             assert.ok(/<Parameter name="minzoom">0/.test(xml));
             assert.ok(/<Parameter name="maxzoom">22/.test(xml));
-            assert.ok(/<Parameter name="sources"><\!\[CDATA\[mapbox:\/\/\/mapbox.mapbox-streets-v2\]\]>/.test(xml));
+            assert.ok(/<Parameter name="source"><\!\[CDATA\[mapbox:\/\/\/mapbox.mapbox-streets-v2\]\]>/.test(xml));
             assert.ok(!/<Parameter name="custom/.test(xml));
             done();
         });
