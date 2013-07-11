@@ -19,10 +19,16 @@
     <a class='button icon close' href='#layers'></a>
   </nav>
   <section>
-    <h2>Data library</h2>
+    <h2>Sources</h2>
   </section>
   <div class='clearfix grid'>
-    <%= _(library).map(this.sourceitem).join('\n') %>
+    <%
+    print(_(history.source).chain()
+      .filter(function(item) { return item.id !== style.source; })
+      .sortBy(function(item) { return item.name.toLowerCase(); })
+      .map(this.sourceitem)
+      .value().join('\n'));
+    %>
   </div>
 </div>
 

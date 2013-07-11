@@ -130,9 +130,6 @@ app.get('/:style(style):history()', function(req, res, next) {
         cwd: process.env.HOME,
         cartoRef: require('carto').tree.Reference.data,
         sources: [req.style._backend.data],
-        library: _(source.library).filter(function(source, s) {
-            return !_(req.style.data.sources).include(s);
-        }),
         style: req.style.data,
         history: req.history
     }));
