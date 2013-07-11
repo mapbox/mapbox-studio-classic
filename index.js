@@ -34,7 +34,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 app.param('style', function(req, res, next) {
     // @TODO...
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
-        source.invalidate(req.body.sources[0], next);
+        source.invalidate(req.body.source, next);
     } else {
         next();
     }

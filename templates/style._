@@ -366,9 +366,9 @@ Editor.prototype.save = function(ev, options) {
     if (k !== 'template') memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.sources = $('#layers div.source').map(function() {
+  attr.source = $('#layers div.source').map(function() {
     return $(this).attr('id').split('source-').pop();
-  }).get();
+  }).get().shift();
   attr.template = code.template ? code.template.getValue() : '';
 
   if (this.model.get('_prefs').saveCenter) {
