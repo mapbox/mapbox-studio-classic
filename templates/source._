@@ -34,6 +34,7 @@
   <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
 </div>
 
+<% var revlayers = source.Layer.slice(0); revlayers.reverse(); %>
 <div id='layers' class='menu column dark w2 l2'>
   <nav class='menu-title centered'>
     <% if (remote) { %>
@@ -43,11 +44,11 @@
     <% } %>
   </nav>
   <div class='menu-content'>
-  <% _(source.Layer).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
+  <% _(revlayers).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
   </div>
 </div>
 <div id='editor'>
-<% _(source.Layer).each(function(l) {
+<% _(revlayers).each(function(l) {
   var type = l.Datasource.type || 'unknown';
   if (this['layer' + type]) print(this['layer' + type](_({tm:tm}).extend(l)))
 }.bind(this)); %>
@@ -194,7 +195,7 @@ var Layer = function(id, datasource) {
   };
   return layer;
 };
-var layers = _(<%=JSON.stringify(source.Layer)%>).reduce(function(memo, l) {
+var layers = _(<%=JSON.stringify(revlayers)%>).reduce(function(memo, l) {
   memo[l.id] = Layer(l.id, l.Datasource);
   return memo;
 }, {});
@@ -325,8 +326,9 @@ Editor.prototype.save = function(ev, options) {
     return memo;
   }, this.model.attributes);
 
-  // Grab layers.
+  // Grab layers. Reverse at save time.
   attr.Layer = _(layers).map(function(l) { return l.get() });
+  attr.Layer.reverse();
 
   // Save center, disabled layers.
   attr._prefs = attr._prefs || {};
