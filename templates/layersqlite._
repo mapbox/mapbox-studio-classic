@@ -57,9 +57,11 @@
   </div>
   <div class='sql'>
     <section>
-      <span class='joined'>
-      <input name='Datasource-geometry_field' placeholder='geometry field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
-      --><input name='Datasource-key_field' placeholder='key field' type='text' value='<%= obj.Datasource['key_field'] || '' %>'/>
+      <span class='joined'><!--
+        --><input name='Datasource-geometry_field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
+        --><label class='ghost'>geom</label><!--
+        --><input name='Datasource-key_field' type='text' value='<%= obj.Datasource['key_field'] || '' %>' class='last'/><!--
+        --><label class='ghost'>key</label>
       </span>
     </section>
   </div>

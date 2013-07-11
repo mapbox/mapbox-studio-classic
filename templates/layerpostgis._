@@ -20,10 +20,13 @@
     </section>
     <section>
       <label>PostGIS<label>
-      <p class='joined'>
-        <input type='text' name='Datasource-user' size='12' value='<%= obj.Datasource.user %>' placeholder='user' /><!--
-        --><input type='text' name='Datasource-dbname' size='12' value='<%= obj.Datasource.dbname %>' placeholder='db' /><!--
-        --><input type='text' name='Datasource-host' size='12' value='<%= obj.Datasource.host %>' placeholder='host' />
+      <p class='joined'><!--
+        --><input type='text' name='Datasource-user' size='16' value='<%= obj.Datasource.user %>' /><!--
+        --><label class='ghost'>user</label><!--
+        --><input type='text' name='Datasource-dbname' size='16' value='<%= obj.Datasource.dbname %>' /><!--
+        --><label class='ghost'>db</label><!--
+        --><input type='text' name='Datasource-host' size='16' value='<%= obj.Datasource.host %>' class='last' /><!--
+        --><label class='ghost'>host</label>
       </p>
       <input type='hidden' name='Datasource-type' value='postgis' />
       <input type='hidden' name='Datasource-max_size' value='512' />
@@ -62,9 +65,11 @@
   </div>
   <div class='sql'>
     <section>
-      <span class='joined'>
-      <input name='Datasource-geometry_field' placeholder='geometry field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
-      --><input name='Datasource-key_field' placeholder='key field' type='text' value='<%= obj.Datasource['key_field'] || '' %>'/>
+      <span class='joined'><!--
+        --><input name='Datasource-geometry_field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
+        --><label class='ghost'>geom</label><!--
+        --><input name='Datasource-key_field' type='text' value='<%= obj.Datasource['key_field'] || '' %>' class='last'/><!--
+        --><label class='ghost'>key</label>
       </span>
     </section>
   </div>

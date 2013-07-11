@@ -165,6 +165,7 @@ input.wide[type=submit] {
 .joined { white-space:nowrap; }
 .joined > * { border-radius:0px !important; margin-right:1px !important; }
 .joined > *:first-child { border-radius:3px 0px 0px 3px !important; }
+.joined > .last,
 .joined > *:last-child  { border-radius:0px 3px 3px 0px !important; }
 
 .icon:before {
