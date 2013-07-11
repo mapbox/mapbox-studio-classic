@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
@@ -6,7 +7,7 @@ var tilelive = require('tilelive');
 
 describe('source remote', function() {
     it('loads', function(done) {
-        source({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
+        source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
             assert.ifError(err);
             assert.equal('MapBox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
@@ -26,14 +27,14 @@ describe('source remote', function() {
         });
     });
     it('error bad protocol', function(done) {
-        source({id:'http://www.google.com'}, function(err, source) {
+        source('http://www.google.com', function(err, source) {
             assert.ok(err);
             assert.equal('Invalid source protocol', err.message);
             done();
         });
     });
     it('noop remote write', function(done) {
-        source({id:'mapbox:///mapbox.mapbox-streets-v2', data:{}}, function(err, source) {
+        source.save({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
             assert.ifError(err);
             done();
         });
@@ -74,7 +75,7 @@ describe('source local', function() {
         }, 250);
     });
     it('loads', function(done) {
-        source({id:'tmsource://' + __dirname + '/fixtures-localsource'}, function(err, source) {
+        source('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
             assert.ifError(err);
             assert.equal('Test source', source.data.name);
             assert.equal(0, source.data.minzoom);
@@ -94,14 +95,14 @@ describe('source local', function() {
         });
     });
     it('saves source in memory', function(done) {
-        source({id:'tmsource:///tmp-1234', data:data}, function(err, source) {
+        source.save(_({id:'tmsource:///tmp-12345678'}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             done();
         });
     });
     it('saves source to disk', function(done) {
-        source({id:'tmsource://' + tmp, data:data, perm:true}, function(err, source) {
+        source.save(_({id:'tmsource://' + tmp}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             assert.ok(/maxzoom: 6/.test(fs.readFileSync(tmp + '/data.yml', 'utf8')), 'saves data.yml');

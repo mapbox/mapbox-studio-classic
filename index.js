@@ -70,22 +70,19 @@ app.param('source', function(req, res, next) {
     var id = req.query.id;
     var tmp = id && source.tmpid(id);
     var data = false;
-    if (req.method === 'PUT') {
-        var data = req.body;
-    } else if (tmp && req.path === '/source') {
-        var data = {};
-    }
-    source({
-        id: id,
-        data: data,
-        perm: !tmp && !!data
-    }, function(err, source) {
+    var done = function(err, s) {
         if (err) return next(err);
         if (!tmp) tm.history('source', id);
-        req.source = source;
-        req.style = style;
+        req.source = s;
         return next();
-    });
+    };
+    if (req.method === 'PUT') {
+        source.save(req.body, done);
+    } else if (tmp && req.path === '/source') {
+        source.save({id:id}, done);
+    } else {
+        source(id, done);
+    }
 });
 
 app.param('history', function(req, res, next) {
