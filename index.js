@@ -271,7 +271,7 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/new/project', function(req, res, next) {
+app.get('/new/style', function(req, res, next) {
     res.redirect('/project?id=' + project.tmpid());
 });
 

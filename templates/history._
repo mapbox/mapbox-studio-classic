@@ -1,18 +1,18 @@
 <nav class='joined'><!--
-  --><a class='button icon plus submit' href='/new/project'>Project</a><!--
+  --><a class='button icon plus submit' href='/new/style'>Style</a><!--
   --><a class='button icon plus submit' href='/new/source'>Source</a>
 </nav>
 
-<section><h2>Projects</h2></section>
+<section><h2>Styles</h2></section>
 
 <div class='grid clearfix'>
 <% _(obj.style).chain()
-  .sortBy(function(project) { return -1 * project.mtime })
-  .each(function(project) { %>
-<a class='cell' href='/project?id=<%=project.id%>'><span class='thumbed'>
-  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
-  <strong><%= project.name || 'Untitled' %></strong>
-  <code><%= project.id.split('/').pop() %></code>
+  .sortBy(function(item) { return -1 * item.mtime })
+  .each(function(item) { %>
+<a class='cell' href='/project?id=<%=item.id%>'><span class='thumbed'>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
+  <strong><%= item.name || 'Untitled' %></strong>
+  <code><%= item.id.split('/').pop() %></code>
 </span></a>
 <% }); %>
 </div>
@@ -21,12 +21,12 @@
 
 <div class='grid clearfix'>
 <% _(obj.source).chain()
-  .sortBy(function(project) { return -1 * project.mtime })
-  .each(function(project) { %>
-<a class='cell' href='/source?id=<%=project.id%>'><span class='thumbed'>
-  <span class='image' style='background-image:url("/thumb.png?id=<%=project.id%>&mtime=<%=project.mtime%>")'></span>
-  <strong><%= project.name || 'Untitled' %></strong>
-  <code><%= project.id.split('/').pop() %></code>
+  .sortBy(function(item) { return -1 * item.mtime })
+  .each(function(item) { %>
+<a class='cell' href='/source?id=<%=item.id%>'><span class='thumbed'>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
+  <strong><%= item.name || 'Untitled' %></strong>
+  <code><%= item.id.split('/').pop() %></code>
 </span></a>
 <% }); %>
 </div>
