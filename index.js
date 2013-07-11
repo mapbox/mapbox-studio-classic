@@ -32,6 +32,7 @@ app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
 app.param('style', function(req, res, next) {
+    // @TODO...
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
         source.invalidate(req.body.sources[0], next);
     } else {
@@ -41,21 +42,19 @@ app.param('style', function(req, res, next) {
     var id = req.query.id;
     var tmp = id && style.tmpid(id);
     var data = false;
-    if (req.method === 'PUT') {
-        var data = req.body;
-    } else if (tmp && req.path === '/style') {
-        var data = defaults.style;
-    }
-    style({
-        id: id,
-        data: data,
-        perm: !tmp && !!data
-    }, function(err, style) {
+    var done = function(err, s) {
         if (err) return next(err);
         if (!tmp) tm.history('style', id);
-        req.style = style;
+        req.style = s;
         return next();
-    });
+    };
+    if (req.method === 'PUT') {
+        style.save(req.body, done);
+    } else if (tmp && req.path === '/style') {
+        style.save(_({id:id}).defaults(defaults.style), done);
+    } else {
+        style(id, done);
+    }
 }, function(req, res, next) {
     if (!req.style) return next();
     next();
@@ -229,10 +228,7 @@ app.put('/:source(source)', function(req, res, next) {
 app.get('/export/:style(package)', function(req, res, next) {
     var basename = path.basename(req.style.data.id, '.tm2');
     res.setHeader('content-disposition', 'attachment; filename="'+basename+'.tm2z"');
-    style.toPackage({
-        id: req.style.data.id,
-        stream: res
-    }, function(err) {
+    style.toPackage(req.style.data.id, res, function(err) {
         if (err) next(err);
         res.end();
     });
@@ -247,7 +243,7 @@ app.get('/browse*', function(req, res, next) {
 
 app.get('/thumb.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    style.thumb({id:req.query.id}, function(err, thumb) {
+    style.thumb(req.query.id, function(err, thumb) {
         if (err && err.message === 'Tile does not exist') {
             return res.send(err.toString(), 404);
         } else if (err) {

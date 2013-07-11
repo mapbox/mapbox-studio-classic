@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
@@ -25,7 +26,7 @@ describe('style', function() {
         }, 250);
     });
     it('loads default style from disk', function(done) {
-        style({id:'tmstyle:///' + defpath}, function(err, proj) {
+        style('tmstyle:///' + defpath, function(err, proj) {
             assert.ifError(err);
             assert.ok('style.mss' in proj.data.styles, 'style load expands stylesheets');
             assert.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'style load determines map BG color');
@@ -33,14 +34,14 @@ describe('style', function() {
         });
     });
     it('saves style in memory', function(done) {
-        style({id:'tmstyle:///tmp-1234', data:data}, function(err, source) {
+        style.save(_({id:'tmstyle:///tmp-12345678'}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             done();
         })
     });
     it('saves style to disk', function(done) {
-        style({id:'tmstyle://' + tmpPerm, data:data, perm:true}, function(err, source) {
+        style.save(_({id:'tmstyle://' + tmpPerm}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
             assert.ok(/maxzoom: 22/.test(fs.readFileSync(tmpPerm + '/project.yml', 'utf8')), 'saves project.yml');
@@ -57,7 +58,7 @@ describe('style', function() {
         })
     });
     it ('packages style to tm2z', function(done) {
-        style.toPackage({id:'tmstyle://' + tmpPerm, filepath:tmpPerm + '.tm2z'}, function(err) {
+        style.toPackage('tmstyle://' + tmpPerm, tmpPerm + '.tm2z', function(err) {
             assert.ifError(err);
             var stat = fs.statSync(tmpPerm + '.tm2z');
             assert.ok(fs.existsSync(tmpPerm + '.tm2z'));
