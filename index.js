@@ -128,7 +128,7 @@ app.put('/:project(project)', function(req, res, next) {
     });
 });
 
-app.get('/:history():project(project)', function(req, res, next) {
+app.get('/:project(project):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.project({
         cwd: process.env.HOME,
@@ -209,7 +209,7 @@ app.get('/:source(source).xml', function(req, res, next) {
     return res.send(req.source._xml);
 });
 
-app.get('/:history():source(source)', function(req, res, next) {
+app.get('/:source(source):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.source({
         tm: tm,
