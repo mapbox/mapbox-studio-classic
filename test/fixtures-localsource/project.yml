@@ -1,0 +1,21 @@
+styles: 
+sources: 
+  - .
+name: Test style 
+mtime: 1364498787322
+center: 
+  - 0
+  - 0
+  - 3
+minzoom: 0
+maxzoom: 19
+_prefs: 
+  saveCenter: false
+attribution: ""
+description: ""
+bounds: 
+  - -180
+  - -85
+  - 180
+  - 85
+scale: 1

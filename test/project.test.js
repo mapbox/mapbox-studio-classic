@@ -92,6 +92,14 @@ describe('project.info', function() {
             done();
         });
     });
+    it('resolves self-alias', function(done) {
+        project.info('tmstyle://' + __dirname + '/fixtures-localsource', function(err, info) {
+            assert.ifError(err);
+            assert.equal('tmsource://' + __dirname + '/fixtures-localsource', info.source);
+            done();
+        });
+    });
+
 });
 
 describe('project.toXML', function() {
