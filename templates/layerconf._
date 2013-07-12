@@ -18,7 +18,7 @@
   <section>
     <label class='inline'>Buffer size</label>
     <% if (obj.properties['buffer-size'] > 128) { %>
-    <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='text' value='<%= obj.properties['buffer-size'] %>' size='12' disabled='disabled'/>
+    <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='text' value='<%= obj.properties['buffer-size'] %>' size='12' />
     <% } else { %>
     <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='128' step='2' onchange='rangeHandler(this);'/>
     <label class='range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
