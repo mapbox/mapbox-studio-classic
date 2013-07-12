@@ -23,8 +23,8 @@
         "mapnik": "1.0.0",
         "carto": "https://github.com/mapbox/carto/tarball/master",
         "tilelive": "4.4.3",
-        "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/master",
-        "tilelive-vector": "0.1.0",
+        "tilelive-bridge": "0.0.1",
+        "tilelive-vector": "0.1.1",
         "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
         "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master"
     },
