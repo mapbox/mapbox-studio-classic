@@ -2,7 +2,8 @@
 function tocolor(str) {
   var rgb = [0, 0, 0];
   for (var i = 0; i < str.length; i++) {
-    rgb[i % 3] = (rgb[i % 3] + (str.charCodeAt(i) % 12)) % 12;
+    var v = str.charCodeAt(i);
+    rgb[v % 3] = (rgb[i % 3] + (13*(v%13))) % 12;
   }
   var r = 4 + rgb[0];
   var g = 4 + rgb[1];
