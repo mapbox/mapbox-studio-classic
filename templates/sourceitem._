@@ -23,19 +23,19 @@ with no sources. Once vector tile compositing is available revisit.
 <a class='delete icon close' href='#delete'></a>
 -->
 
-<% _(obj.Layer).chain().clone().reverse().each(function(l) { %>
+<% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
 <a class='layer' id='layers-<%=l.id%>' href='#layers-<%=l.id%>'>
   <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
   <%=l.id%>
   <span class='zooms'>
-    <% if (!(l.properties||{}).maxzoom) { %>
-    z<%= (l.properties||{}).minzoom||0 %>+
+    <% if (!l.maxzoom) { %>
+    z<%= l.minzoom||0 %>+
     <% } else { %>
-    z<%= (l.properties||{}).minzoom||0 %>-<%= (l.properties||{}).maxzoom||22 %>
+    z<%= l.minzoom||0 %>-<%= l.maxzoom||22 %>
     <% } %>
   </span>
   <small class='desc'><%=l.description||'No description.'%></small>
-  <% _(l.help||{}).each(function(desc,name) { %>
+  <% _(l.fields||{}).each(function(desc,name) { %>
   <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
   <% }); %>
 </a>

@@ -1,0 +1,27 @@
+<form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
+  <nav><a href='#' class='button icon close'></a></nav>
+  <section>
+    <h2>
+      <%= obj.id %>
+    </h2>
+    <input type='hidden' name='id' value='<%=obj.id%>' />
+  </section>
+  <section>
+    <label class='inline'>Description</label>
+    <input disabled='disabled' class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+  </section>
+  <% if ('minzoom' in obj) { %>
+  <section>
+    <label class='inline'>Minzoom</label>
+    <input disabled='disabled' name='minzoom' class='min' type='range' value='<%= obj.minzoom %>' min='0' max='22' step='1'/>
+    <label class='range'><%= obj.minzoom %></label>
+  </section>
+  <% } %>
+  <% if ('maxzoom' in obj) { %>
+  <section>
+    <label class='inline'>Maxzoom</label>
+    <input disabled='disabled' name='maxzoom' class='max' type='range' value='<%= obj.maxzoom %>' min='0' max='22' step='1'/>
+    <label class='range'><%= obj.maxzoom %></label>
+  </section>
+  <% } %>
+</form>

@@ -2,7 +2,7 @@ Map { background-color:#000; }
 
 <%
 var disabled = obj._prefs.disabled || [];
-_(obj.Layer).each(function(l, i) {
+_(obj.vector_layers).each(function(l, i) {
 var id = l.id;
 if (disabled.indexOf(id) !== -1) return;
 %>

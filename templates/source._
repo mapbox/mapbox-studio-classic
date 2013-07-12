@@ -34,7 +34,10 @@
   <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
 </div>
 
-<% var revlayers = source.Layer.slice(0); revlayers.reverse(); %>
+<%
+var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
+revlayers.reverse();
+%>
 <div id='layers' class='menu column dark w2 l2'>
   <nav class='menu-title centered'>
     <% if (remote) { %>
@@ -49,8 +52,12 @@
 </div>
 <div id='editor'>
 <% _(revlayers).each(function(l) {
-  var type = l.Datasource.type || 'unknown';
-  if (this['layer' + type]) print(this['layer' + type](_({tm:tm}).extend(l)))
+  if (remote) {
+    print(this['layerremote'](l));
+  } else {
+    var type = (l.Datasource && l.Datasource.type);
+    if (this['layer' + type]) print(this['layer' + type](_({tm:tm}).extend(l)));
+  }
 }.bind(this)); %>
 </div>
 <form id='settings' class='pane dark w4 l0'>
@@ -153,7 +160,7 @@ map.options.maxZoom = 22;
 
 var Layer = function(id, datasource) {
   var code;
-  if (datasource.type === 'postgis' || datasource.type === 'sqlite') {
+  if (datasource && (datasource.type === 'postgis' || datasource.type === 'sqlite')) {
     code = CodeMirror($('#layers-' + id + ' div.sql').get(0), {
       value: datasource.table,
       lineNumbers: true,
