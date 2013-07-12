@@ -450,6 +450,7 @@ $('#layers .menu-content').bind('sortupdate', function(ev, ui) {
 
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
+templates.layerconf = <%= this.layerconf.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layergeojson = <%= this.layergeojson.source %>;
