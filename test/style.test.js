@@ -2,10 +2,27 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
+var tm = require('../lib/tm');
 var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
 
 describe('style', function() {
+
+var tmppath = '/tmp/tm2-test-' + +new Date;
+before(function(done) {
+    tm.config({
+        db: path.join(tmppath, 'app.db'),
+        cache: path.join(tmppath, 'cache')
+    }, done);
+});
+after(function(done) {
+    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
+    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
+    try { fs.rmdirSync(tmppath); } catch(err) {}
+    done();
+});
+
+describe('style load', function() {
     var tmpPerm = '/tmp/tm2-perm-' + (+new Date);
     var data = {
         name:'tmp-1234',
@@ -156,4 +173,6 @@ describe('style.toXML', function() {
             done();
         });
     });
+});
+
 });

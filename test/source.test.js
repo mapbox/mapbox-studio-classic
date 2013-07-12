@@ -2,8 +2,25 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
+var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
+
+describe('source', function() {
+
+var tmppath = '/tmp/tm2-test-' + +new Date;
+before(function(done) {
+    tm.config({
+        db: path.join(tmppath, 'app.db'),
+        cache: path.join(tmppath, 'cache')
+    }, done);
+});
+after(function(done) {
+    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
+    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
+    try { fs.rmdirSync(tmppath); } catch(err) {}
+    done();
+});
 
 describe('source remote', function() {
     it('loads', function(done) {
@@ -116,4 +133,6 @@ describe('source local', function() {
             }, 1000);
         });
     });
+});
+
 });
