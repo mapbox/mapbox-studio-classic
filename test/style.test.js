@@ -118,12 +118,13 @@ describe('style.toXML', function() {
         style.toXML({
             id:'tmstyle:///tmp-1234',
             source:'mapbox:///mapbox.mapbox-streets-v2',
-            styles:{'style.mss': '#water { polygon-fill:#fff }'}
+            styles:{'style.mss': '#water { polygon-fill:#fff }'},
+            _properties:{bridge:{'group-by':'layer'}}
         }, function(err, xml) {
             assert.ifError(err);
             assert.ok(/<Map srs/.test(xml), 'looks like Mapnik XML');
             assert.ok(/<Layer name="water"/.test(xml), 'includes layer');
-            // assert.ok(/group-by="layer"/.test(xml), 'includes layer properties'); @TODO implement layer properties
+            assert.ok(/group-by="layer"/.test(xml), 'includes layer properties');
             assert.ok(/<PolygonSymbolizer fill="#ffffff"/.test(xml), 'includes rule');
             done();
         });
