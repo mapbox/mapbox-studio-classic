@@ -188,7 +188,7 @@ app.get('/:style(style|source)/:z/:x/:y.:format', function(req, res, next) {
         res.set(headers);
         return res.send(data);
     };
-    done.format = req.params.format || 'png';
+    if (req.params.format !== 'png') done.format = req.params.format;
     req.style.getTile(z,x,y, done);
 });
 
