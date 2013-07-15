@@ -62,7 +62,7 @@ revlayers.reverse();
 </div>
 <form id='settings' class='pane dark w4 l0'>
 <div class='column w2 l0 darken'>
-  <%= this.history(history) %>
+  <%= this.history(obj) %>
 </div>
 <div class='column w2 l2'>
   <nav><a class='button icon close' href='#'></a></nav>
@@ -110,8 +110,8 @@ revlayers.reverse();
   cwd: cwd,
   label: 'Select'
 })); %>
-
 <%= this.modalmessage() %>
+<%= this.modalmapbox() %>
 
 <form id='addlayer' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
@@ -218,7 +218,9 @@ Editor.prototype.events = {
   'click a.layer .delete': 'deletelayer',
   'click a.layer .xrayswatch': 'togglelayer',
   'click a.browsefile': 'browsefile',
+  'click #settings a.tab': 'tabbed',
   'submit #addlayer': 'addlayer',
+  'submit #addmapbox': 'addmapbox',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -387,6 +389,8 @@ Editor.prototype.browsefile = function(ev) {
   $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
 };
+Editor.prototype.tabbed = tabbedHandler;
+Editor.prototype.addmapbox = addMapBox;
 var editor = new Editor({
   el: document.body,
   model: new Source(<%= JSON.stringify(source) %>)

@@ -43,6 +43,7 @@ body.dark {
   }
 
 .dark { color:#fff; }
+.clear { background:transparent !important; }
 .lefted { text-align:left; }
 .centered { text-align:center; }
 .righted { text-align:right; }
@@ -72,13 +73,6 @@ section:last-child { border-bottom:0px; }
 .dark a.section { border-color:rgba(0,0,0,0.1); }
 .dark a.section:hover { background-color:rgba(0,0,0,0.4); }
 
-.grid { padding:5px; }
-.grid .cell {
-  padding:5px;
-  float:left;
-  width:50%;
-  }
-
 .thumbed {
   display:block;
   padding:10px 15px;
@@ -94,7 +88,20 @@ section:last-child { border-bottom:0px; }
   background-size:cover;
   background-position:50% 50%;
   border-radius:4px 0px 0px 4px;
-  box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 3px;
+  box-shadow:
+    inset rgba(0,0,0,0.05) 0px 0px 0px 1px,
+    inset rgba(0,0,0,0.05) 0px 0px 0px 3px;
+  }
+.thumbed .plus {
+  position:absolute;
+  left:0px; top:0px; width:60px; height:60px;
+  text-align:center;
+  padding:20px;
+  border-right:1px solid rgba(0,0,0,0.1);
+  }
+.thumbed .plus::before {
+  background-color:rgba(0,0,0,0.1);
+  border-radius:4px;
   }
 .thumbed > * {
   display:block;
@@ -103,7 +110,15 @@ section:last-child { border-bottom:0px; }
   text-overflow:ellipsis;
   }
 .thumbed { background-color:rgba(255,255,255,0.4); }
+.thumbed:hover { background-color:rgba(255,255,255,0.8); }
 .dark .thumbed { background-color:rgba(0,0,0,0.2); }
+.dark .thumbed:hover { background-color:rgba(0,0,0,0.4); }
+
+.thumbed.create { background-color:rgba(255,255,255,0.8); }
+.thumbed.create strong { line-height:40px; font-size:125%; }
+.thumbed.create:hover { background-color:rgba(255,255,255,1); }
+.dark .thumbed.create { background-color:rgba(0,0,0,0.4); }
+.dark .thumbed.create:hover { background-color:rgba(0,0,0,0.8); }
 
 section pre {
   padding:5px 0px;
@@ -126,6 +141,10 @@ input[type=submit],
   border-radius:4px;
   }
 
+input[type=button],
+input[type=submit],
+.button.submit { background:rgba(255,255,255,0.8); }
+
 input[type=button]:active,
 input[type=submit]:active,
 .tab.active,
@@ -134,10 +153,6 @@ input[type=submit]:active,
   background:rgba(0,0,0,0.2);
   box-shadow:inset rgba(0,0,0,0.2) 0px 1px 3px 0px;
   }
-
-input[type=button],
-input[type=submit],
-.button.submit { background:rgba(255,255,255,0.8); }
 
 .dark input[type=button],
 .dark input[type=submit],
@@ -155,6 +170,14 @@ input.wide[type=submit] {
   text-align:center;
   margin-right:10px;
   }
+
+.centered .button.wide,
+.centered input.wide[type=button],
+.centered input.wide[type=submit] { margin-right:0px; }
+
+.righted .button.wide,
+.righted input.wide[type=button],
+.righted input.wide[type=submit] { margin-right:0px; margin-left:10px; }
 
 .button.icon {
   height:30px;
@@ -225,6 +248,14 @@ nav > a {
   height:100%;
   box-shadow:rgba(0,0,0,0.1) -2px 0px 0px;
   -webkit-transition:left 200ms, width 200ms;
+  }
+
+.grid { padding:5px; }
+
+.cell {
+  padding:5px;
+  float:left;
+  width:50%;
   }
 
 .w1 { width:25%; }
@@ -669,13 +700,10 @@ nav > a {
 #title.dark .button:active { background-color:rgba(0,0,0,0.2); }
 
 /* Project history */
-#history {
-  position:absolute;
-  top:40px;
-  bottom:0px;
-  width:100%;
-  overflow:auto;
-  }
+#settings-style,
+#settings-source { display:none; }
+#settings-style.active,
+#settings-source.active { display:block; }
 
 /* Modal popup */
 .modal {

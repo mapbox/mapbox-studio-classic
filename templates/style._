@@ -34,7 +34,7 @@
 
 <form id='settings' class='pane w4 l0'>
 <div class='column w2 l0 lighten'>
-  <%= this.history(history) %>
+  <%= this.history(obj) %>
 </div>
 <div class='column w2 l2'>
   <nav>
@@ -171,8 +171,8 @@
   placeholder: 'style.tm2',
   pattern: '[\\w+\\d+\\.-]+\\.tm2'
 })); %>
-
 <%= this.modalmessage() %>
+<%= this.modalmapbox() %>
 
 <form id='addtab' class='modal dark centered'>
   <a class='button icon close' href='#'></a>
@@ -284,10 +284,12 @@ Editor.prototype.events = {
   'click a.button.recache': 'recache',
   'submit #settings': 'save',
   'submit #addtab': 'addtab',
+  'submit #addmapbox': 'addmapbox',
   'click #tabs a.tab span.delete': 'deltab',
   'click #tabs a.tab': 'tabbed',
   'click #docs nav a': 'tabbed',
   'click #menu nav a': 'tabbed',
+  'click #settings a.tab': 'tabbed',
   'click #layers a': 'tabbed',
   'click #data .source a': 'data',
   'click #layers a.delete': 'data',
@@ -314,15 +316,8 @@ Editor.prototype.keys = function(ev) {
   }
   return false;
 };
-Editor.prototype.tabbed = function(ev) {
-  var target = ev.currentTarget.href.split('#').pop();
-  var context = target.split('-').slice(0,-1).join('-');
-  $('#' + context + ' .active').removeClass('active');
-  //$(ev.currentTarget).siblings().removeClass('active');
-  $(ev.currentTarget).addClass('active');
-  $('#' + target).addClass('active');
-  return false;
-};
+Editor.prototype.tabbed = tabbedHandler;
+Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.data = function(ev) {
   var target = $(ev.currentTarget).parent();
   if (target.parents('#layers').size()) {
