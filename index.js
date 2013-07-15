@@ -155,6 +155,9 @@ app.get('/:style(style|source)/:z/:x/:y.:format', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
+    var source = req.params.format === 'vector.pbf'
+        ? req.style._backend
+        : req.style;
     var done = function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
@@ -184,12 +187,23 @@ app.get('/:style(style|source)/:z/:x/:y.:format', function(req, res, next) {
         // Clear out tile errors.
         res.cookie('errors', '');
 
+        // If debug flag is set, reduce json data.
+        if (done.format === 'json' && 'debug' in req.query) {
+            data = _(data).reduce(function(memo, layer) {
+                memo[layer.name] = {
+                    features: layer.features.length,
+                    jsonsize: JSON.stringify(layer).length
+                };
+                return memo;
+            }, {});
+        }
+
         headers['cache-control'] = 'max-age=3600';
         res.set(headers);
         return res.send(data);
     };
     if (req.params.format !== 'png') done.format = req.params.format;
-    req.style.getTile(z,x,y, done);
+    source.getTile(z,x,y, done);
 });
 
 app.get('/:style(style).xml', function(req, res, next) {
