@@ -135,7 +135,7 @@ app.get('/:style(style):history()', function(req, res, next) {
     }));
 });
 
-app.get('/:style(style|source)/:z/:x/:y.grid.json', function(req, res, next) {
+app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
@@ -151,7 +151,7 @@ app.get('/:style(style|source)/:z/:x/:y.grid.json', function(req, res, next) {
     });
 });
 
-app.get('/:style(style|source)/:z/:x/:y.:format', function(req, res, next) {
+app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
