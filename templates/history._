@@ -7,7 +7,7 @@
   <section><h2>Styles</h2></section>
   <div class='grid clearfix'>
   <a class='cell w4' href='/new/style'><span class='thumbed create'>
-    <span class='icon plus'></span>
+    <span class='image icon plus'></span>
     <strong>New Style</strong>
   </span></a>
   <% _(obj.history.style).chain()
@@ -26,11 +26,11 @@
   <section><h2>Sources</h2></section>
   <div class='grid clearfix'>
   <a class='cell' href='#addmapbox'><span class='thumbed create'>
-    <span class='icon plus'></span>
+    <span class='image icon mapbox'></span>
     <strong>Add from MapBox</strong>
   </span></a>
   <a class='cell' href='/new/source'><span class='thumbed create'>
-    <span class='icon plus'></span>
+    <span class='image icon plus'></span>
     <strong>New Source</strong>
   </span></a>
   <% _(obj.history.source).chain()

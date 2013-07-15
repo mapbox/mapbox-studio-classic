@@ -84,25 +84,23 @@ section:last-child { border-bottom:0px; }
 .thumbed .image {
   position:absolute;
   left:0px; top:0px; width:60px; height:60px;
-  background-color:rgba(0,0,0,0.1);
   background-size:cover;
   background-position:50% 50%;
   border-radius:4px 0px 0px 4px;
-  box-shadow:
-    inset rgba(0,0,0,0.05) 0px 0px 0px 1px,
-    inset rgba(0,0,0,0.05) 0px 0px 0px 3px;
   }
-.thumbed .plus {
+.thumbed .image.icon {
   position:absolute;
   left:0px; top:0px; width:60px; height:60px;
+  background:transparent;
   text-align:center;
   padding:20px;
   border-right:1px solid rgba(0,0,0,0.1);
   }
-.thumbed .plus::before {
-  background-color:rgba(0,0,0,0.1);
+.thumbed .image.icon::before {
+  background-color:rgba(255,255,255,0.4);
   border-radius:4px;
   }
+.dark .thumbed .image.icon::before { background-color:rgba(0,0,0,0.2); }
 .thumbed > * {
   display:block;
   white-space:nowrap;
@@ -231,6 +229,9 @@ input.wide[type=submit] {
 .icon.next:before { background-position-x:-480px; }
 .icon.unknown:before { background-position-x:-500px; }
 .icon.package:before { background-position-x:-520px; }
+.icon.mapbox:before { background-position-x:-540px; }
+.icon.local:before { background-position-x:-560px; }
+.icon.remote:before { background-position-x:-580px; }
 .icon.padded:before { margin-right:5px; }
 
 nav { white-space:nowrap; }
