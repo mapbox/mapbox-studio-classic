@@ -1,7 +1,7 @@
 <% var layerCount = _(obj.Layer||{}).size(); %>
 <div id='source-<%=obj.id%>' class='source'>
 <a href='#data' class='cell'><span class='thumbed'>
-  <span class='image' <% if (obj.image) { %>style='background-image:url("<%=obj.image%>")'<% } %>></span>
+  <span class='image' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
   <strong><%= obj.name %></strong>
   <span class='desc'><%= obj.description || 'No description.' %></span>
 </span></a>
