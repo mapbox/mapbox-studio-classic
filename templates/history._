@@ -1,6 +1,6 @@
 <nav class='joined'><!--
-  --><a class='button wide submit tab' href='#settings-style' <% if (obj.style) { %>class='active'<% } %>>Styles</a><!--
-  --><a class='button wide submit tab' href='#settings-source' <% if (obj.source) { %>class='active'<% } %>>Sources</a>
+  --><a class='button wide submit tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
+  --><a class='button wide submit tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
 </nav>
 
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
