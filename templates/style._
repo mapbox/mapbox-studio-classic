@@ -466,6 +466,11 @@ Editor.prototype.refresh = function(ev) {
   // Refresh gridcontrol template.
   gridcontrol.setTemplate(this.model.get('template'));
   if (this.model.get('template') && this.model.get('interactivity_layer')) {
+    grids = L.mapbox.gridLayer({
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
+      minzoom: this.model.get('minzoom'),
+      maxzoom: this.model.get('maxzoom')
+    });
     map.addLayer(grids);
   } else {
     map.removeLayer(grids);
