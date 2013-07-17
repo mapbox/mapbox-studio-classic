@@ -20,7 +20,7 @@
         "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
         "fstream": "0.1.x",
         "tar": "0.1.x",
-        "mapnik": "1.0.0",
+        "mapnik": "1.1.x",
         "carto": "https://github.com/mapbox/carto/tarball/master",
         "tilelive": "4.5.x",
         "tilelive-bridge": "0.0.1",
