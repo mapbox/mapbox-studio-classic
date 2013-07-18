@@ -494,6 +494,9 @@ nav > a {
 .leaflet-container.dark .leaflet-bar,
 .leaflet-container.dark .leaflet-bar a { border-color:#222; }
 
+.leaflet-container.dark .leaflet-popup-content-wrapper,
+.leaflet-container.dark .leaflet-popup-tip { background:#333; }
+
 #map-overlay {
   position:absolute;
   top:0px; bottom:0px; width:100%;
