@@ -18,6 +18,14 @@ describe('tm', function() {
         done();
     });
 
+    it('sortkeys', function() {
+        assert.deepEqual(['id', 'bar', 'foo'], Object.keys(tm.sortkeys({
+            foo: 'foo',
+            bar: 'bar',
+            id: 'id'
+        })));
+    });
+
     it('history', function() {
         assert.deepEqual({style:[], source:[
             'mapbox:///mapbox.mapbox-streets-v2',
