@@ -46,10 +46,10 @@ TM2 ships with an example vector tile source: MapBox Streets. When you create yo
 
 Unlike TileMill, TM2 makes a hard split between two types of packages:
 
-- **Projects** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a datasource.
-- **Datasources** describe a source for vector tiles, for example a URL endpoint from which to download tiles. We also have an API for generating vector tiles on the fly from traditional Mapnik datasources (shapefiles, postgis, etc) -- see [tilelive-bridge](http://github.com/mapbox/tilelive-bridge) for more info.
+- **Styles** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a datasource.
+- **Sources** describe a source for vector tiles, for example a URL endpoint from which to download tiles. We also have an API for generating vector tiles on the fly from traditional Mapnik datasources (shapefiles, postgis, etc) -- see [tilelive-bridge](http://github.com/mapbox/tilelive-bridge) for more info.
 
-Currently TM2 focuses on editing **Projects**. There currently is no UI for working with **Datasources**, however we plan on designing a UI for browsing and working with Datasources in the future.
+TM2 focuses on editing **Styles,** but there is also an early UI for working with **Sources**.
 
 Building TM2
 ------------
