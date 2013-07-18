@@ -4,6 +4,16 @@
   width:100%; top:40px; bottom:0px;
   }
 
+/* Conf pane */
+.editor > div.conf { display:block; }
+.sql .editor > div.conf,
+.fields .editor > div.conf { display:none; }
+
+/* Fields pane */
+.editor > div.fields { display:none; }
+.fields .editor > div.fields { display:block; }
+
+/* SQL pane */
 .editor > div.sql {
   position:absolute;
   top:50px; bottom:0px; width:100%;
@@ -13,9 +23,10 @@
 .editor .CodeMirror { top:60px; }
 
 .editor nav .icon.conf,
-.sql .editor nav .icon.edit { background-color:rgba(0,0,0,0.4); }
+.fields .editor nav .icon.fields,
+.sql .editor nav .icon.sql { background-color:rgba(0,0,0,0.4); }
+.fields .editor nav .icon.conf,
 .sql .editor nav .icon.conf { background-color:rgba(0,0,0,0.2); }
 
-.sql .editor > div.conf { visibility:hidden; }
 .sql .editor > div.sql { visibility:visible; }
 .sql .editor .CodeMirror { visibility:visible; }

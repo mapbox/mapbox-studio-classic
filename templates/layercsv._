@@ -1,26 +1,36 @@
 <form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
-  <nav><a href='#' class='button icon close'></a></nav>
+  <nav>
+    <span class='joined'><!--
+      --><a href='#mode-conf' class='button icon conf'></a><!--
+      --><a href='#mode-fields' class='button icon fields'></a><!--
+    --></span>
+    <a href='#' class='button icon close'></a>
+  </nav>
   <section>
     <h2>
       <%= obj.id %>
     </h2>
     <input type='hidden' name='id' value='<%=obj.id%>' />
-    <input type='hidden' name='name' value='<%=obj.id%>' />
   </section>
-  <section>
-    <label class='inline'>Description</label>
-    <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
-  </section>
-  <section>
-    <label>CSV<label>
-    <input type='hidden' name='Datasource-type' value='csv' />
-    <div class='joined'>
-      <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.csv' pattern='[\w+\d+\.\/_-]+\.(csv|CSV)'/><!--
-      --><a href='#browsefile' class='button icon dir browsefile'></a>
-    </div>
-  </section>
-  <%= this.layerconf(obj) %>
-  <section class='righted'>
-    <a href='#' class='button submit icon okay'>Done</a>
-  </section>
+
+  <div class='conf'>
+    <section>
+      <label class='inline'>Description</label>
+      <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+    </section>
+    <section>
+      <label>CSV<label>
+      <input type='hidden' name='Datasource-type' value='csv' />
+      <div class='joined'>
+        <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.csv' pattern='[\w+\d+\.\/_-]+\.(csv|CSV)'/><!--
+        --><a href='#browsefile' class='button icon dir browsefile'></a>
+      </div>
+    </section>
+    <%= this.layerconf(obj) %>
+    <section class='righted'>
+      <a href='#' class='button submit icon okay'>Done</a>
+    </section>
+  </div>
+
+  <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
 </form>

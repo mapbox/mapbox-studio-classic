@@ -56,7 +56,10 @@ revlayers.reverse();
     print(this['layerremote'](l));
   } else {
     var type = (l.Datasource && l.Datasource.type);
-    if (this['layer' + type]) print(this['layer' + type](_({tm:tm}).extend(l)));
+    if (this['layer' + type]) print(this['layer' + type](_({
+        tm: tm,
+        vt: source.vector_layers.filter(function(v) { return v.id === l.id })[0]
+    }).extend(l)));
   }
 }.bind(this)); %>
 </div>
@@ -173,6 +176,11 @@ var Layer = function(id, datasource) {
     form: $('#layers-' + id),
     item: $('#layers a.layer[href=#layers-'+id+']')
   };
+  layer.refresh = function() {
+    var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
+    var fields = l.fields || {};
+    $('div.fields', layer.fields).html(templates.layerfields(fields));
+  };
   layer.get = function() {
     var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
       // @TODO determine what causes empty field names.
@@ -180,13 +188,11 @@ var Layer = function(id, datasource) {
       var group = field.name.split('-')[0];
       var name = field.name.split('-').slice(1).join('-');
       switch (group) {
+      case 'fields':
       case 'properties':
-        memo.properties = memo.properties || {};
-        memo.properties[name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
-        break;
       case 'Datasource':
-        memo.Datasource = memo.Datasource || {};
-        memo.Datasource[name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+        memo[group] = memo[group] || {};
+        memo[group][name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
         break;
       default:
         memo[field.name] = parseInt(field.value,10).toString() === field.value ? parseInt(field.value, 10) : field.value;
@@ -213,8 +219,7 @@ Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
-  'click .editor nav a.conf': 'togglemode',
-  'click .editor nav a.edit': 'togglemode',
+  'click .editor nav .joined a': 'togglemode',
   'click a.layer .delete': 'deletelayer',
   'click a.layer .xrayswatch': 'togglelayer',
   'click a.browsefile': 'browsefile',
@@ -240,10 +245,16 @@ Editor.prototype.keys = function(ev) {
 };
 Editor.prototype.togglemode = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.attr('href').split('#mode-').pop() === 'sql') {
-    $('body').addClass('sql');
-  } else {
-    $('body').removeClass('sql');
+  switch (target.attr('href').split('#mode-').pop()) {
+    case 'sql':
+        $('body').addClass('sql').removeClass('conf').removeClass('fields');
+        break;
+    case 'conf':
+        $('body').addClass('conf').removeClass('sql').removeClass('fields');
+        break;
+    case 'fields':
+        $('body').addClass('fields').removeClass('sql').removeClass('conf');
+        break;
   }
   return false;
 };
@@ -262,6 +273,7 @@ Editor.prototype.addlayer = function(ev) {
   if (!layers[values.id]) {
     var layer = {
       tm: tm,
+      vt: {},
       id: values.id,
       properties: {
         minzoom:0,
@@ -380,6 +392,9 @@ Editor.prototype.refresh = function(ev) {
   $('title').text(this.model.get('name'));
   $('#title .name').text(this.model.get('name') || 'Untitled');
 
+  // Rerender fields forms.
+  _(layers).each(function(l) { l.refresh() });
+
   return false;
 };
 Editor.prototype.browsefile = function(ev) {
@@ -455,6 +470,7 @@ $('#layers .menu-content').bind('sortupdate', function(ev, ui) {
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerconf = <%= this.layerconf.source %>;
+templates.layerfields = <%= this.layerfields.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layergeojson = <%= this.layergeojson.source %>;

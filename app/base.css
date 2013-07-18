@@ -66,6 +66,7 @@ section {
   padding:15px 30px 14px;
   border-bottom:1px solid #ccc;
   }
+section.thin { padding:10px 30px 9px; }
 section > *:last-child { margin-bottom:0px; }
 section:last-child { border-bottom:0px; }
 
@@ -200,7 +201,9 @@ input.wide[type=submit] {
   background-position-y:0px;
   }
 .dark .icon:before { background-position-y:-20px; }
+.icon.fields:before,
 .icon.layers:before { background-position-x:0px; }
+.icon.sql:before,
 .icon.edit:before { background-position-x:-20px; }
 .icon.search:before { background-position-x:-40px; }
 .icon.close:before { background-position-x:-60px; }
@@ -800,6 +803,9 @@ label.ghost {
   }
 
 label.inline { display:inline-block; width:100px; }
+label.w1,
+label.w2,
+label.w3 { display:inline-block; }
 
 label.range {
   display:inline-block;

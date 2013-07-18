@@ -1,7 +1,8 @@
 <form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
   <nav>
-    <span class='joined'>
-      <a href='#mode-conf' class='button icon conf'></a><!--
+    <span class='joined'><!--
+      --><a href='#mode-conf' class='button icon conf'></a><!--
+      --><a href='#mode-fields' class='button icon fields'></a><!--
       --><a href='#mode-sql' class='button icon edit'></a>
     </span>
     <a href='#' class='button icon close'></a>
@@ -11,8 +12,8 @@
       <%= obj.id %>
     </h2>
     <input type='hidden' name='id' value='<%=obj.id%>' />
-    <input type='hidden' name='name' value='<%=obj.id%>' />
   </section>
+
   <div class='conf'>
     <section>
       <label class='inline'>Description</label>
@@ -42,6 +43,9 @@
       <a href='#' class='button submit icon okay'>Done</a>
     </section>
   </div>
+
+  <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
+
   <div class='sql'>
     <section>
       <span class='joined'><!--
