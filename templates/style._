@@ -195,34 +195,7 @@
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var map = L.mapbox.map('map');
-var tiles = L.mapbox.tileLayer({
-  tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&mtime=<%=style.mtime%>'],
-  minzoom: <%= style.minzoom %>,
-  maxzoom: <%= style.maxzoom %>
-})
-.on('tileload', statHandler('drawtime'))
-.on('load', errorHandler)
-.addTo(map);
-
-var grids = L.mapbox.gridLayer({
-  grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=<%=style.mtime%>'],
-  minzoom: <%= style.minzoom %>,
-  maxzoom: <%= style.maxzoom %>
-});
-var gridcontrol = L.mapbox.gridControl(grids, {
-  follow: true,
-  template: <%= JSON.stringify(style.template||'') %>
-});
-map.addControl(gridcontrol);
-<% if (style.template && style.interactivity_layer) { %>
-grids.addTo(map);
-<% } %>
-
-map.setView([<%=style.center[1]%>, <%=style.center[0]%>], <%=style.center[2]%>);
-map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
-map.options.minZoom = <%= style.minzoom %>;
-map.options.maxZoom = <%= style.maxzoom %>;
+var map, tiles, grids, gridc;
 
 statHandler('drawtime')();
 
@@ -440,8 +413,16 @@ Editor.prototype.messageClear = function() {
 Editor.prototype.refresh = function(ev) {
   this.messageClear();
 
+  if (!map) {
+    map = L.mapbox.map('map');
+    map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
+  }
+  map.options.minZoom = this.model.get('minzoom');
+  map.options.maxZoom = this.model.get('maxzoom');
+
   // Refresh map layer.
-  map.removeLayer(tiles);
+  if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
     tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
@@ -450,29 +431,31 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', statHandler('drawtime'))
   .on('load', errorHandler)
   .addTo(map);
-  map.options.minZoom = this.model.get('minzoom');
-  map.options.maxZoom = this.model.get('maxzoom');
 
-  // Set canvas background color.
-  if (this.model.get('background'))
-    $('#map').css({'background-color':this.model.get('background')});
+  // Refresh gridcontrol template.
+  if (grids) map.removeLayer(grids);
+  if (gridc) map.removeControl(gridc);
+  if (this.model.get('template') && this.model.get('interactivity_layer')) {
+    grids = L.mapbox.gridLayer({
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
+      minzoom: this.model.get('minzoom'),
+      maxzoom: 22
+    });
+    gridc = L.mapbox.gridControl(grids, {
+      follow: true,
+      template: this.model.get('template')
+    });
+    map.addLayer(grids);
+    map.addControl(gridc);
+  }
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
   $('#title .name').text(this.model.get('name') || 'Untitled');
 
-  // Refresh gridcontrol template.
-  gridcontrol.setTemplate(this.model.get('template'));
-  if (this.model.get('template') && this.model.get('interactivity_layer')) {
-    grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
-      minzoom: this.model.get('minzoom'),
-      maxzoom: this.model.get('maxzoom')
-    });
-    map.addLayer(grids);
-  } else {
-    map.removeLayer(grids);
-  }
+  // Set canvas background color.
+  if (this.model.get('background'))
+    $('#map').css({'background-color':this.model.get('background')});
 
   return false;
 };
@@ -480,6 +463,7 @@ var editor = new Editor({
   el: document.body,
   model: new Style(<%= JSON.stringify(style) %>)
 });
+editor.refresh();
 
 <% if (style._tmp) { %>
 var browser = new views.Browser({

@@ -390,6 +390,8 @@ Editor.prototype.refresh = function(ev) {
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
   }
+  map.options.minZoom = this.model.get('minzoom');
+  map.options.maxZoom = 22;
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
@@ -401,12 +403,6 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', statHandler('srcbytes'))
   .on('load', errorHandler)
   .addTo(map);
-  map.options.minZoom = this.model.get('minzoom');
-  map.options.maxZoom = 22;
-
-  // Refresh map title.
-  $('title').text(this.model.get('name'));
-  $('#title .name').text(this.model.get('name') || 'Untitled');
 
   // Refresh gridcontrol template.
   if (grids) map.removeLayer(grids);
@@ -424,6 +420,10 @@ Editor.prototype.refresh = function(ev) {
     map.addLayer(grids);
     map.addControl(gridc);
   }
+
+  // Refresh map title.
+  $('title').text(this.model.get('name'));
+  $('#title .name').text(this.model.get('name') || 'Untitled');
 
   // Rerender fields forms.
   _(layers).each(function(l) { l.refresh() });
