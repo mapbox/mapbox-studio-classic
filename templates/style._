@@ -205,8 +205,6 @@ var tiles = L.mapbox.tileLayer({
 .on('load', errorHandler)
 .addTo(map);
 
-// @TODO enable/disable this layer + control based on style's
-// current interactivity state.
 var grids = L.mapbox.gridLayer({
   grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=<%=style.mtime%>'],
   minzoom: <%= style.minzoom %>,

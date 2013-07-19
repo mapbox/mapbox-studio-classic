@@ -230,7 +230,8 @@ app.get('/:source(source):history()', function(req, res, next) {
 app.put('/:source(source)', function(req, res, next) {
     res.send({
         mtime:req.source.data.mtime,
-        vector_layers:req.source.data.vector_layers
+        vector_layers:req.source.data.vector_layers,
+        _template:req.source.data._template
     });
 });
 

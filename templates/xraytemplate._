@@ -1,0 +1,7 @@
+{{#__full__}}
+<% _(obj).each(function(field) { %>
+{{#<%=field%>}}
+<div><label class='inline xray'><%=field%></label>{{<%=field%>}}</div>
+{{/<%=field%>}}
+<% }); %>
+{{/__full__}}

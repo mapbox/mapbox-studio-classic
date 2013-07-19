@@ -30,3 +30,17 @@
 
 .sql .editor > div.sql { visibility:visible; }
 .sql .editor .CodeMirror { visibility:visible; }
+
+/* XRay tools */
+.xrayswatch,
+.xrayinspector {
+  display:inline-block;
+  border-radius:2px;
+  background:rgba(0,0,0,0.1);
+  margin-right:5px;
+  box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
+  }
+.xrayswatch.disabled { background:rgba(0,0,0,0.1) !important; }
+.xrayswatch.disabled::before { visibility:hidden; }
+.xrayinspector::before { visibility:hidden; }
+.xrayinspector.active::before { visibility:visible; }

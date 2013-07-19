@@ -47,7 +47,7 @@ revlayers.reverse();
     <% } %>
   </nav>
   <div class='menu-content'>
-  <% _(revlayers).each(function(l) { print(this.layeritem(l)) }.bind(this)); %>
+  <% _(revlayers).each(function(l) { print(this.layeritem(_({_prefs:source._prefs}).extend(l))) }.bind(this)); %>
   </div>
 </div>
 <div id='editor'>
@@ -144,22 +144,23 @@ revlayers.reverse();
 <script src='/app/lib.js'></script>
 
 <script>
-var map = L.mapbox.map('map');
-var tiles = L.mapbox.tileLayer({
-  tiles: ['/style/{z}/{x}/{y}.png?id=<%=source._style%>&mtime=<%=source.mtime%>'],
-  minzoom: <%= source.minzoom %>,
-  maxzoom: 22
-})
-.on('tileload', statHandler('srcbytes'))
-.on('load', errorHandler)
-.addTo(map);
+var map, tiles, grids, gridc;
+
+var templates = {};
+templates.layeritem = <%= this.layeritem.source %>;
+templates.layerconf = <%= this.layerconf.source %>;
+templates.layerfields = <%= this.layerfields.source %>;
+templates.layershape = <%= this.layershape.source %>;
+templates.layerpostgis = <%= this.layerpostgis.source %>;
+templates.layergeojson = <%= this.layergeojson.source %>;
+templates.layersqlite = <%= this.layersqlite.source %>;
+templates.layercsv = <%= this.layercsv.source %>;
+templates.xraycolor = <%= this.xraycolor.source %>;
+
+var tm = {};
+tm.srs = <%= JSON.stringify(tm.srs) %>;
 
 statHandler('srcbytes')();
-
-map.setView([<%=source.center[1]%>, <%=source.center[0]%>], <%=source.center[2]%>);
-map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
-map.options.minZoom = <%= source.minzoom %>;
-map.options.maxZoom = 22;
 
 var Layer = function(id, datasource) {
   var code;
@@ -222,6 +223,7 @@ Editor.prototype.events = {
   'click .editor nav .joined a': 'togglemode',
   'click a.layer .delete': 'deletelayer',
   'click a.layer .xrayswatch': 'togglelayer',
+  'click a.layer .xrayinspector': 'toggleinspector',
   'click a.browsefile': 'browsefile',
   'click #settings a.tab': 'tabbed',
   'submit #addlayer': 'addlayer',
@@ -260,6 +262,11 @@ Editor.prototype.togglemode = function(ev) {
 };
 Editor.prototype.togglelayer = function(ev) {
   $(ev.currentTarget).toggleClass('disabled');
+  return false;
+};
+Editor.prototype.toggleinspector = function(ev) {
+  $('a.layer span.xrayinspector.active').removeClass('active');
+  $(ev.currentTarget).addClass('active');
   return false;
 };
 Editor.prototype.addlayer = function(ev) {
@@ -358,6 +365,9 @@ Editor.prototype.save = function(ev, options) {
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
+  attr._prefs.inspector = $('#layers a.layer:has(.xrayinspector.active)').size()
+    ? $('#layers a.layer:has(.xrayinspector.active)').attr('href').split('#layers-').pop()
+    : false;
   attr._prefs.disabled = _($('#layers a.layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
         ? $(this).attr('href').split('#layers-').pop()
@@ -375,8 +385,14 @@ Editor.prototype.save = function(ev, options) {
 Editor.prototype.refresh = function(ev) {
   this.messageClear();
 
+  if (!map) {
+    map = L.mapbox.map('map');
+    map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
+  }
+
   // Refresh map layer.
-  map.removeLayer(tiles);
+  if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
     tiles: ['/style/{z}/{x}/{y}.png?id=<%=source._style%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
@@ -392,6 +408,23 @@ Editor.prototype.refresh = function(ev) {
   $('title').text(this.model.get('name'));
   $('#title .name').text(this.model.get('name') || 'Untitled');
 
+  // Refresh gridcontrol template.
+  if (grids) map.removeLayer(grids);
+  if (gridc) map.removeControl(gridc);
+  if (this.model.get('_template')) {
+    grids = L.mapbox.gridLayer({
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=source._style%>&mtime=' + this.model.get('mtime') ],
+      minzoom: this.model.get('minzoom'),
+      maxzoom: 22
+    });
+    gridc = L.mapbox.gridControl(grids, {
+      follow: true,
+      template: this.model.get('_template')
+    });
+    map.addLayer(grids);
+    map.addControl(gridc);
+  }
+
   // Rerender fields forms.
   _(layers).each(function(l) { l.refresh() });
 
@@ -406,10 +439,12 @@ Editor.prototype.browsefile = function(ev) {
 };
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
+
 var editor = new Editor({
   el: document.body,
   model: new Source(<%= JSON.stringify(source) %>)
 });
+editor.refresh();
 
 <% if (source._tmp) { %>
 // Browse view.
@@ -466,20 +501,6 @@ $('#layers .menu-content').bind('sortupdate', function(ev, ui) {
   }, {});
 });
 <% } %>
-
-var templates = {};
-templates.layeritem = <%= this.layeritem.source %>;
-templates.layerconf = <%= this.layerconf.source %>;
-templates.layerfields = <%= this.layerfields.source %>;
-templates.layershape = <%= this.layershape.source %>;
-templates.layerpostgis = <%= this.layerpostgis.source %>;
-templates.layergeojson = <%= this.layergeojson.source %>;
-templates.layersqlite = <%= this.layersqlite.source %>;
-templates.layercsv = <%= this.layercsv.source %>;
-templates.xraycolor = <%= this.xraycolor.source %>;
-
-var tm = {};
-tm.srs = <%= JSON.stringify(tm.srs) %>;
 </script>
 </body>
 
