@@ -57,7 +57,7 @@ Building TM2
 Dependencies are:
 
  - Mapnik v2.2.0
- - Node.js v0.8 or v0.10
+ - Node.js v0.8.x or v0.10.x
  - Protobuf compiler and libprotobuf-lite
 
 ### Mac OS X
@@ -71,6 +71,8 @@ Then install/upgrade mapnik, node, and libprotobuf with homebrew:
     brew install mapnik || brew upgrade mapnik
     brew install node || brew upgrade node
     brew install protobuf || brew upgrade protobuf
+
+Note: you can also install node via the easy installer available at <http://nodejs.org/download>.
 
 Finally install and run TileMill 2:
 
