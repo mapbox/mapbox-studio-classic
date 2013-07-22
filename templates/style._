@@ -195,7 +195,7 @@
 <script src='/app/codemirror.carto.js'></script>
 <script src='/app/codemirror.carto.complete.js'></script>
 <script>
-var map, tiles, grids, gridc;
+var map, baselayer, tiles, grids, gridc;
 
 statHandler('drawtime')();
 
@@ -420,6 +420,13 @@ Editor.prototype.refresh = function(ev) {
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
+
+  // Refresh map baselayer.
+  if (this.model.get('_prefs').baselayer) {
+    baselayer = L.mapbox.tileLayer(this.model.get('_prefs').baselayer).addTo(map);
+  } else if (baselayer) {
+    map.removeLayer(baselayer);
+  }
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
