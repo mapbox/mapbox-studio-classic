@@ -423,7 +423,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map baselayer.
   if (this.model.get('_prefs').baselayer) {
-    baselayer = L.mapbox.tileLayer(this.model.get('_prefs').baselayer).addTo(map);
+    baselayer = baselayer || L.mapbox.tileLayer(this.model.get('_prefs').baselayer).addTo(map);
   } else if (baselayer) {
     map.removeLayer(baselayer);
   }
