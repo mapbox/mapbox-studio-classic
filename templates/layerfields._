@@ -1,6 +1,6 @@
 <% _(obj).each(function(helptext, field) { %>
 <section class='thin'><!--
   --><label class='w1'><%= field %></label><!--
-  --><input class='w3' name='fields-<%=field%>' type='text' value='<%=helptext%>' />
+  --><input class='w3' name='fields-<%=field%>' type='text' value='<%=_(helptext).escape()%>' />
 </section>
 <% }); %>
