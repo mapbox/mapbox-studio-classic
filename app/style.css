@@ -135,28 +135,26 @@
 #docs:target article.active { display:block; }
 #docs article {
   position:absolute;
-  top:120px; bottom:0px; width:100%;
+  top:40px; bottom:0px; width:100%;
   display:none;
   overflow:auto;
   }
 #docs nav {
   display:none;
   position:absolute;
-  height:90px;
+  height:40px;
+  border-bottom:1px solid #ccc;
   width:100%;
   right:0px; top:0px;
   }
 #docs nav a {
   overflow:hidden;
-  height:30px;
-  padding:5px 10px 4px;
+  height:40px;
+  width:16.6666%;
+  padding:10px 15px 9px 10px;
+  border-right:1px solid #ccc;
   border-bottom:1px solid #ccc;
-  border-left:1px solid #ccc;
-  width:25%;
-  text-align:center;
   }
-#docs nav a:nth-child(1),
-#docs nav a:nth-child(2) { width:12.5%; }
 #docs nav a.active { background:#eee; }
 
 #docs code.type,

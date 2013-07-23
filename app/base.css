@@ -235,6 +235,7 @@ input.wide[type=submit] {
 .icon.mapbox:before { background-position-x:-540px; }
 .icon.local:before { background-position-x:-560px; }
 .icon.remote:before { background-position-x:-580px; }
+.icon.text:before { background-position-x:-600px; }
 .icon.padded:before { margin-right:5px; }
 
 nav { white-space:nowrap; }

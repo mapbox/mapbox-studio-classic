@@ -1,8 +1,38 @@
+<%
+var sections = {
+    intro: null,
+    points: {
+        markers: symbolizers.markers,
+        point: symbolizers.point
+    },
+    lines: {
+        line: symbolizers.line,
+        'line-pattern': symbolizers['line-pattern']
+    },
+    polygons: {
+        polygon: symbolizers.polygon,
+        'polygon-pattern': symbolizers['polygon-pattern'],
+        building: symbolizers['building']
+    },
+    // @TODO Currently unsupported by TM2.
+    // raster: { raster: symbolizers.raster },
+    text: {
+        text: symbolizers.text
+    },
+    misc: {
+        misc: symbolizers['*'],
+        debug: symbolizers.debug
+    }
+};
+%>
+
 <nav><!--
-  --><a href='#docs-intro' class='icon home active'></a><!--
-  <% _(symbolizers).chain().keys().each(function(name, i) { %>
-  --><a href='#docs-<%= name.replace(/[^\w+]/g,'_') %>'><%= name %></a><% if (i%4 === 3) { %><br/><% } %><!--
-  <% }); %>
+--><a href='#docs-intro' class='icon home'>Intro</a><!--
+--><a href='#docs-points' class='icon point'>Points</a><!--
+--><a href='#docs-lines' class='icon line'>Lines</a><!--
+--><a href='#docs-polygons' class='icon polygon'>Polygons</a><!--
+--><a href='#docs-text' class='icon text'>Text</a><!--
+--><a href='#docs-misc' class='icon star'>Misc</a><!--
 --></nav>
 
 <article id='docs-intro' class='active'>
@@ -144,9 +174,9 @@
 </section>
 </article>
 
-<% _(symbolizers).each(function(symbolizer, name) { %>
+<% _(sections).each(function(symbolizers, name) { %>
 <article id='docs-<%= name.replace(/[^\w+]/g,'_') %>'>
-  <section><h2><%= name %></h2></section>
+  <% _(symbolizers).each(function(symbolizer) { %>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
@@ -160,6 +190,7 @@
   <% if (_(p.type).isArray()) { %><code class='options'><%= p.type.join(' ') %></code><% } %>
   <% if (p.doc) { %><div class='description'><%=p.doc%></div><% } %>
   </section>
+  <% }); %>
   <% }); %>
 </article>
 <% }); %>
