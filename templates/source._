@@ -180,7 +180,7 @@ var Layer = function(id, datasource) {
   layer.refresh = function() {
     var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
     var fields = l.fields || {};
-    $('div.fields', layer.fields).html(templates.layerfields(fields));
+    $('div.fields', layer.form).html(templates.layerfields(fields));
   };
   layer.get = function() {
     var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
