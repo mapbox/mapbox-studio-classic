@@ -215,7 +215,7 @@ var layers = _(<%=JSON.stringify(revlayers)%>).reduce(function(memo, l) {
 }, {});
 
 var Source = Backbone.Model.extend({});
-Source.prototype.url = function() { return '/source?id=' + this.get('id'); };
+Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {

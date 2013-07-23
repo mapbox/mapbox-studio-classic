@@ -116,12 +116,14 @@ app.param('history', function(req, res, next) {
     load(type, queue);
 });
 
-app.put('/:style(style)', function(req, res, next) {
-    res.send({
+app.all('/:style(style.json)', function(req, res, next) {
+    if (req.method === 'GET') return res.send(req.style.data);
+    if (req.method === 'PUT') return res.send({
         _recache:false,
         mtime:req.style.data.mtime,
         background:req.style.data.background
     });
+    next();
 });
 
 app.get('/:style(style):history()', function(req, res, next) {
@@ -227,12 +229,14 @@ app.get('/:source(source):history()', function(req, res, next) {
     }));
 });
 
-app.put('/:source(source)', function(req, res, next) {
-    res.send({
+app.all('/:source(source.json)', function(req, res, next) {
+    if (req.method === 'GET') return res.send(req.source.data);
+    if (req.method === 'PUT') return res.send({
         mtime:req.source.data.mtime,
         vector_layers:req.source.data.vector_layers,
         _template:req.source.data._template
     });
+    next();
 });
 
 app.get('/export/:style(package)', function(req, res, next) {

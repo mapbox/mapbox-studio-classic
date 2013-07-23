@@ -24,9 +24,12 @@
   <div class='clearfix grid'>
     <%
     print(_(history.source).chain()
-      .filter(function(item) { return item.id !== style.source; })
-      .sortBy(function(item) { return item.name.toLowerCase(); })
-      .map(this.sourceitem)
+      .sortBy(function(item) {
+        return item.name.toLowerCase();
+      })
+      .map(function(item) {
+        return this.sourceitem(_({active:item.id === style.source}).defaults(item));
+      }.bind(this))
       .value().join('\n'));
     %>
   </div>
@@ -103,7 +106,7 @@
     <a href='#layers' class='button title data-y icon close'>Data</a>
   </nav>
   <div class='menu-content'>
-  <%= _(sources).map(this.sourceitem).join('\n') %>
+  <%= _(sources).map(this.sourcelayers).join('\n') %>
   </div>
 </div>
 
@@ -197,6 +200,10 @@
 <script>
 var map, baselayer, tiles, grids, gridc;
 
+var templates = {};
+templates.sourceitem = <%= this.sourceitem.source %>;
+templates.sourcelayers = <%= this.sourcelayers.source %>;
+
 statHandler('drawtime')();
 
 var Tab = function(id, value) {
@@ -245,9 +252,10 @@ code['template'] = Tab('template', <%=JSON.stringify(style.template)%>);
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
 var Style = Backbone.Model.extend({});
-Style.prototype.url = function() {
-  return '/style?id=' + this.get('id');
-};
+Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
+
+var Source = Backbone.Model.extend({});
+Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
@@ -262,8 +270,7 @@ Editor.prototype.events = {
   'click #menu nav a': 'tabbed',
   'click #settings a.tab': 'tabbed',
   'click #layers a': 'tabbed',
-  'click #data .source a': 'data',
-  'click #layers a.delete': 'data',
+  'click #data a.cell': 'adddata',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -289,17 +296,18 @@ Editor.prototype.keys = function(ev) {
 };
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
-Editor.prototype.data = function(ev) {
-  var target = $(ev.currentTarget).parent();
-  if (target.parents('#layers').size()) {
-    target.appendTo($('#data .grid'));
-  } else {
-    // Remove all other layers as we don't support compositing for now.
-    $('#layers div.source').each(function() {
-      $(this).appendTo('#data .grid');
-    });
-    target.appendTo($('#layers .menu-content'));
-  }
+Editor.prototype.adddata = function(ev) {
+  var target = $(ev.currentTarget);
+  if (target.is('.active')) return false;
+  var id = target.attr('href').split('#source-').pop();
+  (new Source({id:id})).fetch({
+    success: _(function(model, resp) {
+      $('#data a.active').removeClass('active');
+      $('#layers .menu-content').html(templates.sourcelayers(resp));
+      target.addClass('active');
+    }).bind(this),
+    error: _(this.error).bind(this)
+  });
   return false;
 };
 Editor.prototype.addtab = function(ev) {

@@ -1,43 +1,5 @@
-<% var layerCount = _(obj.Layer||{}).size(); %>
-<div id='source-<%=obj.id%>' class='source'>
-<a href='#data' class='cell'><span class='thumbed'>
+<a href='#source-<%=obj.id%>' class='cell <%=obj.active ? 'active' : ''%>'><span class='thumbed'>
   <span class='image' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
-  <strong><%= obj.name %></strong>
+  <strong><%= obj.name || 'Untitled' %></strong>
   <span class='desc'><%= obj.description || 'No description.' %></span>
 </span></a>
-
-<h3><%= obj.name %></h3>
-<div class='joined sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
-  <% if (obj.tiles) { %>
-  <span class='button'>Remote</span><!--
-  --><a class='button icon recache' href='#recache'></a>
-  <% } else { %>
-  <span class='button'>Local</span><!--
-  --><a class='button icon recache' href='#recache'></a>
-  <% } %>
-</div>
-
-<!--
-@TODO currently this button is a trap as it can leave a style in a state
-with no sources. Once vector tile compositing is available revisit.
-<a class='delete icon close' href='#delete'></a>
--->
-
-<% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
-<a class='layer' id='layers-<%=l.id%>' href='#layers-<%=l.id%>'>
-  <span class='geometry icon <%=l.geometry||'unknown'%>'></span>
-  <%=l.id%>
-  <span class='zooms'>
-    <% if (!l.maxzoom) { %>
-    z<%= l.minzoom||0 %>+
-    <% } else { %>
-    z<%= l.minzoom||0 %>-<%= l.maxzoom||22 %>
-    <% } %>
-  </span>
-  <small class='desc'><%=l.description||'No description.'%></small>
-  <% _(l.fields||{}).each(function(desc,name) { %>
-  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
-  <% }); %>
-</a>
-<% }); %>
-</div>
