@@ -160,7 +160,7 @@
     <select name='interactivity_layer'>
       <option value=''>&lt; choose layer &gt;</option>
       <% _(sources).each(function(source) { %>
-      <% _(source.Layer||{}).each(function(l) { %>
+      <% _(source.vector_layers||{}).each(function(l) { %>
       <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
       <% }); %>
       <% }); %>
