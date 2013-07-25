@@ -6,8 +6,8 @@
 // - pattern, optional input field pattern
 // - label, optional defaults to 'Save'
 %>
-<form id='<%=obj.id%>' class='modal browser dark'>
-  <a class='button icon close' href='#'></a>
+<form id='<%=obj.id%>' class='modal browser'>
+  <a class='button icon close submit' href='#'></a>
   <div class='cwd'>
     <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
     <strong><%=cwd%></strong>

@@ -961,7 +961,7 @@ span.cm-carto-filter             { color:#66475B; }
 .modal.browser .list {
   top:50px; bottom:50px;
   overflow:auto;
-  background:#3c3c3c;
+  background:rgba(0,0,0,0.1);
   }
 .modal.browser .list a {
   display:block;
