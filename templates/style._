@@ -191,8 +191,8 @@
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 
-<form id='addtab' class='modal dark centered'>
-  <a class='button icon close' href='#'></a>
+<form id='addtab' class='modal centered'>
+  <a class='button submit icon close' href='#'></a>
   <span class='joined'>
     <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
     --><input type='submit' value='New tab'/>

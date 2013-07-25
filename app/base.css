@@ -710,9 +710,9 @@ nav > a {
   padding:20px;
   border-radius:4px;
   width:320px;
-  background:#444;
-  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 3px;
   margin:0px 0px 0px -160px;
+  background:#ddd;
+  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 3px;
   }
 .modal .close {
   position:absolute; top:-15px; right:-15px;
@@ -722,10 +722,13 @@ nav > a {
   display:none;
   position:absolute; z-index:2000;
   width:100%; height:100%;
-  background:rgba(0,0,0,0.8);
+  background:rgba(224,224,224,0.8);
   }
 .modal:target,
 .modal:target ~ #mask { display:block; }
+
+.dark .modal { background:#444; }
+.dark #mask { background:rgba(0,0,0,0.8); }
 
 /* Forms */
 select,
