@@ -130,6 +130,7 @@ app.get('/:style(style):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
     return res.send(tm.templates.style({
         cwd: process.env.HOME,
+        fontsRef: require('mapnik').fonts(),
         cartoRef: require('carto').tree.Reference.data,
         sources: [req.style._backend.data],
         style: req.style.data,
@@ -268,6 +269,18 @@ app.get('/thumb.png', function(req, res, next) {
         headers['content-type'] = 'image/png';
         res.set(headers);
         res.send(thumb);
+    });
+});
+
+app.get('/font.png', function(req, res, next) {
+    if (!req.query.id) return next(new Error('No id specified'));
+    tm.font(req.query.id, function(err, buffer) {
+        if (err) return next(err);
+        var headers = {};
+        headers['cache-control'] = 'max-age=3600';
+        headers['content-type'] = 'image/png';
+        res.set(headers);
+        res.send(buffer);
     });
 });
 

@@ -129,7 +129,9 @@
   }
 
 /* Carto ref docs */
+#fonts:target ~ * a.docs-y,
 #docs:target ~ * a.docs-y { display:block; }
+#fonts:target ~ * a.docs-n,
 #docs:target ~ * a.docs-n { display:none; }
 #docs:target nav,
 #docs:target article.active { display:block; }
@@ -156,6 +158,12 @@
   border-bottom:1px solid #ccc;
   }
 #docs nav a.active { background:#eee; }
+#docs section a.fonts {
+  position:absolute;
+  right:0px;
+  margin:5px 0px;
+  border-radius:4px 0px 0px 4px;
+  }
 
 #docs code.type,
 #docs code.value,
@@ -175,6 +183,16 @@
 #docs code.value,
 #docs code.options { font-size:80%; }
 #docs code.options { display:block; margin-bottom:10px; }
+
+/* Font book */
+#fonts .font {
+  height:30px;
+  display:block;
+  background:#eee;
+  border-radius:3px;
+  background-position:10px 50%;
+  background-repeat:no-repeat;
+  }
 
 /* Data library */
 #data a.active { opacity:0.5; }

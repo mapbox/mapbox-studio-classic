@@ -17,7 +17,8 @@ var sections = {
     // @TODO Currently unsupported by TM2.
     // raster: { raster: symbolizers.raster },
     text: {
-        text: symbolizers.text
+        text: symbolizers.text,
+        shield: symbolizers.shield
     },
     misc: {
         misc: symbolizers['*'],
@@ -182,6 +183,9 @@ var sections = {
       .each(function(p, name) {
   %>
   <section>
+  <% if (/face-name/.test(p.css)) { %>
+    <a href='#fonts' class='button wide submit fonts icon search'>View fonts</a>
+  <% } %>
   <strong><code><%= p.css %>:</code></strong>
   <code class='type'><%=_(p.type).isArray() ? 'option' : p.type%></code>
   <% if (p['default-value'] && p['default-value']!=='none') { %>

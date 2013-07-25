@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Map srs='+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>
+  <Style name='font'>
+    <Rule>
+      <TextSymbolizer
+        size='13'
+        fill='#666'
+        clip='false'
+        face-name='<%=obj%>'
+        horizontal-alignment='right'
+        placement='point'><![CDATA[[name]]]></TextSymbolizer>
+      <PointSymbolizer></PointSymbolizer>
+    </Rule>
+  </Style>
+  <Layer name='font' srs='+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>
+    <StyleName>font</StyleName>
+    <Datasource>
+      <Parameter name='type'>csv</Parameter>
+      <Parameter name='inline'>
+        x|y|name
+        -180.0|0|<%=obj%>
+      </Parameter>
+    </Datasource>
+  </Layer>
+</Map>

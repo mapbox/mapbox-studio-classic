@@ -141,6 +141,20 @@
   <%= this['styledocs'](cartoRef) %>
 </div>
 
+<div id='fonts' class='pane w2'>
+  <nav><a class='button icon close' href='#docs'></a></nav>
+  <section>
+    <h2>Fonts</h2>
+  </section>
+  <div class='grid clearfix'>
+  <% fontsRef.forEach(function(font) { %>
+    <div class='cell'>
+      <a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a>
+    </div>
+  <% }); %>
+  </div>
+</div>
+
 <div id='code' class='column w2 l2'>
   <div class='left'>
     <a class='button docs-n icon code' href='#docs'></a>
