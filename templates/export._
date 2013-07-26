@@ -55,7 +55,7 @@ Exporter.prototype.poll = function() {
       if (!model.get('task')) {
         view.refresh();
       } else {
-        setTimeout(view.poll, 1000);
+        view.timeout = setTimeout(view.poll, 1000);
       }
     },
     error:function() {}
@@ -99,6 +99,7 @@ Exporter.prototype.recache = function() {
 };
 Exporter.prototype.cancel = function(ev) {
   var href = $(ev.currentTarget).attr('href');
+  if (this.timeout) clearTimeout(this.timeout);
   this.model.destroy({
     success: function() { window.location.href = href }
   });
