@@ -22,6 +22,35 @@ after(function(done) {
     done();
 });
 
+describe('source util', function() {
+    it('normalize', function() {
+        var n = source.normalize({
+            id: 'tmsource://' + __dirname + '/fixtures-localsource',
+            Layer: [{
+                id: 'box',
+                fields: {
+                    Id: 'Valid helptext for a field',
+                    missing: 'Invalid helptext no field named missing'
+                },
+                Datasource: {
+                    type: 'shape',
+                    file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+                    bogus: 'true'
+                }
+            }]
+        });
+        assert.deepEqual(n.Layer.length, 1);
+        assert.deepEqual(n.vector_layers.length, 1);
+        assert.deepEqual(n.vector_layers[0].fields, {'Id':'Valid helptext for a field'},
+            'Populates field help');
+        assert.deepEqual(Object.keys(tm.sortkeys(n.Layer[0])), ['id','Datasource','description','fields','properties','srs'],
+            'Populates deep defaults in Layer objects');
+        assert.deepEqual(Object.keys(tm.sortkeys(n.Layer[0].Datasource)), ['file','type'],
+            'Strips invalid datasource properties based on type');
+        // @TODO check postgis auto srs extent generation ... without postgis.
+    });
+});
+
 describe('source remote', function() {
     it('loads', function(done) {
         source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
