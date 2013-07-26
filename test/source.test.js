@@ -23,16 +23,6 @@ after(function(done) {
 });
 
 describe('source util', function() {
-    it('tmpid', function() {
-        assert.ok(source.tmpid(source.tmpid()));
-        assert.ok(source.tmpid() !== source.tmpid());
-        assert.ok(source.tmpid('hello', true) === source.tmpid('hello', true));
-        assert.ok(source.tmpid(source.tmpid('hello world', true)));
-        assert.ok(!source.tmpid('tmsource:///real/ish/path'));
-        assert.ok(!source.tmpid('tmsource:///tmp-1234'));
-        assert.ok(!source.tmpid('mapbox:///tmp-1234'));
-        assert.ok(source.tmpid('tmsource:///tmp-12345678'));
-    });
     it('normalize', function() {
         var n = source.normalize({
             id: 'tmsource://' + __dirname + '/fixtures-localsource',

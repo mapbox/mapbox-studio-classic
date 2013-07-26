@@ -128,4 +128,17 @@ describe('tm', function() {
             done();
         });
     });
+
+    it('tmpid', function() {
+        ['tmsource:', 'tmstyle:'].forEach(function(protocol) {
+            assert.ok(tm.tmpid(protocol, tm.tmpid(protocol)));
+            assert.ok(tm.tmpid(protocol) !== tm.tmpid(protocol));
+            assert.ok(tm.tmpid(protocol, 'hello', true) === tm.tmpid(protocol, 'hello', true));
+            assert.ok(tm.tmpid(protocol, tm.tmpid(protocol, 'hello world', true)));
+            assert.ok(!tm.tmpid(protocol, protocol + '///real/ish/path'));
+            assert.ok(!tm.tmpid(protocol, protocol + '///tmp-1234'));
+            assert.ok(!tm.tmpid(protocol, 'mapbox:///tmp-1234'));
+            assert.ok(tm.tmpid(protocol, protocol + '///tmp-12345678'));
+        });
+    });
 });
