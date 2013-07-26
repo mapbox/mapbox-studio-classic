@@ -1,0 +1,12 @@
+<%
+// Elegant approach from http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
+print((function(size) {
+  var i = -1;
+  var units = ['kB','MB','GB'];
+  do {
+    size /= 1024;
+    i++;
+  } while (size > 1024);
+  return Math.max(size, 0.1).toFixed(1) + ' ' + units[i];
+})(obj));
+%>

@@ -38,8 +38,8 @@ body {
   }
 
 body.dark {
-  background:#444;
-  background-image:-webkit-linear-gradient(#444 75%,#333);
+  background:#333;
+  background-image:-webkit-linear-gradient(#333 75%,#222);
   }
 
 .dark { color:#fff; }
@@ -184,6 +184,26 @@ input.wide[type=submit] {
   }
 .button.icon:empty { width:30px; padding:5px; }
 
+.button.big {
+  height:60px;
+  padding:20px;
+  font-size:125%;
+  text-align:left;
+  min-width:120px;
+  }
+.button.big.icon {
+  padding-left:60px;
+  position:relative;
+  }
+.button.big.icon::before {
+  position:absolute;
+  left:20px;
+  top:20px;
+  border-radius:4px;
+  background-color:rgba(255,255,255,0.4);
+  }
+.dark .button.big.icon::before { background-color:rgba(0,0,0,0.2); }
+
 .joined { white-space:nowrap; }
 .joined > * { border-radius:0px !important; margin-right:1px !important; }
 .joined > *:first-child { border-radius:3px 0px 0px 3px !important; }
@@ -206,6 +226,7 @@ input.wide[type=submit] {
 .icon.sql:before,
 .icon.edit:before { background-position-x:-20px; }
 .icon.search:before { background-position-x:-40px; }
+.icon.cancel:before,
 .icon.close:before { background-position-x:-60px; }
 .icon.full:before { background-position-x:-80px; }
 .icon.plus:before { background-position-x:-100px; }
@@ -231,6 +252,7 @@ input.wide[type=submit] {
 .icon.prev:before { background-position-x:-460px; }
 .icon.next:before { background-position-x:-480px; }
 .icon.unknown:before { background-position-x:-500px; }
+.icon.export:before,
 .icon.package:before { background-position-x:-520px; }
 .icon.mapbox:before { background-position-x:-540px; }
 .icon.local:before { background-position-x:-560px; }
@@ -724,6 +746,7 @@ nav > a {
   width:100%; height:100%;
   background:rgba(224,224,224,0.8);
   }
+.modal.target,
 .modal:target,
 .modal:target ~ #mask { display:block; }
 

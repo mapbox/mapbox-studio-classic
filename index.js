@@ -31,7 +31,21 @@ app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
-app.param('style', function(req, res, next) {
+// Check for an active export. If present, redirect to the export page
+// effectively locking the application from use until export is complete.
+function exporting(req, res, next) {
+    tm.copytask(null, null, function(err, job) {
+        if (err) {
+            next(err);
+        } else if (job && (req.path !== '/mbtiles' || req.query.id !== job.id)) {
+            res.redirect('/mbtiles?id=' + job.id);
+        } else {
+            next();
+        }
+    });
+};
+
+app.param('style', exporting, function(req, res, next) {
     // @TODO...
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
         source.invalidate(req.body.source, next);
@@ -60,7 +74,7 @@ app.param('style', function(req, res, next) {
     next();
 });
 
-app.param('source', function(req, res, next) {
+app.param('source', exporting, function(req, res, next) {
     if (req.method === 'PUT' && req.query.id) {
         source.invalidate(req.query.id, next);
     } else {
@@ -214,9 +228,57 @@ app.get('/:style(style).xml', function(req, res, next) {
     return res.send(req.style._xml);
 });
 
+app.get('/:style(style).tm2z', function(req, res, next) {
+    style.toPackage(req.style.data.id, res, function(err) {
+        if (err) next(err);
+        res.end();
+    });
+});
+
 app.get('/:source(source).xml', function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.source._xml);
+});
+
+app.get('/:source(source).mbtiles', function(req, res, next) {
+    res.set({'content-type':'text/xml'});
+    source.toMBTiles(req.source.data.id, res, function(err) {
+        if (err) next(err);
+        res.end();
+    });
+});
+
+app.all('/mbtiles', function(req, res, next) {
+    source.info(req.query.id, function(err, info) {
+        if (err) return next(err);
+        source.mbtiles(req.query.id, false, function(err, job) {
+            if (err) return next(err);
+            if (/application\/json/.test(req.headers.accept||'')) {
+                res.send(job);
+            } else {
+                res.set({'content-type':'text/html'});
+                res.send(tm.templates.export({
+                    tm: tm,
+                    job: job,
+                    source: info
+                }));
+            }
+        });
+    });
+});
+
+app.all('/mbtiles.json', function(req, res, next) {
+    if (req.method === 'DELETE') return tm.cleartask(function(err) {
+        if (err) return next(err);
+        res.send({});
+    });
+    source.info(req.query.id, function(err, info) {
+        if (err) return next(err);
+        source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
+            if (err) return next(err);
+            res.send(job);
+        });
+    });
 });
 
 app.get('/:source(source):history()', function(req, res, next) {
@@ -238,15 +300,6 @@ app.all('/:source(source.json)', function(req, res, next) {
         _template:req.source.data._template
     });
     next();
-});
-
-app.get('/export/:style(package)', function(req, res, next) {
-    var basename = path.basename(req.style.data.id, '.tm2');
-    res.setHeader('content-disposition', 'attachment; filename="'+basename+'.tm2z"');
-    style.toPackage(req.style.data.id, res, function(err) {
-        if (err) next(err);
-        res.end();
-    });
 });
 
 app.get('/browse*', function(req, res, next) {

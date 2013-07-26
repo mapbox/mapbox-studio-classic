@@ -97,6 +97,9 @@ revlayers.reverse();
   </section>
   <section class='righted'>
     <a href='#' class='button wide submit icon okay save'>Save</a>
+    <% if (!remote) { %>
+    <a href='/mbtiles?id=<%= source.id %>' class='button wide submit icon package'>Export</a>
+    <% } %>
   </section>
 </div>
 </form>
@@ -116,8 +119,9 @@ revlayers.reverse();
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 
-<form id='addlayer' class='modal dark centered'>
-  <a class='button icon close' href='#'></a>
+<% if (!remote) { %>
+<form id='addlayer' class='modal centered'>
+  <a class='button icon close submit' href='#'></a>
   <p class='joined'>
     <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
     --><select name='type'>
@@ -130,6 +134,7 @@ revlayers.reverse();
   </p>
   <input type='submit' value='New layer'/>
 </form>
+<% } %>
 
 <div id='mask'></div>
 
@@ -316,25 +321,11 @@ Editor.prototype.deletelayer = function(ev) {
 };
 Editor.prototype.error = function(model, resp) {
   this.messageClear();
-
-  if (!resp.responseText)
-    return this.messageModal('Could not save style "' + model.id + '"');
-
-    // Assume carto.js specific error array format response.
-  _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
-    .compact()
-    .map(function(e) { return e.match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/) || e; })
-    .each(_(function(e) {
-      if (_(e).isArray()) {
-        var id = e[2];
-        var ln = parseInt(e[3]) - 1;
-        code[id]._cartoErrors = code[id]._cartoErrors || [];
-        code[id]._cartoErrors.push(ln);
-        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
-      } else {
-        return this.messageModal(e);
-      }
-    }).bind(this));
+  if (resp.responseText) {
+    this.messageModal(resp.responseText);
+  } else {
+    this.messageModal('Could not save source "' + model.id + '"');
+  }
 };
 Editor.prototype.messageModal = function(text) {
   $('#message .message').text(text);

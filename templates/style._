@@ -94,7 +94,7 @@
   </section>
   <section class='righted'>
     <a href='#' class='button wide submit icon okay save'>Save</a>
-    <a href='/export/package?id=<%=style.id%>' class='button wide submit icon package'>Package</a>
+    <a href='/style.tm2z?id=<%=style.id%>' class='button wide submit icon package'>Package</a>
   </section>
 </div>
 </form>
