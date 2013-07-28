@@ -1019,17 +1019,3 @@ span.cm-carto-filter             { color:#66475B; }
   #docs,
   #full { width:60%; }
   }
-
-/* Clearfix */
-.clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-  }
-.clearfix { display: inline-block; }
-/* Hides from IE-mac \*/
-* html .clearfix { height: 1%; }
-.clearfix { display: block; }
-/* End hide from IE-mac */
