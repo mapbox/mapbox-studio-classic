@@ -21,8 +21,8 @@
   <section>
     <h2>Sources</h2>
   </section>
-  <div class='grid'>
-    <%
+  <div class='grid'><!--
+  <%
     print(_(history.source).chain()
       .sortBy(function(item) {
         return item.name.toLowerCase();
@@ -30,9 +30,9 @@
       .map(function(item) {
         return this.sourceitem(_({active:item.id === style.source}).defaults(item));
       }.bind(this))
-      .value().join('\n'));
-    %>
-  </div>
+      .value().join(''));
+  %>
+  --></div>
 </div>
 
 <form id='settings' class='pane w4 l0'>
