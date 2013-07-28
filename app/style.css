@@ -5,14 +5,13 @@
   position:absolute;
   top:40px;
   bottom:0px;
-  left:-50%;
+  /*left:-50%;*/
   width:200%;
-  transition:left 200ms;
-  -moz-transition:left 200ms;
-  -webkit-transition:left 200ms;
+  -webkit-transform:translateX(-25%);
+  -webkit-transition:-webkit-transform 200ms;
   }
 #full:target #map {
-  left:0% !important;
+  -webkit-transform:translateX(0%) !important;
   width:100% !important;
   }
 .leaflet-left {
@@ -201,13 +200,18 @@ div.source a.section { cursor:pointer; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
-#data:target ~ .l0,
-.menu:target ~ .l0 { left:25%; }
-#data:target ~ .l2,
-.menu:target ~ .l2 { left:75%; }
+#data:target ~ .l0.w2,
+.menu:target ~ .l0.w2 { -webkit-transform:translateX(50%); }
+#data:target ~ .l2.w2,
+.menu:target ~ .l2.w2 { -webkit-transform:translateX(50%); }
 #full:target { width:100%; }
-#full:target ~ .l2 { left:100%; }
+#full:target ~ .l2 { -webkit-transform:translateX(100%); }
 #full:target .leaflet-left { left:0%; }
+
+#layers:target,
+#data:target ~ #layers { -webkit-transform:translateX(100%); }
+#data:target ~ #layers a.delete { display:block; }
+#data:target ~ #layers .sourcetype { display:none; }
 
 #perf:target ~ #full { bottom:40px; }
 

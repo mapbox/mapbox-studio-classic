@@ -132,7 +132,9 @@ revlayers.reverse();
       <option value='csv'>csv</option>
     </select>
   </p>
-  <input type='submit' value='New layer'/>
+  <div>
+    <input type='submit' value='New layer'/>
+  </div>
 </form>
 <% } %>
 
