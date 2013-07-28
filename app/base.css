@@ -281,7 +281,8 @@ nav > a {
 
 .cell {
   padding:5px;
-  float:left;
+  display:inline-block;
+  vertical-align:top;
   width:50%;
   }
 

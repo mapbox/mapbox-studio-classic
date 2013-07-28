@@ -5,42 +5,42 @@
 
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
   <section><h2>Styles</h2></section>
-  <div class='grid clearfix'>
-  <a class='cell w4' href='/new/style'><span class='thumbed create'>
+  <div class='grid clearfix'><!--
+  --><a class='cell w4' href='/new/style'><span class='thumbed create'>
     <span class='image icon plus'></span>
     <strong>New Style</strong>
-  </span></a>
+  </span></a><!--
   <% _(obj.history.style).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  <a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed'>
+  --><a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed'>
     <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
     <strong><%= item.name || 'Untitled' %></strong>
     <code><%= item.id.split('/').pop() %></code>
-  </span></a>
+  </span></a><!--
   <% }); %>
-  </div>
+  --></div>
 </div>
 
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
   <section><h2>Sources</h2></section>
-  <div class='grid clearfix'>
-  <a class='cell' href='#addmapbox'><span class='thumbed create'>
+  <div class='grid clearfix'><!--
+  --><a class='cell' href='#addmapbox'><span class='thumbed create'>
     <span class='image icon mapbox'></span>
     <strong>Add from MapBox</strong>
-  </span></a>
-  <a class='cell' href='/new/source'><span class='thumbed create'>
+  </span></a><!--
+  --><a class='cell' href='/new/source'><span class='thumbed create'>
     <span class='image icon plus'></span>
     <strong>New Source</strong>
-  </span></a>
+  </span></a><!--
   <% _(obj.history.source).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  <a class='cell' href='/source?id=<%=item.id%>'><span class='thumbed'>
+  --><a class='cell' href='/source?id=<%=item.id%>'><span class='thumbed'>
     <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
     <strong><%= item.name || 'Untitled' %></strong>
     <code><%= item.id.split('/').pop() %></code>
-  </span></a>
+  </span></a><!--
   <% }); %>
-  </div>
+  --></div>
 </div>

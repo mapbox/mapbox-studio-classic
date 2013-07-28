@@ -21,7 +21,7 @@
   <section>
     <h2>Sources</h2>
   </section>
-  <div class='clearfix grid'>
+  <div class='grid'>
     <%
     print(_(history.source).chain()
       .sortBy(function(item) {
@@ -146,13 +146,11 @@
   <section>
     <h2>Fonts</h2>
   </section>
-  <div class='grid clearfix'>
+  <div class='grid'><!--
   <% fontsRef.forEach(function(font) { %>
-    <div class='cell'>
-      <a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a>
-    </div>
+  --><div class='cell'><a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a></div><!--
   <% }); %>
-  </div>
+  --></div>
 </div>
 
 <div id='code' class='column w2 l2'>
