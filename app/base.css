@@ -274,8 +274,7 @@ nav > a {
   bottom:0%;
   height:100%;
   box-shadow:rgba(0,0,0,0.1) -2px 0px 0px;
-  -webkit-transform:translateX(0);
-  -webkit-transition:-webkit-transform 200ms, width 200ms;
+  -webkit-transition:left 200ms, width 200ms;
   }
 
 .grid { padding:5px; }
@@ -295,10 +294,6 @@ nav > a {
 .w13 { width:33.3333%; }
 .w23 { width:66.6667%; }
 .w33 { width:100%; }
-.ln4 { left:-100%; }
-.ln3 { left:-75%; }
-.ln2 { left:-50%; }
-.ln1 { left:-25%; }
 .l0 { left:0%; }
 .l1 { left:25%; }
 .l2 { left:50%; }
@@ -311,19 +306,19 @@ nav > a {
 .pane {
   position:absolute;
   z-index:1002;
+  bottom:100%;
   height:100%;
   background:#ddd;
   background-image:-webkit-linear-gradient(#ddd 75%,#bbb);
   overflow:auto;
   box-shadow:rgba(0,0,0,0.1) -2px 0px 0px;
-  -webkit-transform:translateY(-100%);
-  -webkit-transition:-webkit-transform 200ms;
+  -webkit-transition:bottom 200ms;
   }
 .pane > * { display:none; }
 .overlay:target .pane > *,
 .pane:target > * { display:block; }
 .overlay:target .pane,
-.pane:target { -webkit-transform:translateY(0%); }
+.pane:target { bottom:0%; }
 .pane nav {
   position:absolute;
   right:10px;
@@ -650,6 +645,10 @@ nav > a {
 #layers .sourcetype.remote * { background-color:#48a; }
 #layers .sourcetype.local * { background-color:#c84; }
 
+#data:target ~ #layers { display:block; }
+#data:target ~ #layers a.delete { display:block; }
+#data:target ~ #layers .sourcetype { display:none; }
+
 #layers a {
   color:#aaa;
   white-space:nowrap;
@@ -733,40 +732,28 @@ nav > a {
 
 /* Modal popup */
 .modal {
-  position:absolute; left:50%; top:20%; z-index:-1;
+  display:none;
+  position:absolute; left:50%; top:20%; z-index:2001;
   padding:20px;
   border-radius:4px;
   width:320px;
   margin:0px 0px 0px -160px;
   background:#ddd;
   box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 3px;
-  -webkit-transform:scale(0,0);
-  -webkit-transition:-webkit-transform 100ms, z-index 100ms;
   }
 .modal .close {
   position:absolute; top:-15px; right:-15px;
   border-radius:50%;
   }
 #mask {
-  opacity:0;
-  z-index:-1;
-  position:absolute;
+  display:none;
+  position:absolute; z-index:2000;
   width:100%; height:100%;
   background:rgba(224,224,224,0.8);
-  -webkit-transition:opacity 100ms, z-index 100ms;
   }
-.modal > * { display:none; }
 .modal.target,
-.modal:target {
-  z-index:2001;
-  -webkit-transform:scale(1,1);
-  }
-.modal.target > *,
-.modal:target > * { display:block; }
-.modal:target ~ #mask {
-  z-index:2000;
-  opacity:1;
-  }
+.modal:target,
+.modal:target ~ #mask { display:block; }
 
 .dark .modal { background:#444; }
 .dark #mask { background:rgba(0,0,0,0.8); }

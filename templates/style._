@@ -99,7 +99,7 @@
 </div>
 </form>
 
-<div id='layers' class='menu column w1 dark ln1'>
+<div id='layers' class='menu column w1 dark hide'>
   <nav class='menu-title centered'>
     <a href='#' class='button icon close left'></a>
     <a href='#data' class='button title data-n icon plus'>Data</a>
