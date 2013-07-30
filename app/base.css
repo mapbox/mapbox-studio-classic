@@ -81,14 +81,19 @@ section:last-child { border-bottom:0px; }
   padding-left:75px;
   min-height:60px;
   border-radius:4px;
+  background:url(./thumb.png) -100px 0px no-repeat;
   }
 .thumbed .image {
   position:absolute;
   left:0px; top:0px; width:60px; height:60px;
   background-size:cover;
   background-position:50% 50%;
+  background-repeat:no-repeat;
   border-radius:4px 0px 0px 4px;
   }
+.thumbed.style { background-position:0px 0px; }
+.thumbed.source { background-position:0px -70px; }
+.thumbed.remote { background-position:0px -140px; }
 .thumbed .image.icon {
   position:absolute;
   left:0px; top:0px; width:60px; height:60px;
