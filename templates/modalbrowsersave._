@@ -1,0 +1,27 @@
+<%
+// Required vars
+// - type, one of style/source
+// - cwd, absolute path from which to begin browsing
+%>
+<% print(this.modalbrowser({
+  id: 'saveas',
+  cwd: cwd,
+  placeholder: type + '.tm2',
+  pattern: '[\\w+\\d+\\.\\/_-]+\\.tm2'
+})); %>
+<script>
+new views.Browser({
+  el: $('#saveas'),
+  filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+  callback: function(err, filepath) {
+    if (err) return false; // @TODO
+    var id = 'tm<%=type%>://' + filepath;
+    window.editor.model.set({id:id});
+    window.editor.save(null, {
+      success: function() { window.location = '/<%=type%>?id=' + id; },
+      error: _(window.editor.error).bind(window.editor)
+    });
+    return false;
+  }
+});
+</script>

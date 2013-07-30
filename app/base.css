@@ -83,6 +83,7 @@ section:last-child { border-bottom:0px; }
   border-radius:4px;
   background:url(./thumb.png) -100px 0px no-repeat;
   }
+.joined .thumbed { display:inline-block; }
 .thumbed .image {
   position:absolute;
   left:0px; top:0px; width:60px; height:60px;
@@ -94,19 +95,12 @@ section:last-child { border-bottom:0px; }
 .thumbed.style { background-position:0px 0px; }
 .thumbed.source { background-position:0px -70px; }
 .thumbed.remote { background-position:0px -140px; }
-.thumbed .image.icon {
-  position:absolute;
-  left:0px; top:0px; width:60px; height:60px;
-  background:transparent;
-  text-align:center;
-  padding:20px;
-  border-right:1px solid rgba(0,0,0,0.1);
-  }
-.thumbed .image.icon::before {
+.thumbed .icon::before {
   background-color:rgba(255,255,255,0.4);
   border-radius:4px;
+  margin-right:10px;
   }
-.dark .thumbed .image.icon::before { background-color:rgba(0,0,0,0.2); }
+.dark .thumbed .icon::before { background-color:rgba(0,0,0,0.2); }
 .thumbed > * {
   display:block;
   white-space:nowrap;
@@ -118,6 +112,7 @@ section:last-child { border-bottom:0px; }
 .dark .thumbed { background-color:rgba(0,0,0,0.2); }
 .dark .thumbed:hover { background-color:rgba(0,0,0,0.4); }
 
+.thumbed.create { padding-left:15px; }
 .thumbed.create { background-color:rgba(255,255,255,0.8); }
 .thumbed.create strong { line-height:40px; font-size:125%; }
 .thumbed.create:hover { background-color:rgba(255,255,255,1); }

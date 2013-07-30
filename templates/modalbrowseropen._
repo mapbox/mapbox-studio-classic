@@ -1,0 +1,23 @@
+<%
+// Required vars
+// - type, one of style/source
+// - cwd, absolute path from which to begin browsing
+%>
+<% print(this.modalbrowser({
+  id: 'browse' + obj.type,
+  cwd: obj.cwd,
+  label: 'Open',
+  pattern: '[\\w+\\d+\\.-]+\\.tm2'
+})); %>
+<script>
+new views.Browser({
+  el: $('#browse<%=type%>'),
+  filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
+  isFile: function(file) { return /\.tm2$/.test(file) },
+  callback: function(err, filepath) {
+    if (err) return false; // @TODO
+    window.location = '/<%=type%>?id=tm<%=type%>://' + filepath;
+    return false;
+  }
+});
+</script>

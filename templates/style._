@@ -7,6 +7,16 @@
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/base.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
+  <script src='/ext/underscore-min.js'></script>
+  <script src='/ext/codemirror.js'></script>
+  <script src='/ext/codemirror.runmode.js'></script>
+  <script src='/ext/jquery-2.0.3.min.js'></script>
+  <script src='/ext/jquery.sortable.js'></script>
+  <script src='/ext/backbone.js'></script>
+  <script src='/ext/mapbox.js'></script>
+  <script src='/app/lib.js'></script>
+  <script src='/app/codemirror.carto.js'></script>
+  <script src='/app/codemirror.carto.complete.js'></script>
   <title><%= style.name %></title>
 </head>
 
@@ -180,14 +190,11 @@
   </form>
 </div>
 
-<% if (style._tmp) print(this.modalbrowser({
-  id: 'saveas',
-  cwd: cwd,
-  placeholder: 'style.tm2',
-  pattern: '[\\w+\\d+\\.-]+\\.tm2'
-})); %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
+<%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
+<%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
+<%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
 <form id='addtab' class='modal centered'>
   <a class='button submit icon close' href='#'></a>
@@ -199,16 +206,6 @@
 
 <div id='mask'></div>
 
-<script src='/ext/underscore-min.js'></script>
-<script src='/ext/codemirror.js'></script>
-<script src='/ext/codemirror.runmode.js'></script>
-<script src='/ext/jquery-2.0.3.min.js'></script>
-<script src='/ext/jquery.sortable.js'></script>
-<script src='/ext/backbone.js'></script>
-<script src='/ext/mapbox.js'></script>
-<script src='/app/lib.js'></script>
-<script src='/app/codemirror.carto.js'></script>
-<script src='/app/codemirror.carto.complete.js'></script>
 <script>
 var map, baselayer, tiles, grids, gridc;
 
@@ -491,25 +488,6 @@ var editor = new Editor({
   model: new Style(<%= JSON.stringify(style) %>)
 });
 editor.refresh();
-
-<% if (style._tmp) { %>
-var browser = new views.Browser({
-  el: $('#saveas'),
-  filter: function(file) {
-    return file.type === 'dir' && file.basename.indexOf('.tm2') === -1;
-  },
-  callback: function(err, filepath) {
-    if (err) return false; // @TODO
-    var id = 'tmstyle://' + filepath;
-    editor.model.set({id:id});
-    editor.save(null, {
-      success: function() { window.location = '/style?id=' + id; },
-      error: _(editor.error).bind(editor)
-    });
-    return false;
-  }
-});
-<% } %>
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

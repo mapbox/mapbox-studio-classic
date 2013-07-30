@@ -91,6 +91,7 @@ views.Browser.prototype.events = {
 views.Browser.prototype.initialize = function(options) {
   this.callback = options.callback || function() {};
   this.filter = options.filter || function(f) { return true };
+  this.isFile = options.isFile || function() {};
   this.cwd = this.$('input[name=cwd]').val();
   return this.render();
 };
@@ -132,11 +133,11 @@ views.Browser.prototype.submit = function(ev) {
 };
 views.Browser.prototype.browse = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.is('.dir') || target.is('.prev')) {
+  if (target.is('.file') || this.isFile(target.attr('href').split('#').pop())) {
+    this.$('input[name=basename]').val(target.text());
+  } else if (target.is('.dir') || target.is('.prev')) {
     this.cwd = target.attr('href').split('#').pop();
     this.render();
-  } else if (target.is('.file')) {
-    this.$('input[name=basename]').val(target.text());
   }
   return false;
 };
