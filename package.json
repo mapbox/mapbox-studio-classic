@@ -35,6 +35,5 @@
     "scripts": {
         "start": "./index.js",
         "test": "mocha -R spec"
-    },
-    "private": true
+    }
 }
