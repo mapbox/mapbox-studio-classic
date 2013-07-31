@@ -62,7 +62,14 @@ Dependencies are:
 
 ### Mac OS X
 
-First update your homebrew to ensure the recently released Mapnik v2.2.0 is available:
+### Binary
+
+Bleeding edge binary builds are available for OS X at <http://tilemill.s3.amazonaws.com/index.html?path=dev/>.
+Follow the instructions below to install from source if you are interested in developing on TM2.
+
+### Source install
+
+First update your homebrew to ensure that the recently released Mapnik v2.2.0 is available:
 
     brew update
 

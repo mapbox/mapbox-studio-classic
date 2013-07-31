@@ -20,7 +20,7 @@
         "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
         "fstream": "0.1.x",
         "tar": "0.1.x",
-        "mapnik": "1.1.x",
+        "mapnik": "~1.1.2",
         "mapnik-reference": "https://github.com/mapnik/mapnik-reference/tarball/datasources",
         "carto": "https://github.com/mapbox/carto/tarball/master",
         "tilelive": "4.5.x",
@@ -35,6 +35,5 @@
     "scripts": {
         "start": "./index.js",
         "test": "mocha -R spec"
-    },
-    "private": true
+    }
 }
