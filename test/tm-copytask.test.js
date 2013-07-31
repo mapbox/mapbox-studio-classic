@@ -33,7 +33,35 @@ describe('copytask', function() {
         new MBTiles(to, function(err, src) {
             assert.ifError(err);
             function check(queue) {
-                if (!queue.length) return done();
+                if (!queue.length) return src.getInfo(function(err, info) {
+                    assert.ifError(err);
+                    assert.deepEqual({
+                        scheme: 'tms',
+                        basename: 'export.mbtiles',
+                        id: 'export',
+                        filesize: 18432,
+                        attribution: '&copy; John Doe 2013.',
+                        center: [ 0, 0, 3 ],
+                        maxzoom: 2,
+                        minzoom: 0,
+                        name: 'Test source',
+                        vector_layers: [ {
+                            id: 'box',
+                            description: '',
+                            minzoom: 0,
+                            maxzoom: 6,
+                            fields: {
+                                ScaleRank: 'String',
+                                FeatureCla: 'String',
+                                Name1: 'String',
+                                Name2: 'String',
+                                Date: 'String'
+                            }
+                        } ],
+                        bounds: [ -180, -85.05112877980659, 180, 85.0511287798066 ]
+                    }, info);
+                    done();
+                });
                 var zxy = queue.shift();
                 src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
                     assert.ifError(err);
