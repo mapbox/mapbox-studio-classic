@@ -10,6 +10,8 @@
         "express": "3.1.x",
         "chrono": "1.0.x",
         "connect": "2.7.x",
+        "passport": "0.1.x",
+        "passport-oauth": "0.1.x",
         "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
         "underscore": "1.4.x",
         "tilejson": "0.3.x",

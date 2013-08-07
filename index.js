@@ -27,6 +27,7 @@ style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), fu
 
 var app = express();
 app.use(express.bodyParser());
+app.use(require('./lib/oauth'));
 app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
