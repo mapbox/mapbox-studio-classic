@@ -59,9 +59,9 @@ h1,h2,h3,h4,h5,h6,p {
   font-size:100%;
   }
 h1 {
-  height:40px;
-  line-height:40px;
-  font-size:400%;
+  height:30px;
+  line-height:30px;
+  font-size:300%;
   font-weight:normal;
   margin:0px 0px 10px;
   }
@@ -199,15 +199,9 @@ input.wide[type=submit] {
   text-align:left;
   min-width:120px;
   }
-.button.big.icon {
-  padding-left:60px;
-  position:relative;
-  }
 .button.big.icon::before {
-  position:absolute;
-  left:20px;
-  top:20px;
   border-radius:4px;
+  margin-right:10px;
   background-color:rgba(255,255,255,0.4);
   }
 .dark .button.big.icon::before { background-color:rgba(0,0,0,0.2); }

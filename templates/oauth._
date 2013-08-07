@@ -4,14 +4,18 @@
 <head>
   <meta charset='UTF-8'/>
   <link href='/app/base.css' rel='stylesheet' />
-  <title>MapBox Authorization</title>
+  <title>Authorization</title>
 </head>
 
 <body id='view' class='dark'>
 
 <div class='modal centered target'>
   <a href='/' class='icon button close'></a>
-  <p>TM2 is now authorized for <strong><%= account %></strong>.</p>
+  <h2>Authorization</h2>
+  <div class='iso'>
+    <h1><%= account %></h1>
+    <p>is now authorized for use with TM2.</p>
+  </div>
   <p><a href='/' class='button big submit icon okay'> Okay</a></p>
 </div>
 
