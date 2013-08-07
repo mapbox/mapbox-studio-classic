@@ -47,6 +47,7 @@ body.dark {
 .lefted { text-align:left; }
 .centered { text-align:center; }
 .righted { text-align:right; }
+.iso { margin:40px 0px; }
 
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:transparent; border-left:1px solid rgba(0,0,0,0.1); }
@@ -57,7 +58,14 @@ h1,h2,h3,h4,h5,h6,p {
   padding:0px;
   font-size:100%;
   }
-h1,h2 { font-size:125%; }
+h1 {
+  height:40px;
+  line-height:40px;
+  font-size:400%;
+  font-weight:normal;
+  margin:0px 0px 10px;
+  }
+h2 { font-size:125%; }
 p { margin-bottom:10px; }
 a { color:inherit; text-decoration:none; }
 

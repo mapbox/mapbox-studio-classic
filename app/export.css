@@ -1,14 +1,7 @@
-.percent {
-  height:40px;
-  line-height:40px;
-  font-size:400%;
-  margin:40px 0px 10px;
-  }
-
 .percent::after { content:'%' }
 
 .progress {
-  margin:10px auto 40px;
+  margin:0px auto;
   height:10px;
   max-width:240px;
   border-radius:2px;

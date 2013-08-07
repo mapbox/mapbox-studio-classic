@@ -20,10 +20,14 @@
     <span class='task'><span class='speed'><%= job.stats ? job.stats.speed : 0 %></span> tiles/sec &mdash;</span>
     z<%= source.minzoom %>-<%= source.maxzoom %>
   </small>
-  <div class='percent'><%= pct %></div>
-  <div class='progress'>
-    <div class='fill' style='width:<%= pct %>%'></div>
+
+  <div class='iso'>
+    <h1 class='percent'><%= pct %></h1>
+    <div class='progress'>
+      <div class='fill' style='width:<%= pct %>%'></div>
+    </div>
   </div>
+
   <p>
     <a href='/source?id=<%=source.id%>' class='button big submit icon cancel task'> Cancel export</a>
     <a href='/source.mbtiles?id=<%=source.id%>' class='button big submit icon package stat'> Vector MBTiles</a>
