@@ -73,7 +73,7 @@ describe('source remote', function() {
         });
     });
     it('error bad protocol', function(done) {
-        source('http://www.google.com', function(err, source) {
+        source('invalid://www.google.com', function(err, source) {
             assert.ok(err);
             assert.equal('Invalid source protocol', err.message);
             done();
