@@ -72,6 +72,26 @@ describe('source remote', function() {
             done();
         });
     });
+    it('loads via http', function (done) {
+        source('http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets-v4.json', function (err, source) {
+            assert.ifError(err);
+            assert.equal('MapBox Streets V4', source.data.name);
+            assert.equal(0, source.data.minzoom);
+            assert.equal(14, source.data.maxzoom);
+            assert.ok(!!source.style);
+            done();
+        });
+    });
+    it('loads via https', function (done) {
+        source('https://a.tiles.mapbox.com/v3/mapbox.mapbox-streets-v4.json', function (err, source) {
+            assert.ifError(err);
+            assert.equal('MapBox Streets V4', source.data.name);
+            assert.equal(0, source.data.minzoom);
+            assert.equal(14, source.data.maxzoom);
+            assert.ok(!!source.style);
+            done();
+        });
+    });
     it('error bad protocol', function(done) {
         source('invalid://www.google.com', function(err, source) {
             assert.ok(err);
