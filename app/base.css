@@ -219,48 +219,83 @@ input.wide[type=submit] {
   vertical-align:middle;
   background-image:url(./sprite.png);
   background-repeat:no-repeat;
-  background-position-x:20px;
-  background-position-y:0px;
+  background-position:20px 0px;
   }
-.dark .icon:before { background-position-y:-20px; }
-.icon.fields:before,
-.icon.layers:before { background-position-x:0px; }
-.icon.sql:before,
-.icon.edit:before { background-position-x:-20px; }
-.icon.search:before { background-position-x:-40px; }
-.icon.cancel:before,
-.icon.close:before { background-position-x:-60px; }
-.icon.full:before { background-position-x:-80px; }
-.icon.plus:before { background-position-x:-100px; }
-.icon.line:before { background-position-x:-120px; }
-.icon.linestring:before { background-position-x:-120px; }
-.icon.point:before { background-position-x:-140px; }
-.icon.polygon:before { background-position-x:-160px; }
-.icon.multipolygon:before { background-position-x:-160px; }
-.icon.conf:before { background-position-x:-180px; }
-.icon.code:before { background-position-x:-200px; }
-.icon.dir:before { background-position-x:-220px; }
-.icon.tooltip:before { background-position-x:-240px; }
-.icon.upload:before { background-position-x:-260px; }
-.icon.okay:before { background-position-x:-280px; }
-.icon.grid:before { background-position-x:-300px; }
-.icon.book:before { background-position-x:-320px; }
-.icon.gear:before { background-position-x:-340px; }
-.icon.export:before { background-position-x:-360px; }
-.icon.home:before { background-position-x:-380px; }
-.icon.star:before { background-position-x:-400px; }
-.icon.recache:before { background-position-x:-420px; }
-.icon.file:before { background-position-x:-440px; }
-.icon.prev:before { background-position-x:-460px; }
-.icon.next:before { background-position-x:-480px; }
-.icon.unknown:before { background-position-x:-500px; }
-.icon.export:before,
-.icon.package:before { background-position-x:-520px; }
-.icon.mapbox:before { background-position-x:-540px; }
-.icon.local:before { background-position-x:-560px; }
-.icon.remote:before { background-position-x:-580px; }
-.icon.text:before { background-position-x:-600px; }
 .icon.padded:before { margin-right:5px; }
+.icon.fields:before,
+.icon.layers:before { background-position:0px 0px; }
+.icon.sql:before,
+.icon.edit:before { background-position:-20px 0px; }
+.icon.search:before { background-position:-40px 0px; }
+.icon.cancel:before,
+.icon.close:before { background-position:-60px 0px; }
+.icon.full:before { background-position:-80px 0px; }
+.icon.plus:before { background-position:-100px 0px; }
+.icon.line:before { background-position:-120px 0px; }
+.icon.linestring:before { background-position:-120px 0px; }
+.icon.point:before { background-position:-140px 0px; }
+.icon.polygon:before { background-position:-160px 0px; }
+.icon.multipolygon:before { background-position:-160px 0px; }
+.icon.conf:before { background-position:-180px 0px; }
+.icon.code:before { background-position:-200px 0px; }
+.icon.dir:before { background-position:-220px 0px; }
+.icon.tooltip:before { background-position:-240px 0px; }
+.icon.upload:before { background-position:-260px 0px; }
+.icon.okay:before { background-position:-280px 0px; }
+.icon.grid:before { background-position:-300px 0px; }
+.icon.book:before { background-position:-320px 0px; }
+.icon.gear:before { background-position:-340px 0px; }
+.icon.export:before { background-position:-360px 0px; }
+.icon.home:before { background-position:-380px 0px; }
+.icon.star:before { background-position:-400px 0px; }
+.icon.recache:before { background-position:-420px 0px; }
+.icon.file:before { background-position:-440px 0px; }
+.icon.prev:before { background-position:-460px 0px; }
+.icon.next:before { background-position:-480px 0px; }
+.icon.unknown:before { background-position:-500px 0px; }
+.icon.export:before,
+.icon.package:before { background-position:-520px 0px; }
+.icon.mapbox:before { background-position:-540px 0px; }
+.icon.local:before { background-position:-560px 0px; }
+.icon.remote:before { background-position:-580px 0px; }
+.icon.text:before { background-position:-600px 0px; }
+.dark .icon.fields:before,
+.dark .icon.layers:before { background-position:0px -20px; }
+.dark .icon.sql:before,
+.dark .icon.edit:before { background-position:-20px -20px; }
+.dark .icon.search:before { background-position:-40px -20px; }
+.dark .icon.cancel:before,
+.dark .icon.close:before { background-position:-60px -20px; }
+.dark .icon.full:before { background-position:-80px -20px; }
+.dark .icon.plus:before { background-position:-100px -20px; }
+.dark .icon.line:before { background-position:-120px -20px; }
+.dark .icon.linestring:before { background-position:-120px -20px; }
+.dark .icon.point:before { background-position:-140px -20px; }
+.dark .icon.polygon:before { background-position:-160px -20px; }
+.dark .icon.multipolygon:before { background-position:-160px -20px; }
+.dark .icon.conf:before { background-position:-180px -20px; }
+.dark .icon.code:before { background-position:-200px -20px; }
+.dark .icon.dir:before { background-position:-220px -20px; }
+.dark .icon.tooltip:before { background-position:-240px -20px; }
+.dark .icon.upload:before { background-position:-260px -20px; }
+.dark .icon.okay:before { background-position:-280px -20px; }
+.dark .icon.grid:before { background-position:-300px -20px; }
+.dark .icon.book:before { background-position:-320px -20px; }
+.dark .icon.gear:before { background-position:-340px -20px; }
+.dark .icon.export:before { background-position:-360px -20px; }
+.dark .icon.home:before { background-position:-380px -20px; }
+.dark .icon.star:before { background-position:-400px -20px; }
+.dark .icon.recache:before { background-position:-420px -20px; }
+.dark .icon.file:before { background-position:-440px -20px; }
+.dark .icon.prev:before { background-position:-460px -20px; }
+.dark .icon.next:before { background-position:-480px -20px; }
+.dark .icon.unknown:before { background-position:-500px -20px; }
+.dark .icon.export:before,
+.dark .icon.package:before { background-position:-520px -20px; }
+.dark .icon.mapbox:before { background-position:-540px -20px; }
+.dark .icon.local:before { background-position:-560px -20px; }
+.dark .icon.remote:before { background-position:-580px -20px; }
+.dark .icon.text:before { background-position:-600px -20px; }
 
 nav { white-space:nowrap; }
 nav > a {
