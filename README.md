@@ -103,3 +103,24 @@ Warning: TM2 depends on a Mapnik version that is not compatible with the existin
     npm install
     node index.js
 
+Creating a style with TM2
+-------------------------
+
+### Organization of a style project
+
+A valid TM2 project is a folder that contains at minimum a valid `project.yml` file and at least one CartoCSS `.mss` file that is referenced by the YML file. The folder should also contain any images that are directly referenced by the style as patterns, icons, etc.
+
+If you have any source files (Photoshop/Gimp/Illustrator/Inkscape documents, mockups, reference files, etc) that are not directly required to render the style, they should be named beginning with an underscore or kept in a subdirectory beginning with an underscore. TM2 will ignore such files & folders when creating packages to deploy for rendering.
+
+### Generating a style package
+
+TM2 styles are packaged into 'tm2z' files for deployment to a rendering server. The package contains:
+
+- `project.xml` - the Mapnik-ready XML style definition automatically built by TM2 from the project's CartoCSS files and project.yml
+- no MSS files
+- any additional files or folders that were added to the TM2 project folder, except any beginning with `_`
+
+<!-- TODO:
+Creating a source with TM2
+--------------------------
+-->
