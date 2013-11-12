@@ -30,7 +30,7 @@
         "mapnik-reference": "~5.0.5",
         "carto": "https://github.com/mapbox/carto/tarball/master",
         "tilelive": "4.5.x",
-        "tilelive-bridge": "~0.0.4",
+        "tilelive-bridge": "~0.0.5",
         "tilelive-vector": "~0.1.5",
         "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
         "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master"
