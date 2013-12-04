@@ -22,12 +22,14 @@
     <section>
       <label>PostGIS<label>
       <p class='joined'><!--
-        --><input type='text' name='Datasource-user' class='w13' value='<%= obj.Datasource.user %>' /><!--
+        --><input type='text' name='Datasource-user' class='w1' value='<%= obj.Datasource.user %>' /><!--
         --><label class='ghost'>user</label><!--
-        --><input type='text' name='Datasource-dbname' class='w13' value='<%= obj.Datasource.dbname %>' /><!--
+        --><input type='text' name='Datasource-dbname' class='w1' value='<%= obj.Datasource.dbname %>' /><!--
         --><label class='ghost'>db</label><!--
-        --><input type='text' name='Datasource-host' class='w13 last' value='<%= obj.Datasource.host %>' /><!--
-        --><label class='ghost'>host</label>
+        --><input type='text' name='Datasource-host' class='w1' value='<%= obj.Datasource.host %>' /><!--
+        --><label class='ghost'>host</label><!--
+        --><input type='text' name='Datasource-port' class='w1 last' value='<%= obj.Datasource.port %>' /><!--
+        --><label class='ghost'>port</label>
       </p>
       <input type='hidden' name='Datasource-type' value='postgis' />
       <input type='hidden' name='Datasource-max_size' value='512' />
