@@ -40,7 +40,7 @@ describe('copytask', function() {
                         basename: 'export.mbtiles',
                         id: 'export',
                         format: 'pbf',
-                        filesize: 45056,
+                        filesize: 37888,
                         attribution: '&copy; John Doe 2013.',
                         center: [ 0, 0, 3 ],
                         maxzoom: 4,
