@@ -104,7 +104,7 @@ describe('style.info', function() {
             assert.ifError(err);
             assert.equal(info.minzoom, 0);
             assert.equal(info.maxzoom, 22);
-            assert.equal(info.source, 'mapbox:///mapbox.mapbox-streets-v3');
+            assert.equal(info.source, 'mapbox:///mapbox.mapbox-streets-v4');
             assert.ok(/background-color:#fff/.test(info.styles['style.mss']));
             assert.equal(info.id, 'tmstyle://' + defpath, 'style.info adds id key');
             done();
