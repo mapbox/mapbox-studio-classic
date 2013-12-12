@@ -72,7 +72,7 @@
     <label class='inline'>Image format</label>
     <select name='format'>
       <% _({
-        'png': 'png (24-bit)',
+        'png24': 'png (24-bit)',
         'png8:m=h': 'png (256 colors)',
         'png8:m=h:c=192': 'png (192 colors)',
         'png8:m=h:c=128': 'png (128 colors)',
