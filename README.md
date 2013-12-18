@@ -2,6 +2,9 @@ TM2 (development)
 -----------------
 Experimental version of TileMill powered by vector tiles. There are currently no supported releases of this software.
 
+[![Build Status](https://secure.travis-ci.org/mapbox/tm2.png)](http://travis-ci.org/mapbox/tm2)
+
+
 ### What are vector tiles?
 
 Vector tiles are the vector data equivalent of image tiles for web mapping. They apply the strengths of tiling -- developed for caching, scaling and serving map imagery rapidly -- to vector data. Consider an image tile at the zxy coordinate 14/4823/6160. This image is a PNG that depicts the corner of lower Manhattan with roads, building footprints, and parks:
