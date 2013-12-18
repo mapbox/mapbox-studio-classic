@@ -55,7 +55,7 @@ describe('source remote', function() {
     it('loads', function(done) {
         source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
             assert.ifError(err);
-            assert.equal('MapBox Streets V2', source.data.name);
+            assert.equal('Mapbox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
             assert.ok(!!source.style);
@@ -65,7 +65,7 @@ describe('source remote', function() {
     it('loads via tilelive', function(done) {
         tilelive.load('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
             assert.ifError(err);
-            assert.equal('MapBox Streets V2', source.data.name);
+            assert.equal('Mapbox Streets V2', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
             assert.ok(!!source.style);
@@ -75,7 +75,7 @@ describe('source remote', function() {
     it('loads via http', function (done) {
         source('http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets-v4.json', function (err, source) {
             assert.ifError(err);
-            assert.equal('MapBox Streets V4', source.data.name);
+            assert.equal('Mapbox Streets V4', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
             assert.ok(!!source.style);
@@ -85,7 +85,7 @@ describe('source remote', function() {
     it('loads via https', function (done) {
         source('https://a.tiles.mapbox.com/v3/mapbox.mapbox-streets-v4.json', function (err, source) {
             assert.ifError(err);
-            assert.equal('MapBox Streets V4', source.data.name);
+            assert.equal('Mapbox Streets V4', source.data.name);
             assert.equal(0, source.data.minzoom);
             assert.equal(14, source.data.maxzoom);
             assert.ok(!!source.style);
