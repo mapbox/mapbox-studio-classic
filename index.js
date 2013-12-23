@@ -12,6 +12,7 @@ var path = require('path');
 var source = require('./lib/source');
 var style = require('./lib/style');
 var express = require('express');
+var cors = require('cors');
 var argv = require('optimist')
     .config('config')
     .argv;
@@ -169,7 +170,7 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', function(r
     });
 });
 
-app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', function(req, res, next) {
+app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', cors(), function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
