@@ -1,45 +1,46 @@
 {
-    "name": "tm2",
-    "version": "0.0.0",
-    "main": "./index",
-    "engineStrict": true,
-    "engines": {
-        "node": "0.8.x || 0.10.x"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/mapbox/tm2.git"
-    },
-    "dependencies": {
-        "express": "3.1.x",
-        "chrono": "1.0.x",
-        "connect": "2.7.x",
-        "passport": "0.1.x",
-        "passport-oauth": "0.1.x",
-        "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
-        "underscore": "1.4.x",
-        "tilejson": "0.3.x",
-        "mbtiles": "0.3.x",
-        "mkdirp": "0.3.x",
-        "dirty": "0.9.x",
-        "sphericalmercator": "1.0.x",
-        "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
-        "fstream": "0.1.x",
-        "tar": "0.1.x",
-        "mapnik": "1.2.x",
-        "mapnik-reference": "~5.0.5",
-        "carto": "https://github.com/mapbox/carto/tarball/master",
-        "tilelive": "4.5.x",
-        "tilelive-bridge": "~0.0.5",
-        "tilelive-vector": "~0.1.5",
-        "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
-        "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master"
-    },
-    "devDependencies": {
-        "mocha": "1.8.x"
-    },
-    "scripts": {
-        "start": "./index.js",
-        "test": "mocha -R spec"
-    }
+  "name": "tm2",
+  "version": "0.0.0",
+  "main": "./index",
+  "engineStrict": true,
+  "engines": {
+    "node": "0.8.x || 0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mapbox/tm2.git"
+  },
+  "dependencies": {
+    "express": "3.1.x",
+    "chrono": "1.0.x",
+    "connect": "2.7.x",
+    "passport": "0.1.x",
+    "passport-oauth": "0.1.x",
+    "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
+    "underscore": "1.4.x",
+    "tilejson": "0.3.x",
+    "mbtiles": "0.3.x",
+    "mkdirp": "0.3.x",
+    "dirty": "0.9.x",
+    "sphericalmercator": "1.0.x",
+    "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
+    "fstream": "0.1.x",
+    "tar": "0.1.x",
+    "mapnik": "1.2.x",
+    "mapnik-reference": "~5.0.5",
+    "carto": "https://github.com/mapbox/carto/tarball/master",
+    "tilelive": "4.5.x",
+    "tilelive-bridge": "~0.0.5",
+    "tilelive-vector": "~0.1.5",
+    "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
+    "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
+    "cors": "~2.1.1"
+  },
+  "devDependencies": {
+    "mocha": "1.8.x"
+  },
+  "scripts": {
+    "start": "./index.js",
+    "test": "mocha -R spec"
+  }
 }
