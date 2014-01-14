@@ -131,11 +131,11 @@ revlayers.reverse();
   <p class='joined'>
     <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
     --><select name='type'>
-      <option value='postgis'>postgis</option>
-      <option value='shape'>shapefile</option>
-      <option value='geojson'>geojson</option>
-      <option value='sqlite'>sqlite</option>
-      <option value='csv'>csv</option>
+      <option value='postgis'>PostGIS</option>
+      <option value='shape'>Shapefile</option>
+      <option value='geojson'>GeoJSON</option>
+      <option value='sqlite'>SQLite</option>
+      <option value='csv'>CSV</option>
     </select>
   </p>
   <input type='submit' value='New layer'/>
