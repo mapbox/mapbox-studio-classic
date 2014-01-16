@@ -207,7 +207,7 @@
 <div id='mask'></div>
 
 <script>
-var map, baselayer, tiles, grids, gridc;
+var map = baselayer = tiles = grids = gridc = null;
 
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
