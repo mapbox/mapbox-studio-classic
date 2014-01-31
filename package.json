@@ -19,7 +19,7 @@
     "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
     "underscore": "1.4.x",
     "tilejson": "0.3.x",
-    "mbtiles": "0.3.x",
+    "mbtiles": "0.4.x",
     "mkdirp": "0.3.x",
     "dirty": "0.9.x",
     "sphericalmercator": "1.0.x",
