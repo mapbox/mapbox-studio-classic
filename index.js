@@ -485,6 +485,9 @@ app.del('/history/:type(style|source)', function(req, res, next) {
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
     if (err && 'z' in req.params) return res.send(err.toString(), 404);
+
+    console.error(err.stack);
+
     // Otherwise 500 for now.
     if (/application\/json/.test(req.headers.accept)) {
         res.set({'content-type':'application/javascript'});
