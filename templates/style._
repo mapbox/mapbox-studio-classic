@@ -5,6 +5,7 @@
   <meta charset='UTF-8'/>
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
@@ -24,14 +25,14 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane w3 l1'>
-  <nav>
-    <a class='button icon close' href='#layers'></a>
-  </nav>
-  <section>
+<div id='data' class='pane fill-grey scroll-styled w3 l1'>
+  <section class='pad2x pad1y keyline-bottom'>
     <h2>Sources</h2>
+    <nav class='pin-right pad1'>
+      <a class='button icon close' href='#layers'></a>
+    </nav>
   </section>
-  <div class='grid'><!--
+  <div class='grid pad2 clearfix'><!--
   <%
     print(_(history.source).chain()
       .sortBy(function(item) {
@@ -45,7 +46,7 @@
   --></div>
 </div>
 
-<form id='settings' class='pane w4 l0'>
+<form id='settings' class='pane fill-grey scroll-styled w4 l0'>
 <div class='column w2 l0 lighten'>
   <%= this.history(obj) %>
 </div>
@@ -102,80 +103,85 @@
     <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
     <label class='range' id='scale-val'><%= style.scale %></label>
   </section>
-  <section class='righted'>
-    <a href='#' class='button wide submit icon okay save'>Save</a>
-    <a href='/style.tm2z?id=<%=style.id%>' class='button wide submit icon package'>Package</a>
+  <section class='text-right'>
+    <a href='#' class='button wide submit icon okay floppy'>Save</a>
+    <a href='/style.tm2z?id=<%=style.id%>' class='button wide submit icon folder'>Package</a>
   </section>
 </div>
 </form>
 
-<div id='layers' class='menu column w1 dark hide'>
-  <nav class='menu-title centered'>
-    <a href='#' class='button icon close left'></a>
-    <a href='#data' class='button title data-n icon plus'>Data</a>
-    <a href='#layers' class='button title data-y icon close'>Data</a>
+<div id='layers' class='menu column w1 dark hide fill-navy'>
+  <nav class='row1 col12 pin-top fill-navy-dark z100 center'><!--
+    --><a href='#' class='button icon close pin-left unround'></a><!--
+    --><a href='#data' class='button unround data-n icon plus quiet pad2x'>Data</a><!--
+    --><a href='#layers' class='button unround data-y icon x quiet pad2x'>Data</a>
   </nav>
-  <div class='menu-content'>
+  <div class='menu-content pin-left col12 pad4y scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
   </div>
 </div>
 
 <div id='full' class='column w2 l0'>
-  <div id='title'>
-    <div class='left'>
-      <span class='joined'>
-      <a class='button icon layers' href='#layers'></a><!--
+
+  <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-grey'>
+    <div class='pin-left'>
+      <span class='joined'><!--
+      --><a class='button icon menu quiet unround keyline-right' href='#layers'></a><!--
       <% if (style._tmp) { %>
-        --><a class='button icon okay' href='#saveas'>Save as</a>
+        --><a class='button icon floppy okay quiet unround' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='button icon okay save' href='#'>Save</a>
+        --><a class='button icon floppy okay quiet unround' href='#'>Save</a>
       <% } %>
       </span>
     </div>
-    <div class='right'>
-      <a class='button full-n icon full' href='#full'></a>
-      <a class='button full-y icon close' href='#'></a>
+    <div class='pin-right'>
+      <a class='full-n pad1 inline icon fullscreen quiet unround' href='#full'></a>
+      <a class='full-y button icon close unround' href='#'></a>
     </div>
-    <h3><a href='#settings'>
-      <span class='name'><%= style.name || 'Untitled' %></span>
-      <span class='icon gear' href='#settings'></span>
+    <h3><a href='#settings' class='small strong quiet'>
+      <span class='name rcon sprocket'><%= style.name || 'Untitled' %></span>
     </a></h3>
   </div>
+
   <div id='map' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
 </div>
 
-<div id='docs' class='pane w2'>
+<div id='docs' class='pane fill-grey scroll-styled w2'>
   <%= this['styledocs'](cartoRef) %>
 </div>
 
-<div id='fonts' class='pane w2'>
-  <nav><a class='button icon close' href='#docs'></a></nav>
-  <section>
+<div id='fonts' class='pane fill-grey scroll-styled w2'>
+  <header class='pad2x pad1y keyline-bottom'>
     <h2>Fonts</h2>
-  </section>
-  <div class='grid'><!--
-  <% fontsRef.forEach(function(font) { %>
-  --><div class='cell'><a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a></div><!--
-  <% }); %>
-  --></div>
+    <nav class='pin-right pad1'>
+      <a class='button icon close' href='#docs'></a>
+    </nav>
+  </header>
+  <div class='grid pad2 clearfix'>
+    <div class='keyline-all'><!--
+    <% fontsRef.forEach(function(font) { %>
+    --><div class='col6 keyline-bottom keyline-right'><a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a></div><!--
+    <% }); %>
+    --></div>
+  </div>
 </div>
 
 <div id='code' class='column w2 l2'>
-  <div class='left'>
-    <a class='button docs-n icon code' href='#docs'></a>
-    <a class='button docs-y icon close' href='#'></a>
+  <div class='pin-left'>
+    <a class='button docs-n icon brackets unround' href='#docs'></a>
+    <a class='button docs-y icon x unround' href='#'></a>
   </div>
-  <nav id='tabs'><!--
+  <nav id='tabs' class='keyline-bottom row1 pin-top fill-grey small'><!--
     --><a rel='template' href='#code-template' class='tab mini'><span class='icon tooltip'></span></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--
     <% }); %>
   --></nav>
-  <div class='right'>
-    <a class='button icon plus' href='#addtab'></a>
+  <div class='pin-right'>
+    <a class='button icon unround plus' href='#addtab'></a>
   </div>
   <form id='interactivity'>
     <label>Layer</label>
@@ -196,7 +202,7 @@
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
-<form id='addtab' class='modal centered'>
+<form id='addtab' class='modal center'>
   <a class='button submit icon close' href='#'></a>
   <span class='joined'>
     <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
@@ -322,7 +328,7 @@ Editor.prototype.adddata = function(ev) {
 Editor.prototype.addtab = function(ev) {
   var filename = $('#addtab-filename').val();
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='tab'>"+filename+" <span class='icon close delete'></span></a>").appendTo('nav#tabs');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab'>"+filename+" <span class='icon close delete'></span></a>").appendTo('nav#tabs');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';

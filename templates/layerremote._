@@ -1,4 +1,4 @@
-<form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
+<form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
   <nav><a href='#' class='button icon close'></a></nav>
   <section>
     <h2>

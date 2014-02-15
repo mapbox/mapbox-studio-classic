@@ -3,6 +3,7 @@
 
 <head>
   <meta charset='UTF-8'/>
+  <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
 </head>
@@ -25,7 +26,7 @@ case 'ENOENT':
   <h2><%= title %></h2>
   <%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %>
 </div>
-<div class='centered dark'>
+<div class='center dark'>
   <a class='button icon grid' href='/'>Back</a>
 </div>
 </div>

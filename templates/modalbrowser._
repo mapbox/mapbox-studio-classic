@@ -13,7 +13,7 @@
     <strong><%=cwd%></strong>
   </div>
   <div class='list'></div>
-  <div class='field centered joined'><!--
+  <div class='field center joined'><!--
     --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
     --><input type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
     --><input type='submit' value='<%=obj.label||'Save'%>'/>

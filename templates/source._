@@ -5,6 +5,7 @@
   <meta charset='UTF-8'/>
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
+  <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/source.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
@@ -32,9 +33,8 @@
       <a class='button icon okay save' href='#'>Save</a>
       <% } %>
     </div>
-    <h3><a href='#settings'>
-      <span class='name'><%= source.name || 'Untitled' %></span>
-      <span class='icon gear' href='#settings'></span>
+    <h3><a href='#settings' class='small strong'>
+      <span class='name rcon icon sprocket'><%= source.name || 'Untitled' %></span>
     </a></h3>
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
@@ -48,14 +48,14 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='menu column dark w2 l2'>
-  <nav class='menu-title centered'>
+  <nav class='center row1 col12 pin-top'>
     <% if (remote) { %>
     <h3>Layers</h3>
     <% } else { %>
     <a href='#addlayer' class='button icon plus title'>Layers</a>
     <% } %>
   </nav>
-  <div class='menu-content'>
+  <div class='menu-content pin-left col12 pad4y scroll-styled'>
   <% _(revlayers).each(function(l) { print(this.layeritem(_({_prefs:source._prefs}).extend(l))) }.bind(this)); %>
   </div>
 </div>
@@ -72,7 +72,7 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane dark w4 l0'>
+<form id='settings' class='pane scroll-styled dark w4 l0'>
 <div class='column w2 l0 darken'>
   <%= this.history(obj) %>
 </div>
@@ -104,10 +104,10 @@ revlayers.reverse();
     <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
     <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
   </section>
-  <section class='righted'>
+  <section class='text-right'>
     <a href='#' class='button wide submit icon okay save'>Save</a>
     <% if (!remote) { %>
-    <a href='/mbtiles?id=<%= source.id %>' class='button wide submit icon package'>Export</a>
+    <a href='/mbtiles?id=<%= source.id %>' class='button wide submit icon share'>Export</a>
     <% } %>
   </section>
 </div>
@@ -126,7 +126,7 @@ revlayers.reverse();
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
 
 <% if (!remote) { %>
-<form id='addlayer' class='modal centered'>
+<form id='addlayer' class='modal center'>
   <a class='button icon close submit' href='#'></a>
   <p class='joined'>
     <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--

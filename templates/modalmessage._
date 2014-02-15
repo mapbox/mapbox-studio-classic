@@ -1,4 +1,4 @@
-<div id='message' class='modal centered'>
+<div id='message' class='modal center'>
   <a class='button icon close submit' href='#'></a>
   <div class='message'></div>
 </div>

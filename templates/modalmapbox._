@@ -1,7 +1,7 @@
 <form id='addmapbox' class='modal'>
   <a class='button icon close submit' href='#'></a>
-  <p class='centered'>Add a remote source from MapBox</p>
-  <div class='joined centered'><!--
+  <p class='center'>Add a remote source from MapBox</p>
+  <div class='joined center'><!--
     --><input type='text' placeholder='MapBox ID' size='20' name='id' pattern='[\w+-]+\.[\w+-]+'/><!--
     --><input type='submit' value='Add source'/>
   </div>

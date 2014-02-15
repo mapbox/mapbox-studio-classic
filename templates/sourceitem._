@@ -1,4 +1,4 @@
---><a href='#source-<%=obj.id%>' class='cell <%=obj.active ? 'active' : ''%>'><span class='thumbed'>
+--><a href='#source-<%=obj.id%>' class='col6 fill-white inline pad1 <%=obj.active ? 'active' : ''%>'><span class='thumbed truncate'>
   <span class='image' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
   <strong><%= obj.name || 'Untitled' %></strong>
   <span class='desc'><%= obj.description || 'No description.' %></span>

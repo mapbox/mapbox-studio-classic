@@ -3,13 +3,14 @@
 
 <head>
   <meta charset='UTF-8'/>
+  <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
   <title>Authorization</title>
 </head>
 
 <body id='view' class='dark'>
 
-<div class='modal centered target'>
+<div class='modal center target'>
   <a href='/' class='icon button close'></a>
   <h2>Authorization</h2>
   <div class='iso'>

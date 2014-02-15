@@ -25,14 +25,6 @@
 /* Code pane */
 #code { background:#f8f8f8; }
 
-#code .left {
-  position:absolute; left:0px; top:0px;
-  width:40px; height:40px;
-  padding:5px;
-  background:#eee;
-  border-right:1px solid #ddd;
-  border-bottom:1px solid #ddd;
-  }
 #code .right {
   position:absolute; right:0px;
   width:40px; height:40px;
@@ -63,12 +55,8 @@
 
 /* Editor tabs */
 #tabs {
-  position:absolute;
   left:40px;
   right:40px;
-  height:40px;
-  border-bottom:1px solid #ddd;
-  background:#eee;
   }
 #tabs a.tab {
   margin:5px 0px 0px 5px;
@@ -135,32 +123,10 @@
 #docs:target ~ * a.docs-n { display:none; }
 #docs:target nav,
 #docs:target article.active { display:block; }
-#docs article {
-  position:absolute;
-  top:40px; bottom:0px; width:100%;
-  display:none;
-  overflow:auto;
-  }
-#docs nav {
-  display:none;
-  position:absolute;
-  height:40px;
-  border-bottom:1px solid #ccc;
-  width:100%;
-  right:0px; top:0px;
-  }
-#docs nav a {
-  overflow:hidden;
-  height:40px;
-  width:16.6666%;
-  padding:10px 15px 9px 10px;
-  border-right:1px solid #ccc;
-  border-bottom:1px solid #ccc;
-  }
-#docs nav a.active { background:#eee; }
+#docs article { display:none; }
 #docs section a.fonts {
   position:absolute;
-  right:0px;
+  right:0;
   margin:5px 0px;
   border-radius:4px 0px 0px 4px;
   }
@@ -195,8 +161,6 @@
   }
 
 /* Data library */
-#data a.active { opacity:0.5; }
-div.source { position:relative; }
 div.source a.section { cursor:pointer; }
 
 /* Visibility */

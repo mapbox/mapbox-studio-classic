@@ -27,7 +27,7 @@
       </div>
     </section>
     <%= this.layerconf(obj) %>
-    <section class='righted'>
+    <section class='text-right'>
       <a href='#' class='button submit icon okay'>Done</a>
     </section>
   </div>

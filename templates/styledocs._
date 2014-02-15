@@ -27,23 +27,23 @@ var sections = {
 };
 %>
 
-<nav><!--
---><a href='#docs-intro' class='icon home'>Intro</a><!--
---><a href='#docs-points' class='icon point'>Points</a><!--
---><a href='#docs-lines' class='icon line'>Lines</a><!--
---><a href='#docs-polygons' class='icon polygon'>Polygons</a><!--
---><a href='#docs-text' class='icon text'>Text</a><!--
---><a href='#docs-misc' class='icon star'>Misc</a><!--
+<nav class='pin-top row1 clearfix col12 keyline-bottom center'><!--
+--><a href='#docs-intro' class='col2 button quiet unround active icon home'>Intro</a><!--
+--><a href='#docs-points' class='col2 button quiet unround keyline-left icon marker'>Points</a><!--
+--><a href='#docs-lines' class='col2 button quiet unround keyline-left icon polyline'>Lines</a><!--
+--><a href='#docs-polygons' class='col2 button quiet unround keyline-left icon polygon'>Polygons</a><!--
+--><a href='#docs-text' class='col2 button quiet unround icon keyline-left pencil'>Text</a><!--
+--><a href='#docs-misc' class='col2 button quiet unround icon keyline-left star'>Misc</a><!--
 --></nav>
 
-<article id='docs-intro' class='active'>
+<article id='docs-intro' class='active scroll-styled pad4y'>
 
-<section>
-  <h2>Need help?</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Need help?</h1>
   <p>Read the <a href="/#!/manual">manual</a> for a full guide to using TileMill.</p>
 </section>
-<section>
-  <h2>Selectors</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Selectors</h1>
   <p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
   <p>A simple carto style looks like</p>
   <pre class='carto-snippet'>
@@ -69,8 +69,8 @@ var sections = {
   [zoom &gt; 10].red#world[NAME='USA']
   [NAME='USA'] [zoom &gt; 10] #world.red</pre>
 </section>
-<section>
-  <h2>Nested Styles</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Nested styles</h1>
   <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
   <pre class='carto-snippet'>
   // Applies to all layers with .land class
@@ -88,8 +88,8 @@ var sections = {
     #lakes { polygon-fill: #144; }
   }</pre>
 </section>
-<section>
-  <h2>Attachments</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Attachments</h1>
   <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
   <pre class='carto-snippet'>
   #world {
@@ -109,8 +109,8 @@ var sections = {
     }
   }</pre>
 </section>
-<section>
-  <h2>Values</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Values</h1>
   <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
   <h4>Colors</h4>
   <p>Carto accepts a variety of syntaxes for colors - HTML-style hex values,
@@ -133,15 +133,15 @@ var sections = {
   <p>Some properties accept keyword arguments, which should be entered literally</p>
   <pre class='carto-snippet'>
   raster-mode: normal;</pre>
-  <h2>Variables</h2>
+  <h3 class='space-bottom1'>Variables</h1>
   <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
   <pre class='carto-snippet'>
   @green: #2B4D2D;
   Map { background-color: @green; }
   #world { polygon-fill: @green; }</pre>
 </section>
-<section>
-  <h2>Operations</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Operations</h1>
   <p>Any number, color or variable can be operated on using mathematical expressions.</p>
   <pre class='carto-snippet'>
   @gray: #888;
@@ -152,8 +152,8 @@ var sections = {
     line-color: @gray / 2;
   }</pre>
 </section>
-<section>
-  <h2>Color functions</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Color functions</h1>
   <p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
   <pre class='carto-snippet'>
   // lighten or darken a color by 10%
@@ -176,13 +176,13 @@ var sections = {
 </article>
 
 <% _(sections).each(function(symbolizers, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>'>
+<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='scroll-styled pad4y'>
   <% _(symbolizers).each(function(symbolizer) { %>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section>
+  <section class='pad2 keyline-bottom'>
   <% if (/face-name/.test(p.css)) { %>
     <a href='#fonts' class='button wide submit fonts icon search'>View fonts</a>
   <% } %>

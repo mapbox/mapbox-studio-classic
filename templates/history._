@@ -6,16 +6,16 @@
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
   <section><h2>Styles</h2></section>
   <div class='grid clearfix'><!--
-  --><a class='cell' href='/new/style'><span class='thumbed create'>
+  --><a class='cell' href='/new/style'><span class='thumbed truncate fill-white round create'>
     <strong class='icon plus'>New Style</strong>
   </span></a><!--
-  --><a class='cell' href='#browsestyle'><span class='thumbed create'>
+  --><a class='cell' href='#browsestyle'><span class='thumbed truncate fill-white round create'>
     <strong class='icon dir'>Browse</strong>
   </span></a><!--
   <% _(obj.history.style).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  --><a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed style'>
+  --><a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed truncate fill-white round style'>
     <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
     <strong><%= item.name || 'Untitled' %></strong>
     <code><%= item.id.split('/').pop() %></code>
@@ -27,21 +27,21 @@
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
   <section><h2>Sources</h2></section>
   <div class='grid clearfix'><!--
-  --><a class='cell' href='/new/source'><span class='thumbed create'>
+  --><a class='col6 fill-white round pad1' href='/new/source'><span class='thumbed truncate inline create'>
     <strong class='icon plus'>New Source</strong>
   </span></a><!--
   --><span class='cell joined'><!--
-    --><a class='thumbed create w2' href='#browsesource'>
+    --><a class='thumbed truncate fill-white inline pad1 round create w2' href='#browsesource'>
       <strong class='icon dir'>Browse</strong>
     </a><!--
-    --><a class='thumbed create w2' href='#addmapbox'>
+    --><a class='thumbed truncate fill-white inline pad1 round create w2' href='#addmapbox'>
       <strong class='icon mapbox'>MapBox</strong>
     </a><!--
   --></span><!--
   <% _(obj.history.source).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  --><a class='cell' href='/source?id=<%=item.id%>'><span class='thumbed <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'>
+  --><a class='col6 inline round fill-white pad1' href='/source?id=<%=item.id%>'><span class='thumbed truncate <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'>
     <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
     <strong><%= item.name || 'Untitled' %></strong>
     <code><%= item.id.split('/').pop() %></code>
