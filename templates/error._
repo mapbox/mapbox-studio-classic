@@ -4,7 +4,7 @@
 <head>
   <meta charset='UTF-8'/>
   <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/app.css' rel='stylesheet' />
 </head>
 
 <body id='view'>

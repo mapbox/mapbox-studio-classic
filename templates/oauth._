@@ -3,7 +3,7 @@
 
 <head>
   <meta charset='UTF-8'/>
-  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/app.css' rel='stylesheet' />
   <title>Authorization</title>
 </head>
 

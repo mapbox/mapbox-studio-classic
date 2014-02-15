@@ -5,7 +5,7 @@
   <meta charset='UTF-8'/>
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/source.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror.js'></script>
