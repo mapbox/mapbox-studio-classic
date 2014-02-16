@@ -71,7 +71,7 @@
       <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
     </section>
 
-    <section class='pad1 space-bottom2 keyline-all round'>
+    <section class='pad1 space-bottom2 fill-darken0 keyline-all round'>
       <section class='clearfix'>
         <label class='inline col3'>Image format</label>
         <select name='format'>
