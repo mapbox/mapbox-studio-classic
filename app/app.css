@@ -25,7 +25,16 @@
 .short.button.icon:empty  { width:30px; padding:5px; }
 .short.button             { height:30px; padding:5px 10px; }
 
+.big.button {
+  height:auto;
+  padding:auto;
+  text-align:left;
+  }
+
 /* END Base candidates */
+
+.action { color:#fff; }
+.action:hover { background:#3bb2d0; color:#fff; }
 
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }
