@@ -1,6 +1,6 @@
 <form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
   <nav>
-    <span class='joined'><!--
+    <span class='pill'><!--
       --><a href='#mode-conf' class='button icon conf'></a><!--
       --><a href='#mode-fields' class='button icon fields'></a><!--
       --><a href='#mode-sql' class='button icon edit'></a>
@@ -23,7 +23,7 @@
     <section>
       <label>SQLite<label>
       <input type='hidden' name='Datasource-type' value='sqlite' />
-      <div class='joined'>
+      <div class='pill'>
         <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/><!--
         --><a href='#browsefile' class='button icon dir browsefile'></a>
       </div>
@@ -42,7 +42,7 @@
 
   <div class='sql'>
     <section>
-      <span class='joined'><!--
+      <span class='pill'><!--
         --><input name='Datasource-geometry_field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
         --><label class='ghost'>geom</label><!--
         --><input name='Datasource-key_field' type='text' value='<%= obj.Datasource['key_field'] || '' %>' class='last'/><!--

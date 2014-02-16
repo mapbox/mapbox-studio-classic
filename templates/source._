@@ -142,7 +142,7 @@ revlayers.reverse();
 <% if (!remote) { %>
 <form id='addlayer' class='modal center'>
   <a class='button icon close submit' href='#'></a>
-  <p class='joined'>
+  <p class='pill'>
     <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
     --><select name='type'>
       <option value='postgis'>PostGIS</option>
@@ -235,7 +235,7 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
-  'click .editor nav .joined a': 'togglemode',
+  'click .editor nav .pill a': 'togglemode',
   'click a.layer .delete': 'deletelayer',
   'click a.layer .xrayswatch': 'togglelayer',
   'click a.layer .xrayinspector': 'toggleinspector',

@@ -130,15 +130,13 @@
 <div id='full' class='column w2 l0'>
 
   <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-grey z1'>
-    <div class='pin-left'>
-      <span class='joined'><!--
+    <div class='pin-left'><!--
       --><a class='button icon menu quiet unround keyline-right' href='#layers'></a><!--
       <% if (style._tmp) { %>
         --><a class='button icon floppy okay quiet unround' href='#saveas'>Save as</a>
       <% } else { %>
         --><a class='button icon floppy okay quiet unround' href='#'>Save</a>
       <% } %>
-      </span>
     </div>
     <div class='pin-right'>
       <a class='full-n pad1 inline icon fullscreen quiet unround' href='#full'></a>
@@ -210,9 +208,9 @@
 
 <form id='addtab' class='modal center'>
   <a class='button submit icon close' href='#'></a>
-  <span class='joined'>
+  <span class='pill'>
     <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
-    --><input type='submit' value='New tab'/>
+    --><input class='round-right' type='submit' value='New tab'/>
   </span>
 </form>
 

@@ -1,6 +1,6 @@
 <form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
   <nav>
-    <span class='joined'><!--
+    <span class='pill'><!--
       --><a href='#mode-conf' class='button icon conf'></a><!--
       --><a href='#mode-fields' class='button icon fields'></a><!--
     --></span>
@@ -21,7 +21,7 @@
     <section>
       <label>Shapefile<label>
       <input type='hidden' name='Datasource-type' value='shape' />
-      <div class='joined'>
+      <div class='pill'>
         <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.shp' pattern='[\w+\d+\.\/_-]+\.(shp|SHP)'/><!--
         --><a href='#browsefile' class='button icon dir browsefile'></a>
       </div>

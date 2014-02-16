@@ -1,6 +1,6 @@
 <form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
   <nav>
-    <span class='joined'><!--
+    <span class='pill'><!--
       --><a href='#mode-conf' class='button icon conf'></a><!--
       --><a href='#mode-fields' class='button icon fields'></a><!--
       --><a href='#mode-sql' class='button icon edit'></a>
@@ -21,7 +21,7 @@
     </section>
     <section>
       <label>PostGIS<label>
-      <p class='joined'><!--
+      <p class='pill'><!--
         --><input type='text' name='Datasource-user' class='w1' value='<%= obj.Datasource.user %>' /><!--
         --><label class='ghost'>user</label><!--
         --><input type='text' name='Datasource-dbname' class='w1' value='<%= obj.Datasource.dbname %>' /><!--
@@ -50,7 +50,7 @@
 
   <div class='sql'>
     <section>
-      <span class='joined'><!--
+      <span class='pill'><!--
         --><input name='Datasource-geometry_field' class='w13' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
         --><label class='ghost'>geom field</label><!--
         --><input name='Datasource-geometry_table' class='w13' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/><!--
