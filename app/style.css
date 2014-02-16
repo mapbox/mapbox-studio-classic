@@ -117,16 +117,14 @@
 #docs code.type,
 #docs code.value,
 #docs code.value:after { margin-left:5px; }
-#docs code.type,
-#docs code.options { color:#999; }
 #docs code.value   {
-  background:#eee;
+  background:transparent;
   color:#708;
   padding:3px 5px;
   }
 #docs code.value:after {
   content:'default';
-  font-family:Opensans,sans; color:#999;
+  color:#404040;
   font-style:italic;
   }
 #docs code.value,

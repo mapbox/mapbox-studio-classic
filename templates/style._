@@ -176,7 +176,7 @@
 <div id='code' class='column w2 l2'>
   <div class='pin-left z1'>
     <a class='button docs-n icon brackets unround quiet' href='#docs'></a>
-    <a class='button docs-y icon x unround quiet active' href='#'></a>
+    <a class='button docs-y icon x unround' href='#'></a>
   </div>
   <nav id='tabs' class='keyline-bottom row1 pad1y pad4x pin-top fill-grey small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--

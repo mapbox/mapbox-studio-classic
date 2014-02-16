@@ -47,8 +47,10 @@
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
     <div class='col6 pad1'>
-      <a class='col12 round truncate fill-white small strong quiet strong <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>' href='/source?id=<%=item.id%>'>
-        <span class='fill-darken1 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
+      <a class='col12 round contain truncate fill-white small strong quiet strong' href='/source?id=<%=item.id%>'>
+        <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+        <span class='fill-darken1 small-graphic thumbed inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
+
         <span class='inline pad2x pad1y'>
           <%= item.name || 'Untitled' %><br />
           <code><%= item.id.split('/').pop() %></code>
