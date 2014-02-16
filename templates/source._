@@ -25,17 +25,18 @@
 <div id='perf'></div>
 
 <div id='full' class='column dark w2 l0'>
-  <div id='title' class='dark'>
-    <div class='left'>
-      <% if (source._tmp) { %>
-      <a class='button icon okay' href='#saveas'>Save as</a>
-      <% } else { %>
-      <a class='button icon okay save' href='#'>Save</a>
-      <% } %>
+  <div id='title' class='dark fill-dark contain row1 pin-top col12 center z1'>
+    <div class='fill-darken1 pad1y'>
+      <div class='pin-left'>
+        <% if (source._tmp) { %>
+        <a class='button unround quiet icon okay floppy' href='#saveas'>Save as</a>
+        <% } else { %>
+        <a class='button unround quiet icon okay floppy' href='#'>Save</a>
+        <% } %>
+      </div>
+      <a href='#settings' class='small strong quiet'><%= source.name || 'Untitled' %></a>
+      <a href='#settings' class='icon sprocket'></a>
     </div>
-    <h3><a href='#settings' class='small strong'>
-      <span class='name rcon icon sprocket'><%= source.name || 'Untitled' %></span>
-    </a></h3>
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
@@ -47,16 +48,18 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='menu column dark w2 l2'>
-  <nav class='center row1 col12 pin-top'>
+<div id='layers' class='menu column fill-dark dark w2 l2'>
+  <nav class='row1 col12 center pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
-    <h3>Layers</h3>
+    <strong class='small inline pad1y'>Layers</strong>
     <% } else { %>
-    <a href='#addlayer' class='button icon plus title'>Layers</a>
+    <a href='#addlayer' class='button icon plus pad2x unround quiet'>Layers</a>
     <% } %>
   </nav>
   <div class='menu-content pin-left col12 pad4y scroll-styled'>
-  <% _(revlayers).each(function(l) { print(this.layeritem(_({_prefs:source._prefs}).extend(l))) }.bind(this)); %>
+    <% _(revlayers).each(function(l) { %>
+      <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
+    <% }.bind(this)); %>
   </div>
 </div>
 <div id='editor'>
@@ -77,39 +80,50 @@ revlayers.reverse();
   <%= this.history(obj) %>
 </div>
 <div class='column w2 l2'>
-  <nav><a class='button icon close' href='#'></a></nav>
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
-  <section>
-    <h2>Settings</h2>
-  </section>
-  <section>
-    <label class='inline'>Name</label>
-    <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
-  </section>
-  <section>
-    <label class='inline'>Description</label>
-    <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
-  </section>
-  <section>
-    <label class='inline'>Attribution</label>
-    <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
-  </section>
-  <section>
-    <label class='inline'>Minzoom</label>
-    <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-    <label class='range' id='minzoom-val'><%= source.minzoom %></label>
-  </section>
-  <section>
-    <label class='inline'>Maxzoom</label>
-    <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-    <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
-  </section>
-  <section class='text-right'>
-    <a href='#' class='button wide submit icon okay save'>Save</a>
+  <header class='pad2 keyline-bottom'>
+    <h3>Settings</h3>
+    <nav class='pin-right pad1'><a class='button icon close quiet' href='#'></a></nav>
+  </header>
+
+  <div class='pad2'>
+    <section class='space-bottom2'>
+      <label class='col12 space-bottom1'>Name</label>
+      <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+    </section>
+    <section class='space-bottom2'>
+      <label class='col12 space-bottom1'>Description</label>
+      <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+    </section>
+    <section class='space-bottom2'>
+      <label class='col12 space-bottom1'>Attribution</label>
+      <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+    </section>
+
+    <section class='pad1 space-bottom2 keyline-all round'>
+      <section class='clearfix'>
+        <label class='inline col3'>Minzoom</label>
+        <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+        <label class='range' id='minzoom-val'><%= source.minzoom %></label>
+      </section>
+      <section class='clearfix'>
+        <label class='inline col3'>Maxzoom</label>
+        <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+        <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
+      </section>
+    </section>
+
     <% if (!remote) { %>
-    <a href='/mbtiles?id=<%= source.id %>' class='button wide submit icon share'>Export</a>
+      <section class='pill col4 margin8 clearfix'><!--
+        --><a href='#' class='button col6 submit icon okay save floppy'>Save</a><!--
+        --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
+      </section>
+    <% } else { %>
+      <section class='text-right'>
+        <a href='#' class='button submit icon okay save floppy'>Save</a>
+      </section>
     <% } %>
-  </section>
+  </div>
 </div>
 </form>
 

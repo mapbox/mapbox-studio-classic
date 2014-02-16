@@ -1,27 +1,32 @@
 <form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
-  <nav><a href='#' class='button icon close'></a></nav>
-  <section>
-    <h2>
-      <%= obj.id %>
-    </h2>
+  <header class='pad2 keyline-bottom'>
+    <h3><%= obj.id %></h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
+    <nav class='pin-right pad1'><a href='#' class='button icon close'></a></nav>
+  </header>
+
+  <section class='pad2'>
+    <section class='space-bottom'>
+      <label class='col12 space-bottom1'>Description</label>
+      <input disabled='disabled' class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+    </section>
+    <% if ('minzoom' in obj) { %>
+
+    <section class='keyline-all round pad1'>
+      <section class='clearfix'>
+        <label class='inline col3'>Minzoom</label>
+        <input disabled='disabled' name='minzoom' class='min' type='range' value='<%= obj.minzoom %>' min='0' max='22' step='1'/>
+        <label class='range small strong'><%= obj.minzoom %></label>
+      </section>
+    <% } %>
+    <% if ('maxzoom' in obj) { %>
+      <section class='clearfix'>
+        <label class='inline col3'>Maxzoom</label>
+        <input disabled='disabled' name='maxzoom' class='max' type='range' value='<%= obj.maxzoom %>' min='0' max='22' step='1'/>
+        <label class='range small strong'><%= obj.maxzoom %></label>
+      </section>
+    <% } %>
+    </section>
+
   </section>
-  <section>
-    <label class='inline'>Description</label>
-    <input disabled='disabled' class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
-  </section>
-  <% if ('minzoom' in obj) { %>
-  <section>
-    <label class='inline'>Minzoom</label>
-    <input disabled='disabled' name='minzoom' class='min' type='range' value='<%= obj.minzoom %>' min='0' max='22' step='1'/>
-    <label class='range'><%= obj.minzoom %></label>
-  </section>
-  <% } %>
-  <% if ('maxzoom' in obj) { %>
-  <section>
-    <label class='inline'>Maxzoom</label>
-    <input disabled='disabled' name='maxzoom' class='max' type='range' value='<%= obj.maxzoom %>' min='0' max='22' step='1'/>
-    <label class='range'><%= obj.maxzoom %></label>
-  </section>
-  <% } %>
 </form>

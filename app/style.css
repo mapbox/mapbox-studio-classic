@@ -39,35 +39,18 @@
 
 /* Interactivity form */
 #code #interactivity {
-  position:absolute;
-  top:40px; left:0px; right:0px;
-  height:40px; padding:10px 10px;
-  border-bottom:1px solid #ddd;
-  }
-#code #interactivity label { margin-right:10px; }
-#code #interactivity select {
-  background:#fff;
-  height:20px;
-  padding:0px 5px;
-  cursor:pointer;
-  box-shadow:0px 0px 0px 1px rgba(0,0,0,0.1);
+  top:40px;
   }
 
 /* Editor tabs */
-#tabs {
-  left:40px;
-  right:40px;
-  }
 #tabs a.tab {
   margin:5px 0px 0px 5px;
-  padding:5px 10px;
-  border-radius:4px;
-  position:relative;
-  overflow:hidden;
-  text-overflow:ellipsis;
   }
+#tabs a.tab:hover,
 #tabs a.tab.active {
   background:#ddd;
+  }
+#tabs a.tab.active {
   padding-right:30px;
   }
 #tabs a.tab.mini,

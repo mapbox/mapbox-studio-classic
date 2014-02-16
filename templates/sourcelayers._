@@ -4,11 +4,11 @@
   <h3><%= obj.name || 'Untitled' %></h3>
   <div class='pill small pin-right pad1 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <% if (obj.tiles) { %>
-    <a name='remote' class='button quiet'>Remote</a><!--
-    --><a class='button icon redo recache quiet' href='#recache'></a>
+    <a name='remote' class='button short quiet'>Remote</a><!--
+    --><a class='button short icon redo recache quiet' href='#recache'></a>
     <% } else { %>
-    <a name='local' class='button'>Local</span><!--
-    --><a class='button icon redo recache quiet' href='#recache'></a>
+    <a name='local' class='button short quiet'>Local</span><!--
+    --><a class='button short icon redo recache quiet' href='#recache'></a>
     <% } %>
   </div>
 </div>
