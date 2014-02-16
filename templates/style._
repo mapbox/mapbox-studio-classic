@@ -51,62 +51,68 @@
   <%= this.history(obj) %>
 </div>
 <div class='column w2 l2'>
-  <nav>
-    <a class='button icon close' href='#'></a>
-  </nav>
-  <section>
-    <h2>Settings</h2>
-  </section>
-  <section>
-    <label class='inline'>Name</label>
-    <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
-  </section>
-  <section>
-    <label class='inline'>Description</label>
-    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
-  </section>
-  <section>
-    <label class='inline'>Attribution</label>
-    <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
-  </section>
-  <section>
-    <label class='inline'>Image format</label>
-    <select name='format'>
-      <% _({
-        'png24': 'png (24-bit)',
-        'png8:m=h': 'png (256 colors)',
-        'png8:m=h:c=192': 'png (192 colors)',
-        'png8:m=h:c=128': 'png (128 colors)',
-        'png8:m=h:c=64': 'png (64 colors)',
-        'png8:m=h:c=32': 'png (32 colors)',
-        'jpeg95': 'jpeg (95%)',
-        'jpeg90': 'jpeg (90%)',
-        'jpeg85': 'jpeg (85%)',
-        'jpeg80': 'jpeg (80%)'
-      }).each(function(label, format) { %>
-      <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
-      <% }); %>
-    </select>
-  </section>
-  <section>
-    <label class='inline'>Minzoom</label>
-    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-    <label class='range' id='minzoom-val'><%= style.minzoom %></label>
-  </section>
-  <section>
-    <label class='inline'>Maxzoom</label>
-    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-    <label class='range' id='maxzoom-val'><%= style.maxzoom %></label>
-  </section>
-  <section>
-    <label class='inline'>Scale</label>
-    <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-    <label class='range' id='scale-val'><%= style.scale %></label>
-  </section>
-  <section class='text-right'>
-    <a href='#' class='button wide submit icon okay floppy'>Save</a>
-    <a href='/style.tm2z?id=<%=style.id%>' class='button wide submit icon folder'>Package</a>
-  </section>
+  <header class='pad2 keyline-bottom'>
+    <h3>Settings</h3>
+    <nav class='pin-right pad1'>
+      <a class='button icon close' href='#'></a>
+    </nav>
+  </header>
+  <div class='pad2'>
+    <section class='space-bottom1'>
+      <label class='col12 space-bottom1'>Name</label>
+      <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
+    </section>
+    <section class='space-bottom1'>
+      <label class='col12 space-bottom1'>Description</label>
+      <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
+    </section>
+    <section class='space-bottom2'>
+      <label class='col12 space-bottom1'>Attribution</label>
+      <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+    </section>
+
+    <section class='pad1 space-bottom2 keyline-all round'>
+      <section class='clearfix'>
+        <label class='inline col3'>Image format</label>
+        <select name='format'>
+          <% _({
+            'png24': 'png (24-bit)',
+            'png8:m=h': 'png (256 colors)',
+            'png8:m=h:c=192': 'png (192 colors)',
+            'png8:m=h:c=128': 'png (128 colors)',
+            'png8:m=h:c=64': 'png (64 colors)',
+            'png8:m=h:c=32': 'png (32 colors)',
+            'jpeg95': 'jpeg (95%)',
+            'jpeg90': 'jpeg (90%)',
+            'jpeg85': 'jpeg (85%)',
+            'jpeg80': 'jpeg (80%)'
+          }).each(function(label, format) { %>
+          <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+          <% }); %>
+        </select>
+      </section>
+      <section class='clearfix'>
+        <label class='inline col3'>Minzoom</label>
+        <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+        <label class='range small strong' id='minzoom-val'><%= style.minzoom %></label>
+      </section>
+      <section class='clearfix'>
+        <label class='inline col3'>Maxzoom</label>
+        <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+        <label class='range small strong' id='maxzoom-val'><%= style.maxzoom %></label>
+      </section>
+      <section class='clearfix'>
+        <label class='inline col3'>Scale</label>
+        <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
+        <label class='range small strong' id='scale-val'><%= style.scale %></label>
+      </section>
+    </section>
+
+    <section class='pill col4 margin8 clearfix'><!--
+      --><a href='#' class='button col6 wide submit icon okay floppy'>Save</a><!--
+      --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button wide submit icon folder'>Package</a>
+    </section>
+  </div>
 </div>
 </form>
 
@@ -174,7 +180,7 @@
     <a class='button docs-n icon brackets unround' href='#docs'></a>
     <a class='button docs-y icon x unround' href='#'></a>
   </div>
-  <nav id='tabs' class='keyline-bottom row1 pin-top fill-grey small'><!--
+  <nav id='tabs' class='keyline-bottom row1 pad1y pin-top fill-grey small'><!--
     --><a rel='template' href='#code-template' class='tab mini'><span class='icon tooltip'></span></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--

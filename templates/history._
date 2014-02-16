@@ -1,51 +1,60 @@
-<nav class='joined'><!--
-  --><a class='button wide submit tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
-  --><a class='button wide submit tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
-</nav>
+<header class='pad1x pad1y clearfix keyline-bottom'>
+  <nav class='tabs col6 margin3 clearfix'><!--
+    --><a class='col6 submit tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
+    --><a class='col6 submit tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
+  </nav>
+</header>
 
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
-  <section><h2>Styles</h2></section>
-  <div class='grid clearfix'><!--
-  --><a class='cell' href='/new/style'><span class='thumbed truncate fill-white round create'>
-    <strong class='icon plus'>New Style</strong>
-  </span></a><!--
-  --><a class='cell' href='#browsestyle'><span class='thumbed truncate fill-white round create'>
-    <strong class='icon dir'>Browse</strong>
-  </span></a><!--
+  <div class='grid clearfix pad1'>
+
+    <div class='col6 pad1'>
+      <a class='round col12 pad1 truncate fill-white icon big plus create quiet' href='/new/style'>New style</a>
+    </div>
+    <div class='col6 pad1'>
+      <a class='round col12 pad1 truncate fill-white icon big folder quiet' href='#browsestyle'>Browse</a>
+    </div>
+
   <% _(obj.history.style).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  --><a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed truncate fill-white round style'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
-    <strong><%= item.name || 'Untitled' %></strong>
-    <code><%= item.id.split('/').pop() %></code>
-  </span></a><!--
+  <div class='col6 pad1'>
+    <a class='col12 round quiet small strong truncate fill-white' href='/style?id=<%=item.id%>'>
+      <span class='small-graphic fill-light inline' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
+      <span class='pad2x inline'>
+        <%= item.name || 'Untitled' %><br />
+        <code><%= item.id.split('/').pop() %></code>
+      </span>
+    </a>
+  </div>
   <% }); %>
-  --></div>
+  </div>
 </div>
 
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
-  <section><h2>Sources</h2></section>
-  <div class='grid clearfix'><!--
-  --><a class='col6 fill-white round pad1' href='/new/source'><span class='thumbed truncate inline create'>
-    <strong class='icon plus'>New Source</strong>
-  </span></a><!--
-  --><span class='cell joined'><!--
-    --><a class='thumbed truncate fill-white inline pad1 round create w2' href='#browsesource'>
-      <strong class='icon dir'>Browse</strong>
-    </a><!--
-    --><a class='thumbed truncate fill-white inline pad1 round create w2' href='#addmapbox'>
-      <strong class='icon mapbox'>MapBox</strong>
-    </a><!--
-  --></span><!--
+  <div class='grid pad1 clearfix'>
+
+    <div class='col6 pad1'>
+      <a class='round col12 pad1 truncate fill-white icon big plus create quiet' href='/new/source'>New source</a>
+    </div>
+
+    <div class='col6 pad1'><!--
+      --><a class='fill-white inline pad1 round-left keyline-right round create w2 icon big folder quiet' href='#browsesource'>Browse</a><!--
+      --><a class='fill-white inline pad1 round-right round create w2 big icon mapbox quiet' href='#addmapbox'>Mapbox</a>
+    </div>
+
   <% _(obj.history.source).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  --><a class='col6 inline round fill-white pad1' href='/source?id=<%=item.id%>'><span class='thumbed truncate <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
-    <strong><%= item.name || 'Untitled' %></strong>
-    <code><%= item.id.split('/').pop() %></code>
-  </span></a><!--
+    <div class='col6 pad1'>
+      <a class='col12 round fill-white truncate small strong quiet <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>' href='/source?id=<%=item.id%>'>
+        <span class='fill-light small-graphic inline' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
+        <span class='inline pad2x'>
+          <%= item.name || 'Untitled' %><br />
+          <code><%= item.id.split('/').pop() %></code>
+        </span>
+      </a>
+    </div>
   <% }); %>
-  --></div>
+  </div>
 </div>

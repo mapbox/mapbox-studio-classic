@@ -79,23 +79,6 @@ section pre {
   }
 section .CodeMirror { display:block; position:static; height:400px; visibility:visible; }
 
-.button.wide,
-input.wide[type=button],
-input.wide[type=submit] {
-  min-width:80px;
-  text-align:center;
-  margin-right:10px;
-  }
-
-nav { white-space:nowrap; }
-nav > a {
-  display:inline-block;
-  text-align:left;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  }
-
 .column {
   position:absolute;
   bottom:0%;
@@ -490,18 +473,11 @@ label.ghost {
   opacity:0.2;
   }
 
-label.inline { display:inline-block; width:100px; }
 label.xray { opacity:0.5; width:80px; }
 label.w1,
 label.w2,
 label.w3 { display:inline-block; }
 
-label.range {
-  display:inline-block;
-  width:30px;
-  font-weight:bold;
-  text-align:center;
-  }
 /* CodeMirror*/
 .CodeMirror,
 .CodeMirror * {
