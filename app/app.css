@@ -24,17 +24,14 @@
 
 .short.button.icon:empty  { width:30px; padding:5px; }
 .short.button             { height:30px; padding:5px 10px; }
-
-.big.button {
-  height:auto;
-  padding:auto;
-  text-align:left;
-  }
-
 /* END Base candidates */
 
+.dark.action,
 .action { color:#fff; }
+.dark.action:hover,
 .action:hover { background:#3bb2d0; color:#fff; }
+
+.action-description { color:#404040; }
 
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }

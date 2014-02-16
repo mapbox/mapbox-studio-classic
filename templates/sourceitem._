@@ -1,6 +1,6 @@
 --><a href='#source-<%=obj.id%>' class='col6 fill-white round truncate small strong quiet inline <%=obj.active ? 'active' : ''%>'>
   <span class='fill-darken1 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
-  <span class='inline pad2x pad1y'>
+  <span class='inline pad2x pad1y action-description'>
     <strong><%= obj.name || 'Untitled' %></strong><br />
     <span class='desc'><%= obj.description || 'No description.' %></span>
   </span>

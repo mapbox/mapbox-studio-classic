@@ -21,7 +21,7 @@ with no sources. Once vector tile compositing is available revisit.
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
 <a class='small layer col12 quiet truncate contain keyline-bottom pad1' id='layers-<%=l.id%>' href='#layers-<%=l.id%>'>
-  <span class='polygon icon <%=l.geometry||'unknown'%>'></span>
+  <span class='document icon <%=l.geometry||'unknown'%>'></span>
   <%=l.id%>
   <div class='pin-right pad0'>
     <span class='zooms pad0 fill-darken1 round small'>
