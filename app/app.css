@@ -12,6 +12,20 @@
   bottom:0;
   right:0;
   }
+.pin-bottomleft {
+  position:absolute;
+  bottom:0;
+  left:0;
+  }
+
+.fill-dark            { background-color:#404040; }
+.fill-dark a          { color:#fff; }
+.fill-dark .pill > *  { border-color:#333; }
+
+.short.button.icon:empty  { width:30px; padding:5px; }
+.short.button             { height:30px; padding:5px 10px; }
+
+/* END Base candidates */
 
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }
@@ -28,14 +42,11 @@ body.dark {
   background-image:-webkit-linear-gradient(#333 75%,#222);
   }
 
-.dark { color:#fff; }
 .clear { background:transparent !important; }
 .lefted { text-align:left; }
 .iso { margin:40px 0px; }
 
 section.thin { padding:10px 30px 9px; }
-section > *:last-child { margin-bottom:0px; }
-section:last-child { border-bottom:0px; }
 
 .dark section,
 .dark a.section { border-color:rgba(0,0,0,0.1); }
@@ -64,15 +75,6 @@ section:last-child { border-bottom:0px; }
   border-radius:4px;
   margin-right:10px;
   }
-.dark .thumbed .icon::before { background-color:rgba(0,0,0,0.2); }
-.thumbed:hover { background-color:rgba(255,255,255,0.8); }
-.dark .thumbed { background-color:rgba(0,0,0,0.2); }
-.dark .thumbed:hover { background-color:rgba(0,0,0,0.4); }
-
-.thumbed.create { padding-left:15px; }
-.thumbed.create { background-color:rgba(255,255,255,0.8); }
-.thumbed.create strong { line-height:40px; font-size:125%; }
-.thumbed.create:hover { background-color:rgba(255,255,255,1); }
 
 section pre {
   margin-bottom:20px;
@@ -425,9 +427,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   width:80px;
   overflow:hidden;
   }
-
-/* Titlebar */
-#title.dark .button:active { background-color:rgba(0,0,0,0.2); }
 
 /* Project history */
 #settings-style,
