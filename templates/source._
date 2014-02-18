@@ -41,7 +41,7 @@
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
-  <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
+  <div id='zoomedto' class='fill-dark dark z<%=source.center[2]%>'></div>
 </div>
 
 <%

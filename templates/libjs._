@@ -66,8 +66,8 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
       html += [
-        "<a href='#zoomedto' class='quiet z z",z,"'>",
-        "<strong>z",z,"</strong>",
+        "<a href='#zoomedto' class='strong col12 quiet z z",z,"'>",
+        "<strong class='pin-left center keyline-right'>z",z,"</strong>",
         s ? "<span class='avg'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',

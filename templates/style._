@@ -150,7 +150,7 @@
   <div id='map' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
-  <div id='zoomedto' class='z<%=style.center[2]%>'></div>
+  <div id='zoomedto' class='fill-white z<%=style.center[2]%>'></div>
 </div>
 
 <div id='docs' class='pane fill-grey scroll-styled w2'>

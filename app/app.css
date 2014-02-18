@@ -157,26 +157,21 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   top:40px;
   margin:10px 10px 0px 0px;
   height:0px;
-  background:#fff;
   }
 #zoomedto .z {
   display:none;
   padding:0px 0px 0px 60px;
   position:relative;
   border-radius:3px;
-  border:1px solid #ccc;
+  border:1px solid #999;
+  border-color:rgba(0,0,0,0.4);
   width:100px; height:20px;
   font-weight:bold;
   font-size:10px;
   line-height:19px;
   }
 #zoomedto strong {
-  position:absolute;
-  left:0px;
-  padding:0px 5px;
   width:30px;
-  text-align:center;
-  border-right:1px solid #ccc;
   }
 #zoomedto .range {
   height:2px;
