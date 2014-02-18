@@ -23,7 +23,7 @@
       <input type='hidden' name='Datasource-type' value='csv' />
       <div class='pill'>
         <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.csv' pattern='[\w+\d+\.\/_-]+\.(csv|CSV)'/><!--
-        --><a href='#browsefile' class='button icon dir browsefile'></a>
+        --><a href='#browsefile' class='button icon folder browsefile'></a>
       </div>
     </section>
     <%= this.layerconf(obj) %>

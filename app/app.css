@@ -24,6 +24,28 @@
 
 .short.button.icon:empty  { width:30px; padding:5px; }
 .short.button             { height:30px; padding:5px 10px; }
+
+/* Modal popup */
+.modal {
+  display:none;
+  position:absolute; left:50%; top:20%; z-index:2001;
+  margin:0px 0px 0px -25%;
+  }
+.modal .x {
+  top:-15px; right:-15px;
+  }
+#mask {
+  display:none;
+  position:absolute; z-index:2000;
+  width:100%; height:100%;
+  }
+.modal.target,
+.modal:target,
+.modal:target ~ #mask { display:block; }
+
+.dark .modal { background:#444; }
+.dark #mask { background:rgba(0,0,0,0.8); }
+
 /* END Base candidates */
 
 .dark.action,
@@ -116,7 +138,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 .pane:target { bottom:0%; }
 .pane.dark {
   background:#444;
-  background-image:-webkit-linear-gradient(#444 75%,#333);
   }
 .pane > .column { overflow:auto; }
 
@@ -423,34 +444,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #settings-style.active,
 #settings-source.active { display:block; }
 
-/* Modal popup */
-.modal {
-  display:none;
-  position:absolute; left:50%; top:20%; z-index:2001;
-  padding:20px;
-  border-radius:4px;
-  width:320px;
-  margin:0px 0px 0px -160px;
-  background:#ddd;
-  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 3px;
-  }
-.modal .close {
-  position:absolute; top:-15px; right:-15px;
-  border-radius:50%;
-  }
-#mask {
-  display:none;
-  position:absolute; z-index:2000;
-  width:100%; height:100%;
-  background:rgba(224,224,224,0.8);
-  }
-.modal.target,
-.modal:target,
-.modal:target ~ #mask { display:block; }
-
-.dark .modal { background:#444; }
-.dark #mask { background:rgba(0,0,0,0.8); }
-
 label.ghost {
   position:absolute;
   width:50px;
@@ -546,41 +539,7 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* File browser modal */
 .modal.browser {
-  top:10%; bottom:10%;
-  padding:0px;
-  }
-.modal.browser .cwd,
-.modal.browser .list,
-.modal.browser .field { position:absolute; width:100%; }
-.modal.browser .cwd {
-  z-index:1;
-  height:50px;
-  padding:10px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  border-bottom:1px solid rgba(0,0,0,0.1);
-  }
-.modal.browser .cwd a { margin-right:10px; }
-.modal.browser .field {
-  z-index:1;
-  bottom:0px;
-  height:50px;
-  padding:9px 20px 10px;
-  border-top:1px solid rgba(0,0,0,0.1);
-  }
-.modal.browser .list {
-  top:50px; bottom:50px;
-  overflow:auto;
-  background:rgba(0,0,0,0.1);
-  }
-.modal.browser .list a {
-  display:block;
-  padding:5px 20px 4px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  border-bottom:1px solid rgba(0,0,0,0.1);
+  top:10%;;
   }
 
 /* Media queries */

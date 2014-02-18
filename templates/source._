@@ -140,8 +140,8 @@ revlayers.reverse();
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
 
 <% if (!remote) { %>
-<form id='addlayer' class='modal center'>
-  <a class='button icon close submit' href='#'></a>
+<form id='addlayer' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class='button icon x dot pin-right submit' href='#'></a>
   <p class='pill'>
     <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
     --><select name='type'>
@@ -156,7 +156,7 @@ revlayers.reverse();
 </form>
 <% } %>
 
-<div id='mask'></div>
+<div id='mask' class='fill-darken2 animate'></div>
 
 <script>
 var map, tiles, grids, gridc;

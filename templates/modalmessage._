@@ -1,4 +1,4 @@
-<div id='message' class='modal center'>
-  <a class='button icon close submit' href='#'></a>
+<div id='message' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class='button icon close submit dot pin-right' href='#'></a>
   <div class='message'></div>
 </div>

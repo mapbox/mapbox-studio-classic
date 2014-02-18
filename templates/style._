@@ -206,15 +206,17 @@
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
-<form id='addtab' class='modal center'>
-  <a class='button submit icon close' href='#'></a>
-  <span class='pill'>
-    <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
-    --><input class='round-right' type='submit' value='New tab'/>
-  </span>
+<form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class='button submit icon x dot pin-right' href='#'></a>
+  <div class='clearfix'>
+    <span class='pill col8 margin2'>
+      <input class='col8' type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
+      --><input class='col4 round-right' type='submit' value='New tab'/>
+    </span>
+  </div>
 </form>
 
-<div id='mask'></div>
+<div id='mask' class='fill-darken2 animate'></div>
 
 <script>
 var map = baselayer = tiles = grids = gridc = null;

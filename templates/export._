@@ -11,9 +11,9 @@
 
 <body id='view' class='dark <%= job.stats ? 'task' : 'stat' %>'>
 
-<div class='modal center target'>
+<div class='modal center target round pad2 col6 margin3 fill-light'>
   <h2><%= source.name || 'Untitled' %></h2>
-  <a href='/source?id=<%=source.id%>' class='icon button close stat'></a>
+  <a href='/source?id=<%=source.id%>' class='icon button x dot stat pin-right'></a>
 
   <% var pct = job.stats ? (100 * job.stats.processed / job.stats.total).toFixed(1) : '100.0'; %>
   <small>

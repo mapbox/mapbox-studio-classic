@@ -10,8 +10,8 @@
 
 <body id='view' class='dark'>
 
-<div class='modal center target'>
-  <a href='/' class='icon button close'></a>
+<div class='modal center round pad2 target col6 margin3 fill-light'>
+  <a href='/' class='icon button x pin-right dot'></a>
   <h2>Authorization</h2>
   <div class='iso'>
     <h1><%= account %></h1>
