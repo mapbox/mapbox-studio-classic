@@ -35,7 +35,7 @@
   <%
     print(_(history.source).chain()
       .sortBy(function(item) {
-        return item.name.toLowerCase();
+        return (item.name||'').toLowerCase();
       })
       .map(function(item) {
         return this.sourceitem(_({active:item.id === style.source}).defaults(item));
