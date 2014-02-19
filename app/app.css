@@ -61,13 +61,10 @@ pre,
 /* Base styles */
 body {
   background:#ddd;
-  background-image:-webkit-linear-gradient(#ddd 75%,#bbb);
   overflow:hidden;
   }
-
 body.dark {
-  background:#333;
-  background-image:-webkit-linear-gradient(#333 75%,#222);
+  background-color:#333;
   }
 
 .clear { background:transparent !important; }
