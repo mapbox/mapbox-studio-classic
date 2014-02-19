@@ -144,14 +144,19 @@ app.all('/:style(style.json)', function(req, res, next) {
 
 app.get('/:style(style):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
-    return res.send(tm.templates.style({
-        cwd: process.env.HOME,
-        fontsRef: require('mapnik').fonts(),
-        cartoRef: require('carto').tree.Reference.data,
-        sources: [req.style._backend.data],
-        style: req.style.data,
-        history: req.history
-    }));
+    try {
+        var page = tm.templates.style({
+            cwd: process.env.HOME,
+            fontsRef: require('mapnik').fonts(),
+            cartoRef: require('carto').tree.Reference.data,
+            sources: [req.style._backend._source.data],
+            style: req.style.data,
+            history: req.history
+        })
+    } catch(err) {
+        return next(new Error('style template: ' + err.message));
+    }
+    return res.send(page);
 });
 
 app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', function(req, res, next) {
@@ -285,13 +290,18 @@ app.all('/mbtiles.json', function(req, res, next) {
 
 app.get('/:source(source):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
-    return res.send(tm.templates.source({
-        tm: tm,
-        cwd: process.env.HOME,
-        remote: url.parse(req.query.id).protocol !== 'tmsource:',
-        source: req.source.data,
-        history: req.history
-    }));
+    try {
+        var page = tm.templates.source({
+            tm: tm,
+            cwd: process.env.HOME,
+            remote: url.parse(req.query.id).protocol !== 'tmsource:',
+            source: req.source.data,
+            history: req.history
+        });
+    } catch(err) {
+        return next(new Error('source template: ' + err.message));
+    }
+    return res.send(page);
 });
 
 app.all('/:source(source.json)', function(req, res, next) {
