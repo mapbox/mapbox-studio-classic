@@ -180,7 +180,7 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
     var x = req.params.x | 0;
     var y = req.params.y | 0;
     var source = req.params.format === 'vector.pbf'
-        ? req.style._backend
+        ? req.style._backend._source
         : req.style;
     var done = function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
