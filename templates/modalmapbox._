@@ -2,7 +2,7 @@
   <a class='button icon close submit' href='#'></a>
   <p class='centered'>Add a remote source from MapBox</p>
   <div class='joined centered'><!--
-    --><input type='text' placeholder='MapBox ID' size='20' name='id' pattern='[\w+-]+\.[\w+-]+'/><!--
+    --><input type='text' placeholder='MapBox ID' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
     --><input type='submit' value='Add source'/>
   </div>
 </form>
