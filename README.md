@@ -100,6 +100,14 @@ Finally install and run TileMill 2:
     npm install
     node index.js
 
+*Mavericks*
+
+If you're on MacOSX 10.9 Mavericks, set the following environment variables before running `npm install`:
+
+    export CXXFLAGS="-mmacosx-version-min=10.9"
+    export CFLAGS="-mmacosx-version-min=10.9"
+    export LDFLAGS="-mmacosx-version-min=10.9"
+
 ### Ubuntu Linux
 
 Warning: TM2 depends on a Mapnik version that is not compatible with the existing Mapnik that will have been installed by the TileMill 0.10.x package. It is not recommended to try to run both TileMill and TM2 on the same linux machine.
