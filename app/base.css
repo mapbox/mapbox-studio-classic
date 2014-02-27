@@ -49,7 +49,7 @@ body.dark {
 .righted { text-align:right; }
 .iso { margin:40px 0px; }
 
-::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar { width:10px; height:10px; }
 ::-webkit-scrollbar-track { background:transparent; border-left:1px solid rgba(0,0,0,0.1); }
 ::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.2); }
 
