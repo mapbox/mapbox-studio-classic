@@ -145,6 +145,13 @@ small,
 
 small { display:block; }
 
+.micro,
+.prose.micro {
+  font-size: 10px;
+  line-height:20px;
+  letter-spacing:0;
+}
+
 .strong,
 strong {
   font-family:'Open Sans Bold', sans-serif;
@@ -216,6 +223,16 @@ button,
   /* The button element needs to be forced this */
   -webkit-font-smoothing:antialiased;
   }
+
+button.short,
+.button.short,
+[type=button].short,
+[type=submit].short {
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  vertical-align: middle;
+}
 
 button:hover,
 .button:hover,
@@ -745,12 +762,11 @@ input[type=number] {
       color:#fff;
       }
 
-textarea.small,
-input[type=password].small,
-input[type=text].small,
-input[type=number].small {
-  height: 20px;
-  padding:4px;
+input[type=password].short,
+input[type=text].short,
+input[type=number].short {
+  height: 30px;
+  padding:5px;
   -webkit-appearance:none;
   }
 
@@ -793,7 +809,6 @@ textarea {
   resize:none;
   }
   textarea.resize { resize:both; }
-  textarea.small { height: 40px;}
 
 input[type=range],
 input[type=range]::-webkit-slider-thumb {
@@ -1004,7 +1019,7 @@ table.prose td,
 table.prose th,
 .prose table th {
   background-color:#f8f8f8;
-  background-color: rgba(0,0,0,.05):
+  background-color:rgba(0,0,0,0.05);
   }
 
 .prose ul {
@@ -1119,6 +1134,7 @@ h2 .dark > a[href^='#'] {
 .icon:before        { margin-right:5px; }
 .icon:empty:before  { margin:0; }
 .button.icon:empty  { width:40px; padding:10px; }
+.button.short.icon:empty  { width:30px; padding:5px; }
 
 small .icon:after,
 small .icon:before,
