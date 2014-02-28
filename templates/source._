@@ -87,16 +87,16 @@ revlayers.reverse();
   </header>
 
   <div class='pad2'>
-    <section class='space-bottom2'>
-      <label class='col12 space-bottom1'>Name</label>
+    <section class='space-bottom1'>
+      <label class='col12 space-bottom0'>Name</label>
       <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
     </section>
-    <section class='space-bottom2'>
-      <label class='col12 space-bottom1'>Description</label>
+    <section class='space-bottom1'>
+      <label class='col12 space-bottom0'>Description</label>
       <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
     </section>
-    <section class='space-bottom2'>
-      <label class='col12 space-bottom1'>Attribution</label>
+    <section class='space-bottom1'>
+      <label class='col12 space-bottom0'>Attribution</label>
       <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
     </section>
 
@@ -114,7 +114,7 @@ revlayers.reverse();
     </section>
 
     <% if (!remote) { %>
-      <section class='pill col4 margin8 clearfix'><!--
+      <section class='pill col6 margin6 clearfix'><!--
         --><a href='#' class='button col6 submit icon okay save floppy'>Save</a><!--
         --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
       </section>

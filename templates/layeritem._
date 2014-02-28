@@ -10,7 +10,7 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
   <%=obj.id%>
   <% if (obj.Datasource && obj.Datasource.type) { %>
   <span class='datasource'><%= (obj.Datasource.type) %></span>
-  <span class='icon close delete'></span>
+  <span class='icon trash delete'></span>
   <% } %>
   <small class='desc'><%=obj.description||'No description.'%></small>
   <% _(obj.help||{}).each(function(desc,name) { %>

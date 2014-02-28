@@ -3,6 +3,8 @@
 .pad0y { padding-top:5px; padding-bottom:5px; }
 .pad0x { padding-right:5px; padding-left:5px; }
 
+.space-bottom0 { margin-bottom: 5px;}
+
 .z1   { z-index:1; }
 .z10  { z-index:10; }
 .z100 { z-index:100; }
@@ -17,13 +19,20 @@
   bottom:0;
   left:0;
   }
+.pin-topright {
+  position:absolute;
+  top:0;
+  right:0;
+  }
+.pin-topleft {
+  position:absolute;
+  top:0;
+  left:0;
+  }
 
 .fill-dark            { background-color:#404040; }
 .fill-dark a          { color:#fff; }
 .fill-dark .pill > *  { border-color:#333; }
-
-.short.button.icon:empty  { width:30px; padding:5px; }
-.short.button             { height:30px; padding:5px 10px; }
 
 /* Modal popup */
 .modal {
@@ -48,10 +57,18 @@
 
 /* END Base candidates */
 
+/*
+Inline-block buttons need to share
+vertical-alginment with siblings.
+FIND SOLUTION FOR THIS
+*/
+.align-middle { vertical-align: middle;}
+
+
 .dark.action,
-.action { color:#fff; }
+.action { background-color:rgba(0,0,0,0.25); color:#fff; }
 .dark.action:hover,
-.action:hover { background:#3bb2d0; color:#fff; }
+.action:hover { background-color:rgba(0,0,0,0.5); color:#fff; }
 
 .action-description { color:#404040; }
 

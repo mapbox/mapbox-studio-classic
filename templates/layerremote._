@@ -7,7 +7,7 @@
 
   <section class='pad2'>
     <section class='space-bottom'>
-      <label class='col12 space-bottom1'>Description</label>
+      <label class='col12 space-bottom0'>Description</label>
       <input disabled='disabled' class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
     </section>
     <% if ('minzoom' in obj) { %>

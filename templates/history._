@@ -1,7 +1,7 @@
-<header class='pad1x pad1y clearfix keyline-bottom'>
-  <nav class='tabs col6 margin3 clearfix'><!--
-    --><a class='col6 submit tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
-    --><a class='col6 submit tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
+<header class='pad2x pad1y clearfix keyline-bottom'>
+  <nav class='tabs col12 clearfix'><!--
+    --><a class='col6 submit tab icon sun <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
+    --><a class='col6 submit tab icon data <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
   </nav>
 </header>
 
@@ -9,17 +9,17 @@
   <div class='grid clearfix pad1'>
 
     <div class='col6 pad1'>
-      <a class='round col12 pad1 truncate action dark strong fill-blue icon big plus create' href='/new/style'>New style</a>
+      <a class='round col12 pad2 truncate action dark strong icon plus create' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1'>
-      <a class='round col12 pad1 truncate action dark strong fill-blue icon big folder' href='#browsestyle'>Browse</a>
+      <a class='round col12 pad2 truncate action dark strong icon folder' href='#browsestyle'>Browse</a>
     </div>
 
   <% _(obj.history.style).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
   <div class='col6 pad1'>
-    <a class='col12 round small strong truncate fill-white quiet strong' href='/style?id=<%=item.id%>'>
+    <a class='col12 round small strong truncate fill-darken0 quiet strong' href='/style?id=<%=item.id%>'>
       <div class='small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
       <span class='pad2x pad1y inline action-description'>
         <%= item.name || 'Untitled' %><br />
@@ -34,13 +34,13 @@
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
   <div class='grid pad1 clearfix'>
 
-    <div class='col6 pad1'>
-      <a class='round col12 pad1 truncate fill-blue icon big plus action dark strong create' href='/new/source'>New source</a>
+    <div class='col6 pad1 row2'>
+      <a class='round col12 pad2 truncate icon plus action dark strong create' href='/new/source'>New source</a>
     </div>
 
-    <div class='col6 pad1'><!--
-      --><a class='fill-blue inline pad1 round-left keyline-right round create w2 icon big folder action dark strong' href='#browsesource'>Browse</a><!--
-      --><a class='fill-blue inline pad1 round-right round create w2 big icon mapbox action dark strong' href='#addmapbox'>Mapbox</a>
+    <div class='col6 pad1 row2'><!--
+      --><a class='inline pad2 round-left keyline-right round create w2 icon truncate folder action dark strong' href='#browsesource'>Browse</a><!--
+      --><a class='inline pad2 round-right round create w2 icon mapbox action truncate dark strong' href='#addmapbox'>Mapbox</a>
     </div>
 
   <% _(obj.history.source).chain()

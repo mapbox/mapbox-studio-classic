@@ -1,6 +1,6 @@
 <div id='<%= obj.id %>' class='source'>
 
-<div class='contain pad2y pad1x'>
+<div class='keyline-bottom contain pad2y pad1x'>
   <h3><%= obj.name || 'Untitled' %></h3>
   <div class='pill small pin-right pad1 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <% if (obj.tiles) { %>

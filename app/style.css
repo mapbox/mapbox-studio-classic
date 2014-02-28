@@ -44,7 +44,11 @@
 
 /* Editor tabs */
 #tabs a.tab {
-  margin:5px 0px 0px 5px;
+  margin:0px 0px 0px 5px;
+  background:#f8f8f8;
+  height: 30px;
+  display: inline-block;
+  vertical-align: top;
   }
 #tabs a.tab:hover,
 #tabs a.tab.active {
@@ -63,10 +67,12 @@
 #tabs a.tab.active span.delete {
   display:block;
   position:absolute;
-  right:5px; top:5px;
-  width:20px;
+  right:0; top:0; bottom: 0;
+  width:25px;
+  border-left: 1px solid #eeeeee;
+  padding: 3px;
   line-height:20px;
-  border-radius:50%;
+  border-radius:0 3px 3px 0;
   opacity:0.5;
   }
 #tabs a.tab span.delete:hover { background:rgba(0,0,0,0.1); }
@@ -130,6 +136,9 @@
 #docs code.value,
 #docs code.options { font-size:80%; }
 #docs code.options { display:block; margin-bottom:10px; }
+
+#docs .text-container .font-link { display: none;}
+#docs .text-container:hover .font-link{ display: block;}
 
 /* Font book */
 #fonts .font {
