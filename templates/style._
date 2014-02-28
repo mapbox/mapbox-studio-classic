@@ -32,7 +32,7 @@
       <a class='button icon close' href='#layers'></a>
     </nav>
   </section>
-  <div class='grid pad2 clearfix'><!--
+  <div class='grid pad1 clearfix'><!--
   <%
     print(_(history.source).chain()
       .sortBy(function(item) {
