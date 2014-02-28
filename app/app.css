@@ -34,6 +34,7 @@
 .fill-dark a          { color:#fff; }
 .fill-dark .pill > *  { border-color:#333; }
 
+.button.icon:empty { width: 40px;}
 /* Modal popup */
 .modal {
   display:none;
@@ -492,7 +493,7 @@ label.w3 { display:inline-block; }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror-gutter {
   background:#f8f8f8;
-  width:39px !important;
+  width:40px !important;
   border-right:1px solid #ddd;
   }
 .CodeMirror-gutter .error {

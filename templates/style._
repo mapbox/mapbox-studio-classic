@@ -174,11 +174,11 @@
 </div>
 
 <div id='code' class='column w2 l2'>
-  <div class='pin-topleft z1'>
-    <a class='button quiet docs-n icon info unround' href='#docs'></a>
-    <a class='button docs-y icon quiet close unround' href='#'></a>
+  <div class='pin-topleft docs-button fill-darken0 z1'>
+    <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
+    <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>
   </div>
-  <nav id='tabs' class='keyline-bottom row1 pad0y pad4x pin-top fill-grey small'><!--
+  <nav id='tabs' class='keyline-left keyline-bottom row1 pad0y pad4x pin-top fill-darken0 small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k%> <span class='icon trash delete'></span></a><!--

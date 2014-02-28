@@ -45,14 +45,13 @@
 /* Editor tabs */
 #tabs a.tab {
   margin:0px 0px 0px 5px;
-  background:#f8f8f8;
   height: 30px;
   display: inline-block;
   vertical-align: top;
   }
 #tabs a.tab:hover,
 #tabs a.tab.active {
-  background:#ddd;
+  background:#f8f8f8;
   }
 #tabs a.tab.active {
   padding-right:30px;
@@ -75,7 +74,7 @@
   border-radius:0 3px 3px 0;
   opacity:0.5;
   }
-#tabs a.tab span.delete:hover { background:rgba(0,0,0,0.1); }
+#tabs a.tab span.delete:hover { background:white; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
 #tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
