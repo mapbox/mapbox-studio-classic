@@ -184,8 +184,8 @@
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k%> <span class='icon trash delete'></span></a><!--
     <% }); %>
   --></nav>
-  <div class='pin-right z1 pad0'>
-    <a class='button short quiet icon plus' href='#addtab'></a>
+  <div class='pin-topright z1'>
+    <a class='inline pad1 short quiet icon plus' href='#addtab'></a>
   </div>
   <form id='interactivity' class='space row1 pad1 keyline-bottom pin-top'>
     <label class='small'>Layer</label>

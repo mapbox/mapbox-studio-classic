@@ -489,7 +489,8 @@ label.w3 { display:inline-block; }
 .CodeMirror-gutter-text { padding:0px; }
 .CodeMirror-gutter-text pre { padding:0px 5px; }
 .CodeMirror-lines { padding:0px 10px; }
-.CodeMirror-scroll { height:100%; }
+.CodeMirror-scroll { height:100%; overflow: hidden;}
+.CodeMirror.active .CodeMirror-scroll { overflow: auto; }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror-gutter {
   background:#f8f8f8;
