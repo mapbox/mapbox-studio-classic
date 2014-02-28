@@ -129,7 +129,7 @@
 
 <div id='full' class='column w2 l0'>
 
-  <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-grey z1'>
+  <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-darken1 z1'>
     <div class='pin-left'><!--
       --><a class='inline pad1 icon menu quiet unround align-middle' href='#layers'></a><!--
       <% if (style._tmp) { %>
