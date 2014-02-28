@@ -417,7 +417,9 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #data:target ~ #layers .sourcetype { display:none; }
 
 #layers .geometry { opacity:0.6; }
-#layers a.active { color:#fff; background:rgba(0,0,0,0.1); border-color:transparent; }
+#layers a.active { display: none; }
+#layers span.active { color:white; }
+
 #layers a.active .geometry { opacity:1; }
 #layers .delete {
   position:absolute;
@@ -426,6 +428,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   }
 #layers .delete:hover { background:rgba(0,0,0,0.1); }
 #layers .zooms,
+#layers .details,
 #layers .datasource {
   font-size:10px; line-height:10px;
   }

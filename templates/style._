@@ -29,7 +29,7 @@
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-right pad1'>
-      <a class='button icon close' href='#layers'></a>
+      <a class='button icon quiet close' href='#layers'></a>
     </nav>
   </section>
   <div class='grid pad1 clearfix'><!--
@@ -118,7 +118,7 @@
 
 <div id='layers' class='menu column w1 dark hide fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100 center'><!--
-    --><a href='#' class='button icon close pin-left unround'></a><!--
+    --><a href='#' class='button quiet icon close pin-left unround'></a><!--
     --><a href='#data' class='button unround data-n icon plus quiet pad2x'>Data</a><!--
     --><a href='#layers' class='button unround data-y icon x quiet pad2x'>Data</a>
   </nav>
@@ -176,7 +176,7 @@
 <div id='code' class='column w2 l2'>
   <div class='pin-topleft z1'>
     <a class='button quiet docs-n icon info unround' href='#docs'></a>
-    <a class='button docs-y icon close unround' href='#'></a>
+    <a class='button docs-y icon quiet close unround' href='#'></a>
   </div>
   <nav id='tabs' class='keyline-bottom row1 pad0y pad4x pin-top fill-grey small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--
