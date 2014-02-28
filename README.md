@@ -59,9 +59,11 @@ Building TM2
 
 Dependencies are:
 
- - Mapnik v2.2.0
- - Node.js v0.8.x or v0.10.x
+ - Node.js v0.10.x (should also work with v0.8.x)
  - Protobuf compiler and libprotobuf-lite
+ - Mapnik
+
+Note: Mapnik is now bundled inside node-mapnik for common platforms (64 bit Linux and OS X). This means that you do not need to install Mapnik externally. However if node-mapnik fails to install from a binary then you are likely running a platform for which no node-mapnik binaries are available. In this case you will need to build node-mapnik from source.
 
 Build status of modules:
 
@@ -76,47 +78,30 @@ Build status of modules:
 
 ### Binary
 
-Bleeding edge binary builds are available for OS X at <http://tilemill.s3.amazonaws.com/index.html?path=dev/>.
+Binary builds are available for OS X at <http://tilemill.s3.amazonaws.com/index.html?path=dev/>.
 Follow the instructions below to install from source if you are interested in developing on TM2.
 
 ### Source install
 
-First update your homebrew to ensure that the recently released Mapnik v2.2.0 is available:
+First install Node.js. You can do this with homebrew, via the easy installer at <http://nodejs.org/download>, or via tools like [nvm](https://github.com/creationix/nvm).
 
-    brew update
-
-Then install/upgrade mapnik, node, and libprotobuf with homebrew:
-
-    brew install mapnik || brew upgrade mapnik
-    brew install node || brew upgrade node
-    brew install protobuf || brew upgrade protobuf
-
-Note: you can also install node via the easy installer available at <http://nodejs.org/download>.
-
-Finally install and run TileMill 2:
+Then build:
 
     git clone https://github.com/mapbox/tm2.git
     cd tm2
     npm install
     node index.js
 
-*Mavericks*
-
-If you're on MacOSX 10.9 Mavericks, set the following environment variables before running `npm install`:
-
-    export CXXFLAGS="-mmacosx-version-min=10.9"
-    export CFLAGS="-mmacosx-version-min=10.9"
-    export LDFLAGS="-mmacosx-version-min=10.9"
-
 ### Ubuntu Linux
 
-Warning: TM2 depends on a Mapnik version that is not compatible with the existing Mapnik that will have been installed by the TileMill 0.10.x package. It is not recommended to try to run both TileMill and TM2 on the same linux machine.
+First install the latest Node.js v0.10.x version:
 
     sudo apt-get install python-software-properties
     echo 'Yes' | sudo apt-add-repository ppa:chris-lea/node.js
-    echo 'Yes' | sudo add-apt-repository ppa:mapnik/v2.2.0
     sudo apt-get update -y
-    sudo apt-get install -y nodejs protobuf-compiler libprotobuf-lite7 libprotobuf-dev libmapnik libmapnik-dev make
+    sudo apt-get install -y nodejs build-essential
+
+Then build:
 
     git clone https://github.com/mapbox/tm2.git
     cd tm2
