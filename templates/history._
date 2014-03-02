@@ -9,19 +9,19 @@
   <div class='grid clearfix pad1'>
 
     <div class='col6 pad1 space-bottom1'>
-      <a class='round col12 pad2 truncate action dark strong icon plus create' href='/new/style'>New style</a>
+      <a class='button col12 icon plus create' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1 space-bottom1'>
-      <a class='round col12 pad2 truncate action dark strong icon folder' href='#browsestyle'>Browse</a>
+      <a class='button quiet col12 icon folder' href='#browsestyle'>Browse</a>
     </div>
 
   <% _(obj.history.style).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
   <div class='fl col12 pad1x space-bottom1'>
-    <a class='col12 round small strong truncate fill-darken0 quiet strong' href='/style?id=<%=item.id%>'>
+    <a class='col12 round small truncate fill-darken0 quiet strong' href='/style?id=<%=item.id%>'>
       <div class='small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-      <span class='pad1 inline action-description'>
+      <span class='pad1 inline'>
         <%= item.name || 'Untitled' %><br />
         <code><%= item.id.split('/').pop() %></code>
       </span>
@@ -35,12 +35,12 @@
   <div class='grid pad1 clearfix'>
 
     <div class='col6 pad1 row2 space-bottom1'>
-      <a class='round col12 pad2 truncate icon plus action dark strong create' href='/new/source'>New source</a>
+      <a class='col12 button icon plus create' href='/new/source'>New source</a>
     </div>
 
-    <div class='col6 pad1 row2 space-bottom1'><!--
-      --><a class='inline pad2 round-left keyline-right round create w2 icon truncate folder action dark strong' href='#browsesource'>Browse</a><!--
-      --><a class='inline pad2 round-right round create w2 icon mapbox action truncate dark strong' href='#addmapbox'>Mapbox</a>
+    <div class='col6 pad1 row2 pill space-bottom1'><!--
+      --><a class='button quiet create col6 icon folder' href='#browsesource'>Browse</a><!--
+      --><a class='button quiet create col6 icon mapbox' href='#addmapbox'>Mapbox</a>
     </div>
 
   <% _(obj.history.source).chain()
@@ -51,7 +51,7 @@
         <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
         <span class='fill-darken1 small-graphic thumbed inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
 
-        <span class='inline pad2x pad1y action-description'>
+        <span class='inline pad2x pad1y'>
           <%= item.name || 'Untitled' %><br />
           <code><%= item.id.split('/').pop() %></code>
         </span>

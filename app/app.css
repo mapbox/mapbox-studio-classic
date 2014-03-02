@@ -41,7 +41,7 @@
 
 .fill-dark            { background-color:#404040; }
 .fill-dark a          { color:#fff; }
-.fill-dark .pill > *  { border-color:#333; }
+.dark .pill > *       { border-color:#333; }
 
 .dark .quiet.rcon:after,
 .dark .quiet.icon:before,
@@ -125,14 +125,6 @@ LOOK FOR BETTER SOLUTION FOR THIS
 .dark .scroll-styled::-webkit-scrollbar-thumb {
   background:rgba(255,255,255,0.1);
   }
-
-/* Base styles */
-.dark.action,
-.action { background-color:rgba(0,0,0,0.25); color:#fff; }
-.dark.action:hover,
-.action:hover { background-color:rgba(0,0,0,0.5); color:#fff; }
-
-.action-description { color:#404040; }
 
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }
