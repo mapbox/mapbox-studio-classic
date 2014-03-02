@@ -169,7 +169,7 @@
   <div class='grid pad2 clearfix'>
     <div class='clearfix keyline-top keyline-bottom keyline-left'><!--
     <% fontsRef.forEach(function(font) { %>
-    --><div class='col6 keyline-bottom keyline-right'><a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a></div><!--
+    --><div class='col6 keyline-bottom keyline-right'><span class='pad0 font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div><!--
     <% }); %>
     --></div>
   </div>

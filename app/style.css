@@ -148,9 +148,10 @@
   height:30px;
   display:block;
   background:#eee;
-  border-radius:3px;
   background-position:10px 50%;
   background-repeat:no-repeat;
+  /* render but hide text for copying */
+  color: transparent;
   }
 
 /* Data library */
