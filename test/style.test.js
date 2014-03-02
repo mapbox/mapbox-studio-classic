@@ -143,6 +143,28 @@ describe('style.toXML', function() {
             assert.ok(/<Layer name="water"/.test(xml), 'includes layer');
             assert.ok(/group-by="layer"/.test(xml), 'includes layer properties');
             assert.ok(/<PolygonSymbolizer fill="#ffffff"/.test(xml), 'includes rule');
+            assert.ok(xml.indexOf('<Layer name="road"') < xml.indexOf('<Layer name="bridge"'));
+            done();
+        });
+    });
+    it('compiles layer order + classed layers', function(done) {
+        style.toXML({
+            id:'tmstyle:///tmp-1234',
+            source:'mapbox:///mapbox.mapbox-streets-v2',
+            styles:{'style.mss': '#water { polygon-fill:#fff } #road.line::line { line-width:0.5 } #road.label::label { line-width:1 }'},
+            layers:[ 'water', 'bridge', 'poi_label', 'road.line', 'tunnel', 'road.label' ],
+            _properties:{bridge:{'group-by':'layer'}}
+        }, function(err, xml) {
+            assert.ifError(err);
+            assert.ok(/<Map srs/.test(xml), 'looks like Mapnik XML');
+            assert.ok(/<Layer name="water"/.test(xml), 'includes layer');
+            assert.ok(/group-by="layer"/.test(xml), 'includes layer properties');
+            assert.ok(/<PolygonSymbolizer fill="#ffffff"/.test(xml), 'includes rule');
+            // Moves specified layers last, in order.
+            assert.ok(xml.indexOf('<Layer name="road"') > xml.indexOf('<Layer name="poi_label"'));
+            assert.ok(xml.indexOf('<Layer name="road"') > xml.indexOf('<Layer name="road_label"'));
+            assert.ok(xml.indexOf('<Layer name="tunnel"') > xml.indexOf('<Layer name="road"'));
+            assert.ok(xml.indexOf('<StyleName>road-label</StyleName>') > xml.indexOf('<StyleName>road-line</StyleName>'));
             done();
         });
     });
