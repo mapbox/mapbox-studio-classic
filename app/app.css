@@ -3,6 +3,9 @@
 .pad0y { padding-top:5px; padding-bottom:5px; }
 .pad0x { padding-right:5px; padding-left:5px; }
 
+.pad0r { padding-right: 0;}
+.pad0l { padding-left: 0;}
+
 .space-bottom0 { margin-bottom: 5px;}
 
 .z1   { z-index:1; }
@@ -30,6 +33,12 @@
   left:0;
   }
 
+.input-pill input[type='text'],
+.pill input[type=text]:focus { border-right-width: 0;}
+
+.input-pill input[type='text'] + input[type='submit'],
+.input-pill input[type='text'] + .button { border-left-width: 0;}
+
 .fill-dark            { background-color:#404040; }
 .fill-dark a          { color:#fff; }
 .fill-dark .pill > *  { border-color:#333; }
@@ -41,6 +50,20 @@
   background-image:url(../ext/base/icon-ffffff@2x.png);
   }
 
+.fill-dark .pill > *,
+.fill-dark.pill > *        { border-color:#444; }
+
+a code,
+a:hover code {
+  background:rgba(0,0,0,0.025);
+  color: rgba(0,0,0,.5);
+}
+
+.dark a code,
+.dark a:hover code {
+  color: rgba(255,255,255,0.5);
+}
+
 /* Splitting fifths - also in use on www.mapbox.com */
 .fifths a {
   width: 20%;
@@ -51,9 +74,6 @@
   display:none;
   position:absolute; left:50%; top:20%; z-index:2001;
   margin:0px 0px 0px -25%;
-  }
-.modal .x {
-  top:-15px; right:-15px;
   }
 #mask {
   display:none;
@@ -81,7 +101,7 @@ LOOK FOR BETTER SOLUTION FOR THIS
 .scroll-styled::-webkit-scrollbar {
   width:8px;
   height:8px;
-  border-left:1px solid rgba(0,0,0,0.15);
+  border-radius:0;
   background:rgba(0,0,0,0.1);
   }
 .scroll-styled::-webkit-scrollbar:hover {
@@ -97,7 +117,7 @@ LOOK FOR BETTER SOLUTION FOR THIS
 
 .dark .scroll-styled::-webkit-scrollbar {
   background:rgba(255,255,255,0.1);
-  border-left-color:rgba(255,255,255,0.15);
+  border-radius:0;
   }
 .dark .scroll-styled::-webkit-scrollbar:hover {
   background:rgba(255,255,255,0.15);
@@ -459,10 +479,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #layers .geometry { opacity:0.6; }
 #layers a.active { display: none; }
-#layers span.active {
-  color:white;
-  background: rgba(0,0,0,.2);
-}
+#layers span.active { background: rgba(0,0,0,.2);}
 
 #layers a.active .geometry { opacity:1; }
 #layers .delete {

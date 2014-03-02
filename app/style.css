@@ -162,6 +162,7 @@ div.source a.section { cursor:pointer; }
 .menu:target ~ .l0 { left:25%; }
 #data:target ~ .l2,
 .menu:target ~ .l2 { left:75%; }
+.menu:target ~ #code { width: 25%;}
 #full:target { width:100%; }
 #full:target ~ .l2 { left:100%; }
 #full:target .leaflet-left { left:0%; }

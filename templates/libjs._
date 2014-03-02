@@ -56,7 +56,7 @@ var statHandler = function(key) {
       memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
       return memo;
     }, {});
-    var html = "<a href='#' class='button unround pin-bottomright icon close'></a>";
+    var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
     for (var z = 0; z < 22; z++) {
       var s = stats[z];
       if (key === 'srcbytes' && s) {
@@ -108,7 +108,8 @@ views.Browser.prototype.render = function() {
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
-          return "<a class='icon " + f.type + " " + type + " quiet strong small pad2x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
+          var isProject = (f.extname == '.tm2') ? '' : 'quiet';
+          return "<a class='icon " + f.type + " " + type + " " + isProject + " strong small pad2x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));

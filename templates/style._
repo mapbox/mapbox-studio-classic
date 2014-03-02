@@ -47,10 +47,10 @@
 </div>
 
 <form id='settings' class='pane fill-grey scroll-styled w4 l0'>
-<div class='column w2 l0 lighten'>
+<div class='column w2 l0 lighten scroll-styled'>
   <%= this.history(obj) %>
 </div>
-<div class='column w2 l2'>
+<div class='scroll-styled column w2 l2'>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
     <nav class='pin-topright pad1'>
@@ -59,15 +59,15 @@
   </header>
   <div class='pad2'>
     <section class='space-bottom1'>
-      <label class='col12 space-bottom1'>Name</label>
+      <label class='col12 space-bottom0'>Name</label>
       <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
     </section>
     <section class='space-bottom1'>
-      <label class='col12 space-bottom1'>Description</label>
+      <label class='col12 space-bottom0'>Description</label>
       <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
     </section>
     <section class='space-bottom2'>
-      <label class='col12 space-bottom1'>Attribution</label>
+      <label class='col12 space-bottom0'>Attribution</label>
       <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
     </section>
 
@@ -145,7 +145,7 @@
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
     <h3><a href='#settings' class='small strong quiet'>
-      <span class='name rcon sprocket'><%= style.name || 'Untitled' %></span>
+      <span class='name icon sprocket'><%= style.name || 'Untitled' %></span>
     </a></h3>
   </div>
 
@@ -180,7 +180,7 @@
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>
   </div>
-  <nav id='tabs' class='keyline-left keyline-bottom row1 pad0y pad4x pin-top fill-darken0 small'><!--
+  <nav id='tabs' class='keyline-left keyline-bottom row1 pad0y pad4x pad0r pin-top fill-darken0 small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
     --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k%> <span class='icon trash delete'></span></a><!--
@@ -210,9 +210,9 @@
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
 <form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class='button submit icon x dot pin-right' href='#'></a>
+  <a class='pad1 quiet submit icon x pin-topright' href='#'></a>
   <div class='clearfix'>
-    <span class='pill col8 margin2'>
+    <span class='input-pill pill col8 margin2'>
       <input class='col8' type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
       --><input class='col4 round-right' type='submit' value='New tab'/>
     </span>

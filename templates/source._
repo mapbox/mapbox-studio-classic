@@ -26,12 +26,12 @@
 
 <div id='full' class='column dark w2 l0'>
   <div id='title' class='dark fill-dark contain row1 pin-top col12 center z1'>
-    <div class='fill-darken1 pad1y'>
-      <div class='pin-left'>
+    <div class='fill-darken2 pad1y'>
+      <div class='pin-left pad0'>
         <% if (source._tmp) { %>
-        <a class='button unround quiet icon okay floppy' href='#saveas'>Save as</a>
+        <a class='button short icon floppy okay quiet' href='#saveas'>Save as</a>
         <% } else { %>
-        <a class='button unround quiet icon okay floppy' href='#'>Save</a>
+        <a class='button short icon floppy okay quiet' href='#'>Save</a>
         <% } %>
       </div>
       <a href='#settings' class='small strong quiet'><%= source.name || 'Untitled' %></a>
@@ -49,11 +49,11 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='menu column fill-dark dark w2 l2'>
-  <nav class='row1 col12 center pin-top keyline-bottom fill-dark z1'>
+  <nav class='row1 col12 pad1x pad0y pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
-    <strong class='small inline pad1y'>Layers</strong>
+    <strong class='small inline pad0y'>Layers</strong>
     <% } else { %>
-    <a href='#addlayer' class='button icon plus pad2x unround quiet'>Layers</a>
+    <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
     <% } %>
   </nav>
   <div class='menu-content pin-left col12 pad4y scroll-styled'>
@@ -76,14 +76,14 @@ revlayers.reverse();
 }.bind(this)); %>
 </div>
 <form id='settings' class='pane scroll-styled dark w4 l0'>
-<div class='column w2 l0 darken'>
+<div class='scroll-styled column w2 l0 darken'>
   <%= this.history(obj) %>
 </div>
-<div class='column w2 l2'>
+<div class='scroll-styled column w2 l2 fill-dark'>
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
-    <nav class='pin-topright pad1'><a class='button icon close quiet' href='#'></a></nav>
+    <nav class='pin-topright pad1'><a class='inline pad1 icon close quiet' href='#'></a></nav>
   </header>
 
   <div class='pad2'>
@@ -119,8 +119,8 @@ revlayers.reverse();
         --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
       </section>
     <% } else { %>
-      <section class='text-right'>
-        <a href='#' class='button submit icon okay save floppy'>Save</a>
+      <section>
+        <a href='#' class='col6 fr button submit icon okay save floppy'>Save</a>
       </section>
     <% } %>
   </div>

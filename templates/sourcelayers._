@@ -1,17 +1,15 @@
 <div id='<%= obj.id %>' class='source'>
 
-<div class='keyline-bottom contain pad2y pad1x'>
+<div class='keyline-bottom contain pad1'>
   <h4><%= obj.name || 'Untitled' %></h4>
-  <div class='pin-right pad1 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
-    <div class='pill pad0y'>
-      <% if (obj.tiles) { %>
-      <a name='remote' class='button short quiet'>Remote</a><!--
-      --><a class='button short icon refresh recache' href='#recache'></a>
-      <% } else { %>
-      <a name='local' class='button short quiet'>Local</span><!--
-      --><a class='button short icon refresh recache' href='#recache'></a>
-      <% } %>
-    </div>
+  <div class='pill pin-right pad0 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
+    <% if (obj.tiles) { %>
+    <a name='remote' class='button short quiet'>Remote</a><!--
+    --><a class='button short icon refresh recache' href='#recache'></a>
+    <% } else { %>
+    <a name='local' class='button short quiet'>Local</span><!--
+    --><a class='button short icon refresh recache' href='#recache'></a>
+    <% } %>
   </div>
 </div>
 
@@ -26,7 +24,7 @@ with no sources. Once vector tile compositing is available revisit.
 <a class='inline col12 row1 pin-top' href='#layers-<%=l.id%>'></a>
   <span class='document icon <%=l.geometry||'unknown'%>'></span>
   <%=l.id%>
-  <div class='pin-right pad0'>
+  <div class='pin-right pad0x pad1y'>
     <span class='zooms pad0 fill-darken1 round small'>
       <% if (!l.maxzoom) { %>
       z<%= l.minzoom||0 %>+

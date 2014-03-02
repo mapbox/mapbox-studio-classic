@@ -1160,6 +1160,7 @@ small .icon:before,
 .dark .quiet .rcon:after,
 .dark .quiet .icon:before {
   opacity: .5;
+  background-image:url(icon-ffffff.png?1);
   }
 
 a.icon:before,
