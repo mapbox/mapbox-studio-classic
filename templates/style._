@@ -117,10 +117,12 @@
 </form>
 
 <div id='layers' class='menu column w1 dark hide fill-dark'>
-  <nav class='pad0y row1 col12 pin-top fill-dark keyline-bottom z100 center'><!--
-    --><a href='#' class='inline pad1 icon close pin-topleft'></a><!--
+  <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
+  <div class='pin-topleft'><!--
+    --><a href='#' class='align-middle inline pad1 icon close'></a><!--
     --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
     --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
+    </div>
   </nav>
   <div class='menu-content pin-left col12 pad4y scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
@@ -158,10 +160,10 @@
 </div>
 
 <div id='fonts' class='pane fill-grey scroll-styled w2'>
-  <header class='pad2x pad1y keyline-bottom'>
-    <h2>Fonts</h2>
-    <nav class='pin-topright pad1'>
-      <a class='icon quiet big close' href='#docs'></a>
+  <header class='pad2x pad0y keyline-bottom'>
+    <h3 class='icon pad0y font'>Fonts</h3>
+    <nav class='pin-topright'>
+      <a class='inline pad1 icon quiet return' href='#docs'></a>
     </nav>
   </header>
   <div class='grid pad2 clearfix'>

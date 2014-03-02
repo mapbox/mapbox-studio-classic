@@ -1,15 +1,15 @@
 <div id='<%= obj.id %>' class='source'>
 
 <div class='keyline-bottom contain pad2y pad1x'>
-  <h3><%= obj.name || 'Untitled' %></h3>
+  <h4><%= obj.name || 'Untitled' %></h4>
   <div class='pin-right pad1 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <div class='pill pad0y'>
       <% if (obj.tiles) { %>
       <a name='remote' class='button short quiet'>Remote</a><!--
-      --><a class='button short icon refresh recache quiet' href='#recache'></a>
+      --><a class='button short icon refresh recache' href='#recache'></a>
       <% } else { %>
       <a name='local' class='button short quiet'>Local</span><!--
-      --><a class='button short icon refresh recache quiet' href='#recache'></a>
+      --><a class='button short icon refresh recache' href='#recache'></a>
       <% } %>
     </div>
   </div>

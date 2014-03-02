@@ -34,6 +34,13 @@
 .fill-dark a          { color:#fff; }
 .fill-dark .pill > *  { border-color:#333; }
 
+.dark .quiet.rcon:after,
+.dark .quiet.icon:before,
+.dark .quiet .rcon:after,
+.dark .quiet .icon:before {
+  background-image:url(../ext/base/icon-ffffff.png?1);
+  }
+
 /* Splitting fifths - also in use on www.mapbox.com */
 .fifths a {
   width: 20%;
@@ -452,7 +459,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #layers .geometry { opacity:0.6; }
 #layers a.active { display: none; }
-#layers span.active { color:white; }
+#layers span.active {
+  color:white;
+  background: rgba(0,0,0,.2);
+}
 
 #layers a.active .geometry { opacity:1; }
 #layers .delete {
@@ -598,12 +608,16 @@ span.cm-carto-filter             { color:#66475B; }
 @media (min-width: 1580px) {
   #code { left:55%; width:45%; }
   #docs,
+  #fonts,
   #full { width:55%; }
   .pane:target ~ #full,
   .menu:target ~ #full { width:50%; }
+  #layers:target ~ #full { width: 30%; }
   }
 @media (min-width: 1780px) {
   #code { left:60%; width:40%; }
   #docs,
+  #fonts,
   #full { width:60%; }
+  #layers:target ~ #full { width: 35%; }
   }
