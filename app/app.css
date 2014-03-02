@@ -38,7 +38,7 @@
 .dark .quiet.icon:before,
 .dark .quiet .rcon:after,
 .dark .quiet .icon:before {
-  background-image:url(../ext/base/icon-ffffff.png?1);
+  background-image:url(../ext/base/icon-ffffff@2x.png);
   }
 
 /* Splitting fifths - also in use on www.mapbox.com */
