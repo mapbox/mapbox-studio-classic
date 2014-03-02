@@ -34,7 +34,11 @@
 .fill-dark a          { color:#fff; }
 .fill-dark .pill > *  { border-color:#333; }
 
-.button.icon:empty { width: 40px;}
+/* Splitting fifths - also in use on www.mapbox.com */
+.fifths a {
+  width: 20%;
+}
+
 /* Modal popup */
 .modal {
   display:none;
@@ -58,14 +62,44 @@
 
 /* END Base candidates */
 
-/*
-Inline-block buttons need to share
+/* STUFF TO FIX */
+
+/* Inline-block buttons need to share
 vertical-alginment with siblings.
-FIND SOLUTION FOR THIS
+LOOK FOR BETTER SOLUTION FOR THIS
 */
 .align-middle { vertical-align: middle;}
 
+/* Scroll styled from base isn't working right */
+.scroll-styled::-webkit-scrollbar {
+  width:8px;
+  height:8px;
+  border-left:1px solid rgba(0,0,0,0.15);
+  background:rgba(0,0,0,0.1);
+  }
+.scroll-styled::-webkit-scrollbar:hover {
+  background:rgba(0,0,0,0.15);
+  }
+.scroll-styled::-webkit-scrollbar-track {
+  background:none;
+  }
+.scroll-styled::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,0.1);
+  border-radius:0;
+  }
 
+.dark .scroll-styled::-webkit-scrollbar {
+  background:rgba(255,255,255,0.1);
+  border-left-color:rgba(255,255,255,0.15);
+  }
+.dark .scroll-styled::-webkit-scrollbar:hover {
+  background:rgba(255,255,255,0.15);
+  }
+.dark .scroll-styled::-webkit-scrollbar-thumb {
+  background:rgba(255,255,255,0.1);
+  }
+
+/* Base styles */
 .dark.action,
 .action { background-color:rgba(0,0,0,0.25); color:#fff; }
 .dark.action:hover,
@@ -76,7 +110,6 @@ FIND SOLUTION FOR THIS
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }
 
-/* Base styles */
 body {
   background:#ddd;
   overflow:hidden;
@@ -445,9 +478,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 }
 #layers .field code {
   color:#ff8;
-  display:inline-block;
   margin-left:-80px;
-  width:80px;
+  width:75px;
   overflow:hidden;
   }
 

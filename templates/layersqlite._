@@ -5,7 +5,7 @@
       --><a href='#mode-fields' class='button icon fields'></a><!--
       --><a href='#mode-sql' class='button icon edit'></a>
     </span>
-    <a href='#' class='button icon close'></a>
+    <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
   <section>
     <h2>

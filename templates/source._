@@ -83,7 +83,7 @@ revlayers.reverse();
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
-    <nav class='pin-right pad1'><a class='button icon close quiet' href='#'></a></nav>
+    <nav class='pin-topright pad1'><a class='button icon close quiet' href='#'></a></nav>
   </header>
 
   <div class='pad2'>

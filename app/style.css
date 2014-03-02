@@ -68,7 +68,7 @@
   position:absolute;
   right:0; top:0; bottom: 0;
   width:25px;
-  border-left: 1px solid #eeeeee;
+  border-left: 1px solid #ececec;
   padding: 3px;
   line-height:20px;
   border-radius:0 3px 3px 0;
@@ -119,6 +119,13 @@
   border-radius:4px 0px 0px 4px;
   }
 
+#docs:target nav { padding-left: 40px; }
+#docs:target nav a { text-align: left;}
+#docs:target nav a.font-link {
+  top: 5px;
+  right: 5px;
+}
+
 #docs code.type,
 #docs code.value,
 #docs code.value:after { margin-left:5px; }
@@ -135,9 +142,6 @@
 #docs code.value,
 #docs code.options { font-size:80%; }
 #docs code.options { display:block; margin-bottom:10px; }
-
-#docs .text-container .font-link { display: none;}
-#docs .text-container:hover .font-link{ display: block;}
 
 /* Font book */
 #fonts .font {

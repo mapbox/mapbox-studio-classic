@@ -413,13 +413,13 @@ button:disabled:focus,
   }
   .dark.tabs > *:hover,
   .dark .tabs > *:hover {
-    background-color:rgba(225,255,255,0.05);
+    background-color:rgba(225,255,255,0.1);
     color:rgba(255,255,255,1);
     }
   .dark.tabs > *.active,
   .dark .tabs > *.active,
   .dark.tabs.checkbox input[type=checkbox]:checked + label {
-    background-color:rgba(255,255,255,0.10);
+    background-color:rgba(255,255,255,0.2);
     }
 
 /* Pill wrapper for joining buttons. */
@@ -713,7 +713,6 @@ input[type=number] {
   margin:0;
   color:rgba(0,0,0,.5);
   padding:10px;
-  border-radius:0;
   -webkit-appearance:none;
   }
 textarea.code,
@@ -1312,6 +1311,8 @@ a > .rcon:after,
 .big.icon.water:before            { background-position:-3840px -20px; }
 .big.icon.land:before             { background-position:-3880px -20px; }
 .big.icon.landuse:before          { background-position:-3920px -20px; }
+.big.icon.refresh:before          { background-position:-3960px -20px; }
+.big.icon.font:before             { background-position:-4000px -20px; }
 
 /* 20x20 icons */
 .rcon.pencil:after, .icon.pencil:before                    { background-position:0 0; }
@@ -1416,6 +1417,8 @@ a > .rcon:after,
 .rcon.water:after,.icon.water:before                       { background-position:-3840px 0; }
 .rcon.land:after,.icon.land:before                         { background-position:-3880px 0; }
 .rcon.landuse:after,.icon.landuse:before                   { background-position:-3920px 0; }
+.rcon.refresh:after,.icon.refresh:before                   { background-position:-3960px 0; }
+.rcon.font:after,.icon.font:before                         { background-position:-4000px 0; }
 
 /* Multicolored icons */
 .icon.checkmark:before     { background:transparent url(base.png?1) 0px 0px no-repeat; }
@@ -1643,7 +1646,7 @@ nav.v.dark a.active.keyline-bottom,
 .fill-navy        { background:#28353d; }
 .fill-navy-dark   { background:#222B30; }
 .fill-purple      { background:#8a8acb; }
-.fill-green       { background:#b5d378; }
+.fill-green       { background:#56b881; }
 .fill-yellow      { background:#f1f075; }
 
 .fill-darken0 { background:rgba(0,0,0,0.05); }

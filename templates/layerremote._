@@ -2,7 +2,7 @@
   <header class='pad2 keyline-bottom'>
     <h3><%= obj.id %></h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
-    <nav class='pin-right pad1'><a href='#' class='button icon close'></a></nav>
+    <nav class='pin-topright pad1'><a href='#' class='quiet inline pad1 icon close'></a></nav>
   </header>
 
   <section class='pad2'>

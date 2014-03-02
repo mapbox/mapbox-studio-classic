@@ -28,7 +28,7 @@
 <div id='data' class='pane fill-grey scroll-styled w3 l1'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
-    <nav class='pin-right pad1'>
+    <nav class='pin-topright pad1'>
       <a class='button icon quiet close' href='#layers'></a>
     </nav>
   </section>
@@ -53,8 +53,8 @@
 <div class='column w2 l2'>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
-    <nav class='pin-right pad1'>
-      <a class='button icon close' href='#'></a>
+    <nav class='pin-topright pad1'>
+      <a class='inline quiet pad1 icon close' href='#'></a>
     </nav>
   </header>
   <div class='pad2'>
@@ -117,10 +117,10 @@
 </form>
 
 <div id='layers' class='menu column w1 dark hide fill-dark'>
-  <nav class='row1 col12 pin-top fill-dark keyline-bottom z100 center'><!--
-    --><a href='#' class='button quiet icon close pin-left unround'></a><!--
-    --><a href='#data' class='button unround data-n icon plus quiet pad2x'>Data</a><!--
-    --><a href='#layers' class='button unround data-y icon x quiet pad2x'>Data</a>
+  <nav class='pad0y row1 col12 pin-top fill-dark keyline-bottom z100 center'><!--
+    --><a href='#' class='inline pad1 icon close pin-topleft'></a><!--
+    --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
+    --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
   </nav>
   <div class='menu-content pin-left col12 pad4y scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
@@ -140,7 +140,7 @@
     </div>
     <div class='pin-right'>
       <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
-      <a class='full-y button quiet icon close unround' href='#'></a>
+      <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
     <h3><a href='#settings' class='small strong quiet'>
       <span class='name rcon sprocket'><%= style.name || 'Untitled' %></span>
@@ -165,7 +165,7 @@
     </nav>
   </header>
   <div class='grid pad2 clearfix'>
-    <div class='keyline-all'><!--
+    <div class='clearfix keyline-top keyline-bottom keyline-left'><!--
     <% fontsRef.forEach(function(font) { %>
     --><div class='col6 keyline-bottom keyline-right'><a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a></div><!--
     <% }); %>

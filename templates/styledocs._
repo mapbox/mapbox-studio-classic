@@ -27,16 +27,14 @@ var sections = {
 };
 %>
 
-<nav class='pin-top row1 clearfix col12 keyline-bottom'><!--
---><a href='#docs-intro' class='col2 quiet button unround active keyline-right icon home'>Intro</a><!--
---><a href='#docs-points' class='col2 quiet button unround keyline-right icon marker'>Points</a><!--
---><a href='#docs-lines' class='col2 quiet button unround keyline-right icon polyline'>Lines</a><!--
---><a href='#docs-polygons' class='col2 quiet button unround keyline-right icon polygon'>Polygons</a><!--
---><span class='text-container contain col2'><!--
---><a href='#docs-text' class='col12 quiet button unround icon keyline-right pencil contain'>Text</a><!--
---><a href='#fonts' class='pin-top space-top1 col12 quiet button unround icon search contain font-link'>Fonts</a><!--
---></span><!--
---><a href='#docs-misc' class='col2 quiet button unround icon keyline-right star'>Misc</a><!--
+<nav class='pin-top row1 clearfix col12 fifths keyline-bottom'><!--
+  --><a href='#docs-intro' class='pin-topleft quiet button unround active keyline-right icon home'></a><!--
+  --><a href='#docs-points' class='col2 quiet button unround keyline-right icon marker'>Points</a><!--
+  --><a href='#docs-lines' class='col2 quiet button unround keyline-right icon polyline'>Lines</a><!--
+  --><a href='#docs-polygons' class='col2 quiet button unround keyline-right icon polygon'>Polygons</a><!--
+  --><a href='#docs-misc' class='col2 quiet button unround icon keyline-right star'>Misc</a><!--
+  --><a href='#docs-text' class='col4 quiet button unround icon keyline-right pencil'>Text</a><!--
+  --><a href='#fonts' class='pin-topright quiet icon font button short font-link'></a><!--
 --></nav>
 
 <article id='docs-intro' class='active scroll-styled pad4y'>
@@ -186,9 +184,6 @@ spin(@color, -10);</pre>
       .each(function(p, name) {
   %>
   <section class='pad2 keyline-bottom'>
-  <% if (/face-name/.test(p.css)) { %>
-    <a href='#fonts' class='button wide submit fonts icon search'>View fonts</a>
-  <% } %>
   <strong><code><%= p.css %>:</code></strong>
   <code class='type'><%=_(p.type).isArray() ? 'option' : p.type%></code>
   <% if (p['default-value'] && p['default-value']!=='none') { %>

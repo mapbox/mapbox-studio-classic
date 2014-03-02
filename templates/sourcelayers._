@@ -2,14 +2,16 @@
 
 <div class='keyline-bottom contain pad2y pad1x'>
   <h3><%= obj.name || 'Untitled' %></h3>
-  <div class='pill small pin-right pad1 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
-    <% if (obj.tiles) { %>
-    <a name='remote' class='button short quiet'>Remote</a><!--
-    --><a class='button short icon redo recache quiet' href='#recache'></a>
-    <% } else { %>
-    <a name='local' class='button short quiet'>Local</span><!--
-    --><a class='button short icon redo recache quiet' href='#recache'></a>
-    <% } %>
+  <div class='pin-right pad1 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
+    <div class='pill pad0y'>
+      <% if (obj.tiles) { %>
+      <a name='remote' class='button short quiet'>Remote</a><!--
+      --><a class='button short icon refresh recache quiet' href='#recache'></a>
+      <% } else { %>
+      <a name='local' class='button short quiet'>Local</span><!--
+      --><a class='button short icon refresh recache quiet' href='#recache'></a>
+      <% } %>
+    </div>
   </div>
 </div>
 
@@ -35,7 +37,7 @@ with no sources. Once vector tile compositing is available revisit.
   </div>
   <small class='truncate col12 pad1y'><%=l.description||'No description.'%></small>
   <% _(l.fields||{}).each(function(desc,name) { %>
-  <small class='field quiet'><code><%=name%></code><%=desc||'No description.'%></small>
+  <small class='field quiet space-bottom0'><code class='fl inline'><%=name%></code><%=desc||'No description.'%></small>
   <% }); %>
 </span>
 <% }); %>

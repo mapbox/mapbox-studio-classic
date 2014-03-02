@@ -4,7 +4,7 @@
       --><a href='#mode-conf' class='button icon conf'></a><!--
       --><a href='#mode-fields' class='button icon fields'></a><!--
     --></span>
-    <a href='#' class='button icon close'></a>
+    <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
   <section>
     <h2>
