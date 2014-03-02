@@ -144,7 +144,7 @@
 #docs code.options { display:block; margin-bottom:10px; }
 
 /* Font book */
-#fonts .font {
+#fonts .single-font {
   height:30px;
   display:block;
   background:#eee;
