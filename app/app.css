@@ -88,16 +88,6 @@ select.short {
   margin: 0;
 }
 
-/* this might be overkill */
-.modal .x {
-  right: -60px;
-  border-radius: 3px;
-  top: 0;
-  bottom: 0;
-  height: 40px;
-  margin: auto;
-}
-
 .pill input[type=text] {
   border-right-width: 0;
 }
@@ -222,13 +212,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   }
 
 /* @TODO migrate to denom system for 1/4ths as well */
-.w1 { width:25%; }
-.w2 { width:50%; }
-.w3 { width:75%; }
-.w4 { width:100%; }
-.w13 { width:33.3333%; }
-.w23 { width:66.6667%; }
-.w33 { width:100%; }
 .l0 { left:0%; }
 .l1 { left:25%; }
 .l2 { left:50%; }

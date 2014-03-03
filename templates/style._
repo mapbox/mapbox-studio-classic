@@ -25,7 +25,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane fill-grey scroll-styled w3 l1'>
+<div id='data' class='pane fill-grey scroll-styled col9 l1'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
@@ -46,11 +46,11 @@
   --></div>
 </div>
 
-<form id='settings' class='pane fill-grey scroll-styled w4 l0'>
-<div class='column w2 l0 lighten scroll-styled'>
+<form id='settings' class='pane fill-grey scroll-styled col12 l0'>
+<div class='column col6 l0 lighten scroll-styled'>
   <%= this.history(obj) %>
 </div>
-<div class='scroll-styled column w2 l2'>
+<div class='scroll-styled column col6 l2'>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
     <nav class='pin-topright pad1'>
@@ -117,7 +117,7 @@
 </div>
 </form>
 
-<div id='layers' class='menu column w1 dark hide fill-dark'>
+<div id='layers' class='menu column col3 dark hide fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
   <div class='pin-topleft'><!--
     --><a href='#' class='align-middle inline pad1 icon close'></a><!--
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<div id='full' class='column w2 l0'>
+<div id='full' class='column col6 l0'>
 
   <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-darken0 z1'>
     <div class='pin-left'><!--
@@ -156,11 +156,11 @@
   <div id='zoomedto' class='fill-white z<%=style.center[2]%>'></div>
 </div>
 
-<div id='docs' class='pane fill-grey scroll-styled w2'>
+<div id='docs' class='pane fill-grey scroll-styled col6'>
   <%= this['styledocs'](cartoRef) %>
 </div>
 
-<div id='fonts' class='pane fill-grey scroll-styled w2'>
+<div id='fonts' class='pane fill-grey scroll-styled col6'>
   <header class='pad2x pad0y keyline-bottom'>
     <h3 class='icon pad0y font'>Fonts</h3>
     <nav class='pin-topright'>
@@ -176,7 +176,7 @@
   </div>
 </div>
 
-<div id='code' class='column w2 l2'>
+<div id='code' class='column col6 l2'>
   <div class='pin-topleft docs-button fill-darken0 z1'>
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>
