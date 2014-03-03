@@ -1,27 +1,27 @@
 <form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
-  <nav>
-    <span class='pill'><!--
-      --><a href='#mode-conf' class='button icon conf'></a><!--
-      --><a href='#mode-fields' class='button icon fields'></a><!--
-      --><a href='#mode-sql' class='button icon edit'></a>
+  <nav class='keyline-bottom row1'>
+    <span class='pad0y fr pad4x pill'><!--
+      --><a href='#mode-conf' class='quiet button short icon levels'></a><!--
+      --><a href='#mode-fields' class='quiet button short icon book'></a><!--
+      --><a href='#mode-sql' class='quiet button short icon pencil'></a>
     </span>
-    <a href='#' class='quiet inline pad1 icon close'></a>
+    <a href='#' class='pin-topright quiet inline pad1 icon close'></a>
   </nav>
-  <section>
-    <h2>
+  <section class='pad2x pad1y pin-topleft'>
+    <h3>
       <%= obj.id %>
-    </h2>
+    </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
   </section>
 
-  <div class='conf'>
+  <fieldset class='pad2 conf'>
     <section>
-      <label class='inline'>Description</label>
+      <label>Description</label>
       <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
     </section>
     <section>
       <label>PostGIS<label>
-      <p class='pill'><!--
+      <div class='pill'><!--
         --><input type='text' name='Datasource-user' class='w1' value='<%= obj.Datasource.user %>' /><!--
         --><label class='ghost'>user</label><!--
         --><input type='text' name='Datasource-dbname' class='w1' value='<%= obj.Datasource.dbname %>' /><!--
@@ -30,7 +30,7 @@
         --><label class='ghost'>host</label><!--
         --><input type='text' name='Datasource-port' class='w1 last' value='<%= obj.Datasource.port %>' /><!--
         --><label class='ghost'>port</label>
-      </p>
+      </div>
       <input type='hidden' name='Datasource-type' value='postgis' />
       <input type='hidden' name='Datasource-max_size' value='512' />
     </section>
@@ -41,10 +41,10 @@
     <% if (obj.properties['group-by']) { %>
     <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
     <% } %>
-    <section class='text-right'>
-      <a href='#' class='button submit icon okay'>Done</a>
+    <section class='pad2'>
+      <a href='#' class='button submit margin6 col6'>Done</a>
     </section>
-  </div>
+  </fieldset>
 
   <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
 
