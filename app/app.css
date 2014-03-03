@@ -33,6 +33,10 @@
   left:0;
   }
 
+.dark code {
+ background: rgba(255,255,255,0.025);
+}
+
 .input-pill input[type='text'],
 .input-pill input[type=text]:focus { border-right-width: 0;}
 
@@ -479,13 +483,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #layers .data-y,
 #layers .data-n { display:none; }
 
-#layers a.delete {
-  position:absolute; right:0px; top:1px;
-  border:0px; height:38px; padding:9px 10px 9px;
-  background:#444;
-  display:none;
-  }
-
 #data:target ~ #layers { display:block; }
 #data:target ~ #layers a.delete { display:block; }
 #data:target ~ #layers .sourcetype { display:none; }
@@ -495,18 +492,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #layers span.active { background: rgba(0,0,0,.2);}
 
 #layers a.active .geometry { opacity:1; }
-#layers .delete {
-  position:absolute;
-  right:5px; top:10px;
-  border-radius:50%;
-  }
-#layers .delete:hover { background:rgba(0,0,0,0.1); }
 #layers .zooms,
-#layers .details,
-#layers .datasource {
+#layers .details {
   font-size:10px; line-height:10px;
   }
-#layers .datasource { right:30px; border-radius:2px; }
 #layers small {
   display:none;
   -webkit-transition:200ms;
@@ -610,7 +599,7 @@ span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
 .dark .CodeMirror { background:transparent; }
-.dark .CodeMirror-gutter { background:transparent; border-color:rgba(0,0,0,0.1); }
+.dark .CodeMirror-gutter { background:transparent; border-color:rgba(255,255,255,0.2); }
 .dark .CodeMirror pre.CodeMirror-cursor { border-color:#ccc; }
 .dark span.cm-keyword,
 .dark span.cm-carto-variable           { color:#d6e; }
