@@ -194,7 +194,7 @@ var Layer = function(id, datasource) {
   var layer = {
     code: code,
     form: $('#layers-' + id),
-    item: $('#layers a.layer[href=#layers-'+id+']')
+    item: $('#layers .layer[href=#layers-'+id+']')
   };
   layer.refresh = function() {
     var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
@@ -240,9 +240,9 @@ var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click a.button.save': 'save',
   'click .editor nav .pill a': 'togglemode',
-  'click a.layer .delete': 'deletelayer',
-  'click a.layer .xrayswatch': 'togglelayer',
-  'click a.layer .xrayinspector': 'toggleinspector',
+  'click .layer .delete': 'deletelayer',
+  'click .layer .xrayswatch': 'togglelayer',
+  'click .layer .xrayinspector': 'toggleinspector',
   'click a.browsefile': 'browsefile',
   'click #settings a.tab': 'tabbed',
   'submit #addlayer': 'addlayer',
@@ -284,7 +284,7 @@ Editor.prototype.togglelayer = function(ev) {
   return false;
 };
 Editor.prototype.toggleinspector = function(ev) {
-  $('a.layer span.xrayinspector.active').removeClass('active');
+  $('.layer span.xrayinspector.active').removeClass('active');
   $(ev.currentTarget).addClass('active');
   return false;
 };
@@ -370,10 +370,10 @@ Editor.prototype.save = function(ev, options) {
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
-  attr._prefs.inspector = $('#layers a.layer:has(.xrayinspector.active)').size()
-    ? $('#layers a.layer:has(.xrayinspector.active)').attr('href').split('#layers-').pop()
+  attr._prefs.inspector = $('#layers .layer:has(.xrayinspector.active)').size()
+    ? $('#layers .layer:has(.xrayinspector.active)').attr('href').split('#layers-').pop()
     : false;
-  attr._prefs.disabled = _($('#layers a.layer').map(function(v) {
+  attr._prefs.disabled = _($('#layers .layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
         ? $(this).attr('href').split('#layers-').pop()
         : false;
@@ -477,7 +477,7 @@ new views.Browser({
 // Sortable layers.
 $('#layers .menu-content').sortable();
 $('#layers .menu-content').bind('sortupdate', function(ev, ui) {
-  var ids = $('#layers .menu-content a.layer').map(function() {
+  var ids = $('#layers .menu-content .layer').map(function() {
     return $(this).attr('href').split('#layers-').pop();
   }).get();
   layers = _(ids).reduce(function(memo, id) {

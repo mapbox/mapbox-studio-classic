@@ -479,7 +479,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 .hide:target { display:block; }
 
 /* Data menu */
-#layers a.layer { white-space:nowrap; }
 #layers .data-y,
 #layers .data-n { display:none; }
 
