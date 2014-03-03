@@ -1,4 +1,4 @@
-<form class='pane scroll-styled editor dark w2 l2' id='layers-<%=obj.id%>'>
+<form class='pane scroll-styled editor fill-dark dark w2 l2' id='layers-<%=obj.id%>'>
   <nav>
     <span class='pill'><!--
       --><a href='#mode-conf' class='button icon conf'></a><!--

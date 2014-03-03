@@ -48,7 +48,7 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='menu column fill-dark dark w2 l2'>
-  <nav class='row1 col12 pad1x pad0y pin-top keyline-bottom fill-dark z1'>
+  <nav class='row1 col12 pad0 pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
     <strong class='small inline pad0y'>Layers</strong>
     <% } else { %>
@@ -74,7 +74,7 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane scroll-styled dark w4 l0'>
+<form id='settings' class='pane scroll-styled dark fill-dark w4 l0'>
 <div class='scroll-styled column w2 l0 darken'>
   <%= this.history(obj) %>
 </div>

@@ -88,6 +88,23 @@ select.short {
   margin: 0;
 }
 
+/* this might be overkill */
+.modal .x {
+  right: -60px;
+  border-radius: 3px;
+  top: 0;
+  bottom: 0;
+  height: 40px;
+  margin: auto;
+}
+
+.pill input[type=text] {
+  border-right-width: 0;
+}
+.pill input[type=text]:last-of-type {
+  border-right-width: 1px;
+}
+
 /* For whatever reason, these need to be defined
  * on their own so dont group them */
 input[type=range]:disabled::-moz-range-thumb { cursor: default;}
@@ -234,9 +251,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 .pane:target > * { display:block; }
 .overlay:target .pane,
 .pane:target { bottom:0%; }
-.pane.dark {
-  background:#444;
-  }
 .pane > .column { overflow:auto; }
 
 /* Map */
@@ -541,12 +555,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 label.ghost {
   position:absolute;
-  width:50px;
-  margin:5px 0px 0px -60px;
-  border-radius:3px;
+  right: 15px;
   text-align:right;
-  font-size:80%;
-  opacity:0.2;
+  line-height: 40px;
+  top: 0;
   }
 
 label.xray { opacity:0.5; width:80px; }

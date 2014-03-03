@@ -29,7 +29,7 @@
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
-      <a class='button icon quiet close' href='#layers'></a>
+      <a class='inline pad1 icon quiet close' href='#layers'></a>
     </nav>
   </section>
   <div class='grid pad1 clearfix'><!--
