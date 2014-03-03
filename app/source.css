@@ -23,9 +23,12 @@
 .editor .CodeMirror { top:60px; }
 
 /* Show tab state  */
+.fields #editor nav .mode-conf:hover,
+.sql #editor nav .mode-conf:hover,
 #editor nav .mode-conf,
 .fields #editor nav .mode-fields,
 .sql #editor nav .mode-sql { background-color:rgba(255,255,255,0.20); }
+
 .fields #editor nav .mode-conf,
 .sql #editor nav .mode-conf { background-color:rgba(255,255,255,0.10); }
 

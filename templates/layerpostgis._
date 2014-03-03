@@ -59,7 +59,7 @@
 
   <div class='sql'>
     <section class='pad1x pad1y keyline-bottom'>
-      <div class='pad0x contain clearfix'>
+      <div class='pad0x clearfix'>
         <div class='pad0x col4 contain'>
           <input name='Datasource-geometry_field' class='stretch' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/>
           <label class='micro ghost'>geom field</label>

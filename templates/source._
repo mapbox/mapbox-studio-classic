@@ -74,7 +74,7 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane scroll-styled dark fill-dark w4 l0'>
+<form id='settings' class='pane scroll-styled dark fill-dark col12 l0'>
 <div class='scroll-styled column col6 l0 darken'>
   <%= this.history(obj) %>
 </div>
@@ -144,7 +144,7 @@ revlayers.reverse();
   <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
   <div class='col8 margin2 pill space-bottom1'>
     <input class='col8' type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
-   --><span class='col4 inline pad0 fill-lighten1 round-right'>
+   --><span class='col4 inline pad1 fill-lighten1 round-right'>
         <select class='col12 short' name='type'>
         <option value='postgis'>PostGIS</option>
         <option value='shape'>Shapefile</option>

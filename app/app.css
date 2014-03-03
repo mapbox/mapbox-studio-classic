@@ -34,7 +34,7 @@
   }
 
 .input-pill input[type='text'],
-.pill input[type=text]:focus { border-right-width: 0;}
+.input-pill input[type=text]:focus { border-right-width: 0;}
 
 .input-pill input[type='text'] + input[type='submit'],
 .input-pill input[type='text'] + .button { border-left-width: 0;}
@@ -82,17 +82,11 @@ input[type='text']:disabled {
   color: rgba(255,255,255,0.5);
 }
 
-select.short {
-  height: 30px;
+
+select {
+  height: 20px;
   border: 0;
   margin: 0;
-}
-
-.pill input[type=text] {
-  border-right-width: 0;
-}
-.pill input[type=text]:last-of-type {
-  border-right-width: 1px;
 }
 
 /* For whatever reason, these need to be defined
@@ -211,7 +205,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   width:50%;
   }
 
-/* @TODO migrate to denom system for 1/4ths as well */
 .l0 { left:0%; }
 .l1 { left:25%; }
 .l2 { left:50%; }
