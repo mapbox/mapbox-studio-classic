@@ -59,10 +59,41 @@ a:hover code {
   color: rgba(0,0,0,.5);
 }
 
+.dark a.icon:not(.button):hover:before,
+.dark a.icon:not(.button):hover:after,
+a.icon.quiet:not(.button):hover:before,
+a.icon.quiet:not(.button):hover:after {
+  opacity: .75;
+}
+
 .dark a code,
 .dark a:hover code {
   color: rgba(255,255,255,0.5);
 }
+
+textarea:disabled,
+input[type='text']:disabled {
+  border-width: 0;
+  color: rgba(0,0,0,0.5);
+}
+
+.dark textarea:disabled,
+.dark input[type='text']:disabled {
+  color: rgba(255,255,255,0.5);
+}
+
+select.short {
+  height: 30px;
+  border: 0;
+  margin: 0;
+}
+
+/* For whatever reason, these need to be defined
+ * on their own so dont group them */
+input[type=range]:disabled::-moz-range-thumb { cursor: default;}
+input[type=range]:disabled::-ms-thumb { cursor: default;}
+input[type=range]:disabled::-webkit-slider-thumb { cursor: default;}
+input[type=range]:disabled { cursor: default; }
 
 /* Splitting fifths - also in use on www.mapbox.com */
 .fifths a {

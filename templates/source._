@@ -34,8 +34,7 @@
         <a class='button short icon floppy okay quiet' href='#'>Save</a>
         <% } %>
       </div>
-      <a href='#settings' class='small strong quiet'><%= source.name || 'Untitled' %></a>
-      <a href='#settings' class='icon sprocket'></a>
+      <a href='#settings' class='icon sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
     </div>
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
@@ -87,31 +86,32 @@ revlayers.reverse();
   </header>
 
   <div class='pad2'>
-    <section class='space-bottom1'>
-      <label class='col12 space-bottom0'>Name</label>
-      <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
-    </section>
-    <section class='space-bottom1'>
-      <label class='col12 space-bottom0'>Description</label>
-      <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
-    </section>
-    <section class='space-bottom1'>
-      <label class='col12 space-bottom0'>Attribution</label>
-      <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
-    </section>
-
-    <section class='pad1 space-bottom2 fill-darken0 keyline-all round'>
+    <fieldset>
+      <section class='space-bottom1'>
+        <label>Name</label>
+        <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+      </section>
+      <section class='space-bottom1'>
+        <label>Description</label>
+        <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+      </section>
+      <section class='space-bottom1'>
+        <label>Attribution</label>
+        <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+      </section>
+    </fieldset>
+    <fieldset class='pad2 space-bottom2 keyline-all round'>
       <section class='clearfix'>
         <label class='inline col3'>Minzoom</label>
         <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-        <label class='range' id='minzoom-val'><%= source.minzoom %></label>
+        <label class='inline range' id='minzoom-val'><%= source.minzoom %></label>
       </section>
       <section class='clearfix'>
         <label class='inline col3'>Maxzoom</label>
         <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-        <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
+        <label class='inline range' id='maxzoom-val'><%= source.maxzoom %></label>
       </section>
-    </section>
+    </fieldset>
 
     <% if (!remote) { %>
       <section class='pill col6 margin6 clearfix'><!--
@@ -141,18 +141,22 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class='button icon x dot pin-right submit' href='#'></a>
-  <p class='pill'>
-    <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
-    --><select name='type'>
-      <option value='postgis'>PostGIS</option>
-      <option value='shape'>Shapefile</option>
-      <option value='geojson'>GeoJSON</option>
-      <option value='sqlite'>SQLite</option>
-      <option value='csv'>CSV</option>
-    </select>
-  </p>
-  <input type='submit' value='New layer'/>
+  <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
+  <div class='col8 margin2 pill space-bottom1'>
+    <input class='col8' type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
+   --><span class='col4 inline pad0 fill-lighten1 round-right'>
+        <select class='col12 short' name='type'>
+        <option value='postgis'>PostGIS</option>
+        <option value='shape'>Shapefile</option>
+        <option value='geojson'>GeoJSON</option>
+        <option value='sqlite'>SQLite</option>
+        <option value='csv'>CSV</option>
+      </select>
+    </span>
+  </div>
+  <div class='center'>
+  <input class='margin2 col8' type='submit' value='New layer'/>
+  </div>
 </form>
 <% } %>
 

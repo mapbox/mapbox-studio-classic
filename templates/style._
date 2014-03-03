@@ -58,20 +58,21 @@
     </nav>
   </header>
   <div class='pad2'>
-    <section class='space-bottom1'>
-      <label class='col12 space-bottom0'>Name</label>
-      <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
-    </section>
-    <section class='space-bottom1'>
-      <label class='col12 space-bottom0'>Description</label>
-      <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
-    </section>
-    <section class='space-bottom2'>
-      <label class='col12 space-bottom0'>Attribution</label>
-      <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
-    </section>
-
-    <section class='pad1 space-bottom2 fill-darken0 keyline-all round'>
+    <fieldset>
+      <section class='space-bottom1'>
+        <label>Name</label>
+        <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
+      </section>
+      <section class='space-bottom1'>
+        <label>Description</label>
+        <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
+      </section>
+      <section class='space-bottom1'>
+        <label>Attribution</label>
+        <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+      </section>
+    </fieldset>
+    <fieldset class='pad2 space-bottom2 keyline-all round'>
       <section class='clearfix'>
         <label class='inline col3'>Image format</label>
         <select name='format'>
@@ -94,19 +95,19 @@
       <section class='clearfix'>
         <label class='inline col3'>Minzoom</label>
         <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-        <label class='range small strong' id='minzoom-val'><%= style.minzoom %></label>
+        <label class='inline range small strong' id='minzoom-val'><%= style.minzoom %></label>
       </section>
       <section class='clearfix'>
         <label class='inline col3'>Maxzoom</label>
         <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-        <label class='range small strong' id='maxzoom-val'><%= style.maxzoom %></label>
+        <label class='inline  range small strong' id='maxzoom-val'><%= style.maxzoom %></label>
       </section>
       <section class='clearfix'>
         <label class='inline col3'>Scale</label>
         <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-        <label class='range small strong' id='scale-val'><%= style.scale %></label>
+        <label class='inline  range small strong' id='scale-val'><%= style.scale %></label>
       </section>
-    </section>
+    </fieldset>
 
     <section class='pill col6 margin6 clearfix'><!--
       --><a href='#' class='button col6 wide submit icon okay floppy'>Save</a><!--
@@ -131,7 +132,7 @@
 
 <div id='full' class='column w2 l0'>
 
-  <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-darken1 z1'>
+  <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-darken0 z1'>
     <div class='pin-left'><!--
       --><a class='inline pad1 icon menu quiet unround align-middle' href='#layers'></a><!--
       <% if (style._tmp) { %>
