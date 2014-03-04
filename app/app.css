@@ -85,10 +85,6 @@ input[type='text']:disabled {
   color: rgba(255,255,255,0.5);
 }
 
-.space-top1 { top: 10px;}
-.space-top2 { top: 20px;}
-.space-top4 { top: 40px;}
-
 select {
   margin-top: 1px;  margin-bottom: 1px;
 }
