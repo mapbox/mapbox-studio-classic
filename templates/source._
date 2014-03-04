@@ -73,7 +73,7 @@ revlayers.reverse();
 }.bind(this)); %>
 </div>
 <form id='settings' class='pane scroll-styled dark fill-dark col12 l0'>
-<div class='scroll-styled column col6 l0 darken'>
+<div class='scroll-styled column col6 l0 fill-blue'>
   <%= this.history(obj) %>
 </div>
 <div class='scroll-styled column col6 l2 fill-dark'>

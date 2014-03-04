@@ -10,7 +10,7 @@
   <div class='grid clearfix pad1'>
 
     <div class='col6 pad1 space-bottom1'>
-      <a class='button col12 icon plus create' href='/new/style'>New style</a>
+      <a class='loud button col12 icon plus create' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1 space-bottom1'>
       <a class='button quiet col12 icon folder' href='#browsestyle'>Browse</a>
@@ -37,12 +37,14 @@
   <div class='grid pad1 clearfix'>
 
     <div class='col6 pad1 space-bottom1'>
-      <a class='col12 button icon plus create' href='/new/source'>New source</a>
+      <a class='col12 loud button icon plus create' href='/new/source'>New source</a>
     </div>
 
-    <div class='col6 pad1 pill space-bottom1'><!--
-      --><a class='button quiet create col6 icon folder' href='#browsesource'>Browse</a><!--
-      --><a class='button quiet create col6 icon mapbox' href='#addmapbox'>Mapbox</a>
+    <div class='col3 pad1 space-bottom1'>
+      <a class='col12 button quiet create col6 icon folder' href='#browsesource'>Browse</a>
+    </div>
+    <div class='col3 pad1 space-bottom1'>
+      <a class='col12 button quiet create col6 icon mapbox' href='#addmapbox'>Mapbox</a>
     </div>
 
   <% _(obj.history.source).chain()
