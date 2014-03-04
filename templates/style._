@@ -46,11 +46,11 @@
   --></div>
 </div>
 
-<form id='settings' class='pane scroll-styled col12 l0'>
-<div class='column col6 l0 fill-blue dark scroll-styled'>
+<form id='settings' class='offcanvas-top pane scroll-styled col12 pin-top'>
+<div class='column col6 pin-left fill-blue dark scroll-styled'>
   <%= this.history(obj) %>
 </div>
-<div class='fill-gray scroll-styled column col6 l2'>
+<div class='fill-gray scroll-styled column col6 pin-right'>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
     <nav class='pin-topright pad1'>
@@ -117,7 +117,7 @@
 </div>
 </form>
 
-<div id='layers' class='menu column col3 dark hide fill-dark'>
+<div id='layers' class='pin-left menu column col3 dark offcanvas-left fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
   <div class='pin-topleft'><!--
     --><a href='#' class='align-middle inline pad1 icon close'></a><!--
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<div id='full' class='column col6 l0'>
+<div id='full' class='column col6 pin-left'>
 
   <div id='title' class='contain row1 pin-top col12 center pad1y fill-lighten1 dark keyline-bottom z1'>
     <div class='pin-left'><!--
@@ -145,18 +145,17 @@
       <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
-    <h3><a href='#settings' class='small strong quiet'>
-      <span class='name icon sprocket'><%= style.name || 'Untitled' %></span>
-    </a></h3>
+    <a href='#settings' class='small strong quiet'>
+      <span class='inline name icon sprocket'><%= style.name || 'Untitled' %></span>
+    </a>
   </div>
-
   <div id='map' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
 </div>
 
-<div id='docs' class='pane fill-grey scroll-styled col6'>
+<div id='docs' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
   <%= this['styledocs'](cartoRef) %>
 </div>
 
@@ -176,7 +175,7 @@
   </div>
 </div>
 
-<div id='code' class='z1 column col6 l2'>
+<div id='code' class='z1 column col6 pin-right'>
   <div class='pin-topleft docs-button fill-darken0 z1'>
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>

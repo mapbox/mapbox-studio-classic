@@ -152,30 +152,6 @@
 /* Data library */
 div.source a.section { cursor:pointer; }
 
-/* Visibility */
-/* Off-canvas menu vs. Content */
-#data:target ~ .l0,
-.menu:target ~ .l0 { left:25%; }
-#data:target ~ .l2,
-.menu:target ~ .l2 { left:75%; }
-.menu:target ~ #code { width: 25%;}
-#full:target { width:100%; }
-#full:target ~ .l2 { left:100%; }
-#full:target .leaflet-left { left:0%; }
-
-#perf:target ~ #full { bottom:40px; }
-
-/* Button visibility/clickability */
-a.menu-y { display:none; }
-a.full-y { display:none; }
-a.docs-y { display:none; }
-a.data-y { display:none; }
-.menu:target ~ * a.menu-y,
-#data:target ~ * a.data-y,
-#full:target     a.full-y { display:inline-block; }
-.menu:target ~ * a.menu-n,
-#full:target     a.full-n { display:none; }
-
 /* Overrides for util panes vs. Menu */
 #layers:target a.data-n { display:inline-block; }
 .pane.util:target ~ * a.data-n,

@@ -21,30 +21,18 @@ case 'ENOENT':
 };
 %>
 
-<div id='error'>
-<div class='message'>
+<div class='pad4 center' id='error'>
+<div class='pad4 margin4 col4 round message fill-white'>
   <h2><%= title %></h2>
   <%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %>
 </div>
-<div class='center dark'>
+<div class='col6 margin3 center pad2 dark'>
   <a class='button icon prev' href='/'>Back</a>
 </div>
 </div>
 
 <style type='text/css'>
 /* Error page */
-#error {
-  text-align:center;
-  padding:40px;
-  }
-.message {
-  padding:40px;
-  margin:0px auto 20px;
-  max-width:320px;
-  background:#fff;
-  border-radius:4px;
-  }
-.message h2 { margin-bottom:10px; }
 .message .long { word-break:break-all };
 </style>
 

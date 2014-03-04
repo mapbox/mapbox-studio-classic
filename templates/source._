@@ -24,7 +24,7 @@
 
 <div id='perf'></div>
 
-<div id='full' class='column dark col6 l0'>
+<div id='full' class='column dark col6 pin-left'>
   <div id='title' class='pad1y dark fill-darken1 contain keyline-bottom row1 pin-top col12 center z1'>
     <div class='pin-left pad0'>
       <% if (source._tmp) { %>
@@ -34,6 +34,10 @@
       <% } %>
     </div>
     <a href='#settings' class='icon sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
+    <div class='pin-right'>
+      <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
+      <a class='full-y pad1 quiet icon close unround' href='#'></a>
+    </div>
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
@@ -45,7 +49,7 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='menu column fill-dark dark col6 l2'>
+<div id='layers' class='menu column fill-dark dark col6 pin-right'>
   <nav class='row1 col12 pad0 pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
     <strong class='small inline pad0y'>Layers</strong>
@@ -72,11 +76,11 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane scroll-styled dark fill-dark col12 l0'>
-<div class='scroll-styled column col6 l0 fill-blue'>
+<form id='settings' class='pane scroll-styled dark fill-dark col12 pin-top'>
+<div class='scroll-styled column col6 pin-left fill-blue'>
   <%= this.history(obj) %>
 </div>
-<div class='scroll-styled column col6 l2 fill-dark'>
+<div class='scroll-styled column col6 pin-right fill-dark'>
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
