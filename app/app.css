@@ -193,26 +193,11 @@ section pre {
   }
 section .CodeMirror { display:block; position:static; height:400px; visibility:visible; }
 
-.column {
-  position:absolute;
-  bottom:0%;
-  height:100%;
-  box-shadow:rgba(0,0,0,0.1) -2px 0px 0px;
-  -webkit-transition:all .125s;
-     -moz-transition:all .125s;
-      -ms-transition:all .125s;
-          transition:all .125s;
-  }
-
 .cell {
   display:inline-block;
   vertical-align:top;
   width:50%;
   }
-
-.l1 { left:25%; }
-.l3 { left:75%; }
-.l4 { left:100%; }
 
 .darken { background:rgba(0,0,0,0.4); }
 .lighten { background:rgba(255,255,255,0.4); }

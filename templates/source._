@@ -24,7 +24,7 @@
 
 <div id='perf'></div>
 
-<div id='full' class='column dark col6 pin-left'>
+<div id='full' class='dark col6 pin-left'>
   <div id='title' class='pad1y dark fill-darken1 contain keyline-bottom row1 pin-top col12 center z1'>
     <div class='pin-left pad0'>
       <% if (source._tmp) { %>

@@ -25,7 +25,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane fill-grey scroll-styled col9 l1'>
+<div id='data' class='pane pin-top animate offcanvas-top fill-blue dark scroll-styled col9 margin3'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
@@ -46,11 +46,11 @@
   --></div>
 </div>
 
-<form id='settings' class='offcanvas-top pane scroll-styled col12 pin-top'>
-<div class='column col6 pin-left fill-blue dark scroll-styled'>
+<form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
+<div class='col6 pin-left fill-blue dark scroll-styled'>
   <%= this.history(obj) %>
 </div>
-<div class='fill-gray scroll-styled column col6 pin-right'>
+<div class='fill-gray scroll-styled col6 pin-right'>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
     <nav class='pin-topright pad1'>
@@ -117,7 +117,7 @@
 </div>
 </form>
 
-<div id='layers' class='pin-left menu column col3 dark offcanvas-left fill-dark'>
+<div id='layers' class='pin-left menu col3 dark offcanvas-left fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
   <div class='pin-topleft'><!--
     --><a href='#' class='align-middle inline pad1 icon close'></a><!--
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<div id='full' class='column col6 pin-left'>
+<div id='full' class='clip animate col6 pin-left'>
 
   <div id='title' class='contain row1 pin-top col12 center pad1y fill-lighten1 dark keyline-bottom z1'>
     <div class='pin-left'><!--
@@ -145,7 +145,7 @@
       <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
-    <a href='#settings' class='small strong quiet'>
+    <a href='#settings' class='block small strong quiet'>
       <span class='inline name icon sprocket'><%= style.name || 'Untitled' %></span>
     </a>
   </div>
@@ -159,7 +159,7 @@
   <%= this['styledocs'](cartoRef) %>
 </div>
 
-<div id='fonts' class='pane fill-grey scroll-styled col6'>
+<div id='fonts' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
   <header class='pad2x pad0y keyline-bottom'>
     <h3 class='icon pad0y font'>Fonts</h3>
     <nav class='pin-topright'>
@@ -175,7 +175,7 @@
   </div>
 </div>
 
-<div id='code' class='z1 column col6 pin-right'>
+<div id='code' class='animate z1 col6 pin-right'>
   <div class='pin-topleft docs-button fill-darken0 z1'>
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>
