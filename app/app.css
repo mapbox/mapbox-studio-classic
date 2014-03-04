@@ -252,31 +252,25 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   }
 #zoomedto .z {
   display:none;
-  padding:0px 0px 0px 60px;
   position:relative;
   border-radius:3px;
   border:1px solid #999;
   border-color:rgba(0,0,0,0.4);
   width:100px; height:20px;
-  font-weight:bold;
-  font-size:10px;
-  line-height:19px;
-  }
-#zoomedto strong {
-  width:30px;
   }
 #zoomedto .range {
-  height:2px;
+  margin-left: 10px;
+  height:4px;
   position:absolute;
   overflow:hidden;
-  left:65px;
+  left:50%;
   right:5px;
   top:8px;
   background:rgba(0,0,0,0.1);
   display:block;
   }
 #zoomedto .minmax {
-  height:2px;
+  height:4px;
   display:block;
   background:rgba(255,255,255,0.2);
   position:absolute;
@@ -284,16 +278,11 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #zoomedto .marker {
   position:absolute;
   display:block;
-  width:2px;
-  height:2px;
+  width:4px;
+  height:4px;
   background:#888;
   }
-#zoomedto .avg {
-  display:block;
-  position:absolute;
-  top:0px;
-  left:30px;
-  padding:0px 5px;
+#zoomedto .z {
   font-size:8px;
   }
 #zoomedto.z0 .z0,
@@ -323,7 +312,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   background:#fff;
   }
 #zoomedto:target {
-  z-index:1001;
+  z-index:1;
+  border-bottom: 1px solid rgba(0,0,0,.1);
   overflow:hidden;
   background:#eee;
   height:120px;
