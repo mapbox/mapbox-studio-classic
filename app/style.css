@@ -64,15 +64,7 @@
   display:none;
   }
 #tabs a.tab.active span.delete {
-  display:block;
-  position:absolute;
-  right:0; top:0; bottom: 0;
-  width:25px;
-  border-left: 1px solid #ececec;
-  padding: 3px;
-  line-height:20px;
-  border-radius:0 3px 3px 0;
-  opacity:0.5;
+  display:inline-block;
   }
 #tabs a.tab span.delete:hover { background:white; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
