@@ -252,15 +252,9 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   }
 #zoomedto .z {
   display:none;
-  padding:0px 0px 0px 60px;
-  position:relative;
-  border-radius:3px;
-  border:1px solid #999;
-  border-color:rgba(0,0,0,0.4);
+  padding:0 0 0 60px;
   width:100px; height:20px;
-  font-weight:bold;
-  font-size:10px;
-  line-height:19px;
+  border-color:rgba(0,0,0,0.4);
   }
 #zoomedto strong {
   width:30px;

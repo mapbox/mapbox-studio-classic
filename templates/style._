@@ -153,7 +153,7 @@
   <div id='map' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
-  <div id='zoomedto' class='fill-white z<%=style.center[2]%>'></div>
+  <div id='zoomedto' class='fill-white contain z<%=style.center[2]%>'></div>
 </div>
 
 <div id='docs' class='pane fill-grey scroll-styled col6'>
@@ -184,7 +184,7 @@
   <nav id='tabs' class='keyline-left keyline-bottom row1 pad0y pad4x pad0r pin-top fill-darken0 small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain micro <%=!i?'active':''%>'><%=k%> <span class='icon trash delete'></span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain micro <%=!i?'active':''%>'><%=k%> <span class='icon trash delete pin-right keyline-left pad0 round-right'></span></a><!--
     <% }); %>
   -->
   <span class='z1'>
@@ -338,7 +338,7 @@ Editor.prototype.adddata = function(ev) {
 Editor.prototype.addtab = function(ev) {
   var filename = $('#addtab-filename').val();
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab round pad0y pad1x truncate contain micro'>"+filename+" <span class='icon trash delete'></span></a>").insertAfter('nav#tabs > a:last-of-type');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab round pad0y pad1x truncate contain micro'>"+filename+" <span class='icon trash delete pin-right round-right keyline-left pad0'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';
@@ -449,7 +449,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
