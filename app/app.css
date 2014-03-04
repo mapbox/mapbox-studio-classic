@@ -33,6 +33,7 @@
   left:0;
   }
 
+.break-word { word-wrap:break-word; }
 .dark code {
  background: rgba(255,255,255,0.025);
 }
