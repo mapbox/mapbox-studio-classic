@@ -25,17 +25,15 @@
 <div id='perf'></div>
 
 <div id='full' class='column dark col6 l0'>
-  <div id='title' class='dark fill-dark contain row1 pin-top col12 center z1'>
-    <div class='fill-darken2 pad1y'>
-      <div class='pin-left pad0'>
-        <% if (source._tmp) { %>
-        <a class='button short icon floppy okay quiet' href='#saveas'>Save as</a>
-        <% } else { %>
-        <a class='button short icon floppy okay quiet' href='#'>Save</a>
-        <% } %>
-      </div>
-      <a href='#settings' class='icon sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
+  <div id='title' class='pad1y dark fill-darken1 contain keyline-bottom row1 pin-top col12 center z1'>
+    <div class='pin-left pad0'>
+      <% if (source._tmp) { %>
+      <a class='button short icon floppy okay quiet' href='#saveas'>Save as</a>
+      <% } else { %>
+      <a class='button short icon floppy okay quiet' href='#'>Save</a>
+      <% } %>
     </div>
+    <a href='#settings' class='icon sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
   </div>
   <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
@@ -55,7 +53,7 @@ revlayers.reverse();
     <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
     <% } %>
   </nav>
-  <div class='menu-content pin-left col12 pad4y scroll-styled'>
+  <div class='menu-content pin-left col12 space-top4 scroll-styled'>
     <% _(revlayers).each(function(l) { %>
       <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
     <% }.bind(this)); %>

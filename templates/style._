@@ -125,14 +125,14 @@
     --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
     </div>
   </nav>
-  <div class='menu-content pin-left col12 pad4y scroll-styled'>
+  <div class='menu-content pin-left col12 space-top4 scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
   </div>
 </div>
 
 <div id='full' class='column col6 l0'>
 
-  <div id='title' class='contain row1 pin-top col12 center pad1y keyline-bottom fill-darken0 z1'>
+  <div id='title' class='contain row1 pin-top col12 center pad1y fill-lighten1 dark keyline-bottom z1'>
     <div class='pin-left'><!--
       --><a class='inline pad1 icon menu quiet unround align-middle' href='#layers'></a><!--
       <% if (style._tmp) { %>
@@ -184,7 +184,7 @@
   <nav id='tabs' class='keyline-left keyline-bottom row1 pad0y pad4x pad0r pin-top fill-darken0 small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k%> <span class='icon trash delete'></span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0y pad1x truncate contain micro <%=!i?'active':''%>'><%=k%> <span class='icon trash delete'></span></a><!--
     <% }); %>
   -->
   <span class='z1'>
@@ -338,7 +338,7 @@ Editor.prototype.adddata = function(ev) {
 Editor.prototype.addtab = function(ev) {
   var filename = $('#addtab-filename').val();
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab round pad0y pad1x truncate contain'>"+filename+" <span class='icon trash delete'></span></a>").insertAfter('nav#tabs > a:last-of-type');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab round pad0y pad1x truncate contain micro'>"+filename+" <span class='icon trash delete'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';
@@ -425,7 +425,7 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+        code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
       } else {
         return this.messageModal(e);
       }
