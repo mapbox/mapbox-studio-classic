@@ -252,25 +252,24 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   }
 #zoomedto .z {
   display:none;
-  padding:0 0 0 60px;
   width:100px; height:20px;
   border-color:rgba(0,0,0,0.4);
-  }
-#zoomedto strong {
-  width:30px;
+  font-size:8px;
+  line-height:18px;
   }
 #zoomedto .range {
-  height:2px;
+  margin-left: 10px;
+  height:4px;
   position:absolute;
   overflow:hidden;
-  left:65px;
+  left:50%;
   right:5px;
   top:8px;
   background:rgba(0,0,0,0.1);
   display:block;
   }
 #zoomedto .minmax {
-  height:2px;
+  height:4px;
   display:block;
   background:rgba(255,255,255,0.2);
   position:absolute;
@@ -278,17 +277,9 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #zoomedto .marker {
   position:absolute;
   display:block;
-  width:2px;
-  height:2px;
+  width:4px;
+  height:4px;
   background:#888;
-  }
-#zoomedto .avg {
-  display:block;
-  position:absolute;
-  top:0px;
-  left:30px;
-  padding:0px 5px;
-  font-size:8px;
   }
 #zoomedto.z0 .z0,
 #zoomedto.z1 .z1,
@@ -317,7 +308,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   background:#fff;
   }
 #zoomedto:target {
-  z-index:1001;
+  z-index:1;
+  border-bottom: 1px solid rgba(0,0,0,.1);
   overflow:hidden;
   background:#eee;
   height:120px;

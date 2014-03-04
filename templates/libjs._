@@ -66,14 +66,14 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
       html += [
-        "<a href='#zoomedto' class='keyline-all micro round strong col12 quiet z z",z,"'>",
-        "<strong class='pin-left center keyline-right'>z",z,"</strong>",
-        s ? "<span class='avg keyline-left'>"+s[1]+unit+"</span>" : '',
+        "<span class='strong keyline-all round col12 quiet z z",z,"'>",
+        "<a href='#zoomedto' class='col3 pad0x center strong quiet keyline-right'>z",z,"</a>",
+        s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
         s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
         s ? "</span>" : '',
-        "</a>"
+        "</span>"
       ].join('');
     }
     $('#zoomedto').html(html);

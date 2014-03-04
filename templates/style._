@@ -153,7 +153,7 @@
   <div id='map' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
-  <div id='zoomedto' class='fill-white contain z<%=style.center[2]%>'></div>
+  <div id='zoomedto' class='z<%=style.center[2]%>'></div>
 </div>
 
 <div id='docs' class='pane fill-grey scroll-styled col6'>
@@ -176,7 +176,7 @@
   </div>
 </div>
 
-<div id='code' class='column col6 l2'>
+<div id='code' class='z1 column col6 l2'>
   <div class='pin-topleft docs-button fill-darken0 z1'>
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>
