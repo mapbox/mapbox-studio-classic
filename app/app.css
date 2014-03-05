@@ -123,6 +123,8 @@ input[type=range]:disabled { cursor: default; }
 .modal:target,
 .modal:target ~ #mask { display:block; }
 
+.code { font-family:Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace; }
+
 .dark .fill-light.modal { background:#444; }
 .dark #mask { background:rgba(0,0,0,0.8); }
 

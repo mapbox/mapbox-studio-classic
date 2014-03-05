@@ -106,12 +106,12 @@ revlayers.reverse();
       <section class='clearfix'>
         <label class='inline col3'>Minzoom</label>
         <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-        <code class='inline range' id='minzoom-val'><%= source.minzoom %></code>
+        <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
       </section>
       <section class='clearfix'>
         <label class='inline col3'>Maxzoom</label>
         <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-        <code class='inline range' id='maxzoom-val'><%= source.maxzoom %></code>
+        <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
       </section>
     </fieldset>
 
