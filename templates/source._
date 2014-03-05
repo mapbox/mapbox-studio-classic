@@ -24,7 +24,7 @@
 
 <div id='perf'></div>
 
-<div id='full' class='dark col6 pin-left'>
+<div id='full' class='clip animate col6 pin-left'>
   <div id='title' class='pad1y dark fill-darken1 contain keyline-bottom row1 pin-top col12 center z1'>
     <div class='pin-left pad0'>
       <% if (source._tmp) { %>
@@ -49,8 +49,8 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='menu column fill-dark dark col6 pin-right'>
-  <nav class='row1 col12 pad0 pin-top keyline-bottom fill-dark z1'>
+<div id='layers' class='animate menu fill-dark dark col6 pin-right'>
+  <nav class='row1 col12 pad0y pad1x pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
     <strong class='small inline pad0y'>Layers</strong>
     <% } else { %>
@@ -76,11 +76,11 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane scroll-styled dark fill-dark col12 pin-top'>
-<div class='scroll-styled column col6 pin-left fill-blue'>
+<form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
+<div class='scroll-styled col6 pin-left fill-blue'>
   <%= this.history(obj) %>
 </div>
-<div class='scroll-styled column col6 pin-right fill-dark'>
+<div class='scroll-styled col6 pin-right fill-dark'>
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
