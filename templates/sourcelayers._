@@ -21,9 +21,9 @@ with no sources. Once vector tile compositing is available revisit.
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
 <span class='small layer col12 quiet truncate contain keyline-bottom' id='layers-<%=l.id%>'>
-  <a href='#layers-<%=l.id%>' class='block pad1 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
-  <div class='center pin-right pad0x pad1y'>
-    <span class='zooms pad0 fill-darken1 round small'>
+  <a href='#layers-<%=l.id%>' class='block pad0 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
+  <div class='center pin-right'>
+    <span class='inline zooms pad0 micro'>
       <% if (!l.maxzoom) { %>
       z<%= l.minzoom||0 %>+
       <% } else { %>
