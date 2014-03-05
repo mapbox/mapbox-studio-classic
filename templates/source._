@@ -49,7 +49,7 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='animate menu fill-dark dark col6 pin-right'>
+<div id='layers' class='source-menu animate menu fill-dark dark col6 pin-right'>
   <nav class='row1 col12 pad0y pad1x pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
     <strong class='small inline pad0y'>Layers</strong>
@@ -103,12 +103,12 @@ revlayers.reverse();
       </section>
     </fieldset>
     <fieldset class='pad2 space-bottom2 keyline-all round'>
-      <section class='clearfix'>
+      <section class='space-bottom0 clearfix'>
         <label class='inline col3'>Minzoom</label>
         <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
         <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
       </section>
-      <section class='clearfix'>
+      <section class='space-bottom0 clearfix'>
         <label class='inline col3'>Maxzoom</label>
         <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
         <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>

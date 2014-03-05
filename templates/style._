@@ -73,7 +73,7 @@
       </section>
     </fieldset>
     <fieldset class='pad2 space-bottom2 keyline-all round'>
-      <section class='clearfix'>
+      <section class='space-bottom1 clearfix'>
         <label class='inline col3'>Image format</label>
         <select name='format'>
           <% _({
@@ -92,17 +92,17 @@
           <% }); %>
         </select>
       </section>
-      <section class='clearfix'>
+      <section class='space-bottom0 clearfix'>
         <label class='inline col3'>Minzoom</label>
         <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
         <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
       </section>
-      <section class='clearfix'>
+      <section class='space-bottom0 clearfix'>
         <label class='inline col3'>Maxzoom</label>
         <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
         <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
       </section>
-      <section class='clearfix'>
+      <section class='space-bottom0 clearfix'>
         <label class='inline col3'>Scale</label>
         <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
         <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
