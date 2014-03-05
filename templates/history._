@@ -1,5 +1,5 @@
-<header class='pad1 clearfix keyline-bottom'>
-  <nav class='pad1x tabs col6 fr clearfix'><!--
+<header class='pad1y pad2x clearfix keyline-bottom'>
+  <nav class='tabs col6 fr clearfix'><!--
     --><a class='col6 submit tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
     --><a class='col6 submit tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
   </nav>

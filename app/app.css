@@ -41,6 +41,8 @@
  background: rgba(255,255,255,0.025);
 }
 
+.icon.big:before { margin-right: 0;}
+
 .input-pill input[type='text'],
 .input-pill input[type=text]:focus { border-right-width: 0;}
 
@@ -121,7 +123,7 @@ input[type=range]:disabled { cursor: default; }
 .modal:target,
 .modal:target ~ #mask { display:block; }
 
-.dark .modal { background:#444; }
+.dark .fill-light.modal { background:#444; }
 .dark #mask { background:rgba(0,0,0,0.8); }
 
 /* END Base candidates */
@@ -173,16 +175,6 @@ body {
 body.dark {
   background-color:#333;
   }
-
-.clear { background:transparent !important; }
-.lefted { text-align:left; }
-.iso { margin:40px 0px; }
-
-section.thin { padding:10px 30px 9px; }
-
-.dark section,
-.dark a.section { border-color:rgba(0,0,0,0.1); }
-.dark a.section:hover { background-color:rgba(0,0,0,0.4); }
 
 .thumbed {
   background:url(./thumb.png) no-repeat -100px 0;

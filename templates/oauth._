@@ -11,13 +11,13 @@
 <body id='view' class='dark'>
 
 <div class='modal center round pad2 target col6 margin3 fill-light'>
-  <a href='/' class='icon button x pin-right dot'></a>
+  <a href='/' class='pad1 quiet icon pin-topright x dot'></a>
   <h2>Authorization</h2>
-  <div class='iso'>
+  <div class='pad4y'>
     <h1><%= account %></h1>
     <p>is now authorized for use with TM2.</p>
   </div>
-  <p><a href='/' class='button big submit icon okay'> Okay</a></p>
+  <p><a href='/' class='button submit icon'> Okay</a></p>
 </div>
 
 </body>

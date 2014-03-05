@@ -8,12 +8,12 @@
   <section class='pad2x pad1y keyline-bottom'>
     <label class='col3 inline'>Minzoom</label>
     <input id='<%=obj.id%>-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#<%=obj.id%>-maxzoom");' />
-    <label class='inline range' id='<%=obj.id%>-minzoom-val'><%= obj.properties.minzoom %></label>
+    <code class='inline range' id='<%=obj.id%>-minzoom-val'><%= obj.properties.minzoom %></code>
   </section>
   <section class='pad2x pad1y keyline-bottom'>
     <label class='col3 inline'>Maxzoom</label>
     <input id='<%=obj.id%>-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#<%=obj.id%>-minzoom");' />
-    <label class='inline range' id='<%=obj.id%>-maxzoom-val'><%= obj.properties.maxzoom %></label>
+    <code class='inline range' id='<%=obj.id%>-maxzoom-val'><%= obj.properties.maxzoom %></code>
   </section>
   <section class='pad2x pad1y keyline-bottom'>
     <label class='col3 inline'>Buffer size</label>
@@ -21,7 +21,7 @@
     <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='text' value='<%= obj.properties['buffer-size'] %>' size='12' />
     <% } else { %>
     <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='128' step='2' onchange='rangeHandler(this);'/>
-    <label class='inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></label>
+    <code class='inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></code>
     <% } %>
   </section>
 
