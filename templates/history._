@@ -20,7 +20,7 @@
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
   <div class='fl col12 pad1x space-bottom1'>
-    <a class='col12 round small truncate fill-lighten0 quiet strong' href='/style?id=<%=item.id%>'>
+    <a class='col12 round small truncate fill-darken0 quiet strong contain' href='/style?id=<%=item.id%>'>
       <div class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
       <span class='pad1 inline'>
         <%= item.name || 'Untitled' %><br />
@@ -51,9 +51,9 @@
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
     <div class='fl col12 pad1x space-bottom1'>
-      <a class='col12 round contain truncate fill-lighten0 small strong quiet strong' href='/source?id=<%=item.id%>'>
+      <a class='col12 round small truncate fill-darken0 quiet strong contain' href='/source?id=<%=item.id%>'>
         <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-        <span class='fill-darken1 small-graphic thumbed inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
+        <span class='fill-darken1 small-graphic inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
 
         <span class='inline pad2x pad1y'>
           <%= item.name || 'Untitled' %><br />

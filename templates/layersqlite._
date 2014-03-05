@@ -43,7 +43,7 @@
 
 
   <div class='sql'>
-    <section class='pad1x pad1y keyline-bottom'>
+    <section class='pad1'>
       <div class='pad0x clearfix'>
         <div class='pad0x col4 contain'>
           <input name='Datasource-geometry_table' class='stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>

@@ -2,13 +2,13 @@
 
 <div class='keyline-bottom contain pad1'>
   <h4><%= obj.name || 'Untitled' %></h4>
-  <div class='pill pin-right pad0 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
+  <div class='pin-right pad0 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <% if (obj.tiles) { %>
-    <a name='remote' class='button short quiet'>Remote</a><!--
-    --><a class='button short icon refresh recache' href='#recache'></a>
+    <span name='remote' class='inline small round-left fill-darken1 strong pad0 quiet'>Remote</span><!--
+    --><a class='button short icon round-right refresh recache' href='#recache'></a>
     <% } else { %>
-    <a name='local' class='button short quiet'>Local</span><!--
-    --><a class='button short icon refresh recache' href='#recache'></a>
+    <span name='local' class='inline small round-left fill-darken1 strong pad0 quiet'>Local</span><!--
+    --><a class='button short icon round-right refresh recache' href='#recache'></a>
     <% } %>
   </div>
 </div>
@@ -20,8 +20,8 @@ with no sources. Once vector tile compositing is available revisit.
 -->
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
-<span class='small layer col12 quiet truncate contain keyline-bottom' id='layers-<%=l.id%>'>
-  <a href='#layers-<%=l.id%>' class='block pad0 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
+<span class='small layer col12 quiet truncate contain' id='layers-<%=l.id%>'>
+  <a href='#layers-<%=l.id%>' class='keyline-bottom block pad0 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
   <div class='center pin-right'>
     <span class='inline zooms pad0 micro'>
       <% if (!l.maxzoom) { %>

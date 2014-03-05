@@ -167,6 +167,9 @@ LOOK FOR BETTER SOLUTION FOR THIS
   background:rgba(255,255,255,0.1);
   }
 
+form fieldset label.inline { margin-bottom: 0;}
+
+/* general app styles */
 pre,
 .CodeMirror { font:13px/20px normal Droidsansmono,monospace; }
 
@@ -178,23 +181,12 @@ body.dark {
   background-color:#333;
   }
 
-.thumbed {
-  background:url(./thumb.png) no-repeat -100px 0;
-  }
-  .thumbed.style { background-position:0 0; }
-  .thumbed.source { background-position:0 -70px; }
-  .thumbed.remote { background-position:0 -140px; }
-
 section pre {
   margin-bottom:20px;
   }
 section .CodeMirror { display:block; position:static; height:400px; visibility:visible; }
 
-.cell {
-  display:inline-block;
-  vertical-align:top;
-  width:50%;
-  }
+fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;}
 
 .darken { background:rgba(0,0,0,0.4); }
 .lighten { background:rgba(255,255,255,0.4); }
@@ -439,6 +431,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   }
 
 /* Data menu */
+#layers .layer { border-bottom-color: rgba(0,0,0,.2);}
 #layers .data-y,
 #layers .data-n { display:none; }
 
@@ -447,6 +440,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #data:target ~ #layers .sourcetype { display:none; }
 
 #layers .geometry { opacity:0.6; }
+#layers a { border-bottom-color: rgba(0,0,0,.2); }
+
 #layers span.active { background: rgba(0,0,0,.2);}
 
 #layers a.active .geometry { opacity:1; }
@@ -545,8 +540,8 @@ span.cm-string,
 span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
-.dark .CodeMirror { background:transparent; }
-.dark .CodeMirror-gutter { background:transparent; border-color:rgba(255,255,255,0.2); }
+.dark .CodeMirror { background:transparent; border:1px solid rgba(0,0,0,0.2); }
+.dark .CodeMirror-gutter { background:transparent; border-color:rgba(0,0,0,0.2); }
 .dark .CodeMirror pre.CodeMirror-cursor { border-color:#ccc; }
 .dark span.cm-keyword,
 .dark span.cm-carto-variable           { color:#d6e; }

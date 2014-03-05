@@ -20,7 +20,9 @@
   }
 
 /* Code pane */
-#code { background:#f8f8f8; }
+#code {
+  background:#f8f8f8;
+}
 
 #code .right {
   position:absolute; right:0px;

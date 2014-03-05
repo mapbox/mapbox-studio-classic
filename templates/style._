@@ -294,7 +294,7 @@ Editor.prototype.events = {
   'click #menu nav a': 'tabbed',
   'click #settings a.tab': 'tabbed',
   'click #layers a': 'tabbed',
-  'click #data a.cell': 'adddata',
+  'click #data a.js-adddata': 'adddata',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
