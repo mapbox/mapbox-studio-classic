@@ -20,7 +20,7 @@ with no sources. Once vector tile compositing is available revisit.
 -->
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
-<span class='small layer col12 quiet truncate contain' id='layers-<%=l.id%>'>
+<span class='small layer col12 quiet contain' id='layers-<%=l.id%>'>
   <a href='#layers-<%=l.id%>' class='keyline-bottom block pad0 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
   <div class='center pin-right'>
     <span class='inline zooms pad0 micro'>
@@ -31,9 +31,12 @@ with no sources. Once vector tile compositing is available revisit.
       <% } %>
     </span>
   </div>
-  <small class='truncate col12 pad1'><%=l.description||'No description.'%></small>
+  <small class='truncate keyline-bottom col12 pad1'><%=l.description||'No description.'%></small>
   <% _(l.fields||{}).each(function(desc,name) { %>
-  <small class='field quiet pad1x pad0y space-bottom0'><code class='fl inline'><%=name%></code><%=desc||'No description.'%></small>
+  <small class='field clearfix quiet keyline-bottom'>
+    <span class='field-key micro col3 inline pad1x pad0y'><%=name%></span>
+    <span class='micro col9 pad1x keyline-left pad0y'><%=desc||'No description.'%></span>
+  </small>
   <% }); %>
 </span>
 <% }); %>

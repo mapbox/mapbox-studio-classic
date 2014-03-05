@@ -440,26 +440,12 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #data:target ~ #layers .sourcetype { display:none; }
 
 #layers .geometry { opacity:0.6; }
-#layers a { border-bottom-color: rgba(0,0,0,.2); }
-
+#layers * { border-color: rgba(0,0,0,.2); }
+#layers .field-key { color: #f1f075;}
 #layers span.active { background: rgba(0,0,0,.2);}
-
 #layers a.active .geometry { opacity:1; }
-#layers small {
-  display:none;
-  -webkit-transition:200ms;
-  }
+#layers small { display:none;}
 #layers .active small { display:block; }
-#layers .field {
-  margin-left:80px;
-  white-space:normal;
-}
-#layers .field code {
-  color:#ff8;
-  margin-left:-80px;
-  width:75px;
-  overflow:hidden;
-  }
 
 /* Project history */
 #settings-style,
@@ -551,11 +537,6 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-carto-string             { color:#d7f; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
-
-/* File browser modal */
-.modal.browser {
-  top:10%;;
-  }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
