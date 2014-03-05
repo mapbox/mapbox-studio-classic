@@ -178,7 +178,7 @@
 <div id='code' class='animate z1 col6 pin-right'>
   <div class='pin-topleft docs-button fill-darken0 z1'>
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
-    <a class='keyline-right pad1 inline docs-y icon quiet close unround' href='#'></a>
+    <a class='keyline-right pad1 inline docs-y icon dark close unround fill-blue' href='#'></a>
   </div>
   <nav id='tabs' class='keyline-left keyline-bottom row1 pad0y pad4x pad0r pin-top fill-darken0 small'><!--
     --><a rel='template' href='#code-template' class='tab round quiet mini'><span class='icon tooltip'></span></a><!--
