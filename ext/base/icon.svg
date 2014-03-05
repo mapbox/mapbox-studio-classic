@@ -373,12 +373,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313708"
-     inkscape:cx="882.95483"
-     inkscape:cy="50.55722"
+     inkscape:zoom="1"
+     inkscape:cx="4054.7176"
+     inkscape:cy="25.722515"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
+     showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="756"
      inkscape:window-x="74"
@@ -1966,6 +1966,18 @@
          d="m 3570,996.48724 c -1.1046,0 -2,0.89543 -2,2 0,1.10457 0.8954,1.99996 2,1.99996 1.1046,0 2,-0.89539 2,-1.99996 0,-1.10457 -0.8954,-2 -2,-2 z m 0,5.49996 -5.5,5.5 4.5,0 0,2.5 0.5,0.5 1,0 0.5,-0.5 0,-2.5 4.5,0 z"
          style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 4047,997.36218 -2,3.00002 4,0 0.5,-3.00002 z m 3.5,0 0.5,3.00002 4,0 -2,-3.00002 z m -5.5,4.00002 0,5 1,1 8,0 1,-1 0,-5 z"
+       id="path3035"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccccccc" />
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 4054,1022.3622 -4,6 8,0 1,-6 z m 7,0 1,6 8,0 -4,-6 z m -11,8 0,10 c 0,1.108 0.892,2 2,2 l 16,0 c 1.108,0 2,-0.892 2,-2 l 0,-10 z"
+       id="path3035-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccccccc" />
   </g>
   <path
      style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"

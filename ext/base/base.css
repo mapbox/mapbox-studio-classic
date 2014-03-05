@@ -167,11 +167,11 @@ em {
 
 /* Links */
 a,
-a code {
+a > code {
   color:#3887BE;
   text-decoration:none;
   }
-  a:hover code,
+  a:hover > code,
   a:hover { color:#63b6e5; }
   a:focus {
     -webkit-box-shadow:inset 0 0 0 1px rgba(0,0,0,0.05);
@@ -179,8 +179,8 @@ a code {
   }
 
 .dark a,
-.dark a code  { color:#63b6e5; }
-.dark a:hover code,
+.dark a > code  { color:#63b6e5; }
+.dark a:hover > code,
 .dark a:hover { color:#8fcaec; }
 .dark a:focus {
   -webkit-box-shadow:inset 0 0 0 1px rgba(256,256,256,0.05);
@@ -1314,6 +1314,7 @@ a > .rcon:after,
 .big.icon.landuse:before          { background-position:-3920px -20px; }
 .big.icon.refresh:before          { background-position:-3960px -20px; }
 .big.icon.font:before             { background-position:-4000px -20px; }
+.big.icon.package:before          { background-position:-4040px -20px; }
 
 /* 20x20 icons */
 .rcon.pencil:after, .icon.pencil:before                    { background-position:0 0; }
@@ -1420,6 +1421,7 @@ a > .rcon:after,
 .rcon.landuse:after,.icon.landuse:before                   { background-position:-3920px 0; }
 .rcon.refresh:after,.icon.refresh:before                   { background-position:-3960px 0; }
 .rcon.font:after,.icon.font:before                         { background-position:-4000px 0; }
+.rcon.package:after,.icon.package:before                   { background-position:-4040px 0; }
 
 /* Multicolored icons */
 .icon.checkmark:before     { background:transparent url(base.png?1) 0px 0px no-repeat; }

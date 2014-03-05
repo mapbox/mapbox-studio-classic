@@ -583,7 +583,6 @@ span.cm-carto-filter             { color:#66475B; }
           transform:translateX(100%);
 }
 #full:target .leaflet-left { left:0%; }
-
 #perf:target ~ #full { bottom:40px; }
 
 /* Button visibility/clickability */
