@@ -59,8 +59,6 @@
   }
 #tabs a.tab span.delete {
   display:none;
-  width: 20px;
-  padding: 5px 0;
   }
 #tabs a.tab.active span.delete {
   display:inline-block;
