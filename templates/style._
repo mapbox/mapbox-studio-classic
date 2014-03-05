@@ -46,11 +46,11 @@
   --></div>
 </div>
 
-<form id='settings' class='pane fill-grey scroll-styled col12 l0'>
-<div class='column col6 l0 lighten scroll-styled'>
+<form id='settings' class='pane scroll-styled col12 l0'>
+<div class='column col6 l0 fill-blue dark scroll-styled'>
   <%= this.history(obj) %>
 </div>
-<div class='scroll-styled column col6 l2'>
+<div class='fill-gray scroll-styled column col6 l2'>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
     <nav class='pin-topright pad1'>

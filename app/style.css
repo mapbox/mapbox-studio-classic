@@ -59,10 +59,13 @@
   }
 #tabs a.tab span.delete {
   display:none;
+  width: 20px;
+  padding: 5px 0;
   }
 #tabs a.tab.active span.delete {
   display:inline-block;
   }
+#tabs a.tab.active span.delete:before { opacity: .25;}
 #tabs a.tab span.delete:hover { background:white; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
