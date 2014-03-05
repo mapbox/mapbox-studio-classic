@@ -37,7 +37,7 @@
     "cors": "~2.1.1"
   },
   "devDependencies": {
-    "mocha": "1.8.x"
+    "mocha": "1.17.x"
   },
   "scripts": {
     "start": "./index.js",
