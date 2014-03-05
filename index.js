@@ -193,7 +193,7 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
         }
 
         // Set drawtime cookie for a given style.
-        style.stats(req.style.data.id, 'drawtime', z, data._drawtime);
+        style.stats(req.style.data.id, 'drawtime.' + z, data._drawtime);
         res.cookie('drawtime', _(style.stats(req.style.data.id, 'drawtime'))
             .reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
@@ -201,7 +201,7 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
             }, []).join('.'));
 
         // Set srcbytes cookie for a given style.
-        style.stats(req.style.data.id, 'srcbytes', z, data._srcbytes);
+        style.stats(req.style.data.id, 'srcbytes.' + z, data._srcbytes);
         res.cookie('srcbytes', _(style.stats(req.style.data.id, 'srcbytes')).
             reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
@@ -227,6 +227,10 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
         return res.send(data);
     };
     if (req.params.format !== 'png') done.format = req.params.format;
+    
+    // Experimental flag to get more detailed profiling from tilelive-vector
+    done.profile = true;
+
     source.getTile(z,x,y, done);
 });
 
