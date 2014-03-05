@@ -37,7 +37,7 @@ var sections = {
   --><a href='#fonts' class='pin-topright quiet icon font button short font-link'></a><!--
 --></nav>
 
-<article id='docs-intro' class='active scroll-styled pin-left col12 pad4y'>
+<article id='docs-intro' class='active scroll-styled pin-left col12 top4'>
 
 <section class='pad2 keyline-bottom'>
   <h3 class='space-bottom1'>Need help?</h1>
@@ -177,7 +177,7 @@ spin(@color, -10);</pre>
 </article>
 
 <% _(sections).each(function(symbolizers, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='scroll-styled col12 pin-left break-word pad4y'>
+<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='scroll-styled col12 pin-left break-word top4'>
   <% _(symbolizers).each(function(symbolizer) { %>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })

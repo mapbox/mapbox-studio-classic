@@ -125,7 +125,7 @@
     --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
     </div>
   </nav>
-  <div class='menu-content pin-left col12 pad4y scroll-styled'>
+  <div class='menu-content pin-left col12 top4 scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
   </div>
 </div>

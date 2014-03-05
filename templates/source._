@@ -53,7 +53,7 @@ revlayers.reverse();
     <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
     <% } %>
   </nav>
-  <div class='menu-content pin-left col12 pad4y scroll-styled'>
+  <div class='menu-content pin-left col12 top4 scroll-styled'>
     <% _(revlayers).each(function(l) { %>
       <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
     <% }.bind(this)); %>

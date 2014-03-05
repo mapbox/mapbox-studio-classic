@@ -33,6 +33,9 @@
   left:0;
   }
 
+.top2 { top:20px; }
+.top4 { top:40px; }
+
 .break-word { word-wrap:break-word; }
 .dark code {
  background: rgba(255,255,255,0.025);
