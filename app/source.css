@@ -4,6 +4,8 @@
   width:100%; top:40px; bottom:0px;
   }
 
+label.xray { opacity:0.5; width:80px; }
+
 /* Conf pane */
 .editor > div.conf { display:block; }
 .sql .editor > div.conf,

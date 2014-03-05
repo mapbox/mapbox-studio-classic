@@ -20,7 +20,7 @@
         <label>Description</label>
         <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
       </section>
-      <section class='pad1'>
+      <section class='pad1 keyline-bottom'>
         <label class='pad1x'>PostGIS</label>
         <div class='pad0x contain clearfix'>
           <div class='pad0x col3 contain'>
@@ -43,8 +43,9 @@
         <input type='hidden' name='Datasource-type' value='postgis' />
         <input type='hidden' name='Datasource-max_size' value='512' />
       </section>
-      <section class='pad2x pad1y keyline-bottom'>
-        <label class='pad1y col3 inline'>Extent </label><input type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
+      <section class='clearfix pad2x pad1y keyline-bottom'>
+        <label class='pad1y col3 inline'>Extent </label>
+        <input class='col9' type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
       <%= this.layerconf(obj) %>
       <% if (obj.properties['group-by']) { %>

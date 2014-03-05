@@ -181,9 +181,18 @@ body.dark {
   background-color:#333;
   }
 
+label.ghost {
+  position:absolute;
+  right: 15px;
+  text-align:right;
+  line-height: 40px;
+  top: 0;
+  }
+
 section pre {
   margin-bottom:20px;
   }
+
 section .CodeMirror { display:block; position:static; height:400px; visibility:visible; }
 
 fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;}
@@ -201,6 +210,11 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .pane:target > * { display:block; }
 .overlay:target .pane,
 .pane > .column { overflow:auto; }
+
+a.project span { color: white;}
+a.project:hover {
+  background: rgba(255,255,255,.15);
+}
 
 /* Map */
 #map {
@@ -402,12 +416,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   bottom:0px; width:100%;
   z-index:1000;
   }
-#map-errors .msg {
-  display:block;
-  font-size:80%;
-  padding:10px 20px;
-  background-color:rgba(0,0,0,0.1);
-  }
+
 /* Menu (off-canvas) */
 .menu .sortable-dragging,
 .menu .sortable-placeholder {
@@ -417,7 +426,6 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
-.menu nav h3 { padding:5px; border:0px; }
 .menu nav a.right { position:absolute; top:5px; right:5px; }
 .menu nav a.button.title:active { background-color:#333; }
 
@@ -452,19 +460,6 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #settings-source { display:none; }
 #settings-style.active,
 #settings-source.active { display:block; }
-
-label.ghost {
-  position:absolute;
-  right: 15px;
-  text-align:right;
-  line-height: 40px;
-  top: 0;
-  }
-
-label.xray { opacity:0.5; width:80px; }
-label.w1,
-label.w2,
-label.w3 { display:inline-block; }
 
 /* CodeMirror*/
 .CodeMirror,
