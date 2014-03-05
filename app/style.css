@@ -1,6 +1,3 @@
-/* Map is oversized to accommodate fullscreen view. */
-#full { overflow:hidden; }
-
 #map {
   position:absolute;
   top:40px;

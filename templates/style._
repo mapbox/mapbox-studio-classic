@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<div id='full' class='column col6 l0'>
+<div id='full' class='column col6 l0 clip'>
 
   <div id='title' class='contain row1 pin-top col12 center pad1y fill-lighten1 dark keyline-bottom z1'>
     <div class='pin-left'><!--
