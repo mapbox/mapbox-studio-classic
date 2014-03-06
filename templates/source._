@@ -39,7 +39,7 @@
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
   </div>
-  <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
+  <div id='map' class='animate dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>

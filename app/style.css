@@ -4,9 +4,6 @@
   bottom:0px;
   left:-50%;
   width:200%;
-  transition:left 200ms;
-  -moz-transition:left 200ms;
-  -webkit-transition:left 200ms;
   }
 #full:target #map {
   left:0% !important;
@@ -14,9 +11,9 @@
   }
 .leaflet-left {
   left:25%;
-  transition:left 200ms;
-  -moz-transition:left 200ms;
-  -webkit-transition:left 200ms;
+  transition:left 125ms;
+  -moz-transition:left 125ms;
+  -webkit-transition:left 125ms;
   }
 
 /* Code pane */
