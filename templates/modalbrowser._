@@ -6,16 +6,20 @@
 // - pattern, optional input field pattern
 // - label, optional defaults to 'Save'
 %>
-<form id='<%=obj.id%>' class='modal browser'>
-  <a class='button icon close submit' href='#'></a>
-  <div class='cwd'>
-    <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='button icon prev'></a>
-    <strong><%=cwd%></strong>
+
+<form id='<%=obj.id%>' class='modal round browser col6 margin3 fill-light'>
+  <a class='pad1 quiet icon x submit pin-topright' href='#'></a>
+  <div class='cwd row1 truncate keyline-bottom z1'>
+    <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 quiet icon prev unround'></a><!--
+    --><strong><%=cwd%></strong>
   </div>
-  <div class='list'></div>
-  <div class='field centered joined'><!--
-    --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
-    --><input type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
-    --><input type='submit' value='<%=obj.label||'Save'%>'/>
+  <div class='list scroll-styled fill-darken0 row6'></div>
+
+  <div class='clearfix pad1'>
+    <div class='col6 margin3 pill clearfix input-pill'><!--
+      --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
+      --><input class='col8' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
+      --><input class='col4' type='submit' value='<%=obj.label||'Save'%>'/>
+    </div>
   </div>
 </form>

@@ -1,53 +1,60 @@
-<form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
-  <nav>
-    <span class='joined'><!--
-      --><a href='#mode-conf' class='button icon conf'></a><!--
-      --><a href='#mode-fields' class='button icon fields'></a><!--
-      --><a href='#mode-sql' class='button icon edit'></a>
+<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right' id='layers-<%=obj.id%>'>
+  <nav class='text-right pad1 keyline-bottom'>
+    <span class='inline space'><!--
+      --><a href='#mode-conf' class='js-tab mode-conf quiet round small strong pad1x pad0y icon levels'>Configure</a><!--
+      --><a href='#mode-fields' class='js-tab mode-fields quiet round small strong pad1x pad0y icon book'>Fields</a><!--
+      --><a href='#mode-sql' class='js-tab mode-sql quiet round small strong pad1x pad0y icon pencil'>SQL</a>
     </span>
-    <a href='#' class='button icon close'></a>
+    <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
-  <section>
-    <h2>
+  <section class='pad2 pin-topleft'>
+    <h3>
       <%= obj.id %>
-    </h2>
+    </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
     <input type='hidden' name='name' value='<%=obj.id%>' />
   </section>
 
   <div class='conf'>
-    <section>
-      <label class='inline'>Description</label>
-      <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
-    </section>
-    <section>
-      <label>SQLite<label>
-      <input type='hidden' name='Datasource-type' value='sqlite' />
-      <div class='joined'>
-        <input size='40' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/><!--
-        --><a href='#browsefile' class='button icon dir browsefile'></a>
-      </div>
-    </section>
-    <section>
-      <label class='inline'>Extent</label><input type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
-    </section>
-    <%= this.layerconf(obj) %>
-    <section class='righted'>
-      <a href='#' class='button submit icon okay'>Done</a>
-    </section>
+    <fieldset>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>Description</label>
+        <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>SQLite<label>
+        <input type='hidden' name='Datasource-type' value='sqlite' />
+        <div class='pill input-pill clearfix'>
+          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/><!--
+          --><a href='#browsefile' class='quiet col4 button icon folder browsefile'>Browse</a>
+        </div>
+      </section>
+      <section class='pad2x pad1y clearfix keyline-bottom'>
+        <label class='pad1y col3 inline'>Extent </label>
+        <input type='text' class='col9' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
+      </section>
+      <%= this.layerconf(obj) %>
+      <section class='pad2'>
+        <a href='#' class='quiet button submit margin6 col6'>Done</a>
+      </section>
+    </fieldset>
   </div>
 
   <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
 
 
   <div class='sql'>
-    <section>
-      <span class='joined'><!--
-        --><input name='Datasource-geometry_field' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
-        --><label class='ghost'>geom</label><!--
-        --><input name='Datasource-key_field' type='text' value='<%= obj.Datasource['key_field'] || '' %>' class='last'/><!--
-        --><label class='ghost'>key</label>
-      </span>
+    <section class='pad1'>
+      <div class='pad0x clearfix'>
+        <div class='pad0x col4 contain'>
+          <input name='Datasource-geometry_table' class='stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
+          <label class='micro ghost'>geom table</label>
+        </div>
+        <div class='pad0x col4 contain'>
+          <input name='Datasource-key_field' class='stretch last' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
+          <label class='micro ghost'>key</label>
+        </div>
+      </div>
     </section>
   </div>
 </form>

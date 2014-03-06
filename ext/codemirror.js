@@ -37,7 +37,7 @@ window.CodeMirror = (function() {
     // Set to the height of the text, causes scrolling
     var sizer = elt("div", [mover], null, "position: relative");
     // Provides scrolling
-    var scroller = elt("div", [sizer], "CodeMirror-scroll");
+    var scroller = elt("div", [sizer], "CodeMirror-scroll scroll-styled");
     scroller.setAttribute("tabIndex", "-1");
     // The element in which the editor lives.
     var wrapper = elt("div", [inputDiv, scrollbar, scroller], "CodeMirror" + (options.lineWrapping ? " CodeMirror-wrap" : ""));
@@ -1782,7 +1782,7 @@ window.CodeMirror = (function() {
         if (ie_lt9) scrollbar.scrollTop = scrollPos;
         slowPoll();
 
-        // Try to detect the user choosing select-all 
+        // Try to detect the user choosing select-all
         if (input.selectionStart != null) {
           clearTimeout(detectingSelectAll);
           var extval = input.value = " " + (posEq(sel.from, sel.to) ? "" : input.value), i = 0;

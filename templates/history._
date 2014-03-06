@@ -1,51 +1,66 @@
-<nav class='joined'><!--
-  --><a class='button wide submit tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
-  --><a class='button wide submit tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
-</nav>
+<header class='pad1y pad2x clearfix keyline-bottom'>
+  <nav class='tabs col6 fr clearfix'><!--
+    --><a class='col6 submit js-tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
+    --><a class='col6 submit js-tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
+  </nav>
+</header>
 
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
-  <section><h2>Styles</h2></section>
-  <div class='grid clearfix'><!--
-  --><a class='cell' href='/new/style'><span class='thumbed create'>
-    <strong class='icon plus'>New Style</strong>
-  </span></a><!--
-  --><a class='cell' href='#browsestyle'><span class='thumbed create'>
-    <strong class='icon dir'>Browse</strong>
-  </span></a><!--
+  <h3 class='pin-topleft pad2 col6'>Styles</h3>
+  <div class='grid clearfix pad1'>
+
+    <div class='col6 pad1 space-bottom1'>
+      <a class='loud button col12 icon plus create' href='/new/style'>New style</a>
+    </div>
+    <div class='col6 pad1 space-bottom1'>
+      <a class='button quiet col12 icon folder' href='#browsestyle'>Browse</a>
+    </div>
+
   <% _(obj.history.style).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  --><a class='cell' href='/style?id=<%=item.id%>'><span class='thumbed style'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
-    <strong><%= item.name || 'Untitled' %></strong>
-    <code><%= item.id.split('/').pop() %></code>
-  </span></a><!--
+  <div class='fl col12 pad1x space-bottom1'>
+    <a class='project col12 round small truncate fill-lighten0 quiet strong contain' href='/style?id=<%=item.id%>'>
+      <div class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+      <span class='pad1 inline'>
+        <%= item.name || 'Untitled' %><br />
+        <code><%= item.id.split('/').pop() %></code>
+      </span>
+    </a>
+  </div>
   <% }); %>
-  --></div>
+  </div>
 </div>
 
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
-  <section><h2>Sources</h2></section>
-  <div class='grid clearfix'><!--
-  --><a class='cell' href='/new/source'><span class='thumbed create'>
-    <strong class='icon plus'>New Source</strong>
-  </span></a><!--
-  --><span class='cell joined'><!--
-    --><a class='thumbed create w2' href='#browsesource'>
-      <strong class='icon dir'>Browse</strong>
-    </a><!--
-    --><a class='thumbed create w2' href='#addmapbox'>
-      <strong class='icon mapbox'>MapBox</strong>
-    </a><!--
-  --></span><!--
+  <h3 class='pin-topleft pad2 col6'>Sources</h3>
+  <div class='grid pad1 clearfix'>
+
+    <div class='col6 pad1 space-bottom1'>
+      <a class='col12 loud button icon plus create' href='/new/source'>New source</a>
+    </div>
+
+    <div class='col3 pad1 space-bottom1'>
+      <a class='col12 button quiet create col6 icon folder' href='#browsesource'>Browse</a>
+    </div>
+    <div class='col3 pad1 space-bottom1'>
+      <a class='col12 button quiet create col6 icon mapbox' href='#addmapbox'>Mapbox</a>
+    </div>
+
   <% _(obj.history.source).chain()
     .sortBy(function(item) { return -1 * item.mtime })
     .each(function(item) { %>
-  --><a class='cell' href='/source?id=<%=item.id%>'><span class='thumbed <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'>
-    <span class='image' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></span>
-    <strong><%= item.name || 'Untitled' %></strong>
-    <code><%= item.id.split('/').pop() %></code>
-  </span></a><!--
+    <div class='fl col12 pad1x space-bottom1'>
+      <a class='project col12 round small truncate fill-lighten0 quiet strong contain' href='/source?id=<%=item.id%>'>
+        <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+        <span class='fill-darken1 small-graphic inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
+
+        <span class='inline pad2x pad1y'>
+          <%= item.name || 'Untitled' %><br />
+          <code><%= item.id.split('/').pop() %></code>
+        </span>
+      </a>
+    </div>
   <% }); %>
-  --></div>
+  </div>
 </div>

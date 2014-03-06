@@ -5,7 +5,8 @@
   <meta charset='UTF-8'/>
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/ext/base/base.css' rel='stylesheet' />
+  <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror.js'></script>
@@ -24,14 +25,14 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane w3 l1'>
-  <nav>
-    <a class='button icon close' href='#layers'></a>
-  </nav>
-  <section>
-    <h2>Sources</h2>
+<div id='data' class='pane pin-top animate offcanvas-top fill-blue dark scroll-styled col9 margin3'>
+  <section class='pad2 keyline-bottom'>
+    <h3>Sources</h3>
+    <nav class='pin-topright pad1'>
+      <a class='inline pad1 icon quiet close' href='#layers'></a>
+    </nav>
   </section>
-  <div class='grid'><!--
+  <div class='grid pad1 clearfix'><!--
   <%
     print(_(history.source).chain()
       .sortBy(function(item) {
@@ -45,140 +46,152 @@
   --></div>
 </div>
 
-<form id='settings' class='pane w4 l0'>
-<div class='column w2 l0 lighten'>
-  <%= this.history(obj) %>
-</div>
-<div class='column w2 l2'>
-  <nav>
-    <a class='button icon close' href='#'></a>
-  </nav>
-  <section>
-    <h2>Settings</h2>
-  </section>
-  <section>
-    <label class='inline'>Name</label>
-    <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
-  </section>
-  <section>
-    <label class='inline'>Description</label>
-    <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
-  </section>
-  <section>
-    <label class='inline'>Attribution</label>
-    <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
-  </section>
-  <section>
-    <label class='inline'>Image format</label>
-    <select name='format'>
-      <% _({
-        'png24': 'png (24-bit)',
-        'png8:m=h': 'png (256 colors)',
-        'png8:m=h:c=192': 'png (192 colors)',
-        'png8:m=h:c=128': 'png (128 colors)',
-        'png8:m=h:c=64': 'png (64 colors)',
-        'png8:m=h:c=32': 'png (32 colors)',
-        'jpeg95': 'jpeg (95%)',
-        'jpeg90': 'jpeg (90%)',
-        'jpeg85': 'jpeg (85%)',
-        'jpeg80': 'jpeg (80%)'
-      }).each(function(label, format) { %>
-      <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
-      <% }); %>
-    </select>
-  </section>
-  <section>
-    <label class='inline'>Minzoom</label>
-    <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-    <label class='range' id='minzoom-val'><%= style.minzoom %></label>
-  </section>
-  <section>
-    <label class='inline'>Maxzoom</label>
-    <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-    <label class='range' id='maxzoom-val'><%= style.maxzoom %></label>
-  </section>
-  <section>
-    <label class='inline'>Scale</label>
-    <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-    <label class='range' id='scale-val'><%= style.scale %></label>
-  </section>
-  <section class='righted'>
-    <a href='#' class='button wide submit icon okay save'>Save</a>
-    <a href='/style.tm2z?id=<%=style.id%>' class='button wide submit icon package'>Package</a>
-  </section>
-</div>
+<form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
+  <div class='col6 pin-left fill-blue dark scroll-styled'>
+    <%= this.history(obj) %>
+  </div>
+  <div class='fill-gray scroll-styled col6 pin-right'>
+    <header class='pad2 keyline-bottom'>
+      <h3>Settings</h3>
+      <nav class='pin-topright pad1'>
+        <a class='inline quiet pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
+      </nav>
+    </header>
+    <div class='pad2'>
+      <fieldset>
+        <section class='space-bottom1'>
+          <label>Name</label>
+          <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
+        </section>
+        <section class='space-bottom1'>
+          <label>Description</label>
+          <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
+        </section>
+        <section class='space-bottom1'>
+          <label>Attribution</label>
+          <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+        </section>
+      </fieldset>
+      <fieldset class='pad2 space-bottom2 keyline-all round'>
+        <section class='space-bottom1 clearfix'>
+          <label class='inline col3'>Image format</label>
+          <select name='format'>
+            <% _({
+              'png24': 'png (24-bit)',
+              'png8:m=h': 'png (256 colors)',
+              'png8:m=h:c=192': 'png (192 colors)',
+              'png8:m=h:c=128': 'png (128 colors)',
+              'png8:m=h:c=64': 'png (64 colors)',
+              'png8:m=h:c=32': 'png (32 colors)',
+              'jpeg95': 'jpeg (95%)',
+              'jpeg90': 'jpeg (90%)',
+              'jpeg85': 'jpeg (85%)',
+              'jpeg80': 'jpeg (80%)'
+            }).each(function(label, format) { %>
+            <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+            <% }); %>
+          </select>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col3'>Minzoom</label>
+          <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+          <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col3'>Maxzoom</label>
+          <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+          <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col3'>Scale</label>
+          <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
+          <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
+        </section>
+      </fieldset>
+
+      <section class='pill col6 margin6 clearfix'><!--
+        --><a href='#' class='button col6 icon js-save floppy'>Save</a><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button submit icon package'>Package</a>
+      </section>
+    </div>
+  </div>
 </form>
 
-<div id='layers' class='menu column w1 dark hide'>
-  <nav class='menu-title centered'>
-    <a href='#' class='button icon close left'></a>
-    <a href='#data' class='button title data-n icon plus'>Data</a>
-    <a href='#layers' class='button title data-y icon close'>Data</a>
+<div id='layers' class='animate pin-left menu col3 dark offcanvas-left fill-dark'>
+  <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
+  <div class='pin-topleft'><!--
+    --><a href='#' class='align-middle inline pad1 icon close'></a><!--
+    --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
+    --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
+    </div>
   </nav>
-  <div class='menu-content'>
+  <div class='js-menu-content pin-left col12 top4 scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
   </div>
 </div>
 
-<div id='full' class='column w2 l0'>
-  <div id='title'>
-    <div class='left'>
-      <span class='joined'>
-      <a class='button icon layers' href='#layers'></a><!--
+<div id='full' class='clip animate col6 pin-left clip'>
+
+  <div id='title' class='contain row1 pin-top col12 center pad1y fill-lighten1 dark keyline-bottom z1'>
+    <div class='pin-left'><!--
+      --><a class='inline pad1 icon menu quiet unround align-middle' href='#layers'></a><!--
       <% if (style._tmp) { %>
-        --><a class='button icon okay' href='#saveas'>Save as</a>
+        --><a class='js-save button short icon floppy quiet' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='button icon okay save' href='#'>Save</a>
+        --><a class='js-save button short icon floppy quiet' href='#'>Save</a>
       <% } %>
-      </span>
     </div>
-    <div class='right'>
-      <a class='button full-n icon full' href='#full'></a>
-      <a class='button full-y icon close' href='#'></a>
+    <div class='pin-right'>
+      <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
+      <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
-    <h3><a href='#settings'>
-      <span class='name'><%= style.name || 'Untitled' %></span>
-      <span class='icon gear' href='#settings'></span>
-    </a></h3>
+    <a href='#settings' class='block small strong quiet'>
+      <span class='inline js-name icon sprocket'><%= style.name || 'Untitled' %></span>
+    </a>
   </div>
-  <div id='map' style='background-color:<%=style.background%>;'></div>
+  <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
 </div>
 
-<div id='docs' class='pane w2'>
+<div id='docs' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
   <%= this['styledocs'](cartoRef) %>
 </div>
 
-<div id='fonts' class='pane w2'>
-  <nav><a class='button icon close' href='#docs'></a></nav>
-  <section>
-    <h2>Fonts</h2>
-  </section>
-  <div class='grid'><!--
-  <% fontsRef.forEach(function(font) { %>
-  --><div class='cell'><a class='font' style='background-image:url("/font.png?id=<%=font%>")'></a></div><!--
-  <% }); %>
-  --></div>
+<div id='fonts' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
+  <header class='pad2x pad0y keyline-bottom'>
+    <h3 class='icon pad0y font'>Fonts</h3>
+    <nav class='pin-topright'>
+      <a class='inline pad1 icon quiet return' href='#docs'></a>
+    </nav>
+  </header>
+  <div class='grid pad2 clearfix'>
+    <div class='clearfix keyline-top keyline-bottom keyline-left'><!--
+    <% fontsRef.forEach(function(font) { %>
+    --><div class='col6 keyline-bottom keyline-right'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div><!--
+    <% }); %>
+    --></div>
+  </div>
 </div>
 
-<div id='code' class='column w2 l2'>
-  <div class='left'>
-    <a class='button docs-n icon code' href='#docs'></a>
-    <a class='button docs-y icon close' href='#'></a>
+<div id='code' class='animate z1 col6 pin-right'>
+  <div class='pin-topleft docs-button fill-gray z1 keyline-bottom row1'>
+    <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
+    <a class='keyline-right pad1 inline quiet docs-y icon close unround' href='#'></a>
   </div>
-  <nav id='tabs'><!--
-    --><a rel='template' href='#code-template' class='tab mini'><span class='icon tooltip'></span></a><!--
+  <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
+    --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='tab <%=!i?'active':''%>'><%=k%> <span class='icon close delete'></span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
     <% }); %>
-  --></nav>
-  <div class='right'>
-    <a class='button icon plus' href='#addtab'></a>
-  </div>
-  <form id='interactivity'>
-    <label>Layer</label>
+  -->
+    <span class='z1'>
+      <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
+    </span>
+  </nav>
+  <form id='interactivity' class='space row1 pad1 keyline-bottom pin-top'>
+    <label class='small'>Layer</label>
     <select name='interactivity_layer'>
       <option value=''>&lt; choose layer &gt;</option>
       <% _(sources).each(function(source) { %>
@@ -196,15 +209,17 @@
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
-<form id='addtab' class='modal centered'>
-  <a class='button submit icon close' href='#'></a>
-  <span class='joined'>
-    <input type='text' placeholder='filename.mss' size='20' id='addtab-filename' pattern='\w+\.mss'/><!--
-    --><input type='submit' value='New tab'/>
-  </span>
+<form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class='pad1 quiet submit icon x pin-topright' href='#'></a>
+  <div class='clearfix'>
+    <span class='input-pill pill col8 margin2'>
+      <input class='col8' type='text' placeholder='filename' size='20' id='addtab-filename' required/><!--
+      --><input class='col4 round-right' type='submit' value='New tab'/>
+    </span>
+  </div>
 </form>
 
-<div id='mask'></div>
+<div id='mask' class='fill-darken2 animate'></div>
 
 <script>
 var map = baselayer = tiles = grids = gridc = null;
@@ -268,20 +283,20 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click a.button.save': 'save',
-  'click a.button.recache': 'recache',
+  'click .js-save': 'save',
+  'click .js-recache': 'recache',
   'submit #settings': 'save',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
-  'click #tabs a.tab span.delete': 'deltab',
-  'click #tabs a.tab': 'tabbed',
-  'click #docs nav a': 'tabbed',
-  'click #menu nav a': 'tabbed',
-  'click #settings a.tab': 'tabbed',
-  'click #layers a': 'tabbed',
-  'click #data a.cell': 'adddata',
+  'click #tabs .js-deltab': 'deltab',
+  'click #tabs .js-tab': 'tabbed',
+  'click #docs .js-tab': 'tabbed',
+  'click #settings .js-tab': 'tabbed',
+  'click #layers .js-tab': 'tabbed',
+  'click #data .js-adddata': 'adddata',
   'keydown': 'keys'
 };
+
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
@@ -312,7 +327,7 @@ Editor.prototype.adddata = function(ev) {
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
       $('#data a.active').removeClass('active');
-      $('#layers .menu-content').html(templates.sourcelayers(resp));
+      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
       target.addClass('active');
     }).bind(this),
     error: _(this.error).bind(this)
@@ -320,9 +335,9 @@ Editor.prototype.adddata = function(ev) {
   return false;
 };
 Editor.prototype.addtab = function(ev) {
-  var filename = $('#addtab-filename').val();
+  var filename = $('#addtab-filename').val()+'.mss';
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='tab'>"+filename+" <span class='icon close delete'></span></a>").appendTo('nav#tabs');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';
@@ -340,8 +355,8 @@ Editor.prototype.deltab = function(ev) {
     delete code[target];
     this.model.set({styles:styles});
     // Set first tab to active.
-    if (parent.is('.active') && $('a.tab').size())
-      this.tab({ currentTarget:$('a.tab').get(0) });
+    if (parent.is('.active') && $('a.js-tab').size())
+      this.tab({ currentTarget:$('a.js-tab').get(0) });
   }
   return false;
 };
@@ -374,7 +389,7 @@ Editor.prototype.save = function(ev, options) {
     if (k !== 'template') memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.source = $('#layers div.source').map(function() {
+  attr.source = $('#layers .js-source').map(function() {
     return $(this).attr('id').split('source-').pop();
   }).get().shift();
   attr.template = code.template ? code.template.getValue() : '';
@@ -409,18 +424,18 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setMarker(ln, "<a id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='message'><a href='#' class='icon'>✕</a>"+e[5]+"</span>", 'error');
+        code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small js-message message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
       } else {
         return this.messageModal(e);
       }
     }).bind(this));
 };
 Editor.prototype.messageModal = function(text) {
-  $('#message .message').text(text);
+  $('#message .js-message').text(text);
   window.location.hash = '#message';
 };
 Editor.prototype.messageClear = function() {
-  $('#message .message').text('');
+  $('#message .js-message').text('');
   $('#full').removeClass('loading');
   _(code).each(function(cm) {
     _(cm._cartoErrors||[]).each(cm.clearMarker);
@@ -433,7 +448,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
@@ -475,7 +490,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .name').text(this.model.get('name') || 'Untitled');
+  $('#title .js-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (this.model.get('background'))

@@ -1,15 +1,9 @@
-/* Map is oversized to accommodate fullscreen view. */
-#full { overflow:hidden; }
-
 #map {
   position:absolute;
   top:40px;
   bottom:0px;
   left:-50%;
   width:200%;
-  transition:left 200ms;
-  -moz-transition:left 200ms;
-  -webkit-transition:left 200ms;
   }
 #full:target #map {
   left:0% !important;
@@ -17,22 +11,17 @@
   }
 .leaflet-left {
   left:25%;
-  transition:left 200ms;
-  -moz-transition:left 200ms;
-  -webkit-transition:left 200ms;
+  transition:left 125ms;
+  -moz-transition:left 125ms;
+  -webkit-transition:left 125ms;
   }
 
 /* Code pane */
-#code { background:#f8f8f8; }
+#code {
+  background:#f8f8f8;
+  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+}
 
-#code .left {
-  position:absolute; left:0px; top:0px;
-  width:40px; height:40px;
-  padding:5px;
-  background:#eee;
-  border-right:1px solid #ddd;
-  border-bottom:1px solid #ddd;
-  }
 #code .right {
   position:absolute; right:0px;
   width:40px; height:40px;
@@ -47,58 +36,35 @@
 
 /* Interactivity form */
 #code #interactivity {
-  position:absolute;
-  top:40px; left:0px; right:0px;
-  height:40px; padding:10px 10px;
-  border-bottom:1px solid #ddd;
-  }
-#code #interactivity label { margin-right:10px; }
-#code #interactivity select {
-  background:#fff;
-  height:20px;
-  padding:0px 5px;
-  cursor:pointer;
-  box-shadow:0px 0px 0px 1px rgba(0,0,0,0.1);
+  top:40px;
   }
 
 /* Editor tabs */
-#tabs {
-  position:absolute;
-  left:40px;
-  right:40px;
-  height:40px;
-  border-bottom:1px solid #ddd;
-  background:#eee;
-  }
 #tabs a.tab {
-  margin:5px 0px 0px 5px;
-  padding:5px 10px;
-  border-radius:4px;
-  position:relative;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  margin:0px 0px 0px 5px;
+  display: inline-block;
+  vertical-align: top;
+  }
+#tabs a.tab:hover,
+#tabs a.tab.active {
+  background:#f8f8f8;
   }
 #tabs a.tab.active {
-  background:#ddd;
-  padding-right:30px;
+  padding-right:25px;
   }
 #tabs a.tab.mini,
 #tabs a.tab.mini.active {
   padding:5px;
   }
-#tabs a.tab span.delete {
+#tabs a.tab .trash {
   display:none;
   }
-#tabs a.tab.active span.delete {
-  display:block;
-  position:absolute;
-  right:5px; top:5px;
-  width:20px;
-  line-height:20px;
-  border-radius:50%;
-  opacity:0.5;
+#tabs a.tab.active .trash {
+  display:inline-block;
   }
-#tabs a.tab span.delete:hover { background:rgba(0,0,0,0.1); }
+
+#tabs a.tab.active .trash:before { opacity: .25;}
+#tabs a.tab .trash:hover { background:white; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
 #tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
@@ -109,7 +75,7 @@
 #tabs a.tab:first-child:nth-last-child(5),
 #tabs a.tab:first-child:nth-last-child(5) ~ a.tab { max-width:20.00%; }
 #tabs a.tab:first-child:nth-last-child(6),
-#tabs a.tab:first-child:nth-last-child(6) ~ a.tab { max-width:16.66%; font-size:80%; }
+#tabs a.tab:first-child:nth-last-child(6) ~ a.tab { max-width:16.66%; }
 #tabs a.tab:first-child:nth-last-child(7),
 #tabs a.tab:first-child:nth-last-child(7) ~ a.tab { max-width:14.28%; font-size:80%; }
 #tabs a.tab:first-child:nth-last-child(8),
@@ -135,92 +101,46 @@
 #docs:target ~ * a.docs-n { display:none; }
 #docs:target nav,
 #docs:target article.active { display:block; }
-#docs article {
-  position:absolute;
-  top:40px; bottom:0px; width:100%;
-  display:none;
-  overflow:auto;
-  }
-#docs nav {
-  display:none;
-  position:absolute;
-  height:40px;
-  border-bottom:1px solid #ccc;
-  width:100%;
-  right:0px; top:0px;
-  }
-#docs nav a {
-  overflow:hidden;
-  height:40px;
-  width:16.6666%;
-  padding:10px 15px 9px 10px;
-  border-right:1px solid #ccc;
-  border-bottom:1px solid #ccc;
-  }
-#docs nav a.active { background:#eee; }
+#docs article { display:none; }
 #docs section a.fonts {
   position:absolute;
-  right:0px;
+  right:0;
   margin:5px 0px;
   border-radius:4px 0px 0px 4px;
   }
 
+#docs:target nav a.font-link {
+  top: 5px;
+  right: 5px;
+}
+
 #docs code.type,
 #docs code.value,
 #docs code.value:after { margin-left:5px; }
-#docs code.type,
-#docs code.options { color:#999; }
 #docs code.value   {
-  background:#eee;
+  background:transparent;
   color:#708;
   padding:3px 5px;
   }
+#docs code.big { font-size: 14px; }
 #docs code.value:after {
   content:'default';
-  font-family:Opensans,sans; color:#999;
+  color:#404040;
   font-style:italic;
   }
 #docs code.value,
 #docs code.options { font-size:80%; }
-#docs code.options { display:block; margin-bottom:10px; }
 
 /* Font book */
-#fonts .font {
+#fonts .single-font {
   height:30px;
   display:block;
   background:#eee;
-  border-radius:3px;
   background-position:10px 50%;
   background-repeat:no-repeat;
+  /* render but hide text for copying */
+  color: transparent;
   }
-
-/* Data library */
-#data a.active { opacity:0.5; }
-div.source { position:relative; }
-div.source a.section { cursor:pointer; }
-
-/* Visibility */
-/* Off-canvas menu vs. Content */
-#data:target ~ .l0,
-.menu:target ~ .l0 { left:25%; }
-#data:target ~ .l2,
-.menu:target ~ .l2 { left:75%; }
-#full:target { width:100%; }
-#full:target ~ .l2 { left:100%; }
-#full:target .leaflet-left { left:0%; }
-
-#perf:target ~ #full { bottom:40px; }
-
-/* Button visibility/clickability */
-a.menu-y { display:none; }
-a.full-y { display:none; }
-a.docs-y { display:none; }
-a.data-y { display:none; }
-.menu:target ~ * a.menu-y,
-#data:target ~ * a.data-y,
-#full:target     a.full-y { display:inline-block; }
-.menu:target ~ * a.menu-n,
-#full:target     a.full-n { display:none; }
 
 /* Overrides for util panes vs. Menu */
 #layers:target a.data-n { display:inline-block; }

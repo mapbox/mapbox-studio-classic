@@ -172,6 +172,7 @@
             widget.className = 'completions';
             widget.style.height = '100px';
             widget.style.position = 'absolute';
+            widget.style.zIndex = 1;
             widget.style.left = pos.x + 'px';
             widget.style.top = pos.yBot + 'px';
 
