@@ -1,7 +1,10 @@
 {{#__full__}}
 <% _(obj).each(function(field) { %>
 {{#<%=field%>}}
-<div><label class='inline xray'><%=field%></label>{{<%=field%>}}</div>
+<div class='clearfix tiny code xray-listing keyline-left keyline-right keyline-bottom'>
+    <div class='pad0y pad1x col4 xray'><%=field%></div>
+    <div class='pad0y pad1x keyline-left col8'>{{<%=field%>}}</div>
+</div>
 {{/<%=field%>}}
 <% }); %>
 {{/__full__}}
