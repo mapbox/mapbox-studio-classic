@@ -29,10 +29,13 @@ label.xray { opacity:0.5; width:80px; }
 .sql #editor nav .mode-conf:hover,
 #editor nav .mode-conf,
 .fields #editor nav .mode-fields,
-.sql #editor nav .mode-sql { background-color:rgba(255,255,255,0.20); }
+.sql #editor nav .mode-sql {
+  background-color:rgba(255,255,255,0.20);
+  color: white;
+}
 
 .fields #editor nav .mode-conf,
-.sql #editor nav .mode-conf { background-color:rgba(255,255,255,0.10); }
+.sql #editor nav .mode-conf { background-color:transparent; }
 
 .sql .editor > div.sql { visibility:visible; }
 .sql .editor .CodeMirror { visibility:visible; }
