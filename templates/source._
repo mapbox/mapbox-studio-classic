@@ -117,12 +117,12 @@ revlayers.reverse();
 
     <% if (!remote) { %>
       <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='button col6 submit icon okay save floppy'>Save</a><!--
+        --><a href='#' class='button col6 submit icon js-save floppy'>Save</a><!--
         --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
       </section>
     <% } else { %>
       <section>
-        <a href='#' class='col6 fr button submit icon okay js-save floppy'>Save</a>
+        <a href='#' class='col6 fr button submit icon js-save floppy'>Save</a>
       </section>
     <% } %>
   </div>
@@ -324,7 +324,7 @@ Editor.prototype.addlayer = function(ev) {
   return false;
 };
 Editor.prototype.deletelayer = function(ev) {
-  var id = $(ev.currentTarget).siblings('a').attr('href').split('#layers-').pop();
+  var id = $(ev.currentTarget).parent().attr('id');
   if (!layers[id]) return false;
   if (confirm('Remove layer "' + id + '"?')) {
     layers[id].form.remove();
@@ -373,11 +373,11 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
   attr._prefs.inspector = $('#layers .js-layer:has(.xrayinspector.active)').size()
-    ? $('#layers .js-layer:has(.xrayinspector.active)').attr('href').split('#layers-').pop()
+    ? $('#layers .js-layer:has(.xrayinspector.active)').attr('id')
     : false;
   attr._prefs.disabled = _($('#layers .layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
-        ? $(this).attr('href').split('#layers-').pop()
+        ? $(this).attr('id')
         : false;
   })).compact();
 
@@ -480,7 +480,7 @@ new views.Browser({
 $('#layers .js-menu-content').sortable();
 $('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
   var ids = $('#layers .js-menu-content .js-layer').map(function() {
-    return $(this).attr('href').split('#layers-').pop();
+    return $(this).attr('id');
   }).get();
   layers = _(ids).reduce(function(memo, id) {
     memo[id] = layers[id];

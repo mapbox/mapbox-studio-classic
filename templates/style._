@@ -110,7 +110,7 @@
       </fieldset>
 
       <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='button col6 icon floppy'>Save</a><!--
+        --><a href='#' class='button col6 icon js-save floppy'>Save</a><!--
         --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button submit icon package'>Package</a>
       </section>
     </div>
