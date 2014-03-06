@@ -399,10 +399,6 @@ button:disabled:focus,
       color:rgba(0,0,0,.5);
       }
     .tabs > *.active,
-    .tabs.checkbox input[type=checkbox]:checked + label {
-      background:#eee;
-      background:rgba(0,0,0,0.1);
-      }
 
 .dark.tabs,
 .dark.tabs > *,
@@ -418,9 +414,6 @@ button:disabled:focus,
     }
   .dark.tabs > *.active,
   .dark .tabs > *.active,
-  .dark.tabs.checkbox input[type=checkbox]:checked + label {
-    background-color:rgba(255,255,255,0.2);
-    }
 
 /* Pill wrapper for joining buttons. */
 /* Use <!-- --> to eliminate whitespace between buttons. */
@@ -441,6 +434,15 @@ button:disabled:focus,
     .pill > *:last-child {
       border-radius:0 3px 3px 0;
       }
+
+.pill.checkbox input[type=checkbox]:checked + label {
+  background-color:rgba(0,0,0,0.1);
+}
+
+.dark .pill.checkbox input[type=checkbox]:checked + label,
+.dark.pill.checkbox input[type=checkbox]:checked + label {
+  background-color:rgba(255,255,255,0.2);
+}
 
 /* Vertical pill if pill contents is full width . */
 .pill > .col12 {
@@ -898,9 +900,14 @@ input[type=range]:disabled { cursor: default; }
 /* Checkboxes */
 .checkbox input[type=checkbox] { display:none; }
 .checkbox label {
-  display:block;
   cursor:pointer;
   padding:10px;
+  }
+  .checkbox label:hover {
+    background: rgba(0,0,0,0.025);
+  }
+  .checkbox input[type=checkbox]:checked + label {
+    background: rgba(0,0,0,0.05);
   }
   .checkbox input[type=checkbox] + .icon:before {
     background-color:#fff;
@@ -912,7 +919,6 @@ input[type=range]:disabled { cursor: default; }
     }
   .dark.checkbox input[type=checkbox] + .icon:before,
   .dark .checkbox input[type=checkbox] + .icon:before {
-    background-color:#202020;
     background-color:rgba(0,0,0,0.25);
     }
 
