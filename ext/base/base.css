@@ -1222,6 +1222,13 @@ a > .rcon:after,
   opacity:1;
 }
 
+.dark a.icon:not(.button):hover:before,
+.dark a.icon:not(.button):hover:after,
+a.icon.quiet:not(.button):hover:before,
+a.icon.quiet:not(.button):hover:after {
+  opacity: .75;
+}
+
 .dark.tabs .rcon:after,
 .dark.tabs .icon:before,
 .dark .tabs .rcon:after,
