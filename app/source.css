@@ -41,6 +41,7 @@ label.xray { opacity:0.5; width:80px; }
 .xrayswatch,
 .xrayinspector {
   box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
+  cursor: pointer;
   }
 .xrayswatch.disabled { background:rgba(0,0,0,0.1) !important; }
 .xrayswatch.disabled::before { visibility:hidden; }

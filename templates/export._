@@ -29,10 +29,10 @@
     </div>
   </div>
 
-    <a href='/source?id=<%=source.id%>' class='button big submit icon x task'> Cancel export</a>
+    <a href='/source?id=<%=source.id%>' class='button big submit icon x js-cancel'> Cancel export</a>
     <a href='/source.mbtiles?id=<%=source.id%>' class='button quiet big submit icon folder stat'> Vector MBTiles</a>
   <div class='stat col12 pad1'>
-    <a href='#recache' class='quiet strong small icon refresh'> Redo export</a>
+    <a href='#recache' class='js-recache quiet strong small icon refresh'> Redo export</a>
   </div>
 </div>
 
@@ -49,8 +49,8 @@ Job.prototype.url = function() { return '/mbtiles.json?id=<%=source.id%>'; };
 
 var Exporter = Backbone.View.extend({});
 Exporter.prototype.events = {
-  'click a.cancel': 'cancel',
-  'click a.recache': 'recache'
+  'click a.cancel': 'js-cancel',
+  'click a.recache': 'js-recache'
 };
 Exporter.prototype.poll = function() {
   var model = this.model;

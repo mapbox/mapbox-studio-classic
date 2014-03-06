@@ -56,14 +56,14 @@
 #tabs a.tab.mini.active {
   padding:5px;
   }
-#tabs a.tab span.delete {
+#tabs a.tab .trash {
   display:none;
   }
-#tabs a.tab.active span.delete {
+#tabs a.tab.active .trash {
   display:inline-block;
   }
-#tabs a.tab.active span.delete:before { opacity: .25;}
-#tabs a.tab span.delete:hover { background:white; }
+#tabs a.tab.active .trash:before { opacity: .25;}
+#tabs a.tab .trash:hover { background:white; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
 #tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
@@ -140,9 +140,6 @@
   /* render but hide text for copying */
   color: transparent;
   }
-
-/* Data library */
-div.source a.section { cursor:pointer; }
 
 /* Overrides for util panes vs. Menu */
 #layers:target a.data-n { display:inline-block; }
