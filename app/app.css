@@ -533,9 +533,9 @@ span.cm-carto-filter             { color:#66475B; }
 /* Off-canvas menu vs. Content */
 #data:target ~ .pin-left,
 .menu:target ~ .pin-left { left:25%; }
-#data:target ~ .pin-right,
-.menu:target ~ .pin-right { left:75%; }
-.menu:target ~ #code { width: 25%;}
+#data:target ~ .pin-right { left:75%; }
+#data:target ~ #code,
+.menu:target ~ #code { width: 25%; }
 #full:target { width:100%; }
 #full:target ~ .pin-right {
   -webkit-transform:translateX(100%);
