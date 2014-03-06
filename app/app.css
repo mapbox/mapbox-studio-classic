@@ -37,9 +37,7 @@
 .top4 { top:40px; }
 
 .break-word { word-wrap:break-word; }
-.dark code {
- background: rgba(255,255,255,0.025);
-}
+.dark code { background: rgba(255,255,255,0.025); }
 
 .icon.big:before { margin-right: 0;}
 
@@ -217,6 +215,8 @@ a.project:hover {
 #map {
   background:#ddd url(canvas.png);
   }
+#map.map-clickable { cursor: pointer;}
+
 .leaflet-control {
   z-index:0;
   }
