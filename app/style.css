@@ -40,15 +40,10 @@
   }
 
 /* Editor tabs */
-#tabs {
-  white-space: nowrap;
-  overflow-x: auto;
-}
 #tabs a.tab {
   margin:0px 0px 0px 5px;
   display: inline-block;
   vertical-align: top;
-  max-width: 100px;
   }
 #tabs a.tab:hover,
 #tabs a.tab.active {
@@ -56,7 +51,6 @@
   }
 #tabs a.tab.active {
   padding-right:25px;
-  max-width: none;
   }
 #tabs a.tab.mini,
 #tabs a.tab.mini.active {
@@ -71,6 +65,29 @@
 
 #tabs a.tab.active .trash:before { opacity: .25;}
 #tabs a.tab .trash:hover { background:white; }
+#tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
+#tabs a.tab:first-child:nth-last-child(2),
+#tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
+#tabs a.tab:first-child:nth-last-child(3),
+#tabs a.tab:first-child:nth-last-child(3) ~ a.tab { max-width:33.33%; }
+#tabs a.tab:first-child:nth-last-child(4),
+#tabs a.tab:first-child:nth-last-child(4) ~ a.tab { max-width:25.00%; }
+#tabs a.tab:first-child:nth-last-child(5),
+#tabs a.tab:first-child:nth-last-child(5) ~ a.tab { max-width:20.00%; }
+#tabs a.tab:first-child:nth-last-child(6),
+#tabs a.tab:first-child:nth-last-child(6) ~ a.tab { max-width:16.66%; }
+#tabs a.tab:first-child:nth-last-child(7),
+#tabs a.tab:first-child:nth-last-child(7) ~ a.tab { max-width:14.28%; font-size:80%; }
+#tabs a.tab:first-child:nth-last-child(8),
+#tabs a.tab:first-child:nth-last-child(8) ~ a.tab { max-width:12.50%; font-size:80%; }
+#tabs a.tab:first-child:nth-last-child(9),
+#tabs a.tab:first-child:nth-last-child(9) ~ a.tab { max-width:11.11%; font-size:80%; }
+#tabs a.tab:first-child:nth-last-child(10),
+#tabs a.tab:first-child:nth-last-child(10) ~ a.tab { max-width:10.00%; font-size:80%; }
+#tabs a.tab:first-child:nth-last-child(11),
+#tabs a.tab:first-child:nth-last-child(11) ~ a.tab { max-width:9.09%; font-size:80%; }
+#tabs a.tab:first-child:nth-last-child(12),
+#tabs a.tab:first-child:nth-last-child(12) ~ a.tab { max-width:8.33%; font-size:80%; }
 
 /* CodeMirror */
 .CodeMirror#code-template {

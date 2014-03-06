@@ -176,22 +176,20 @@
 </div>
 
 <div id='code' class='animate z1 col6 pin-right'>
-  <div class='keyline-bottom row1'>
-    <div class='pin-topleft docs-button fill-gray z1 keyline-bottom row1'>
-      <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
-      <a class='keyline-right pad1 inline docs-y icon dark close unround fill-blue' href='#'></a>
-    </div>
-    <nav id='tabs' class='keyline-left row1 pad0y pad4x pin-top fill-darken0 contain small'><!--
-      --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
-      <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
-      <% }); %>
-    -->
-    </nav>
-    <span class='z1'>
-      <a class='pin-topright pad1 short quiet icon plus fill-gray row1 keyline-bottom' href='#addtab'></a>
-    </span>
+  <div class='pin-topleft docs-button fill-gray z1 keyline-bottom row1'>
+    <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
+    <a class='keyline-right pad1 inline docs-y icon dark close unround fill-blue' href='#'></a>
   </div>
+  <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
+    --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
+    <% _(style.styles).keys().forEach(function(k,i) { %>
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
+    <% }); %>
+  -->
+    <span class='z1'>
+      <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
+    </span>
+  </nav>
   <form id='interactivity' class='space row1 pad1 keyline-bottom pin-top'>
     <label class='small'>Layer</label>
     <select name='interactivity_layer'>
