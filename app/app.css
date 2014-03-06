@@ -478,9 +478,9 @@ a.project:hover {
 .CodeMirror.active .CodeMirror-scroll { overflow: auto; }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror-gutter {
-  background:#f8f8f8;
+  border: none;
+  background:#fcfcfc;
   width:40px !important;
-  border-right:1px solid #ddd;
   }
 .CodeMirror-gutter .error {
   position:relative;
