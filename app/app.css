@@ -402,6 +402,7 @@ span.cm-carto-filter             { color:#66475B; }
 
 .dark .CodeMirror { background:transparent; border-top: 1px solid rgba(0,0,0,.2); }
 .dark .CodeMirror-gutter { background:rgba(0,0,0,.1); border-color:rgba(0,0,0,0.2); }
+.dark .CodeMirror pre { background: transparent;}
 .dark .CodeMirror pre.CodeMirror-cursor { border-color:#ccc; }
 .dark span.cm-keyword,
 .dark span.cm-carto-variable           { color:#d6e; }
