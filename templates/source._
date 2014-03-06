@@ -28,9 +28,9 @@
   <div id='title' class='pad1y dark fill-darken1 contain row1 pin-top col12 center z1'>
     <div class='pin-left pad0'>
       <% if (source._tmp) { %>
-      <a class='button short icon floppy okay quiet' href='#saveas'>Save as</a>
+      <a class='button short icon floppy js-save quiet' href='#saveas'>Save as</a>
       <% } else { %>
-      <a class='button short icon floppy okay quiet' href='#'>Save</a>
+      <a class='button short icon floppy js-save quiet' href='#'>Save</a>
       <% } %>
     </div>
     <a href='#settings' class='icon sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
@@ -49,7 +49,7 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='source-menu animate menu fill-dark dark col6 pin-right'>
+<div id='layers' class='animate menu source-menu fill-dark dark col6 pin-right'>
   <nav class='row1 col12 pad0y pad1x pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
     <strong class='small inline pad0y'>Layers</strong>
@@ -57,7 +57,7 @@ revlayers.reverse();
     <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
     <% } %>
   </nav>
-  <div class='menu-content pin-left col12 top4 scroll-styled'>
+  <div class='js-menu-content pin-left col12 top4 scroll-styled'>
     <% _(revlayers).each(function(l) { %>
       <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
     <% }.bind(this)); %>
@@ -117,12 +117,12 @@ revlayers.reverse();
 
     <% if (!remote) { %>
       <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='button col6 submit icon okay save floppy'>Save</a><!--
+        --><a href='#' class='button col6 submit icon js-save floppy'>Save</a><!--
         --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
       </section>
     <% } else { %>
       <section>
-        <a href='#' class='col6 fr button submit icon okay save floppy'>Save</a>
+        <a href='#' class='col6 fr button submit icon js-save floppy'>Save</a>
       </section>
     <% } %>
   </div>
@@ -196,7 +196,7 @@ var Layer = function(id, datasource) {
   var layer = {
     code: code,
     form: $('#layers-' + id),
-    item: $('#layers .layer[href=#layers-'+id+']')
+    item: $('#layers #'+id)
   };
   layer.refresh = function() {
     var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
@@ -240,13 +240,13 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click a.button.save': 'save',
-  'click .editor nav .pill a': 'togglemode',
-  'click .layer .delete': 'deletelayer',
+  'click .js-save': 'save',
+  'click .editor .js-tab': 'togglemode',
+  'click .layer .js-delete': 'deletelayer',
   'click .layer .xrayswatch': 'togglelayer',
   'click .layer .xrayinspector': 'toggleinspector',
-  'click a.browsefile': 'browsefile',
-  'click #settings a.tab': 'tabbed',
+  'click js-browsefile': 'browsefile',
+  'click #settings .js-tab': 'tabbed',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
   'keydown': 'keys'
@@ -286,7 +286,7 @@ Editor.prototype.togglelayer = function(ev) {
   return false;
 };
 Editor.prototype.toggleinspector = function(ev) {
-  $('.layer span.xrayinspector.active').removeClass('active');
+  $('.js-layer .xrayinspector.active').removeClass('active');
   $(ev.currentTarget).addClass('active');
   return false;
 };
@@ -313,23 +313,23 @@ Editor.prototype.addlayer = function(ev) {
       }
     };
     $('#editor').prepend(templates['layer' + values.type](layer));
-    $('#layers .menu-content').prepend(templates['layeritem'](layer));
+    $('#layers .js-menu-content').prepend(templates['layeritem'](layer));
     layers[values.id] = Layer(values.id, layer.Datasource);
 
     window.location.hash = '#layers-' + values.id;
-    $('#layers .menu-content').sortable('destroy').sortable();
+    $('#layers .js-menu-content').sortable('destroy').sortable();
   } else {
     window.location.hash = '#';
   }
   return false;
 };
 Editor.prototype.deletelayer = function(ev) {
-  var id = $(ev.currentTarget).parent().attr('href').split('#layers-').pop();
+  var id = $(ev.currentTarget).parent().attr('id');
   if (!layers[id]) return false;
   if (confirm('Remove layer "' + id + '"?')) {
     layers[id].form.remove();
     layers[id].item.remove();
-    $('#layers .menu-content').sortable('destroy').sortable();
+    $('#layers .js-menu-content').sortable('destroy').sortable();
     delete layers[id];
   }
   window.location.href = '#';
@@ -344,11 +344,11 @@ Editor.prototype.error = function(model, resp) {
   }
 };
 Editor.prototype.messageModal = function(text) {
-  $('#message .message').text(text);
+  $('#message .js-message').text(text);
   window.location.hash = '#message';
 };
 Editor.prototype.messageClear = function() {
-  $('#message .message').text('');
+  $('#message .js-message').text('');
   $('#full').removeClass('loading');
 };
 Editor.prototype.save = function(ev, options) {
@@ -372,12 +372,12 @@ Editor.prototype.save = function(ev, options) {
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
-  attr._prefs.inspector = $('#layers .layer:has(.xrayinspector.active)').size()
-    ? $('#layers .layer:has(.xrayinspector.active)').attr('href').split('#layers-').pop()
+  attr._prefs.inspector = $('#layers .js-layer:has(.xrayinspector.active)').size()
+    ? $('#layers .js-layer:has(.xrayinspector.active)').attr('id')
     : false;
   attr._prefs.disabled = _($('#layers .layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
-        ? $(this).attr('href').split('#layers-').pop()
+        ? $(this).attr('id')
         : false;
   })).compact();
 
@@ -430,7 +430,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .name').text(this.model.get('name') || 'Untitled');
+  $('#title .js-name').text(this.model.get('name') || 'Untitled');
 
   // Rerender fields forms.
   _(layers).each(function(l) { l.refresh() });
@@ -477,10 +477,10 @@ new views.Browser({
   }
 });
 // Sortable layers.
-$('#layers .menu-content').sortable();
-$('#layers .menu-content').bind('sortupdate', function(ev, ui) {
-  var ids = $('#layers .menu-content .layer').map(function() {
-    return $(this).attr('href').split('#layers-').pop();
+$('#layers .js-menu-content').sortable();
+$('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
+  var ids = $('#layers .js-menu-content .js-layer').map(function() {
+    return $(this).attr('id');
   }).get();
   layers = _(ids).reduce(function(memo, id) {
     memo[id] = layers[id];

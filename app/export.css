@@ -1,5 +1,11 @@
 .percent::after { content:'%' }
-.progress .fill { border-radius:2px;}
+.progress .fill {
+  border-radius:2px;
+  -webkit-transition:width 1000ms;
+     -moz-transition:width 1000ms;
+      -ms-transition:width 1000ms;
+          transition:width 1000ms;
+}
 
 body.task .task,
 body.stat .stat { display:inline-block; }

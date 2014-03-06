@@ -22,7 +22,7 @@ case 'ENOENT':
 %>
 
 <div class='pad4 center' id='error'>
-<div class='pad4 margin4 col4 round message fill-white'>
+<div class='pad4 margin4 col4 round js-message message fill-white'>
   <h2><%= title %></h2>
   <%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %>
 </div>

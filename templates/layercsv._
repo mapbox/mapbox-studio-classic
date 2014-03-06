@@ -1,8 +1,8 @@
 <form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right' id='layers-<%=obj.id%>'>
   <nav class='text-right pad1 keyline-bottom'>
     <span class='pill'><!--
-      --><a href='#mode-conf' class='quiet mode-conf short button icon levels'>Configure</a><!--
-      --><a href='#mode-fields' class='quiet mode-fields short button icon book'>Fields</a><!--
+      --><a href='#mode-conf' class='js-tab quiet mode-conf short button icon levels'>Configure</a><!--
+      --><a href='#mode-fields' class='js-tab quiet mode-fields short button icon book'>Fields</a><!--
  --></span>
     <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
@@ -24,7 +24,7 @@
         <input type='hidden' name='Datasource-type' value='csv' />
         <div class='pill input-pill clearfix'>
           <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.csv' pattern='[\w+\d+\.\/_-]+\.(csv|CSV)'/><!--
-          --><a href='#browsefile' class='quiet col4 button icon folder browsefile'>Browse</a>
+          --><a href='#browsefile' class='quiet col4 button icon folder js-browsefile'>Browse</a>
         </div>
       </section>
       <%= this.layerconf(obj) %>

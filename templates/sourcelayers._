@@ -1,14 +1,14 @@
-<div id='<%= obj.id %>' class='source'>
+<div id='<%= obj.id %>' class='js-source source'>
 
 <div class='keyline-bottom contain pad1'>
   <h4><%= obj.name || 'Untitled' %></h4>
   <div class='pin-right pad0 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <% if (obj.tiles) { %>
     <span name='remote' class='inline small round-left fill-darken1 strong pad0 quiet'>Remote</span><!--
-    --><a class='button short icon round-right refresh recache' href='#recache'></a>
+    --><a class='button short icon round-right refresh js-recache' href='#recache'></a>
     <% } else { %>
     <span name='local' class='inline small round-left fill-darken1 strong pad0 quiet'>Local</span><!--
-    --><a class='button short icon round-right refresh recache' href='#recache'></a>
+    --><a class='button short icon round-right refresh js-recache' href='#recache'></a>
     <% } %>
   </div>
 </div>
@@ -21,7 +21,7 @@ with no sources. Once vector tile compositing is available revisit.
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
 <span class='small layer col12 quiet contain' id='layers-<%=l.id%>'>
-  <a href='#layers-<%=l.id%>' class='keyline-bottom block pad0 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
+  <a href='#layers-<%=l.id%>' class='js-tab keyline-bottom block pad0 quiet document icon <%=l.geometry||'unknown'%>'><%=l.id%></a>
   <div class='center pin-right'>
     <span class='inline zooms pad0 micro'>
       <% if (!l.maxzoom) { %>

@@ -47,74 +47,74 @@
 </div>
 
 <form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
-<div class='col6 pin-left fill-blue dark scroll-styled'>
-  <%= this.history(obj) %>
-</div>
-<div class='fill-gray scroll-styled col6 pin-right'>
-  <header class='pad2 keyline-bottom'>
-    <h3>Settings</h3>
-    <nav class='pin-topright pad1'>
-      <a class='inline quiet pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
-    </nav>
-  </header>
-  <div class='pad2'>
-    <fieldset>
-      <section class='space-bottom1'>
-        <label>Name</label>
-        <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
-      </section>
-      <section class='space-bottom1'>
-        <label>Description</label>
-        <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
-      </section>
-      <section class='space-bottom1'>
-        <label>Attribution</label>
-        <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
-      </section>
-    </fieldset>
-    <fieldset class='pad2 space-bottom2 keyline-all round'>
-      <section class='space-bottom1 clearfix'>
-        <label class='inline col3'>Image format</label>
-        <select name='format'>
-          <% _({
-            'png24': 'png (24-bit)',
-            'png8:m=h': 'png (256 colors)',
-            'png8:m=h:c=192': 'png (192 colors)',
-            'png8:m=h:c=128': 'png (128 colors)',
-            'png8:m=h:c=64': 'png (64 colors)',
-            'png8:m=h:c=32': 'png (32 colors)',
-            'jpeg95': 'jpeg (95%)',
-            'jpeg90': 'jpeg (90%)',
-            'jpeg85': 'jpeg (85%)',
-            'jpeg80': 'jpeg (80%)'
-          }).each(function(label, format) { %>
-          <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
-          <% }); %>
-        </select>
-      </section>
-      <section class='space-bottom0 clearfix'>
-        <label class='inline col3'>Minzoom</label>
-        <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-        <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
-      </section>
-      <section class='space-bottom0 clearfix'>
-        <label class='inline col3'>Maxzoom</label>
-        <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-        <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
-      </section>
-      <section class='space-bottom0 clearfix'>
-        <label class='inline col3'>Scale</label>
-        <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-        <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
-      </section>
-    </fieldset>
-
-    <section class='pill col6 margin6 clearfix'><!--
-      --><a href='#' class='button col6 submit icon okay floppy'>Save</a><!--
-      --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button submit icon package'>Package</a>
-    </section>
+  <div class='col6 pin-left fill-blue dark scroll-styled'>
+    <%= this.history(obj) %>
   </div>
-</div>
+  <div class='fill-gray scroll-styled col6 pin-right'>
+    <header class='pad2 keyline-bottom'>
+      <h3>Settings</h3>
+      <nav class='pin-topright pad1'>
+        <a class='inline quiet pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
+      </nav>
+    </header>
+    <div class='pad2'>
+      <fieldset>
+        <section class='space-bottom1'>
+          <label>Name</label>
+          <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
+        </section>
+        <section class='space-bottom1'>
+          <label>Description</label>
+          <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
+        </section>
+        <section class='space-bottom1'>
+          <label>Attribution</label>
+          <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+        </section>
+      </fieldset>
+      <fieldset class='pad2 space-bottom2 keyline-all round'>
+        <section class='space-bottom1 clearfix'>
+          <label class='inline col3'>Image format</label>
+          <select name='format'>
+            <% _({
+              'png24': 'png (24-bit)',
+              'png8:m=h': 'png (256 colors)',
+              'png8:m=h:c=192': 'png (192 colors)',
+              'png8:m=h:c=128': 'png (128 colors)',
+              'png8:m=h:c=64': 'png (64 colors)',
+              'png8:m=h:c=32': 'png (32 colors)',
+              'jpeg95': 'jpeg (95%)',
+              'jpeg90': 'jpeg (90%)',
+              'jpeg85': 'jpeg (85%)',
+              'jpeg80': 'jpeg (80%)'
+            }).each(function(label, format) { %>
+            <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+            <% }); %>
+          </select>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col3'>Minzoom</label>
+          <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+          <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col3'>Maxzoom</label>
+          <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+          <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col3'>Scale</label>
+          <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
+          <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
+        </section>
+      </fieldset>
+
+      <section class='pill col6 margin6 clearfix'><!--
+        --><a href='#' class='button col6 icon js-save floppy'>Save</a><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button submit icon package'>Package</a>
+      </section>
+    </div>
+  </div>
 </form>
 
 <div id='layers' class='pin-left menu col3 dark offcanvas-left fill-dark'>
@@ -125,7 +125,7 @@
     --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
     </div>
   </nav>
-  <div class='menu-content pin-left col12 top4 scroll-styled'>
+  <div class='js-menu-content pin-left col12 top4 scroll-styled'>
   <%= _(sources).map(this.sourcelayers).join('\n') %>
   </div>
 </div>
@@ -136,9 +136,9 @@
     <div class='pin-left'><!--
       --><a class='inline pad1 icon menu quiet unround align-middle' href='#layers'></a><!--
       <% if (style._tmp) { %>
-        --><a class='button short icon floppy okay quiet' href='#saveas'>Save as</a>
+        --><a class='js-save button short icon floppy quiet' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='button short icon floppy okay quiet' href='#'>Save</a>
+        --><a class='js-save button short icon floppy quiet' href='#'>Save</a>
       <% } %>
     </div>
     <div class='pin-right'>
@@ -146,7 +146,7 @@
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
     <a href='#settings' class='block small strong quiet'>
-      <span class='inline name icon sprocket'><%= style.name || 'Untitled' %></span>
+      <span class='inline js-name icon sprocket'><%= style.name || 'Untitled' %></span>
     </a>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
@@ -182,14 +182,14 @@
       <a class='keyline-right pad1 inline docs-y icon dark close unround fill-blue' href='#'></a>
     </div>
     <nav id='tabs' class='keyline-left row1 pad0y pad4x pin-top fill-darken0 contain small'><!--
-      --><a rel='template' href='#code-template' class='tab round quiet mini icon tooltip'></a><!--
+      --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash delete pin-right pad0y round-right'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
       <% }); %>
     -->
     </nav>
     <span class='z1'>
-      <a class='pin-topright pad1 short quiet icon plus fill-ray row1 keyline-bottom' href='#addtab'></a>
+      <a class='pin-topright pad1 short quiet icon plus fill-gray row1 keyline-bottom' href='#addtab'></a>
     </span>
   </div>
   <form id='interactivity' class='space row1 pad1 keyline-bottom pin-top'>
@@ -285,20 +285,20 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click a.button.save': 'save',
-  'click a.button.recache': 'recache',
+  'click .js-save': 'save',
+  'click .js-recache': 'recache',
   'submit #settings': 'save',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
-  'click #tabs a.tab span.delete': 'deltab',
-  'click #tabs a.tab': 'tabbed',
-  'click #docs nav a': 'tabbed',
-  'click #menu nav a': 'tabbed',
-  'click #settings a.tab': 'tabbed',
-  'click #layers a': 'tabbed',
-  'click #data a.js-adddata': 'adddata',
+  'click #tabs .js-deltab': 'deltab',
+  'click #tabs .js-tab': 'tabbed',
+  'click #docs .js-tab': 'tabbed',
+  'click #settings .js-tab': 'tabbed',
+  'click #layers .js-tab': 'tabbed',
+  'click #data .js-adddata': 'adddata',
   'keydown': 'keys'
 };
+
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
@@ -329,7 +329,7 @@ Editor.prototype.adddata = function(ev) {
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
       $('#data a.active').removeClass('active');
-      $('#layers .menu-content').html(templates.sourcelayers(resp));
+      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
       target.addClass('active');
     }).bind(this),
     error: _(this.error).bind(this)
@@ -339,7 +339,7 @@ Editor.prototype.adddata = function(ev) {
 Editor.prototype.addtab = function(ev) {
   var filename = $('#addtab-filename').val();
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash delete pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';
@@ -357,8 +357,8 @@ Editor.prototype.deltab = function(ev) {
     delete code[target];
     this.model.set({styles:styles});
     // Set first tab to active.
-    if (parent.is('.active') && $('a.tab').size())
-      this.tab({ currentTarget:$('a.tab').get(0) });
+    if (parent.is('.active') && $('a.js-tab').size())
+      this.tab({ currentTarget:$('a.js-tab').get(0) });
   }
   return false;
 };
@@ -391,7 +391,7 @@ Editor.prototype.save = function(ev, options) {
     if (k !== 'template') memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.source = $('#layers div.source').map(function() {
+  attr.source = $('#layers .js-source').map(function() {
     return $(this).attr('id').split('source-').pop();
   }).get().shift();
   attr.template = code.template ? code.template.getValue() : '';
@@ -426,18 +426,18 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
+        code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small js-message message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
       } else {
         return this.messageModal(e);
       }
     }).bind(this));
 };
 Editor.prototype.messageModal = function(text) {
-  $('#message .message').text(text);
+  $('#message .js-message').text(text);
   window.location.hash = '#message';
 };
 Editor.prototype.messageClear = function() {
-  $('#message .message').text('');
+  $('#message .js-message').text('');
   $('#full').removeClass('loading');
   _(code).each(function(cm) {
     _(cm._cartoErrors||[]).each(cm.clearMarker);
@@ -492,7 +492,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .name').text(this.model.get('name') || 'Untitled');
+  $('#title .js-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (this.model.get('background'))
