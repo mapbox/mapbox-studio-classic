@@ -398,6 +398,10 @@ button:disabled:focus,
       background:rgba(0,0,0,0.05);
       color:rgba(0,0,0,.5);
       }
+    .tabs > *.active {
+      background:rgba(0,0,0,0.1);
+      color:rgba(0,0,0,.5);
+      }
 
 .dark.tabs,
 .dark.tabs > *,
@@ -412,7 +416,10 @@ button:disabled:focus,
     color:rgba(255,255,255,1);
     }
   .dark.tabs > *.active,
-  .dark .tabs > *.active,
+  .dark .tabs > *.active {
+    background-color:rgba(225,255,255,0.15);
+    color:rgba(255,255,255,1);
+  }
 
 /* Pill wrapper for joining buttons. */
 /* Use <!-- --> to eliminate whitespace between buttons. */
