@@ -625,6 +625,7 @@ kbd {
   }
 
 /* Code Blocks & Pre */
+.code,
 code,
 em code,
 code em,
@@ -1615,12 +1616,10 @@ a.icon.quiet:not(.button):hover:after {
 .row15 { height: 600px;}
 .row16 { height: 640px;}
 
-/* Splitting fifths - also in use on www.mapbox.com */
 .fifths > * {
   float: left;
   width: 20%;
 }
-
 
 /* Padding
 ------------------------------------------------------- */
@@ -1639,9 +1638,6 @@ a.icon.quiet:not(.button):hover:after {
 .pad1y { padding-top: 10px; padding-bottom: 10px;}
 .pad2y { padding-top: 20px; padding-bottom: 20px;}
 .pad4y { padding-top: 40px; padding-bottom: 40px;}
-
-.pad0r { padding-right: 0;}
-.pad0l { padding-left: 0;}
 
 /* Keylines
 ------------------------------------------------------- */
