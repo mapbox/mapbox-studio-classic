@@ -27,7 +27,7 @@ var sections = {
 };
 %>
 
-<nav class='pin-top row1 fill-grey clearfix col12 keyline-bottom z1'><!--
+<nav class='pin-top row1 fill-grey clearfix col12 keyline-bottom keyline-right z1'><!--
   --><a href='#docs-intro' class='js-tab col1 quiet button unround active keyline-right icon home center'>&nbsp;</a><!--
   --><a href='#docs-points' class='js-tab col2 quiet button unround keyline-right'>Points</a><!--
   --><a href='#docs-lines' class='js-tab col2 quiet button unround keyline-right'>Lines</a><!--
