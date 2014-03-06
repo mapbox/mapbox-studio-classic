@@ -25,7 +25,7 @@
 <div id='perf'></div>
 
 <div id='full' class='clip animate col6 pin-left clip'>
-  <div id='title' class='pad1y dark fill-darken1 contain keyline-bottom row1 pin-top col12 center z1'>
+  <div id='title' class='pad1y dark fill-darken1 contain row1 pin-top col12 center z1'>
     <div class='pin-left pad0'>
       <% if (source._tmp) { %>
       <a class='button short icon floppy okay quiet' href='#saveas'>Save as</a>
