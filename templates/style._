@@ -18,6 +18,7 @@
   <script src='/app/lib.js'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
+  <script src='/app/codemirror.search.cursor.js'></script>
   <title><%= style.name %></title>
 </head>
 
@@ -201,6 +202,10 @@
       <% }); %>
     </select>
   </form>
+  <form id='search' class='pad2 pin-bottom offcanvas-bottom col12 fill-darken0'>
+    <input type='text' placeholder='Find' class='col10 short' />
+    <a href='#' class='icon x col1 pad0 quiet'></a>
+  </form>
 </div>
 
 <%= this.modalmessage() %>
@@ -294,7 +299,8 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
   'click #data .js-adddata': 'adddata',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click #search .icon.x': 'closeSearch'
 };
 
 Editor.prototype.keys = function(ev) {
@@ -498,11 +504,85 @@ Editor.prototype.refresh = function(ev) {
 
   return false;
 };
+
+function SearchState() {
+  this.posFrom = this.posTo = this.query = null;
+  this.marked = [];
+};
+Editor.prototype.getSearchState = function(cm) {
+  return cm._searchState || (cm._searchState = new SearchState());
+};
+Editor.prototype.getSearchCursor = function(cm, query, pos) {
+  return cm.getSearchCursor(query, pos, typeof query == "string" && query == query.toLowerCase());
+};
+Editor.prototype.closeSearch = function() {
+  $('#search').addClass('offcanvas-bottom');
+};
+Editor.prototype.clearSearch = function(cm) {
+  cm.operation(function() {
+    var state = editor.getSearchState(cm);
+    if (!state.query) return;
+    state.query = null;
+    for (var i = 0; i < state.marked.length; ++i) state.marked[i].clear();
+    state.marked.length = 0;
+  });
+};
+Editor.prototype.parseQuery = function(query) {
+  var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
+  return isRE ? new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i") : query;
+};
+Editor.prototype.findNext = function(cm, rev) {
+  cm.operation(function() {
+    var state = editor.getSearchState(cm);
+    var cursor = editor.getSearchCursor(cm, state.query, rev ? state.posFrom : state.posTo);
+    if (!cursor.find(rev)) {
+      cursor = editor.getSearchCursor(cm, state.query, rev ? {line: cm.lineCount() - 1} : {line: 0, ch: 0});
+      if (!cursor.find(rev)) return;
+    }
+    cm.setSelection(cursor.from(), cursor.to());
+    state.posFrom = cursor.from(); state.posTo = cursor.to();
+  });
+};
+Editor.prototype.doSearch = function(cm, rev) {
+  var state = editor.getSearchState(cm);
+  if (state.query) return editor.findNext(cm, rev);
+  var search = $('#search'),
+      input = $('#search input');
+  search.removeClass('offcanvas-bottom');
+  input.focus();
+  search.submit(function(e) {
+    e.preventDefault();
+    var query = input.val();
+    input.blur();
+    editor.closeSearch();
+    cm.operation(function() {
+      if (!query || state.query) return;
+      state.query = editor.parseQuery(query);
+      if (cm.lineCount() < 2000) { // This is too expensive on big documents.
+        for (var cursor = editor.getSearchCursor(cm, state.query); cursor.findNext();)
+          state.marked.push(cm.markText(cursor.from(), cursor.to(), "CodeMirror-searching"));
+      }
+      state.posFrom = state.posTo = cm.getCursor();
+      editor.findNext(cm, rev);
+      cm.focus();
+    });
+  });
+}
+Editor.prototype.search = function() {
+  CodeMirror.commands.find = function(cm) {
+    editor.clearSearch(cm);
+    editor.doSearch(cm);
+  };
+  CodeMirror.commands.findNext = function(cm) {editor.doSearch(cm);};
+  CodeMirror.commands.findPrev = function(cm) {editor.doSearch(cm, true);};
+};
+
 var editor = new Editor({
   el: document.body,
   model: new Style(<%= JSON.stringify(style) %>)
 });
 editor.refresh();
+editor.search();
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

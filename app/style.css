@@ -37,7 +37,12 @@
 /* Interactivity form */
 #code #interactivity {
   top:40px;
-  }
+}
+
+/* Search form */
+#code #search {
+  z-index: 11;
+}
 
 /* Editor tabs */
 #tabs a.tab {
