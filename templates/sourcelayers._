@@ -33,7 +33,7 @@ with no sources. Once vector tile compositing is available revisit.
   </div>
   <small class='truncate keyline-bottom col12 pad1'><%=l.description||'No description.'%></small>
   <% _(l.fields||{}).each(function(desc,name) { %>
-  <small class='field clearfix quiet keyline-bottom'>
+  <small class='code field clearfix quiet keyline-bottom'>
     <span class='field-key micro col3 inline pad1x pad0y'><%=name%></span>
     <span class='micro col9 pad1x keyline-left pad0y'><%=desc||'No description.'%></span>
   </small>

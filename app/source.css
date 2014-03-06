@@ -4,7 +4,20 @@
   width:100%; top:40px; bottom:0px;
   }
 
-label.xray { opacity:0.5; width:80px; }
+.leaflet-popup .leaflet-popup-content .xray-listing {
+  width:240px;
+  /* leaflet overrides */
+  font-size: 10px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+.xray-listing:first-child { border-top: 1px solid rgba(0,0,0,.2);}
+.dark .xray-listing,
+.dark .xray-listing div {
+  border-color: rgba(0,0,0,.2);
+}
+
+.leaflet-popup .xray { color: #f1f075;}
 
 /* Conf pane */
 .editor > div.conf { display:block; }
