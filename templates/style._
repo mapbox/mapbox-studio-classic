@@ -117,7 +117,7 @@
   </div>
 </form>
 
-<div id='layers' class='pin-left menu col3 dark offcanvas-left fill-dark'>
+<div id='layers' class='animate pin-left menu col3 dark offcanvas-left fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
   <div class='pin-topleft'><!--
     --><a href='#' class='align-middle inline pad1 icon close'></a><!--

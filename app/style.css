@@ -42,13 +42,13 @@
 /* Editor tabs */
 #tabs {
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 #tabs a.tab {
   margin:0px 0px 0px 5px;
   display: inline-block;
   vertical-align: top;
-  max-width: 120px;
+  max-width: 100px;
   }
 #tabs a.tab:hover,
 #tabs a.tab.active {

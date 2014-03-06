@@ -37,7 +37,7 @@ var errorHandler = _(function() {
     .split('|')
     .filter(function(msg) { return msg })
     .map(function(msg) {
-      return "<div class='msg block pad1 fill-darken0'>" + decodeURIComponent(msg) + "</div>";
+      return "<div class='msg pad1 fill-darken1'>" + decodeURIComponent(msg) + "</div>";
     });
   $('#map-errors').html(html);
 }).throttle(50);

@@ -35,7 +35,7 @@
       </section>
       <%= this.layerconf(obj) %>
       <section class='pad2'>
-        <a href='#' class='button submit margin6 col6'>Done</a>
+        <a href='#' class='quiet button submit margin6 col6'>Done</a>
       </section>
     </fieldset>
   </div>
