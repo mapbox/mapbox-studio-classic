@@ -197,9 +197,6 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;}
 
-.darken { background:rgba(0,0,0,0.4); }
-.lighten { background:rgba(255,255,255,0.4); }
-
 .pane {
   z-index:1002;
   height:100%;
@@ -426,7 +423,6 @@ a.project:hover {
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
-.menu nav a.right { position:absolute; top:5px; right:5px; }
 .menu nav a.button.title:active { background-color:#333; }
 
 /* Sortable states */
@@ -570,6 +566,8 @@ a.data-y { display:none; }
   section { float:none; width:auto; }
   }
 @media (min-width: 1580px) {
+  #layers.source-menu,
+  form.editor,
   #code { left:55%; width:45%; }
   #docs,
   #fonts,
@@ -579,6 +577,8 @@ a.data-y { display:none; }
   #layers:target ~ #full { width: 30%; }
   }
 @media (min-width: 1780px) {
+  #layers.source-menu,
+  form.editor,
   #code { left:60%; width:40%; }
   #docs,
   #fonts,
