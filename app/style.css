@@ -112,8 +112,6 @@
   border-radius:4px 0px 0px 4px;
   }
 
-#docs:target nav { padding-left: 40px; }
-#docs:target nav a { text-align: left;}
 #docs:target nav a.font-link {
   top: 5px;
   right: 5px;
@@ -127,6 +125,7 @@
   color:#708;
   padding:3px 5px;
   }
+#docs code.big { font-size: 14px; }
 #docs code.value:after {
   content:'default';
   color:#404040;
@@ -134,7 +133,6 @@
   }
 #docs code.value,
 #docs code.options { font-size:80%; }
-#docs code.options { display:block; margin-bottom:10px; }
 
 /* Font book */
 #fonts .single-font {

@@ -27,21 +27,21 @@ var sections = {
 };
 %>
 
-<nav class='pin-top row1 fill-grey clearfix col12 fifths keyline-bottom z1'><!--
-  --><a href='#docs-intro' class='pin-topleft quiet button unround active keyline-right icon home'></a><!--
-  --><a href='#docs-points' class='col2 quiet button unround keyline-right icon marker'>Points</a><!--
-  --><a href='#docs-lines' class='col2 quiet button unround keyline-right icon polyline'>Lines</a><!--
-  --><a href='#docs-polygons' class='col2 quiet button unround keyline-right icon polygon'>Polygons</a><!--
-  --><a href='#docs-misc' class='col2 quiet button unround icon keyline-right star'>Misc</a><!--
-  --><a href='#docs-text' class='col4 quiet button unround icon keyline-right pencil'>Text</a><!--
-  --><a href='#fonts' class='pin-topright quiet icon font button short font-link'></a><!--
+<nav class='pin-top row1 fill-grey clearfix col12 keyline-bottom z1'><!--
+  --><a href='#docs-intro' class='col1 quiet button unround active keyline-right icon home center'>&nbsp;</a><!--
+  --><a href='#docs-points' class='col2 quiet button unround keyline-right'>Points</a><!--
+  --><a href='#docs-lines' class='col2 quiet button unround keyline-right'>Lines</a><!--
+  --><a href='#docs-polygons' class='col2 quiet button unround keyline-right'>Polygons</a><!--
+  --><a href='#docs-misc' class='col2 quiet button unround keyline-right'>Misc</a><!--
+  --><a href='#docs-text' class='col3 quiet button unround'><span class='col8'>Text</span></a><!--
+  --><a href='#fonts' class='pin-topright quiet button icon font short font-link'></a><!--
 --></nav>
 
 <article id='docs-intro' class='active scroll-styled pin-left col12 top4'>
 
 <section class='pad2 keyline-bottom'>
   <h3 class='space-bottom1'>Need help?</h1>
-  <p>Read the <a href="/#!/manual">manual</a> for a full guide to using TileMill.</p>
+  <p>Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide to using TileMill.</p>
 </section>
 <section class='pad2 keyline-bottom'>
   <h3 class='space-bottom1'>Selectors</h1>
@@ -184,13 +184,15 @@ spin(@color, -10);</pre>
       .each(function(p, name) {
   %>
   <section class='pad2 keyline-bottom'>
-  <strong><code><%= p.css %>:</code></strong>
-  <code class='type'><%=_(p.type).isArray() ? 'option' : p.type%></code>
-  <% if (p['default-value'] && p['default-value']!=='none') { %>
-  <code class='value'><%=p['default-value']%></code>
-  <% } %>
-  <% if (_(p.type).isArray()) { %><code class='options'><%= p.type.join(' ') %></code><% } %>
-  <% if (p.doc) { %><div class='description'><%=p.doc%></div><% } %>
+  <div class='clearfix space-bottom1'>
+    <strong><code class='big fill-lighten3'><%= p.css %>:</code></strong>
+    <code class='type'><%=_(p.type).isArray() ? 'option block' : p.type%></code>
+    <% if (p['default-value'] && p['default-value']!=='none') { %>
+    <code class='value'><%=p['default-value']%></code>
+    <% } %>
+    <% if (_(p.type).isArray()) { %><code class='options'><%= p.type.join(' ') %></code><% } %>
+  </div>
+  <% if (p.doc) { %><div class='description small'><%=p.doc%></div><% } %>
   </section>
   <% }); %>
   <% }); %>
