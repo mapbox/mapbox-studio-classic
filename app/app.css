@@ -516,7 +516,7 @@ span.cm-string,
 span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
-.dark .CodeMirror { background:transparent; border:1px solid rgba(0,0,0,0.2); }
+.dark .CodeMirror { background:transparent; border-top: 1px solid rgba(0,0,0,.2); }
 .dark .CodeMirror-gutter { background:transparent; border-color:rgba(0,0,0,0.2); }
 .dark .CodeMirror pre.CodeMirror-cursor { border-color:#ccc; }
 .dark span.cm-keyword,

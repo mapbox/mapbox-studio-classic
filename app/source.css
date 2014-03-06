@@ -32,8 +32,7 @@
 .editor > div.sql {
   position:absolute;
   top:60px; bottom:0px; width:100%;
-  display:block;
-  visibility:hidden;
+  display:none;
   }
 .editor .CodeMirror { top:60px; }
 
@@ -48,10 +47,13 @@
 }
 
 .fields #editor nav .mode-conf,
-.sql #editor nav .mode-conf { background-color:transparent; }
+.sql #editor nav .mode-conf {
+  background-color:transparent;
+  color: rgba(255,255,255,0.5);
+}
 
-.sql .editor > div.sql { visibility:visible; }
-.sql .editor .CodeMirror { visibility:visible; }
+.sql .editor > div.sql { display:block; }
+.sql .editor > div.sql .CodeMirror { visibility: visible; }
 
 /* XRay tools */
 .xrayswatch,
@@ -59,6 +61,8 @@
   box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
   cursor: pointer;
   }
+.xrayswatch:hover,
+.xrayinspector:hover { box-shadow:none;}
 .xrayswatch.disabled { background:rgba(0,0,0,0.1) !important; }
 .xrayswatch.disabled::before { visibility:hidden; }
 .xrayinspector::before { visibility:hidden; }
