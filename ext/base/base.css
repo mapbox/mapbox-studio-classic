@@ -458,6 +458,7 @@ button:disabled:focus,
     border-radius: 3px;
     }
 
+.fill-dark .pill > *        { border-color:#404040; }
 .fill-gray .pill > *,
 .fill-grey .pill > *        { border-color:#eee; }
 .fill-white .pill > *       { border-color:#fff; }
@@ -489,6 +490,14 @@ button:disabled:focus,
 .pill input[type=text]:focus {
   border:1px solid rgba(0,0,0,0.25);
   }
+
+/* Pill style for input followed by button */
+.input-pill input[type='text'],
+.input-pill input[type=text]:focus { border-right-width: 0;}
+
+.input-pill input[type='text'] + input[type='submit'],
+.input-pill input[type='text'] + .button { border-left-width: 0;}
+
 
 /* make your pills toggles */
 .toggle a {
@@ -657,7 +666,10 @@ pre {
     }
 
 .dark pre,
-.dark code { color: rgba(255,255,255,0.5); }
+.dark code {
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.025);
+}
 
 .pre-scrollable {
   max-height:300px;
@@ -698,6 +710,8 @@ form fieldset label {
     color:#f0f0f0;
     color:rgba(255,255,255,0.75);
     }
+
+form fieldset label.inline { margin-bottom: 0;}
 
 input,
 select,
@@ -761,6 +775,18 @@ input[type=number] {
       color:#fff;
       }
 
+textarea:disabled,
+input[type=text]:disabled,
+input[type=number]:disabled,
+input[type=password]:disabled {
+  border-width: 0;
+  color: rgba(0,0,0,0.5);
+}
+  .dark textarea:disabled,
+  .dark input[type='text']:disabled {
+    color: rgba(255,255,255,0.5);
+  }
+
 input[type=password].short,
 input[type=text].short,
 input[type=number].short {
@@ -770,9 +796,9 @@ input[type=number].short {
   }
 
 textarea.stretch,
-input.stretch[type='text'],
-input.stretch[type='number'],
-input.stretch[type='password'] { width:100%; }
+input.stretch[type=text],
+input.stretch[type=number],
+input.stretch[type=password] { width:100%; }
 
 /* Special Form Components */
 fieldset.with-icon {
@@ -808,6 +834,11 @@ textarea {
   resize:none;
   }
   textarea.resize { resize:both; }
+
+select {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  }
 
 input[type=range],
 input[type=range]::-webkit-slider-thumb {
@@ -858,6 +889,11 @@ input[type=range]::-moz-range-thumb {
   cursor:ew-resize;
   box-shadow:rgba(255,255,255,0.25) -1200px 0 0 1200px;
   }
+
+input[type=range]:disabled::-moz-range-thumb { cursor: default;}
+input[type=range]:disabled::-ms-thumb { cursor: default;}
+input[type=range]:disabled::-webkit-slider-thumb { cursor: default;}
+input[type=range]:disabled { cursor: default; }
 
 /* Checkboxes */
 .checkbox input[type=checkbox] { display:none; }
@@ -929,6 +965,17 @@ table.fixed {
 .scroll-styled::-webkit-scrollbar-thumb {
   background:rgba(0,0,0,0.1);
   border-radius:0;
+  }
+
+.dark .scroll-styled::-webkit-scrollbar {
+  background:rgba(255,255,255,0.1);
+  border-radius:0;
+  }
+.dark .scroll-styled::-webkit-scrollbar:hover {
+  background:rgba(255,255,255,0.15);
+  }
+.dark .scroll-styled::-webkit-scrollbar-thumb {
+  background:rgba(255,255,255,0.1);
   }
 
 /* Inline Elements: Formatted for read content
@@ -1129,11 +1176,11 @@ h2 .dark > a[href^='#'] {
   height:40px;
   }
 
-.icon.big           { line-height:40px; }
-.icon:before        { margin-right:5px; }
-.icon:empty:before  { margin:0; }
-.button.icon:empty  { width:40px; padding:10px; }
-.button.short.icon:empty  { width:30px; padding:5px; }
+.icon.big                     { line-height:40px; }
+.icon:not(.big):before        { margin-right:5px; }
+.icon:empty:before            { margin:0; }
+.button.icon:empty            { width:40px; padding:10px; }
+.button.short.icon:empty      { width:30px; padding:5px; }
 
 small .icon:after,
 small .icon:before,
@@ -1549,8 +1596,19 @@ a > .rcon:after,
 .row15 { height: 600px;}
 .row16 { height: 640px;}
 
+/* Splitting fifths - also in use on www.mapbox.com */
+.fifths > * {
+  float: left;
+  width: 20%;
+}
+
+
 /* Padding
 ------------------------------------------------------- */
+.pad0  { padding:5px; }
+.pad0y { padding-top:5px; padding-bottom:5px; }
+.pad0x { padding-right:5px; padding-left:5px; }
+
 .pad1    { padding:10px; }
 .pad2    { padding:20px; }
 .pad4    { padding:40px; }
@@ -1562,6 +1620,9 @@ a > .rcon:after,
 .pad1y { padding-top: 10px; padding-bottom: 10px;}
 .pad2y { padding-top: 20px; padding-bottom: 20px;}
 .pad4y { padding-top: 40px; padding-bottom: 40px;}
+
+.pad0r { padding-right: 0;}
+.pad0l { padding-left: 0;}
 
 /* Keylines
 ------------------------------------------------------- */
@@ -1582,13 +1643,21 @@ a > .rcon:after,
 .pin-top,
 .pin-right,
 .pin-bottom,
-.pin-left {
+.pin-left,
+.pin-topleft,
+.pin-topright,
+.pin-bottomleft,
+.pin-bottomright {
   position:absolute;
   }
   .pin-bottom { right:0; bottom:0; left:0; }
   .pin-top    { top:0; right:0; left:0; }
   .pin-left   { top:0; bottom:0; left:0; }
   .pin-right  { top:0; right:0; bottom:0; }
+  .pin-bottomright { bottom:0; right:0; }
+  .pin-bottomleft  { bottom:0; left:0; }
+  .pin-topright    { top:0; right:0; }
+  .pin-topleft     { top:0; left:0; }
 
 /* Components: Navigations
 ------------------------------------------------------- */
@@ -1638,6 +1707,7 @@ nav.v.dark a.active.keyline-bottom,
 .note pre { background:#fff; }
 
 /* Fills */
+.fill-dark        { background-color:#404040; }
 .fill-gray,
 .fill-grey        { background:#eee; }
 .fill-grey-dark,
@@ -1963,6 +2033,7 @@ Details: http://www.positioniseverything.net/easyclearing.html
 .text-left                    { text-align:left; }
 .text-right                   { text-align:right; }
 .space > *                    { margin-right:5px; }
+.space-bottom0                { margin-bottom: 5px;}
 .space-bottom1                { margin-bottom:10px; }
 .space-bottom2, .space-bottom { margin-bottom:20px; }
 .space-bottom4                { margin-bottom:40px; }
@@ -1970,7 +2041,12 @@ Details: http://www.positioniseverything.net/easyclearing.html
 .show-tablet, .show-mobile    { display:none; }
 .show-mobile                  { display:none; }
 img.inline, .inline           { display:inline-block; }
+.break-word                   { word-wrap:break-word; }
+.align-middle                 { vertical-align: middle;}
 .block                        { display:block; }
+.z1   { z-index:1; }
+.z10  { z-index:10; }
+.z100 { z-index:100; }
 
 .caption {
   display:block;
@@ -2143,7 +2219,8 @@ img.inline, .inline           { display:inline-block; }
 ------------------------------------------------------- */
 @media
   (-webkit-min-device-pixel-ratio:2),
-  (min-resolution:192dppx) {
+  (min-resolution:192dpi),
+  (min-resolution:2dppx) {
   .mb-logo,
   .mb-logo-app:after,
   .mb-logo-thumb:after {

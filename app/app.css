@@ -1,110 +1,6 @@
 /* Base candidates */
-.pad0  { padding:5px; }
-.pad0y { padding-top:5px; padding-bottom:5px; }
-.pad0x { padding-right:5px; padding-left:5px; }
-
-.pad0r { padding-right: 0;}
-.pad0l { padding-left: 0;}
-
-.space-bottom0 { margin-bottom: 5px;}
-
-.z1   { z-index:1; }
-.z10  { z-index:10; }
-.z100 { z-index:100; }
-
-.pin-bottomright {
-  position:absolute;
-  bottom:0;
-  right:0;
-  }
-.pin-bottomleft {
-  position:absolute;
-  bottom:0;
-  left:0;
-  }
-.pin-topright {
-  position:absolute;
-  top:0;
-  right:0;
-  }
-.pin-topleft {
-  position:absolute;
-  top:0;
-  left:0;
-  }
-
 .top2 { top:20px; }
 .top4 { top:40px; }
-
-.break-word { word-wrap:break-word; }
-.dark code { background: rgba(255,255,255,0.025); }
-
-.icon.big:before { margin-right: 0;}
-
-.input-pill input[type='text'],
-.input-pill input[type=text]:focus { border-right-width: 0;}
-
-.input-pill input[type='text'] + input[type='submit'],
-.input-pill input[type='text'] + .button { border-left-width: 0;}
-
-.fill-dark            { background-color:#404040; }
-.dark .pill > *       { border-color:#333; }
-
-.dark .quiet.rcon:after,
-.dark .quiet.icon:before,
-.dark .quiet .rcon:after,
-.dark .quiet .icon:before {
-  background-image:url(../ext/base/icon-ffffff@2x.png);
-  }
-
-.fill-dark .pill > *,
-.fill-dark.pill > *        { border-color:#444; }
-
-a code,
-a:hover code {
-  background:rgba(0,0,0,0.025);
-  color: rgba(0,0,0,.5);
-}
-
-.dark a.icon:not(.button):hover:before,
-.dark a.icon:not(.button):hover:after,
-a.icon.quiet:not(.button):hover:before,
-a.icon.quiet:not(.button):hover:after {
-  opacity: .75;
-}
-
-.dark a code,
-.dark a:hover code {
-  color: rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.025);
-}
-
-textarea:disabled,
-input[type='text']:disabled {
-  border-width: 0;
-  color: rgba(0,0,0,0.5);
-}
-
-.dark textarea:disabled,
-.dark input[type='text']:disabled {
-  color: rgba(255,255,255,0.5);
-}
-
-select {
-  margin-top: 1px;  margin-bottom: 1px;
-}
-
-/* For whatever reason, these need to be defined
- * on their own so dont group them */
-input[type=range]:disabled::-moz-range-thumb { cursor: default;}
-input[type=range]:disabled::-ms-thumb { cursor: default;}
-input[type=range]:disabled::-webkit-slider-thumb { cursor: default;}
-input[type=range]:disabled { cursor: default; }
-
-/* Splitting fifths - also in use on www.mapbox.com */
-.fifths a {
-  width: 20%;
-}
 
 /* Modal popup */
 .modal {
@@ -127,14 +23,6 @@ input[type=range]:disabled { cursor: default; }
 .dark #mask { background:rgba(0,0,0,0.8); }
 
 /* END Base candidates */
-
-/* STUFF TO FIX */
-
-/* Inline-block buttons need to share
-vertical-alginment with siblings.
-LOOK FOR BETTER SOLUTION FOR THIS
-*/
-.align-middle { vertical-align: middle;}
 
 /* Scroll styled from base isn't working right */
 .scroll-styled::-webkit-scrollbar {
@@ -165,11 +53,9 @@ LOOK FOR BETTER SOLUTION FOR THIS
   background:rgba(255,255,255,0.1);
   }
 
-form fieldset label.inline { margin-bottom: 0;}
-
 /* general app styles */
 pre,
-.CodeMirror { font:13px/20px normal Droidsansmono,monospace; }
+.CodeMirror { font:13px/20px normal Menlo, Droidsansmono, Bitstream Vera Sans Mono, Monaco, Consolas, monospace; }
 
 body {
   background:#404040;
@@ -517,7 +403,7 @@ span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
 .dark .CodeMirror { background:transparent; border-top: 1px solid rgba(0,0,0,.2); }
-.dark .CodeMirror-gutter { background:transparent; border-color:rgba(0,0,0,0.2); }
+.dark .CodeMirror-gutter { background:rgba(0,0,0,.1); border-color:rgba(0,0,0,0.2); }
 .dark .CodeMirror pre.CodeMirror-cursor { border-color:#ccc; }
 .dark span.cm-keyword,
 .dark span.cm-carto-variable           { color:#d6e; }
