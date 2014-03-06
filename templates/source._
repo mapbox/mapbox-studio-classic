@@ -196,7 +196,7 @@ var Layer = function(id, datasource) {
   var layer = {
     code: code,
     form: $('#layers-' + id),
-    item: $('#layers .layer[href=#layers-'+id+']')
+    item: $('#layers #'+id)
   };
   layer.refresh = function() {
     var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
