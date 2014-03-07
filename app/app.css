@@ -1,6 +1,7 @@
 /* Base candidates */
 .top2 { top:20px; }
 .top4 { top:40px; }
+input[type='text'].clean { border: none; }
 
 /* Modal popup */
 .modal {
@@ -440,7 +441,6 @@ a.data-y { display:none; }
 #full:target     a.full-y { display:inline-block; }
 .menu:target ~ * a.menu-n,
 #full:target     a.full-n { display:none; }
-
 
 /* Media queries */
 @media (max-width:800px) {

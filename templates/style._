@@ -18,6 +18,8 @@
   <script src='/app/lib.js'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
+  <script src='/app/codemirror.search.js'></script>
+  <script src='/app/codemirror.search.cursor.js'></script>
   <title><%= style.name %></title>
 </head>
 
@@ -498,6 +500,7 @@ Editor.prototype.refresh = function(ev) {
 
   return false;
 };
+
 var editor = new Editor({
   el: document.body,
   model: new Style(<%= JSON.stringify(style) %>)
