@@ -43,6 +43,7 @@ describe('copytask', function() {
                         filesize: 45056,
                         attribution: '&copy; John Doe 2013.',
                         center: [ 0, 0, 3 ],
+                        bounds: [ -180, -85.0511, 180, 85.0511 ],
                         maxzoom: 4,
                         minzoom: 0,
                         name: 'Test source',
@@ -66,8 +67,7 @@ describe('copytask', function() {
                             fields: {
                                 Id: 'Number'
                             }
-                        } ],
-                        bounds: [ -180, -85.05112877980659, 180, 85.0511287798066 ]
+                        } ]
                     }, info);
                     done();
                 });

@@ -1,5 +1,7 @@
---><a href='#source-<%=obj.id%>' class='cell <%=obj.active ? 'active' : ''%>'><span class='thumbed'>
-  <span class='image' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
-  <strong><%= obj.name || 'Untitled' %></strong>
-  <span class='desc'><%= obj.description || 'No description.' %></span>
-</span></a><!--
+--><div class='col6 pad1'><a href='#source-<%=obj.id%>' class='js-adddata project col12 fill-lighten0 round truncate small strong quiet inline <%=obj.active ? 'active' : ''%>'>
+  <span class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
+  <span class='pad1 inline'>
+    <strong><%= obj.name || 'Untitled' %></strong><br />
+    <code><%= obj.description || 'No description.' %></code>
+  </span>
+</a></div><!--

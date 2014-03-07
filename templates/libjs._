@@ -37,7 +37,7 @@ var errorHandler = _(function() {
     .split('|')
     .filter(function(msg) { return msg })
     .map(function(msg) {
-      return "<div class='msg'>" + decodeURIComponent(msg) + "</div>";
+      return "<div class='msg pad1 fill-darken1'>" + decodeURIComponent(msg) + "</div>";
     });
   $('#map-errors').html(html);
 }).throttle(50);
@@ -79,7 +79,7 @@ var statHandler = function(key) {
         return memo;
       }, {});
 
-    var html = "<a href='#' class='button icon close'></a>";
+    var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
     
     var maxWidth = _(stats).reduce(function(memo, v, k) {
       return Math.max(memo, v[2]);
@@ -97,27 +97,40 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/maxWidth*100) : null;
       var a = s ? Math.round(Math.min(s[1],maxWidth)/maxWidth*100) : null;
 
+      // html += [
+      //         "<span class='strong keyline-all round col12 quiet z z",z,"'>",
+      //         "<a href='#zoomedto' class='col3 pad0x center strong quiet keyline-right'>z",z,"</a>",
+      //         s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
+      //         s ? "<span class='range'>" : '',
+      //         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
+      //         s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
+      //         s ? "</span>" : '',
+      //         "</span>"
+      //       ].join('');
+
       statHtml = [
-        "<a href='#zoomedto' class='z z",z,"'>",
-        "<strong>z",z,"</strong>"
+        "<span class='strong keyline-all round col12 quiet z z",z,"'>",
+        "<a href='#zoomedto' class='col3 pad0x center strong quiet keyline-right'>z",z,"</a>"
       ];
+
       if (!byLayer) {
         statHtml = statHtml.concat([
-          s ? "<span class='avg'>"+s[1]+unit+"</span>" : '',
+          s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
           s ? "<span class='range'>" : '',
           s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
           s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
           s ? "</span>" : '',
+          "</span>"
         ]);
       } else {
 
         statHtml = statHtml.concat([
-          s ? "<span class='avg'>avg: "+s[1]+unit+"</span>": '',
-          s ? "<span class='max'>max: "+s[2]+unit+"</span>": '',
+          s ? "<span class='strong col3 pad0x avg'>avg: "+s[1]+unit+"</span>": '',
+          s ? "<span class='strong col3 pad0x max'>max: "+s[2]+unit+"</span>": '',
+          "</span>"
         ]);
       }
       
-      statHtml.push("</a>");
       html += statHtml.join('');
     }
     $('#zoomedto').html(html);
@@ -151,7 +164,9 @@ views.Browser.prototype.render = function() {
       view.$('.list').html(_(resp).chain()
         .filter(view.filter)
         .map(function(f) {
-          return "<a class='icon " + f.type + " padded' href='#" + f.path + "'>" + f.basename + "</a>";
+          var type = (f.type == 'dir') ? 'folder' : 'document';
+          var isProject = (f.extname == '.tm2') ? '' : 'quiet';
+          return "<a class='icon " + f.type + " " + type + " " + isProject + " strong small pad2x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));

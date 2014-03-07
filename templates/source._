@@ -5,7 +5,8 @@
   <meta charset='UTF-8'/>
   <link href='/ext/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/app/base.css' rel='stylesheet' />
+  <link href='/ext/base/base.css' rel='stylesheet' />
+  <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/source.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror.js'></script>
@@ -23,40 +24,43 @@
 
 <div id='perf'></div>
 
-<div id='full' class='column dark w2 l0'>
-  <div id='title' class='dark'>
-    <div class='left'>
+<div id='full' class='clip animate col6 pin-left clip'>
+  <div id='title' class='pad1y dark fill-darken1 contain row1 pin-top col12 center z1'>
+    <div class='pin-left pad0'>
       <% if (source._tmp) { %>
-      <a class='button icon okay' href='#saveas'>Save as</a>
+      <a class='button short icon floppy js-save quiet' href='#saveas'>Save as</a>
       <% } else { %>
-      <a class='button icon okay save' href='#'>Save</a>
+      <a class='button short icon floppy js-save quiet' href='#'>Save</a>
       <% } %>
     </div>
-    <h3><a href='#settings'>
-      <span class='name'><%= source.name || 'Untitled' %></span>
-      <span class='icon gear' href='#settings'></span>
-    </a></h3>
+    <a href='#settings' class='icon sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
+    <div class='pin-right'>
+      <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
+      <a class='full-y pad1 quiet icon close unround' href='#'></a>
+    </div>
   </div>
-  <div id='map' class='dark' style='background-color:<%=source.background%>;'></div>
+  <div id='map' class='animate dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
-  <div id='zoomedto' class='dark z<%=source.center[2]%>'></div>
+  <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
 </div>
 
 <%
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='menu column dark w2 l2'>
-  <nav class='menu-title centered'>
+<div id='layers' class='animate menu source-menu fill-dark dark col6 pin-right'>
+  <nav class='row1 col12 pad0y pad1x pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
-    <h3>Layers</h3>
+    <strong class='small inline pad0y'>Layers</strong>
     <% } else { %>
-    <a href='#addlayer' class='button icon plus title'>Layers</a>
+    <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
     <% } %>
   </nav>
-  <div class='menu-content'>
-  <% _(revlayers).each(function(l) { print(this.layeritem(_({_prefs:source._prefs}).extend(l))) }.bind(this)); %>
+  <div class='js-menu-content pin-left col12 top4 scroll-styled'>
+    <% _(revlayers).each(function(l) { %>
+      <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
+    <% }.bind(this)); %>
   </div>
 </div>
 <div id='editor'>
@@ -72,44 +76,56 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='pane dark w4 l0'>
-<div class='column w2 l0 darken'>
+<form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
+<div class='scroll-styled col6 pin-left fill-blue'>
   <%= this.history(obj) %>
 </div>
-<div class='column w2 l2'>
-  <nav><a class='button icon close' href='#'></a></nav>
+<div class='scroll-styled col6 pin-right fill-dark'>
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
-  <section>
-    <h2>Settings</h2>
-  </section>
-  <section>
-    <label class='inline'>Name</label>
-    <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
-  </section>
-  <section>
-    <label class='inline'>Description</label>
-    <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
-  </section>
-  <section>
-    <label class='inline'>Attribution</label>
-    <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
-  </section>
-  <section>
-    <label class='inline'>Minzoom</label>
-    <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-    <label class='range' id='minzoom-val'><%= source.minzoom %></label>
-  </section>
-  <section>
-    <label class='inline'>Maxzoom</label>
-    <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-    <label class='range' id='maxzoom-val'><%= source.maxzoom %></label>
-  </section>
-  <section class='righted'>
-    <a href='#' class='button wide submit icon okay save'>Save</a>
+  <header class='pad2 keyline-bottom'>
+    <h3>Settings</h3>
+    <nav class='pin-topright pad1'><a class='inline quiet pad1 icon close return' href='#'>Back to <%= _(source.name).escape() || 'Project' %></a></nav>
+  </header>
+
+  <div class='pad2'>
+    <fieldset>
+      <section class='space-bottom1'>
+        <label>Name</label>
+        <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+      </section>
+      <section class='space-bottom1'>
+        <label>Description</label>
+        <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+      </section>
+      <section class='space-bottom1'>
+        <label>Attribution</label>
+        <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+      </section>
+    </fieldset>
+    <fieldset class='pad2 space-bottom2 keyline-all round'>
+      <section class='space-bottom0 clearfix'>
+        <label class='inline col3'>Minzoom</label>
+        <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+        <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
+      </section>
+      <section class='space-bottom0 clearfix'>
+        <label class='inline col3'>Maxzoom</label>
+        <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+        <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
+      </section>
+    </fieldset>
+
     <% if (!remote) { %>
-    <a href='/mbtiles?id=<%= source.id %>' class='button wide submit icon package'>Export</a>
+      <section class='pill col6 margin6 clearfix'><!--
+        --><a href='#' class='button col6 submit icon js-save floppy'>Save</a><!--
+        --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
+      </section>
+    <% } else { %>
+      <section>
+        <a href='#' class='col6 fr button submit icon js-save floppy'>Save</a>
+      </section>
     <% } %>
-  </section>
+  </div>
 </div>
 </form>
 
@@ -126,23 +142,27 @@ revlayers.reverse();
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
 
 <% if (!remote) { %>
-<form id='addlayer' class='modal centered'>
-  <a class='button icon close submit' href='#'></a>
-  <p class='joined'>
-    <input type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
-    --><select name='type'>
-      <option value='postgis'>PostGIS</option>
-      <option value='shape'>Shapefile</option>
-      <option value='geojson'>GeoJSON</option>
-      <option value='sqlite'>SQLite</option>
-      <option value='csv'>CSV</option>
-    </select>
-  </p>
-  <input type='submit' value='New layer'/>
+<form id='addlayer' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
+  <div class='col8 margin2 pill space-bottom1'>
+    <input class='col8' type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
+   --><span class='col4 inline pad1 fill-lighten1 round-right'>
+        <select class='col12 short' name='type'>
+        <option value='postgis'>PostGIS</option>
+        <option value='shape'>Shapefile</option>
+        <option value='geojson'>GeoJSON</option>
+        <option value='sqlite'>SQLite</option>
+        <option value='csv'>CSV</option>
+      </select>
+    </span>
+  </div>
+  <div class='center'>
+  <input class='margin2 col8' type='submit' value='New layer'/>
+  </div>
 </form>
 <% } %>
 
-<div id='mask'></div>
+<div id='mask' class='fill-darken2 animate'></div>
 
 <script>
 var map, tiles, grids, gridc;
@@ -176,7 +196,7 @@ var Layer = function(id, datasource) {
   var layer = {
     code: code,
     form: $('#layers-' + id),
-    item: $('#layers a.layer[href=#layers-'+id+']')
+    item: $('#layers #'+id)
   };
   layer.refresh = function() {
     var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
@@ -220,13 +240,13 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click a.button.save': 'save',
-  'click .editor nav .joined a': 'togglemode',
-  'click a.layer .delete': 'deletelayer',
-  'click a.layer .xrayswatch': 'togglelayer',
-  'click a.layer .xrayinspector': 'toggleinspector',
-  'click a.browsefile': 'browsefile',
-  'click #settings a.tab': 'tabbed',
+  'click .js-save': 'save',
+  'click .editor .js-tab': 'togglemode',
+  'click .layer .js-delete': 'deletelayer',
+  'click .layer .xrayswatch': 'togglelayer',
+  'click .layer .xrayinspector': 'toggleinspector',
+  'click js-browsefile': 'browsefile',
+  'click #settings .js-tab': 'tabbed',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
   'keydown': 'keys'
@@ -266,7 +286,7 @@ Editor.prototype.togglelayer = function(ev) {
   return false;
 };
 Editor.prototype.toggleinspector = function(ev) {
-  $('a.layer span.xrayinspector.active').removeClass('active');
+  $('.js-layer .xrayinspector.active').removeClass('active');
   $(ev.currentTarget).addClass('active');
   return false;
 };
@@ -293,23 +313,23 @@ Editor.prototype.addlayer = function(ev) {
       }
     };
     $('#editor').prepend(templates['layer' + values.type](layer));
-    $('#layers .menu-content').prepend(templates['layeritem'](layer));
+    $('#layers .js-menu-content').prepend(templates['layeritem'](layer));
     layers[values.id] = Layer(values.id, layer.Datasource);
 
     window.location.hash = '#layers-' + values.id;
-    $('#layers .menu-content').sortable('destroy').sortable();
+    $('#layers .js-menu-content').sortable('destroy').sortable();
   } else {
     window.location.hash = '#';
   }
   return false;
 };
 Editor.prototype.deletelayer = function(ev) {
-  var id = $(ev.currentTarget).parent().attr('href').split('#layers-').pop();
+  var id = $(ev.currentTarget).parent().attr('id');
   if (!layers[id]) return false;
   if (confirm('Remove layer "' + id + '"?')) {
     layers[id].form.remove();
     layers[id].item.remove();
-    $('#layers .menu-content').sortable('destroy').sortable();
+    $('#layers .js-menu-content').sortable('destroy').sortable();
     delete layers[id];
   }
   window.location.href = '#';
@@ -324,11 +344,11 @@ Editor.prototype.error = function(model, resp) {
   }
 };
 Editor.prototype.messageModal = function(text) {
-  $('#message .message').text(text);
+  $('#message .js-message').text(text);
   window.location.hash = '#message';
 };
 Editor.prototype.messageClear = function() {
-  $('#message .message').text('');
+  $('#message .js-message').text('');
   $('#full').removeClass('loading');
 };
 Editor.prototype.save = function(ev, options) {
@@ -352,12 +372,12 @@ Editor.prototype.save = function(ev, options) {
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
-  attr._prefs.inspector = $('#layers a.layer:has(.xrayinspector.active)').size()
-    ? $('#layers a.layer:has(.xrayinspector.active)').attr('href').split('#layers-').pop()
+  attr._prefs.inspector = $('#layers .js-layer:has(.xrayinspector.active)').size()
+    ? $('#layers .js-layer:has(.xrayinspector.active)').attr('id')
     : false;
-  attr._prefs.disabled = _($('#layers a.layer').map(function(v) {
+  attr._prefs.disabled = _($('#layers .layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
-        ? $(this).attr('href').split('#layers-').pop()
+        ? $(this).attr('id')
         : false;
   })).compact();
 
@@ -375,7 +395,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { $('#zoomedto').attr('class', 'z' + (map.getZoom()|0)); });
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = 22;
@@ -410,7 +430,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .name').text(this.model.get('name') || 'Untitled');
+  $('#title .js-name').text(this.model.get('name') || 'Untitled');
 
   // Rerender fields forms.
   _(layers).each(function(l) { l.refresh() });
@@ -457,10 +477,10 @@ new views.Browser({
   }
 });
 // Sortable layers.
-$('#layers .menu-content').sortable();
-$('#layers .menu-content').bind('sortupdate', function(ev, ui) {
-  var ids = $('#layers .menu-content a.layer').map(function() {
-    return $(this).attr('href').split('#layers-').pop();
+$('#layers .js-menu-content').sortable();
+$('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
+  var ids = $('#layers .js-menu-content .js-layer').map(function() {
+    return $(this).attr('id');
   }).get();
   layers = _(ids).reduce(function(memo, id) {
     memo[id] = layers[id];

@@ -27,172 +27,172 @@ var sections = {
 };
 %>
 
-<nav><!--
---><a href='#docs-intro' class='icon home'>Intro</a><!--
---><a href='#docs-points' class='icon point'>Points</a><!--
---><a href='#docs-lines' class='icon line'>Lines</a><!--
---><a href='#docs-polygons' class='icon polygon'>Polygons</a><!--
---><a href='#docs-text' class='icon text'>Text</a><!--
---><a href='#docs-misc' class='icon star'>Misc</a><!--
+<nav class='pin-top row1 fill-grey clearfix col12 keyline-bottom keyline-right z1'><!--
+  --><a href='#docs-intro' class='js-tab col1 quiet button unround active keyline-right icon home center'>&nbsp;</a><!--
+  --><a href='#docs-points' class='js-tab col2 quiet button unround keyline-right'>Points</a><!--
+  --><a href='#docs-lines' class='js-tab col2 quiet button unround keyline-right'>Lines</a><!--
+  --><a href='#docs-polygons' class='js-tab col2 quiet button unround keyline-right'>Polygons</a><!--
+  --><a href='#docs-misc' class='js-tab col2 quiet button unround keyline-right'>Misc</a><!--
+  --><a href='#docs-text' class='js-tab col3 quiet button unround'><span class='col8'>Text</span></a><!--
+  --><a href='#fonts' class='pin-topright quiet button icon font short font-link'></a><!--
 --></nav>
 
-<article id='docs-intro' class='active'>
+<article id='docs-intro' class='active scroll-styled pin-left col12 top4'>
 
-<section>
-  <h2>Need help?</h2>
-  <p>Read the <a href="/#!/manual">manual</a> for a full guide to using TileMill.</p>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Need help?</h1>
+  <p>Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide to using TileMill.</p>
 </section>
-<section>
-  <h2>Selectors</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Selectors</h1>
   <p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
   <p>A simple carto style looks like</p>
-  <pre class='carto-snippet'>
-  #world {
-    polygon-fill: #eee;
-    line-color: #ccc;
-    line-width: 0.5;
-  }</pre>
+<pre class='carto-snippet'>
+#world {
+  polygon-fill: #eee;
+  line-color: #ccc;
+  line-width: 0.5;
+}</pre>
   <p>Which is the <em>selector</em> <code>#world</code> - which makes this affect the layer with the id <code>world</code>, and then three <em>declarations</em> which color the countries the color <code>#eee</code> and give them a grey line <code>0.5</code> units wide.</p></p>
   <p>There are other selectors you can use to affect different parts of a map:</p>
-  <pre class='carto-snippet'>
-  // all layers
-  * {}
-  // layers with class "red"
-  .red {}
-  // layers with class blue beyond zoom 8
-  .blue[zoom > 8] {}
-  // features in #countries with NAME 'USA'
-  #countries[NAME='USA']</pre>
+<pre class='carto-snippet'>
+// all layers
+* {}
+// layers with class "red"
+.red {}
+// layers with class blue beyond zoom 8
+.blue[zoom > 8] {}
+// features in #countries with NAME 'USA'
+#countries[NAME='USA']</pre>
   <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
-  <pre class='carto-snippet'>
-  #world [NAME='USA'] .red [zoom &gt; 10]
-  [zoom &gt; 10].red#world[NAME='USA']
-  [NAME='USA'] [zoom &gt; 10] #world.red</pre>
+<pre class='carto-snippet'>
+#world [NAME='USA'] .red [zoom &gt; 10]
+[zoom &gt; 10].red#world[NAME='USA']
+[NAME='USA'] [zoom &gt; 10] #world.red</pre>
 </section>
-<section>
-  <h2>Nested Styles</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Nested styles</h1>
   <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
-  <pre class='carto-snippet'>
-  // Applies to all layers with .land class
-  .land {
-    polygon-fill: #eee;
-    // Applies to #lakes.land
-    #lakes { polygon-fill: #000; }
-  }</pre>
+<pre class='carto-snippet'>
+// Applies to all layers with .land class
+.land {
+  polygon-fill: #eee;
+  // Applies to #lakes.land
+  #lakes { polygon-fill: #000; }
+}</pre>
   <p>This can be a convenient way to group style changes by zoom level:</p>
-  <pre class='carto-snippet'>
-  // Applies to all layers at zoom &gt; 1
-  [zoom &gt; 1] {
-    polygon-gamma: 0.3;
-    #world { polygon-fill: #323; }
-    #lakes { polygon-fill: #144; }
-  }</pre>
+<pre class='carto-snippet'>
+// Applies to all layers at zoom &gt; 1
+[zoom &gt; 1] {
+  polygon-gamma: 0.3;
+  #world { polygon-fill: #323; }
+  #lakes { polygon-fill: #144; }
+}</pre>
 </section>
-<section>
-  <h2>Attachments</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Attachments</h1>
   <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
-  <pre class='carto-snippet'>
-  #world {
-    ::outline {
-      line-color: #000;
-      line-width: 6;
-    }
-    line-color: #fff;
-    line-width: 3;
-  }</pre>
+<pre class='carto-snippet'>
+#world {
+  ::outline {
+    line-color: #000;
+    line-width: 6;
+  }
+  line-color: #fff;
+  line-width: 3;
+}</pre>
   <p>This style first renders a black line with width <code>6</code>, and on top of that, an additional white line with width <code>3</code>. You can use an arbitrary amount of attachments to draw the same feature multiple times. The order in which you define attachments matters, the earlier it is defined, the lower it is drawn. This means that you should define shadows first before defining the actual feature symbolizer.</p>
   <p>When nesting attachments, they are concatenated together with a <code>/</code>:</p>
-  <pre class='carto-snippet'>
-  ::outline {
-    ::shadow {
-    // creates a symbolizer named "outline/shadow"
-    }
-  }</pre>
+<pre class='carto-snippet'>
+::outline {
+  ::shadow {
+  // creates a symbolizer named "outline/shadow"
+  }
+}</pre>
 </section>
-<section>
-  <h2>Values</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Values</h1>
   <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
   <h4>Colors</h4>
   <p>Carto accepts a variety of syntaxes for colors - HTML-style hex values,
   rgb, rgba, and hsl. It also supports the predefined HTML colors names, like
   <code>yellow</code> and <code>blue</code>.</p>
-  <pre class='carto-snippet'>
-  #line {
-    line-color: #ff0;
-    line-color: #ffff00;
-    line-color: rgb(255, 255, 0);
-    line-color: rgba(255, 255, 0, 1);
-    line-color: hsl(100, 50%, 50%);
-    line-color: yellow;
-  }</pre>
+<pre class='carto-snippet'>
+#line {
+  line-color: #ff0;
+  line-color: #ffff00;
+  line-color: rgb(255, 255, 0);
+  line-color: rgba(255, 255, 0, 1);
+  line-color: hsl(100, 50%, 50%);
+  line-color: yellow;
+}</pre>
   <h4>Dimensions</h4>
   <p>Dimensions in carto are always pixels; no <code>px</code> suffix is needed. Pixel dimensions are noted in the reference as <code>float</code> values.</p>
-  <pre class='carto-snippet'>
-  line-width: 5;</pre>
+<pre class='carto-snippet'>
+line-width: 5;</pre>
   <h4>Keywords</h4>
   <p>Some properties accept keyword arguments, which should be entered literally</p>
-  <pre class='carto-snippet'>
-  raster-mode: normal;</pre>
-  <h2>Variables</h2>
+<pre class='carto-snippet'>
+raster-mode: normal;</pre>
+  <h3 class='space-bottom1'>Variables</h1>
   <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
-  <pre class='carto-snippet'>
-  @green: #2B4D2D;
-  Map { background-color: @green; }
-  #world { polygon-fill: @green; }</pre>
+<pre class='carto-snippet'>
+@green: #2B4D2D;
+Map { background-color: @green; }
+#world { polygon-fill: @green; }</pre>
 </section>
-<section>
-  <h2>Operations</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Operations</h1>
   <p>Any number, color or variable can be operated on using mathematical expressions.</p>
-  <pre class='carto-snippet'>
-  @gray: #888;
+<pre class='carto-snippet'>
+@gray: #888;
 
-  #world {
-    polygon-fill: @gray + #111;
-    line-width: 2 * 2;
-    line-color: @gray / 2;
-  }</pre>
+#world {
+  polygon-fill: @gray + #111;
+  line-width: 2 * 2;
+  line-color: @gray / 2;
+}</pre>
 </section>
-<section>
-  <h2>Color functions</h2>
+<section class='pad2 keyline-bottom'>
+  <h3 class='space-bottom1'>Color functions</h1>
   <p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
-  <pre class='carto-snippet'>
-  // lighten or darken a color by 10%
-  lighten(@color, 10%);
-  darken(@color, 10%);
+<pre class='carto-snippet'>
+// lighten or darken a color by 10%
+lighten(@color, 10%);
+darken(@color, 10%);
 
-  // de/saturate a color by 10%
-  saturate(@color, 10%);
-  desaturate(@color, 10%);
+// de/saturate a color by 10%
+saturate(@color, 10%);
+desaturate(@color, 10%);
 
-  // adjust opacity of a color by 10%
-  fadein(@color, 10%);
-  fadeout(@color, 10%);
+// adjust opacity of a color by 10%
+fadein(@color, 10%);
+fadeout(@color, 10%);
 
-  // adjust the hue of a color by 10 degrees
-  // (e.g. on a color wheel)
-  spin(@color, 10);
-  spin(@color, -10);</pre>
+// adjust the hue of a color by 10 degrees
+// (e.g. on a color wheel)
+spin(@color, 10);
+spin(@color, -10);</pre>
 </section>
 </article>
 
 <% _(sections).each(function(symbolizers, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>'>
+<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='scroll-styled col12 pin-left break-word top4'>
   <% _(symbolizers).each(function(symbolizer) { %>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section>
-  <% if (/face-name/.test(p.css)) { %>
-    <a href='#fonts' class='button wide submit fonts icon search'>View fonts</a>
-  <% } %>
-  <strong><code><%= p.css %>:</code></strong>
-  <code class='type'><%=_(p.type).isArray() ? 'option' : p.type%></code>
-  <% if (p['default-value'] && p['default-value']!=='none') { %>
-  <code class='value'><%=p['default-value']%></code>
-  <% } %>
-  <% if (_(p.type).isArray()) { %><code class='options'><%= p.type.join(' ') %></code><% } %>
-  <% if (p.doc) { %><div class='description'><%=p.doc%></div><% } %>
+  <section class='pad2 keyline-bottom'>
+  <div class='clearfix space-bottom1'>
+    <strong><code class='big fill-lighten3'><%= p.css %>:</code></strong>
+    <code class='type'><%=_(p.type).isArray() ? 'option block' : p.type%></code>
+    <% if (p['default-value'] && p['default-value']!=='none') { %>
+    <code class='value'><%=p['default-value']%></code>
+    <% } %>
+    <% if (_(p.type).isArray()) { %><code class='options'><%= p.type.join(' ') %></code><% } %>
+  </div>
+  <% if (p.doc) { %><div class='description small'><%=p.doc%></div><% } %>
   </section>
   <% }); %>
   <% }); %>

@@ -1,63 +1,79 @@
-<form class='pane editor dark w2 l2' id='layers-<%=obj.id%>'>
-  <nav>
-    <span class='joined'><!--
-      --><a href='#mode-conf' class='button icon conf'></a><!--
-      --><a href='#mode-fields' class='button icon fields'></a><!--
-      --><a href='#mode-sql' class='button icon edit'></a>
+<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right' id='layers-<%=obj.id%>'>
+  <nav class='text-right pad1 keyline-bottom'>
+    <span class='inline space'><!--
+      --><a href='#mode-conf' class='js-tab mode-conf quiet round small strong pad1x pad0y icon icon levels'>Configure</a><!--
+      --><a href='#mode-fields' class='js-tab mode-fields quiet round small strong pad1x pad0y icon icon book'>Fields</a><!--
+      --><a href='#mode-sql' class='js-tab mode-sql quiet round small strong pad1x pad0y icon pencil'>SQL</a>
     </span>
-    <a href='#' class='button icon close'></a>
+    <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
-  <section>
-    <h2>
+  <section class='pad2 pin-topleft'>
+    <h3>
       <%= obj.id %>
-    </h2>
+    </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
   </section>
 
   <div class='conf'>
-    <section>
-      <label class='inline'>Description</label>
-      <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
-    </section>
-    <section>
-      <label>PostGIS<label>
-      <p class='joined'><!--
-        --><input type='text' name='Datasource-user' class='w1' value='<%= obj.Datasource.user %>' /><!--
-        --><label class='ghost'>user</label><!--
-        --><input type='text' name='Datasource-dbname' class='w1' value='<%= obj.Datasource.dbname %>' /><!--
-        --><label class='ghost'>db</label><!--
-        --><input type='text' name='Datasource-host' class='w1' value='<%= obj.Datasource.host %>' /><!--
-        --><label class='ghost'>host</label><!--
-        --><input type='text' name='Datasource-port' class='w1 last' value='<%= obj.Datasource.port %>' /><!--
-        --><label class='ghost'>port</label>
-      </p>
-      <input type='hidden' name='Datasource-type' value='postgis' />
-      <input type='hidden' name='Datasource-max_size' value='512' />
-    </section>
-    <section>
-      <label class='inline'>Extent</label><input type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
-    </section>
-    <%= this.layerconf(obj) %>
-    <% if (obj.properties['group-by']) { %>
-    <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
-    <% } %>
-    <section class='righted'>
-      <a href='#' class='button submit icon okay'>Done</a>
-    </section>
+    <fieldset>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>Description</label>
+        <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+      </section>
+      <section class='pad1 keyline-bottom'>
+        <label class='pad1x'>PostGIS</label>
+        <div class='pad0x contain clearfix'>
+          <div class='pad0x col3 contain'>
+            <input type='text' class='stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
+            <label class='micro ghost'>user</label>
+          </div>
+          <div class='pad0x col3 contain'>
+            <input type='text' class='stretch' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' />
+            <label class='micro ghost'>db</label>
+          </div>
+          <div class='pad0x col3 contain'>
+            <input type='text' class='stretch' name='Datasource-host' value='<%= obj.Datasource.host %>' />
+            <label class='micro ghost'>host</label>
+          </div>
+          <div class='pad0x col3 contain'>
+            <input type='text' class='stretch' name='Datasource-port' value='<%= obj.Datasource.port %>' />
+            <label class='micro ghost'>port</label>
+          </div>
+        </div>
+        <input type='hidden' name='Datasource-type' value='postgis' />
+        <input type='hidden' name='Datasource-max_size' value='512' />
+      </section>
+      <section class='clearfix pad2x pad1y keyline-bottom'>
+        <label class='pad1y col3 inline'>Extent </label>
+        <input class='col9' type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
+      </section>
+      <%= this.layerconf(obj) %>
+      <% if (obj.properties['group-by']) { %>
+      <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
+      <% } %>
+      <section class='pad2'>
+        <a href='#' class='quiet button submit margin6 col6'>Done</a>
+      </section>
+    </fieldset>
   </div>
-
   <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
 
   <div class='sql'>
-    <section>
-      <span class='joined'><!--
-        --><input name='Datasource-geometry_field' class='w13' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/><!--
-        --><label class='ghost'>geom field</label><!--
-        --><input name='Datasource-geometry_table' class='w13' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/><!--
-        --><label class='ghost'>geom table</label><!--
-        --><input name='Datasource-key_field' class='w13 last' size='20' type='text' value='<%= obj.Datasource['key_field'] || '' %>' /><!--
-        --><label class='ghost'>key</label>
-      </span>
+    <section class='pad1'>
+      <div class='pad0x clearfix'>
+        <div class='pad0x col4 contain'>
+          <input name='Datasource-geometry_field' class='stretch' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/>
+          <label class='micro ghost'>geom field</label>
+        </div>
+        <div class='pad0x col4 contain'>
+          <input name='Datasource-geometry_table' class='stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
+          <label class='micro ghost'>geom table</label>
+        </div>
+        <div class='pad0x col4 contain'>
+          <input name='Datasource-key_field' class='stretch last' size='20' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
+          <label class='micro ghost'>key</label>
+        </div>
+      </div>
     </section>
   </div>
 </form>
