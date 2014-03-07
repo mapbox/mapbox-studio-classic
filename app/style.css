@@ -39,11 +39,6 @@
   top:40px;
 }
 
-/* Search form */
-#code #search {
-  z-index: 11;
-}
-
 /* Editor tabs */
 #tabs a.tab {
   margin:0px 0px 0px 5px;
