@@ -208,6 +208,18 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
                 return memo;
             }, []).join('.'));
 
+        // If geometry profiling flag is set
+        if (done.profile) {
+            var geomStats = data._geometryStats;
+            _(geomStats).each(function(layerInfo, layerName){
+                _(_(layerInfo).omit('name')).each(function(stats, statName) {
+                    var statKey = [statName, z, layerName].join('.');
+                    var storeStats = _(style.stats).partial(req.style.data.id, statKey);
+                    stats.forEach(storeStats);
+                }); 
+            });
+        }
+
         // Clear out tile errors.
         res.cookie('errors', '');
 
