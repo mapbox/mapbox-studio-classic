@@ -149,3 +149,5 @@
 .pane.util:target ~ #util { display:block; }
 .pane.util:target ~ #layers { display:none; }
 
+/* Search */
+.search-dialog { z-index: 11; }

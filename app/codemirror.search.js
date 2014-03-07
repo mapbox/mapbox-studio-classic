@@ -1,12 +1,75 @@
-// Define search commands. Depends on dialog.js or another
-// implementation of the openDialog method.
-
 // Replace works a little oddly -- it will do the replace on the next
 // Ctrl-G (or whatever is bound to findNext) press. You prevent a
 // replace by making sure the match is no longer selected when hitting
 // Ctrl-G.
 
 (function() {
+
+  var wrap;
+  function dialogDiv(cm, template) {
+    wrap = cm.getWrapperElement();
+    wrap.style.bottom = '40px'; // offset search dialog height
+    var dialog;
+    dialog = document.getElementById('code').appendChild(document.createElement('div'));
+    dialog.className = 'search-dialog pin-bottom col12 clearfix';
+    dialog.innerHTML = template;
+    return dialog;
+  }
+
+  function close() {
+    if (wrap) wrap.style.bottom = 0;
+    $('.search-dialog').remove();
+  }
+
+  function newDialog(cm, template, callback) {
+    var dialog = dialogDiv(cm, template),
+        me = cm,
+        inp = dialog.getElementsByTagName('input')[0],
+        selection = cm.getSelection();
+    if (selection) inp.value = selection;
+    if (inp) {
+      CodeMirror.connect(inp, 'keydown', function(e) {
+        if (e.keyCode == 13) {
+          CodeMirror.e_stop(e);
+          clearSearch(me);
+          me.focus();
+          callback(inp.value);
+        } else if (e.keyCode == 27) {
+          CodeMirror.e_stop(e);
+          close();
+          me.focus();
+        }
+      });
+      inp.focus();
+    }
+    dialog.querySelector('.icon.x').addEventListener('click', function() {
+      clearSearch(me);
+      me.focus();
+      close();
+    });
+    dialog.querySelector('.icon.help').addEventListener('click', function() {
+      this.parentNode.removeChild(this);
+      wrap.style.bottom = '115px';
+      dialog.querySelector('.search-help').classList.remove('hidden');
+    });
+    window.addEventListener('keydown', function(e) {
+      if (e.which == 27) {
+        clearSearch(cm);
+        close();
+      }
+    });
+
+    return close;
+  };
+
+  var helpText = '<div class="pad1x pad0y small fill-darken0 search-help hidden">'+
+    '<span class="quiet">Use /re/ syntax for regex search</span><br>'+
+    'Find:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-F</span> '+
+    'Next:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-G</span> '+
+    'Prev:<span class="micro fill-darken0 pad0x round">Shift-Cmd/Ctrl-G</span><br>'+
+    'Find & Replace All:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-Option-F</span>'+
+    '</div>';
+
   function SearchState() {
     this.posFrom = this.posTo = this.query = null;
     this.marked = [];
@@ -15,26 +78,25 @@
     return cm._searchState || (cm._searchState = new SearchState());
   }
   function getSearchCursor(cm, query, pos) {
-    // Heuristic: if the query string is all lowercase, do a case insensitive search.
     return cm.getSearchCursor(query, pos, typeof query == "string" && query == query.toLowerCase());
   }
-  function dialog(cm, text, shortText, f) {
-    if (cm.openDialog) cm.openDialog(text, f);
-    else f(prompt(shortText, ""));
-  }
-  function confirmDialog(cm, text, shortText, fs) {
-    if (cm.openConfirm) cm.openConfirm(text, fs);
-    else if (confirm(shortText)) fs[0]();
+  function dialog(cm, text, f) {
+    close();
+    clearSearch(cm);
+    newDialog(cm, text, f);
   }
   function parseQuery(query) {
     var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
     return isRE ? new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i") : query;
   }
-  var queryDialog = '<fieldset class="with-icon quiet"><span class="icon search"></span><input type="text" placeholder="Find" class="stretch short" /></fieldset>';
+  var queryDialog = '<fieldset class="search-dialog with-icon keyline-top">'+
+    '<span class="icon search quiet"></span><input type="text" placeholder="Find" class="clean stretch" />'+
+    '<div class="pin-topright pad1y"><a href="#" class="quiet icon help pad0x"></a><a href="#" class="quiet icon x pad1x"></a></div>'+
+    '</fieldset>'+helpText;
   function doSearch(cm, rev) {
     var state = getSearchState(cm);
     if (state.query) return findNext(cm, rev);
-    dialog(cm, queryDialog, "Search for:", function(query) {
+    dialog(cm, queryDialog, function(query) {
       cm.operation(function() {
         if (!query || state.query) return;
         state.query = parseQuery(query);
@@ -65,15 +127,19 @@
     state.marked.length = 0;
   });}
 
-  var replaceQueryDialog =
-    '<fieldset class="with-icon quiet"><span class="icon refresh"></span><input type="text" placeholder="Find" class="stretch short" /></fieldset>';
-  var replacementQueryDialog = '<fieldset class="with-icon quiet"><span class="icon refresh"></span><input type="text" placeholder="Replace with" class="stretch short" /></fieldset>';
-  var doReplaceConfirm = 'Replace? <a href="#" class="button short">Yes</a> <a href="#" class="button short">No</a> <button>Stop</button>';
-  function replace(cm, all) {
-    dialog(cm, replaceQueryDialog, 'Replace:', function(query) {
+  var replaceQueryDialog ='<fieldset class="search-dialog with-icon keyline-top">'+
+    '<label for="search-find" class="col2 icon refresh quiet pad1 small">Find: </label><input type="text" id="search-find" class="clean col10" />'+
+    '<div class="pin-topright pad1y"><a href="#" class="quiet icon help pad0x"></a><a href="#" class="quiet icon x pad1x"></a></div>'+
+    '</fieldset>'+helpText;
+  var replacementQueryDialog = '<fieldset class="search-dialog with-icon keyline-top">'+
+    '<label for="search-find" class="col3 icon refresh quiet pad1 small truncate">Replace with: </label><input type="text" id="search-replace-with" class="clean col9" />'+
+    '<div class="pin-topright pad1y"><a href="#" class="quiet icon help pad0x"></a><a href="#" class="quiet icon x pad1x"></a></div>'+
+    '</fieldset>'+helpText;
+  function replace(cm) {
+    dialog(cm, replaceQueryDialog, function(query) {
       if (!query) return;
       query = parseQuery(query);
-      dialog(cm, replacementQueryDialog, 'Replace with:', function(text) {
+      dialog(cm, replacementQueryDialog, function(text) {
         function advance(cursor) {
           var start = cursor.from(), match;
           if (!(match = cursor.findNext())) {
@@ -82,42 +148,29 @@
                 (start && cursor.from().line == start.line && cursor.from().ch == start.ch)) return;
           }
           cm.setSelection(cursor.from(), cursor.to());
-          confirmDialog(cm, doReplaceConfirm, 'Replace?',
-                        [function() {doReplace(cursor, match);}, function() {advance(cursor);}]);
         }
         function doReplace(cursor, match) {
           cursor.replace(typeof query == "string" ? text :
                          text.replace(/\$(\d)/, function(w, i) {return match[i];}));
           advance(cursor);
         }
-        if (all) {
-          cm.compoundChange(function() { cm.operation(function() {
-            for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
-              if (typeof query != "string") {
-                var match = cm.getRange(cursor.from(), cursor.to()).match(query);
-                cursor.replace(text.replace(/\$(\d)/, function(w, i) {return match[i];}));
-              } else cursor.replace(text);
-            }
-          });});
-        } else {
-          clearSearch(cm);
-          advance(getSearchCursor(cm, query, cm.getCursor()));
-        }
+        cm.compoundChange(function() { cm.operation(function() {
+          for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
+            if (typeof query != "string") {
+              var match = cm.getRange(cursor.from(), cursor.to()).match(query);
+              cursor.replace(text.replace(/\$(\d)/, function(w, i) {return match[i];}));
+            } else cursor.replace(text);
+          }
+          close();
+        });});
       });
     });
   }
 
-  CodeMirror.commands.find = function(cm) {
-    this.cm = cm;
-    clearSearch(cm); doSearch(cm);};
+  CodeMirror.commands.find = function(cm) {clearSearch(cm); doSearch(cm);};
   CodeMirror.commands.findNext = doSearch;
   CodeMirror.commands.findPrev = function(cm) {doSearch(cm, true);};
   CodeMirror.commands.clearSearch = clearSearch;
-  // CodeMirror.commands.replace = replace;
-  CodeMirror.commands.replace = function(cm) {replace(cm, true);};
-  CodeMirror.commands.replaceAll = function(cm) {replace(cm, true);};
-
-  window.addEventListener('keydown', function(e) {
-    if (e.which == 27) { clearSearch(this.cm); }
-  });
+  CodeMirror.commands.replace = replace;
+  CodeMirror.commands.replaceAll = replace;
 })();
