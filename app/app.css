@@ -413,6 +413,10 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
 
+.CodeMirror-dialog {
+  font-family: 'Open Sans', sans-serif;
+}
+
 /* Visibility */
 /* Off-canvas menu vs. Content */
 #data:target ~ .pin-left,
