@@ -67,7 +67,7 @@
     'Find:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-F</span> '+
     'Next:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-G</span> '+
     'Prev:<span class="micro fill-darken0 pad0x round">Shift-Cmd/Ctrl-G</span><br>'+
-    'Find & Replace All:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-Option-F</span>'+
+    'Find & Replace All:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-Alt-F</span>'+
     '</div>';
 
   function SearchState() {
