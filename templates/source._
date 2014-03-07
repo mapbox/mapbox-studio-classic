@@ -43,7 +43,7 @@
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
-  <div id='refresh' class='animate fill-darken2 col12 pad2 offcanvas-bottom pin-bottom'>
+  <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
     <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
   </div>
