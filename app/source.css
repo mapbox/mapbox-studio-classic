@@ -19,6 +19,10 @@
 
 .leaflet-popup .xray { color: #f1f075;}
 
+.layer-label {
+  width: 80px;
+}
+
 /* Conf pane */
 .editor > div.conf { display:block; }
 .sql .editor > div.conf,
@@ -62,9 +66,12 @@
   box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
   cursor: pointer;
   }
-.xrayswatch:hover,
-.xrayinspector:hover { box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.3);}
-.xrayswatch.disabled { background:rgba(0,0,0,0.1) !important; }
-.xrayswatch.disabled::before { visibility:hidden; }
+.xrayswatch:not(.disabled)::before { background: none !important;}
+.xrayswatch.disabled { background-color:rgba(0,0,0,0.1) !important; }
+.xrayswatch.disabled::before { background-color:rgba(0,0,0,0.1) !important; }
 .xrayinspector::before { visibility:hidden; }
+.xrayinspector:hover::before { visibility:visible; }
 .xrayinspector.active::before { visibility:visible; }
+
+#refresh { opacity: 0; z-index: -1;}
+#refresh:target { opacity: 1; z-index: 100;}

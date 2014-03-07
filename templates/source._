@@ -43,6 +43,11 @@
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
+  <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
+    <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
+    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
+  </div>
+
 </div>
 
 <%
@@ -50,12 +55,19 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='animate menu source-menu fill-dark dark col6 pin-right'>
-  <nav class='row1 col12 pad0y pad1x pin-top keyline-bottom fill-dark z1'>
+  <nav class='row1 col12 pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
-    <strong class='small inline pad0y'>Layers</strong>
+    <strong class='small inline pad1'>Layers</strong>
     <% } else { %>
-    <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
+    <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
     <% } %>
+    <div class='center pin-right strong small'>
+      <span class='pad0x pad1y keyline-left inline layer-label'>Inspect</span><!--
+      --><span class='pad0x pad1y inline keyline-left layer-label'>Visibility</span><!--
+      --><% if (!remote) { %><!--
+      --><span class='pad0x pad1y keyline-left inline layer-label'>Delete</span><!--
+      --><% } %>
+    </div>
   </nav>
   <div class='js-menu-content pin-left col12 top4 scroll-styled'>
     <% _(revlayers).each(function(l) { %>
@@ -283,12 +295,10 @@ Editor.prototype.togglemode = function(ev) {
 };
 Editor.prototype.togglelayer = function(ev) {
   $(ev.currentTarget).toggleClass('disabled');
-  return false;
 };
 Editor.prototype.toggleinspector = function(ev) {
   $('.js-layer .xrayinspector.active').removeClass('active');
   $(ev.currentTarget).addClass('active');
-  return false;
 };
 Editor.prototype.addlayer = function(ev) {
   var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
