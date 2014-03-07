@@ -169,7 +169,7 @@ revlayers.reverse();
     </span>
   </div>
   <div class='center'>
-  <input class='margin2 col8' type='submit' value='New layer'/>
+  <input class='js-reset-mode margin2 col8' type='submit' value='New layer'/>
   </div>
 </form>
 <% } %>
@@ -253,6 +253,7 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click .js-save': 'save',
+  'click .js-reset-mode': 'resetmode',
   'click .editor .js-tab': 'togglemode',
   'click .layer .js-delete': 'deletelayer',
   'click .layer .xrayswatch': 'togglelayer',
@@ -292,6 +293,9 @@ Editor.prototype.togglemode = function(ev) {
         break;
   }
   return false;
+};
+Editor.prototype.resetmode = function(ev) {
+  $('body').removeClass('fields').removeClass('sql').removeClass('conf');
 };
 Editor.prototype.togglelayer = function(ev) {
   $(ev.currentTarget).toggleClass('disabled');
