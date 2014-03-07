@@ -168,6 +168,10 @@
             sel.selectedIndex = 0;
             sel.size = completions.length;
             sel.style.height = '100px';
+            sel.className = 'fill-gray round clip keyline-all';
+            sel.style.fontFamily = 'normal Menlo, Droidsansmono, Bitstream Vera Sans Mono, Monaco, Consolas, monospace';
+            sel.style.fontSize = '12px';
+            sel.style.color = '#333333';
 
             widget.className = 'completions';
             widget.style.height = '100px';
