@@ -125,8 +125,8 @@ var statHandler = function(key) {
       } else {
 
         statHtml = statHtml.concat([
-          s ? "<span class='strong col3 pad0x avg'>avg: "+s[1]+unit+"</span>": '',
-          s ? "<span class='strong col3 pad0x max'>max: "+s[2]+unit+"</span>": '',
+          s ? "<span class='strong avg'>avg: "+s[1]+unit+"</span>": '',
+          s ? "<span class='strong max'>max: "+s[2]+unit+"</span>": '',
           "</span>"
         ]);
       }
