@@ -50,12 +50,19 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='animate menu source-menu fill-dark dark col6 pin-right'>
-  <nav class='row1 col12 pad0y pad1x pin-top keyline-bottom fill-dark z1'>
+  <nav class='row1 col12 pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
-    <strong class='small inline pad0y'>Layers</strong>
+    <strong class='small inline pad1'>Layers</strong>
     <% } else { %>
-    <a href='#addlayer' class='button quiet short icon plus'>Layers</a>
+    <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
     <% } %>
+    <div class='center pin-right strong small'>
+      <span class='pad0x pad1y keyline-left inline layer-label'>Inspect</span><!--
+      --><span class='pad0x pad1y inline keyline-left layer-label'>Visibility</span><!--
+      --><% if (!remote) { %><!--
+      --><span class='pad0x pad1y keyline-left inline layer-label'>Delete</span><!--
+      --><% } %>
+    </div>
   </nav>
   <div class='js-menu-content pin-left col12 top4 scroll-styled'>
     <% _(revlayers).each(function(l) { %>
