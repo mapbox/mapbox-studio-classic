@@ -43,6 +43,11 @@
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
+  <div id='refresh' class='animate fill-darken2 col12 pad2 offcanvas-bottom pin-bottom'>
+    <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
+    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
+  </div>
+
 </div>
 
 <%
@@ -290,12 +295,10 @@ Editor.prototype.togglemode = function(ev) {
 };
 Editor.prototype.togglelayer = function(ev) {
   $(ev.currentTarget).toggleClass('disabled');
-  return false;
 };
 Editor.prototype.toggleinspector = function(ev) {
   $('.js-layer .xrayinspector.active').removeClass('active');
   $(ev.currentTarget).addClass('active');
-  return false;
 };
 Editor.prototype.addlayer = function(ev) {
   var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
