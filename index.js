@@ -210,13 +210,27 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
 
         // If geometry profiling flag is set
         if (done.profile) {
+            // First gather the data in the local cache
             var geomStats = data._geometryStats;
+            var statNames = [];
             _(geomStats).each(function(layerInfo, layerName){
                 _(_(layerInfo).omit('name')).each(function(stats, statName) {
+                    if (!_(statNames).contains(statName)) statNames.push(statName);
                     var statKey = [statName, z, layerName].join('.');
                     var storeStats = _(style.stats).partial(req.style.data.id, statKey);
                     stats.forEach(storeStats);
                 }); 
+            });
+
+            // Next set info in the cookie
+            statNames.forEach(function(statName) {
+                res.cookie(statName, _(style.stats(req.style.data.id, statName)).
+                    reduce(function(memo, layers, z) {
+                        _(layers).each(function(stat, name) {
+                            memo.push([z,name,stat.min|0,stat.avg|0,stat.max|0].join('-'));
+                        });
+                        return memo;
+                    }, []).join('.'));
             });
         }
 

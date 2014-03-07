@@ -43,38 +43,82 @@ var errorHandler = _(function() {
 }).throttle(50);
 
 var statHandler = function(key) {
-  var unit = key === 'srcbytes' ? 'k' : 'ms';
+  var unit = (function() {
+    if (key === 'srcbytes') return 'k';
+    if (key === 'drawtime') return 'ms';
+    if (key === 'coordDistance') return 'm';
+    return '';
+  })();
+
+  var byLayer = key !== 'srcbytes' && key !== 'drawtime';
+
   return _(function() {
     if (document.cookie.indexOf(key) === -1) return;
-    var max = 300;
+    
     var stats = _(document.cookie
       .split(key + '=').pop()
       .split(';').shift()
-      .split('.')).reduce(function(memo, z) {
-      z = z.split('-');
-      if (z.length !== 4) return memo;
-      memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
-      return memo;
-    }, {});
+      .split('.'))
+      .reduce(function(memo, stat) {
+        stat = stat.split('-');
+        if (stat.length < 4) return memo;
+
+        var z = stat.shift();
+        var layer = byLayer ? stat.shift() : null;
+        var min = parseInt(stat.shift(), 10);
+        var avg = parseInt(stat.shift(), 10);
+        var max = parseInt(stat.shift(), 10);
+
+        if (!byLayer) {
+          memo[z] = [min, avg, max];
+          return memo;
+        }
+
+        var thisZoom = memo[z] = memo[z] || {};
+        thisZoom[layer] = [min, avg, max];
+        return memo;
+      }, {});
+
     var html = "<a href='#' class='button icon close'></a>";
+    
+    var maxWidth = _(stats).reduce(function(memo, v, k) {
+      return Math.max(memo, v[2]);
+    }, 0);
+
     for (var z = 0; z < 22; z++) {
       var s = stats[z];
       if (key === 'srcbytes' && s) {
         s = s.map(function(v) { return Math.round(v * 0.001) });
       }
-      var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
-      var w = s ? Math.round((s[2]-s[0])/max*100) : null;
-      var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
-      html += [
+
+      if (byLayer && s) s = s.water;
+
+      var l = s ? Math.round(Math.min(s[0],maxWidth)/maxWidth*100) : null;
+      var w = s ? Math.round((s[2]-s[0])/maxWidth*100) : null;
+      var a = s ? Math.round(Math.min(s[1],maxWidth)/maxWidth*100) : null;
+
+      statHtml = [
         "<a href='#zoomedto' class='z z",z,"'>",
-        "<strong>z",z,"</strong>",
-        s ? "<span class='avg'>"+s[1]+unit+"</span>" : '',
-        s ? "<span class='range'>" : '',
-        s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
-        s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
-        s ? "</span>" : '',
-        "</a>"
-      ].join('');
+        "<strong>z",z,"</strong>"
+      ];
+      if (!byLayer) {
+        statHtml = statHtml.concat([
+          s ? "<span class='avg'>"+s[1]+unit+"</span>" : '',
+          s ? "<span class='range'>" : '',
+          s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
+          s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
+          s ? "</span>" : '',
+        ]);
+      } else {
+
+        statHtml = statHtml.concat([
+          s ? "<span class='avg'>avg: "+s[1]+unit+"</span>": '',
+          s ? "<span class='max'>max: "+s[2]+unit+"</span>": '',
+        ]);
+      }
+      
+      statHtml.push("</a>");
+      html += statHtml.join('');
     }
     $('#zoomedto').html(html);
   }).throttle(50);

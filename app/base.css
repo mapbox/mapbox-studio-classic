@@ -435,6 +435,14 @@ nav > a {
   padding:0px 5px;
   font-size:8px;
   }
+#zoomedto .max {
+  display:block;
+  position:absolute;
+  top:0px;
+  right:0;
+  padding:0px 5px;
+  font-size:8px;
+  }
 #zoomedto.z0 .z0,
 #zoomedto.z1 .z1,
 #zoomedto.z2 .z2,
