@@ -202,9 +202,11 @@
       <% }); %>
     </select>
   </form>
-  <form id='search' class='pad2 pin-bottom offcanvas-bottom col12 fill-darken0'>
-    <input type='text' placeholder='Find' class='col10 short' />
-    <a href='#' class='icon x col1 pad0 quiet'></a>
+  <form id='search' class='pin-bottom offcanvas-bottom fill-light'>
+    <div class='pad2x pad1y fill-darken0 col12 clearfix'>
+      <input type='text' placeholder='Find' class='col10 short' />
+      <a href='#' class='icon x col2 text-right pad0 quiet'></a>
+    </div>
   </form>
 </div>
 
@@ -307,6 +309,8 @@ Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
     window.location.href = '#';
+    editor.closeSearch();
+    if (editor.cm) editor.clearSearch(editor.cm);
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
   switch (ev.which) {
@@ -544,6 +548,7 @@ Editor.prototype.findNext = function(cm, rev) {
   });
 };
 Editor.prototype.doSearch = function(cm, rev) {
+  this.cm = cm;
   var state = editor.getSearchState(cm);
   if (state.query) return editor.findNext(cm, rev);
   var search = $('#search'),
@@ -553,8 +558,6 @@ Editor.prototype.doSearch = function(cm, rev) {
   search.submit(function(e) {
     e.preventDefault();
     var query = input.val();
-    input.blur();
-    editor.closeSearch();
     cm.operation(function() {
       if (!query || state.query) return;
       state.query = editor.parseQuery(query);
@@ -564,6 +567,8 @@ Editor.prototype.doSearch = function(cm, rev) {
       }
       state.posFrom = state.posTo = cm.getCursor();
       editor.findNext(cm, rev);
+      input.blur();
+      editor.closeSearch();
       cm.focus();
     });
   });
