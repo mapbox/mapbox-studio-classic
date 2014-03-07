@@ -349,8 +349,10 @@ Editor.prototype.deltab = function(ev) {
   var styles = this.model.get('styles');
   var parent = $(ev.currentTarget).parent();
   var target = parent.attr('rel');
-  if (!styles[target]) return false;
-  if (confirm('Remove stylesheet "' + target + '"?')) {
+  if (!styles[target]) {
+    $(code[target].getWrapperElement()).remove();
+    parent.remove();
+  } else if (confirm('Remove stylesheet "' + target + '"?')) {
     $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];
