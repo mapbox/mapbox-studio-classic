@@ -1,4 +1,4 @@
- <nav class='pin-topright pad1'>
+ <nav class='pin-topright pad1y pad2x'>
     <div class='rounded-toggle'><!--
       --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
       --><a class='js-tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
