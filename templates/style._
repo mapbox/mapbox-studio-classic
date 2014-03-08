@@ -305,21 +305,46 @@ Editor.prototype.keys = function(ev) {
     window.location.href = '#';
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
-  switch (ev.which) {
-  case 83: // s
+  var which = ev.which;
+  switch (true) {
+  case (which === 83): // s
     this.save();
     break;
-  case 187: // +
+  case (which === 187): // +
     map.zoomBy(1);
     break;
-  case 189: // -
+  case (which === 189): // -
     map.zoomBy(-1);
+    break;
+  case (which > 48 && which < 58): // 1-9
+    var tab = $('#tabs a.tab')[which-48];
+    if (tab) tab.click();
+    break;
+  case (which === 72): // h for help
+    ev.preventDefault();
+    this.togglePane('docs');
+    break;
+  case (which === 76): // l for layers
+    ev.preventDefault();
+    this.togglePane('layers');
+    break;
+  case (which === 73): // i for info (s is taken)
+    ev.preventDefault();
+    this.togglePane('settings');
     break;
   default:
     return true;
   }
   return false;
 };
+Editor.prototype.togglePane = function(name) {
+  var loc = location.href;
+  if (loc.indexOf('#'+name) === -1) {
+    location.href = loc.substring(0, loc.indexOf('#'))+'#'+name;
+  } else {
+    location.href = loc.replace('#'+name, '#');
+  }
+}
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.adddata = function(ev) {
