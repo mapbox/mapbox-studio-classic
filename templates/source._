@@ -54,7 +54,7 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='animate menu source-menu fill-dark dark col6 pin-right'>
+<div id='layers' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
   <nav class='row1 col12 pin-top keyline-bottom fill-dark z1'>
     <% if (remote) { %>
     <strong class='small inline pad1'>Layers</strong>

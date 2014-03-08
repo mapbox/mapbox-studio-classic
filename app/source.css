@@ -17,11 +17,11 @@
   border-color: rgba(0,0,0,.2);
 }
 
+.source-menu { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+
 .leaflet-popup .xray { color: #f1f075;}
 
-.layer-label {
-  width: 80px;
-}
+.layer-label { width: 80px;}
 
 /* Conf pane */
 .editor > div.conf { display:block; }

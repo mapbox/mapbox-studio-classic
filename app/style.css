@@ -17,22 +17,7 @@
   }
 
 /* Code pane */
-#code {
-  background:#f8f8f8;
-  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
-}
-
-#code .right {
-  position:absolute; right:0px;
-  width:40px; height:40px;
-  background:#eee;
-  border-bottom:1px solid #ddd;
-  }
-#code .right a {
-  position:absolute;
-  left:5px;
-  top:5px;
-  }
+#code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Interactivity form */
 #code #interactivity {

@@ -177,7 +177,7 @@
   </div>
 </div>
 
-<div id='code' class='animate z1 col6 pin-right'>
+<div id='code' class='animate z1 col6 pin-right fill-light'>
   <div class='pin-topleft docs-button fill-gray z1 keyline-bottom row1'>
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline quiet docs-y icon close unround' href='#'></a>
