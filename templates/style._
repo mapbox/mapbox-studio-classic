@@ -56,7 +56,7 @@
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
       <nav class='pin-topright pad1'>
-        <a class='inline quiet pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
+        <a class='inline quiet small strong pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
       </nav>
     </header>
     <div class='pad2'>
@@ -119,7 +119,7 @@
   </div>
 </form>
 
-<div id='layers' class='animate pin-left menu col3 dark offcanvas-left fill-dark'>
+<div id='layers' class='z10 animate pin-left menu col3 dark offcanvas-left fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
   <div class='pin-topleft'><!--
     --><a href='#' class='align-middle inline pad1 icon close'></a><!--
@@ -148,7 +148,7 @@
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
     <a href='#settings' class='block small strong quiet'>
-      <span class='inline js-name icon sprocket'><%= style.name || 'Untitled' %></span>
+      <span class='center icon sprocket project-name js-name'><%= style.name || 'Untitled' %></span>
     </a>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>

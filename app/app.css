@@ -448,11 +448,12 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
+.menu:target ~ #full .project-name { margin-left: 40px;}
 #data:target ~ .pin-left,
-.menu:target ~ .pin-left { left:25%; }
+.menu:target ~ .pin-left {
+  left:25%; width: 25%;
+}
 #data:target ~ .pin-right { left:75%; }
-#data:target ~ #code,
-.menu:target ~ #code { width: 25%; }
 #full:target { width:100%; }
 #full:target ~ .pin-right {
   -webkit-transform:translateX(100%);
