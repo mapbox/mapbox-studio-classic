@@ -2,6 +2,45 @@
 .top2 { top:20px; }
 .top4 { top:40px; }
 
+/* Generalizing toggle from base */
+.rounded-toggle {
+  padding: 2px;
+  border-radius: 20px;
+  }
+.rounded-toggle a {
+  font-family:'Open Sans Bold', sans-serif;
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 16px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.5);
+  line-height: 20px;
+}
+
+.dark .rounded-toggle {
+  background: rgba(255,255,255,.4);
+}
+
+.dark .rounded-toggle:hover {
+  background: rgba(255,255,255,.5);
+}
+
+.dark .rounded-toggle a {
+  color: white;
+}
+
+.rounded-toggle:hover a.active { box-shadow: none !important; }
+
+.rounded-toggle a { background: transparent;}
+
+.fill-blue .rounded-toggle a { color: #3887be;}
+.fill-blue .rounded-toggle a.active { background: #3887be;}
+.fill-dark .rounded-toggle a { color: #404040;}
+.fill-dark .rounded-toggle a.active { background: #404040;}
+
+.rounded-toggle a.active { color: white; }
+
 /* Modal popup */
 .modal {
   display:none;

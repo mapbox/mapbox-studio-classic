@@ -292,6 +292,7 @@ Editor.prototype.togglemode = function(ev) {
         $('body').addClass('fields').removeClass('sql').removeClass('conf');
         break;
   }
+  tabbedHandler(ev);
   return false;
 };
 Editor.prototype.resetmode = function(ev) {
