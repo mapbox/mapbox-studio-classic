@@ -150,10 +150,8 @@ a.project:hover {
 #zoomedto .z {
   display:none;
   width:100px; height:20px;
-  border-color:rgba(0,0,0,0.4);
-  font-size:8px;
-  line-height:18px;
   }
+#zoomedto .a { text-transform: uppercase; }
 #zoomedto .range {
   margin-left: 10px;
   height:4px;
@@ -260,8 +258,8 @@ a.project:hover {
 #zoomedto:target .z {
   width:25%;
   border:0px;
-  border-bottom:1px solid #ddd;
-  border-right:1px solid #ddd;
+  border-bottom:1px solid rgba(0,0,0,.1);
+  border-right:1px solid rgba(0,0,0,.1);
   border-radius:0px;
   position:absolute;
   display:block;
@@ -269,7 +267,7 @@ a.project:hover {
 #zoomedto .close { display:none; }
 #zoomedto:target .close { display:block; }
 
-.dark #zoomedto { background:#282828; }
+.dark #zoomedto { background:#333; }
 .dark #zoomedto.z0 .z0,
 .dark #zoomedto.z1 .z1,
 .dark #zoomedto.z2 .z2,
@@ -292,12 +290,13 @@ a.project:hover {
 .dark #zoomedto.z19 .z19,
 .dark #zoomedto.z20 .z20,
 .dark #zoomedto.z21 .z21,
-.dark #zoomedto.z22 .z22 { background:#333; }
+.dark #zoomedto.z22 .z22 { background:#3b3b3b; }
 .dark #zoomedto .z,
-.dark #zoomedto strong { border-color:#222; }
+.dark #zoomedto strong { border-color:rgba(0,0,0,.2); }
 
+.dark #zoomedto .z a,
 .leaflet-container.dark .leaflet-bar,
-.leaflet-container.dark .leaflet-bar a { border-color:#222; }
+.leaflet-container.dark .leaflet-bar a { border-color:rgba(0,0,0,.2); }
 
 .leaflet-container.dark .leaflet-popup-content-wrapper { background:#333; }
 .leaflet-container.dark .leaflet-popup-tip { border-top-color: #333;}
