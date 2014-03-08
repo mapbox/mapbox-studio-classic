@@ -448,6 +448,7 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
+#data:target ~ #full .project-name,
 .menu:target ~ #full .project-name { margin-left: 40px;}
 #data:target ~ .pin-left,
 .menu:target ~ .pin-left {
@@ -455,6 +456,7 @@ span.cm-carto-filter             { color:#66475B; }
 }
 #data:target ~ .pin-right { left:75%; }
 #full:target { width:100%; }
+
 #full:target ~ .pin-right {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
