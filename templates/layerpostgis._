@@ -1,9 +1,9 @@
 <form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right' id='layers-<%=obj.id%>'>
   <nav class='text-right pad1 keyline-bottom'>
     <span class='inline rounded-toggle'><!--
-      --><a href='#mode-conf' class='js-tab mode-conf icon levels'>Configure</a><!--
-      --><a href='#mode-fields' class='js-tab mode-fields icon book'>Fields</a><!--
-      --><a href='#mode-sql' class='js-tab mode-sql icon pencil'>SQL</a>
+      --><a href='#editor-conf' class='js-tab mode-conf active '>Configure</a><!--
+      --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
+      --><a href='#editor-sql' class='js-tab mode-sql'>SQL</a>
     </span>
     <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>

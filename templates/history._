@@ -1,12 +1,12 @@
-<header class='pad1y pad2x clearfix keyline-bottom'>
-  <nav class='rounded-toggle center col3 fr clearfix'><!--
-    --><a class='col6 js-tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
-    --><a class='col6 js-tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
+ <nav class='pin-topright pad1'>
+    <div class='rounded-toggle'><!--
+      --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
+      --><a class='js-tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
+    <div>
   </nav>
-</header>
 
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
-  <h3 class='pin-topleft pad2 col6'>Styles</h3>
+  <h3 class='pad2 keyline-bottom'>Styles</h3>
   <div class='grid clearfix pad1'>
 
     <div class='col6 pad1 space-bottom1'>
@@ -33,7 +33,7 @@
 </div>
 
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
-  <h3 class='pin-topleft pad2 col6'>Sources</h3>
+  <h3 class='keyline-bottom pad2'>Sources</h3>
   <div class='grid pad1 clearfix'>
 
     <div class='col6 pad1 space-bottom1'>

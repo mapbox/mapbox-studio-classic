@@ -2,11 +2,15 @@
 .top2 { top:20px; }
 .top4 { top:40px; }
 
-/* Generalizing toggle from base */
+/* CLeanup of toggle from base TODO finalize and move to base */
 .rounded-toggle {
+  margin-top: 5px;
+  margin-bottom: 5px;
   padding: 2px;
   border-radius: 20px;
+  vertical-align: middle;
   }
+
 .rounded-toggle a {
   font-family:'Open Sans Bold', sans-serif;
   vertical-align: top;
@@ -18,28 +22,17 @@
   line-height: 20px;
 }
 
-.dark .rounded-toggle {
-  background: rgba(255,255,255,.4);
-}
-
-.dark .rounded-toggle:hover {
-  background: rgba(255,255,255,.5);
-}
-
-.dark .rounded-toggle a {
-  color: white;
-}
+.dark .rounded-toggle { background: rgba(255,255,255,.4);}
+.dark .rounded-toggle:hover { background: rgba(255,255,255,.5);}
+.dark .rounded-toggle a { color: white;}
+.dark .rounded-toggle a.active { color: white; }
 
 .rounded-toggle:hover a.active { box-shadow: none !important; }
-
 .rounded-toggle a { background: transparent;}
-
 .fill-blue .rounded-toggle a { color: #3887be;}
 .fill-blue .rounded-toggle a.active { background: #3887be;}
 .fill-dark .rounded-toggle a { color: #404040;}
 .fill-dark .rounded-toggle a.active { background: #404040;}
-
-.rounded-toggle a.active { color: white; }
 
 /* Modal popup */
 .modal {
