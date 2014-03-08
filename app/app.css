@@ -447,7 +447,7 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
-#data:target ~ #full .project-name,pro
+#data:target ~ #full .project-name,
 .menu:target ~ #full .project-name { margin-left: 40px;}
 #data:target ~ .pin-left,
 .menu:target ~ .pin-left {
