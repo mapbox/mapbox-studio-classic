@@ -23,16 +23,14 @@ input[type='text'].clean { border: none; }
   line-height: 20px;
 }
 
-.dark .rounded-toggle { background: rgba(255,255,255,.4);}
-.dark .rounded-toggle:hover { background: rgba(255,255,255,.5);}
-.dark .rounded-toggle a { color: white;}
-.dark .rounded-toggle a.active { color: white; }
-
 .rounded-toggle:hover a.active { box-shadow: none !important; }
 .rounded-toggle a { background: transparent;}
-.fill-blue .rounded-toggle a { color: #3887be;}
+
+.dark .rounded-toggle { background: rgba(255,255,255,.1);}
+.dark .rounded-toggle:hover { background: rgba(255,255,255,.25);}
+.dark .rounded-toggle a { color: white;}
+
 .fill-blue .rounded-toggle a.active { background: #3887be;}
-.fill-dark .rounded-toggle a { color: #404040;}
 .fill-dark .rounded-toggle a.active { background: #404040;}
 
 /* Modal popup */
