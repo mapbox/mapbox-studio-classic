@@ -2255,10 +2255,10 @@ img.inline, .inline           { display:inline-block; }
   .quiet a.icon:before {
     background-image:url(icon-3887be@2x.png?1);
     }
-  .dark a.icon:not(.button):before,
-  .dark a.icon:not(.button):after,
-  a.icon.quiet:not(.button):before,
-  a.icon.quiet:not(.button):after,
+  .dark .quiet.rcon:after,
+  .dark .quiet.icon:before,
+  .dark .rcon:after,
+  .dark .icon:before,
   .dark.tabs .rcon:after,
   .dark.tabs .icon:before,
   .dark .tabs .rcon:after,

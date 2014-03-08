@@ -1,8 +1,8 @@
 <form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right' id='layers-<%=obj.id%>'>
   <nav class='text-right pad1 keyline-bottom'>
-    <span class='inline space'><!--
-      --><a href='#mode-conf' class='quiet js-tab mode-conf quiet round small strong pad1x pad0y icon levels'>Configure</a><!--
-      --><a href='#mode-fields' class='quiet js-tab mode-fields quiet round small strong pad1x pad0y icon book'>Fields</a><!--
+    <span class='inline rounded-toggle'><!--
+      --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
+      --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
  --></span>
     <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>

@@ -281,7 +281,7 @@ Editor.prototype.keys = function(ev) {
 };
 Editor.prototype.togglemode = function(ev) {
   var target = $(ev.currentTarget);
-  switch (target.attr('href').split('#mode-').pop()) {
+  switch (target.attr('href').split('#editor-').pop()) {
     case 'sql':
         $('body').addClass('sql').removeClass('conf').removeClass('fields');
         break;
@@ -292,6 +292,7 @@ Editor.prototype.togglemode = function(ev) {
         $('body').addClass('fields').removeClass('sql').removeClass('conf');
         break;
   }
+  tabbedHandler(ev);
   return false;
 };
 Editor.prototype.resetmode = function(ev) {
