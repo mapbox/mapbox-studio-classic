@@ -324,7 +324,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('docs');
     break;
-  case (which === 70): // f for fullscreen
+  case (which === 190): // . for fullscreen
     ev.preventDefault();
     this.togglePane('full');
     break;
