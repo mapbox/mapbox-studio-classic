@@ -258,7 +258,7 @@ Editor.prototype.events = {
   'click .layer .js-delete': 'deletelayer',
   'click .layer .xrayswatch': 'togglelayer',
   'click .layer .xrayinspector': 'toggleinspector',
-  'click js-browsefile': 'browsefile',
+  'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',

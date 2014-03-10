@@ -21,10 +21,10 @@
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label>GeoJSON<label>
-        <input type='hidden' name='Datasource-type' value='geojson' />
         <div class='pill input-pill clearfix'>
+          <input type='hidden' name='Datasource-type' value='geojson' />
           <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.json' pattern='[\w+\d+\.\/_-]+\.(json|geojson|JSON)'/><!--
-          --><a href='#browsefile' class='col4 quiet button icon folder browsefile'>Browse</a>
+          --><a href='#browsefile' class='col4 quiet button icon folder js-browsefile'>Browse</a>
         </div>
       </section>
       <%= this.layerconf(obj) %>
