@@ -108,7 +108,7 @@ views.Browser.prototype.render = function() {
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
-          return "<a class='icon " + f.type + " " + type + " strong quiet small pad2x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
+          return "<a class='icon " + f.type + " " + type + " strong quiet small pad1x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));

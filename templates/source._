@@ -33,7 +33,7 @@
       <a class='button short icon floppy js-save quiet' href='#'>Save</a>
       <% } %>
     </div>
-    <a href='#settings' class='icon inline sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
+    <a href='#settings' class='icon inline sprocket small js-name strong quiet'><%= source.name || 'Untitled' %></a>
     <div class='pin-right'>
       <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
