@@ -335,6 +335,8 @@ Editor.prototype.togglemode = function(ev) {
 };
 Editor.prototype.resetmode = function(ev) {
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
+  $('.editor a.js-tab').removeClass('active');
+  $('.editor a.js-tab[href=#editor-conf]').addClass('active');
 };
 Editor.prototype.togglelayer = function(ev) {
   $(ev.currentTarget).toggleClass('disabled');
