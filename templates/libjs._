@@ -97,17 +97,6 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/maxWidth*100) : null;
       var a = s ? Math.round(Math.min(s[1],maxWidth)/maxWidth*100) : null;
 
-      // html += [
-      //         "<span class='strong keyline-all round col12 quiet z z",z,"'>",
-      //         "<a href='#zoomedto' class='col3 pad0x center strong quiet keyline-right'>z",z,"</a>",
-      //         s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
-      //         s ? "<span class='range'>" : '',
-      //         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
-      //         s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
-      //         s ? "</span>" : '',
-      //         "</span>"
-      //       ].join('');
-
       statHtml = [
         "<span class='strong keyline-all round col12 quiet z z",z,"'>",
         "<a href='#zoomedto' class='col3 pad0x center strong quiet keyline-right'>z",z,"</a>"

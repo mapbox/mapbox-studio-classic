@@ -182,6 +182,8 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
         : req.style;
+    var statSetName = req.query.stats || null;
+
     var done = function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
             return res.redirect(req.path);
@@ -193,16 +195,16 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
         }
 
         // Set drawtime cookie for a given style.
-        style.stats(req.style.data.id, 'drawtime.' + z, data._drawtime);
-        res.cookie('drawtime', _(style.stats(req.style.data.id, 'drawtime'))
+        style.stats(req.style.data.id, 'drawtime.' + z, data._drawtime, statSetName);
+        res.cookie('drawtime', _(style.stats(req.style.data.id, 'drawtime', statSetName))
             .reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
                 return memo;
             }, []).join('.'));
 
         // Set srcbytes cookie for a given style.
-        style.stats(req.style.data.id, 'srcbytes.' + z, data._srcbytes);
-        res.cookie('srcbytes', _(style.stats(req.style.data.id, 'srcbytes')).
+        style.stats(req.style.data.id, 'srcbytes.' + z, data._srcbytes, statSetName);
+        res.cookie('srcbytes', _(style.stats(req.style.data.id, 'srcbytes', statSetName)).
             reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
                 return memo;
@@ -217,14 +219,15 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
                 _(_(layerInfo).omit('name')).each(function(stats, statName) {
                     if (!_(statNames).contains(statName)) statNames.push(statName);
                     var statKey = [statName, z, layerName].join('.');
-                    var storeStats = _(style.stats).partial(req.style.data.id, statKey);
-                    stats.forEach(storeStats);
+                    stats.forEach(function (value) {
+                        style.stats(req.style.data.id, statKey, value, statSetName);
+                    });
                 }); 
             });
 
             // Next set info in the cookie
             statNames.forEach(function(statName) {
-                res.cookie(statName, _(style.stats(req.style.data.id, statName)).
+                res.cookie(statName, _(style.stats(req.style.data.id, statName, statSetName)).
                     reduce(function(memo, layers, z) {
                         _(layers).each(function(stat, name) {
                             memo.push([z,name,stat.min|0,stat.avg|0,stat.max|0].join('-'));
