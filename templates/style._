@@ -511,6 +511,12 @@ $('pre.carto-snippet').each(function(i, elem) {
   CodeMirror.runMode(text, {name:'carto',reference:window.cartoRef}, $(elem).get(0));
 });
 </script>
-</body>
 
+<% if (test) { %>
+  <script src='../node_modules/mocha/chai.js'></script>
+  <script src='../node_modules/mocha/mocha.js'></script>
+  <script src='../test/app.test.js'></script>
+<% } %>
+
+</body>
 </html>

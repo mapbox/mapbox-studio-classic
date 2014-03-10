@@ -1,6 +1,8 @@
-'use strict';
+var assert = chai.assert;
+mocha.setup('bdd');
 
 describe('Editor', function() {
+    'use strict';
     it('should trigger tab creation');
     it('should delete a tab');
     it('should reject file formats in the filename');
@@ -11,10 +13,12 @@ describe('Editor', function() {
 });
 
 describe('Layers', function() {
+    'use strict';
     it('should open layer descriptions');
     it('should open the data pane');
 });
 
 describe('Documentation', function() {
+    'use strict';
     it('should tab through help topics')
 });
