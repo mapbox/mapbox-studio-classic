@@ -513,9 +513,13 @@ $('pre.carto-snippet').each(function(i, elem) {
 </script>
 
 <% if (test) { %>
-  <script src='../node_modules/mocha/chai.js'></script>
-  <script src='../node_modules/mocha/mocha.js'></script>
-  <script src='../test/app.test.js'></script>
+  <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
+  <div id='mask' class='fill-darken2 animate'></div>
+
+  <link href='/app/test/mocha.css' rel='stylesheet' />
+  <script src='/app/test/chai.js'></script>
+  <script src='/app/test/mocha.js'></script>
+  <script src='/app/test/app.test.js'></script>
 <% } %>
 
 </body>
