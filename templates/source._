@@ -154,19 +154,40 @@ revlayers.reverse();
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
 
 <% if (!remote) { %>
-<form id='addlayer' class='modal center round pad2 col6 margin3 fill-light'>
+<form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
   <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
-  <div class='col8 margin2 pill space-bottom1'>
-    <input class='col8' type='text' placeholder='layername' size='20' name='id' pattern='\w+'/><!--
-   --><span class='col4 inline pad1 fill-lighten1 round-right'>
-        <select class='col12 short' name='type'>
-        <option value='postgis'>PostGIS</option>
-        <option value='shape'>Shapefile</option>
-        <option value='geojson'>GeoJSON</option>
-        <option value='sqlite'>SQLite</option>
-        <option value='csv'>CSV</option>
-      </select>
-    </span>
+  <fieldset class='col8 margin2 space-bottom1'>
+    <input class='col12 space-bottom1' type='text' placeholder='layername' size='20' name='id' pattern='\w+'/>
+  </fieldset>
+  <fieldset class='col8 margin2'>
+    <div class='col12 scroll-styled radio-buttons'>
+      <input name='type' type='radio' id='addlayer-postgis' value='postgis'>
+      <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
+        PostGIS
+        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
+      </label>
+      <input name='type' type='radio' id='addlayer-shape' value='shape'>
+      <label class='contain icon check quiet short button col12' for='addlayer-shape'>
+        Shapefile
+        <span class='micro pin-right quiet pad0y pad1x'>.shp</span>
+      </label>
+      <input name='type' type='radio' id='addlayer-geojson' value='geojson'>
+      <label class='contain icon check quiet short button col12' for='addlayer-geojson'>
+        GeoJSON
+        <span class='micro pin-right quiet pad0y pad1x'>.json &amp; .geojson</span>
+        </label>
+      <input name='type' type='radio' id='addlayer-sqlite' value='sqlite'>
+      <label class='contain icon check quiet short button col12' for='addlayer-sqlite'>
+        SQLite
+        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
+      </label>
+      <input name='type' type='radio' id='addlayer-csv' value='csv'>
+      <label class='contain icon check quiet short button col12' for='addlayer-csv'>
+        CSV
+        <span class='micro pin-right quiet pad0y pad1x'>.csv</span>
+      </label>
+    </div>
+  </fieldset>
   </div>
   <div class='center'>
   <input class='js-reset-mode margin2 col8' type='submit' value='New layer'/>
