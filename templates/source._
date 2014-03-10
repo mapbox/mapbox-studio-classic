@@ -173,15 +173,6 @@ revlayers.reverse();
       <label class='icon check quiet short button col12' for='addlayer-csv'>CSV</label>
     </div>
   </fieldset>
-
-<!--        <select class='col12 short' name='type'>
-        <option value='postgis'>PostGIS</option>
-        <option value='shape'>Shapefile</option>
-        <option value='geojson'>GeoJSON</option>
-        <option value='sqlite'>SQLite</option>
-        <option value='csv'>CSV</option>
-      </select>
--->
   </div>
   <div class='center'>
   <input class='js-reset-mode margin2 col8' type='submit' value='New layer'/>
