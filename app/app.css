@@ -8,7 +8,7 @@ kbd {
   padding: 0 1px;
 }
 
-/* Radio buttons */
+/* Radio buttons NEEDS CLEANUP */
 .radio-buttons { max-height: 160px; }
 
 .radio-buttons input[type=radio] { display: none;}
@@ -16,7 +16,7 @@ kbd {
 .radio-buttons input[type=radio] + label {
   text-align: left;
   border-radius: 0;
-  margin-bottom: 1px;
+  border-bottom: 1px solid #444;
 }
 
 .radio-buttons input[type=radio] + label:before {
