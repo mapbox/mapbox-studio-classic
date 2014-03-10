@@ -328,7 +328,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
-  case (which === 76): // l for layers
+  case (which === 188): // , for layers
     ev.preventDefault();
     this.togglePane('layers');
     break;
