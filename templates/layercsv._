@@ -21,8 +21,8 @@
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label>CSV<label>
-        <input type='hidden' name='Datasource-type' value='csv' />
         <div class='pill input-pill clearfix'>
+          <input type='hidden' name='Datasource-type' value='csv' />
           <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.csv' pattern='[\w+\d+\.\/_-]+\.(csv|CSV)'/><!--
           --><a href='#browsefile' class='quiet col4 button icon folder js-browsefile'>Browse</a>
         </div>

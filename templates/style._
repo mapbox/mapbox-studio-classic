@@ -147,9 +147,7 @@
       <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
-    <a href='#settings' class='block small strong quiet'>
-      <span class='center icon sprocket project-name js-name'><%= style.name || 'Untitled' %></span>
-    </a>
+    <a href='#settings' class='center icon sprocket project-name js-name block small strong quiet'><%= style.name || 'Untitled' %></a>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>

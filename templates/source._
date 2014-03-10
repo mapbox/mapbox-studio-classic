@@ -33,7 +33,7 @@
       <a class='button short icon floppy js-save quiet' href='#'>Save</a>
       <% } %>
     </div>
-    <a href='#settings' class='icon inline sprocket small strong quiet'><%= source.name || 'Untitled' %></a>
+    <a href='#settings' class='icon inline sprocket small js-name strong quiet'><%= source.name || 'Untitled' %></a>
     <div class='pin-right'>
       <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
       <a class='full-y pad1 quiet icon close unround' href='#'></a>
@@ -264,7 +264,7 @@ Editor.prototype.events = {
   'click .layer .js-delete': 'deletelayer',
   'click .layer .xrayswatch': 'togglelayer',
   'click .layer .xrayinspector': 'toggleinspector',
-  'click js-browsefile': 'browsefile',
+  'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
@@ -362,7 +362,7 @@ Editor.prototype.addlayer = function(ev) {
   return false;
 };
 Editor.prototype.deletelayer = function(ev) {
-  var id = $(ev.currentTarget).parent().attr('id');
+  var id = $(ev.currentTarget).attr('id').split('-').pop();
   if (!layers[id]) return false;
   if (confirm('Remove layer "' + id + '"?')) {
     layers[id].form.remove();

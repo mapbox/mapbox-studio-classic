@@ -160,7 +160,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .overlay:target .pane,
 .pane > .column { overflow:auto; }
 
-a.project span { color: white;}
+a.project strong { color: white;}
 a.project:hover {
   background: rgba(255,255,255,.15);
 }
