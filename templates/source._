@@ -269,7 +269,7 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
-  if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
   case (which === 83): // s

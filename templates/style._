@@ -304,7 +304,7 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
-  if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
   case (which === 83): // s
@@ -315,10 +315,6 @@ Editor.prototype.keys = function(ev) {
     break;
   case (which === 189): // -
     map.zoomBy(-1);
-    break;
-  case (which > 48 && which < 58): // 1-9
-    var tab = $('#tabs a.tab')[which-48];
-    if (tab) tab.click();
     break;
   case (which === 72): // h for help
     ev.preventDefault();
@@ -332,9 +328,13 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('layers');
     break;
-  case (which === 73): // i for info (s is taken)
+  case (which === 73): // i for info
     ev.preventDefault();
     this.togglePane('settings');
+    break;
+  case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
+    var tab = $('#tabs a.tab')[which-48];
+    if (tab) tab.click();
     break;
   default:
     return true;

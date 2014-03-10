@@ -43,6 +43,33 @@ var sections = {
   <h3 class='space-bottom1'>Need help?</h1>
   <p>Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide to using TileMill.</p>
 </section>
+<section class='pad2 contain keyline-bottom'>
+  <h3 class='space-bottom1'>Keyboard shortcuts</h1>
+  <div class='small code space-bottom1 keyline-all clearfix'>
+    <div class='col6'>
+      <ul class='pad1 fill-gray'>
+      <li><h4>Style &amp; Source:</h4></li>
+      <li><kbd>Cmd</kbd> <kbd>s</kbd> Save style or source.</li>
+      <li><kbd>Cmd</kbd> <kbd>.</kbd> View map.</li>
+      <li><kbd>Cmd</kbd> <kbd>i</kbd> View settings.</li>
+      <li><kbd>Cmd</kbd> <kbd>h</kbd> View help.</li>
+      <li><kbd>Esc</kbd> Close popup or window.</li>
+      </ul>
+    </div>
+    <div class='keyline-left col6'>
+      <ul class='pad1 fill-gray keyline-bottom'>
+        <li><h4>Style only:</h4></li>
+        <li><kbd>Cmd</kbd> <kbd>alt</kbd> <kbd>[1-9]</kbd> Switch active stylesheet.</li>
+        <li><kbd>Cmd</kbd> <kbd>f</kbd> Search current stylesheet.</li>
+      </ul>
+      <ul class='pad1 fill-gray'>
+      <li><h4>While interacting with map:</h4></li>
+        <li><kbd>Cmd</kbd> <kbd>+</kbd> &amp; <kbd>Cmd</kbd> <kbd>-</kbd> Zoom in and out.</li>
+      </ul>
+    </div>
+  </div>
+  <small>Override TileMill 2 shortcuts with system default shortcuts by holding <code>Shift</code>.</small>
+</section>
 <section class='pad2 keyline-bottom'>
   <h3 class='space-bottom1'>Selectors</h1>
   <p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
