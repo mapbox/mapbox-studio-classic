@@ -162,15 +162,30 @@ revlayers.reverse();
   <fieldset class='col8 margin2'>
     <div class='col12 scroll-styled radio-buttons'>
       <input name='type' type='radio' id='addlayer-postgis' value='postgis'>
-      <label class='icon check quiet short button col12' for='addlayer-postgis'>PostGIS</label>
+      <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
+        PostGIS
+        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
+      </label>
       <input name='type' type='radio' id='addlayer-shape' value='shape'>
-      <label class='icon check quiet short button col12' for='addlayer-shape'>Shapefile</label>
+      <label class='contain icon check quiet short button col12' for='addlayer-shape'>
+        Shapefile
+        <span class='micro pin-right quiet pad0y pad1x'>.shp</span>
+      </label>
       <input name='type' type='radio' id='addlayer-geojson' value='geojson'>
-      <label class='icon check quiet short button col12' for='addlayer-geojson'>GeoJSON</label>
+      <label class='contain icon check quiet short button col12' for='addlayer-geojson'>
+        GeoJSON
+        <span class='micro pin-right quiet pad0y pad1x'>.json &amp; .geojson</span>
+        </label>
       <input name='type' type='radio' id='addlayer-sqlite' value='sqlite'>
-      <label class='icon check quiet short button col12' for='addlayer-sqlite'>SQLite</label>
+      <label class='contain icon check quiet short button col12' for='addlayer-sqlite'>
+        SQLite
+        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
+      </label>
       <input name='type' type='radio' id='addlayer-csv' value='csv'>
-      <label class='icon check quiet short button col12' for='addlayer-csv'>CSV</label>
+      <label class='contain icon check quiet short button col12' for='addlayer-csv'>
+        CSV
+        <span class='micro pin-right quiet pad0y pad1x'>.csv</span>
+      </label>
     </div>
   </fieldset>
   </div>
