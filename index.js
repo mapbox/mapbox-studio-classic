@@ -182,7 +182,7 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
         : req.style;
-    var statSetName = req.query.stats || null;
+    var statSetName = req.query.set || null;
 
     var done = function(err, data, headers) {
         if (err && err.message === 'Tilesource not loaded') {
@@ -261,6 +261,20 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
     done.profile = true;
 
     source.getTile(z,x,y, done);
+});
+
+app.get('/:style(style|source)/statistics.json)', cors(), function(req, res, next) {
+    var stats = req.query.stats ? 
+        req.query.stats.split(',') :
+        ['drawtime', 'srcbytes', 'coordCount', 'coordDistance', 'duplicateCoordCount'];
+    var set = req.query.set || null;
+
+    var results = stats.reduce(function(memo, stat) {
+        memo[stat] = style.stats(req.style.data.id, stat, set);
+        return memo;
+    }, {});
+
+    return res.json(results);
 });
 
 app.get('/:style(style).xml', function(req, res, next) {
