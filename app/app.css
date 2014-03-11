@@ -162,6 +162,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .pane > .column { overflow:auto; }
 
 a.project strong { color: white;}
+
 a.project:hover {
   background: rgba(255,255,255,.15);
 }
@@ -389,6 +390,7 @@ a.project:hover {
 
 /* Data menu */
 #layers .layer { border-bottom-color: rgba(0,0,0,.2);}
+#layers .layer:hover { background: rgba(0,0,0,.05);}
 #layers .data-y,
 #layers .data-n { display:none; }
 

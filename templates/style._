@@ -56,7 +56,7 @@
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
       <nav class='pin-topright pad1'>
-        <a class='inline quiet small strong pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
+        <a class='inline quiet small strong pad1 icon return' href='#'>Back to <span class='js-name'><%= _(style.name).escape() || 'Project' %></span></a>
       </nav>
     </header>
     <div class='pad2'>
@@ -112,8 +112,8 @@
       </fieldset>
 
       <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='button col6 icon js-save floppy'>Save</a><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button submit icon package'>Package</a>
+        --><a href='#' class='quiet button col6 icon js-save floppy'>Save</a><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='quiet col6 button submit icon package'>Package</a>
       </section>
     </div>
   </div>
@@ -183,7 +183,7 @@
   <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
     --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
+    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon x js-deltab pin-right pad0y round-right'></span></a><!--
     <% }); %>
   -->
     <span class='z1'>
@@ -227,7 +227,6 @@ var map = baselayer = tiles = grids = gridc = null;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
-
 statHandler('drawtime')();
 
 var Tab = function(id, value) {
@@ -294,6 +293,8 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
   'click #data .js-adddata': 'adddata',
+  'click #settings .js-style-delete': 'delstyle',
+  'click #settings .js-source-delete': 'delstyle',
   'keydown': 'keys'
 };
 
@@ -366,7 +367,7 @@ Editor.prototype.adddata = function(ev) {
 Editor.prototype.addtab = function(ev) {
   var filename = $('#addtab-filename').val()+'.mss';
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon x js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
   window.location.hash = '#';
@@ -389,6 +390,10 @@ Editor.prototype.deltab = function(ev) {
     if (parent.is('.active') && $('a.js-tab').size())
       this.tab({ currentTarget:$('a.js-tab').get(0) });
   }
+  return false;
+};
+Editor.prototype.delstyle = function(ev) {
+  console.log(<%obj.history%>);
   return false;
 };
 Editor.prototype.recache = function(ev) {
@@ -521,7 +526,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .js-name').text(this.model.get('name') || 'Untitled');
+  $('.js-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (this.model.get('background'))

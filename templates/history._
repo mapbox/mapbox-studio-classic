@@ -16,20 +16,24 @@
       <a class='button quiet col12 icon folder' href='#browsestyle'>Browse</a>
     </div>
 
-  <% _(obj.history.style).chain()
-    .sortBy(function(item) { return -1 * item.mtime })
-    .each(function(item) { %>
-  <div class='fl col12 pad1x space-bottom1'>
-    <a class='project col12 round small fill-lighten0 quiet strong contain' href='/style?id=<%=item.id%>'>
-      <div class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-      <div class='pad1 truncate'>
-        <strong><%= item.name || 'Untitled' %></strong><br />
-        <code><%= item.id.split('/').pop() %></code>
+    <div class='col12 fl clearfix pad1x'>
+      <% _(obj.history.style).chain()
+        .sortBy(function(item) { return -1 * item.mtime })
+        .each(function(item) { %>
+      <div class='space-bottom1 contain'>
+        <a class='project col12 round small fill-lighten0 quiet strong contain' href='/style?id=<%=item.id%>'>
+          <div class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+          <div class='pad1 truncate'>
+            <strong><%= item.name || 'Untitled' %></strong><br />
+            <code><%= item.id.split('/').pop() %></code>
+          </div>
+        </a>
+        <a href='#' class='js-style-delete x round-right icon pad1x pad2y pin-topright quiet'></a>
       </div>
-    </a>
+      <% }); %>
+    </div>
   </div>
-  <% }); %>
-  </div>
+
 </div>
 
 <div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
@@ -47,20 +51,24 @@
       <a class='col12 button quiet create col6 icon mapbox' href='#addmapbox'>Mapbox</a>
     </div>
 
-  <% _(obj.history.source).chain()
-    .sortBy(function(item) { return -1 * item.mtime })
-    .each(function(item) { %>
-    <div class='fl col12 pad1x space-bottom1'>
-      <a class='project col12 round small fill-lighten0 quiet strong contain' href='/source?id=<%=item.id%>'>
-        <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-        <span class='fill-darken1 small-graphic inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
+    <div class='col12 fl clearfix pad1x'>
+      <% _(obj.history.source).chain()
+        .sortBy(function(item) { return -1 * item.mtime })
+        .each(function(item) { %>
+        <div class='space-bottom1 contain'>
+          <a class='project col12 round small fill-lighten0 quiet strong contain' href='/source?id=<%=item.id%>'>
+            <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+            <span class='fill-darken1 small-graphic inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
 
-        <div class='truncate pad1 '>
-          <strong><%= item.name || 'Untitled' %></strong><br />
-          <code><%= item.id.split('/').pop() %></code>
+            <div class='truncate pad1 '>
+              <strong><%= item.name || 'Untitled' %></strong><br />
+              <code><%= item.id.split('/').pop() %></code>
+            </div>
+          </a>
+          <a href='#' class='js-source-delete x round-right icon pad1x pad2y pin-topright quiet'></a>
         </div>
-      </a>
+      <% }); %>
+
     </div>
-  <% }); %>
   </div>
 </div>

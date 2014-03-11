@@ -41,15 +41,15 @@
 #tabs a.tab.mini.active {
   padding:5px;
   }
-#tabs a.tab .trash {
+#tabs a.tab .x {
   display:none;
   }
-#tabs a.tab.active .trash {
+#tabs a.tab.active .x {
   display:inline-block;
   }
 
-#tabs a.tab.active .trash:before { opacity: .25;}
-#tabs a.tab .trash:hover { background:white; }
+#tabs a.tab.active .x:before { opacity: .25;}
+#tabs a.tab .x:hover:before { opacity:.5; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
 #tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
@@ -104,10 +104,12 @@
 #docs code.value:after { margin-left:5px; }
 #docs code.value   {
   background:transparent;
-  color:#708;
+  color:#8010a0;
   padding:3px 5px;
   }
-#docs code.big { font-size: 14px; }
+#docs code.big {
+  color: rgba(0,0,0,.75);
+}
 #docs code.value:after {
   content:'default';
   color:#404040;
