@@ -37,8 +37,7 @@
     "cors": "~2.1.1"
   },
   "devDependencies": {
-    "mocha": "1.17.0",
-    "expect.js": "0.2.0"
+    "mocha": "1.17.x"
   },
   "scripts": {
     "start": "./index.js",
