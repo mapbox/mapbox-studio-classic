@@ -33,6 +33,17 @@ app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
+// Check for authentication credentials. If present, check with test API
+// call. Otherwise, lock the app and redirect to authentication.
+function auth(req, res, next) {
+    if (tm.db._docs.oauth) {
+        // TODO 'Who am I?' test api call
+        next();
+    } else {
+        res.redirect('/authorize');    
+    }
+};
+
 // Check for an active export. If present, redirect to the export page
 // effectively locking the application from use until export is complete.
 function exporting(req, res, next) {
@@ -47,7 +58,7 @@ function exporting(req, res, next) {
     });
 };
 
-app.param('style', exporting, function(req, res, next) {
+app.param('style', auth, exporting, function(req, res, next) {
     // @TODO...
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
         source.invalidate(req.body.source, next);
@@ -76,7 +87,7 @@ app.param('style', exporting, function(req, res, next) {
     next();
 });
 
-app.param('source', exporting, function(req, res, next) {
+app.param('source', auth, exporting, function(req, res, next) {
     if (req.method === 'PUT' && req.query.id) {
         source.invalidate(req.query.id, next);
     } else {
@@ -151,8 +162,9 @@ app.get('/:style(style):history()', function(req, res, next) {
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
             style: req.style.data,
-            history: req.history
-        })
+            history: req.history,
+            user: tm.db._docs.oauth.account
+        });
     } catch(err) {
         return next(new Error('style template: ' + err.message));
     }

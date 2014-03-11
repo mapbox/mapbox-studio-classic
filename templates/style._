@@ -143,9 +143,14 @@
         --><a class='js-save button short icon floppy quiet' href='#'>Save</a>
       <% } %>
     </div>
-    <div class='pin-right'>
-      <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
-      <a class='full-y pad1 quiet icon close unround' href='#'></a>
+    <div class='pin-right'><!--
+      <% if (user) { %> 
+      --><span class='inline quiet small'><%= user %></span>
+      <% } else { %>
+      --><a class='js-user button icon account short quiet' href='/oauth/mapbox'>Sign In</a>
+      <% } %>
+      <a class='full-n pad1 inline icon l-r-arrow quiet unround align-middle' href='#full'></a>
+      <a class='full-y pad1 inline quiet icon close unround align-middle' href='#'></a>
     </div>
     <a href='#settings' class='block small strong quiet'>
       <span class='center icon sprocket project-name js-name'><%= style.name || 'Untitled' %></span>
