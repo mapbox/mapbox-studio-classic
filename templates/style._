@@ -393,7 +393,6 @@ Editor.prototype.deltab = function(ev) {
   return false;
 };
 Editor.prototype.delstyle = function(ev) {
-  console.log(<%obj.history%>);
   return false;
 };
 Editor.prototype.recache = function(ev) {
