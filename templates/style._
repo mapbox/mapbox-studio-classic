@@ -393,6 +393,16 @@ Editor.prototype.deltab = function(ev) {
   return false;
 };
 Editor.prototype.delstyle = function(ev) {
+  var id = $(ev.currentTarget).attr('href');
+  var parent = $(ev.currentTarget).parent();
+  var name = id.split('/').pop();
+  if (confirm('Remove style "' + name + '"?')) {
+    $.ajax({
+      url:'/history/' + id,
+      type: 'DELETE',
+      error: function(resp) {}
+    }).done(parent.remove());
+  };
   return false;
 };
 Editor.prototype.recache = function(ev) {
