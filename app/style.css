@@ -1,7 +1,7 @@
 #map {
   position:absolute;
-  top:40px;
   bottom:0px;
+  top: 0px;
   left:-50%;
   width:200%;
   }
@@ -15,6 +15,13 @@
   -moz-transition:left 125ms;
   -webkit-transition:left 125ms;
   }
+.leaflet-control-zoom { display: none; }
+
+#map-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 /* Code pane */
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }

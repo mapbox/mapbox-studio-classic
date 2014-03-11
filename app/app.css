@@ -180,14 +180,14 @@ a.project:hover {
   }
 #zoomedto {
   position:absolute;
-  right:0px;
-  top:40px;
+  right:84px;
+  top:0px;
   margin:10px 10px 0px 0px;
   height:0px;
   }
 #zoomedto .z {
   display:none;
-  width:100px; height:20px;
+  width:100px; height:22px;
   }
 #zoomedto .a { text-transform: uppercase; }
 #zoomedto .range {
@@ -197,7 +197,7 @@ a.project:hover {
   overflow:hidden;
   left:50%;
   right:5px;
-  top:8px;
+  top:9px;
   background:rgba(0,0,0,0.1);
   display:block;
   }
@@ -485,11 +485,8 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
-#data:target ~ #full .project-name,
-.menu:target ~ #full .project-name { margin-left: 40px;}
-#data:target ~ .pin-left,
-.menu:target ~ .pin-left {
-  left:25%; width: 25%;
+#layers:target ~ .pin-right{
+  right:25%; 
 }
 #data:target ~ .pin-right { left:75%; }
 #full:target { width:100%; }
