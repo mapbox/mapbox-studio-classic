@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = chai.expect;
-var event;
+var event, el;
 mocha.setup('bdd');
 
 // Override window.confirm for the test runner.
@@ -13,7 +13,7 @@ describe('Code editor', function() {
     });
 
     it('should delete a tab', function() {
-        var el = document.getElementsByClassName('js-deltab');
+        el = document.getElementsByClassName('js-deltab');
         event.initEvent('click', true, false);
         el[0].dispatchEvent(event);
         expect(el[0]).to.be.undefined;
@@ -22,10 +22,10 @@ describe('Code editor', function() {
     describe('Tab creation', function() {
         beforeEach(function() {
             event = document.createEvent('HTMLEvents');
+            el = document.getElementById('addtab');
         });
 
         it('should create a new tab', function() {
-            var el = document.getElementById('addtab');
             var value = document.getElementById('addtab-filename').value = 'foo';
             event.initEvent('submit', true, false);
             el.dispatchEvent(event);
@@ -34,7 +34,6 @@ describe('Code editor', function() {
         });
 
         it('should reject file formats in the filename', function() {
-            var el = document.getElementById('addtab');
             var value = document.getElementById('addtab-filename').value = 'foo.mss';
             event.initEvent('submit', true, false);
             el.dispatchEvent(event);
@@ -45,11 +44,21 @@ describe('Code editor', function() {
 });
 
 describe('Layers', function() {
-    it('should open layer descriptions');
+    beforeEach(function() {
+        event = document.createEvent('HTMLEvents');
+    });
+
+    it('should open layers description', function() {
+      var el = document.getElementById('layers').getElementsByClassName('js-tab');
+        event.initEvent('click', true, false);
+        el[0].dispatchEvent(event);
+        var isActive = el[0].getAttribute('class').match(/active/);
+        expect(isActive).to.not.be.null;
+    });
 });
 
 describe('Documentation', function() {
-    it('should tab through help topics')
+    it('should tab through help topics');
 });
 
 mocha.ignoreLeaks();
