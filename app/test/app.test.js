@@ -42,19 +42,13 @@ describe('Code editor', function() {
             expect(tab[tab.length - 1].rel).to.equal('foo.mss');
         });
     });
-
-    it('should trigger layers pane');
-    it('should expand to fullscreen');
-    it('should open settings pane');
-    it('should open layers pane');
 });
 
-describe('Layer Panel', function() {
+describe('Layers', function() {
     it('should open layer descriptions');
-    it('should open the data pane');
 });
 
-describe('Documentation Panel', function() {
+describe('Documentation', function() {
     it('should tab through help topics')
 });
 
