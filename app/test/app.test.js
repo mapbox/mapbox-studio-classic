@@ -1,19 +1,22 @@
 'use strict';
 
-var assert = chai.assert;
 var expect = chai.expect;
-
+var event;
 mocha.setup('bdd');
 
-function testStylePage() {}
+// Override window.confirm for the test runner.
+window.confirm = function(message) { return true; };
 
 describe('Code editor', function() {
+    beforeEach(function() {
+        event = document.createEvent('HTMLEvents');
+    });
 
     it('should delete a tab', function() {
         var el = document.getElementsByClassName('js-deltab');
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent('click', false, false);
+        event.initEvent('click', true, false);
         el[0].dispatchEvent(event);
+        expect(el[0]).to.be.undefined;
     });
 
     it('should trigger tab creation');
