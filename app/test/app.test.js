@@ -49,7 +49,7 @@ describe('Layers', function() {
     });
 
     it('should open layers description', function() {
-      var el = document.getElementById('layers').getElementsByClassName('js-tab');
+        var el = document.getElementById('layers').getElementsByClassName('js-tab');
         event.initEvent('click', true, false);
         el[0].dispatchEvent(event);
         var isActive = el[0].getAttribute('class').match(/active/);
@@ -58,7 +58,20 @@ describe('Layers', function() {
 });
 
 describe('Documentation', function() {
-    it('should tab through help topics');
+    beforeEach(function() {
+        event = document.createEvent('HTMLEvents');
+    });
+
+    it('should tab through help topics', function() {
+        var el = document.getElementById('docs').getElementsByClassName('js-tab');
+        event.initEvent('click', true, false);
+        var last = el[el.length - 1];
+        last.dispatchEvent(event);
+        var isActive = last.getAttribute('class').match(/active/);
+        var docIsActive = document.getElementById(last.href.split('#')[1]).getAttribute('class').match(/active/);
+        expect(isActive).to.not.be.null;
+        expect(docIsActive).to.not.be.null;
+    });
 });
 
 mocha.ignoreLeaks();
