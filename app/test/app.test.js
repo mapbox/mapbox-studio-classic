@@ -19,16 +19,30 @@ describe('Code editor', function() {
         expect(el[0]).to.be.undefined;
     });
 
-    it('should create a new tab', function() {
-        var el = document.getElementById('addtab');
-        var value = document.getElementById('addtab-filename').value = 'foo';
-        event.initEvent('submit', true, false);
-        el.dispatchEvent(event);
-        var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
-        expect(tab[tab.length - 1].rel).to.equal('foo.mss');
+    describe('Tab creation', function() {
+        beforeEach(function() {
+            event = document.createEvent('HTMLEvents');
+        });
+
+        it('should create a new tab', function() {
+            var el = document.getElementById('addtab');
+            var value = document.getElementById('addtab-filename').value = 'foo';
+            event.initEvent('submit', true, false);
+            el.dispatchEvent(event);
+            var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
+            expect(tab[tab.length - 1].rel).to.equal('foo.mss');
+        });
+
+        it('should reject file formats in the filename', function() {
+            var el = document.getElementById('addtab');
+            var value = document.getElementById('addtab-filename').value = 'foo.mss';
+            event.initEvent('submit', true, false);
+            el.dispatchEvent(event);
+            var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
+            expect(tab[tab.length - 1].rel).to.equal('foo.mss');
+        });
     });
 
-    it('should reject file formats in the filename');
     it('should trigger layers pane');
     it('should expand to fullscreen');
     it('should open settings pane');
