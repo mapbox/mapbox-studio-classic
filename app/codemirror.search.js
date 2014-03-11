@@ -66,11 +66,11 @@
   var helpText = '<div class="clearfix keyline-top small fill-darken0 search-help hidden">'+
     '<div class="pad1">Use /re/ syntax for regex search</div>'+
     '<div class="keyline-top pad1 keyline-right col6">'+
-      '<span class="code inline"> <kbd>Cmd</kbd><kbd>F</kbd> Find</span><br/>'+
-      '<span class="code inline"><kbd>Cmd</kbd><kbd>G</kbd> Next</span> '+
+      '<span class="code inline"> <kbd>Cmd</kbd>+<kbd>F</kbd> Find</span><br/>'+
+      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>G</kbd> Next</span> '+
     '</div>' +
     '<div class="keyline-top pad1 col6">'+
-      '<span class="code inline"><kbd>Shift</kbd><kbd>Cmd</kbd>+<kbd>G</kbd> Prev</span><br/>'+
+      '<span class="code inline"><kbd>Shift</kbd>+<kbd>Cmd</kbd>+<kbd>G</kbd> Prev</span><br/>'+
       '<span class="code inline"><kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> Find & Replace All</span>'+
     '</div>' +
     '</div>';

@@ -49,26 +49,26 @@ var sections = {
     <div class='col6'>
       <ul class='pad1 fill-gray'>
       <li><h4>Style &amp; Source:</h4></li>
-      <li><kbd>Cmd</kbd> <kbd>s</kbd> Save style or source.</li>
-      <li><kbd>Cmd</kbd> <kbd>.</kbd> View map.</li>
-      <li><kbd>Cmd</kbd> <kbd>i</kbd> View settings.</li>
-      <li><kbd>Cmd</kbd> <kbd>h</kbd> View help.</li>
+      <li><kbd>Cmd</kbd>+<kbd>s</kbd> Save style or source.</li>
+      <li><kbd>Cmd</kbd>+<kbd>.</kbd> View map.</li>
+      <li><kbd>Cmd</kbd>+<kbd>i</kbd> View settings.</li>
+      <li><kbd>Cmd</kbd>+<kbd>h</kbd> View help.</li>
       <li><kbd>Esc</kbd> Close popup or window.</li>
       </ul>
     </div>
     <div class='keyline-left col6'>
       <ul class='pad1 fill-gray keyline-bottom'>
         <li><h4>Style only:</h4></li>
-        <li><kbd>Cmd</kbd> <kbd>alt</kbd> <kbd>[1-9]</kbd> Switch active stylesheet.</li>
-        <li><kbd>Cmd</kbd> <kbd>f</kbd> Search current stylesheet.</li>
+        <li><kbd>Cmd</kbd>+<kbd>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
+        <li><kbd>Cmd</kbd>+<kbd>f</kbd> Search current stylesheet.</li>
       </ul>
       <ul class='pad1 fill-gray'>
       <li><h4>While interacting with map:</h4></li>
-        <li><kbd>Cmd</kbd> <kbd>+</kbd> &amp; <kbd>Cmd</kbd> <kbd>-</kbd> Zoom in and out.</li>
+        <li><kbd>Cmd</kbd>+<kbd>+</kbd> &amp; <kbd>Cmd</kbd>+<kbd>-</kbd> Zoom in and out.</li>
       </ul>
     </div>
   </div>
-  <small>Override TileMill 2 shortcuts with system default shortcuts by holding <code>Shift</code>.</small>
+  <small>Override TileMill 2 shortcuts with system default shortcuts by holding <kbd>Shift</kbd>.</small>
 </section>
 <section class='pad2 keyline-bottom'>
   <h3 class='space-bottom1'>Selectors</h1>

@@ -163,7 +163,7 @@
   <header class='pad2x pad0y keyline-bottom'>
     <h3 class='icon pad0y font'>Fonts</h3>
     <nav class='pin-topright'>
-      <a class='inline pad1 icon quiet return' href='#docs'></a>
+      <a class='inline pad1 strong small icon quiet return' href='#docs'>Back to documentation</a>
     </nav>
   </header>
   <div class='grid pad2 clearfix'>
