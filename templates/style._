@@ -144,13 +144,9 @@
       <% } %>
     </div>
     <div class='pin-right'><!--
-      <% if (user) { %> 
-      --><span class='inline quiet small'><%= user %></span>
-      <% } else { %>
-      --><a class='js-user button icon account short quiet' href='/oauth/mapbox'>Sign In</a>
-      <% } %>
-      <a class='full-n pad1 inline icon l-r-arrow quiet unround align-middle' href='#full'></a>
-      <a class='full-y pad1 inline quiet icon close unround align-middle' href='#'></a>
+      --><a href='#user' class='inline quiet small'><%= user %></a><!--
+      --><a class='full-n pad1 inline icon l-r-arrow quiet unround align-middle' href='#full'></a><!--
+      --><a class='full-y pad1 inline quiet icon close unround align-middle' href='#'></a>
     </div>
     <a href='#settings' class='block small strong quiet'>
       <span class='center icon sprocket project-name js-name'><%= style.name || 'Untitled' %></span>
@@ -210,6 +206,7 @@
   </form>
 </div>
 
+<%= this.modaluser({user:user}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
@@ -227,6 +224,8 @@
 </form>
 
 <div id='mask' class='fill-darken2 animate'></div>
+
+</div>
 
 <script>
 var map = baselayer = tiles = grids = gridc = null;
@@ -295,6 +294,7 @@ Editor.prototype.events = {
   'submit #settings': 'save',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
+  'submit #user': 'user',
   'click #tabs .js-deltab': 'deltab',
   'click #tabs .js-tab': 'tabbed',
   'click #docs .js-tab': 'tabbed',
@@ -346,6 +346,10 @@ Editor.prototype.keys = function(ev) {
   }
   return false;
 };
+Editor.prototype.user = function() {
+  window.location.href = window.location.origin + '/unauthorize';
+  return false;
+};
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;
   if (loc.indexOf('#'+name) === -1) {
@@ -353,7 +357,7 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
-}
+};
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.adddata = function(ev) {
@@ -376,7 +380,7 @@ Editor.prototype.addtab = function(ev) {
     $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
-  window.location.hash = '#';
+  window.location.href = '#';
   return false;
 };
 Editor.prototype.deltab = function(ev) {
