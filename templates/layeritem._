@@ -14,7 +14,7 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
     --><span class='pad0 inline layer-label'><a href='#refresh' class='icon xrayswatch x inline round fill-darken1
     <%=disabled ? 'disabled' : ''%>
     <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></a></span><!--
-  --><% if (obj.Datasource && obj.Datasource.type) { %><span class='pad0 inline layer-label'><a href='#' class='fill-darken1 inline round icon trash js-delete'></a></span><!--
+  --><% if (obj.Datasource && obj.Datasource.type) { %><span class='pad0 inline layer-label'><a href='#' id='del-<%=obj.id%>' class='fill-darken1 inline round icon trash js-delete'></a></span><!--
 --><% } %></div>
   <small class='desc'><%=obj.description||'No description.'%></small>
   <% _(obj.help||{}).each(function(desc,name) { %>

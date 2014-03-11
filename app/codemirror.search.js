@@ -51,6 +51,7 @@
       this.parentNode.removeChild(this);
       wrap.style.bottom = '115px';
       dialog.querySelector('.search-help').classList.remove('hidden');
+      return false;
     });
     window.addEventListener('keydown', function(e) {
       if (e.which == 27) {
@@ -62,12 +63,16 @@
     return close;
   };
 
-  var helpText = '<div class="pad1x pad0y small fill-darken0 search-help hidden">'+
-    '<span class="quiet">Use /re/ syntax for regex search</span><br>'+
-    'Find:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-F</span> '+
-    'Next:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-G</span> '+
-    'Prev:<span class="micro fill-darken0 pad0x round">Shift-Cmd/Ctrl-G</span><br>'+
-    'Find & Replace All:<span class="micro fill-darken0 pad0x round">Cmd/Ctrl-Alt-F</span>'+
+  var helpText = '<div class="clearfix keyline-top small fill-darken0 search-help hidden">'+
+    '<div class="pad1">Use /re/ syntax for regex search</div>'+
+    '<div class="keyline-top pad1 keyline-right col6">'+
+      '<span class="code inline"> <kbd>Cmd</kbd>+<kbd>F</kbd> Find</span><br/>'+
+      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>G</kbd> Next</span> '+
+    '</div>' +
+    '<div class="keyline-top pad1 col6">'+
+      '<span class="code inline"><kbd>Shift</kbd>+<kbd>Cmd</kbd>+<kbd>G</kbd> Prev</span><br/>'+
+      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> Find & Replace All</span>'+
+    '</div>' +
     '</div>';
 
   function SearchState() {

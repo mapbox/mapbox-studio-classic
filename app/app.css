@@ -1,9 +1,48 @@
 /* Base candidates */
 .top2 { top:20px; }
 .top4 { top:40px; }
-input[type='text'].clean { border: none; }
+input[type=text].clean { border: none; }
 
-/* CLeanup of toggle from base TODO finalize and move to base */
+kbd {
+  box-shadow: none;
+  padding: 0 1px;
+}
+
+/* Radio buttons NEEDS CLEANUP */
+.radio-buttons { max-height: 160px; }
+
+.radio-buttons input[type=radio] { display: none;}
+
+.radio-buttons input[type=radio] + label {
+  text-align: left;
+  border-radius: 0;
+  border-bottom: 1px solid #444;
+}
+
+.radio-buttons input[type=radio] + label:before {
+  -webkit-transition:all .125s;
+     -moz-transition:all .125s;
+      -ms-transition:all .125s;
+          transition:all .125s;
+}
+
+.radio-buttons input[type=radio]:not(:checked) + label:before {
+  width: 0;
+}
+
+.radio-buttons input[type=radio]:not(:checked) + label:before {
+}
+.radio-buttons input[type=radio] + label:first-of-type {
+  border-radius: 3px 3px 0 0;
+}
+
+.radio-buttons  input[type=radio] + label:last-of-type {
+  border-radius: 0 0 3px 3px;
+}
+
+.radio-buttons input[type=radio]:checked + label.quiet { background: rgba(255,255,255,0.25);}
+
+/* Cleanup of toggle from base TODO finalize and move to base */
 .rounded-toggle {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -96,6 +135,7 @@ body.dark {
 
 label.ghost {
   position:absolute;
+  color: rgba(255,255,255,.5);
   right: 15px;
   text-align:right;
   line-height: 40px;
@@ -121,7 +161,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .overlay:target .pane,
 .pane > .column { overflow:auto; }
 
-a.project span { color: white;}
+a.project strong { color: white;}
 a.project:hover {
   background: rgba(255,255,255,.15);
 }

@@ -148,9 +148,7 @@
       --><a class='full-n pad1 inline icon l-r-arrow quiet unround align-middle' href='#full'></a><!--
       --><a class='full-y pad1 inline quiet icon close unround align-middle' href='#'></a>
     </div>
-    <a href='#settings' class='block small strong quiet'>
-      <span class='center icon sprocket project-name js-name'><%= style.name || 'Untitled' %></span>
-    </a>
+    <a href='#settings' class='center icon sprocket project-name js-name block small strong quiet'><%= style.name || 'Untitled' %></a>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
@@ -166,7 +164,7 @@
   <header class='pad2x pad0y keyline-bottom'>
     <h3 class='icon pad0y font'>Fonts</h3>
     <nav class='pin-topright'>
-      <a class='inline pad1 icon quiet return' href='#docs'></a>
+      <a class='inline pad1 strong small icon quiet return' href='#docs'>Back to documentation</a>
     </nav>
   </header>
   <div class='grid pad2 clearfix'>
@@ -309,7 +307,7 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
-  if ((!ev.ctrlKey && !ev.metaKey) || ev.altKey || ev.shiftKey) return;
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
   case (which === 83): // s
@@ -320,10 +318,6 @@ Editor.prototype.keys = function(ev) {
     break;
   case (which === 189): // -
     map.zoomBy(-1);
-    break;
-  case (which > 48 && which < 58): // 1-9
-    var tab = $('#tabs a.tab')[which-48];
-    if (tab) tab.click();
     break;
   case (which === 72): // h for help
     ev.preventDefault();
@@ -337,9 +331,13 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('layers');
     break;
-  case (which === 73): // i for info (s is taken)
+  case (which === 73): // i for info
     ev.preventDefault();
     this.togglePane('settings');
+    break;
+  case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
+    var tab = $('#tabs a.tab')[which-48];
+    if (tab) tab.click();
     break;
   default:
     return true;
