@@ -12,6 +12,14 @@ describe('Code editor', function() {
         event = document.createEvent('HTMLEvents');
     });
 
+    it('should set a tab as active', function() {
+        var el = document.getElementById('tabs').getElementsByClassName('js-tab');
+        event.initEvent('click', true, false);
+        el[0].dispatchEvent(event);
+        var isActive = el[0].getAttribute('class').match(/active/);
+        expect(isActive).to.not.be.null;
+    });
+
     it('should delete a tab', function() {
         el = document.getElementsByClassName('js-deltab');
         event.initEvent('click', true, false);
