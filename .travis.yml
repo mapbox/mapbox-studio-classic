@@ -32,4 +32,6 @@ script:
  - npm ls
  - npm test
  - sudo apt-get purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
+ - node index.js
+ - sleep 10
  - ./node_modules/.bin/mocha-phantomjs http://localhost:3000/style?id=tmstyle:///tmp-1371d3fb&test=true
