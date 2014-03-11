@@ -19,7 +19,15 @@ describe('Code editor', function() {
         expect(el[0]).to.be.undefined;
     });
 
-    it('should trigger tab creation');
+    it('should create a new tab', function() {
+        var el = document.getElementById('addtab');
+        var value = document.getElementById('addtab-filename').value = 'foo';
+        event.initEvent('submit', true, false);
+        el.dispatchEvent(event);
+        var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
+        expect(tab[tab.length - 1].rel).to.equal('foo.mss');
+    });
+
     it('should reject file formats in the filename');
     it('should trigger layers pane');
     it('should expand to fullscreen');
