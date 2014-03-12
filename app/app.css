@@ -402,7 +402,7 @@ a.project:hover {
 #layers .geometry { opacity:0.6; }
 #layers * { border-color: rgba(0,0,0,.2); }
 #layers .field-key { color: #f1f075;}
-#layers span.active { background: rgba(0,0,0,.2);}
+#layers .layer.active { background: rgba(0,0,0,.2);}
 #layers a.active .geometry { opacity:1; }
 #layers small { display:none;}
 #layers .active small { display:block; }
