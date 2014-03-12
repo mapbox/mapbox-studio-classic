@@ -151,7 +151,8 @@ app.get('/:style(style):history()', function(req, res, next) {
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
             style: req.style.data,
-            history: req.history
+            history: req.history,
+            test: 'test' in req.query
         })
     } catch(err) {
         return next(new Error('style template: ' + err.message));
