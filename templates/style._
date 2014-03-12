@@ -347,10 +347,21 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
-}
+};
+
+Editor.prototype.messageclear = function() {
+  messageClear();
+  _(code).each(function(cm) {
+    _(cm._cartoErrors||[]).each(cm.clearMarker);
+    delete cm._cartoErrors;
+  });
+};
+
+Editor.prototype.messagemodal = messageModal;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
+
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
   if (target.is('.active')) return false;
@@ -442,10 +453,10 @@ Editor.prototype.save = function(ev, options) {
   return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.error = function(model, resp) {
-  this.messageClear();
+  this.messageclear();
 
   if (!resp.responseText)
-    return this.messageModal('Could not save style "' + model.id + '"');
+    return this.messagemodal('Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -459,24 +470,12 @@ Editor.prototype.error = function(model, resp) {
         code[id]._cartoErrors.push(ln);
         code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small js-message message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
       } else {
-        return this.messageModal(e);
+        return this.messagemodal(e);
       }
     }).bind(this));
 };
-Editor.prototype.messageModal = function(text) {
-  $('#message .js-message').text(text);
-  window.location.hash = '#message';
-};
-Editor.prototype.messageClear = function() {
-  $('#message .js-message').text('');
-  $('#full').removeClass('loading');
-  _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearMarker);
-    delete cm._cartoErrors;
-  });
-};
 Editor.prototype.refresh = function(ev) {
-  this.messageClear();
+  this.messageclear();
 
   if (!map) {
     map = L.mapbox.map('map');

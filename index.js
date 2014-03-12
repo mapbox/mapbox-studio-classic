@@ -371,14 +371,10 @@ app.get('/', function(req, res, next) {
     res.redirect('/style?id=' + style.tmpid());
 });
 
-app.delete('/history/source', function(req, res, next) {
+app.del('/history/:type(style|source)', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.history('source',req.query.id, true);
-});
-
-app.delete('/history/style', function(req, res, next) {
-    if (!req.query.id) return next(new Error('No id specified'));
-    tm.history('style',req.query.id, true);
+    tm.history(req.params.type,req.query.id, true);
+    res.send(200);
 });
 
 app.use(function(err, req, res, next) {

@@ -80,6 +80,16 @@ var statHandler = function(key) {
   }).throttle(50);
 };
 
+var messageModal = function(text) {
+  $('#message .js-message').text(text);
+  window.location.hash = '#message';
+};
+
+var messageClear = function() {
+  $('#message .js-message').text('');
+  $('#full').removeClass('loading');
+};
+
 var delStyle = function(ev) {
   var id = $(ev.currentTarget).attr('href');
   var parent = $(ev.currentTarget).parent();
@@ -88,9 +98,13 @@ var delStyle = function(ev) {
     $.ajax({
       url:'/history/' + id,
       type: 'DELETE',
-      // @TODO
-      error: function(resp) {}
-    }).done(parent.remove());
+      success: function(resp) {
+        parent.remove();
+      },
+      error: function(resp) {
+        messageModal(resp.status + " " + resp.statusText);
+      }
+    });
   };
   return false;
 };

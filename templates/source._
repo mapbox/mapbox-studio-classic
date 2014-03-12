@@ -392,20 +392,12 @@ Editor.prototype.deletelayer = function(ev) {
   return false;
 };
 Editor.prototype.error = function(model, resp) {
-  this.messageClear();
+  this.messageclear();
   if (resp.responseText) {
-    this.messageModal(resp.responseText);
+    this.messagemodal(resp.responseText);
   } else {
-    this.messageModal('Could not save source "' + model.id + '"');
+    this.messagemodal('Could not save source "' + model.id + '"');
   }
-};
-Editor.prototype.messageModal = function(text) {
-  $('#message .js-message').text(text);
-  window.location.hash = '#message';
-};
-Editor.prototype.messageClear = function() {
-  $('#message .js-message').text('');
-  $('#full').removeClass('loading');
 };
 Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
@@ -446,7 +438,7 @@ Editor.prototype.save = function(ev, options) {
   return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.refresh = function(ev) {
-  this.messageClear();
+  this.messageclear();
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -501,6 +493,8 @@ Editor.prototype.browsefile = function(ev) {
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
 };
 
+Editor.prototype.messagemodal = messageModal;
+Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
