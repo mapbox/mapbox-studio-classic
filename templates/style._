@@ -152,7 +152,7 @@
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
   <div id='map-controls' class='pad1'>
     <a href='#full' class='full-n round keyline-all fill-white icon fullscreen quiet'></a>
-    <a href='#' class='full-y round keyline-all fill-white icon brackets quiet'></a>
+    <a href='#' class='full-y round keyline-all fill-dark dark icon brackets'></a>
     <div class='pad0x inline'>
       <div class='round keyline-all z1 fill-white'>
         <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
