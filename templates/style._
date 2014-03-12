@@ -144,7 +144,7 @@
       <% } %>
     </div>
     <div class='pin-right'><!--
-      --><a href='#user' class='inline quiet small'><%= user %></a><!--
+      --><a href='#user' class='inline quiet small'><%= user.id %></a><!--
       --><a class='full-n pad1 inline icon l-r-arrow quiet unround align-middle' href='#full'></a><!--
       --><a class='full-y pad1 inline quiet icon close unround align-middle' href='#'></a>
     </div>
@@ -204,7 +204,7 @@
   </form>
 </div>
 
-<%= this.modaluser({user:user}) %>
+<%= this.modaluser({name:user.name, avatar:user.avatar}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>

@@ -39,7 +39,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
     if (tm.db._docs.oauth) {
-        request('https://api.mapbox.com/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function (error, response, body) {
+        request('https://api.mapbox.com/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
             if (JSON.parse(body).message === 'Tileset does not exist') {
                 var data = {
                     '_type': 'composite',
@@ -194,7 +194,7 @@ app.get('/:style(style):history()', function(req, res, next) {
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            user: tm.db._docs.oauth.account
+            user: tm.db._docs.user
         });
     } catch(err) {
         return next(new Error('style template: ' + err.message));
