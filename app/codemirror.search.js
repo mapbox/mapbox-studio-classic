@@ -49,7 +49,7 @@
     });
     dialog.querySelector('.icon.help').addEventListener('click', function() {
       this.parentNode.removeChild(this);
-      wrap.style.bottom = '115px';
+      wrap.style.bottom = '163px';
       dialog.querySelector('.search-help').classList.remove('hidden');
       return false;
     });
