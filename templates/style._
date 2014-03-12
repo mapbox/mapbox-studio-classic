@@ -126,9 +126,9 @@
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon sprocket project-name js-name button inline unround fill-darken2'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
-        --><a class='js-save button icon inline floppy round-right fill-dark unround' href='#saveas'></a>
+        --><a class='js-save button icon inline floppy round-right fill-dark unround' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='js-save button icon inline floppy round-right fill-darken3 unround' href='#'></a>
+        --><a class='js-save button icon inline floppy round-right fill-darken3 unround' href='#'>Save</a>
       <% } %>
     </div>
   </div>

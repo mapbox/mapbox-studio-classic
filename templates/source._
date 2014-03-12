@@ -30,9 +30,9 @@
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround js-name strong fill-darken2'><%= source.name || 'Untitled' %></a><!--
       <% if (source._tmp) { %>
-      --><a class='button icon floppy js-save round-right fill-dark' href='#saveas'></a>
+      --><a class='button icon floppy js-save round-right fill-dark' href='#saveas'>Save as</a>
       <% } else { %>
-      --><a class='button icon floppy js-save round-right fill-dark' href='#'></a>
+      --><a class='button icon floppy js-save round-right fill-dark' href='#'>Save</a>
       <% } %>
     </div>
   </div>
