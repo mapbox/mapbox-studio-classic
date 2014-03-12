@@ -119,7 +119,7 @@
   </div>
 </form>
 
-<div id='full' class='clip animate col6 pin-left clip'>
+<div id='full' class='clip animate col6 pin-left'>
 
   <div id='title' class='contain pin-top z1'>
     <div class='pin-left clearfix'><!--

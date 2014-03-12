@@ -181,10 +181,9 @@ a.project:hover {
   }
 #zoomedto {
   position:absolute;
-  left: 10px;
-  top: 40px;
-  margin:10px 10px 0px 0px;
-  height:0px;
+  left: 0;
+  bottom: 0;
+  margin:10px;
   }
 #zoomedto .z {
   display:none;
@@ -243,12 +242,12 @@ a.project:hover {
   }
 #zoomedto:target {
   z-index:1;
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-top: 1px solid rgba(0,0,0,.1);
   overflow:hidden;
   background:#eee;
   height:120px;
   right: 0;
-  top: 0;
+  bottom: 0;
   left:0;
   margin:0px;
   -moz-transition:height 100ms;
@@ -492,8 +491,8 @@ span.cm-carto-filter             { color:#66475B; }
 
 #map-controls {
   position: absolute;
-  top: 70px;
-  left: 0px;
+  bottom: 0px;
+  left: 105px;
 }
 
 #layers { z-index: -1;}
