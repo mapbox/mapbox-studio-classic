@@ -181,14 +181,14 @@ a.project:hover {
   }
 #zoomedto {
   position:absolute;
-  right:0px;
-  top:40px;
+  right:0;
+  top:0px;
   margin:10px 10px 0px 0px;
   height:0px;
   }
 #zoomedto .z {
   display:none;
-  width:100px; height:20px;
+  width:100px; height:22px;
   }
 #zoomedto .a { text-transform: uppercase; }
 #zoomedto .range {
@@ -198,7 +198,7 @@ a.project:hover {
   overflow:hidden;
   left:50%;
   right:5px;
-  top:8px;
+  top:9px;
   background:rgba(0,0,0,0.1);
   display:block;
   }
@@ -331,7 +331,8 @@ a.project:hover {
 .dark #zoomedto.z21 .z21,
 .dark #zoomedto.z22 .z22 { background:#3b3b3b; }
 .dark #zoomedto .z,
-.dark #zoomedto strong { border-color:rgba(0,0,0,.2); }
+.dark #zoomedto strong,
+.dark #map-controls * { border-color:rgba(0,0,0,.2); }
 
 .dark #zoomedto .z a,
 .leaflet-container.dark .leaflet-bar,
@@ -485,15 +486,21 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
 
+
+.leaflet-control-zoom { display: none; }
+
+#map-controls {
+  position: absolute;
+  top: 0;
+  right: 104px;
+}
+
 /* Visibility */
 /* Off-canvas menu vs. Content */
-#data:target ~ #full .project-name,
-.menu:target ~ #full .project-name { margin-left: 40px;}
-#data:target ~ .pin-left,
-.menu:target ~ .pin-left {
-  left:25%; width: 25%;
-}
-#data:target ~ .pin-right { left:75%; }
+#layers:target ~ .pin-right,
+#data:target ~ .pin-right { right:25%; }
+#layers:target ~ .pin-left,
+#data:target ~ .pin-left{ left:-25%; }
 #full:target { width:100%; }
 
 #full:target ~ .pin-right {
@@ -506,14 +513,15 @@ span.cm-carto-filter             { color:#66475B; }
 #perf:target ~ #full { bottom:40px; }
 
 /* Button visibility/clickability */
-a.menu-y { display:none; }
-a.full-y { display:none; }
-a.docs-y { display:none; }
+a.menu-y,
+a.full-y,
+a.docs-y,
 a.data-y { display:none; }
 .menu:target ~ * a.menu-y,
 #data:target ~ * a.data-y,
 #full:target     a.full-y { display:inline-block; }
 .menu:target ~ * a.menu-n,
+#layers:target ~ * a.layers-n,
 #full:target     a.full-n { display:none; }
 
 /* Media queries */
