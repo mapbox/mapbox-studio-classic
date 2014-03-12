@@ -28,7 +28,7 @@
             <code><%= item.id.split('/').pop() %></code>
           </div>
         </a>
-        <a href='style?id=<%=item.id%>' class='js-ref-delete x round-right icon pad1x pad2y pin-topright quiet'></a>
+        <a href='style?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
       </div>
       <% }); %>
     </div>
@@ -65,7 +65,7 @@
               <code><%= item.id.split('/').pop() %></code>
             </div>
           </a>
-          <a href='source?id=<%=item.id%>' class='js-ref-delete x round-right icon pad1x pad2y pin-topright quiet'></a>
+          <a href='source?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
         </div>
       <% }); %>
 
