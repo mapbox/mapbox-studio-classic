@@ -137,12 +137,12 @@
 <div id='full' class='clip animate col6 pin-left clip'>
 
   <div id='title' class='contain pin-top z1'>
-    <div class='pin-left pad0y clearfix'><!--
-      --><a href='#settings' class='icon sprocket project-name js-name button short inline unround fill-darken2'><%= style.name || 'Untitled' %></a><!--
+    <div class='pin-left clearfix'><!--
+      --><a href='#settings' class='icon sprocket project-name js-name button inline unround fill-darken2'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
-        --><a class='js-save button short icon inline floppy round-right fill-dark' href='#saveas'>Save as</a>
+        --><a class='js-save button icon inline floppy round-right fill-dark unround' href='#saveas'></a>
       <% } else { %>
-        --><a class='js-save button short icon inline floppy round-right fill-darken3' href='#'>Save</a>
+        --><a class='js-save button icon inline floppy round-right fill-darken3 unround' href='#'></a>
       <% } %>
     </div>
   </div>
