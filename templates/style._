@@ -380,7 +380,7 @@ Editor.prototype.adddata = function(ev) {
   return false;
 };
 Editor.prototype.addtab = function(ev) {
-  var filename = $('#addtab-filename').val()+'.mss';
+  var filename = $('#addtab-filename').val().split('.')[0] + '.mss';
   if (!code[filename]) {
     $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
@@ -402,8 +402,9 @@ Editor.prototype.deltab = function(ev) {
     delete code[target];
     this.model.set({styles:styles});
     // Set first tab to active.
-    if (parent.is('.active') && $('a.js-tab').size())
-      this.tab({ currentTarget:$('a.js-tab').get(0) });
+    var tabs = $('.js-tab', '#tabs');
+    if (parent.is('.active') && tabs.size())
+      this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
   }
   return false;
 };
@@ -559,6 +560,16 @@ $('pre.carto-snippet').each(function(i, elem) {
   CodeMirror.runMode(text, {name:'carto',reference:window.cartoRef}, $(elem).get(0));
 });
 </script>
-</body>
 
+<% if (test) { %>
+  <link href='/app/test/mocha.css' rel='stylesheet' />
+  <style>body{padding:0;}/*Bad Mocha*/</style>
+  <script src='/app/test/chai.js'></script>
+  <script src='/app/test/mocha.js'></script>
+  <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
+  <div id='mask' class='fill-darken2 animate'></div>
+  <script src='/app/test/app.test.js'></script>
+<% } %>
+
+</body>
 </html>

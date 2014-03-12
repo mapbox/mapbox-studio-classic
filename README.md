@@ -156,3 +156,4 @@ Click the **Mapbox** link from the Sources pane and enter the Map ID of your sou
 ![tmp-tm2-mapboxsource](https://f.cloud.github.com/assets/83384/2247458/038c1122-9d6f-11e3-8d8e-8e1c130bfcbf.png)
 
 Vector tiles for this source are now loaded over HTTP from Mapbox and can be added to a style.
+

@@ -85,6 +85,7 @@ kbd {
   }
 .modal.target,
 .modal:target,
+.modal.target ~ #mask,
 .modal:target ~ #mask { display:block; }
 
 .dark .fill-light.modal { background:#444; }
