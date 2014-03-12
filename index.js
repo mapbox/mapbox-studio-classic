@@ -16,6 +16,8 @@ var cors = require('cors');
 var argv = require('optimist')
     .config('config')
     .argv;
+var request = require('request');
+
 
 // Load defaults for new styles.
 var defaults = {};
@@ -37,8 +39,37 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
     if (tm.db._docs.oauth) {
-        // TODO 'Who am I?' test api call
-        next();
+        request('https://api.mapbox.com/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function (error, response, body) {
+            if (JSON.parse(body).message === 'Tileset does not exist') {
+                var data = {
+                    '_type': 'composite',
+                    'center': [0,0,3],
+                    'created': 1394571600000,
+                    'description': '',
+                    'id': tm.db._docs.oauth.account+'.tm2-basemap',
+                    'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
+                    'name': 'Untitled project',
+                    'new': true,
+                    'private': true
+                };
+                request({
+                    method: 'PUT',
+                    uri: 'https://api.mapbox.com/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }, function(error, response, body) {
+                    if (JSON.parse(body)._rev) {
+                        next();
+                    } else {
+                        res.redirect('/unauthorize');
+                    }
+                });
+            } else {
+                next();
+            }
+        });
     } else {
         res.redirect('/authorize');    
     }
