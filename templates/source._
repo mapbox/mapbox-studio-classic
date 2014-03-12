@@ -29,9 +29,9 @@
     <div class='pin-left clearfix'>
       <a href='#settings' class='icon inline sprocket button unround js-name fill-lighten2'><%= source.name || 'Untitled' %></a><!--
       <% if (source._tmp) { %>
-      --><a class='button icon floppy js-save round-right fill-dark' href='#saveas'>Save as</a>
+      --><a class='button icon floppy js-save unround fill-dark' href='#saveas'>Save as</a>
       <% } else { %>
-      --><a class='button icon floppy js-save round-right fill-dark' href='#'>Save</a>
+      --><a class='button icon floppy js-save unround fill-dark' href='#'>Save</a>
       <% } %>
     </div>
   </div>
