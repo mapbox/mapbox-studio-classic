@@ -34,7 +34,7 @@
       <a class='inline pad1 icon quiet close' href='#layers'></a>
     </nav>
   </section>
-  <div class='grid pad1 clearfix'><!--
+  <div class='grid pad1 clearfix'>
   <%
     print(_(history.source).chain()
       .sortBy(function(item) {
@@ -45,7 +45,7 @@
       }.bind(this))
       .value().join(''));
   %>
-  --></div>
+  </div>
 </div>
 
 <form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
