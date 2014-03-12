@@ -20,9 +20,7 @@
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Interactivity form */
-#code #interactivity {
-  top:40px;
-}
+#code #interactivity { top:40px;}
 
 /* Editor tabs */
 #tabs a.tab {
@@ -82,6 +80,7 @@
 /* Carto ref docs */
 #fonts:target ~ * a.docs-y,
 #docs:target ~ * a.docs-y { display:block; }
+
 #fonts:target ~ * a.docs-n,
 #docs:target ~ * a.docs-n { display:none; }
 #docs:target nav,
