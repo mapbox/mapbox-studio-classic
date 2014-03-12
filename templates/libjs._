@@ -80,6 +80,35 @@ var statHandler = function(key) {
   }).throttle(50);
 };
 
+var messageModal = function(text) {
+  $('#message .js-message').text(text);
+  window.location.hash = '#message';
+};
+
+var messageClear = function() {
+  $('#message .js-message').text('');
+  $('#full').removeClass('loading');
+};
+
+var delStyle = function(ev) {
+  var id = $(ev.currentTarget).attr('href');
+  var parent = $(ev.currentTarget).parent();
+  var name = id.split('/').pop();
+  if (confirm('Remove "' + name + '"?')) {
+    $.ajax({
+      url:'/history/' + id,
+      type: 'DELETE',
+      success: function(resp) {
+        parent.remove();
+      },
+      error: function(resp) {
+        messageModal(resp.status + " " + resp.statusText);
+      }
+    });
+  };
+  return false;
+};
+
 var views = {};
 
 views.Browser = Backbone.View.extend({});
@@ -117,6 +146,7 @@ views.Browser.prototype.render = function() {
     error: function(resp) {}
   });
 };
+
 views.Browser.prototype.submit = function(ev) {
   // Grab settings form values.
   var values = _($(this.el).serializeArray()).reduce(function(memo, field) {

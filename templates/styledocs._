@@ -212,7 +212,7 @@ spin(@color, -10);</pre>
   %>
   <section class='pad2 keyline-bottom'>
   <div class='clearfix space-bottom1'>
-    <strong><code class='big fill-lighten3'><%= p.css %>:</code></strong>
+    <strong><code class='big'><%= p.css %>:</code></strong>
     <code class='type'><%=_(p.type).isArray() ? 'option block' : p.type%></code>
     <% if (p['default-value'] && p['default-value']!=='none') { %>
     <code class='value'><%=p['default-value']%></code>

@@ -3,7 +3,7 @@
 {{#<%=field%>}}
 <div class='clearfix tiny code xray-listing keyline-left keyline-right keyline-bottom'>
     <div class='pad0y pad1x col4 xray'><%=field%></div>
-    <div class='pad0y pad1x keyline-left col8'>{{<%=field%>}}</div>
+    <div class='quiet pad0y pad1x keyline-left col8'>{{<%=field%>}}</div>
 </div>
 {{/<%=field%>}}
 <% }); %>

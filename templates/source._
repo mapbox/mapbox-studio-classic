@@ -103,7 +103,7 @@ revlayers.reverse();
   <% var disabled = remote ? "disabled='disabled'" : ''; %>
   <header class='pad2 keyline-bottom'>
     <h3>Settings</h3>
-    <nav class='pin-topright pad1'><a class='inline quiet pad1 icon small strong close return' href='#'>Back to <%= _(source.name).escape() || 'Project' %></a></nav>
+    <nav class='pin-topright pad1'><a class='inline quiet pad1 icon small strong close return' href='#'>Back to <span class='js-name'><%= _(source.name).escape() || 'Project' %></span></a></nav>
   </header>
 
   <div class='pad2'>
@@ -136,8 +136,8 @@ revlayers.reverse();
 
     <% if (!remote) { %>
       <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='button col6 submit icon js-save floppy'>Save</a><!--
-        --><a href='/mbtiles?id=<%= source.id %>' class='button col6 submit icon share'>Export</a>
+        --><a href='#' class='quiet button col6 submit icon js-save floppy'>Save</a><!--
+        --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 submit icon share'>Export</a>
       </section>
     <% } else { %>
       <section>
@@ -289,6 +289,7 @@ Editor.prototype.events = {
   'click .layer .xrayinspector': 'toggleinspector',
   'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
+  'click #settings .js-ref-delete': 'delstyle',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
   'click #zoom-in': 'zoomin',
@@ -411,20 +412,12 @@ Editor.prototype.deletelayer = function(ev) {
   return false;
 };
 Editor.prototype.error = function(model, resp) {
-  this.messageClear();
+  this.messageclear();
   if (resp.responseText) {
-    this.messageModal(resp.responseText);
+    this.messagemodal(resp.responseText);
   } else {
-    this.messageModal('Could not save source "' + model.id + '"');
+    this.messagemodal('Could not save source "' + model.id + '"');
   }
-};
-Editor.prototype.messageModal = function(text) {
-  $('#message .js-message').text(text);
-  window.location.hash = '#message';
-};
-Editor.prototype.messageClear = function() {
-  $('#message .js-message').text('');
-  $('#full').removeClass('loading');
 };
 Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
@@ -465,7 +458,7 @@ Editor.prototype.save = function(ev, options) {
   return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.refresh = function(ev) {
-  this.messageClear();
+  this.messageclear();
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -505,7 +498,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .js-name').text(this.model.get('name') || 'Untitled');
+  $('.js-name').text(this.model.get('name') || 'Untitled');
 
   // Clear save notice.
   if (window.location.hash === '#refresh') {
@@ -524,6 +517,10 @@ Editor.prototype.browsefile = function(ev) {
   $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
 };
+
+Editor.prototype.messagemodal = messageModal;
+Editor.prototype.messageclear = messageClear;
+Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 

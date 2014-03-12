@@ -162,6 +162,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .overlay:target .pane,
 
 a.project strong { color: white;}
+
 a.project:hover {
   background: rgba(255,255,255,.15);
 }
@@ -392,6 +393,7 @@ a.project:hover {
 
 /* Data menu */
 #layers .layer { border-bottom-color: rgba(0,0,0,.2);}
+#layers .layer:hover { background: rgba(0,0,0,.05);}
 #layers .data-y,
 #layers .data-n { display:none; }
 
@@ -402,7 +404,7 @@ a.project:hover {
 #layers .geometry { opacity:0.6; }
 #layers * { border-color: rgba(0,0,0,.2); }
 #layers .field-key { color: #f1f075;}
-#layers span.active { background: rgba(0,0,0,.2);}
+#layers .layer.active { background: rgba(0,0,0,.2);}
 #layers a.active .geometry { opacity:1; }
 #layers small { display:none;}
 #layers .active small { display:block; }
