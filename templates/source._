@@ -299,6 +299,7 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
+
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
@@ -309,7 +310,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
-  case (which === 73): // i for info (s is taken)
+  case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;

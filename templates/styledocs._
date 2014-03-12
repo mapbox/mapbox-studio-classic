@@ -51,8 +51,9 @@ var sections = {
       <li><h4>Style &amp; Source:</h4></li>
       <li><kbd>Cmd</kbd>+<kbd>s</kbd> Save style or source.</li>
       <li><kbd>Cmd</kbd>+<kbd>.</kbd> View map.</li>
-      <li><kbd>Cmd</kbd>+<kbd>i</kbd> View settings.</li>
+      <li><kbd>Cmd</kbd>+<kbd>/</kbd> View settings.</li>
       <li><kbd>Cmd</kbd>+<kbd>h</kbd> View help.</li>
+      <li><kbd>Cmd</kbd>+<kbd>d</kbd> View data from style.</li>
       <li><kbd>Esc</kbd> Close popup or window.</li>
       </ul>
     </div>

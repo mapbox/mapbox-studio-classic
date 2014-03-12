@@ -336,11 +336,11 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
-  case (which === 188): // , for layers
+  case (which === 68): // d for layers/data
     ev.preventDefault();
     this.togglePane('layers');
     break;
-  case (which === 73): // i for info
+  case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;
