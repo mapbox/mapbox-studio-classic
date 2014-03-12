@@ -155,12 +155,11 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   z-index:1002;
   height:100%;
   box-shadow:rgba(0,0,0,0.1) -2px 0px 0px;
-  }
+}
 .pane > * { display:none; }
 .overlay:target .pane > *,
 .pane:target > * { display:block; }
 .overlay:target .pane,
-.pane > .column { overflow:auto; }
 
 a.project strong { color: white;}
 a.project:hover {
@@ -181,8 +180,8 @@ a.project:hover {
   }
 #zoomedto {
   position:absolute;
-  right:0;
-  top:0px;
+  left: 10px;
+  top: 40px;
   margin:10px 10px 0px 0px;
   height:0px;
   }
@@ -247,7 +246,9 @@ a.project:hover {
   overflow:hidden;
   background:#eee;
   height:120px;
-  left:0px;
+  right: 0;
+  top: 0;
+  left:0;
   margin:0px;
   -moz-transition:height 100ms;
   -webkit-transition:height 100ms;
@@ -485,23 +486,27 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
 
-
 .leaflet-control-zoom { display: none; }
 
 #map-controls {
   position: absolute;
-  top: 0;
-  right: 104px;
+  top: 70px;
+  left: 0px;
 }
 
 #title .avatar { width: 40px; height: 40px; }
+#layers { z-index: -1;}
 
 /* Visibility */
 /* Off-canvas menu vs. Content */
-#layers:target ~ .pin-right,
-#data:target ~ .pin-right { right:25%; }
-#layers:target ~ .pin-left,
-#data:target ~ .pin-left{ left:-25%; }
+#data:target ~ * #layers,
+#layers:target {
+  -webkit-transform:translateX(-100%);
+     -moz-transform:translateX(-100%);
+      -ms-transform:translateX(-100%);
+          transform:translateX(-100%);
+}
+
 #full:target { width:100%; }
 
 #full:target ~ .pin-right {
@@ -514,6 +519,12 @@ span.cm-carto-filter             { color:#66475B; }
 #perf:target ~ #full { bottom:40px; }
 
 /* Button visibility/clickability */
+
+a.layers-y { display:none; }
+
+#data:target ~ * a.layers-y,
+#layers:target ~ * a.layers-y { display:block; }
+
 a.menu-y,
 a.full-y,
 a.docs-y,
@@ -522,6 +533,7 @@ a.data-y { display:none; }
 #data:target ~ * a.data-y,
 #full:target     a.full-y { display:inline-block; }
 .menu:target ~ * a.menu-n,
+#data:target ~ * a.layers-n,
 #layers:target ~ * a.layers-n,
 #full:target     a.full-n { display:none; }
 

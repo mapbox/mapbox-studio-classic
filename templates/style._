@@ -27,7 +27,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane pin-top animate offcanvas-top fill-blue dark scroll-styled col9'>
+<div id='data' class='pane pin-topleft animate offcanvas-left fill-blue dark scroll-styled col3'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
@@ -119,21 +119,6 @@
   </div>
 </form>
 
-<div id='layers' class='z10 animate pin-right menu col3 dark offcanvas-right fill-dark'>
-  <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
-    <div class='pin-topleft pad0'><!--
-      --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
-      --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
-    </div>
-    <div class='pin-topright pad1'><!--
-    --><a href='#' class='align-middle icon close'></a>
-    </div>
-  </nav>
-  <div class='js-menu-content pin-left col12 top4 scroll-styled'>
-  <%= _(sources).map(this.sourcelayers).join('\n') %>
-  </div>
-</div>
-
 <div id='full' class='clip animate col6 pin-left clip'>
 
   <div id='title' class='contain pin-top z1'>
@@ -152,14 +137,14 @@
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
   <div id='map-controls' class='pad1'>
-    <a href='#full' class='full-n round keyline-all fill-white icon fullscreen quiet'></a>
-    <a href='#' class='full-y round keyline-all fill-dark dark icon brackets'></a>
-    <div class='pad0x inline'>
+    <div class='inline'>
       <div class='round keyline-all z1 fill-white'>
         <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
         --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
+    <a href='#full' class='full-n round inline keyline-all fill-white icon fullscreen quiet'></a>
+    <a href='#' class='full-y round keyline-all fill-dark dark icon close'></a>
   </div>
 </div>
 
@@ -184,22 +169,40 @@
 </div>
 
 <div id='code' class='animate z1 col6 pin-right fill-light'>
-  <div class='pin-topleft docs-button fill-gray z1 keyline-bottom row1'>
-    <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
-    <a class='keyline-right pad1 inline quiet docs-y icon close unround' href='#'></a>
+
+  <div id='layers' class='animate pin-left menu col6 dark fill-dark'>
+    <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
+      <div class='pin-topleft pad0'><!--
+        --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
+        --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
+      </div>
+    </nav>
+    <div class='js-menu-content pin-left col12 top4 scroll-styled'>
+    <%= _(sources).map(this.sourcelayers).join('\n') %>
+    </div>
   </div>
-  <a class='layers-n pin-topright z1 pad1 icon menu quiet unround align-middle' href='#layers'></a>
-  <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
-    --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
-    <% _(style.styles).keys().forEach(function(k,i) { %>
-    --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
-    <% }); %>
-  -->
-    <span class='z1'>
-      <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
-    </span>
-  </nav>
-  <form id='interactivity' class='space row1 pad1 keyline-bottom pin-top'>
+
+  <div class='row1 fill-light pin-top'>
+    <div class='pin-topleft fill-gray z1 keyline-bottom row1'>
+      <a class='keyline-right pad1 inline quiet layers-n icon menu' href='#layers'></a>
+      <a class='keyline-right pad1 inline quiet layers-y icon close unround' href='#'></a>
+    </div>
+    <div class='keyline-left pin-topright z1'>
+      <a class='docs-n pad1 inline icon info quiet unround align-middle' href='#docs'></a>
+      <a class='docs-y pad1 inline icon x quiet unround align-middle' href='#'></a>
+    </div>
+    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
+      --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
+      <% _(style.styles).keys().forEach(function(k,i) { %>
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
+      <% }); %>
+    -->
+      <span class='z1'>
+        <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
+      </span>
+    </nav>
+  </div>
+  <form id='interactivity' class='fill-light space row1 pad1 keyline-bottom pin-top'>
     <label class='small'>Layer</label>
     <select name='interactivity_layer'>
       <option value=''>&lt; choose layer &gt;</option>
@@ -210,6 +213,7 @@
       <% }); %>
     </select>
   </form>
+
 </div>
 
 <%= this.modaluser({name:user.name}) %>

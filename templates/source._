@@ -507,6 +507,11 @@ Editor.prototype.refresh = function(ev) {
   $('title').text(this.model.get('name'));
   $('#title .js-name').text(this.model.get('name') || 'Untitled');
 
+  // Clear save notice.
+  if (window.location.hash === '#refresh') {
+    window.location.hash = '#';
+  };
+
   // Rerender fields forms.
   _(layers).each(function(l) { l.refresh() });
 
