@@ -25,24 +25,31 @@
 <div id='perf'></div>
 
 <div id='full' class='clip animate col6 pin-left clip'>
-  <div id='title' class='pad1y dark fill-darken1 contain row1 pin-top col12 center z1'>
-    <div class='pin-left pad0'>
+  <div id='title' class='contain pin-top z1'>
+    <div class='pin-left pad0y clearfix'><!--
+      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#settings' class='icon inline sprocket button short unround js-name strong fill-darken2'><%= source.name || 'Untitled' %></a><!--
       <% if (source._tmp) { %>
-      <a class='button short icon floppy js-save quiet' href='#saveas'>Save as</a>
+      --><a class='button short icon floppy js-save round-right fill-dark' href='#saveas'>Save as</a>
       <% } else { %>
-      <a class='button short icon floppy js-save quiet' href='#'>Save</a>
+      --><a class='button short icon floppy js-save round-right fill-dark' href='#'>Save</a>
       <% } %>
-    </div>
-    <a href='#settings' class='icon inline sprocket small js-name strong quiet'><%= source.name || 'Untitled' %></a>
-    <div class='pin-right'>
-      <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
-      <a class='full-y pad1 quiet icon close unround' href='#'></a>
     </div>
   </div>
   <div id='map' class='animate dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
+  <div id='map-controls' class='pad1'>
+    <a href='#full' class='full-n round keyline-all fill-dark icon fullscreen quiet'></a>
+    <a href='#' class='full-y round keyline-all fill-dark icon menu'></a>
+    <div class='pad0x inline'>
+      <div class='round keyline-all z1 fill-dark'>
+        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
+        --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
+      </div>
+    </div>
+  </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
     <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
@@ -147,6 +154,7 @@ revlayers.reverse();
   label: 'Select'
 })); %>
 
+<%= this.modaluser({name:user.name}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
@@ -283,6 +291,9 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
+  'click #zoom-in': 'zoomin',
+  'click #zoom-out': 'zoomout',
+  'submit #user': 'user',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -308,6 +319,16 @@ Editor.prototype.keys = function(ev) {
     return true;
   }
   return false;
+};
+Editor.prototype.user = function() {
+  window.location.href = window.location.origin + '/unauthorize';
+  return false;
+};
+Editor.prototype.zoomin = function(out) {
+  map.setZoom(map.getZoom()+1);
+};
+Editor.prototype.zoomout = function() {
+  map.setZoom(map.getZoom()-1);
 };
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;

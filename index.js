@@ -339,7 +339,8 @@ app.get('/:source(source):history()', function(req, res, next) {
             cwd: process.env.HOME,
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
-            history: req.history
+            history: req.history,
+            user: tm.db._docs.user
         });
     } catch(err) {
         return next(new Error('source template: ' + err.message));

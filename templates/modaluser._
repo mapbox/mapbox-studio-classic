@@ -1,13 +1,12 @@
 <%
 // Required vars
 // - name, the authed user's name
-// - avatar, the authed user's avatar
 %>
 
 <form id='user' class='modal center round pad2 col6 margin3 fill-light'>
   <a class='pad1 quiet icon close submit pin-topright x dot' href='#'></a>
   <span class='center small'>TM2 is currently authorized for</span>
-  <h2 class='space-bottom1'><img class='inline dot' width='30px' height='30px' src='<%= avatar %>' /> <%= name %></h2>
+  <h2 class='space-bottom1'><%= name %></h2>
   <div class='col12 clearfix space-bottom1'>
   	<input class='col6 margin3' type='submit' value='Unauthorize'/>
   </div>
