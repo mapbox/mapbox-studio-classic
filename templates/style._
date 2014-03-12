@@ -182,15 +182,13 @@
   </div>
 
   <div class='row1 fill-light pin-top'>
-    <div class='pin-topleft fill-gray z1 keyline-bottom row1'>
-      <a class='keyline-right pad1 inline quiet layers-n icon menu' href='#layers'></a>
-      <a class='keyline-right pad1 inline quiet layers-y icon close unround' href='#'></a>
+    <div class='pin-topleft fill-gray z1 keyline-bottom row1'><!--
+      --><a class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0' href='#docs'></a><!--
+      --><a class='pad1 inline quiet docs-y icon x unround align-middle fill-darken0' href='#'></a><!--
+      --><a class='pad1 inline quiet layers-n icon menu align-middle fill-darken0 keyline-right' href='#layers'></a><!--
+      --><a class='pad1 inline quiet layers-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a>
     </div>
-    <div class='keyline-left pin-topright z1'>
-      <a class='docs-n pad1 inline icon info quiet unround align-middle' href='#docs'></a>
-      <a class='docs-y pad1 inline icon x quiet unround align-middle' href='#'></a>
-    </div>
-    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
+    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
       --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--

@@ -23,6 +23,10 @@
 #code #interactivity { top:40px;}
 
 /* Editor tabs */
+#tabs { 
+  padding-left: 80px;
+  padding-right: 10px;
+}
 #tabs a.tab {
   margin:0px 0px 0px 5px;
   display: inline-block;
@@ -79,7 +83,7 @@
 
 /* Carto ref docs */
 #fonts:target ~ * a.docs-y,
-#docs:target ~ * a.docs-y { display:block; }
+#docs:target ~ * a.docs-y { display:inline-block; }
 
 #fonts:target ~ * a.docs-n,
 #docs:target ~ * a.docs-n { display:none; }
