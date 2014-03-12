@@ -26,12 +26,12 @@
 
 <div id='full' class='clip animate col6 pin-left clip'>
   <div id='title' class='contain pin-top z1'>
-    <div class='pin-left pad0y clearfix'>
-      <a href='#settings' class='icon inline sprocket button short unround js-name strong fill-darken2'><%= source.name || 'Untitled' %></a><!--
+    <div class='pin-left clearfix'>
+      <a href='#settings' class='icon inline sprocket button unround js-name fill-lighten2'><%= source.name || 'Untitled' %></a><!--
       <% if (source._tmp) { %>
-      --><a class='button short icon floppy js-save round-right fill-dark' href='#saveas'>Save as</a>
+      --><a class='button icon floppy js-save round-right fill-dark' href='#saveas'></a>
       <% } else { %>
-      --><a class='button short icon floppy js-save round-right fill-dark' href='#'>Save</a>
+      --><a class='button icon floppy js-save round-right fill-dark' href='#'></a>
       <% } %>
     </div>
   </div>
@@ -492,6 +492,11 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map title.
   $('title').text(this.model.get('name'));
   $('.js-name').text(this.model.get('name') || 'Untitled');
+
+  // Clear save notice.
+  if (window.location.hash === '#refresh') {
+    window.location.hash = '#';
+  };
 
   // Rerender fields forms.
   _(layers).each(function(l) { l.refresh() });
