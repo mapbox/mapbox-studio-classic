@@ -396,11 +396,13 @@ Editor.prototype.adddata = function(ev) {
   return false;
 };
 Editor.prototype.addtab = function(ev) {
-  var filename = $('#addtab-filename').val().split('.')[0] + '.mss';
+  var field = $('#addtab-filename');
+  var filename = field.val().split('.')[0] + '.mss';
   if (!code[filename]) {
     $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
+  field.val('');
   window.location.hash = '#';
   return false;
 };
