@@ -563,7 +563,7 @@ $('pre.carto-snippet').each(function(i, elem) {
 
 <% if (test) { %>
   <link href='/app/test/mocha.css' rel='stylesheet' />
-  <style>body{padding:0;}/*Bad Mocha*/</style>
+  <style>body{padding:0;line-height:1;}/*Bad Mocha*/</style>
   <script src='/app/test/chai.js'></script>
   <script src='/app/test/mocha.js'></script>
   <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>

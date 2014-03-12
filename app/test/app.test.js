@@ -4,10 +4,13 @@ var expect = chai.expect;
 var event, el;
 mocha.setup('bdd');
 
-// Override window.confirm for the test runner.
+// Override window methods for the test runner.
 window.confirm = function(message) { return true; };
 
 describe('Editor', function() {
+
+    /*
+    TODO - https://github.com/mapbox/tm2/issues/203
     beforeEach(function() {
         event = document.createEvent('HTMLEvents');
     });
@@ -16,12 +19,26 @@ describe('Editor', function() {
         el = document.getElementById('title').getElementsByClassName('js-save')[0];
         event.initEvent('click', true, false);
         el.dispatchEvent(event);
-        var form = document.getElementById('saveas')
-        form.getElementsByTagName('input')[0].value = 'foo.tm2';
-        form.dispatchEvent(event);
+
+        var form = document.getElementById('saveas');
+        form.getElementsByTagName('input')[1].value = 'foo.tm2';
+        var submit = document.createEvent('HTMLEvents');
+        submit.initEvent('submit', true, false);
+        form.dispatchEvent(submit);
     });
 
     it('loads a project');
+
+    describe('Settings', function() {
+        beforeEach(function() {
+            event = document.createEvent('HTMLEvents');
+        });
+
+        it('should delete a project', function() {
+            el = document.getElementById('settings-style').getElementsByClassName('js-ref-delete')[0];
+        });
+    });
+    */
 
     describe('Code editor', function() {
         beforeEach(function() {
@@ -64,21 +81,6 @@ describe('Editor', function() {
                 var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
                 expect(tab[tab.length - 1].rel).to.equal('foo.mss');
             });
-        });
-    });
-
-    describe('Settings', function() {
-        beforeEach(function() {
-            event = document.createEvent('HTMLEvents');
-        });
-
-        it('should delete a project', function() {
-            el = document.getElementById('settings-style').getElementsByClassName('js-ref-delete')[0];
-            // event.initEvent('click', true, false);
-            // el.dispatchEvent(event);
-
-            console.log(el);
-            // expect();
         });
     });
 
