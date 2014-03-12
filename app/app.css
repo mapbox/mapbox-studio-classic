@@ -85,6 +85,7 @@ kbd {
   }
 .modal.target,
 .modal:target,
+.modal.target ~ #mask,
 .modal:target ~ #mask { display:block; }
 
 .dark .fill-light.modal { background:#444; }
@@ -493,7 +494,7 @@ span.cm-carto-filter             { color:#66475B; }
   right: 104px;
 }
 
-#title .avatar { width: 30px; height: 30px; }
+#title .avatar { width: 40px; height: 40px; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */

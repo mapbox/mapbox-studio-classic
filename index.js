@@ -194,7 +194,8 @@ app.get('/:style(style):history()', function(req, res, next) {
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            user: tm.db._docs.user
+            user: tm.db._docs.user,
+            test: 'test' in req.query
         });
     } catch(err) {
         return next(new Error('style template: ' + err.message));
