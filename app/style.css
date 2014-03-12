@@ -1,7 +1,7 @@
 #map {
   position:absolute;
-  top:40px;
   bottom:0px;
+  top: 0px;
   left:-50%;
   width:200%;
   }

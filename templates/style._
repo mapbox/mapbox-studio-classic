@@ -27,7 +27,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane pin-top animate offcanvas-top fill-blue dark scroll-styled col9 margin3'>
+<div id='data' class='pane pin-top animate offcanvas-top fill-blue dark scroll-styled col9'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
@@ -119,12 +119,14 @@
   </div>
 </form>
 
-<div id='layers' class='z10 animate pin-left menu col3 dark offcanvas-left fill-dark'>
+<div id='layers' class='z10 animate pin-right menu col3 dark offcanvas-right fill-dark'>
   <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
-  <div class='pin-topleft'><!--
-    --><a href='#' class='align-middle inline pad1 icon close'></a><!--
-    --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
-    --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
+    <div class='pin-topleft pad0'><!--
+      --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
+      --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
+    </div>
+    <div class='pin-topright pad1'><!--
+    --><a href='#' class='align-middle icon close'></a>
     </div>
   </nav>
   <div class='js-menu-content pin-left col12 top4 scroll-styled'>
@@ -134,25 +136,30 @@
 
 <div id='full' class='clip animate col6 pin-left clip'>
 
-  <div id='title' class='contain row1 pin-top col12 center pad1y fill-lighten1 dark keyline-bottom z1'>
-    <div class='pin-left'><!--
-      --><a class='inline pad1 icon menu quiet unround align-middle' href='#layers'></a><!--
+  <div id='title' class='contain pin-top z1'>
+    <div class='pin-left pad0y clearfix'><!--
+      --><a href='#settings' class='icon sprocket project-name js-name button short inline unround fill-darken2'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
-        --><a class='js-save button short icon floppy quiet' href='#saveas'>Save as</a>
+        --><a class='js-save button short icon inline floppy round-right fill-dark' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='js-save button short icon floppy quiet' href='#'>Save</a>
+        --><a class='js-save button short icon inline floppy round-right fill-darken3' href='#'>Save</a>
       <% } %>
     </div>
-    <div class='pin-right'>
-      <a class='full-n pad1 inline icon l-r-arrow quiet unround' href='#full'></a>
-      <a class='full-y pad1 quiet icon close unround' href='#'></a>
-    </div>
-    <a href='#settings' class='center icon sprocket project-name js-name block small strong quiet'><%= style.name || 'Untitled' %></a>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
+  <div id='map-controls' class='pad1'>
+    <a href='#full' class='full-n round keyline-all fill-white icon fullscreen quiet'></a>
+    <a href='#' class='full-y round keyline-all fill-dark dark icon brackets'></a>
+    <div class='pad0x inline'>
+      <div class='round keyline-all z1 fill-white'>
+        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
+        --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id='docs' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
@@ -180,6 +187,7 @@
     <a class='keyline-right pad1 inline quiet docs-n icon info' href='#docs'></a>
     <a class='keyline-right pad1 inline quiet docs-y icon close unround' href='#'></a>
   </div>
+  <a class='layers-n pin-topright z1 pad1 icon menu quiet unround align-middle' href='#layers'></a>
   <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pad4x pin-top fill-darken0 contain small'><!--
     --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
     <% _(style.styles).keys().forEach(function(k,i) { %>
@@ -294,6 +302,8 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
   'click #data .js-adddata': 'adddata',
+  'click #zoom-in': 'zoomin',
+  'click #zoom-out': 'zoomout',
   'keydown': 'keys'
 };
 
@@ -339,6 +349,12 @@ Editor.prototype.keys = function(ev) {
   }
   return false;
 };
+Editor.prototype.zoomin = function(out) {
+  map.setZoom(map.getZoom()+1);
+};
+Editor.prototype.zoomout = function() {
+  map.setZoom(map.getZoom()-1);
+};
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;
   if (loc.indexOf('#'+name) === -1) {
@@ -346,7 +362,7 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
-}
+};
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.adddata = function(ev) {
