@@ -281,6 +281,8 @@ Editor.prototype.events = {
   'click .layer .xrayinspector': 'toggleinspector',
   'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
+  'click #settings .js-style-delete': 'delstyle',
+  'click #settings .js-source-delete': 'delstyle',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
   'keydown': 'keys'
@@ -498,6 +500,8 @@ Editor.prototype.browsefile = function(ev) {
   $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
 };
+
+Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 

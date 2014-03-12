@@ -348,6 +348,7 @@ Editor.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 }
+Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.adddata = function(ev) {
@@ -390,19 +391,6 @@ Editor.prototype.deltab = function(ev) {
     if (parent.is('.active') && $('a.js-tab').size())
       this.tab({ currentTarget:$('a.js-tab').get(0) });
   }
-  return false;
-};
-Editor.prototype.delstyle = function(ev) {
-  var id = $(ev.currentTarget).attr('href');
-  var parent = $(ev.currentTarget).parent();
-  var name = id.split('/').pop();
-  if (confirm('Remove style "' + name + '"?')) {
-    $.ajax({
-      url:'/history/' + id,
-      type: 'DELETE',
-      error: function(resp) {}
-    }).done(parent.remove());
-  };
   return false;
 };
 Editor.prototype.recache = function(ev) {
