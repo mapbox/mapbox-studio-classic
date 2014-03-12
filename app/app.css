@@ -330,7 +330,8 @@ a.project:hover {
 .dark #zoomedto.z21 .z21,
 .dark #zoomedto.z22 .z22 { background:#3b3b3b; }
 .dark #zoomedto .z,
-.dark #zoomedto strong { border-color:rgba(0,0,0,.2); }
+.dark #zoomedto strong,
+.dark #map-controls * { border-color:rgba(0,0,0,.2); }
 
 .dark #zoomedto .z a,
 .leaflet-container.dark .leaflet-bar,
@@ -483,15 +484,21 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
 
+
+.leaflet-control-zoom { display: none; }
+
+#map-controls {
+  position: absolute;
+  top: 0;
+  right: 104px;
+}
+
 /* Visibility */
 /* Off-canvas menu vs. Content */
-#layers:target ~ .pin-right{
-  right:25%; 
-}
-#layers:target ~ .pin-left{
-  left:-25%;
-}
-#data:target ~ .pin-right { left:75%; }
+#layers:target ~ .pin-right,
+#data:target ~ .pin-right { right:25%; }
+#layers:target ~ .pin-left,
+#data:target ~ .pin-left{ left:-25%; }
 #full:target { width:100%; }
 
 #full:target ~ .pin-right {
