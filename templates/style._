@@ -301,8 +301,7 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
   'click #data .js-adddata': 'adddata',
-  'click #settings .js-style-delete': 'delstyle',
-  'click #settings .js-source-delete': 'delstyle',
+  'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'keydown': 'keys'
