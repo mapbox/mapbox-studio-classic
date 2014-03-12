@@ -372,6 +372,12 @@ app.get('/', function(req, res, next) {
     res.redirect('/style?id=' + style.tmpid());
 });
 
+app.del('/history/:type(style|source)', function(req, res, next) {
+    if (!req.query.id) return next(new Error('No id specified'));
+    tm.history(req.params.type,req.query.id, true);
+    res.send(200);
+});
+
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
     if (err && 'z' in req.params) return res.send(err.toString(), 404);

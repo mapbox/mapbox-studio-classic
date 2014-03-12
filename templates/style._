@@ -34,7 +34,7 @@
       <a class='inline pad1 icon quiet close' href='#layers'></a>
     </nav>
   </section>
-  <div class='grid pad1 clearfix'><!--
+  <div class='grid pad1 clearfix'>
   <%
     print(_(history.source).chain()
       .sortBy(function(item) {
@@ -45,7 +45,7 @@
       }.bind(this))
       .value().join(''));
   %>
-  --></div>
+  </div>
 </div>
 
 <form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
@@ -56,7 +56,7 @@
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
       <nav class='pin-topright pad1'>
-        <a class='inline quiet small strong pad1 icon return' href='#'>Back to <%= _(style.name).escape() || 'Project' %></a>
+        <a class='inline quiet small strong pad1 icon return' href='#'>Back to <span class='js-name'><%= _(style.name).escape() || 'Project' %></span></a>
       </nav>
     </header>
     <div class='pad2'>
@@ -112,8 +112,8 @@
       </fieldset>
 
       <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='button col6 icon js-save floppy'>Save</a><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='col6 button submit icon package'>Package</a>
+        --><a href='#' class='quiet button col6 icon js-save floppy'>Save</a><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='quiet col6 button submit icon package'>Package</a>
       </section>
     </div>
   </div>
@@ -239,7 +239,6 @@ var map = baselayer = tiles = grids = gridc = null;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
-
 statHandler('drawtime')();
 
 var Tab = function(id, value) {
@@ -306,6 +305,7 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
   'click #data .js-adddata': 'adddata',
+  'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'keydown': 'keys'
@@ -367,8 +367,20 @@ Editor.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 };
+
+Editor.prototype.messageclear = function() {
+  messageClear();
+  _(code).each(function(cm) {
+    _(cm._cartoErrors||[]).each(cm.clearMarker);
+    delete cm._cartoErrors;
+  });
+};
+
+Editor.prototype.messagemodal = messageModal;
+Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
+
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
   if (target.is('.active')) return false;
@@ -461,10 +473,10 @@ Editor.prototype.save = function(ev, options) {
   return ev && !!$(ev.currentTarget).is('a');
 };
 Editor.prototype.error = function(model, resp) {
-  this.messageClear();
+  this.messageclear();
 
   if (!resp.responseText)
-    return this.messageModal('Could not save style "' + model.id + '"');
+    return this.messagemodal('Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -478,24 +490,12 @@ Editor.prototype.error = function(model, resp) {
         code[id]._cartoErrors.push(ln);
         code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small js-message message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
       } else {
-        return this.messageModal(e);
+        return this.messagemodal(e);
       }
     }).bind(this));
 };
-Editor.prototype.messageModal = function(text) {
-  $('#message .js-message').text(text);
-  window.location.hash = '#message';
-};
-Editor.prototype.messageClear = function() {
-  $('#message .js-message').text('');
-  $('#full').removeClass('loading');
-  _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearMarker);
-    delete cm._cartoErrors;
-  });
-};
 Editor.prototype.refresh = function(ev) {
-  this.messageClear();
+  this.messageclear();
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -542,7 +542,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.
   $('title').text(this.model.get('name'));
-  $('#title .js-name').text(this.model.get('name') || 'Untitled');
+  $('.js-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (this.model.get('background'))
@@ -567,7 +567,7 @@ $('pre.carto-snippet').each(function(i, elem) {
 
 <% if (test) { %>
   <link href='/app/test/mocha.css' rel='stylesheet' />
-  <style>body{padding:0;}/*Bad Mocha*/</style>
+  <style>body{padding:0;line-height:1;}/*Bad Mocha*/</style>
   <script src='/app/test/chai.js'></script>
   <script src='/app/test/mocha.js'></script>
   <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
