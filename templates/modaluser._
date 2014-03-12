@@ -8,7 +8,7 @@
   <span class='center small'>TM2 is currently authorized for</span>
   <h2 class='space-bottom1'><%= name %></h2>
   <div class='col12 clearfix space-bottom1'>
-  	<input class='col6 margin3' type='submit' value='Unauthorize'/>
+  	<input class='col6 margin3' type='submit' value='Logout'/>
   </div>
   <p class='micro quiet col12 icon alert'>Unsaved changes will be discarded.</p>
 </form>
