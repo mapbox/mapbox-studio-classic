@@ -12,8 +12,24 @@ var tmppath = '/tmp/tm2-test-' + +new Date;
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
+<<<<<<< HEAD
         cache: path.join(tmppath, 'cache')
     }, done);
+=======
+        cache: path.join(tmppath, 'cache'),
+        mapboxauth: 'http://localhost:3001/'
+    }, function() {
+        tm.db.set('oauth', {
+            account: 'test',
+            accesstoken: 'testaccesstoken'
+        });
+        tm.db.set('user', {
+            name: 'test',
+            avatar: 'http://www.gravatar.com/avatar/0'
+        });
+        done();
+    });
+>>>>>>> oauth-config-refactor
 });
 after(function(done) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
