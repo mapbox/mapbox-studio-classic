@@ -5,6 +5,7 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
+require('./fixtures-oauth/mapbox.js');
 
 describe('style', function() {
 
@@ -12,8 +13,17 @@ var tmppath = '/tmp/tm2-test-' + +new Date;
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
-        cache: path.join(tmppath, 'cache')
+        cache: path.join(tmppath, 'cache'),
+        mapboxauth: 'http://localhost:3001/'
     }, done);
+    tm.db.set('oauth', {
+        account: 'test',
+        accesstoken: 'testaccesstoken'
+    });
+    tm.db.set('user', {
+        name: 'test',
+        avatar: 'http://www.gravatar.com/avatar/0'
+    });
 });
 after(function(done) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}

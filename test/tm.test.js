@@ -2,7 +2,6 @@ var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
-require('./fixtures-oauth/mapbox.js');
 
 describe('tm', function() {
 
@@ -10,20 +9,14 @@ describe('tm', function() {
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
-            cache: path.join(tmppath, 'cache'),
-            mapboxauth: 'http://localhost:3001/'
+            cache: path.join(tmppath, 'cache')
         }, done);
-        tm.db.set('oauth', {
-            account: 'test',
-            accesstoken: 'testaccesstoken'
-        });
     });
     after(function(done) {
         try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
         try { fs.unlinkSync(path.join(tmppath, 'cache', 'font-dbad83a6.png')); } catch(err) {}
         try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
         try { fs.rmdirSync(tmppath); } catch(err) {}
-        tm.db.rm('oauth');
         done();
     });
 
