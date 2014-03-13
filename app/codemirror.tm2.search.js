@@ -1,114 +1,84 @@
+// Define search commands. Depends on dialog.js or another
+// implementation of the openDialog method.
+
 // Replace works a little oddly -- it will do the replace on the next
 // Ctrl-G (or whatever is bound to findNext) press. You prevent a
 // replace by making sure the match is no longer selected when hitting
 // Ctrl-G.
 
-(function() {
-
-  var wrap;
-  function dialogDiv(cm, template) {
-    wrap = cm.getWrapperElement();
-    wrap.style.bottom = '40px'; // offset search dialog height
-    var dialog;
-    dialog = document.getElementById('code').appendChild(document.createElement('div'));
-    dialog.className = 'search-dialog pin-bottom col12 clearfix';
-    dialog.innerHTML = template;
-    return dialog;
-  }
-
-  function close() {
-    if (wrap) wrap.style.bottom = 0;
-    $('.search-dialog').remove();
-  }
-
-  function newDialog(cm, template, callback) {
-    var dialog = dialogDiv(cm, template),
-        me = cm,
-        inp = dialog.getElementsByTagName('input')[0],
-        selection = cm.getSelection();
-    if (selection) inp.value = selection;
-    if (inp) {
-      CodeMirror.connect(inp, 'keydown', function(e) {
-        if (e.keyCode == 13) {
-          CodeMirror.e_stop(e);
-          clearSearch(me);
-          me.focus();
-          callback(inp.value);
-        } else if (e.keyCode == 27) {
-          CodeMirror.e_stop(e);
-          close();
-          me.focus();
-        }
-      });
-      inp.focus();
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./searchcursor"), require("../dialog/dialog"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./searchcursor", "../dialog/dialog"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+  function searchOverlay(query, caseInsensitive) {
+    var startChar;
+    if (typeof query == "string") {
+      startChar = query.charAt(0);
+      query = new RegExp("^" + query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"),
+                         caseInsensitive ? "i" : "");
+    } else {
+      query = new RegExp("^(?:" + query.source + ")", query.ignoreCase ? "i" : "");
     }
-    dialog.querySelector('.icon.x').addEventListener('click', function() {
-      clearSearch(me);
-      me.focus();
-      close();
-    });
-    dialog.querySelector('.icon.help').addEventListener('click', function() {
-      this.parentNode.removeChild(this);
-      wrap.style.bottom = '163px';
-      dialog.querySelector('.search-help').classList.remove('hidden');
-      return false;
-    });
-    window.addEventListener('keydown', function(e) {
-      if (e.which == 27) {
-        clearSearch(cm);
-        close();
+    return {token: function(stream) {
+      if (stream.match(query)) return "searching";
+      while (!stream.eol()) {
+        stream.next();
+        if (startChar && !caseInsensitive)
+          stream.skipTo(startChar) || stream.skipToEnd();
+        if (stream.match(query, false)) break;
       }
-    });
-
-    return close;
-  };
-
-  var helpText = '<div class="clearfix keyline-top small fill-darken0 search-help hidden">'+
-    '<div class="pad1">Use /re/ syntax for regex search</div>'+
-    '<div class="keyline-top pad1 keyline-right col6">'+
-      '<span class="code inline"> <kbd>Cmd</kbd>+<kbd>F</kbd> Find</span><br/>'+
-      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>G</kbd> Next</span> '+
-    '</div>' +
-    '<div class="keyline-top pad1 col6">'+
-      '<span class="code inline"><kbd>Shift</kbd>+<kbd>Cmd</kbd>+<kbd>G</kbd> Prev</span><br/>'+
-      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> Find & Replace All</span>'+
-    '</div>' +
-    '</div>';
+    }};
+  }
 
   function SearchState() {
     this.posFrom = this.posTo = this.query = null;
-    this.marked = [];
+    this.overlay = null;
   }
   function getSearchState(cm) {
-    return cm._searchState || (cm._searchState = new SearchState());
+    return cm.state.search || (cm.state.search = new SearchState());
+  }
+  function queryCaseInsensitive(query) {
+    return typeof query == "string" && query == query.toLowerCase();
   }
   function getSearchCursor(cm, query, pos) {
-    return cm.getSearchCursor(query, pos, typeof query == "string" && query == query.toLowerCase());
+    // Heuristic: if the query string is all lowercase, do a case insensitive search.
+    return cm.getSearchCursor(query, pos, queryCaseInsensitive(query));
   }
-  function dialog(cm, text, f) {
-    close();
-    clearSearch(cm);
-    newDialog(cm, text, f);
+  function dialog(cm, text, shortText, deflt, f) {
+    if (cm.openDialog) cm.openDialog(text, f, {value: deflt});
+    else f(prompt(shortText, deflt));
+  }
+  function confirmDialog(cm, text, shortText, fs) {
+    if (cm.openConfirm) cm.openConfirm(text, fs);
+    else if (confirm(shortText)) fs[0]();
   }
   function parseQuery(query) {
     var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
-    return isRE ? new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i") : query;
+    if (isRE) {
+      query = new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i");
+      if (query.test("")) query = /x^/;
+    } else if (query == "") {
+      query = /x^/;
+    }
+    return query;
   }
-  var queryDialog = '<fieldset class="search-dialog with-icon keyline-top">'+
-    '<span class="icon search quiet"></span><input type="text" placeholder="Find" class="clean stretch" />'+
-    '<div class="pin-topright pad1y"><a href="#" class="quiet icon help pad0x"></a><a href="#" class="quiet icon x pad1x"></a></div>'+
-    '</fieldset>'+helpText;
+  var queryDialog =
+    'Search: <input type="text" style="width: 10em"/> <span style="color: #888">(Use /re/ syntax for regexp search)</span>';
   function doSearch(cm, rev) {
     var state = getSearchState(cm);
     if (state.query) return findNext(cm, rev);
-    dialog(cm, queryDialog, function(query) {
+    dialog(cm, queryDialog, "Search for:", cm.getSelection(), function(query) {
       cm.operation(function() {
         if (!query || state.query) return;
         state.query = parseQuery(query);
-        if (cm.lineCount() < 2000) { // This is too expensive on big documents.
-          for (var cursor = getSearchCursor(cm, state.query); cursor.findNext();)
-            state.marked.push(cm.markText(cursor.from(), cursor.to(), "CodeMirror-searching"));
-        }
+        cm.removeOverlay(state.overlay, queryCaseInsensitive(state.query));
+        state.overlay = searchOverlay(state.query, queryCaseInsensitive(state.query));
+        cm.addOverlay(state.overlay);
         state.posFrom = state.posTo = cm.getCursor();
         findNext(cm, rev);
       });
@@ -118,56 +88,60 @@
     var state = getSearchState(cm);
     var cursor = getSearchCursor(cm, state.query, rev ? state.posFrom : state.posTo);
     if (!cursor.find(rev)) {
-      cursor = getSearchCursor(cm, state.query, rev ? {line: cm.lineCount() - 1} : {line: 0, ch: 0});
+      cursor = getSearchCursor(cm, state.query, rev ? CodeMirror.Pos(cm.lastLine()) : CodeMirror.Pos(cm.firstLine(), 0));
       if (!cursor.find(rev)) return;
     }
     cm.setSelection(cursor.from(), cursor.to());
+    cm.scrollIntoView({from: cursor.from(), to: cursor.to()});
     state.posFrom = cursor.from(); state.posTo = cursor.to();
   });}
   function clearSearch(cm) {cm.operation(function() {
     var state = getSearchState(cm);
     if (!state.query) return;
     state.query = null;
-    for (var i = 0; i < state.marked.length; ++i) state.marked[i].clear();
-    state.marked.length = 0;
+    cm.removeOverlay(state.overlay);
   });}
 
-  var replaceQueryDialog ='<fieldset class="search-dialog with-icon keyline-top">'+
-    '<label for="search-find" class="col2 icon refresh quiet pad1 small">Find: </label><input type="text" id="search-find" class="clean col10" />'+
-    '<div class="pin-topright pad1y"><a href="#" class="quiet icon help pad0x"></a><a href="#" class="quiet icon x pad1x"></a></div>'+
-    '</fieldset>'+helpText;
-  var replacementQueryDialog = '<fieldset class="search-dialog with-icon keyline-top">'+
-    '<label for="search-find" class="col3 icon refresh quiet pad1 small truncate">Replace with: </label><input type="text" id="search-replace-with" class="clean col9" />'+
-    '<div class="pin-topright pad1y"><a href="#" class="quiet icon help pad0x"></a><a href="#" class="quiet icon x pad1x"></a></div>'+
-    '</fieldset>'+helpText;
-  function replace(cm) {
-    dialog(cm, replaceQueryDialog, function(query) {
+  var replaceQueryDialog =
+    'Replace: <input type="text" style="width: 10em"/> <span style="color: #888">(Use /re/ syntax for regexp search)</span>';
+  var replacementQueryDialog = 'With: <input type="text" style="width: 10em"/>';
+  var doReplaceConfirm = "Replace? <button>Yes</button> <button>No</button> <button>Stop</button>";
+  function replace(cm, all) {
+    dialog(cm, replaceQueryDialog, "Replace:", cm.getSelection(), function(query) {
       if (!query) return;
       query = parseQuery(query);
-      dialog(cm, replacementQueryDialog, function(text) {
-        function advance(cursor) {
-          var start = cursor.from(), match;
-          if (!(match = cursor.findNext())) {
-            cursor = getSearchCursor(cm, query);
-            if (!(match = cursor.findNext()) ||
-                (start && cursor.from().line == start.line && cursor.from().ch == start.ch)) return;
-          }
-          cm.setSelection(cursor.from(), cursor.to());
+      dialog(cm, replacementQueryDialog, "Replace with:", "", function(text) {
+        if (all) {
+          cm.operation(function() {
+            for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
+              if (typeof query != "string") {
+                var match = cm.getRange(cursor.from(), cursor.to()).match(query);
+                cursor.replace(text.replace(/\$(\d)/g, function(_, i) {return match[i];}));
+              } else cursor.replace(text);
+            }
+          });
+        } else {
+          clearSearch(cm);
+          var cursor = getSearchCursor(cm, query, cm.getCursor());
+          var advance = function() {
+            var start = cursor.from(), match;
+            if (!(match = cursor.findNext())) {
+              cursor = getSearchCursor(cm, query);
+              if (!(match = cursor.findNext()) ||
+                  (start && cursor.from().line == start.line && cursor.from().ch == start.ch)) return;
+            }
+            cm.setSelection(cursor.from(), cursor.to());
+            cm.scrollIntoView({from: cursor.from(), to: cursor.to()});
+            confirmDialog(cm, doReplaceConfirm, "Replace?",
+                          [function() {doReplace(match);}, advance]);
+          };
+          var doReplace = function(match) {
+            cursor.replace(typeof query == "string" ? text :
+                           text.replace(/\$(\d)/g, function(_, i) {return match[i];}));
+            advance();
+          };
+          advance();
         }
-        function doReplace(cursor, match) {
-          cursor.replace(typeof query == "string" ? text :
-                         text.replace(/\$(\d)/, function(w, i) {return match[i];}));
-          advance(cursor);
-        }
-        cm.compoundChange(function() { cm.operation(function() {
-          for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
-            if (typeof query != "string") {
-              var match = cm.getRange(cursor.from(), cursor.to()).match(query);
-              cursor.replace(text.replace(/\$(\d)/, function(w, i) {return match[i];}));
-            } else cursor.replace(text);
-          }
-          close();
-        });});
       });
     });
   }
@@ -177,5 +151,5 @@
   CodeMirror.commands.findPrev = function(cm) {doSearch(cm, true);};
   CodeMirror.commands.clearSearch = clearSearch;
   CodeMirror.commands.replace = replace;
-  CodeMirror.commands.replaceAll = replace;
-})();
+  CodeMirror.commands.replaceAll = function(cm) {replace(cm, true);};
+});
