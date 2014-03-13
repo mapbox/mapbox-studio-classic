@@ -91,11 +91,18 @@
   }
 
 /* colors are equivalent to fill-* + fill-lighten3 */
-a[href='#docs-points'], #docs-points     { background: #e1e1f1;} /* fill purple */
-a[href='#docs-lines'], #docs-lines       { background: #cde0ee;} /* fill blue */
-a[href='#docs-polygons'], #docs-polygons { background: #d4eddf;} /* fill green */
-a[href='#docs-text'], #docs-text         { background: #fbfbdc;} /* fill yellow */
-a[href='#docs-misc'], #docs-misc         { background: #fae1d8;} /* fill orange */
+a[href='#docs-points']   {color: #e1e1f1;} /* fill purple */
+a[href='#docs-lines']    {color: #cde0ee;} /* fill blue */
+a[href='#docs-polygons'] {color: #d4eddf;} /* fill green */
+a[href='#docs-text']     {color: #fbfbdc;} /* fill yellow */
+a[href='#docs-misc']     {color: #fae1d8;} /* fill orange */
+
+a[href='#docs-points']  , #docs-points section .type    , #docs-points section   { color: #8a8acb;} /* fill purple */
+a[href='#docs-lines']   , #docs-lines section .type     , #docs-lines section   { color: #3887be;} /* fill blue */
+a[href='#docs-polygons'], #docs-polygons section .type  , #docs-polygons section   { color: #56b881;} /* fill green */
+a[href='#docs-text']    , #docs-text section .type      , #docs-text section   { color: #ee8a65;} /* fill orange */
+a[href='#docs-misc']    , #docs-misc section .type      , #docs-misc section   { color: #EE6565;} /* fill red */
+
 
 #docs .code.value,
 #docs .code.options {
@@ -121,6 +128,10 @@ a[href='#docs-misc'], #docs-misc         { background: #fae1d8;} /* fill orange 
   padding-top: 0;
 }
 
+#docs section {
+  border-right-width: 3px;
+  border-right-style: solid;
+}
 #docs section.active {
   background-color: rgba(255,255,255,.5);
 }

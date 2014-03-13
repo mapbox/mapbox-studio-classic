@@ -203,7 +203,7 @@ spin(@color, -10);</pre>
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='keyline-bottom'>
+  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class=''>
     <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='block contain js-tab pad0'>
     <h4 class='heading strong'><%= p.css %></h4>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
