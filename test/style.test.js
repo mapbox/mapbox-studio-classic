@@ -14,17 +14,7 @@ before(function(done) {
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
         mapboxauth: 'http://localhost:3001/'
-    }, function() {
-        tm.db.set('oauth', {
-            account: 'test',
-            accesstoken: 'testaccesstoken'
-        });
-        tm.db.set('user', {
-            name: 'test',
-            avatar: 'http://www.gravatar.com/avatar/0'
-        });
-        done();
-    });
+    }, done());
 });
 after(function(done) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
