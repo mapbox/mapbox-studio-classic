@@ -103,7 +103,7 @@
 
   var replaceQueryDialog = '<fieldset><label class="pad1 block keyline-bottom">Replace:</label><fieldset class="with-icon"><div class="pin-right pad1"><a href="#" class="inline icon help quiet"></a><a href="#" class="inline icon x quiet"></a></div><span class="icon search"></span><input type="text" value="" class="stretch" /></fieldset></fieldset>';
   var replacementQueryDialog = '<fieldset><label class="pad1 block keyline-bottom">With:</label><fieldset class="with-icon"><div class="pin-right pad1"><a href="#" class="inline icon help quiet"></a><a href="#" class="inline icon x quiet"></a></div><span class="icon search"></span><input type="text" value="" class="stretch" /></fieldset></fieldset>';
- var doReplaceConfirm = '<fieldset class="pad1 space"><label class="inline">Replace?</label><div class="inline pill"><button class="pad2x pad0y">Yes</button><button class="pad2x">No</button></div><div class="pin-right pad1"><a href="#" class="inline icon help quiet"></a><a href="#" class="inline icon x quiet"></a></div></fieldset>';
+ var doReplaceConfirm = '<fieldset class="pad1 space"><label class="inline">Replace?</label><div class="inline pill"><button class="pad2x short">Yes</button><button class="short pad2x">No</button></div><div class="pin-right pad1"><a href="#" class="inline icon help quiet"></a><a href="#" class="inline icon x quiet"></a></div></fieldset>';
   function replace(cm, all) {
     dialog(cm, replaceQueryDialog, "Replace:", cm.getSelection(), function(query) {
       if (!query) return;
