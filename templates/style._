@@ -119,7 +119,7 @@
   </div>
 </form>
 
-<div id='full' class='clip animate col6 pin-left clip'>
+<div id='full' class='clip animate col6 pin-left'>
 
   <div id='title' class='contain pin-top z1'>
     <div class='pin-left clearfix'><!--
@@ -341,11 +341,11 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
-  case (which === 188): // , for layers
+  case (which === 68): // d for layers/data
     ev.preventDefault();
     this.togglePane('layers');
     break;
-  case (which === 73): // i for info
+  case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;
@@ -405,12 +405,14 @@ Editor.prototype.adddata = function(ev) {
   return false;
 };
 Editor.prototype.addtab = function(ev) {
-  var filename = $('#addtab-filename').val().split('.')[0] + '.mss';
+  var field = $('#addtab-filename');
+  var filename = field.val().split('.')[0] + '.mss';
   if (!code[filename]) {
     $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
-  window.location.href = '#';
+  field.val('');
+  window.location.hash = '#';
   return false;
 };
 Editor.prototype.deltab = function(ev) {

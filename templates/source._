@@ -30,9 +30,9 @@
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround js-name strong fill-darken2'><%= source.name || 'Untitled' %></a><!--
       <% if (source._tmp) { %>
-      --><a class='button icon floppy js-save round-right fill-dark' href='#saveas'>Save as</a>
+      --><a class='button icon floppy js-save unround fill-dark' href='#saveas'>Save as</a>
       <% } else { %>
-      --><a class='button icon floppy js-save round-right fill-dark' href='#'>Save</a>
+      --><a class='button icon floppy js-save unround fill-dark' href='#'>Save</a>
       <% } %>
     </div>
   </div>
@@ -40,15 +40,16 @@
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
+  
   <div id='map-controls' class='pad1'>
-    <a href='#full' class='full-n round keyline-all fill-dark icon fullscreen quiet'></a>
-    <a href='#' class='full-y round keyline-all fill-dark icon menu'></a>
-    <div class='pad0x inline'>
+    <div class='inline'>
       <div class='round keyline-all z1 fill-dark'>
         <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
         --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
+    <a href='#full' class='full-n round inline keyline-all fill-dark icon fullscreen quiet'></a>
+    <a href='#' class='full-y round keyline-all fill-dark dark icon close'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -302,6 +303,7 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
+
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
@@ -312,7 +314,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
-  case (which === 73): // i for info (s is taken)
+  case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;
