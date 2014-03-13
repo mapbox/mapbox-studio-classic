@@ -23,7 +23,7 @@
 #code #interactivity { top:40px;}
 
 /* Editor tabs */
-#tabs { 
+#tabs {
   padding-left: 80px;
   padding-right: 10px;
 }
@@ -43,15 +43,15 @@
 #tabs a.tab.mini.active {
   padding:5px;
   }
-#tabs a.tab .x {
+#tabs a.tab .trash {
   display:none;
   }
-#tabs a.tab.active .x {
+#tabs a.tab.active .trash {
   display:inline-block;
   }
 
-#tabs a.tab.active .x:before { opacity: .25;}
-#tabs a.tab .x:hover:before { opacity:.5; }
+#tabs a.tab.active .trash:before { opacity: .25;}
+#tabs a.tab .trash:hover:before { opacity:.5; }
 #tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
 #tabs a.tab:first-child:nth-last-child(2),
 #tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
