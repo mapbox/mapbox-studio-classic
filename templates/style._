@@ -3,14 +3,14 @@
 
 <head>
   <meta charset='UTF-8'/>
-  <link href='/ext/codemirror.css' rel='stylesheet' />
+  <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
-  <script src='/ext/codemirror.js'></script>
-  <script src='/ext/codemirror.runmode.js'></script>
+  <script src='/ext/codemirror/codemirror.js'></script>
+  <script src='/ext/codemirror/runmode.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
@@ -18,8 +18,8 @@
   <script src='/app/lib.js'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
-  <script src='/app/codemirror.search.js'></script>
-  <script src='/app/codemirror.search.cursor.js'></script>
+  <script src='/app/codemirror.tm2.search.js'></script>
+  <script src='/app/codemirror.tm2.searchcursor.js'></script>
   <title><%= style.name %></title>
 </head>
 
