@@ -4,12 +4,15 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 
 describe('tm', function() {
+
     var tmppath = '/tmp/tm2-test-' + +new Date;
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
-            cache: path.join(tmppath, 'cache')
+            cache: path.join(tmppath, 'cache'),
+            // mapboxauth: 'http://localhost:3001/'
         }, done);
+        require('./fixtures-oauth/mapbox.js');
     });
     after(function(done) {
         try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
