@@ -436,22 +436,34 @@ a.project:hover {
   background:#fcfcfc;
   width:40px!important;
   }
-  .CodeMirror-gutters .error {
-    position:relative;
-    background-color:#f1f075
+  .CodeMirror-gutters .errors {
+    position:absolute;
+    width:40px;
+    left:0;
+    z-index:100;
     }
-  .CodeMirror-gutters .error .message {
-    position:absolute; left:0%; top:100%;
-    display:none;
-    background-color:#f1f075;
-    color:rgba(0,0,0,.5);
-    white-space:normal!important;
-    text-align:left;
-    width:240px;
-    padding:5px 10px;
-    border-radius:0px 3px 3px 0px;
-    }
-  .CodeMirror-gutters .error a:target ~ .message { display:block; }
+    .CodeMirror-gutter-wrapper .error {
+      background-color:#f1f075;
+      position:absolute;
+      right:0;
+      }
+      .CodeMirror-gutter-wrapper .error > a {
+        height:20px;
+        width:10px;
+        display:block;
+        }
+        .CodeMirror-gutter-wrapper .error > a:focus {
+          -webkit-box-shadow:none;
+                  box-shadow:none;
+          }
+      .CodeMirror-gutter-wrapper .error .message {
+        background-color:#f1f075;
+        position:absolute;left:0%;top:100%;
+        color:rgba(0,0,0,0.5);
+        display:none;
+        width:240px;
+        }
+        .CodeMirror-gutter-wrapper .error > a:target ~ .message { display:inline-block; }
 
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }

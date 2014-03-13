@@ -245,6 +245,7 @@ var Tab = function(id, value) {
   var tab = CodeMirror(document.getElementById('code'), {
     value: value,
     lineNumbers: true,
+    gutters: ['CodeMirror-linenumbers', 'errors'],
     mode: {
       name: 'carto',
       reference: window.cartoRef
@@ -371,7 +372,9 @@ Editor.prototype.togglePane = function(name) {
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearGutter);
+      _(cm._cartoErrors||[]).each(function() {
+        cm.clearGutter('errors');
+      });
     delete cm._cartoErrors;
   });
 };
@@ -490,12 +493,35 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setGutterMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small js-message message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
+        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
       } else {
         return this.messagemodal(e);
       }
     }).bind(this));
 };
+
+Editor.prototype.cartoError = function(ln, e) {
+    var error = document.createElement('div');
+    error.className = 'error';
+
+    var link = document.createElement('a');
+    link.id = 'error-' + ln;
+    link.href = '#error-' + ln;
+
+    var message = document.createElement('small');
+    message.className = 'js-message message round-right pad0y pad1x z10';
+    message.innerHTML = e[5];
+
+    var close = document.createElement('a');
+    close.className = 'icon x pin-right quiet';
+    close.href = '#';
+
+    message.appendChild(close);
+    error.appendChild(link);
+    error.appendChild(message);
+    return error;
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
