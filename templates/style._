@@ -371,7 +371,7 @@ Editor.prototype.togglePane = function(name) {
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearMarker);
+    _(cm._cartoErrors||[]).each(cm.clearGutter);
     delete cm._cartoErrors;
   });
 };
