@@ -465,6 +465,38 @@ a.project:hover {
         }
         .CodeMirror-gutter-wrapper .error > a:target ~ .message { display:inline-block; }
 
+
+.CodeMirror-dialog,
+.CodeMirror-dialog * {
+  font:15px/20px 'Open Sans', sans-serif;
+  -webkit-box-sizing:border-box;
+     -moz-box-sizing:border-box;
+          box-sizing:border-box;
+  }
+  .CodeMirror-dialog label {
+    font:12px/20px 'Open Sans Bold', sans-serif;
+    }
+.CodeMirror .CodeMirror-dialog {
+  position:absolute;
+  left:0; right:0;
+  background:white;
+  z-index:15;
+  padding:10px;
+  }
+.CodeMirror-dialog-top {
+  border-bottom:1px solid #eee;
+  top:0;
+  }
+.CodeMirror-dialog-bottom {
+  border-top:1px solid #eee;
+  bottom:0;
+  }
+.CodeMirror-dialog input {
+  background:transparent;
+  border:none;
+  outline:none;
+  }
+
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }

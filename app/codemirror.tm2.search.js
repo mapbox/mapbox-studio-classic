@@ -67,8 +67,7 @@
     }
     return query;
   }
-  var queryDialog =
-    'Search: <input type="text" style="width: 10em"/> <span style="color: #888">(Use /re/ syntax for regexp search)</span>';
+  var queryDialog = '<fieldset class="with-icon"><span class="icon search"></span><input type="text" value="" class="stretch" /></fieldset>';
   function doSearch(cm, rev) {
     var state = getSearchState(cm);
     if (state.query) return findNext(cm, rev);
@@ -102,10 +101,9 @@
     cm.removeOverlay(state.overlay);
   });}
 
-  var replaceQueryDialog =
-    'Replace: <input type="text" style="width: 10em"/> <span style="color: #888">(Use /re/ syntax for regexp search)</span>';
-  var replacementQueryDialog = 'With: <input type="text" style="width: 10em"/>';
-  var doReplaceConfirm = "Replace? <button>Yes</button> <button>No</button> <button>Stop</button>";
+  var replaceQueryDialog = '<fieldset><label>Replace</label><fieldset class="with-icon"><span class="icon search"></span><input type="text" value="" class="stretch" /></fieldset></fieldset>';
+  var replacementQueryDialog = '<fieldset><label>With</label><fieldset class="with-icon"><span class="icon search"></span><input type="text" value="" class="stretch" /></fieldset></fieldset>';
+  var doReplaceConfirm = '<fieldset><label>Replace?</label><div class="pills clearfix"><button class="col4 button">Yes</button><button class="col4 button">No</button> <button class="col4 button">Stop</button></div></fieldset>';
   function replace(cm, all) {
     dialog(cm, replaceQueryDialog, "Replace:", cm.getSelection(), function(query) {
       if (!query) return;
