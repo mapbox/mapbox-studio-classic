@@ -12,7 +12,6 @@
   <script src='/ext/codemirror/codemirror.js'></script>
   <script src='/ext/codemirror/runmode.js'></script>
   <script src='/ext/codemirror/searchcursor.js'></script>
-  <script src='/ext/codemirror/dialog.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
