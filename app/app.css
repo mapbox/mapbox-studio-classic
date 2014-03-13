@@ -473,6 +473,10 @@ a.project:hover {
      -moz-box-sizing:border-box;
           box-sizing:border-box;
   }
+  .CodeMirror-dialog {
+    box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);
+    }
+  .CodeMirror-dialog button,
   .CodeMirror-dialog label {
     font:12px/20px 'Open Sans Bold', sans-serif;
     }
@@ -481,7 +485,7 @@ a.project:hover {
   left:0; right:0;
   background:white;
   z-index:15;
-  padding:10px;
+  padding:0;
   }
 .CodeMirror-dialog-top {
   border-bottom:1px solid #eee;
