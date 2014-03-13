@@ -423,12 +423,11 @@ a.project:hover {
 .CodeMirror {
   position:absolute;
   background:#f8f8f8;
-  top:40px; bottom:0px;
+  top:40px; bottom:0;
   width:100%; height:auto;
   visibility:hidden;
-  overflow:hidden;
   }
-.CodeMirror.active { overflow: auto; visibility:visible; }
+.CodeMirror.active { visibility:visible; }
 .CodeMirror-lines { padding:0 10px; }
 .CodeMirror pre { padding:0; }
 
