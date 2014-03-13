@@ -39,7 +39,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
     if (tm.db._docs.oauth) {
-        request('https://api.mapbox.com/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
+        request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
             if (response.statusCode >= 400) {
                 var data = {
                     '_type': 'composite',
@@ -54,7 +54,7 @@ function auth(req, res, next) {
                 };
                 request({
                     method: 'PUT',
-                    uri: 'https://api.mapbox.com/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
+                    uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
                     headers: {'content-type': 'application/json'},
                     body: JSON.stringify(data)
                 }, function(error, response, body) {
