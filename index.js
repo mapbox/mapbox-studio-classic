@@ -15,6 +15,10 @@ var express = require('express');
 var cors = require('cors');
 tm.config(require('optimist')
     .config('config')
+    .options('db', {
+        describe: 'path to tm2 db',
+        default: path.join(process.env.HOME, '.tilemill', 'v2', 'app.db')
+    })
     .options('mapboxauth', {
         describe: 'URL to mapbox auth API',
         default: 'https://api.mapbox.com'
