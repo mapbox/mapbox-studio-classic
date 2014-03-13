@@ -13,11 +13,14 @@ var source = require('./lib/source');
 var style = require('./lib/style');
 var express = require('express');
 var cors = require('cors');
-var argv = require('optimist')
+tm.config(require('optimist')
     .config('config')
-    .argv;
+    .options('mapboxauth', {
+        describe: 'URL to mapbox auth API',
+        default: 'https://api.mapbox.com'
+    })
+    .argv);
 var request = require('request');
-
 
 // Load defaults for new styles.
 var defaults = {};
