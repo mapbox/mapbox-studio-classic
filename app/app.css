@@ -426,35 +426,34 @@ a.project:hover {
   top:40px; bottom:0px;
   width:100%; height:auto;
   visibility:hidden;
+  overflow:hidden;
   }
-.CodeMirror-lines,
-.CodeMirror-gutter-text { padding:0px; }
-.CodeMirror-gutter-text pre { padding:0px 5px; }
-.CodeMirror-lines { padding:0px 10px; }
-.CodeMirror-scroll { height:100%; overflow: hidden;}
-.CodeMirror.active .CodeMirror-scroll { overflow: auto; }
-.CodeMirror.active { visibility:visible; }
-.CodeMirror-gutter {
-  border: none;
+.CodeMirror.active { overflow: auto; visibility:visible; }
+.CodeMirror-lines { padding:0 10px; }
+.CodeMirror pre { padding:0; }
+
+.CodeMirror-gutters {
+  border:none;
   background:#fcfcfc;
-  width:40px !important;
+  width:40px!important;
   }
-.CodeMirror-gutter .error {
-  position:relative;
-  background-color: #f1f075
-  }
-.CodeMirror-gutter .error .message {
-  position:absolute; left:0%; top:100%;
-  display:none;
-  background-color: #f1f075;
-  color: rgba(0,0,0,.5);
-  white-space:normal !important;
-  text-align:left;
-  width:240px;
-  padding:5px 10px;
-  border-radius:0px 3px 3px 0px;
-  }
-.CodeMirror-gutter .error a:target ~ .message { display:block; }
+  .CodeMirror-gutters .error {
+    position:relative;
+    background-color:#f1f075
+    }
+  .CodeMirror-gutters .error .message {
+    position:absolute; left:0%; top:100%;
+    display:none;
+    background-color:#f1f075;
+    color:rgba(0,0,0,.5);
+    white-space:normal!important;
+    text-align:left;
+    width:240px;
+    padding:5px 10px;
+    border-radius:0px 3px 3px 0px;
+    }
+  .CodeMirror-gutters .error a:target ~ .message { display:block; }
+
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
