@@ -204,15 +204,15 @@ spin(@color, -10);</pre>
       .each(function(p, name) {
   %>
   <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='keyline-bottom'>
-    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='block js-tab pad1'>
-    <h4 class='heading strong code'><%= p.css %></h4>
-    <span class='quiet code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
+    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='block contain js-tab pad0'>
+    <h4 class='heading strong'><%= p.css %></h4>
+    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
+    </a>
+    <div class='pad1 details'>
     <% if (p['default-value'] && p['default-value']!=='none') { %>
     <span class='code quiet value'><%=p['default-value']%></span>
     <% } %>
-    </a>
-    <div class='pad1x space-bottom1 details'>
-    <% if (_(p.type).isArray()) { %><div class='code options space-bottom1'><%= p.type.join(' ') %></div><% } %>
+    <% if (_(p.type).isArray()) { %><span class='code options space-bottom1'><%= p.type.join(' ') %></span><% } %>
     <% if (p.doc) { %><div class='description break-word small'><%=p.doc%></div><% } %>
     </div>
   </section>

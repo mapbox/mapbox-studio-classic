@@ -111,13 +111,19 @@ a[href='#docs-misc'], #docs-misc         { background: #fae1d8;} /* fill orange 
   background-color: rgba(0,0,0,.05)
   }
 
-#docs code.value:after {
+#docs .code.value:after {
   content:' default';
   opacity: .5;
   }
 
-#docs .details { display: none;}
-#docs section.active { background-color: rgba(0,0,0,.05);}
+#docs .details {
+  display: none;
+  padding-top: 0;
+}
+
+#docs section.active {
+  background-color: rgba(255,255,255,.5);
+}
 #docs section.active .details { display: block;}
 
 /* Font book */
