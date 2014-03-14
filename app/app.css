@@ -433,7 +433,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   color: rgba(0,0,0,.75);
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#layers .menu a.active,
+#layers.menu a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
