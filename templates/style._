@@ -111,16 +111,10 @@
           </section>
         </fieldset>
 
-        <% if (style._tmp) { %>
-        <section class='col12 clearfix'><!--
-          --><a href='#saveas' class='button quiet col12 icon js-save floppy'>Save as</a>
-        </section>
-        <% } else { %>
         <section class='pill col12 clearfix'><!--
-          --><a href='#' class='button quiet col6 icon js-save floppy'>Save</a><!--
+          --><a href='<% if (style._tmp) { %>#saveas<% } else { %>#<% } %>' class='button quiet col6 icon js-save floppy'>Save</a><!--
           --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package'>Package</a>
         </section>
-        <% } %>
       </div>
     </div>
   </div>
