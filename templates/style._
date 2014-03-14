@@ -123,6 +123,7 @@
 
   <div id='title' class='contain pin-top z1'>
     <div class='pin-left clearfix'><!--
+      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon sprocket project-name js-name button inline unround fill-darken2'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
         --><a class='js-save button icon inline floppy round-right fill-dark unround' href='#saveas'>Save as</a>
@@ -209,6 +210,7 @@
 
 </div>
 
+<%= this.modaluser({name:user.name}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
@@ -226,6 +228,8 @@
 </form>
 
 <div id='mask' class='fill-darken2 animate'></div>
+
+</div>
 
 <script>
 var map = baselayer = tiles = grids = gridc = null;
@@ -293,6 +297,7 @@ Editor.prototype.events = {
   'submit #settings': 'save',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
+  'submit #user': 'user',
   'click #tabs .js-deltab': 'deltab',
   'click #tabs .js-tab': 'tabbed',
   'click #docs .js-docs-nav': 'scrollto',
@@ -347,6 +352,10 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.user = function() {
+  window.location.href = window.location.origin + '/unauthorize';
   return false;
 };
 Editor.prototype.zoomin = function(out) {
@@ -555,7 +564,7 @@ Editor.prototype.refresh = function(ev) {
     map.addControl(gridc);
   }
 
-  // Refresh map title.
+  // Refresh map title.tm.db.rm('user');
   $('title').text(this.model.get('name'));
   $('.js-name').text(this.model.get('name') || 'Untitled');
 

@@ -1,0 +1,3 @@
+{"key":"version","val":2}
+{"key":"oauth","val":{"account":"test","accesstoken":"testaccesstoken"}}
+{"key":"user","val":{"_id":"/api/User/test","_rev":"0","email":"test@mapbox.com","id":"test","passmod":84400000,"lastLogin":1394660104813,"updated":1386816784578,"created":1383929300552,"accountLevel":"free","oauth":{"tilemill":{"date":1394748192633}},"avatar":"https://www.gravatar.com/avatar/0.jpg","disabled":false,"confirmed":1383929314869,"website":"","name":"test","flags":{}}}
