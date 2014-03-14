@@ -17,10 +17,12 @@ install:
 before_script:
  - npm install mocha
  - npm ls
- - npm test
 
 script:
  - node ./test/fixtures-oauth/mapbox.js &
  - node index.js --mapboxauth="http://localhost:3001" --db="./test/fixtures-oauth/test.db" &
  - sleep 10
  - ./node_modules/.bin/mocha-phantomjs "http://localhost:3000/style?id=tmstyle:///tmp-1371d3fb&test=true"
+ - sleep 10
+ - npm test
+
