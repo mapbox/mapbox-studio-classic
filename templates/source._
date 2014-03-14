@@ -24,7 +24,7 @@
 
 <div id='perf'></div>
 
-<form id='settings' class='z10 animate scroll-styled col12 pin-left'>
+<form id='settings' class='pane z10 animate scroll-styled col12 pin-left'>
 <div class='scroll-styled col6 pin-right fill-blue'>
   <%= this.history(obj) %>
 </div>

@@ -160,9 +160,10 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #settings-source.active { display:block; }
 
 /* Project settings */
-#settings { display:none;}
+#settings { display: none;}
 #settings:target { display: block;}
 #settings:target ~ * .settings-n { display: none;}
+
 #settings .project-settings {
   top: 60px;
   left: 20px;
@@ -185,6 +186,15 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
+
+/* Panes for removing excess content */
+.pane {
+  z-index:1002;
+  height:100%;
+}
+.pane > * { display:none; }
+.pane:target > * { display:block; }
+
 
 /* Map */
 #map {
