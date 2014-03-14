@@ -35,12 +35,14 @@ with no sources. Once vector tile compositing is available revisit.
   </div>
   <div class='description'>
     <div class='truncate keyline-bottom col12 pad1'><%=l.description||'No description.'%></div>
-    <% _(l.fields||{}).each(function(desc,name) { %>
-    <div class='field pad1x pad0y clearfix'>
-      <span class='field-key col4'><%=name%></span>
-      <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
+    <div class='pad1y'>
+      <% _(l.fields||{}).each(function(desc,name) { %>
+      <div class='field pad1x pad0y clearfix'>
+        <span class='field-key col4'><%=name%></span>
+        <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
+      </div>
+      <% }); %>
     </div>
-    <% }); %>
   </div>
 </div>
 <% }); %>
