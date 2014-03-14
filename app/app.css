@@ -188,10 +188,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 .dark #settings .project-settings:before {  border-bottom: 10px solid #404040;}
 
 /* Panes for removing excess content */
-.pane {
-  z-index:1002;
-  height:100%;
-}
+.pane { height:100%;}
 .pane > * { display:none; }
 .pane:target > * { display:block; }
 
