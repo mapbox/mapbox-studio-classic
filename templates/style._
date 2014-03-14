@@ -27,7 +27,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane pin-topleft animate offcanvas-left fill-blue dark scroll-styled col3'>
+<div id='data' class='z100 pane pin-topleft animate offcanvas-left fill-blue dark scroll-styled col3'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
