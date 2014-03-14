@@ -173,7 +173,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   content: "";
   display: block;
   position: absolute;
-  left: 20px;
+  left: 30px;
   top: -10px;
   width: 0;
   height: 0;

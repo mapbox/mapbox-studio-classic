@@ -24,11 +24,12 @@
 
 <div id='perf'></div>
 
-<form id='settings' class='z10 animate fill-darken2 scroll-styled col12 pin-left'>
+<form id='settings' class='z10 animate scroll-styled col12 pin-left'>
 <div class='scroll-styled col6 pin-right fill-blue'>
   <%= this.history(obj) %>
 </div>
 <div class='col6 pin-left'>
+  <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
   <div class='project-settings dark fill-dark round contain col6 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <header class='pad1 keyline-bottom'>

@@ -48,11 +48,12 @@
   </div>
 </div>
 
-<form id='settings' class='z10 animate fill-darken2 scroll-styled col12 pin-left'>
-  <div class='col6 pin-right fill-blue dark scroll-styled'>
+<form id='settings' class='z10 animate scroll-styled col12 pin-left'>
+  <div class='col6 pin-right animate offscreen-right fill-blue dark scroll-styled'>
     <%= this.history(obj) %>
   </div>
-  <div class='col6 pin-left'>
+  <div class='offscreen-left animate col6 pin-left'>
+    <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
     <div class='project-settings fill-light round contain col6 pin-topleft'>
       <header class='pad1 keyline-bottom'>
         <h4>Settings</h4>
