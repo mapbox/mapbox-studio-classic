@@ -506,19 +506,16 @@ a.project:hover {
   .CodeMirror .hidden:target { display:block; }
 
 /* CodeMirror Addon: pallete swatch */
-.cm-palette {
-  text-decoration:underline;
+.CodeMirror .cm-palette-hint {
+  display:inline-block;
+  box-sizing:border-box;
+  margin:0 2px 3px 5px;
+  border-radius:50%;
+  vertical-align:middle;
+  width:10px;
+  height:10px;
+  box-shadow:0 0 0 2px #fcfcfc;
   }
-  .CodeMirror .cm-palette-hint {
-    display:inline-block;
-    box-sizing:border-box;
-    margin:0 2px;
-    border-radius:50%;
-    vertical-align:middle;
-    width:10px;
-    height:10px;
-    box-shadow:0 0 2px;
-    }
 
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
