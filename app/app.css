@@ -9,7 +9,7 @@ kbd {
   }
   .mac kbd.prefixed:before { content:'⌘'; }
   .windows kbd.prefixed:before,
-  .linux kbd.prefixed:before { content:'⌃'; }
+  .linux kbd.prefixed:before { content:'Ctrl '; }
 
 /* Radio buttons NEEDS CLEANUP */
 .radio-buttons { max-height: 160px; }
