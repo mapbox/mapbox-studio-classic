@@ -4,9 +4,12 @@
 input[type=text].clean { border: none; }
 
 kbd {
-  box-shadow: none;
-  padding: 0 1px;
-}
+  box-shadow:none;
+  padding:0 1px;
+  }
+  .mac kbd.prefixed:before { content:'⌘'; }
+  .windows kbd.prefixed:before,
+  .linux kbd.prefixed:before { content:'⌃'; }
 
 /* Radio buttons NEEDS CLEANUP */
 .radio-buttons { max-height: 160px; }

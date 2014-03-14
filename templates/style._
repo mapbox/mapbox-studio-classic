@@ -23,7 +23,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view'>
+<body id='view' class='<%= agent %>'>
 
 <div id='perf'></div>
 
