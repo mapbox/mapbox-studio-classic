@@ -8,31 +8,19 @@ addons:
   postgresql: "9.3"
 
 before_install:
- - sudo apt-add-repository --yes ppa:mapnik/v2.2.0
- - sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
- - sudo apt-get update -qq
- - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler
-
-install:
  - createdb template_postgis
  - psql -c "CREATE EXTENSION postgis" template_postgis
- - npm install mocha
+
+install:
+ - npm install
 
 before_script:
- - sudo apt-get -qq install libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
- - npm install
+ - npm install mocha
  - npm ls
- - sudo apt-get purge libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
+ - npm test
 
 script:
- - sudo apt-get -qq install libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
- - rm -rf ./node_modules/
- - npm install
- - npm ls
- - sudo apt-get purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
  - node ./test/fixtures-oauth/mapbox.js &
  - node index.js --mapboxauth="http://localhost:3001" --db="./test/fixtures-oauth/test.db" &
  - sleep 10
  - ./node_modules/.bin/mocha-phantomjs "http://localhost:3000/style?id=tmstyle:///tmp-1371d3fb&test=true"
- - sleep 10
- - npm test

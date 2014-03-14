@@ -524,7 +524,7 @@ span.cm-carto-filter             { color:#66475B; }
 a.layers-y { display:none; }
 
 #data:target ~ * a.layers-y,
-#layers:target ~ * a.layers-y { display:block; }
+#layers:target ~ * a.layers-y { display:inline-block; }
 
 a.menu-y,
 a.full-y,
