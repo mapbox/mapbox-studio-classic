@@ -46,44 +46,35 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // Check for authentication credentials. If present, check with test API
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
-    if (tm.db._docs.oauth) {
-        if (!req.basemap) {
-            request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
-                if (response.statusCode >= 400) {
-                    var data = {
-                        '_type': 'composite',
-                        'center': [0,0,3],
-                        'created': 1394571600000,
-                        'description': '',
-                        'id': tm.db._docs.oauth.account+'.tm2-basemap',
-                        'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
-                        'name': 'Untitled project',
-                        'new': true,
-                        'private': true
-                    };
-                    request({
-                        method: 'PUT',
-                        uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
-                        headers: {'content-type': 'application/json'},
-                        body: JSON.stringify(data)
-                    }, function(error, response, body) {
-                        if (response.statusCode === 200) {
-                            next();
-                        } else {
-                            res.redirect('/unauthorize');
-                        }
-                    });
-                } else {
-                    req.basemap = basemaps[tm.db._docs.oauth.account] = body;
-                    next();
-                }
+    if (!tm.db._docs.oauth) res.redirect('/authorize'); 
+    if (req.basemap) next();
+    request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
+        if (response.statusCode >= 400) {
+            var data = {
+                '_type': 'composite',
+                'center': [0,0,3],
+                'created': 1394571600000,
+                'description': '',
+                'id': tm.db._docs.oauth.account+'.tm2-basemap',
+                'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
+                'name': 'Untitled project',
+                'new': true,
+                'private': true
+            };
+            request({
+                method: 'PUT',
+                uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(data)
+            }, function(error, response, body) {
+                if (!response.statusCode === 200) res.redirect('/unauthorize');
+                next();
             });
         } else {
+            req.basemap = basemaps[tm.db._docs.oauth.account] = body;
             next();
         }
-    } else {
-        res.redirect('/authorize');    
-    }
+    });
 };
 
 // Check for an active export. If present, redirect to the export page
