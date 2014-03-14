@@ -3,14 +3,15 @@
 
 <head>
   <meta charset='UTF-8'/>
-  <link href='/ext/codemirror.css' rel='stylesheet' />
+  <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
-  <script src='/ext/codemirror.js'></script>
-  <script src='/ext/codemirror.runmode.js'></script>
+  <script src='/ext/codemirror/codemirror.js'></script>
+  <script src='/ext/codemirror/runmode.js'></script>
+  <script src='/ext/codemirror/searchcursor.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
@@ -18,8 +19,7 @@
   <script src='/app/lib.js'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
-  <script src='/app/codemirror.search.js'></script>
-  <script src='/app/codemirror.search.cursor.js'></script>
+  <script src='/app/codemirror.tm2.search.js'></script>
   <title><%= style.name %></title>
 </head>
 
@@ -243,6 +243,7 @@ var Tab = function(id, value) {
   var tab = CodeMirror(document.getElementById('code'), {
     value: value,
     lineNumbers: true,
+    gutters: ['CodeMirror-linenumbers', 'errors'],
     mode: {
       name: 'carto',
       reference: window.cartoRef
@@ -269,7 +270,7 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
-  tab.setOption('onKeyEvent', completer.onKeyEvent);
+  tab.on('keydown', completer.onKeyEvent);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
@@ -393,7 +394,9 @@ Editor.prototype.expandall = function(ev) {
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
-    _(cm._cartoErrors||[]).each(cm.clearMarker);
+      _(cm._cartoErrors||[]).each(function() {
+        cm.clearGutter('errors');
+      });
     delete cm._cartoErrors;
   });
 };
@@ -512,12 +515,35 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setMarker(ln, "<a class='quiet' id='error-"+ln+"' href='#error-"+ln+"'>%N%</a><span class='small js-message message'><a href='#' class='icon x fr quiet'></a>"+e[5]+"</span>", 'error');
+        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
       } else {
         return this.messagemodal(e);
       }
     }).bind(this));
 };
+
+Editor.prototype.cartoError = function(ln, e) {
+    var error = document.createElement('div');
+    error.className = 'error';
+
+    var link = document.createElement('a');
+    link.id = 'error-' + ln;
+    link.href = '#error-' + ln;
+
+    var message = document.createElement('small');
+    message.className = 'js-message message round-right pad0y pad1x z10';
+    message.innerHTML = e[5];
+
+    var close = document.createElement('a');
+    close.className = 'icon x pin-right quiet';
+    close.href = '#';
+
+    message.appendChild(close);
+    error.appendChild(link);
+    error.appendChild(message);
+    return error;
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 

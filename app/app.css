@@ -426,38 +426,93 @@ a.project:hover {
 .CodeMirror {
   position:absolute;
   background:#f8f8f8;
-  top:40px; bottom:0px;
+  top:40px; bottom:0;
   width:100%; height:auto;
   visibility:hidden;
   }
-.CodeMirror-lines,
-.CodeMirror-gutter-text { padding:0px; }
-.CodeMirror-gutter-text pre { padding:0px 5px; }
-.CodeMirror-lines { padding:0px 10px; }
-.CodeMirror-scroll { height:100%; overflow: hidden;}
-.CodeMirror.active .CodeMirror-scroll { overflow: auto; }
 .CodeMirror.active { visibility:visible; }
-.CodeMirror-gutter {
-  border: none;
+.CodeMirror-lines { padding:0 10px; }
+.CodeMirror pre { padding:0; }
+
+.CodeMirror-gutters {
+  border:none;
   background:#fcfcfc;
-  width:40px !important;
+  width:40px!important;
   }
-.CodeMirror-gutter .error {
-  position:relative;
-  background-color: #f1f075
+  .CodeMirror-gutters .errors {
+    position:absolute;
+    width:40px;
+    left:0;
+    z-index:100;
+    }
+    .CodeMirror-gutter-wrapper .error {
+      background-color:#f1f075;
+      position:absolute;
+      right:0;
+      }
+      .CodeMirror-gutter-wrapper .error > a {
+        height:20px;
+        width:10px;
+        display:block;
+        }
+        .CodeMirror-gutter-wrapper .error > a:focus {
+          -webkit-box-shadow:none;
+                  box-shadow:none;
+          }
+      .CodeMirror-gutter-wrapper .error .message {
+        background-color:#f1f075;
+        position:absolute;left:0%;top:100%;
+        color:rgba(0,0,0,0.5);
+        display:none;
+        width:240px;
+        }
+        .CodeMirror-gutter-wrapper .error > a:target ~ .message { display:inline-block; }
+
+
+.CodeMirror-dialog,
+.CodeMirror-dialog * {
+  font:15px/20px 'Open Sans', sans-serif;
+  -webkit-box-sizing:border-box;
+     -moz-box-sizing:border-box;
+          box-sizing:border-box;
   }
-.CodeMirror-gutter .error .message {
-  position:absolute; left:0%; top:100%;
-  display:none;
-  background-color: #f1f075;
-  color: rgba(0,0,0,.5);
-  white-space:normal !important;
-  text-align:left;
-  width:240px;
-  padding:5px 10px;
-  border-radius:0px 3px 3px 0px;
+  .CodeMirror-dialog {
+    box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);
+    }
+  .CodeMirror-dialog .small,
+  .CodeMirror-dialog .small *,
+  .CodeMirror-dialog small,
+  .CodeMirror-dialog button,
+  .CodeMirror-dialog label {
+    font-size:12px;
+    line-height:20px;
+    }
+  .CodeMirror-dialog button,
+  .CodeMirror-dialog label {
+    font-family:'Open Sans Bold', sans-serif;
+    }
+.CodeMirror .CodeMirror-dialog {
+  position:absolute;
+  left:0; right:0;
+  background:white;
+  z-index:15;
+  padding:0;
   }
-.CodeMirror-gutter .error a:target ~ .message { display:block; }
+.CodeMirror-dialog-top {
+  border-bottom:1px solid #eee;
+  top:0;
+  }
+.CodeMirror-dialog-bottom {
+  border-top:1px solid #eee;
+  bottom:0;
+  }
+.CodeMirror-dialog input {
+  background:transparent;
+  border:none;
+  outline:none;
+  }
+  .CodeMirror .hidden:target { display:block; }
+
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
