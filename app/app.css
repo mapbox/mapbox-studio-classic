@@ -9,7 +9,7 @@ kbd {
   }
   .mac kbd.prefixed:before { content:'⌘'; }
   .windows kbd.prefixed:before,
-  .linux kbd.prefixed:before { content:'⌃'; }
+  .linux kbd.prefixed:before { content:'Ctrl '; }
 
 /* Radio buttons NEEDS CLEANUP */
 .radio-buttons { max-height: 160px; }
@@ -553,6 +553,7 @@ span.cm-carto-filter             { color:#66475B; }
   left: 105px;
 }
 
+#title .avatar { width: 40px; height: 40px; }
 
 /* Visibility */
 /* Off-canvas menu vs. Content */

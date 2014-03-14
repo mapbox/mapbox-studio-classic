@@ -35,6 +35,7 @@
     "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
     "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
     "cors": "~2.1.1",
+    "request": "~2.34.0",
     "mocha-phantomjs": "~3.1.5",
     "phantomjs": "~1.9.2-2"
   },
