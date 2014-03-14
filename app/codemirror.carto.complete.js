@@ -153,11 +153,8 @@
                 insert(completions[0]); return true;
             }
 
-            completions.sort();
-
             // Build the select widget
             var pos = editor.cursorCoords();
-
             sel.innerHTML = '';
             sel.multiple = true;
             for (var i = 0; i < completions.length; ++i) {
@@ -177,8 +174,8 @@
             widget.style.height = '100px';
             widget.style.position = 'absolute';
             widget.style.zIndex = 1;
-            widget.style.left = pos.x + 'px';
-            widget.style.top = pos.yBot + 'px';
+            widget.style.left = pos.left + 'px';
+            widget.style.top = pos.top + 'px';
 
             document.body.appendChild(widget);
 
@@ -239,7 +236,6 @@
             onKeyEvent: function(i, e) {
                 // Hook into tab
                 if (e.which == 9 && !(e.ctrlKey || e.metaKey) && !e.altKey) {
-                    // e.stop();
                     return complete(e);
                 }
             },
