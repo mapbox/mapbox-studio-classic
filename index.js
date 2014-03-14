@@ -144,6 +144,15 @@ app.all('/:style(style.json)', function(req, res, next) {
 
 app.get('/:style(style):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
+
+    var platform = function() {
+        var agent = req.headers['user-agent'];
+        if (agent.indexOf('Win') != -1) return 'windows';
+        if (agent.indexOf('Mac') != -1) return 'mac';
+        if (agent.indexOf('X11') != -1 || agent.indexOf('Linux') != -1) return 'linux';
+        return 'mac'; // default to Mac.
+    }, prefixKey = (platform()) == 'mac' ? 'Cmd' : 'Ctrl';
+
     try {
         var page = tm.templates.style({
             cwd: process.env.HOME,
@@ -152,7 +161,8 @@ app.get('/:style(style):history()', function(req, res, next) {
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            test: 'test' in req.query
+            test: 'test' in req.query,
+            prefixKey: prefixKey
         })
     } catch(err) {
         return next(new Error('style template: ' + err.message));
