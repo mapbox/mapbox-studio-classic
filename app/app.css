@@ -159,6 +159,9 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #settings-style.active,
 #settings-source.active { display:block; }
 
+a.project strong { color: white;}
+a.project:hover { background: rgba(255,255,255,.15);}
+
 /* Project settings */
 #settings { display: none;}
 #settings:target { display: block;}
@@ -184,9 +187,6 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 }
 .dark #settings .project-settings:before {  border-bottom: 10px solid #404040;}
 
-a.project strong { color: white;}
-a.project:hover { background: rgba(255,255,255,.15);}
-
 /* Panes for removing excess content */
 .pane {
   z-index:1002;
@@ -194,7 +194,6 @@ a.project:hover { background: rgba(255,255,255,.15);}
 }
 .pane > * { display:none; }
 .pane:target > * { display:block; }
-
 
 /* Map */
 #map {
@@ -434,7 +433,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   color: rgba(0,0,0,.75);
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#layers a.active,
+#layers .menu a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
