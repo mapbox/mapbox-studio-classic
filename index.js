@@ -47,7 +47,10 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
     if (!tm.db._docs.oauth) return res.redirect('/authorize'); 
-    if (basemaps[tm.db._docs.oauth.account]) return next();
+    if (basemaps[tm.db._docs.oauth.account]) {
+        req.basemap = basemaps[tm.db._docs.oauth.account];
+        return next();
+    }
     request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
         if (response.statusCode >= 400) {
             var data = {
@@ -68,9 +71,14 @@ function auth(req, res, next) {
                 body: JSON.stringify(data)
             }, function(error, response, body) {
                 if (!response.statusCode === 200) return res.redirect('/unauthorize');
-                next();
+                // Map has been writtin successfully but we don't have a fresh
+                // copy to cache and attach to req.basemap. Run the middleware
+                // again which will do a GET that should now be successful.
+                auth(req, res, next);
             });
         } else {
+            try { body = JSON.parse(body); }
+            catch(err) { return next(err); }
             req.basemap = basemaps[tm.db._docs.oauth.account] = body;
             next();
         }
