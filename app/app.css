@@ -531,7 +531,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   }
   .CodeMirror .hidden:target { display:block; }
 
-/* CodeMirror Addon: pallete swatch */
+/* CodeMirror Addon: palette swatch */
 .CodeMirror .cm-palette-hint {
   display:inline-block;
   box-sizing:border-box;
@@ -540,7 +540,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
   vertical-align:middle;
   width:10px;
   height:10px;
-  box-shadow:0 0 0 2px #fcfcfc;
+  box-shadow:0 0 0 2px #fcfcfc,
+             0 0 0 3px #ddd;
   }
 
 span.cm-keyword,
