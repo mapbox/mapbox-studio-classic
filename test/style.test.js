@@ -12,8 +12,7 @@ var tmppath = '/tmp/tm2-test-' + +new Date;
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
-        cache: path.join(tmppath, 'cache'),
-        mapboxauth: 'http://localhost:3001/'
+        cache: path.join(tmppath, 'cache')
     }, done());
 });
 after(function(done) {
