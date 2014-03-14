@@ -46,8 +46,8 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // Check for authentication credentials. If present, check with test API
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
-    if (!tm.db._docs.oauth) res.redirect('/authorize'); 
-    if (req.basemap) next();
+    if (!tm.db._docs.oauth) return res.redirect('/authorize'); 
+    if (basemaps[tm.db._docs.oauth.account]) return next();
     request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
         if (response.statusCode >= 400) {
             var data = {
@@ -67,7 +67,7 @@ function auth(req, res, next) {
                 headers: {'content-type': 'application/json'},
                 body: JSON.stringify(data)
             }, function(error, response, body) {
-                if (!response.statusCode === 200) res.redirect('/unauthorize');
+                if (!response.statusCode === 200) return res.redirect('/unauthorize');
                 next();
             });
         } else {
