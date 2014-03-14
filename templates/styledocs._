@@ -26,53 +26,45 @@ var sections = {
     }
 };
 %>
+<nav class='fill-grey small clearfix col12 contain z1 strong'>
+  <a href='#docs-intro'    class='js-docs-nav row1 keyline-bottom pad1 block quiet icon home'>Overview</a>
+  <a href='#docs-points'   class='js-docs-nav row1 keyline-bottom pad1 block quiet icon marker'>Points</a>
+  <a href='#docs-lines'    class='js-docs-nav row1 keyline-bottom pad1 block quiet icon polyline'>Lines</a>
+  <a href='#docs-polygons' class='js-docs-nav row1 keyline-bottom pad1 block quiet icon polygon'>Polygons</a>
+  <a href='#docs-text'     class='js-docs-nav row1 keyline-bottom pad1 block quiet icon pencil'>Text</a>
+  <a href='#docs-misc'     class='js-docs-nav row1 keyline-bottom pad1 block quiet icon star'>Misc</a>
+  <div class='pad0 pin-topright'> <a href='#fonts' class='quiet button icon font short font-link'>Fonts</a></div>
+</nav>
 
-<nav class='pin-top row1 fill-grey clearfix col12 keyline-bottom keyline-right z1'><!--
-  --><a href='#docs-intro' class='js-tab col1 quiet button unround active keyline-right icon home center'>&nbsp;</a><!--
-  --><a href='#docs-points' class='js-tab col2 quiet button unround keyline-right'>Points</a><!--
-  --><a href='#docs-lines' class='js-tab col2 quiet button unround keyline-right'>Lines</a><!--
-  --><a href='#docs-polygons' class='js-tab col2 quiet button unround keyline-right'>Polygons</a><!--
-  --><a href='#docs-misc' class='js-tab col2 quiet button unround keyline-right'>Misc</a><!--
-  --><a href='#docs-text' class='js-tab col3 quiet button unround'><span class='col8'>Text</span></a><!--
-  --><a href='#fonts' class='pin-topright quiet button icon font short font-link'></a><!--
---></nav>
+<article class='small' id='docs-intro'>
 
-<article id='docs-intro' class='active scroll-styled pin-left col12 top4'>
-
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Need help?</h1>
-  <p>Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide to using TileMill.</p>
+<section class='keyline-bottom pad1'>
+  <p><strong>Just starting?</strong> Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide on using TileMill.</p>
 </section>
-<section class='pad2 contain keyline-bottom'>
-  <h3 class='space-bottom1'>Keyboard shortcuts</h1>
-  <div class='small code space-bottom1 keyline-all clearfix'>
-    <div class='col6'>
-      <ul class='pad1 fill-gray'>
-      <li><h4>Style &amp; Source:</h4></li>
-      <li><kbd>Cmd</kbd>+<kbd>s</kbd> Save style or source.</li>
-      <li><kbd>Cmd</kbd>+<kbd>.</kbd> View map.</li>
-      <li><kbd>Cmd</kbd>+<kbd>/</kbd> View settings.</li>
-      <li><kbd>Cmd</kbd>+<kbd>h</kbd> View help.</li>
-      <li><kbd>Cmd</kbd>+<kbd>d</kbd> View data from style.</li>
-      <li><kbd>Esc</kbd> Close popup or window.</li>
-      </ul>
-    </div>
-    <div class='keyline-left col6'>
-      <ul class='pad1 fill-gray keyline-bottom'>
-        <li><h4>Style only:</h4></li>
-        <li><kbd>Cmd</kbd>+<kbd>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
-        <li><kbd>Cmd</kbd>+<kbd>f</kbd> Search current stylesheet.</li>
-      </ul>
-      <ul class='pad1 fill-gray'>
-      <li><h4>While interacting with map:</h4></li>
-        <li><kbd>Cmd</kbd>+<kbd>+</kbd> &amp; <kbd>Cmd</kbd>+<kbd>-</kbd> Zoom in and out.</li>
-      </ul>
-    </div>
-  </div>
-  <small>Override TileMill 2 shortcuts with system default shortcuts by holding <kbd>Shift</kbd>.</small>
+<section class='pad1 contain keyline-bottom'>
+  <h3 class='space-bottom1'>Keyboard shortcuts</h3>
+  <ul class='code space-bottom1'>
+    <li><h4>Style &amp; Source:</h4></li>
+    <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
+    <li><kbd class='prefixed'>.</kbd> View map.</li>
+    <li><kbd class='prefixed'>/</kbd> View settings.</li>
+    <li><kbd class='prefixed'>h</kbd> View help.</li>
+    <li><kbd class='prefixed'>d</kbd> View data from style.</li>
+    <li><kbd>Esc</kbd> Close popup or window.</li>
+  </ul>
+  <ul class='code space-bottom1'>
+    <li><h4>Style only:</h4></li>
+    <li><kbd class='prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
+    <li><kbd class='prefixed'>f</kbd> Search current stylesheet.</li>
+  </ul>
+  <ul class='code space-bottom1'>
+    <li><h4>While interacting with map:</h4></li>
+    <li><kbd class='prefixed'>+</kbd> &amp; <kbd class='prefixed'>-</kbd> Zoom in and out.</li>
+  </ul>
+  <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Selectors</h1>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Selectors</h3>
   <p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
   <p>A simple carto style looks like</p>
 <pre class='carto-snippet'>
@@ -98,8 +90,8 @@ var sections = {
 [zoom &gt; 10].red#world[NAME='USA']
 [NAME='USA'] [zoom &gt; 10] #world.red</pre>
 </section>
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Nested styles</h1>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Nested styles</h3>
   <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
 <pre class='carto-snippet'>
 // Applies to all layers with .land class
@@ -117,8 +109,8 @@ var sections = {
   #lakes { polygon-fill: #144; }
 }</pre>
 </section>
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Attachments</h1>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Attachments</h3>
   <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
 <pre class='carto-snippet'>
 #world {
@@ -138,8 +130,8 @@ var sections = {
   }
 }</pre>
 </section>
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Values</h1>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Values</h3>
   <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
   <h4>Colors</h4>
   <p>Carto accepts a variety of syntaxes for colors - HTML-style hex values,
@@ -162,15 +154,17 @@ line-width: 5;</pre>
   <p>Some properties accept keyword arguments, which should be entered literally</p>
 <pre class='carto-snippet'>
 raster-mode: normal;</pre>
-  <h3 class='space-bottom1'>Variables</h1>
+</section>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Variables</h3>
   <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
 <pre class='carto-snippet'>
 @green: #2B4D2D;
 Map { background-color: @green; }
 #world { polygon-fill: @green; }</pre>
 </section>
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Operations</h1>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Operations</h3>
   <p>Any number, color or variable can be operated on using mathematical expressions.</p>
 <pre class='carto-snippet'>
 @gray: #888;
@@ -181,8 +175,8 @@ Map { background-color: @green; }
   line-color: @gray / 2;
 }</pre>
 </section>
-<section class='pad2 keyline-bottom'>
-  <h3 class='space-bottom1'>Color functions</h1>
+<section class='pad1 keyline-bottom'>
+  <h3 class='space-bottom1'>Color functions</h3>
   <p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
 <pre class='carto-snippet'>
 // lighten or darken a color by 10%
@@ -204,23 +198,33 @@ spin(@color, -10);</pre>
 </section>
 </article>
 
+<h3 class='pad1 contain keyline-bottom'>Carto Reference
+  <div class='pad0 pin-bottomright'>
+  <a href='#' class='js-expandall quiet button short expand-link'>
+    <span class='expand-off'>Expand</span>
+    <span class='hidden expand-on'>Collapse</span>
+  </a>
+  </div>
+</h3>
 <% _(sections).each(function(symbolizers, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='scroll-styled col12 pin-left break-word top4'>
+<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% _(symbolizers).each(function(symbolizer) { %>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section class='pad2 keyline-bottom'>
-  <div class='clearfix space-bottom1'>
-    <strong><code class='big'><%= p.css %>:</code></strong>
-    <code class='type'><%=_(p.type).isArray() ? 'option block' : p.type%></code>
+  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
+    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+    <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
+    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
+    </a>
+    <div class='pad1 details keyline-bottom'>
     <% if (p['default-value'] && p['default-value']!=='none') { %>
-    <code class='value'><%=p['default-value']%></code>
+    <span class='space-bottom1 code quiet inline value'><%=p['default-value']%></span><br/>
     <% } %>
-    <% if (_(p.type).isArray()) { %><code class='options'><%= p.type.join(' ') %></code><% } %>
-  </div>
-  <% if (p.doc) { %><div class='description small'><%=p.doc%></div><% } %>
+    <% if (_(p.type).isArray()) { %><span class='space-bottom1 inline code options'><%= p.type.join(' ') %></span><br/><% } %>
+    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
+    </div>
   </section>
   <% }); %>
   <% }); %>
