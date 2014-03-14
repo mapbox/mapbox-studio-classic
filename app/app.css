@@ -150,21 +150,37 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;}
 
-.pane {
-  z-index:1002;
-  height:100%;
-  box-shadow:rgba(0,0,0,0.1) -2px 0px 0px;
+/* Project history */
+#settings-style,
+#settings-source { display:none; }
+#settings-style.active,
+#settings-source.active { display:block; }
+
+/* Project settings */
+#settings { display:none;}
+#settings:target { display: block;}
+#settings:target ~ * .settings-n { display: none;}
+#settings .project-settings {
+  top: 60px;
+  left: 20px;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.1);
 }
-.pane > * { display:none; }
-.overlay:target .pane > *,
-.pane:target > * { display:block; }
-.overlay:target .pane,
+
+#settings .project-settings:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 20px;
+  top: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #f8f8f8;
+}
 
 a.project strong { color: white;}
-
-a.project:hover {
-  background: rgba(255,255,255,.15);
-}
+a.project:hover { background: rgba(255,255,255,.15);}
 
 /* Map */
 #map {
@@ -407,12 +423,6 @@ a.project:hover {
 #layers a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
-
-/* Project history */
-#settings-style,
-#settings-source { display:none; }
-#settings-style.active,
-#settings-source.active { display:block; }
 
 /* CodeMirror*/
 .CodeMirror,

@@ -27,13 +27,13 @@ var sections = {
 };
 %>
 <nav class='fill-grey small clearfix col12 contain z1 strong'>
-  <a href='#docs-intro'    class='js-docs-nav row1 keyline-bottom pad1 block quiet icon home'>Overview</a>
-  <a href='#docs-points'   class='js-docs-nav row1 keyline-bottom pad1 block quiet icon marker'>Points</a>
-  <a href='#docs-lines'    class='js-docs-nav row1 keyline-bottom pad1 block quiet icon polyline'>Lines</a>
-  <a href='#docs-polygons' class='js-docs-nav row1 keyline-bottom pad1 block quiet icon polygon'>Polygons</a>
-  <a href='#docs-text'     class='js-docs-nav row1 keyline-bottom pad1 block quiet icon pencil'>Text</a>
-  <a href='#docs-misc'     class='js-docs-nav row1 keyline-bottom pad1 block quiet icon star'>Misc</a>
-  <div class='pad0 pin-topright'> <a href='#fonts' class='quiet button icon font short font-link'>Fonts</a></div>
+  <a href='#docs-intro'    class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon home'>Overview</div></a>
+  <a href='#docs-points'   class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon marker'>Points</div></a>
+  <a href='#docs-lines'    class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon polyline'>Lines</div></a>
+  <a href='#docs-polygons' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon polygon'>Polygons</div></a>
+  <a href='#docs-text'     class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon pencil'>Text</div></a>
+  <a href='#docs-misc'     class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon star'>Misc</div></a>
+  <div class='pad0 pin-topright'><a href='#fonts' class='quiet button icon font short font-link'>Fonts</a></div>
 </nav>
 
 <article class='small' id='docs-intro'>
@@ -218,7 +218,7 @@ spin(@color, -10);</pre>
     <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
     </a>
-    <div class='pad1 details keyline-bottom'>
+    <div class='pad1 details'>
     <% if (p['default-value'] && p['default-value']!=='none') { %>
     <span class='space-bottom1 code quiet inline value'><%=p['default-value']%></span><br/>
     <% } %>
