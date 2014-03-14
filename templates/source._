@@ -26,8 +26,9 @@
 
 <div id='full' class='clip animate col6 pin-left clip'>
   <div id='title' class='contain pin-top z1'>
-    <div class='pin-left clearfix'>
-      <a href='#settings' class='icon inline sprocket button unround js-name fill-lighten2'><%= source.name || 'Untitled' %></a><!--
+    <div class='pin-left clearfix'><!--
+      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#settings' class='icon inline sprocket button unround js-name strong fill-darken2'><%= source.name || 'Untitled' %></a><!--
       <% if (source._tmp) { %>
       --><a class='button icon floppy js-save unround fill-dark' href='#saveas'>Save as</a>
       <% } else { %>
@@ -154,6 +155,7 @@ revlayers.reverse();
   label: 'Select'
 })); %>
 
+<%= this.modaluser({name:user.name}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
@@ -293,6 +295,7 @@ Editor.prototype.events = {
   'submit #addmapbox': 'addmapbox',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
+  'submit #user': 'user',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -318,6 +321,10 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.user = function() {
+  window.location.href = window.location.origin + '/unauthorize';
   return false;
 };
 Editor.prototype.zoomin = function(out) {

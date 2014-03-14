@@ -13,12 +13,22 @@ var source = require('./lib/source');
 var style = require('./lib/style');
 var express = require('express');
 var cors = require('cors');
-var argv = require('optimist')
+tm.config(require('optimist')
     .config('config')
-    .argv;
+    .options('db', {
+        describe: 'path to tm2 db',
+        default: path.join(process.env.HOME, '.tilemill', 'v2', 'app.db')
+    })
+    .options('mapboxauth', {
+        describe: 'URL to mapbox auth API',
+        default: 'https://api.mapbox.com'
+    })
+    .argv);
+var request = require('request');
 
 // Load defaults for new styles.
-var defaults = {};
+var defaults = {},
+    basemaps = {};
 style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
     if (err) throw err;
     var data = JSON.parse(JSON.stringify(info));
@@ -32,6 +42,48 @@ app.use(require('./lib/oauth'));
 app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
+
+// Check for authentication credentials. If present, check with test API
+// call. Otherwise, lock the app and redirect to authentication.
+function auth(req, res, next) {
+    if (!tm.db._docs.oauth) return res.redirect('/authorize'); 
+    if (basemaps[tm.db._docs.oauth.account]) {
+        req.basemap = basemaps[tm.db._docs.oauth.account];
+        return next();
+    }
+    request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
+        if (response.statusCode >= 400) {
+            var data = {
+                '_type': 'composite',
+                'center': [0,0,3],
+                'created': 1394571600000,
+                'description': '',
+                'id': tm.db._docs.oauth.account+'.tm2-basemap',
+                'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
+                'name': 'Untitled project',
+                'new': true,
+                'private': true
+            };
+            request({
+                method: 'PUT',
+                uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(data)
+            }, function(error, response, body) {
+                if (!response.statusCode === 200) return res.redirect('/unauthorize');
+                // Map has been written successfully but we don't have a fresh
+                // copy to cache and attach to req.basemap. Run the middleware
+                // again which will do a GET that should now be successful.
+                auth(req, res, next);
+            });
+        } else {
+            try { body = JSON.parse(body); }
+            catch(err) { return next(err); }
+            req.basemap = basemaps[tm.db._docs.oauth.account] = body;
+            next();
+        }
+    });
+};
 
 // Check for an active export. If present, redirect to the export page
 // effectively locking the application from use until export is complete.
@@ -47,7 +99,7 @@ function exporting(req, res, next) {
     });
 };
 
-app.param('style', exporting, function(req, res, next) {
+app.param('style', auth, exporting, function(req, res, next) {
     // @TODO...
     if (req.method === 'PUT' && req.body._recache && req.query.id) {
         source.invalidate(req.body.source, next);
@@ -76,7 +128,7 @@ app.param('style', exporting, function(req, res, next) {
     next();
 });
 
-app.param('source', exporting, function(req, res, next) {
+app.param('source', auth, exporting, function(req, res, next) {
     if (req.method === 'PUT' && req.query.id) {
         source.invalidate(req.query.id, next);
     } else {
@@ -161,9 +213,11 @@ app.get('/:style(style):history()', function(req, res, next) {
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
+            basemap: req.basemap,
+            user: tm.db._docs.user,
             test: 'test' in req.query,
             agent: agent()
-        })
+        });
     } catch(err) {
         return next(new Error('style template: ' + err.message));
     }
@@ -307,7 +361,9 @@ app.get('/:source(source):history()', function(req, res, next) {
             cwd: process.env.HOME,
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
-            history: req.history
+            history: req.history,
+            basemap: req.basemap,
+            user: tm.db._docs.user
         });
     } catch(err) {
         return next(new Error('source template: ' + err.message));
