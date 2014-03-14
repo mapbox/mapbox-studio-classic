@@ -148,29 +148,25 @@
   </div>
 </div>
 
-<div id='docs' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
-  <%= this['styledocs'](cartoRef) %>
-</div>
-
-<div id='fonts' class='pin-top offcanvas-top pane animate fill-grey scroll-styled col6'>
-  <header class='pad2x pad0y keyline-bottom'>
-    <h3 class='icon pad0y font'>Fonts</h3>
-    <nav class='pin-topright'>
-      <a class='inline pad1 strong small icon quiet return' href='#docs'>Back to documentation</a>
-    </nav>
-  </header>
-  <div class='grid pad2 clearfix'>
-    <div class='clearfix keyline-top keyline-bottom keyline-left'><!--
-    <% fontsRef.forEach(function(font) { %>
-    --><div class='col6 keyline-bottom keyline-right'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div><!--
-    <% }); %>
-    --></div>
-  </div>
-</div>
-
 <div id='code' class='animate z1 col6 pin-right fill-light'>
 
-  <div id='layers' class='animate pin-left menu col6 dark fill-dark'>
+  <div id='docs' class='animate pin-left fill-grey scroll-styled col6'>
+    <%= this['styledocs'](cartoRef) %>
+  </div>
+
+  <div id='fonts' class='animate pin-left col6 scroll-styled fill-grey'>
+    <header class='pad1x pad0y keyline-bottom'>
+      <h3 class='icon pad0y font'>Fonts</h3>
+      <nav class='pin-topright'>
+        <a class='inline pad1 strong small icon quiet return' href='#docs'></a>
+      </nav>
+    </header>
+    <% fontsRef.forEach(function(font) { %>
+    <div class='keyline-bottom'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div>
+    <% }); %>
+  </div>
+
+  <div id='layers' class='animate pin-left col6 menu dark fill-dark'>
     <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
       <div class='pin-topleft pad0'><!--
         --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
@@ -304,6 +300,7 @@ Editor.prototype.events = {
   'submit #user': 'user',
   'click #tabs .js-deltab': 'deltab',
   'click #tabs .js-tab': 'tabbed',
+  'click #docs .js-docs-nav': 'scrollto',
   'click #docs .js-tab': 'tabbed',
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
@@ -311,6 +308,7 @@ Editor.prototype.events = {
   'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
+  'click .js-expandall': 'expandall',
   'keydown': 'keys'
 };
 
@@ -366,6 +364,11 @@ Editor.prototype.zoomin = function(out) {
 Editor.prototype.zoomout = function() {
   map.setZoom(map.getZoom()-1);
 };
+Editor.prototype.scrollto = function(ev) {
+    id = $(ev.currentTarget).attr('href').split('#').pop();
+    document.getElementById(id).scrollIntoView();
+    return false;
+};
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;
   if (loc.indexOf('#'+name) === -1) {
@@ -373,6 +376,18 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
+};
+Editor.prototype.expandall = function(ev) {
+  button = $(ev.currentTarget);
+
+  if ( button.hasClass('expanded') ) {
+    $('.carto-ref').removeClass('active');
+    button.removeClass('expanded')
+  } else {
+    $('.carto-ref').addClass('active');
+    button.addClass('expanded');
+  }
+  return false;
 };
 
 Editor.prototype.messageclear = function() {
