@@ -154,7 +154,7 @@
     <%= this['styledocs'](cartoRef) %>
   </div>
 
-  <div id='fonts' class='animate pin-left col6 scroll-styled fill-grey'>
+  <div id='fonts' class='pane animate pin-left col6 scroll-styled fill-grey'>
     <header class='pad1x pad0y keyline-bottom'>
       <h3 class='icon pad0y font'>Fonts</h3>
       <nav class='pin-topright'>
