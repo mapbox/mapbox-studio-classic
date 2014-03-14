@@ -28,7 +28,7 @@
 
 <div id='perf'></div>
 
-<div id='data' class='pane pin-topleft animate offcanvas-left fill-blue dark scroll-styled col3'>
+<div id='data' class='z100 pane pin-topleft animate offcanvas-left fill-blue dark scroll-styled col3'>
   <section class='pad2 keyline-bottom'>
     <h3>Sources</h3>
     <nav class='pin-topright pad1'>
@@ -49,89 +49,88 @@
   </div>
 </div>
 
-<form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
-  <div class='col6 pin-left fill-blue dark scroll-styled'>
+<form id='settings' class='pane z10 col12 pin-left'>
+  <div class='z1 col6 pin-right fill-blue dark scroll-styled'>
     <%= this.history(obj) %>
   </div>
-  <div class='fill-gray scroll-styled col6 pin-right'>
-    <header class='pad2 keyline-bottom'>
-      <h3>Settings</h3>
-      <nav class='pin-topright pad1'>
-        <a class='inline quiet small strong pad1 icon return' href='#'>Back to <span class='js-name'><%= _(style.name).escape() || 'Project' %></span></a>
-      </nav>
-    </header>
-    <div class='pad2'>
-      <fieldset>
-        <section class='space-bottom1'>
-          <label>Name</label>
-          <input class='stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
-        </section>
-        <section class='space-bottom1'>
-          <label>Description</label>
-          <textarea class='stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
-        </section>
-        <section class='space-bottom1'>
-          <label>Attribution</label>
-          <input class='stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
-        </section>
-      </fieldset>
-      <fieldset class='pad2 space-bottom2 keyline-all round'>
-        <section class='space-bottom1 clearfix'>
-          <label class='inline col3'>Image format</label>
-          <select name='format'>
-            <% _({
-              'png24': 'png (24-bit)',
-              'png8:m=h': 'png (256 colors)',
-              'png8:m=h:c=192': 'png (192 colors)',
-              'png8:m=h:c=128': 'png (128 colors)',
-              'png8:m=h:c=64': 'png (64 colors)',
-              'png8:m=h:c=32': 'png (32 colors)',
-              'jpeg95': 'jpeg (95%)',
-              'jpeg90': 'jpeg (90%)',
-              'jpeg85': 'jpeg (85%)',
-              'jpeg80': 'jpeg (80%)'
-            }).each(function(label, format) { %>
-            <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
-            <% }); %>
-          </select>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col3'>Minzoom</label>
-          <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-          <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col3'>Maxzoom</label>
-          <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-          <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col3'>Scale</label>
-          <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-          <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
-        </section>
-      </fieldset>
+  <div class='z1 animate col6 pin-left'>
+    <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
+    <div class='project-settings animate fill-light round contain col6 pin-topleft'>
+      <header class='pad1 keyline-bottom'>
+        <h4>Settings</h4>
+        <a class='pin-topright inline quiet pad1 icon x' href='#'></a>
+      </header>
+      <div class='pad2'>
+        <fieldset>
+          <section class='space-bottom1'>
+            <label>Name</label>
+            <input class='short small stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
+          </section>
+          <section class='space-bottom1'>
+            <label>Description</label>
+            <textarea class='short small stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
+          </section>
+          <section class='space-bottom1'>
+            <label>Attribution</label>
+            <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+          </section>
+        </fieldset>
+        <fieldset class='pad1 space-bottom2 keyline-all round'>
+          <section class='space-bottom1 clearfix'>
+            <label class='inline col4'>Image format</label>
+            <select name='format'>
+              <% _({
+                'png24': 'png (24-bit)',
+                'png8:m=h': 'png (256 colors)',
+                'png8:m=h:c=192': 'png (192 colors)',
+                'png8:m=h:c=128': 'png (128 colors)',
+                'png8:m=h:c=64': 'png (64 colors)',
+                'png8:m=h:c=32': 'png (32 colors)',
+                'jpeg95': 'jpeg (95%)',
+                'jpeg90': 'jpeg (90%)',
+                'jpeg85': 'jpeg (85%)',
+                'jpeg80': 'jpeg (80%)'
+              }).each(function(label, format) { %>
+              <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+              <% }); %>
+            </select>
+          </section>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Minzoom</label>
+            <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+            <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
+          </section>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Maxzoom</label>
+            <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+            <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
+          </section>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Scale</label>
+            <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
+            <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
+          </section>
+        </fieldset>
 
-      <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='quiet button col6 icon js-save floppy'>Save</a><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='quiet col6 button submit icon package'>Package</a>
-      </section>
+        <section class='pill col12 clearfix'><!--
+          --><a href='<% if (style._tmp) { %>#saveas<% } else { %>#<% } %>' class='button quiet col6 icon js-save floppy'>Save</a><!--
+          --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package'>Package</a>
+        </section>
+      </div>
     </div>
   </div>
 </form>
 
 <div id='full' class='clip animate col6 pin-left'>
-
-  <div id='title' class='contain pin-top z1'>
-    <div class='pin-left clearfix'><!--
+  <div id='title' class='contain inline pin-topleft z10'>
+    <span class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><a href='#settings' class='icon sprocket project-name js-name button inline unround fill-darken2'><%= style.name || 'Untitled' %></a><!--
+      --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
-        --><a class='js-save button icon inline floppy round-right fill-dark unround' href='#saveas'>Save as</a>
+        --><a class='js-save settings-n button icon inline floppy unround' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='js-save button icon inline floppy round-right fill-darken3 unround' href='#'>Save</a>
+        --><a class='js-save settings-n button icon inline floppy unround' href='#'>Save</a>
       <% } %>
-    </div>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
@@ -151,11 +150,11 @@
 
 <div id='code' class='animate z1 col6 pin-right fill-light'>
 
-  <div id='docs' class='animate pin-left fill-grey scroll-styled col6'>
+  <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
     <%= this['styledocs'](cartoRef) %>
   </div>
 
-  <div id='fonts' class='animate pin-left col6 scroll-styled fill-grey'>
+  <div id='fonts' class='pane animate pin-left col6 scroll-styled fill-grey'>
     <header class='pad1x pad0y keyline-bottom'>
       <h3 class='icon pad0y font'>Fonts</h3>
       <nav class='pin-topright'>
@@ -167,7 +166,7 @@
     <% }); %>
   </div>
 
-  <div id='layers' class='animate pin-left col6 menu dark fill-dark'>
+  <div id='layers' class='pane animate pin-left col6 menu dark fill-dark'>
     <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
       <div class='pin-topleft pad0'><!--
         --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
