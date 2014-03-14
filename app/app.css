@@ -162,6 +162,9 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
 
+/* flag active project */
+.project.proj-active .proj-status { display: block;}
+
 /* Project settings */
 #settings { display: none;}
 #settings:target { display: block;}
