@@ -206,16 +206,16 @@ spin(@color, -10);</pre>
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='carto-ref'>
-    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='keyline-bottom block contain js-tab pad0y pad1x'>
-    <small class='block quiet'><%= p.css %></small>
+  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
+    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+    <div class='small quiet pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
     </a>
     <div class='pad1 details keyline-bottom'>
     <% if (p['default-value'] && p['default-value']!=='none') { %>
-    <div class='space-bottom1 block code quiet value'><%=p['default-value']%></div>
+    <span class='space-bottom1 code quiet inline value'><%=p['default-value']%></span><br/>
     <% } %>
-    <% if (_(p.type).isArray()) { %><div class='space-bottom1 code options'><%= p.type.join(' ') %></div><% } %>
+    <% if (_(p.type).isArray()) { %><span class='space-bottom1 inline code options'><%= p.type.join(' ') %></span><br/><% } %>
     <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
     </div>
   </section>

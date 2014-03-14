@@ -107,15 +107,6 @@ a[href='#docs-misc'],
   padding:2px 5px;
   border-radius: 3px;
   background: rgba(241, 240, 117, .5); /* fill yellow at .5 opactiy */
-  }
-
-#docs section a.block:not(.active):hover {
-  color: rgba(0,0,0,1);
-  background-color: rgba(0,0,0,.05)
-}
-
-#docs section a {
-  border-bottom-color: rgba(0,0,0,.05);
 }
 
 #docs .code.value:before {
@@ -128,17 +119,20 @@ a[href='#docs-misc'],
   color: rgba(0,0,0,.5);
 }
 
-#docs .details { display: none;}
+#docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
 
 #docs section.carto-ref {
   border-right-width: 3px;
   border-right-style: solid;
 }
 
-#docs section.active {
-  background-color: rgba(255,255,255,.75);
+#docs section.carto-ref:not(.active):hover {
+  background-color: rgba(0,0,0,.025)
 }
 
+#docs section.active a,
+#docs .details { display: none;}
+#docs section.active { background-color: rgba(255,255,255,.75);}
 #docs section.active .details { display: block;}
 
 /* Font book */

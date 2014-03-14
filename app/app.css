@@ -396,13 +396,17 @@ a.project:hover {
 #data:target ~ #layers a.delete { display:block; }
 #data:target ~ #layers .sourcetype { display:none; }
 
-#layers .geometry { opacity:0.6; }
 #layers * { border-color: rgba(0,0,0,.2); }
-#layers .field-key { color: #f1f075;}
+#layers .field-key {
+  padding:2px 5px;
+  border-radius: 3px;
+  background: rgba(241, 240, 117, .75);
+  color: rgba(0,0,0,.75);
+  }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#layers a.active .geometry { opacity:1; }
-#layers small { display:none;}
-#layers .active small { display:block; }
+#layers a.active,
+#layers .description { display:none;}
+#layers .active .description { display:block; }
 
 /* Project history */
 #settings-style,
