@@ -12,6 +12,7 @@
   <script src='/ext/codemirror/codemirror.js'></script>
   <script src='/ext/codemirror/runmode.js'></script>
   <script src='/ext/codemirror/searchcursor.js'></script>
+  <script src='/ext/codemirror/palette.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
@@ -243,6 +244,7 @@ var Tab = function(id, value) {
   var tab = CodeMirror(document.getElementById('code'), {
     value: value,
     lineNumbers: true,
+    paletteHints: true,
     gutters: ['CodeMirror-linenumbers', 'errors'],
     mode: {
       name: 'carto',

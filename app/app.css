@@ -465,7 +465,7 @@ a.project:hover {
         }
         .CodeMirror-gutter-wrapper .error > a:target ~ .message { display:inline-block; }
 
-
+/* CodeMirror Addon: Search Dialog */
 .CodeMirror-dialog,
 .CodeMirror-dialog * {
   font:15px/20px 'Open Sans', sans-serif;
@@ -504,6 +504,21 @@ a.project:hover {
   outline:none;
   }
   .CodeMirror .hidden:target { display:block; }
+
+/* CodeMirror Addon: pallete swatch */
+.cm-palette {
+  text-decoration:underline;
+  }
+  .CodeMirror .cm-palette-hint {
+    display:inline-block;
+    box-sizing:border-box;
+    margin:0 2px;
+    border-radius:50%;
+    vertical-align:middle;
+    width:10px;
+    height:10px;
+    box-shadow:0 0 2px;
+    }
 
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
