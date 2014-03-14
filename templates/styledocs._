@@ -45,21 +45,21 @@ var sections = {
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='code space-bottom1'>
     <li><h4>Style &amp; Source:</h4></li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>s</kbd> Save style or source.</li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>.</kbd> View map.</li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>/</kbd> View settings.</li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>h</kbd> View help.</li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>d</kbd> View data from style.</li>
+    <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
+    <li><kbd class='prefixed'>.</kbd> View map.</li>
+    <li><kbd class='prefixed'>/</kbd> View settings.</li>
+    <li><kbd class='prefixed'>h</kbd> View help.</li>
+    <li><kbd class='prefixed'>d</kbd> View data from style.</li>
     <li><kbd>Esc</kbd> Close popup or window.</li>
   </ul>
   <ul class='code space-bottom1'>
     <li><h4>Style only:</h4></li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>f</kbd> Search current stylesheet.</li>
+    <li><kbd class='prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
+    <li><kbd class='prefixed'>f</kbd> Search current stylesheet.</li>
   </ul>
   <ul class='code space-bottom1'>
     <li><h4>While interacting with map:</h4></li>
-    <li><kbd><%= prefixKey %></kbd>+<kbd>+</kbd> &amp; <kbd>Cmd</kbd>+<kbd>-</kbd> Zoom in and out.</li>
+    <li><kbd class='prefixed'>+</kbd> &amp; <kbd class='prefixed'>-</kbd> Zoom in and out.</li>
   </ul>
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>

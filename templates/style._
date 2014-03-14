@@ -23,7 +23,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view'>
+<body id='view' class='<%= agent %>'>
 
 <div id='perf'></div>
 
@@ -150,7 +150,6 @@
 <div id='code' class='animate z1 col6 pin-right fill-light'>
 
   <div id='docs' class='animate pin-left fill-grey scroll-styled col6'>
-    <% cartoRef.prefixKey = prefixKey %>
     <%= this['styledocs'](cartoRef) %>
   </div>
 
