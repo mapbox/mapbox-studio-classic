@@ -303,6 +303,7 @@ Editor.prototype.events = {
   'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
+  'click .js-expandall': 'expandall',
   'keydown': 'keys'
 };
 
@@ -366,6 +367,18 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
+};
+Editor.prototype.expandall = function(ev) {
+  button = $(ev.currentTarget);
+
+  if ( button.hasClass('expanded') ) {
+    $('.carto-ref').removeClass('active');
+    button.removeClass('expanded')
+  } else {
+    $('.carto-ref').addClass('active');
+    button.addClass('expanded');
+  }
+  return false;
 };
 
 Editor.prototype.messageclear = function() {

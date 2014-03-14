@@ -198,7 +198,14 @@ spin(@color, -10);</pre>
 </section>
 </article>
 
-<h3 class='pad1 keyline-bottom'>Carto Reference</h3>
+<h3 class='pad1 contain keyline-bottom'>Carto Reference
+  <div class='pad0 pin-bottomright'>
+  <a href='#' class='js-expandall quiet button short expand-link'>
+    <span class='expand-off'>Expand</span>
+    <span class='hidden expand-on'>Collapse</span>
+  </a>
+  </div>
+</h3>
 <% _(sections).each(function(symbolizers, name) { %>
 <article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% _(symbolizers).each(function(symbolizer) { %>
@@ -208,7 +215,7 @@ spin(@color, -10);</pre>
   %>
   <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
     <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
-    <div class='small quiet pad1x pad0y keyline-bottom'><%= p.css %></div>
+    <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
     </a>
     <div class='pad1 details keyline-bottom'>
