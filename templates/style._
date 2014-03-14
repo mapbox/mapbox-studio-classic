@@ -270,7 +270,7 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
-  tab.setOption('onKeyEvent', completer.onKeyEvent);
+  tab.on('keydown', completer.onKeyEvent);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;

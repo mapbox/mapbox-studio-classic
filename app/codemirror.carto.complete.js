@@ -239,7 +239,7 @@
             onKeyEvent: function(i, e) {
                 // Hook into tab
                 if (e.which == 9 && !(e.ctrlKey || e.metaKey) && !e.altKey) {
-                    e.stop();
+                    // e.stop();
                     return complete(e);
                 }
             },
