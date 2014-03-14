@@ -98,10 +98,15 @@ a[href='#docs-text'],
 a[href='#docs-misc'],
 #docs-misc section .type     { color: #EE6565; } /* fill red */
 
+a[href='#docs-points'],
 #docs-points section   { border-left-color: #8a8acb; } /* fill purple */
+a[href='#docs-lines'],
 #docs-lines section    { border-left-color: #3887be; } /* fill blue */
+a[href='#docs-polygons'],
 #docs-polygons section { border-left-color: #56b881; } /* fill green */
+a[href='#docs-text'],
 #docs-text section     { border-left-color: #ee8a65; } /* fill orange */
+a[href='#docs-misc'],
 #docs-misc section     { border-left-color: #ee6565; } /* fill red */
 
 #docs .code.value,
@@ -124,6 +129,7 @@ a[href='#docs-misc'],
 
 #docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
 
+#docs a.docs-nav,
 #docs section.carto-ref {
   border-left-width: 3px;
   border-left-style: solid;
