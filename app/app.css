@@ -484,7 +484,12 @@ a.project:hover {
   .CodeMirror-dialog small,
   .CodeMirror-dialog button,
   .CodeMirror-dialog label {
-    font:12px/20px 'Open Sans Bold', sans-serif;
+    font-size:12px;
+    line-height:20px;
+    }
+  .CodeMirror-dialog button,
+  .CodeMirror-dialog label {
+    font-family:'Open Sans Bold', sans-serif;
     }
 .CodeMirror .CodeMirror-dialog {
   position:absolute;

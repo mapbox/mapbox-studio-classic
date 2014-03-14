@@ -16,8 +16,14 @@
 
     function dialogDiv(cm, template, bottom) {
         var wrap = cm.getWrapperElement();
+
+        var past = document.getElementById('dialog');
+        if (past) past.parentNode.removeChild(past);
+
         var dialog;
         dialog = wrap.appendChild(document.createElement('div'));
+        dialog.id = 'dialog';
+
         if (bottom) {
             dialog.className = 'CodeMirror-dialog CodeMirror-dialog-bottom';
         } else {
@@ -38,42 +44,41 @@
     }
 
     CodeMirror.defineExtension('openDialog', function (template, callback, options) {
-        var closed, helpActive = closed = false;
         closeNotification(this, null);
         var dialog = dialogDiv(this, template, options && options.bottom);
         var inp = dialog.getElementsByTagName('input')[0],
             help = document.getElementById('dialog-help'),
             cl = document.getElementById('dialog-close'),
             button,
+            helpActive,
             me = this;
 
         function close() {
-            if (closed || helpActive) return;
-            closed = true;
             dialog.parentNode.removeChild(dialog);
         }
 
-        CodeMirror.on(help, 'mousedown', function(e) {
-            helpActive = true;
-        });
-
-        CodeMirror.on(cl, 'mousedown', function(e) {
-            helpActive = false;
-            close();
+        CodeMirror.on(cl, 'click', close);
+        CodeMirror.on(help, 'click', function(e) {
+            if (helpActive) {
+                this.href = '#';
+                helpActive = false;
+            } else {
+                this.href = '#search-help';
+                helpActive = true;
+            }
         });
 
         if (inp) {
             if (options && options.value) inp.value = options.value;
             CodeMirror.on(inp, 'keydown', function(e) {
-                if (options && options.onKeyDown && options.onKeyDown(e, inp.value, close)) {
+                if (options && options.onKeyDown) {
                     return;
                 }
                 if (e.keyCode == 13 || e.keyCode == 27) {
                     inp.blur();
                     CodeMirror.e_stop(e);
-                    helpActive = false;
-                    close();
                     me.focus();
+                    if (e.keyCode == 27) close();
                     if (e.keyCode == 13) callback(inp.value);
                 }
             });
@@ -85,62 +90,40 @@
             if (options && options.value) inp.value = options.value;
             inp.focus();
 
-            CodeMirror.on(inp, 'blur', close);
         } else if (button = dialog.getElementsByTagName('button')[0]) {
             CodeMirror.on(button, 'click', function() {
                 close();
                 me.focus();
             });
             button.focus();
-            CodeMirror.on(button, 'blur', close);
         }
 
         return close;
     });
 
     CodeMirror.defineExtension('openConfirm', function (template, callbacks, options) {
-        var closed, helpActive = closed = false;
         closeNotification(this, null);
         var dialog = dialogDiv(this, template, options && options.bottom);
         var buttons = dialog.getElementsByTagName('button'),
             help = document.getElementById('dialog-help'),
             cl = document.getElementById('dialog-close'),
-            me = this,
-            blurring = 1;
+            me = this;
 
         function close() {
-            if (closed || helpActive) return;
-            closed = true;
             dialog.parentNode.removeChild(dialog);
             me.focus();
         }
 
-        CodeMirror.on(help, 'mousedown', function(e) {
-            helpActive = true;
-        });
-
-        CodeMirror.on(cl, 'mousedown', function(e) {
-            helpActive = false;
-            close();
-        });
-
+        CodeMirror.on(cl, 'click', close);
         buttons[0].focus();
         for (var i = 0; i < buttons.length; ++i) {
             var b = buttons[i];
             (function (callback) {
                 CodeMirror.on(b, 'click', function (e) {
                     CodeMirror.e_preventDefault(e);
-                    close();
                     if (callback) callback(me);
                 });
             })(callbacks[i]);
-            CodeMirror.on(b, 'blur', function() {
-            --blurring;
-            setTimeout(function() { if (blurring <= 0) close(); }, 200);
-            });
-            CodeMirror.on(b, 'focus', function () {
-                ++blurring;
-            });
         }
     });
 
@@ -207,14 +190,17 @@
     }
 
     var helpText = '<div id="search-help" class="clearfix keyline-bottom keyline-top small fill-white search-help hidden">'+
-    '<div class="pad1">Use /re/ syntax for regex search</div>'+
-    '<div class="pad1x keyline-right col6 space-bottom2">'+
-      '<span class="code inline"> <kbd>Cmd</kbd>+<kbd>F</kbd> Find</span><br/>'+
-      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>G</kbd> Next</span> '+
-    '</div>' +
-    '<div class="pad1x col6 space-bottom2">'+
-      '<span class="code inline"><kbd>Shift</kbd>+<kbd>Cmd</kbd>+<kbd>G</kbd> Prev</span><br/>'+
-      '<span class="code inline"><kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> Find & Replace All</span>'+
+    '<div class="pad1x pad0y quiet">You can use /re/ syntax for regex search</div>'+
+    '<div class="clearfix col12">'+
+        '<label class="col12 pad1x pad0y keyline-bottom">Keyboard Commands</label>'+
+        '<div class="pad1 keyline-right col6">'+
+          '<span class="code inline"><kbd class="prefixed">F</kbd> Find</span><br/>'+
+          '<span class="code inline"><kbd class="prefixed">G</kbd> Next result</span><br />'+
+          '<span class="code inline"><kbd class="prefixed">Shift+G</kbd> Previous result</span>'+
+        '</div>' +
+        '<div class="pad1 col6">'+
+          '<span class="code inline"><kbd class="prefixed">Alt+F</kbd> Find & replace all</span>'+
+        '</div>' +
     '</div>' +
     '</div>';
     var infoAndClose = "<div class='pin-right pad1'><a href='#search-help' id='dialog-help' class='inline icon help quiet'></a><a href='#' id='dialog-close' class='inline icon x quiet'></a></div>";
