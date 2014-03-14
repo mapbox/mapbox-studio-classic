@@ -77,6 +77,9 @@
 #fonts:target ~ * a.docs-n,
 #docs:target ~ * a.docs-n { display:none; }
 
+.expand-link.expanded .expand-off { display: none;}
+.expand-link.expanded .expand-on { display: block;}
+
 #docs section a.fonts {
   position:absolute;
   right:0;
@@ -95,11 +98,11 @@ a[href='#docs-text'],
 a[href='#docs-misc'],
 #docs-misc section .type     { color: #EE6565; } /* fill red */
 
-#docs-points section   { border-right-color: #8a8acb; } /* fill purple */
-#docs-lines section    { border-right-color: #3887be; } /* fill blue */
-#docs-polygons section { border-right-color: #56b881; } /* fill green */
-#docs-text section     { border-right-color: #ee8a65; } /* fill orange */
-#docs-misc section     { border-right-color: #ee6565; } /* fill red */
+#docs-points section   { border-left-color: #8a8acb; } /* fill purple */
+#docs-lines section    { border-left-color: #3887be; } /* fill blue */
+#docs-polygons section { border-left-color: #56b881; } /* fill green */
+#docs-text section     { border-left-color: #ee8a65; } /* fill orange */
+#docs-misc section     { border-left-color: #ee6565; } /* fill red */
 
 #docs .code.value,
 #docs .code.options {
@@ -122,8 +125,8 @@ a[href='#docs-misc'],
 #docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
 
 #docs section.carto-ref {
-  border-right-width: 3px;
-  border-right-style: solid;
+  border-left-width: 3px;
+  border-left-style: solid;
 }
 
 #docs section.carto-ref:not(.active):hover {
