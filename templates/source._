@@ -25,12 +25,11 @@
 <div id='perf'></div>
 
 <form id='settings' class='pane z10 animate scroll-styled col12 pin-left'>
-<div class='scroll-styled col6 pin-right fill-blue'>
+<div class='z1 scroll-styled col6 pin-right fill-blue'>
   <%= this.history(obj) %>
 </div>
-<div class='col6 pin-left'>
   <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
-  <div class='project-settings dark fill-dark round contain col6 pin-topleft'>
+  <div class='project-settings dark fill-dark round contain col3 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <header class='pad1 keyline-bottom'>
       <h4>Settings</h4>
@@ -76,11 +75,10 @@
         </section>
       <% } %>
     </div>
-  </div>
 </div>
 </form>
 
-<div id='full' class='clip animate col6 pin-left clip'>
+<div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z10'>
     <div class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
