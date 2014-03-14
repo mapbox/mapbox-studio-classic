@@ -29,7 +29,6 @@ script:
  - rm -rf ./node_modules/
  - npm install
  - npm ls
- - npm test
  - sudo apt-get purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
  - node ./test/fixtures-oauth/mapbox.js &
  - node index.js --mapboxauth="http://localhost:3001" --db="./test/fixtures-oauth/test.db" &
