@@ -27,7 +27,8 @@ tm.config(require('optimist')
 var request = require('request');
 
 // Load defaults for new styles.
-var defaults = {};
+var defaults = {},
+    basemaps = {};
 style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
     if (err) throw err;
     var data = JSON.parse(JSON.stringify(info));
@@ -46,35 +47,40 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
     if (tm.db._docs.oauth) {
-        request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
-            if (response.statusCode >= 400) {
-                var data = {
-                    '_type': 'composite',
-                    'center': [0,0,3],
-                    'created': 1394571600000,
-                    'description': '',
-                    'id': tm.db._docs.oauth.account+'.tm2-basemap',
-                    'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
-                    'name': 'Untitled project',
-                    'new': true,
-                    'private': true
-                };
-                request({
-                    method: 'PUT',
-                    uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
-                    headers: {'content-type': 'application/json'},
-                    body: JSON.stringify(data)
-                }, function(error, response, body) {
-                    if (response.statusCode === 200) {
-                        next();
-                    } else {
-                        res.redirect('/unauthorize');
-                    }
-                });
-            } else {
-                next();
-            }
-        });
+        if (!req.basemap) {
+            request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
+                if (response.statusCode >= 400) {
+                    var data = {
+                        '_type': 'composite',
+                        'center': [0,0,3],
+                        'created': 1394571600000,
+                        'description': '',
+                        'id': tm.db._docs.oauth.account+'.tm2-basemap',
+                        'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
+                        'name': 'Untitled project',
+                        'new': true,
+                        'private': true
+                    };
+                    request({
+                        method: 'PUT',
+                        uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
+                        headers: {'content-type': 'application/json'},
+                        body: JSON.stringify(data)
+                    }, function(error, response, body) {
+                        if (response.statusCode === 200) {
+                            next();
+                        } else {
+                            res.redirect('/unauthorize');
+                        }
+                    });
+                } else {
+                    req.basemap = basemaps[tm.db._docs.oauth.account] = body;
+                    next();
+                }
+            });
+        } else {
+            next();
+        }
     } else {
         res.redirect('/authorize');    
     }
@@ -199,6 +205,7 @@ app.get('/:style(style):history()', function(req, res, next) {
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
+            basemap: req.basemap,
             user: tm.db._docs.user,
             test: 'test' in req.query
         });
@@ -346,6 +353,7 @@ app.get('/:source(source):history()', function(req, res, next) {
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
             history: req.history,
+            basemap: req.basemap,
             user: tm.db._docs.user
         });
     } catch(err) {
