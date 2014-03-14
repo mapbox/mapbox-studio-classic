@@ -615,11 +615,11 @@ a.data-y { display:none; }
 #layers:target ~ * a.layers-y,
 .menu:target ~ * a.menu-y,
 #data:target ~ * a.data-y,
-#full:target ~ * a.full-y { display:inline-block; }
+#full:target     a.full-y { display:inline-block; }
 .menu:target ~ * a.menu-n,
 #data:target ~ * a.layers-n,
 #layers:target ~ * a.layers-n,
-#full:target ~ * a.full-n { display:none; }
+#full:target     a.full-n { display:none; }
 
 /* Media queries */
 @media (max-width:800px) {

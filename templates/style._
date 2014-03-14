@@ -130,7 +130,6 @@
       <% } else { %>
         --><a class='js-save settings-n button icon inline floppy unround' href='#'>Save</a>
       <% } %>
-    </div>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
