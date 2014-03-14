@@ -24,15 +24,71 @@
 
 <div id='perf'></div>
 
-<div id='full' class='clip animate col6 pin-left clip'>
-  <div id='title' class='contain pin-top z1'>
-    <div class='pin-left clearfix'><!--
-      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><a href='#settings' class='icon inline sprocket button unround js-name strong fill-darken2'><%= source.name || 'Untitled' %></a><!--
-      <% if (source._tmp) { %>
-      --><a class='button icon floppy js-save unround fill-dark' href='#saveas'>Save as</a>
+<form id='settings' class='pane z10 animate scroll-styled col12 pin-left'>
+<div class='scroll-styled col6 pin-right fill-blue'>
+  <%= this.history(obj) %>
+</div>
+<div class='col6 pin-left'>
+  <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
+  <div class='project-settings dark fill-dark round contain col6 pin-topleft'>
+    <% var disabled = remote ? "disabled='disabled'" : ''; %>
+    <header class='pad1 keyline-bottom'>
+      <h4>Settings</h4>
+      <a class='pin-topright inline quiet pad1 icon x' href='#'></a>
+    </header>
+
+    <div class='pad2'>
+      <fieldset>
+        <section class='space-bottom1'>
+          <label>Name</label>
+          <input <%= disabled %> class='stretch short small' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+        </section>
+        <section class='space-bottom1'>
+          <label>Description</label>
+          <textarea <%= disabled %> class='stretch short small' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+        </section>
+        <section class='space-bottom1'>
+          <label>Attribution</label>
+          <input <%= disabled %> class='stretch short small' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+        </section>
+      </fieldset>
+      <fieldset class='pad1 space-bottom2 keyline-all round'>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4'>Minzoom</label>
+          <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+          <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4'>Maxzoom</label>
+          <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+          <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
+        </section>
+      </fieldset>
+
+      <% if (!remote) { %>
+        <section class='pill col12 clearfix'><!--
+          --><a href='#' class='quiet button col6 submit icon js-save floppy'>Save</a><!--
+          --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 submit icon share'>Export</a>
+        </section>
       <% } else { %>
-      --><a class='button icon floppy js-save unround fill-dark' href='#'>Save</a>
+        <section class='text-right space clearfix'>
+          <a href='#' class='col6 fr button submit icon js-save floppy'>Save</a>
+        </section>
+      <% } %>
+    </div>
+  </div>
+</div>
+</form>
+
+<div id='full' class='clip animate col6 pin-left clip'>
+  <div id='title' class='contain inline pin-topleft z10'>
+    <div class='inline clip fill-darken2 row1'><!--
+      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#settings' class='icon inline sprocket button unround js-name quiet'><%= source.name || 'Untitled' %></a><!--
+      <% if (source._tmp) { %>
+      --><a class='button icon floppy settings-n js-save unround' href='#saveas'>Save as</a>
+      <% } else { %>
+      --><a class='button icon floppy settings-n js-save unround' href='#'>Save</a>
       <% } %>
     </div>
   </div>
@@ -40,7 +96,7 @@
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
-  
+
   <div id='map-controls' class='pad1'>
     <div class='inline'>
       <div class='round keyline-all z1 fill-dark'>
@@ -96,58 +152,6 @@ revlayers.reverse();
   }
 }.bind(this)); %>
 </div>
-<form id='settings' class='animate offcanvas-top pane scroll-styled col12 pin-top'>
-<div class='scroll-styled col6 pin-left fill-blue'>
-  <%= this.history(obj) %>
-</div>
-<div class='scroll-styled col6 pin-right fill-dark'>
-  <% var disabled = remote ? "disabled='disabled'" : ''; %>
-  <header class='pad2 keyline-bottom'>
-    <h3>Settings</h3>
-    <nav class='pin-topright pad1'><a class='inline quiet pad1 icon small strong close return' href='#'>Back to <span class='js-name'><%= _(source.name).escape() || 'Project' %></span></a></nav>
-  </header>
-
-  <div class='pad2'>
-    <fieldset>
-      <section class='space-bottom1'>
-        <label>Name</label>
-        <input <%= disabled %> class='stretch' name='name' type='text' value='<%= _(source.name).escape() %>'/>
-      </section>
-      <section class='space-bottom1'>
-        <label>Description</label>
-        <textarea <%= disabled %> class='stretch' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
-      </section>
-      <section class='space-bottom1'>
-        <label>Attribution</label>
-        <input <%= disabled %> class='stretch' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
-      </section>
-    </fieldset>
-    <fieldset class='pad2 space-bottom2 keyline-all round'>
-      <section class='space-bottom0 clearfix'>
-        <label class='inline col3'>Minzoom</label>
-        <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-        <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
-      </section>
-      <section class='space-bottom0 clearfix'>
-        <label class='inline col3'>Maxzoom</label>
-        <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-        <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
-      </section>
-    </fieldset>
-
-    <% if (!remote) { %>
-      <section class='pill col6 margin6 clearfix'><!--
-        --><a href='#' class='quiet button col6 submit icon js-save floppy'>Save</a><!--
-        --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 submit icon share'>Export</a>
-      </section>
-    <% } else { %>
-      <section>
-        <a href='#' class='col6 fr button submit icon js-save floppy'>Save</a>
-      </section>
-    <% } %>
-  </div>
-</div>
-</form>
 
 <% if (!remote) print(this.modalbrowser({
   id: 'browsefile',
