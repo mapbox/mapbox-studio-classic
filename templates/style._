@@ -58,7 +58,7 @@
         <h4>Settings</h4>
         <a class='pin-topright inline quiet pad1 icon x' href='#'></a>
       </header>
-      <div class='pad1'>
+      <div class='pad2'>
         <fieldset>
           <section class='space-bottom1'>
             <label>Name</label>
@@ -73,9 +73,9 @@
             <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
           </section>
         </fieldset>
-        <fieldset class='pad1 space-bottom1 keyline-all round'>
+        <fieldset class='pad1 space-bottom2 keyline-all round'>
           <section class='space-bottom1 clearfix'>
-            <label class='inline micro col4'>Image format</label>
+            <label class='inline col4'>Image format</label>
             <select name='format'>
               <% _({
                 'png24': 'png (24-bit)',
@@ -94,25 +94,25 @@
             </select>
           </section>
           <section class='space-bottom0 clearfix'>
-            <label class='inline micro col4'>Minzoom</label>
+            <label class='inline col4'>Minzoom</label>
             <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
             <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
           </section>
           <section class='space-bottom0 clearfix'>
-            <label class='inline micro col4'>Maxzoom</label>
+            <label class='inline col4'>Maxzoom</label>
             <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
             <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
           </section>
           <section class='space-bottom0 clearfix'>
-            <label class='inline micro col4'>Scale</label>
+            <label class='inline col4'>Scale</label>
             <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
             <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
           </section>
         </fieldset>
 
-        <section class='text-right space clearfix'><!--
-          --><a href='#' class='button fr col5 icon js-save floppy'>Save</a><!--
-          --><a href='/style.tm2z?id=<%=style.id%>' class='fr button col5 submit icon package'>Package</a>
+        <section class='pill col12 clearfix'><!--
+          --><a href='#' class='button quiet col6 icon js-save floppy'>Save</a><!--
+          --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package'>Package</a>
         </section>
       </div>
     </div>
@@ -129,7 +129,7 @@
       <% } else { %>
         --><a class='js-save settings-n button icon inline floppy unround' href='#'>Save</a>
       <% } %>
-    </span>
+    </div>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>

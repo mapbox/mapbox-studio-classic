@@ -181,6 +181,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   border-right: 10px solid transparent;
   border-bottom: 10px solid #f8f8f8;
 }
+.dark #settings .project-settings:before {  border-bottom: 10px solid #404040;}
 
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
