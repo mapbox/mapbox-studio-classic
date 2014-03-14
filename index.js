@@ -71,7 +71,7 @@ function auth(req, res, next) {
                 body: JSON.stringify(data)
             }, function(error, response, body) {
                 if (!response.statusCode === 200) return res.redirect('/unauthorize');
-                // Map has been writtin successfully but we don't have a fresh
+                // Map has been written successfully but we don't have a fresh
                 // copy to cache and attach to req.basemap. Run the middleware
                 // again which will do a GET that should now be successful.
                 auth(req, res, next);
