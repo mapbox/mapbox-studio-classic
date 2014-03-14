@@ -9,12 +9,6 @@
   left:0% !important;
   width:100% !important;
   }
-.leaflet-left {
-  left:25%;
-  transition:left 125ms;
-  -moz-transition:left 125ms;
-  -webkit-transition:left 125ms;
-  }
 
 /* Code pane */
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
@@ -90,51 +84,61 @@
   border-radius:4px 0px 0px 4px;
   }
 
-/* colors are equivalent to fill-* + fill-lighten3 */
-a[href='#docs-points']   {color: #e1e1f1;} /* fill purple */
-a[href='#docs-lines']    {color: #cde0ee;} /* fill blue */
-a[href='#docs-polygons'] {color: #d4eddf;} /* fill green */
-a[href='#docs-text']     {color: #fbfbdc;} /* fill yellow */
-a[href='#docs-misc']     {color: #fae1d8;} /* fill orange */
+a[href='#docs-points'],
+#docs-points section .type   { color: #8a8acb; } /* fill purple */
+a[href='#docs-lines'],
+#docs-lines section .type    { color: #3887be; } /* fill blue */
+a[href='#docs-polygons'],
+#docs-polygons section .type { color: #56b881; } /* fill green */
+a[href='#docs-text'],
+#docs-text section .type     { color: #ee8a65; } /* fill orange */
+a[href='#docs-misc'],
+#docs-misc section .type     { color: #EE6565; } /* fill red */
 
-a[href='#docs-points']  , #docs-points section .type    , #docs-points section   { color: #8a8acb;} /* fill purple */
-a[href='#docs-lines']   , #docs-lines section .type     , #docs-lines section   { color: #3887be;} /* fill blue */
-a[href='#docs-polygons'], #docs-polygons section .type  , #docs-polygons section   { color: #56b881;} /* fill green */
-a[href='#docs-text']    , #docs-text section .type      , #docs-text section   { color: #ee8a65;} /* fill orange */
-a[href='#docs-misc']    , #docs-misc section .type      , #docs-misc section   { color: #EE6565;} /* fill red */
-
+#docs-points section   { border-right-color: #8a8acb; } /* fill purple */
+#docs-lines section    { border-right-color: #3887be; } /* fill blue */
+#docs-polygons section { border-right-color: #56b881; } /* fill green */
+#docs-text section     { border-right-color: #ee8a65; } /* fill orange */
+#docs-misc section     { border-right-color: #ee6565; } /* fill red */
 
 #docs .code.value,
 #docs .code.options {
-  color:#708;
+  color:rgba(0,0,0,.75);
   padding:2px 5px;
   border-radius: 3px;
-  background: rgba(0,0,0,.05);
+  background: rgba(241, 240, 117, .5); /* fill yellow at .5 opactiy */
   }
-#docs h4.heading { color: rgba(0,0,0,.75);}
 
 #docs section a.block:not(.active):hover {
   color: rgba(0,0,0,1);
   background-color: rgba(0,0,0,.05)
-  }
-
-#docs .code.value:after {
-  content:' default';
-  opacity: .5;
-  }
-
-#docs .details {
-  display: none;
-  padding-top: 0;
 }
 
-#docs section {
+#docs section a {
+  border-bottom-color: rgba(0,0,0,.05);
+}
+
+#docs .code.value:before {
+  content:'default: ';
+  color: rgba(0,0,0,.5);
+  }
+
+#docs .code.options:before {
+  content:'options: ';
+  color: rgba(0,0,0,.5);
+}
+
+#docs .details { display: none;}
+
+#docs section.carto-ref {
   border-right-width: 3px;
   border-right-style: solid;
 }
+
 #docs section.active {
-  background-color: rgba(255,255,255,.5);
+  background-color: rgba(255,255,255,.75);
 }
+
 #docs section.active .details { display: block;}
 
 /* Font book */

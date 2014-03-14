@@ -154,6 +154,8 @@ line-width: 5;</pre>
   <p>Some properties accept keyword arguments, which should be entered literally</p>
 <pre class='carto-snippet'>
 raster-mode: normal;</pre>
+</section>
+<section class='pad1 keyline-bottom'>
   <h3 class='space-bottom1'>Variables</h3>
   <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
 <pre class='carto-snippet'>
@@ -196,6 +198,7 @@ spin(@color, -10);</pre>
 </section>
 </article>
 
+<h3 class='pad1 keyline-bottom'>Carto Reference</h3>
 <% _(sections).each(function(symbolizers, name) { %>
 <article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% _(symbolizers).each(function(symbolizer) { %>
@@ -203,17 +206,17 @@ spin(@color, -10);</pre>
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class=''>
-    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='block contain js-tab pad0'>
-    <h4 class='heading strong'><%= p.css %></h4>
+  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='carto-ref'>
+    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='keyline-bottom block contain js-tab pad0y pad1x'>
+    <small class='block quiet'><%= p.css %></small>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
     </a>
-    <div class='pad1 details'>
+    <div class='pad1 details keyline-bottom'>
     <% if (p['default-value'] && p['default-value']!=='none') { %>
-    <span class='code quiet value'><%=p['default-value']%></span>
+    <div class='space-bottom1 block code quiet value'><%=p['default-value']%></div>
     <% } %>
-    <% if (_(p.type).isArray()) { %><span class='code options space-bottom1'><%= p.type.join(' ') %></span><% } %>
-    <% if (p.doc) { %><div class='description break-word small'><%=p.doc%></div><% } %>
+    <% if (_(p.type).isArray()) { %><div class='space-bottom1 code options'><%= p.type.join(' ') %></div><% } %>
+    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
     </div>
   </section>
   <% }); %>

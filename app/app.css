@@ -175,9 +175,6 @@ a.project:hover {
 .leaflet-control {
   z-index:0;
   }
-.leaflet-left {
-  z-index:0;
-  }
 #zoomedto {
   position:absolute;
   left: 0;
@@ -522,7 +519,6 @@ span.cm-carto-filter             { color:#66475B; }
       -ms-transform:translateX(100%);
           transform:translateX(100%);
 }
-#full:target .leaflet-left { left:0%; }
 #perf:target ~ #full { bottom:40px; }
 
 /* Button visibility/clickability */
