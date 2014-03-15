@@ -451,7 +451,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   color: rgba(0,0,0,.75);
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#layers.menu a.active,
+#code #layers a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
@@ -606,16 +606,16 @@ span.cm-carto-filter             { color:#66475B; }
           transform:translateX(-100%);
 }
 
-#fonts,
-#docs,
-#layers {
+#code #fonts,
+#code #docs,
+#code #layers {
   z-index: -1;
 }
 
 /* map styles to compensate for col max-widths */
 #full {
   min-width: 50%;
-  right: 480px;
+  right: 600px;
 }
 #full:target { width:100%; }
 

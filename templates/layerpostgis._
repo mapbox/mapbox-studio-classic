@@ -1,4 +1,4 @@
-<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right' id='layers-<%=obj.id%>'>
+<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
   <nav class='text-right pad1 keyline-bottom'>
     <span class='inline rounded-toggle'><!--
       --><a href='#editor-conf' class='js-tab mode-conf active '>Configure</a><!--

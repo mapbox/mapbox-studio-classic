@@ -137,7 +137,7 @@ revlayers.reverse();
     <% }.bind(this)); %>
   </div>
 </div>
-<div id='editor'>
+<div class='z10' id='editor'>
 <% _(revlayers).each(function(l) {
   if (remote) {
     print(this['layerremote'](l));
