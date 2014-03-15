@@ -28,7 +28,7 @@
 <div class='z1 scroll-styled col6 pin-right fill-blue'>
   <%= this.history(obj) %>
 </div>
-  <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
+  <a href='#' class='fill-darken3 col12 pin-left pin-bottom'></a>
   <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <header class='pad1 keyline-bottom'>

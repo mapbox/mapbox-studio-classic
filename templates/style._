@@ -31,7 +31,7 @@
   <div class='z1 col6 pin-right fill-blue dark scroll-styled'>
     <%= this.history(obj) %>
   </div>
-  <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
+  <a href='#' class='fill-darken3 col12 pin-left pin-bottom'></a>
     <div class='project-settings animate fill-light round contain col4 pin-topleft'>
       <header class='pad1 keyline-bottom'>
         <h4>Settings</h4>

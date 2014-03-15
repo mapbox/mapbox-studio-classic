@@ -215,7 +215,15 @@ a.project:hover { background: rgba(255,255,255,.15);}
 
 /* Map */
 #map {
+  position:absolute;
+  bottom:0px;
+  top: 0px;
+  width:200%;
   background:#ddd url(canvas.png);
+  }
+#full:target #map {
+  left:0% !important;
+  width:100% !important;
   }
 #map.map-clickable { cursor: pointer;}
 
