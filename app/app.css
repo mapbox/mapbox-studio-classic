@@ -185,6 +185,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 /* Project settings */
 #settings { display: none;}
 #settings:target { display: block;}
+#settings:target ~ * #title { z-index: 1000;}
 #settings:target ~ * .settings-n { display: none;}
 
 #settings .project-settings {
@@ -438,10 +439,10 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #layers .data-y,
 #layers .data-n { display:none; }
 
-#data:target ~ * #layers.pane > *,
-#data:target ~ * #layers { display:block; }
-#data:target ~ * #layers a.delete { display:block; }
-#data:target ~ * #layers .sourcetype { display:none; }
+#data:target ~ #layers.pane > *,
+#data:target ~ #layers { display:block; }
+#data:target ~ #layers a.delete { display:block; }
+#data:target ~ #layers .sourcetype { display:none; }
 
 #layers * { border-color: rgba(0,0,0,.2); }
 #layers .field-key {
@@ -593,9 +594,8 @@ span.cm-carto-filter             { color:#66475B; }
 
 #title .avatar { width: 40px; height: 40px; }
 
-/* Visibility */
-/* Off-canvas menu vs. Content */
-#data:target ~ * #layers,
+#data:target,
+#data:target ~ #layers,
 #fonts:target,
 #docs:target,
 #layers:target {
@@ -606,6 +606,7 @@ span.cm-carto-filter             { color:#66475B; }
           transform:translateX(-100%);
 }
 
+#code #data,
 #code #fonts,
 #code #docs,
 #code #layers {

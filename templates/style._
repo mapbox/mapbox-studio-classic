@@ -27,27 +27,6 @@
 
 <div id='perf'></div>
 
-<div id='data' class='z100 pane pin-topleft animate offcanvas-left fill-blue dark scroll-styled col3'>
-  <section class='pad2 keyline-bottom'>
-    <h3>Sources</h3>
-    <nav class='pin-topright pad1'>
-      <a class='inline pad1 icon quiet close' href='#layers'></a>
-    </nav>
-  </section>
-  <div class='grid pad1 clearfix'>
-  <%
-    print(_(history.source).chain()
-      .sortBy(function(item) {
-        return (item.name||'').toLowerCase();
-      })
-      .map(function(item) {
-        return this.sourceitem(_({active:item.id === style.source}).defaults(item));
-      }.bind(this))
-      .value().join(''));
-  %>
-  </div>
-</div>
-
 <form id='settings' class='pane z10 col12 pin-left'>
   <div class='z1 col6 pin-right fill-blue dark scroll-styled'>
     <%= this.history(obj) %>
@@ -119,7 +98,7 @@
 </form>
 
 <div id='full' class='clip animate pin-left'>
-  <div id='title' class='contain inline pin-topleft z10'>
+  <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
@@ -146,6 +125,30 @@
 </div>
 
 <div id='code' class='animate z1 col6 pin-right fill-light'>
+
+  <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
+    <div class='col6'>
+      <section class='pad2 keyline-bottom'>
+        <h3>Sources</h3>
+        <nav class='pin-topright pad1'>
+          <a class='inline pad1 icon quiet close' href='#layers'></a>
+        </nav>
+      </section>
+      <div class='grid pad1 clearfix'>
+      <%
+        print(_(history.source).chain()
+          .sortBy(function(item) {
+            return (item.name||'').toLowerCase();
+          })
+          .map(function(item) {
+            return this.sourceitem(_({active:item.id === style.source}).defaults(item));
+          }.bind(this))
+          .value().join(''));
+      %>
+      </div>
+    </div>
+  </div>
+
 
   <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
     <%= this['styledocs'](cartoRef) %>
