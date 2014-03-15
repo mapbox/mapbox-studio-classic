@@ -29,7 +29,7 @@
   <%= this.history(obj) %>
 </div>
   <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
-  <div class='project-settings dark fill-dark round contain col3 pin-topleft'>
+  <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <header class='pad1 keyline-bottom'>
       <h4>Settings</h4>
