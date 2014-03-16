@@ -1,4 +1,4 @@
-<div class='col12 fl pad1x space-bottom1'><a href='#source-<%=obj.id%>' class='js-adddata project col12 fill-lighten0 round small strong quiet inline <%=obj.active ? 'active' : ''%>'>
+<div class='col12 fl space-bottom1'><a href='#source-<%=obj.id%>' class='js-adddata project col12 fill-lighten0 round small strong quiet inline <%=obj.active ? 'active' : ''%>'>
   <span class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
   <div class='pad1 truncate'>
     <strong><%= obj.name || 'Untitled' %></strong><br />

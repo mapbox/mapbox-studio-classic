@@ -1,9 +1,3 @@
-#map {
-  background-color:#222;
-  position:absolute;
-  width:100%; top:0; bottom:0px;
-  }
-
 .leaflet-popup .leaflet-popup-content .xray-listing {
   width:240px;
   /* leaflet overrides */

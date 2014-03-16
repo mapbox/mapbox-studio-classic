@@ -466,7 +466,8 @@ button:disabled:focus,
     border-radius: 3px;
     }
 
-.dark.fill-dark .pill > *        { border-color:#404040; }
+
+.dark.fill-dark .pill > *   { border-color:#404040; }
 .fill-gray .pill > *,
 .fill-grey .pill > *        { border-color:#eee; }
 .fill-white .pill > *       { border-color:#fff; }
@@ -504,7 +505,10 @@ button:disabled:focus,
 .input-pill input[type=text]:focus { border-right-width: 0;}
 
 .input-pill input[type='text'] + input[type='submit'],
-.input-pill input[type='text'] + .button { border-left-width: 0;}
+.input-pill input[type='text'] + .button {
+  border-left-width: 0;
+  border-radius: 0 3px 3px 0;
+}
 
 
 /* make your pills toggles */
@@ -729,6 +733,7 @@ button {
 textarea,
 input[type=password],
 input[type=text],
+input[type=email],
 input[type=number] {
   display:inline-block;
   height:40px;
@@ -741,12 +746,14 @@ textarea.code,
 input.code,
 input[type=password].code,
 input[type=text].code,
+input[type=email].code,
 input[type=number].code {
   font-family:Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
   }
 textarea,
 input[type=password],
 input[type=text],
+input[type=email],
 input[type=number] {
   background-color:#fff;
   border:1px solid rgba(0,0,0,0.1);
@@ -758,6 +765,7 @@ input[type=number] {
   .dark textarea,
   .dark input[type=password],
   .dark input[type=text],
+  .dark input[type=email],
   .dark input[type=number] {
     background:#404040;
     background:rgba(0,0,0,0.25);
@@ -770,6 +778,7 @@ input[type=number] {
   textarea:focus,
   input[type=password]:focus,
   input[type=text]:focus,
+  input[type=email]:focus,
   input[type=number]:focus {
     outline:thin dotted\8; /* ie8 below */
     border-color:rgba(0,0,0,0.25);
@@ -778,6 +787,7 @@ input[type=number] {
     .dark textarea:focus,
     .dark input[type=password]:focus,
     .dark input[type=text]:focus,
+    .dark input[type=email]:focus,
     .dark input[type=number]:focus {
       border-color:rgba(255,255,255,0.75);
       color:#fff;
@@ -785,6 +795,7 @@ input[type=number] {
 
 textarea:disabled,
 input[type=text]:disabled,
+input[type=email]:disabled,
 input[type=number]:disabled,
 input[type=password]:disabled {
   border-width: 0;
@@ -808,6 +819,7 @@ input[type=number].short {
 
 textarea.stretch,
 input.stretch[type=text],
+input.stretch[type=email],
 input.stretch[type=number],
 input.stretch[type=password] { width:100%; }
 
@@ -816,6 +828,7 @@ fieldset.with-icon {
   position:relative;
   }
   fieldset.with-icon input[type=text],
+  fieldset.with-icon input[type=email],
   fieldset.with-icon input[type=number] {
     padding-left:35px;
     }
@@ -1126,16 +1139,17 @@ h2 a[href^='#'],
   color:rgba(0, 0, 0, 0.75);
   }
 
-h1 a[href^='#']:before,
-h2 a[href^='#']:before,
-.doc h1[id]:before,
-.doc h2[id]:before,
-.doc h3[id]:before,
-.doc h4[id]:before {
+h1 a[href^='#']:after,
+h2 a[href^='#']:after,
+.doc h1[id]:after,
+.doc h2[id]:after,
+.doc h3[id]:after,
+.doc h4[id]:after {
   background:transparent url(icon-000000.png?1) -1280px 0px no-repeat;
   color:rgba(0, 0, 0, 0.75);
   content:'Permalink';
   display:inline-block;
+  float:left;
   margin:0 0 0 -20px;
   width:20px;
   height:20px;
@@ -1149,12 +1163,12 @@ h2 a[href^='#']:before,
           background-size:4080px 60px;
   }
 
-h1 a[href^='#']:hover:before,
-h2 a[href^='#']:hover:before,
-.doc h1[id]:hover:before,
-.doc h2[id]:hover:before,
-.doc h3[id]:hover:before,
-.doc h4[id]:hover:before {
+h1 a[href^='#']:hover:after,
+h2 a[href^='#']:hover:after,
+.doc h1[id]:hover:after,
+.doc h2[id]:hover:after,
+.doc h3[id]:hover:after,
+.doc h4[id]:hover:after {
   opacity:0.1;
 }
 

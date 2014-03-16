@@ -5,12 +5,13 @@
     <div>
   </nav>
 
+
 <div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
   <h3 class='pad2 keyline-bottom'>Styles</h3>
   <div class='grid clearfix pad1'>
 
     <div class='col6 pad1 space-bottom1'>
-      <a class='loud button col12 icon plus create' href='/new/style'>New style</a>
+      <a class='button quiet col12 icon plus' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1 space-bottom1'>
       <a class='button quiet col12 icon folder' href='#browsestyle'>Browse</a>
@@ -19,14 +20,20 @@
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.style).chain()
         .sortBy(function(item) { return -1 * item.mtime })
-        .each(function(item) { %>
+        .each(function(item) {
+          %>
+        <%
+        var isactive = '';
+        if (obj.style) { (obj.style.id === item.id) ? (isactive = 'proj-active') : '' }
+        %>
       <div class='space-bottom1 contain'>
-        <a class='project col12 round small fill-lighten0 quiet strong contain' href='/style?id=<%=item.id%>'>
-          <div class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+        <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
+          <div class='round-left fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
           <div class='pad1 truncate'>
             <strong><%= item.name || 'Untitled' %></strong><br />
             <code><%= item.id.split('/').pop() %></code>
           </div>
+          <div class='z10 pad2 proj-status hidden pin-left'><span class='inline strong dot fill-green icon check'></span></div>
         </a>
         <a href='style?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
       </div>
@@ -41,29 +48,35 @@
   <div class='grid pad1 clearfix'>
 
     <div class='col6 pad1 space-bottom1'>
-      <a class='col12 loud button icon plus create' href='/new/source'>New source</a>
+      <a class='col12 button quiet icon plus' href='/new/source'>New source</a>
     </div>
 
     <div class='col3 pad1 space-bottom1'>
-      <a class='col12 button quiet create col6 icon folder' href='#browsesource'>Browse</a>
+      <a class='col12 button quiet col6 icon folder' href='#browsesource'>Browse</a>
     </div>
     <div class='col3 pad1 space-bottom1'>
-      <a class='col12 button quiet create col6 icon mapbox' href='#addmapbox'>Mapbox</a>
+      <a class='col12 button quiet col6 icon mapbox' href='#addmapbox'>Mapbox</a>
     </div>
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.source).chain()
         .sortBy(function(item) { return -1 * item.mtime })
         .each(function(item) { %>
+        <%
+        var isactive = '';
+        if (obj.source) { (obj.source.id === item.id) ? (isactive = 'proj-active') : '' }
+        %>
+
         <div class='space-bottom1 contain'>
-          <a class='project col12 round small fill-lighten0 quiet strong contain' href='/source?id=<%=item.id%>'>
-            <div class='small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+          <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
+            <div class='round-left small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
             <span class='fill-darken1 small-graphic inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
 
             <div class='truncate pad1 '>
               <strong><%= item.name || 'Untitled' %></strong><br />
               <code><%= item.id.split('/').pop() %></code>
             </div>
+            <div class='z10 pad2 proj-status hidden pin-left'><span class='inline strong dot fill-green icon check'></span></div>
           </a>
           <a href='source?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
         </div>

@@ -1,15 +1,3 @@
-#map {
-  position:absolute;
-  bottom:0px;
-  top: 0px;
-  left:-50%;
-  width:200%;
-  }
-#full:target #map {
-  left:0% !important;
-  width:100% !important;
-  }
-
 /* Code pane */
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 

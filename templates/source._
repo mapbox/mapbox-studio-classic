@@ -24,13 +24,12 @@
 
 <div id='perf'></div>
 
-<form id='settings' class='pane z10 animate scroll-styled col12 pin-left'>
-<div class='scroll-styled col6 pin-right fill-blue'>
+<form id='settings' class='z10 col12 pin-top'>
+<div class='z1 col6 pin-right fill-blue dark scroll-styled'>
   <%= this.history(obj) %>
 </div>
-<div class='col6 pin-left'>
-  <a href='#' class='fill-darken2 col12 pin-left pin-bottom'></a>
-  <div class='project-settings dark fill-dark round contain col6 pin-topleft'>
+  <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
+  <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <header class='pad1 keyline-bottom'>
       <h4>Settings</h4>
@@ -67,21 +66,20 @@
 
       <% if (!remote) { %>
         <section class='pill col12 clearfix'><!--
-          --><a href='#' class='quiet button col6 submit icon js-save floppy'>Save</a><!--
-          --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 submit icon share'>Export</a>
+          --><a href='#' class='quiet button col6 icon js-save floppy'>Save</a><!--
+          --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 icon share'>Export</a>
         </section>
       <% } else { %>
         <section class='text-right space clearfix'>
-          <a href='#' class='col6 fr button submit icon js-save floppy'>Save</a>
+          <a href='#' class='col6 fr quiet button icon js-save floppy'>Save</a>
         </section>
       <% } %>
     </div>
-  </div>
 </div>
 </form>
 
-<div id='full' class='clip animate col6 pin-left clip'>
-  <div id='title' class='contain inline pin-topleft z10'>
+<div id='full' class='clip animate pin-left'>
+  <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround js-name quiet'><%= source.name || 'Untitled' %></a><!--
@@ -139,7 +137,7 @@ revlayers.reverse();
     <% }.bind(this)); %>
   </div>
 </div>
-<div id='editor'>
+<div class='z10' id='editor'>
 <% _(revlayers).each(function(l) {
   if (remote) {
     print(this['layerremote'](l));
