@@ -1,6 +1,5 @@
 /* Base candidates */
 
- /* Base Candidates */
 .col0    { max-width: ; }
 .col1    { max-width: 100px; }
 .col2    { max-width: 200px; }
@@ -17,6 +16,14 @@
 .top2 { top:20px; }
 .top4 { top:40px; }
 input[type=text].clean { border: none; }
+
+/* icons should match text color on buttons */
+.dark .button.quiet.rcon:after,
+.dark .button.quiet.icon:before,
+.dark .quiet .button.rcon:after,
+.dark .quiet .button.icon:before {
+  opacity: 1;
+}
 
 kbd {
   box-shadow:none;
@@ -183,9 +190,24 @@ a.project:hover { background: rgba(255,255,255,.15);}
 .project.proj-active .proj-status { display: block;}
 
 /* Project settings */
-#settings { display: none;}
-#settings:target { display: block;}
-#settings:target ~ * #title { z-index: 1000;}
+#settings {
+  height: 100%;
+  z-index: -10;
+  opacity: 0;
+  -webkit-transition:all .125s;
+     -moz-transition:all .125s;
+      -ms-transition:all .125s;
+          transition:all .125s;
+}
+#settings:target {
+  opacity: 1;
+  z-index: 10;
+  -webkit-transition:opacity .125s;
+     -moz-transition:opacity .125s;
+      -ms-transition:opacity .125s;
+          transition:opacity .125s;
+}
+
 #settings:target ~ * .settings-n { display: none;}
 
 #settings .project-settings {
@@ -198,7 +220,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   content: "";
   display: block;
   position: absolute;
-  left: 30px;
+  left: 50px;
   top: -10px;
   width: 0;
   height: 0;
@@ -208,7 +230,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 }
 .dark #settings .project-settings:before {  border-bottom: 10px solid #404040;}
 
-/* Panes for removing excess content */
+/* Panes for display:none on hidden content */
 .pane { height:100%;}
 .pane > * { display:none; }
 .pane:target > * { display:block; }
@@ -222,6 +244,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   width:200%;
   background:#ddd url(canvas.png);
   }
+.dark #map { background-color: #222;}
 #full:target #map {
   left:0% !important;
   width:100% !important;
@@ -627,7 +650,7 @@ span.cm-carto-filter             { color:#66475B; }
   min-width: 50%;
   right: 600px;
 }
-#full:target { width:100%; }
+#full:target { min-width:100%; }
 
 #full:target ~ .pin-right {
   -webkit-transform:translateX(100%);
