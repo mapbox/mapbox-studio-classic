@@ -192,10 +192,20 @@ desaturate(@color, 10%);
 fadein(@color, 10%);
 fadeout(@color, 10%);
 
+// set opacity of a color to 10%
+fade(@color, 10%);
+
 // adjust the hue of a color by 10 degrees
 // (e.g. on a color wheel)
 spin(@color, 10);
 spin(@color, -10);</pre>
+
+// mix @color1 into @color2 by 10%
+mix(@color1,@color2, 10%);
+
+// desaturate by 10%
+greyscale(@color1, 10%);
+
 </section>
 </article>
 
