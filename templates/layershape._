@@ -23,7 +23,7 @@
         <label>Shapefile<label>
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='shape' />
-          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' placeholder='data.shp' pattern='[\w+\d+\.\/_-]+\.(shp|SHP)'/><!--
+          <input class='col8' type='text' name='Datasource-file' title='No spaces allowed. Requires ".shp" extension' value='<%= obj.Datasource.file %>' placeholder='data.shp' pattern='[\w+\d+\.\/_-]+\.(shp|SHP)'/><!--
        --><a href='#browsefile' class='quiet col4 button icon folder js-browsefile'>Browse</a>
         </div>
       </section>
