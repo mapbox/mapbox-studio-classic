@@ -83,7 +83,7 @@
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet small fill-dark pad0' value='Bookmark' />
   </div>
-  <ul id='bookmark-list' class='clip'></ul>
+  <ul id='bookmark-list' class='clip fill-light round-bottom'></ul>
 </form>
 
 <div id='full' class='clip animate pin-left'>
@@ -378,7 +378,7 @@ Editor.prototype.togglemode = function(ev) {
 };
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright round-right fill-dark pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
