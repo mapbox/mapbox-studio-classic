@@ -1,6 +1,5 @@
 /* Base candidates */
 
-.col0    { max-width: ; }
 .col1    { max-width: 100px; }
 .col2    { max-width: 200px; }
 .col3    { max-width: 300px; }
@@ -259,7 +258,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
   border-top:10px solid #f8f8f8;
   }
 #view.dark #bookmark:before { border-top-color: #404040;}
-#bookmark:target { 
+
+#bookmark:target {
   pointer-events:all;
   opacity:1;
   -webkit-transform:translateY(0);
@@ -267,6 +267,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
       -ms-transform:translateY(0);
           transform:translateY(0);
   }
+
 #bookmark-list {
   max-height:200px;
   overflow:auto;
@@ -545,6 +546,11 @@ a.project:hover { background: rgba(255,255,255,.15);}
   visibility:hidden;
   }
 .CodeMirror.active { visibility:visible; }
+.CodeMirror .CodeMirror-vscrollbar { overflow-y: hidden;}
+.CodeMirror.active .CodeMirror-vscrollbar { overflow-y: scroll;}
+.CodeMirror .CodeMirror-hscrollbar { overflow-x: hidden;}
+.CodeMirror.active .CodeMirror-hscrollbar { overflow-x: scroll;}
+
 .CodeMirror-lines { padding:0 10px; }
 .CodeMirror pre { padding:0; }
 
