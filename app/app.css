@@ -240,6 +240,9 @@ a.project:hover { background: rgba(255,255,255,.15);}
   opacity: 0;
   box-shadow: 0 0 0 2px rgba(0,0,0,.08);
 }
+#bookmark > input {
+  padding-right:90px
+  }
 #bookmark:before {
   content: "";
   display: block;
