@@ -31,9 +31,9 @@
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
-    <header class='pad1 keyline-bottom'>
-      <h4>Settings</h4>
-      <a class='pin-topright inline quiet pad1 icon x' href='#'></a>
+    <header class='pad2 keyline-bottom'>
+      <h3>Settings</h3>
+      <div class='pin-topright pad1'><a class='inline quiet pad1 icon x' href='#'></a></div>
     </header>
 
     <div class='pad2'>
