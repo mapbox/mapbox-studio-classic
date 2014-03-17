@@ -133,6 +133,10 @@
     <a href='#full' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' class='full-y fill-dark dark icon close'></a>
   </div>
+  <div id='refresh' class='animate dark fill-darken3 col12 pad2 pin-bottom'>
+    <span class='icon info'>To enable interaction on the map <a href='#' class='js-save'>save now</a>.</span>
+    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
+  </div>
 </div>
 
 <div id='code' class='animate z1 col6 pin-right fill-light'>
@@ -285,6 +289,10 @@ var Tab = function(id, value) {
   tab.on('keydown', completer.onKeyEvent);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
+  if (id === 'template') tab.on('change', function() {
+      window.location.hash = '#refresh';
+  });
+
   return tab;
 };
 var code = _(<%=JSON.stringify(style.styles)%>).reduce(function(memo, value, k) {

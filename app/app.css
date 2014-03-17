@@ -274,6 +274,10 @@ a.project:hover { background: rgba(255,255,255,.15);}
   }
   #bookmark .bookmark-name { padding-right:30px; }
 
+/* Refresh alerts */
+#refresh        { opacity:0; z-index:-1;}
+#refresh:target { opacity:1; z-index:100;}
+
 /* Panes for display:none on hidden content */
 .pane { height:100%;}
 .pane > * { display:none; }

@@ -50,6 +50,3 @@
 .xrayinspector::before { visibility:hidden; }
 .xrayinspector:hover::before { visibility:visible; }
 .xrayinspector.active::before { visibility:visible; }
-
-#refresh { opacity: 0; z-index: -1;}
-#refresh:target { opacity: 1; z-index: 100;}
