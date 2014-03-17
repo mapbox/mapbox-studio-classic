@@ -1,8 +1,8 @@
 <div id='<%= obj.id %>' class='js-source source'>
 
-<div class='keyline-bottom contain pad1'>
-  <h4><%= obj.name || 'Untitled' %></h4>
-  <div class='pin-right pad0 sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
+<div class='keyline-bottom contain pad1 clearfix'>
+  <h4 class='truncate block pad0 col8'><%= obj.name || 'Untitled' %></h4>
+  <div class='col4 text-right sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <% if (obj.tiles) { %>
     <span name='remote' class='inline small round-left fill-darken1 strong pad0 quiet'>Remote</span><!--
     --><a class='button short icon round-right refresh js-recache' href='#recache'></a>
