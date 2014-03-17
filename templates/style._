@@ -99,9 +99,9 @@
 </form>
 
 <form id='bookmark' class='z1 contain fill-white round animate'>
-  <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name current location' autocomplete='off' />
+  <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
   <div class='pin-topright pad0'>
-    <input type='submit' class='short quiet small fill-dark pad0' value='Bookmark' />
+    <input type='submit' class='short quiet button' value='Add' />
   </div>
   <ul id='bookmark-list' class='clip fill-light round-bottom'></ul>
 </form>

@@ -271,6 +271,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   max-height:200px;
   overflow:auto;
   }
+  #bookmark .bookmark-name { padding-right:30px; }
 
 /* Panes for display:none on hidden content */
 .pane { height:100%;}
