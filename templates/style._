@@ -102,11 +102,11 @@
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet small fill-dark pad0' value='Bookmark' />
   </div>
-  <ul id='bookmark-list'></ul>
+  <ul id='bookmark-list' class='clip'></ul>
 </form>
 
-<div id='full' class='clip animate col6 pin-left'>
-  <div id='title' class='contain inline pin-topleft z10'>
+<div id='full' class='clip animate pin-left'>
+  <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
@@ -244,8 +244,7 @@
 <script>
 var map = baselayer = tiles = grids = gridc = null;
 
-var templates = {},
-    bookmarks = {};
+var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 statHandler('drawtime')();
@@ -424,9 +423,12 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
+Editor.prototype.appendBookmark = function(name) {
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright round-right fill-white pad0"></a></li>').appendTo('#bookmark-list');
+};
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
-      coords = bookmarks[target.text()];
+      coords = this.bookmarks[target.text()];
   map.setView([coords[0], coords[1]], coords[2]);
   return false;
 };
@@ -435,8 +437,8 @@ Editor.prototype.removebookmark = function(ev) {
   var target = $(ev.currentTarget).prev('a'),
       name = target.text();
   target.parent('li').remove();
-  if (bookmarks[name]) delete bookmarks[name];
-  localStorage.setItem('tm2.bookmarks', bookmarks);
+  if (this.bookmarks[name]) delete this.bookmarks[name];
+  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
   return false;
 };
 Editor.prototype.addbookmark = function(ev) {
@@ -447,11 +449,11 @@ Editor.prototype.addbookmark = function(ev) {
       fieldVal = field.val(),
       value = [coords.lat, coords.lng, zoom],
       name = fieldVal ? fieldVal : value;
-  if (bookmarks[name]) return false;
-  bookmarks[name] = value;
-  localStorage.setItem('tm2.bookmarks', bookmarks);
+  if (this.bookmarks[name]) return false;
+  this.bookmarks[name] = value;
+  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright round-right fill-gray pad0"></a></li>').appendTo('#bookmark-list');
+  this.appendBookmark(name);
   return false;
 };
 Editor.prototype.adddata = function(ev) {
@@ -645,6 +647,12 @@ Editor.prototype.refresh = function(ev) {
   // Set canvas background color.
   if (this.model.get('background'))
     $('#map').css({'background-color':this.model.get('background')});
+
+  // Get existing bookmarks
+  this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
+  for (var b in this.bookmarks) {
+    this.appendBookmark(b);
+  }
 
   return false;
 };

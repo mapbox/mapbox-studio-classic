@@ -252,10 +252,15 @@ a.project:hover { background: rgba(255,255,255,.15);}
   border-right: 10px solid transparent;
   border-top: 10px solid #fff;
 }
+#view.dark #bookmark:before { border-top-color: #404040;}
 #bookmark:target { 
   pointer-events: all;
   opacity: 1;
   bottom: 50px;
+}
+#bookmark-list {
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 /* Panes for display:none on hidden content */
