@@ -98,6 +98,14 @@
   </div>
 </form>
 
+<form id='bookmark' class='z1 contain fill-white round animate'>
+  <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name current location' autocomplete='off' />
+  <div class='pin-topright pad0'>
+    <input type='submit' class='short quiet small fill-dark pad0' value='Bookmark' />
+  </div>
+  <ul id='bookmark-list' class='clip'></ul>
+</form>
+
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
@@ -115,13 +123,15 @@
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
   <div id='map-controls' class='pad1'>
     <div class='inline'>
-      <div class='round keyline-all z1 fill-white'>
-        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
+      <div class='z1 fill-white'><!--
+        --><a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
         --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
-    <a href='#full' class='full-n round inline keyline-all fill-white icon fullscreen quiet'></a>
-    <a href='#' class='full-y round keyline-all fill-dark dark icon close'></a>
+    <a href='#bookmark' class='bookmark-n inline fill-white icon marker quiet'></a>
+    <a href='#' class='bookmark-y fill-dark dark icon close'></a>
+    <a href='#full' class='full-n inline fill-white icon fullscreen quiet'></a>
+    <a href='#' class='full-y fill-dark dark icon close'></a>
   </div>
 </div>
 
@@ -301,6 +311,7 @@ Editor.prototype.events = {
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
   'submit #user': 'user',
+  'submit #bookmark': 'addbookmark',
   'click #tabs .js-deltab': 'deltab',
   'click #tabs .js-tab': 'tabbed',
   'click #docs .js-docs-nav': 'scrollto',
@@ -311,6 +322,8 @@ Editor.prototype.events = {
   'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
+  'click #bookmark .bookmark-name': 'gotoBookmark',
+  'click #bookmark .trash': 'removebookmark',
   'click .js-expandall': 'expandall',
   'keydown': 'keys'
 };
@@ -347,6 +360,10 @@ Editor.prototype.keys = function(ev) {
   case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
+    break;
+  case (which === 66): // b for bookmarks
+    ev.preventDefault();
+    this.togglePane('bookmark');
     break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
     var tab = $('#tabs a.tab')[which-48];
@@ -408,6 +425,39 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
+Editor.prototype.appendBookmark = function(name) {
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright round-right fill-white pad0"></a></li>').appendTo('#bookmark-list');
+};
+Editor.prototype.gotoBookmark = function(ev) {
+  var target = $(ev.currentTarget),
+      coords = this.bookmarks[target.text()];
+  map.setView([coords[0], coords[1]], coords[2]);
+  return false;
+};
+Editor.prototype.removebookmark = function(ev) {
+  ev.preventDefault();
+  var target = $(ev.currentTarget).prev('a'),
+      name = target.text();
+  target.parent('li').remove();
+  if (this.bookmarks[name]) delete this.bookmarks[name];
+  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
+  return false;
+};
+Editor.prototype.addbookmark = function(ev) {
+  ev.preventDefault();
+  var coords = map.getCenter(),
+      zoom = map.getZoom(),
+      field = $('#addbookmark'),
+      fieldVal = field.val(),
+      value = [coords.lat, coords.lng, zoom],
+      name = fieldVal ? fieldVal : value;
+  if (this.bookmarks[name]) return false;
+  this.bookmarks[name] = value;
+  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
+  field.val('');
+  this.appendBookmark(name);
+  return false;
+};
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
   if (target.is('.active')) return false;
@@ -599,6 +649,12 @@ Editor.prototype.refresh = function(ev) {
   // Set canvas background color.
   if (this.model.get('background'))
     $('#map').css({'background-color':this.model.get('background')});
+
+  // Get existing bookmarks
+  this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
+  for (var b in this.bookmarks) {
+    this.appendBookmark(b);
+  }
 
   return false;
 };
