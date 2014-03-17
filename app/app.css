@@ -259,8 +259,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
   bottom: 50px;
 }
 #bookmark-list {
-  max-height: 200px;
-  overflow-y: scroll;
+  max-height:200px;
+  overflow:auto;
 }
 
 /* Panes for display:none on hidden content */
