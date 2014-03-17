@@ -15,7 +15,7 @@
             if (!e) return;
             e.cancelBubble = true;
             e.cancel = true;
-            e.returnValue = false;
+            e.preventDefault();
             if (e.stop) e.stop();
             if (e.stopPropagation) { e.stopPropagation(); }
             if (e.preventDefault) { e.preventDefault(); }
