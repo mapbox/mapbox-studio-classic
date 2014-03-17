@@ -654,6 +654,11 @@ Editor.prototype.refresh = function(ev) {
   $('title').text(this.model.get('name'));
   $('.js-name').text(this.model.get('name') || 'Untitled');
 
+  // Clear save notice.
+  if (window.location.hash === '#refresh') {
+    window.location.hash = '#';
+  };
+
   // Set canvas background color.
   if (this.model.get('background'))
     $('#map').css({'background-color':this.model.get('background')});
