@@ -244,7 +244,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   padding-right:90px
   }
 #bookmark:before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   left: 150px;
