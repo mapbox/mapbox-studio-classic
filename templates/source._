@@ -237,6 +237,9 @@ tm.srs = <%= JSON.stringify(tm.srs) %>;
 
 statHandler('srcbytes')();
 
+// set initial page view to avoid #browsefile trap
+$(function() { window.location.href = '#';});
+
 var Layer = function(id, datasource) {
   var code;
   if (datasource && (datasource.type === 'postgis' || datasource.type === 'sqlite')) {
