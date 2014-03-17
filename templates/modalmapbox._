@@ -3,7 +3,7 @@
   <p class='center'>Add a remote source from Mapbox</p>
   <div class='clearfix'>
     <div class='input-pill col8 margin2'><!--
-      --><input class='col8' type='text' placeholder='MapBox ID' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
+      --><input class='col8' type='text' placeholder='MapBox ID' title='Use "username.project" syntax' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
       --><input class='col4' type='submit' value='Add source'/>
     </div>
   </div>
