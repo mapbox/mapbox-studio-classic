@@ -235,10 +235,14 @@ a.project:hover { background: rgba(255,255,255,.15);}
   pointer-events:none;
   position:absolute;
   left:25px;
-  bottom:40px;
   width:280px;
+  bottom:45px;
   opacity:0;
   box-shadow:0 0 0 2px rgba(0,0,0,.08);
+  -webkit-transform:translateY(10px);
+     -moz-transform:translateY(10px);
+      -ms-transform:translateY(10px);
+          transform:translateY(10px);
   }
 #bookmark > input {
   padding-right:90px
@@ -258,7 +262,10 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #bookmark:target { 
   pointer-events:all;
   opacity:1;
-  bottom:45px;
+  -webkit-transform:translateY(0);
+     -moz-transform:translateY(0);
+      -ms-transform:translateY(0);
+          transform:translateY(0);
   }
 #bookmark-list {
   max-height:200px;
