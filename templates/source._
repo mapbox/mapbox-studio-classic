@@ -239,7 +239,6 @@ statHandler('srcbytes')();
 
 var Layer = function(id, datasource) {
   var code;
-
   if (datasource && (datasource.type === 'postgis' || datasource.type === 'sqlite')) {
     code = CodeMirror($('#layers-' + id + ' div.sql').get(0), {
       lineNumbers: true,
