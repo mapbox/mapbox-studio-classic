@@ -18,7 +18,7 @@
   <div class='clearfix pad1'>
     <div class='col6 margin3 pill clearfix input-pill'><!--
       --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
-      --><input class='col8' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
+      --><input class='col8' title='<%=obj.hint||obj.placeholder||''%>' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
       --><input class='col4' type='submit' value='<%=obj.label||'Save'%>'/>
     </div>
   </div>

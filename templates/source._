@@ -576,6 +576,39 @@ Editor.prototype.browsefile = function(ev) {
   target.addClass('browsefile-pending');
   $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
+
+  // File browser.
+  new views.Browser({
+    el: $('#browsefile'),
+    filter: function(file) {
+      var target = $('.browsefile-pending');
+      var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
+      if (pattern) {
+          return file.type === 'dir' || pattern.test(file.basename);
+      } else {
+          return file.type === 'dir';
+      }
+    },
+    isFile: function(file) {
+      var target = $('.browsefile-pending');
+      var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
+      if (pattern) {
+          return file.type === 'dir' || pattern.test(file);
+      } else {
+          return file.type === 'dir';
+      }
+    },
+    callback: function(err, filepath) {
+      var target = $('.browsefile-pending');
+      if (err || !target.size()) {
+        window.location.href = '#';
+      } else {
+        target.val(filepath);
+        window.location.href = '#' + target.parents('form').attr('id');
+      }
+    }
+  });
+
 };
 
 Editor.prototype.messagemodal = messageModal;
@@ -591,28 +624,6 @@ var editor = new Editor({
 editor.refresh();
 
 <% if (!remote) { %>
-// File browser.
-new views.Browser({
-  el: $('#browsefile'),
-  filter: function(file) {
-    var target = $('.browsefile-pending');
-    var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
-    if (pattern) {
-        return file.type === 'dir' || pattern.test(file.basename);
-    } else {
-        return file.type === 'dir';
-    }
-  },
-  callback: function(err, filepath) {
-    var target = $('.browsefile-pending');
-    if (err || !target.size()) {
-      window.location.href = '#';
-    } else {
-      target.val(filepath);
-      window.location.href = '#' + target.parents('form').attr('id');
-    }
-  }
-});
 // Sortable layers.
 $('#layers .js-menu-content').sortable();
 $('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {

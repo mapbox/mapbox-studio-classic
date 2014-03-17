@@ -6,7 +6,8 @@
 <% print(this.modalbrowser({
   id: 'saveas',
   cwd: cwd,
-  placeholder: type + '.tm2',
+  hint: 'No spaces allowed. Requires ".tm2" extension',
+  placeholder: type + 'name.tm2',
   pattern: '[\\w+\\d+\\.\\/_-]+\\.tm2'
 })); %>
 <script>
