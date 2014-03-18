@@ -222,7 +222,7 @@
 
     <% _(sources).each(function(source) { %>
       <% _(source.vector_layers||{}).each(function(l) { %>
-      <select name='<%= l.id %>' class='js-layer-option hidden'>
+      <select name='<%= l.id %>' class='js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'>
         <option value=''>Layer variables:</option>
         <% _(l.fields||{}).each(function(desc, name) { %>
           <option value='<%= name %>'><%= name %></option>
@@ -256,8 +256,7 @@
 </div>
 
 <script>
-var map = baselayer = tiles = grids = gridc = null;
-
+var map = baselayer = tiles = grids = gridc = templateEditor = null;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
@@ -295,6 +294,7 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
+  if (id === 'template') templateEditor = tab;
   tab.on('keydown', completer.onKeyEvent);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
@@ -341,15 +341,6 @@ Editor.prototype.events = {
   'change .js-layer-options': 'populateInteractiveVals',
   'change .js-layer-option': 'insertInteractiveVal',
   'keydown': 'keys'
-};
-
-Editor.prototype.populateInteractiveVals = function(ev) {
-  var layerName = $(ev.currentTarget).val();
-  $('.js-layer-option[name=' + layerName + ']').removeClass('hidden').siblings('.js-layer-option').addClass('hidden');
-};
-
-Editor.prototype.insertInteractiveVal = function(e) {
-  console.log('this happened');
 };
 
 Editor.prototype.keys = function(ev) {
@@ -433,7 +424,19 @@ Editor.prototype.expandall = function(ev) {
   }
   return false;
 };
-
+Editor.prototype.populateInteractiveVals = function(ev) {
+  var layerName = $(ev.currentTarget).val();
+  $('.js-layer-option[name=' + layerName + ']')
+    .removeClass('hidden')
+    .siblings('.js-layer-option')
+    .addClass('hidden');
+};
+Editor.prototype.insertInteractiveVal = function(ev) {
+  var val = $(ev.currentTarget).val();
+  if (!val) return;
+  templateEditor
+    .replaceRange('{{{' + val + '}}}', CodeMirror.Pos(templateEditor.lastLine()));
+};
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
