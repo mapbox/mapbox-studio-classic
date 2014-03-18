@@ -209,12 +209,8 @@
   </div>
 
   <form id='interactivity' class='hidden top1 contain'>
-    <div class='fill-white row1 pad1 keyline-bottom pin-top'>
-      <label class='small quiet'>Content to be shown on hover or first tap (mobile)</label>
-    </div>
-    <div class='fill-grey content space pad1 keyline-top pin-bottom col12 z10 small'>
-      <div class='space-bottom1'>
-        <label class='small'>Layer to use for interaction data</label>
+    <div class='fill-white row1 pad1 keyline-bottom pin-top space'>
+        <label class='small strong'>Interaction layer</label>
         <select name='interactivity_layer' class='js-layer-options'>
           <option value=''>Choose:</option>
           <% _(sources).each(function(source) { %>
@@ -223,6 +219,10 @@
             <% }); %>
           <% }); %>
         </select>
+    </div>
+    <div class='fill-grey content space pad1 keyline-top fixed-bottomright col6 row4 z10 small'>
+      <div class='space-bottom1'>
+        <label class='small'>Available properties:</label>
       </div>
 
       <% _(sources).each(function(source) { %>

@@ -2,8 +2,6 @@
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Interactivity form */
-#interactivity              { height:100%; }
-#interactivity .content     { bottom:40px; }
 #interactivity .content pre { max-height:80px; }
 #code-template.active ~ #interactivity  { display:block; }
 
@@ -62,7 +60,7 @@
 #tabs a.tab:first-child:nth-last-child(12) ~ a.tab { max-width:8.33%; font-size:80%; }
 
 /* CodeMirror */
-.CodeMirror#code-template { top:80px;}
+.CodeMirror#code-template { top:80px; bottom:160px; }
 
 /* Carto ref docs */
 #fonts:target ~ * a.docs-n,
