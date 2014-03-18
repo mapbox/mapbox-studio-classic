@@ -207,34 +207,32 @@
       </span>
     </nav>
   </div>
-  <form id='interactivity' class='fill-light space row1 pad1 keyline-bottom pin-top'>
-    <div class='pin-right pad1'>
-      <a href='#interaction-info' class='js-info inline icon info quiet'></a>
-    </div>
-    <div id='interaction-info' class='clearfix pin-top top1 z10 pad1y pad2x keyline-bottom small fill-white hidden'>
-      <label class='strong'>Tooltip interaction</label>
-      <p>Enable tooltips by selecting a datalayer and a property value. These values are wrapped in <a href='http://mustache.github.io/'>Mustache</a> tags that will be replaced by data. You can also use the full <a href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize your tooltips.</p>
-    </div>
 
-    <select name='interactivity_layer' class='js-layer-options'>
-      <option value=''>Choose data layer:</option>
+  <form id='interactivity' class='hidden top1 contain'>
+    <div class='fill-grey row1 pad1 keyline-bottom pin-top'>
+      <label class='small quiet'>Content to be shown on hover or first tap (mobile)</label>
+    </div>
+    <div class='fill-grey content space pad1 keyline-top pin-bottom col12 z10 small quiet'>
+      <div class='space-bottom1'>
+        <label class='small'>Layer to use for interaction data</label>
+        <select name='interactivity_layer' class='js-layer-options'>
+          <option value=''>Choose:</option>
+          <% _(sources).each(function(source) { %>
+            <% _(source.vector_layers||{}).each(function(l) { %>
+              <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+            <% }); %>
+          <% }); %>
+        </select>
+      </div>
+
       <% _(sources).each(function(source) { %>
         <% _(source.vector_layers||{}).each(function(l) { %>
-          <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+<pre rel='<%= l.id %>' class='small space-bottom1 js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %>{{{<%= name %>}}} <% }); %></pre>
         <% }); %>
       <% }); %>
-    </select>
 
-    <% _(sources).each(function(source) { %>
-      <% _(source.vector_layers||{}).each(function(l) { %>
-      <select name='<%= l.id %>' class='js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'>
-        <option value=''>Layer variables:</option>
-        <% _(l.fields||{}).each(function(desc, name) { %>
-          <option value='<%= name %>'><%= name %></option>
-        <% }); %>
-      </select>
-      <% }); %>
-    <% }); %>
+      <p>These <a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags will be replaced by data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize your tooltips.</p>
+    </div>
   </form>
 
 </div>
@@ -268,7 +266,10 @@ templates.sourcelayers = <%= this.sourcelayers.source %>;
 statHandler('drawtime')();
 
 var Tab = function(id, value) {
-  var tab = CodeMirror(document.getElementById('code'), {
+  var tab = CodeMirror(function(cm) {
+    document.getElementById('code')
+      .insertBefore(cm, document.getElementById('interactivity'));
+  }, {
     value: value,
     lineNumbers: true,
     paletteHints: true,
@@ -343,9 +344,7 @@ Editor.prototype.events = {
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
   'click .js-expandall': 'expandall',
-  'click .js-info': 'toggleInfo',
   'change .js-layer-options': 'populateInteractiveVals',
-  'change .js-layer-option': 'insertInteractiveVal',
   'keydown': 'keys'
 };
 
@@ -418,17 +417,6 @@ Editor.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 };
-Editor.prototype.toggleInfo = function(ev) {
-  var $el = $(ev.currentTarget);
-  if ($el.is('.x')) {
-    $el.removeClass('x').addClass('info');
-    $($el.attr('href')).addClass('hidden');
-  } else {
-    $el.removeClass('info').addClass('x');
-    $($el.attr('href')).removeClass('hidden');
-  }
-  return false;
-};
 Editor.prototype.expandall = function(ev) {
   button = $(ev.currentTarget);
 
@@ -443,16 +431,10 @@ Editor.prototype.expandall = function(ev) {
 };
 Editor.prototype.populateInteractiveVals = function(ev) {
   var layerName = $(ev.currentTarget).val();
-  $('.js-layer-option[name=' + layerName + ']')
+  $('.js-layer-option[rel=' + layerName + ']')
     .removeClass('hidden')
     .siblings('.js-layer-option')
     .addClass('hidden');
-};
-Editor.prototype.insertInteractiveVal = function(ev) {
-  var val = $(ev.currentTarget).val();
-  if (!val) return;
-  templateEditor
-    .replaceRange('{{{' + val + '}}}', CodeMirror.Pos(templateEditor.lastLine()));
 };
 Editor.prototype.messageclear = function() {
   messageClear();
