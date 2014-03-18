@@ -212,7 +212,7 @@
     <div class='fill-white row1 pad1 keyline-bottom pin-top'>
       <label class='small quiet'>Content to be shown on hover or first tap (mobile)</label>
     </div>
-    <div class='fill-grey content space pad1 keyline-top pin-bottom col12 z10 small quiet'>
+    <div class='fill-grey content space pad1 keyline-top pin-bottom col12 z10 small'>
       <div class='space-bottom1'>
         <label class='small'>Layer to use for interaction data</label>
         <select name='interactivity_layer' class='js-layer-options'>
@@ -231,7 +231,7 @@
         <% }); %>
       <% }); %>
 
-      <p>These <a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags will be replaced by data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize your tooltips.</p>
+      <p class='quiet'>These <a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags will be replaced by data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize your tooltips.</p>
     </div>
   </form>
 
