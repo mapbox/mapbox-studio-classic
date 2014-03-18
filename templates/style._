@@ -184,7 +184,7 @@
         --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
       </div>
     </nav>
-    <div class='js-menu-content pin-left col12 top4 scroll-styled'>
+    <div class='js-menu-content pin-left col12 top1 scroll-styled'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
@@ -209,8 +209,13 @@
   </div>
   <form id='interactivity' class='fill-light space row1 pad1 keyline-bottom pin-top'>
     <div class='pin-right pad1'>
-      <a href='#interaction-info' class='inline icon info quiet'></a>
+      <a href='#interaction-info' class='js-info inline icon info quiet'></a>
     </div>
+    <div id='interaction-info' class='clearfix pin-top top1 z10 pad1y pad2x keyline-bottom small fill-white hidden'>
+      <label class='strong'>Tooltip interaction</label>
+      <p>Enable tooltips by selecting a datalayer and a property value. These values are wrapped in <a href='http://mustache.github.io/'>Mustache</a> tags that will be replaced by data. You can also use the full <a href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize your tooltips.</p>
+    </div>
+
     <select name='interactivity_layer' class='js-layer-options'>
       <option value=''>Choose data layer:</option>
       <% _(sources).each(function(source) { %>
@@ -338,6 +343,7 @@ Editor.prototype.events = {
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
   'click .js-expandall': 'expandall',
+  'click .js-info': 'toggleInfo',
   'change .js-layer-options': 'populateInteractiveVals',
   'change .js-layer-option': 'insertInteractiveVal',
   'keydown': 'keys'
@@ -411,6 +417,17 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
+};
+Editor.prototype.toggleInfo = function(ev) {
+  var $el = $(ev.currentTarget);
+  if ($el.is('.x')) {
+    $el.removeClass('x').addClass('info');
+    $($el.attr('href')).addClass('hidden');
+  } else {
+    $el.removeClass('info').addClass('x');
+    $($el.attr('href')).removeClass('hidden');
+  }
+  return false;
 };
 Editor.prototype.expandall = function(ev) {
   button = $(ev.currentTarget);

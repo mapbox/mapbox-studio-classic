@@ -140,7 +140,7 @@ revlayers.reverse();
       --><% } %>
     </div>
   </nav>
-  <div class='js-menu-content pin-left col12 top4 scroll-styled'>
+  <div class='js-menu-content pin-left col12 top1 scroll-styled'>
     <% _(revlayers).each(function(l) { %>
       <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
     <% }.bind(this)); %>

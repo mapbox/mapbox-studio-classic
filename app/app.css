@@ -12,8 +12,7 @@
 .col10   { max-width: 1000px; }
 .col11   { max-width: 1100px; }
 
-.top2 { top:20px; }
-.top4 { top:40px; }
+.top1 { top:40px; }
 input[type=text].clean { border: none; }
 
 /* icons should match text color on buttons */
@@ -183,7 +182,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
 
-/* flag active project */
+/* Flag active project */
 .project.proj-active,
 .project.proj-active:hover { background-color: #56b881;}
 .project.proj-active .proj-status { display: block;}
