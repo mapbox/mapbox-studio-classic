@@ -440,7 +440,7 @@ Editor.prototype.removebookmark = function(ev) {
       name = target.text();
   target.parent('li').remove();
   if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   return false;
 };
 Editor.prototype.addbookmark = function(ev) {
@@ -453,7 +453,7 @@ Editor.prototype.addbookmark = function(ev) {
       name = fieldVal ? fieldVal : value;
   if (this.bookmarks[name]) return false;
   this.bookmarks[name] = value;
-  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
   return false;
@@ -651,7 +651,8 @@ Editor.prototype.refresh = function(ev) {
     $('#map').css({'background-color':this.model.get('background')});
 
   // Get existing bookmarks
-  this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
+  this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
+    JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
   for (var b in this.bookmarks) {
     this.appendBookmark(b);
   }
