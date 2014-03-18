@@ -2,8 +2,9 @@
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Interactivity form */
-#interactivity          { height:100%; }
-#interactivity .content { bottom:40px; }
+#interactivity              { height:100%; }
+#interactivity .content     { bottom:40px; }
+#interactivity .content pre { max-height:80px; }
 #code-template.active ~ #interactivity  { display:block; }
 
 /* Editor tabs */

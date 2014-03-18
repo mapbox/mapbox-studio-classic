@@ -227,7 +227,7 @@
 
       <% _(sources).each(function(source) { %>
         <% _(source.vector_layers||{}).each(function(l) { %>
-<pre rel='<%= l.id %>' class='small space-bottom1 js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %>{{{<%= name %>}}} <% }); %></pre>
+<pre rel='<%= l.id %>' class='small space-bottom1 js-layer-option scroll-styled <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %>{{{<%= name %>}}} <% }); %></pre>
         <% }); %>
       <% }); %>
 
