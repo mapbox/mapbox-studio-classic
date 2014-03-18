@@ -185,7 +185,7 @@
       </div>
     </nav>
     <div class='js-menu-content pin-left col12 top4 scroll-styled'>
-    <%= _(sources).map(this.sourcelayers).join('\n') %>
+      <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
 
@@ -208,15 +208,28 @@
     </nav>
   </div>
   <form id='interactivity' class='fill-light space row1 pad1 keyline-bottom pin-top'>
-    <label class='small'>Layer</label>
-    <select name='interactivity_layer'>
-      <option value=''>&lt; choose layer &gt;</option>
+    <div class='pin-right pad1'>
+      <a href='#interaction-info' class='inline icon info quiet'></a>
+    </div>
+    <select name='interactivity_layer' class='js-layer-options'>
+      <option value=''>Choose data layer:</option>
       <% _(sources).each(function(source) { %>
-      <% _(source.vector_layers||{}).each(function(l) { %>
-      <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
-      <% }); %>
+        <% _(source.vector_layers||{}).each(function(l) { %>
+          <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+        <% }); %>
       <% }); %>
     </select>
+
+    <% _(sources).each(function(source) { %>
+      <% _(source.vector_layers||{}).each(function(l) { %>
+      <select name='<%= l.id %>' class='js-layer-option hidden'>
+        <option value=''>Layer variables:</option>
+        <% _(l.fields||{}).each(function(desc, name) { %>
+          <option value='<%= name %>'><%= name %></option>
+        <% }); %>
+      </select>
+      <% }); %>
+    <% }); %>
   </form>
 
 </div>
@@ -325,7 +338,18 @@ Editor.prototype.events = {
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
   'click .js-expandall': 'expandall',
+  'change .js-layer-options': 'populateInteractiveVals',
+  'change .js-layer-option': 'insertInteractiveVal',
   'keydown': 'keys'
+};
+
+Editor.prototype.populateInteractiveVals = function(ev) {
+  var layerName = $(ev.currentTarget).val();
+  $('.js-layer-option[name=' + layerName + ']').removeClass('hidden').siblings('.js-layer-option').addClass('hidden');
+};
+
+Editor.prototype.insertInteractiveVal = function(e) {
+  console.log('this happened');
 };
 
 Editor.prototype.keys = function(ev) {

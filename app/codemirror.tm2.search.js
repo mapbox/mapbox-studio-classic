@@ -47,10 +47,10 @@
         closeNotification(this, null);
         var dialog = dialogDiv(this, template, options && options.bottom);
         var inp = dialog.getElementsByTagName('input')[0],
-            help = document.getElementById('dialog-help'),
+            info = document.getElementById('dialog-info'),
             cl = document.getElementById('dialog-close'),
             button,
-            helpActive,
+            infoActive,
             me = this;
 
         function close() {
@@ -58,13 +58,13 @@
         }
 
         CodeMirror.on(cl, 'click', close);
-        CodeMirror.on(help, 'click', function(e) {
-            if (helpActive) {
+        CodeMirror.on(info, 'click', function(e) {
+            if (infoActive) {
                 this.href = '#';
-                helpActive = false;
+                infoActive = false;
             } else {
-                this.href = '#search-help';
-                helpActive = true;
+                this.href = '#search-info';
+                infoActive = true;
             }
         });
 
@@ -105,7 +105,7 @@
         closeNotification(this, null);
         var dialog = dialogDiv(this, template, options && options.bottom);
         var buttons = dialog.getElementsByTagName('button'),
-            help = document.getElementById('dialog-help'),
+            info = document.getElementById('dialog-info'),
             cl = document.getElementById('dialog-close'),
             me = this;
 
@@ -189,7 +189,7 @@
         return query;
     }
 
-    var helpText = '<div id="search-help" class="clearfix keyline-bottom keyline-top small fill-white search-help hidden">'+
+    var infoText = '<div id="search-info" class="clearfix keyline-bottom keyline-top small fill-white search-info hidden">'+
     '<div class="pad1x pad0y quiet">You can use /re/ syntax for regex search</div>'+
     '<div class="clearfix col12">'+
         '<label class="col12 pad1x pad0y keyline-bottom">Keyboard Commands</label>'+
@@ -203,8 +203,8 @@
         '</div>' +
     '</div>' +
     '</div>';
-    var infoAndClose = "<div class='pin-right pad1'><a href='#search-help' id='dialog-help' class='inline icon help quiet'></a><a href='#' id='dialog-close' class='inline icon x quiet'></a></div>";
-    var queryDialog = "<fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch'></fieldset>" + infoAndClose + helpText;
+    var infoAndClose = "<div class='pin-right pad1'><a href='#search-info' id='dialog-info' class='inline icon info quiet'></a><a href='#' id='dialog-close' class='inline icon x quiet'></a></div>";
+    var queryDialog = "<fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch'></fieldset>" + infoAndClose + infoText;
 
     function doSearch(cm, rev) {
         var state = getSearchState(cm);
@@ -249,9 +249,9 @@
         });
     }
 
-    var replaceQueryDialog = "<fieldset><label class='pad1 block keyline-bottom'>Replace:</label><fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch' /></fieldset></fieldset>" + infoAndClose + helpText;
-    var replacementQueryDialog = "<fieldset><label class='pad1 block keyline-bottom'>With:</label><fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch' /></fieldset></fieldset>" + infoAndClose + helpText;
-    var doReplaceConfirm = "<fieldset class='pad1 space'><label class='inline'>Replace?</label><div class='inline pill'><button class='pad2x short'>Yes</button><button class='short pad2x'>No</button></div></fieldset>" + infoAndClose + helpText;
+    var replaceQueryDialog = "<fieldset><label class='pad1 block keyline-bottom'>Replace:</label><fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch' /></fieldset></fieldset>" + infoAndClose + infoText;
+    var replacementQueryDialog = "<fieldset><label class='pad1 block keyline-bottom'>With:</label><fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch' /></fieldset></fieldset>" + infoAndClose + infoText;
+    var doReplaceConfirm = "<fieldset class='pad1 space'><label class='inline'>Replace?</label><div class='inline pill'><button class='pad2x short'>Yes</button><button class='short pad2x'>No</button></div></fieldset>" + infoAndClose + infoText;
 
     function replace(cm, all) {
         dialog(cm, replaceQueryDialog, 'Replace:', cm.getSelection(), function (query) {
