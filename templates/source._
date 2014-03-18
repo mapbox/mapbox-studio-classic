@@ -83,7 +83,7 @@
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
   </div>
-  <ul id='bookmark-list' class='clip fill-dark round-bottom'></ul>
+  <ul id='bookmark-list' class='clip fill-dark scroll-styled round-bottom'></ul>
 </form>
 
 <div id='full' class='clip animate pin-left'>
