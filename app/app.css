@@ -690,8 +690,8 @@ span.cm-carto-filter             { color:#66475B; }
 
 #map-controls {
   position: absolute;
-  bottom: 0px;
-  left: 104px;
+  bottom: 10px;
+  left: 115px;
 }
 
 #title .avatar { width: 40px; height: 40px; }

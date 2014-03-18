@@ -121,7 +121,7 @@
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
-  <div id='map-controls' class='pad1'>
+  <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-white'><!--
         --><a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
