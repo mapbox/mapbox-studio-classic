@@ -2,7 +2,8 @@
 #code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Interactivity form */
-#interactivity .content pre { max-height:80px; }
+#interactivity .content     { max-height:80px; }
+#interactivity .content pre { padding:0; }
 #code-template.active ~ #interactivity  { display:block; }
 
 /* Editor tabs */
