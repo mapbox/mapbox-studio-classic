@@ -251,7 +251,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   display:block;
   position:absolute;
   left:50%;
-  bottom:-10px;
+  bottom:-9px;
   margin-left:-5px;
   border-left:10px solid transparent;
   border-right:10px solid transparent;
@@ -272,6 +272,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   max-height:200px;
   overflow:auto;
   }
+  #bookmark-list li:first-child { border-top:none; }
   #bookmark .bookmark-name { padding-right:30px; }
 
 /* Refresh alerts */
