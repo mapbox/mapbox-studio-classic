@@ -7,6 +7,8 @@
   id: 'browse' + obj.type,
   cwd: obj.cwd,
   label: 'Open',
+  hint: 'No spaces allowed. Requires ".tm2" extension.',
+  placeholder: type + '.tm2',
   pattern: '[\\w+\\d+\\.-]+\\.tm2'
 })); %>
 <script>
