@@ -209,7 +209,7 @@
   </div>
 
   <form id='interactivity' class='hidden top1 contain'>
-    <div class='fill-grey row1 pad1 keyline-bottom pin-top'>
+    <div class='fill-white row1 pad1 keyline-bottom pin-top'>
       <label class='small quiet'>Content to be shown on hover or first tap (mobile)</label>
     </div>
     <div class='fill-grey content space pad1 keyline-top pin-bottom col12 z10 small quiet'>
