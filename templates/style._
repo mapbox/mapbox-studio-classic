@@ -199,7 +199,7 @@
     <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
       --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0 truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
       <% }); %>
     -->
       <span class='z1'>
@@ -523,7 +523,7 @@ Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
   var filename = field.val().split('.')[0] + '.mss';
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0 truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
   }
   field.val('');
