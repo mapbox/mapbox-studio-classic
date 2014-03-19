@@ -184,8 +184,8 @@
         --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
       </div>
     </nav>
-    <div class='js-menu-content pin-left col12 top4 scroll-styled'>
-    <%= _(sources).map(this.sourcelayers).join('\n') %>
+    <div class='js-menu-content pin-left col12 top1 scroll-styled'>
+      <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
 
@@ -207,16 +207,41 @@
       </span>
     </nav>
   </div>
-  <form id='interactivity' class='fill-light space row1 pad1 keyline-bottom pin-top'>
-    <label class='small'>Layer</label>
-    <select name='interactivity_layer'>
-      <option value=''>&lt; choose layer &gt;</option>
-      <% _(sources).each(function(source) { %>
-      <% _(source.vector_layers||{}).each(function(l) { %>
-      <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
-      <% }); %>
-      <% }); %>
-    </select>
+
+  <form id='interactivity' class='hidden top1 contain'>
+    <div class='fill-white row1 pad1 keyline-bottom pin-top space'>
+      <div class='pin-right pad1'>
+        <a href='#interaction-info' class='js-info inline icon info quiet'></a>
+      </div>
+      <div id='interaction-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
+        <p>Select a layer from the dropdown, and then place an attribute in brackets like <code>{{{attribute}}}</code>. You can combine tags with plain text. For example, <code>{{{featuretype}}} is {{{depth}}} meters deep</code> would result in a popup that read: "lake is 300 meters deep" when hovering over a feature with <span class='quiet'>featuretype:lake</span> and <span class='quiet'>depth:300.</span></p>
+      </div>
+
+      <label class='small strong'>Interaction layer</label>
+      <select name='interactivity_layer' class='js-layer-options'>
+        <option value=''>Choose:</option>
+        <% _(sources).each(function(source) { %>
+          <% _(source.vector_layers||{}).each(function(l) { %>
+            <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
+          <% }); %>
+        <% }); %>
+      </select>
+    </div>
+    <div class='fill-grey space pad1 keyline-top fixed-bottomright col6 row4 z10 small'>
+      <div class='space-bottom1'>
+        <label class='small'>Available properties:</label>
+      </div>
+
+      <div class='pad1 round fill-light content scroll-styled space-bottom1'>
+        <% _(sources).each(function(source) { %>
+          <% _(source.vector_layers||{}).each(function(l) { %>
+          <pre rel='<%= l.id %>' class='small space js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %><span>{{{<%= name %>}}}</span><% }); %></pre>
+          <% }); %>
+        <% }); %>
+      </div>
+
+      <p class='quiet'><a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags are replaced by your data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize tooltips.</p>
+    </div>
   </form>
 
 </div>
@@ -243,15 +268,17 @@
 </div>
 
 <script>
-var map = baselayer = tiles = grids = gridc = null;
-
+var map = baselayer = tiles = grids = gridc = templateEditor = null;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 statHandler('drawtime')();
 
 var Tab = function(id, value) {
-  var tab = CodeMirror(document.getElementById('code'), {
+  var tab = CodeMirror(function(cm) {
+    document.getElementById('code')
+      .insertBefore(cm, document.getElementById('interactivity'));
+  }, {
     value: value,
     lineNumbers: true,
     paletteHints: true,
@@ -282,6 +309,7 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
+  if (id === 'template') templateEditor = tab;
   tab.on('keydown', completer.onKeyEvent);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
@@ -324,7 +352,9 @@ Editor.prototype.events = {
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
+  'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
+  'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
 
@@ -397,6 +427,17 @@ Editor.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 };
+Editor.prototype.toggleInfo = function(ev) {
+  var $el = $(ev.currentTarget);
+  if ($el.is('.x')) {
+    $el.removeClass('x').addClass('info');
+    $($el.attr('href')).addClass('hidden');
+  } else {
+    $el.removeClass('info').addClass('x');
+    $($el.attr('href')).removeClass('hidden');
+  }
+  return false;
+};
 Editor.prototype.expandall = function(ev) {
   button = $(ev.currentTarget);
 
@@ -409,7 +450,13 @@ Editor.prototype.expandall = function(ev) {
   }
   return false;
 };
-
+Editor.prototype.populateInteractiveVals = function(ev) {
+  var layerName = $(ev.currentTarget).val();
+  $('.js-layer-option[rel=' + layerName + ']')
+    .removeClass('hidden')
+    .siblings('.js-layer-option')
+    .addClass('hidden');
+};
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
