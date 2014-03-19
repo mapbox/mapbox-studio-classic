@@ -83,7 +83,7 @@
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
   </div>
-  <ul id='bookmark-list' class='clip fill-dark round-bottom'></ul>
+  <ul id='bookmark-list' class='clip keyline-top fill-dark scroll-styled round-bottom'></ul>
 </form>
 
 <div id='full' class='clip animate pin-left'>
@@ -103,7 +103,7 @@
   <div id='map-errors'></div>
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
 
-  <div id='map-controls' class='pad1'>
+  <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-dark'>
         <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
@@ -112,7 +112,7 @@
     </div>
     <a href='#bookmark' class='bookmark-n inline fill-dark dark icon marker quiet'></a>
     <a href='#' class='bookmark-y fill-dark icon close'></a>
-    <a href='#full' class='full-n inline keyline-all fill-dark icon fullscreen quiet'></a>
+    <a href='#full' class='full-n inline fill-dark icon fullscreen quiet'></a>
     <a href='#' class='full-y fill-dark dark icon close'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
@@ -177,11 +177,11 @@ revlayers.reverse();
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
   <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
   <fieldset class='col8 margin2 space-bottom1'>
-    <input class='col12 space-bottom1' type='text' placeholder='layername' size='20' name='id' pattern='\w+'/>
+    <input class='col12 space-bottom1' type='text' placeholder='layername' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
   <fieldset class='col8 margin2'>
     <div class='col12 scroll-styled radio-buttons'>
-      <input name='type' type='radio' id='addlayer-postgis' value='postgis'>
+      <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
       <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
         PostGIS
         <span class='micro pin-right quiet pad0y pad1x'>Database</span>
@@ -235,6 +235,9 @@ var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;
 
 statHandler('srcbytes')();
+
+// set initial page view to avoid #browsefile trap
+$(function() { window.location.href = '#';});
 
 var Layer = function(id, datasource) {
   var code;
@@ -573,8 +576,42 @@ Editor.prototype.browsefile = function(ev) {
   var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
   $('.browsefile-pending').removeClass('browsefile-pending');
   target.addClass('browsefile-pending');
+  $('#browsefile input[name=basename]').attr('title', target.attr('title'));
   $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
+
+  // File browser.
+  new views.Browser({
+    el: $('#browsefile'),
+    filter: function(file) {
+      var target = $('.browsefile-pending');
+      var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
+      if (pattern) {
+          return file.type === 'dir' || pattern.test(file.basename);
+      } else {
+          return file.type === 'dir';
+      }
+    },
+    isFile: function(file) {
+      var target = $('.browsefile-pending');
+      var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
+      if (pattern) {
+          return file.type === 'dir' || pattern.test(file);
+      } else {
+          return file.type === 'dir';
+      }
+    },
+    callback: function(err, filepath) {
+      var target = $('.browsefile-pending');
+      if (err || !target.size()) {
+        window.location.href = '#';
+      } else {
+        target.val(filepath);
+        window.location.href = '#' + target.parents('form').attr('id');
+      }
+    }
+  });
+
 };
 
 Editor.prototype.messagemodal = messageModal;
@@ -590,28 +627,6 @@ var editor = new Editor({
 editor.refresh();
 
 <% if (!remote) { %>
-// File browser.
-new views.Browser({
-  el: $('#browsefile'),
-  filter: function(file) {
-    var target = $('.browsefile-pending');
-    var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
-    if (pattern) {
-        return file.type === 'dir' || pattern.test(file.basename);
-    } else {
-        return file.type === 'dir';
-    }
-  },
-  callback: function(err, filepath) {
-    var target = $('.browsefile-pending');
-    if (err || !target.size()) {
-      window.location.href = '#';
-    } else {
-      target.val(filepath);
-      window.location.href = '#' + target.parents('form').attr('id');
-    }
-  }
-});
 // Sortable layers.
 $('#layers .js-menu-content').sortable();
 $('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {

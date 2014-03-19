@@ -103,7 +103,7 @@
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
   </div>
-  <ul id='bookmark-list' class='clip fill-light round-bottom'></ul>
+  <ul id='bookmark-list' class='clip keyline-top fill-light scroll-styled round-bottom'></ul>
 </form>
 
 <div id='full' class='clip animate pin-left'>
@@ -121,7 +121,7 @@
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
-  <div id='map-controls' class='pad1'>
+  <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-white'><!--
         --><a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
@@ -487,7 +487,7 @@ Editor.prototype.removebookmark = function(ev) {
       name = target.text();
   target.parent('li').remove();
   if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   return false;
 };
 Editor.prototype.addbookmark = function(ev) {
@@ -500,7 +500,7 @@ Editor.prototype.addbookmark = function(ev) {
       name = fieldVal ? fieldVal : value;
   if (this.bookmarks[name]) return false;
   this.bookmarks[name] = value;
-  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
   return false;
@@ -698,7 +698,8 @@ Editor.prototype.refresh = function(ev) {
     $('#map').css({'background-color':this.model.get('background')});
 
   // Get existing bookmarks
-  this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
+  this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
+    JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
   for (var b in this.bookmarks) {
     this.appendBookmark(b);
   }

@@ -137,7 +137,8 @@ views.Browser.prototype.render = function() {
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
-          return "<a class='icon " + f.type + " " + type + " strong quiet small pad1x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
+          var targetFile = view.isFile(f.basename) ? '' : 'quiet';
+          return "<a class='icon " + targetFile + " " + type + " strong small pad1x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));
@@ -164,9 +165,9 @@ views.Browser.prototype.submit = function(ev) {
 };
 views.Browser.prototype.browse = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.is('.file') || this.isFile(target.attr('href').split('#').pop())) {
+  if (target.is('.document') || this.isFile(target.attr('href').split('#').pop())) {
     this.$('input[name=basename]').val(target.text());
-  } else if (target.is('.dir') || target.is('.prev')) {
+  } else if (target.is('.folder') || target.is('.prev')) {
     this.cwd = target.attr('href').split('#').pop();
     this.render();
   }
