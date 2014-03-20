@@ -698,10 +698,12 @@ Editor.prototype.refresh = function(ev) {
     $('#map').css({'background-color':this.model.get('background')});
 
   // Get existing bookmarks
-  this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
-    JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
-  for (var b in this.bookmarks) {
-    this.appendBookmark(b);
+  if (!this.bookmarks) {
+    this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
+      JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
+    for (var b in this.bookmarks) {
+      this.appendBookmark(b);
+    }
   }
 
   return false;
