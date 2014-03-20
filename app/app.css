@@ -618,19 +618,12 @@ a.project:hover { background: rgba(255,255,255,.15);}
     font-family:'Open Sans Bold', sans-serif;
     }
 .CodeMirror .CodeMirror-dialog {
-  position:absolute;
-  left:0; right:0;
   background:white;
+  border-bottom:1px solid #eee;
+  position:absolute;
+  top:0;left:0;right:0;
   z-index:15;
   padding:0;
-  }
-.CodeMirror-dialog-top {
-  border-bottom:1px solid #eee;
-  top:0;
-  }
-.CodeMirror-dialog-bottom {
-  border-top:1px solid #eee;
-  bottom:0;
   }
 .CodeMirror-dialog input {
   background:transparent;

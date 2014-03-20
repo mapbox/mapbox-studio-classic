@@ -14,7 +14,7 @@
 })(function (CodeMirror) {
     'use strict';
 
-    function dialogDiv(cm, template, bottom) {
+    function dialogDiv(cm, template) {
         var wrap = cm.getWrapperElement();
 
         var past = document.getElementById('dialog');
@@ -23,12 +23,8 @@
         var dialog;
         dialog = wrap.appendChild(document.createElement('div'));
         dialog.id = 'dialog';
+        dialog.className = 'CodeMirror-dialog';
 
-        if (bottom) {
-            dialog.className = 'CodeMirror-dialog CodeMirror-dialog-bottom';
-        } else {
-            dialog.className = 'CodeMirror-dialog CodeMirror-dialog-top';
-        }
         if (typeof template == 'string') {
             dialog.innerHTML = template;
         } else { // Assuming it"s a detached DOM element.
@@ -45,7 +41,7 @@
 
     CodeMirror.defineExtension('openDialog', function (template, callback, options) {
         closeNotification(this, null);
-        var dialog = dialogDiv(this, template, true);
+        var dialog = dialogDiv(this, template);
         var inp = dialog.getElementsByTagName('input')[0],
             info = document.getElementById('dialog-info'),
             cl = document.getElementById('dialog-close'),
@@ -103,7 +99,7 @@
 
     CodeMirror.defineExtension('openConfirm', function (template, callbacks, options) {
         closeNotification(this, null);
-        var dialog = dialogDiv(this, template, options && options.bottom);
+        var dialog = dialogDiv(this, template);
         var buttons = dialog.getElementsByTagName('button'),
             info = document.getElementById('dialog-info'),
             cl = document.getElementById('dialog-close'),
