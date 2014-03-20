@@ -45,7 +45,7 @@
 
     CodeMirror.defineExtension('openDialog', function (template, callback, options) {
         closeNotification(this, null);
-        var dialog = dialogDiv(this, template, options && options.bottom);
+        var dialog = dialogDiv(this, template, true);
         var inp = dialog.getElementsByTagName('input')[0],
             info = document.getElementById('dialog-info'),
             cl = document.getElementById('dialog-close'),
