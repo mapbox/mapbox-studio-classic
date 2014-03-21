@@ -504,16 +504,14 @@ a.project:hover { background: rgba(255,255,255,.15);}
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
   }
-.menu nav a.button.title:active { background-color:#333; }
-
-/* Sortable states */
-.menu .sortable-placeholder { background:rgba(0,0,0,0.1); }
-.menu .sortable-dragging {
-  background:#444;
-  padding:9px 19px;
-  border:1px solid rgba(0,0,0,0.1);
-  border-radius:4px;
-  }
+  .menu nav a.button.title:active { background-color:#333; }
+  .menu .sortable-placeholder { background:rgba(0,0,0,0.1); }
+  .menu .sortable-dragging {
+    background:#444;
+    padding:9px 19px;
+    border:1px solid rgba(0,0,0,0.1);
+    border-radius:4px;
+    }
 
 /* Data menu */
 #layers .layer { border-bottom-color: rgba(0,0,0,.2);}

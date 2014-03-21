@@ -196,7 +196,7 @@
       --><a class='pad1 inline quiet layers-n icon menu align-middle fill-darken0 keyline-right' href='#layers'></a><!--
       --><a class='pad1 inline quiet layers-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a>
     </div>
-    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
+    <nav id='tabs' class='keyline-left row1 js-sortable keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
       --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><!--
@@ -525,6 +525,7 @@ Editor.prototype.addtab = function(ev) {
   if (!code[filename]) {
     $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
+    $('.js-sortable').sortable('destroy').sortable();
   }
   field.val('');
   window.location.hash = '#';
@@ -548,6 +549,8 @@ Editor.prototype.deltab = function(ev) {
     if (parent.is('.active') && tabs.size())
       this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
   }
+
+  $('.js-sortable').sortable('destroy').sortable();
   return false;
 };
 Editor.prototype.recache = function(ev) {
@@ -714,6 +717,8 @@ var editor = new Editor({
   model: new Style(<%= JSON.stringify(style) %>)
 });
 editor.refresh();
+
+$('.js-sortable').sortable();
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

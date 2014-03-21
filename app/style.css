@@ -60,6 +60,16 @@
 #tabs a.tab:first-child:nth-last-child(12),
 #tabs a.tab:first-child:nth-last-child(12) ~ a.tab { max-width:8.33%; font-size:80%; }
 
+#tabs a.tab { -webkit-user-select: none; }
+#tabs .sortable-placeholder {
+  background:rgba(0,0,0,0.05);
+  display:inline-block;
+  width:16.666%;
+  height:30px;
+  margin-left:5px;
+  border-radius:4px;
+  }
+
 /* CodeMirror */
 .CodeMirror#code-template { top:80px; bottom:160px; }
 
