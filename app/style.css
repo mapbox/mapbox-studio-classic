@@ -8,66 +8,69 @@
 
 /* Editor tabs */
 #tabs {
-  padding-left: 80px;
-  padding-right: 10px;
-}
-#tabs a.tab {
-  margin:0px 0px 0px 5px;
-  display: inline-block;
-  vertical-align: top;
+  padding-left:80px;
+  padding-right:10px;
   }
-#tabs a.tab:hover,
-#tabs a.tab.active {
+#tabs li {
+  display:inline-block;
+  border-radius:4px;
+  margin:0 0 0 5px;
+  }
+  #tabs li:empty { margin:0; }
+
+#tabs a {
+  display:inline-block;
+  vertical-align:top;
+  }
+#tabs a:hover,
+#tabs a.active {
   background:#f8f8f8;
   }
-#tabs a.tab.active {
+#tabs a.active {
   padding-right:25px;
   }
-#tabs a.tab.mini,
-#tabs a.tab.mini.active {
+#tabs a.mini,
+#tabs a.mini.active {
   padding:5px;
   }
-#tabs a.tab .trash {
+#tabs a .trash {
   display:none;
   }
-#tabs a.tab.active .trash {
-  display:inline-block;
-  }
+  #tabs a.active .trash {
+    display:inline-block;
+    }
 
-#tabs a.tab.active .trash:before { opacity: .25;}
-#tabs a.tab .trash:hover:before { opacity:.5; }
-#tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
-#tabs a.tab:first-child:nth-last-child(2),
-#tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
-#tabs a.tab:first-child:nth-last-child(3),
-#tabs a.tab:first-child:nth-last-child(3) ~ a.tab { max-width:33.33%; }
-#tabs a.tab:first-child:nth-last-child(4),
-#tabs a.tab:first-child:nth-last-child(4) ~ a.tab { max-width:25.00%; }
-#tabs a.tab:first-child:nth-last-child(5),
-#tabs a.tab:first-child:nth-last-child(5) ~ a.tab { max-width:20.00%; }
-#tabs a.tab:first-child:nth-last-child(6),
-#tabs a.tab:first-child:nth-last-child(6) ~ a.tab { max-width:16.66%; }
-#tabs a.tab:first-child:nth-last-child(7),
-#tabs a.tab:first-child:nth-last-child(7) ~ a.tab { max-width:14.28%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(8),
-#tabs a.tab:first-child:nth-last-child(8) ~ a.tab { max-width:12.50%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(9),
-#tabs a.tab:first-child:nth-last-child(9) ~ a.tab { max-width:11.11%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(10),
-#tabs a.tab:first-child:nth-last-child(10) ~ a.tab { max-width:10.00%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(11),
-#tabs a.tab:first-child:nth-last-child(11) ~ a.tab { max-width:9.09%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(12),
-#tabs a.tab:first-child:nth-last-child(12) ~ a.tab { max-width:8.33%; font-size:80%; }
+#tabs a.active .trash:before { opacity: .25;}
+#tabs a .trash:hover:before { opacity:.5; }
+#tabs a:first-child:nth-last-child(1) { max-width:100%; }
+#tabs a:first-child:nth-last-child(2),
+#tabs a:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
+#tabs a:first-child:nth-last-child(3),
+#tabs a:first-child:nth-last-child(3) ~ a.tab { max-width:33.33%; }
+#tabs a:first-child:nth-last-child(4),
+#tabs a:first-child:nth-last-child(4) ~ a.tab { max-width:25.00%; }
+#tabs a:first-child:nth-last-child(5),
+#tabs a:first-child:nth-last-child(5) ~ a.tab { max-width:20.00%; }
+#tabs a:first-child:nth-last-child(6),
+#tabs a:first-child:nth-last-child(6) ~ a.tab { max-width:16.66%; }
+#tabs a:first-child:nth-last-child(7),
+#tabs a:first-child:nth-last-child(7) ~ a.tab { max-width:14.28%; font-size:80%; }
+#tabs a:first-child:nth-last-child(8),
+#tabs a:first-child:nth-last-child(8) ~ a.tab { max-width:12.50%; font-size:80%; }
+#tabs a:first-child:nth-last-child(9),
+#tabs a:first-child:nth-last-child(9) ~ a.tab { max-width:11.11%; font-size:80%; }
+#tabs a:first-child:nth-last-child(10),
+#tabs a:first-child:nth-last-child(10) ~ a.tab { max-width:10.00%; font-size:80%; }
+#tabs a:first-child:nth-last-child(11),
+#tabs a:first-child:nth-last-child(11) ~ a.tab { max-width:9.09%; font-size:80%; }
+#tabs a:first-child:nth-last-child(12),
+#tabs a:first-child:nth-last-child(12) ~ a.tab { max-width:8.33%; font-size:80%; }
 
-#tabs a.tab { -webkit-user-select: none; }
+/* Tab dragging */
+#tabs a { -webkit-user-drag:none; }
+#tabs .sortable-dragging { background:transparent; }
 #tabs .sortable-placeholder {
-  background:rgba(0,0,0,0.05);
-  display:inline-block;
   width:16.666%;
-  height:30px;
-  margin-left:5px;
-  border-radius:4px;
   }
 
 /* CodeMirror */
