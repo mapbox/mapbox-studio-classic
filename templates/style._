@@ -543,11 +543,13 @@ Editor.prototype.deltab = function(ev) {
     delete styles[target];
     delete code[target];
     this.model.set({styles:styles});
-    // Set first tab to active.
-    var tabs = $('.js-tab', '#tabs');
-    if (parent.is('.active') && tabs.size())
-      this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
   }
+
+  // Set first tab to active.
+  var tabs = $('.js-tab', '#tabs');
+  if (parent.is('.active') && tabs.size())
+    this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
+
   return false;
 };
 Editor.prototype.recache = function(ev) {
