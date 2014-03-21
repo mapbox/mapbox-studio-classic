@@ -197,14 +197,14 @@
       --><a class='pad1 inline quiet layers-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a>
     </div>
     <ul id='tabs' class='keyline-left row1 js-sortable keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
-      --><li><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a></li><!--
+      --><li class='nosort'><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a></li><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
       --><li><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-right pad0y round-right'></span></a><li><!--
       <% }); %>
     -->
-    <li class='z1 nosort'>
-      <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
-    </li>
+      <li class='z1 nosort'>
+        <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
+      </li>
     </ul>
   </div>
 
@@ -523,9 +523,12 @@ Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
   var filename = field.val().split('.')[0] + '.mss';
   if (!code[filename]) {
-    $("<li><a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a></li>").insertAfter('nav#tabs > a:last-of-type');
+    $("<li><a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-right round-right pad0y'></span></a></li>").insertBefore('#tabs > li:last-of-type');
     code[filename] = Tab(filename, '');
-    $('.js-sortable').sortable('destroy').sortable();
+
+    $('.js-sortable').sortable('destroy').sortable({
+      items: ':not(.nosort)'
+    });
   }
   field.val('');
   window.location.hash = '#';
@@ -550,7 +553,10 @@ Editor.prototype.deltab = function(ev) {
       this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
   }
 
-  $('.js-sortable').sortable('destroy').sortable();
+  $('.js-sortable').sortable('destroy').sortable({
+    items: ':not(.nosort)'
+  });
+
   return false;
 };
 Editor.prototype.recache = function(ev) {
@@ -718,7 +724,9 @@ var editor = new Editor({
 });
 editor.refresh();
 
-$('.js-sortable').sortable();
+$('.js-sortable').sortable({
+  items: ':not(.nosort)'
+});
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {
