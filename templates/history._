@@ -30,7 +30,7 @@
         <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
           <div class='round-left fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
           <div class='pad1 truncate'>
-            <strong><%= item.name || 'Untitled' %></strong><br />
+            <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
             <code><%= item.id.split('/').pop() %></code>
           </div>
           <div class='z10 pad2 proj-status hidden pin-left'><span class='inline strong dot fill-green icon check'></span></div>
