@@ -21,6 +21,7 @@
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
   <script src='/app/codemirror.tm2.palette.js'></script>
+  <script src='/ext/sexagesimal.js'></script>
   <title><%= style.name %></title>
 </head>
 
@@ -106,6 +107,14 @@
   <ul id='bookmark-list' class='clip keyline-top fill-light scroll-styled round-bottom'></ul>
 </form>
 
+<form id='search' class='z1 contain fill-white round animate'>
+  <fieldset class='with-icon'>
+    <span class='icon search'></span>
+    <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
+    <ul id='search-results' class='clip keyline-top fill-light scroll-styled round-bottom'></ul>
+  </fieldset>
+</form>
+
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
@@ -132,6 +141,8 @@
     <a href='#' class='bookmark-y fill-dark dark icon close'></a>
     <a href='#full' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' class='full-y fill-dark dark icon close'></a>
+    <a href='#search' class='search-n inline fill-white icon search quiet'></a>
+    <a href='#' class='search-y fill-dark dark icon search'></a>
   </div>
 </div>
 
@@ -274,6 +285,10 @@ templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 statHandler('drawtime')();
 
+var geocoder = L.mapbox.geocoder({
+  geocoder: 'https://www.mapbox.com/v3/base.mapbox-streets/geocode/{query}.json'
+});
+
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
     document.getElementById('code')
@@ -340,6 +355,7 @@ Editor.prototype.events = {
   'submit #addmapbox': 'addmapbox',
   'submit #user': 'user',
   'submit #bookmark': 'addbookmark',
+  'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
   'click #tabs .js-tab': 'tabbed',
   'click #docs .js-docs-nav': 'scrollto',
@@ -503,6 +519,39 @@ Editor.prototype.addbookmark = function(ev) {
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
+  return false;
+};
+Editor.prototype.search = function(ev) {
+  ev.preventDefault();
+  var query = $('#search input').get(0).value;
+  // This query is empty or only whitespace.
+  if (/^\s*$/.test(query)) return null;
+
+  // This query is too short. Wait for more input chars.
+  if (query.length < 3) return;
+
+  var latlon = (function(q) {
+      var parts = sexagesimal.pair(q);
+      if (parts) return { lat: parts[0], lon: parts[1] };
+  })(query);
+
+  if (latlon) {
+    // just go there, no search
+    map.setView([latlon.lat, latlon.lon]);
+    return false;
+  }
+
+  $('#search fieldset').addClass('spinner');
+
+  geocoder.query(query, function(err, data) {
+    $('#search fieldset').removeClass('spinner');
+    var results = (data && data.results) ? data.results : [];
+    if (latlon) {
+        results[0] = results[0] || [];
+        results[0].unshift(latlon);
+    }
+    console.log(results);
+  });
   return false;
 };
 Editor.prototype.adddata = function(ev) {
