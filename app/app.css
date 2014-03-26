@@ -280,8 +280,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #search {
   pointer-events:none;
   position:absolute;
-  left:115px;
-  width:200px;
+  left:95px;
+  width:240px;
   bottom:45px;
   opacity:0;
   box-shadow:0 0 0 2px rgba(0,0,0,.08);
