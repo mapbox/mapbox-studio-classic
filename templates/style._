@@ -370,6 +370,7 @@ Editor.prototype.events = {
   'click #bookmark .trash': 'removebookmark',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
+  'click .search-result': 'selectSearch',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -542,16 +543,23 @@ Editor.prototype.search = function(ev) {
   }
 
   $('#search fieldset').addClass('spinner');
+  var $results = $('#search-results');
+  $results.html('');
 
   geocoder.query(query, function(err, data) {
     $('#search fieldset').removeClass('spinner');
     var results = (data && data.results) ? data.results : [];
-    if (latlon) {
-        results[0] = results[0] || [];
-        results[0].unshift(latlon);
-    }
-    console.log(results);
+    results.forEach(function(result) {
+      var coords = result[0].lat + ',' + result[0].lon;
+      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
+      $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate search-result" data-coords="'+coords+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+    });
   });
+  return false;
+};
+Editor.prototype.selectSearch = function(ev) {
+  ev.preventDefault();
+  if ('coords' in ev.currentTarget.dataset) map.setView(ev.currentTarget.dataset.coords.split(','));
   return false;
 };
 Editor.prototype.adddata = function(ev) {
