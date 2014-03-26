@@ -524,6 +524,7 @@ Editor.prototype.addbookmark = function(ev) {
 };
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
+
   var query = $('#search input').get(0).value;
   // This query is empty or only whitespace.
   if (/^\s*$/.test(query)) return null;
@@ -552,7 +553,7 @@ Editor.prototype.search = function(ev) {
     results.forEach(function(result) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate search-result" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain truncate"><a href="#" class="icon marker quiet pad0 col12 small search-result" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
     });
   });
   return false;

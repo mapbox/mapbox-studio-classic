@@ -14,6 +14,7 @@
   <script src='/ext/codemirror/sql.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
+  <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
   <script src='/app/lib.js'></script>
@@ -86,6 +87,14 @@
   <ul id='bookmark-list' class='clip keyline-top fill-dark scroll-styled round-bottom'></ul>
 </form>
 
+<form id='search' class='z1 contain fill-dark round animate'>
+  <fieldset class='with-icon col12 truncate'>
+    <span class='icon search'></span>
+    <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
+    <ul id='search-results' class='clip keyline-top fill-dark scroll-styled round-bottom'></ul>
+  </fieldset>
+</form>
+
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
@@ -114,6 +123,8 @@
     <a href='#' class='bookmark-y fill-dark icon close'></a>
     <a href='#full' class='full-n inline fill-dark icon fullscreen quiet'></a>
     <a href='#' class='full-y fill-dark dark icon close'></a>
+    <a href='#search' class='search-n inline fill-dark dark icon search quiet'></a>
+    <a href='#' class='search-y fill-dark icon search'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -220,6 +231,10 @@ revlayers.reverse();
 <script>
 var map, tiles, grids, gridc;
 
+var geocoder = L.mapbox.geocoder({
+  geocoder: 'https://www.mapbox.com/v3/base.mapbox-streets/geocode/{query}.json'
+});
+
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerconf = <%= this.layerconf.source %>;
@@ -307,10 +322,12 @@ Editor.prototype.events = {
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
+  'submit #search': 'search',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
+  'click .search-result': 'selectSearch',
   'submit #user': 'user',
   'keydown': 'keys'
 };
@@ -409,6 +426,86 @@ Editor.prototype.addbookmark = function(ev) {
   localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
+  return false;
+};
+Editor.prototype.removebookmark = function(ev) {
+  ev.preventDefault();
+  var target = $(ev.currentTarget).prev('a'),
+      name = target.text();
+  target.parent('li').remove();
+  if (this.bookmarks[name]) delete this.bookmarks[name];
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  return false;
+};
+Editor.prototype.addbookmark = function(ev) {
+  ev.preventDefault();
+  var coords = map.getCenter(),
+      zoom = map.getZoom(),
+      field = $('#addbookmark'),
+      fieldVal = field.val(),
+      value = [coords.lat, coords.lng, zoom],
+      name = fieldVal ? fieldVal : value;
+  if (this.bookmarks[name]) return false;
+  this.bookmarks[name] = value;
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  field.val('');
+  this.appendBookmark(name);
+  return false;
+};
+Editor.prototype.search = function(ev) {
+  ev.preventDefault();
+  var $results = $('#search-results');
+  var query = $('#search input').get(0).value;
+  // This query is empty or only whitespace.
+  if (/^\s*$/.test(query)) return null;
+
+  // This query is too short. Wait for more input chars.
+  if (query.length < 3) return;
+
+  var latlon = (function(q) {
+      var parts = sexagesimal.pair(q);
+      if (parts) return { lat: parts[0], lon: parts[1] };
+  })(query);
+
+  if (latlon) {
+    // just go there, no search
+    $results.html('');
+    map.setView([latlon.lat, latlon.lon]);
+    return false;
+  }
+
+  $('#search fieldset').addClass('spinner');
+
+  geocoder.query(query, function(err, data) {
+    $('#search fieldset').removeClass('spinner');
+    var results = (data && data.results) ? data.results : [];
+    if (!results.length) {
+      $results.html('<li class="keyline-top contain truncate pad0 col12 small">No results</li>');
+    }
+    results.forEach(function(result) {
+      var coords = result[0].lat + ',' + result[0].lon;
+      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
+      $results.html('<li class="keyline-top contain truncate"><a href="#" class="icon marker quiet pad0 col12 small search-result" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>');
+    });
+  });
+  return false;
+};
+Editor.prototype.selectSearch = function(ev) {
+  ev.preventDefault();
+  var data = ev.currentTarget.dataset;
+  if (data.bounds !== 'false') {
+    var bounds = data.bounds.split(',');
+    map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
+  } else {
+    var coords = data.coords.split(',');
+    if (data.type === 'address') {
+      map.setView(coords, Math.max(16, map.getZoom()));
+    } else if (data.type === 'street') {
+      map.setView(coords, Math.max(15, map.getZoom()));
+    } else {
+      map.setView(coords);
+    }
+  }
   return false;
 };
 Editor.prototype.resetmode = function(ev) {
