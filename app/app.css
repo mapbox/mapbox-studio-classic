@@ -559,6 +559,10 @@ a.project:hover { background: rgba(255,255,255,.15);}
 
 .CodeMirror-lines { padding:0 10px; }
 .CodeMirror pre { padding:0; }
+.CodeMirror-linenumber {
+  z-index: 50!important;
+  pointer-events: none;
+}
 
 .CodeMirror-gutters {
   border:none;
@@ -574,11 +578,11 @@ a.project:hover { background: rgba(255,255,255,.15);}
     .CodeMirror-gutter-wrapper .error {
       background-color:#f1f075;
       position:absolute;
-      right:0;
+      left:-10px;
       }
       .CodeMirror-gutter-wrapper .error > a {
         height:20px;
-        width:10px;
+        width:40px;
         display:block;
         }
         .CodeMirror-gutter-wrapper .error > a:focus {
@@ -587,7 +591,9 @@ a.project:hover { background: rgba(255,255,255,.15);}
           }
       .CodeMirror-gutter-wrapper .error .message {
         background-color:#f1f075;
-        position:absolute;left:0%;top:100%;
+        position:absolute;
+        left:40px;
+        top: 0;
         color:rgba(0,0,0,0.5);
         display:none;
         width:240px;
