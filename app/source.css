@@ -17,6 +17,13 @@
 
 .layer-label { width: 80px;}
 
+.editor .field-key {
+  padding:2px 5px;
+  border-radius: 3px;
+  background: rgba(241, 240, 117, .75);
+  color: rgba(0,0,0,.75);
+  }
+
 /* Conf pane */
 .editor > div.conf { display:block; }
 .sql .editor > div.conf,

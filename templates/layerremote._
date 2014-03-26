@@ -6,12 +6,23 @@
   </header>
 
   <fieldset class='pad2'>
-    <section class='space-bottom'>
+    <section>
       <label>Description</label>
       <input disabled='disabled' class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
     </section>
-    <% if ('minzoom' in obj) { %>
 
+    <% if ('fields' in obj) { %>
+    <div class='small pad2y'>
+      <% _(obj.fields||{}).each(function(desc,name) { %>
+      <div class='field pad0y clearfix'>
+        <span class='field-key col4'><%=name%> </span>
+        <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
+      </div>
+      <% }); %>
+    </div>
+    <% } %>
+
+    <% if ('minzoom' in obj) { %>
     <section class='keyline-all fill-darken0 round pad1'>
       <section class='clearfix'>
         <label class='inline col3'>Minzoom</label>
