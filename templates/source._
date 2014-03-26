@@ -141,23 +141,26 @@ revlayers.reverse();
     </div>
   </nav>
   <div class='js-menu-content pin-left col12 top1 scroll-styled'>
-    <% _(revlayers).each(function(l) { %>
-      <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
-    <% }.bind(this)); %>
+    <% _(revlayers).each(function(l) {
+      if (remote) {
+        print(this['layerremote'](l));
+        } else {
+        print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
+      }
+    }.bind(this)); %>
   </div>
 </div>
+
 <div class='z10' id='editor'>
-<% _(revlayers).each(function(l) {
-  if (remote) {
-    print(this['layerremote'](l));
-  } else {
+<% if (!remote) {
+  _(revlayers).each(function(l) {
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
         vt: source.vector_layers.filter(function(v) { return v.id === l.id })[0]
     }).extend(l)));
-  }
-}.bind(this)); %>
+  }.bind(this));
+} %>
 </div>
 
 <% if (!remote) print(this.modalbrowser({
@@ -303,6 +306,7 @@ Editor.prototype.events = {
   'click .layer .xrayinspector': 'toggleinspector',
   'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
+  'click .layer .js-tab': 'tabbed',
   'click #settings .js-ref-delete': 'delstyle',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',

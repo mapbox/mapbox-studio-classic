@@ -1,43 +1,24 @@
-<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
-  <header class='pad2 keyline-bottom'>
-    <h3><%= obj.id %></h3>
-    <input type='hidden' name='id' value='<%=obj.id%>' />
-    <nav class='pin-topright pad1'><a href='#' class='quiet inline pad1 icon close'></a></nav>
-  </header>
+<div class="small layer col12 contain" id="layers-<%=obj.id%>">
+  <a href='#layers-<%=obj.id%>' class='pin-left pin-right js-tab'></a>
+  <div class='pad1x pad0y keyline-bottom quiet <%=obj.geometry||'document'%> icon'><%=obj.id%></div>
+  <div class="center pin-right">
+  <% if ('minzoom' && 'maxzoom' in obj) { %>
+      <span class="inline zooms pad0 micro"><%= obj.minzoom %>-<%= obj.maxzoom %></span>
+  <% } %>
+  </div>
 
-  <fieldset class='pad2'>
-    <section>
-      <label>Description</label>
-      <input disabled='disabled' class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
-    </section>
-
+  <div class='description'>
+    <div class='truncate keyline-bottom col12 pad1'><%=obj.description||'No description.'%></div>
     <% if ('fields' in obj) { %>
     <div class='small pad2y'>
       <% _(obj.fields||{}).each(function(desc,name) { %>
-      <div class='field pad0y clearfix'>
+      <div class='field pad1x pad0y clearfix'>
         <span class='field-key col4'><%=name%> </span>
         <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
       </div>
       <% }); %>
     </div>
     <% } %>
+  </div>
 
-    <% if ('minzoom' in obj) { %>
-    <section class='keyline-all fill-darken0 round pad1'>
-      <section class='clearfix'>
-        <label class='inline col3'>Minzoom</label>
-        <input disabled='disabled' name='minzoom' class='min' type='range' value='<%= obj.minzoom %>' min='0' max='22' step='1'/>
-        <span class='small quiet code inline range'><%= obj.minzoom %></span>
-      </section>
-    <% } %>
-    <% if ('maxzoom' in obj) { %>
-      <section class='clearfix'>
-        <label class='inline col3'>Maxzoom</label>
-        <input disabled='disabled' name='maxzoom' class='max' type='range' value='<%= obj.maxzoom %>' min='0' max='22' step='1'/>
-        <span class='small quiet code inline range'><%= obj.maxzoom %></span>
-      </section>
-    <% } %>
-    </section>
-
-  </fieldset>
-</form>
+</div>
