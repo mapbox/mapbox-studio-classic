@@ -232,7 +232,7 @@ revlayers.reverse();
 var map, tiles, grids, gridc;
 
 var geocoder = L.mapbox.geocoder({
-  geocoder: 'https://www.mapbox.com/v3/base.mapbox-streets/geocode/{query}.json'
+  geocoder: 'http://api.tiles.mapbox.com/v3/examples.map-zr0njcqy/geocode/{query}.json'
 });
 
 var templates = {};
