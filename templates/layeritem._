@@ -28,12 +28,6 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
     </span>
   </div>
 
-  <% console.log(obj.help) %>
-
-  <% _(obj.help||{}).each(function(desc,name) { %>
-  <small class='field'><code><%=name%></code><%=desc||'No description.'%></small>
-  <% }); %>
-
   <div class='col12 fl description'>
     <div class='keyline-top truncate keyline-bottom col12 pad1'><%=obj.description||'No description.'%></div>
     <% if ('fields' in obj) { %>
