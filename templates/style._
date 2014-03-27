@@ -434,9 +434,11 @@ Editor.prototype.user = function() {
 };
 Editor.prototype.zoomin = function(out) {
   map.setZoom(map.getZoom()+1);
+  return false;
 };
 Editor.prototype.zoomout = function() {
   map.setZoom(map.getZoom()-1);
+  return false;
 };
 Editor.prototype.scrollto = function(ev) {
     id = $(ev.currentTarget).attr('href').split('#').pop();
