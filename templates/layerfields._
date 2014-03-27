@@ -6,7 +6,7 @@
 <% _(obj).each(function(helptext, field) { %>
 <section class='keyline-bottom pad1 clearfix small'>
   <div class='pad1x col2'>
-    <div class='field-key inline field'><%= field %></div>
+    <div class='field-key col12 inline field'><%= field %></div>
   </div>
   <div class='col10 pad1x'>
     <input class='small stretch' name='fields-<%=field%>' type='text' value='<%=_(helptext).escape()%>' />
