@@ -496,7 +496,7 @@ Editor.prototype.search = function(ev) {
     results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result '+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result truncate'+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
       selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
