@@ -135,11 +135,12 @@ revlayers.reverse();
     <div class='center pin-right col6 strong small'>
       <% if (!remote) { %>
       <span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span>
-      <% } else { %>
-      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span>
       <% } %>
       <span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span>
       <span class='pad0x pad1y keyline-left col4 fr layer-label'>Inspect</span>
+      <% if (remote) { %>
+      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span>
+      <% } %>
     </div>
   </nav>
   <div class='js-menu-content pin-left col12 top1 scroll-styled'>
