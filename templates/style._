@@ -154,8 +154,8 @@
 
   <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
     <div class='col6'>
-      <section class='pad2 keyline-bottom'>
-        <h3>Sources</h3>
+      <section class='pad1 keyline-bottom'>
+        <h3>Available sources</h3>
         <nav class='pin-topright pad1'>
           <a class='inline pad1 icon quiet close' href='#layers'></a>
         </nav>
@@ -182,7 +182,7 @@
 
   <div id='fonts' class='pane animate pin-left col6 scroll-styled fill-grey'>
     <header class='pad1x pad0y keyline-bottom'>
-      <h3 class='icon pad0y font'>Fonts</h3>
+      <h3 class='pad0y'>Fonts</h3>
       <nav class='pin-topright'>
         <a class='inline pad1 strong small icon quiet return' href='#docs'></a>
       </nav>
@@ -193,10 +193,11 @@
   </div>
 
   <div id='layers' class='pane animate pin-left col6 menu dark fill-dark'>
-    <nav class='row1 col12 pin-top fill-dark keyline-bottom z100'>
-      <div class='pin-topleft pad0'><!--
-        --><a href='#data' class='button short data-n icon plus quiet'>Data</a><!--
-        --><a href='#layers' class='button short data-y icon x quiet'>Data</a>
+    <nav class='row1 col12 pin-top pad1 fill-dark keyline-bottom z100'>
+      <h3>Active sources</h3>
+      <div class='pin-topright pad0y pad1x'><!--
+        --><a href='#data' class='button short data-n icon plus quiet'>Add</a><!--
+        --><a href='#layers' class='button short data-y icon x quiet'>Add</a>
       </div>
     </nav>
     <div class='js-menu-content pin-left col12 top1 scroll-styled'>
