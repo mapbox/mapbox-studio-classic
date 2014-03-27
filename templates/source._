@@ -132,32 +132,34 @@ revlayers.reverse();
     <% } else { %>
     <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
     <% } %>
-    <div class='center pin-right strong small'>
-      <span class='pad0x pad1y keyline-left inline layer-label'>Inspect</span><!--
-      --><span class='pad0x pad1y inline keyline-left layer-label'>Visibility</span><!--
-      --><% if (!remote) { %><!--
-      --><span class='pad0x pad1y keyline-left inline layer-label'>Delete</span><!--
-      --><% } %>
+    <div class='center pin-right col6 strong small'>
+      <% if (!remote) { %>
+      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span>
+      <% } %>
+      <span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span>
+      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Inspect</span>
+      <% if (remote) { %>
+      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span>
+      <% } %>
     </div>
   </nav>
   <div class='js-menu-content pin-left col12 top1 scroll-styled'>
-    <% _(revlayers).each(function(l) { %>
-      <% print(this.layeritem(_({_prefs:source._prefs}).extend(l))); %>
-    <% }.bind(this)); %>
+    <% _(revlayers).each(function(l) {
+      print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
+    }.bind(this)); %>
   </div>
 </div>
+
 <div class='z10' id='editor'>
-<% _(revlayers).each(function(l) {
-  if (remote) {
-    print(this['layerremote'](l));
-  } else {
+<% if (!remote) {
+  _(revlayers).each(function(l) {
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
         vt: source.vector_layers.filter(function(v) { return v.id === l.id })[0]
     }).extend(l)));
-  }
-}.bind(this)); %>
+  }.bind(this));
+} %>
 </div>
 
 <% if (!remote) print(this.modalbrowser({
@@ -303,6 +305,7 @@ Editor.prototype.events = {
   'click .layer .xrayinspector': 'toggleinspector',
   'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
+  'click .layer .js-tab': 'tabbedFields',
   'click #settings .js-ref-delete': 'delstyle',
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
@@ -349,9 +352,15 @@ Editor.prototype.user = function() {
 };
 Editor.prototype.zoomin = function(out) {
   map.setZoom(map.getZoom()+1);
+  return false;
 };
 Editor.prototype.zoomout = function() {
   map.setZoom(map.getZoom()-1);
+  return false;
+};
+Editor.prototype.tabbedFields = function(ev) {
+  $(ev.currentTarget).parent('.layer').addClass('active').siblings('.layer').removeClass('active');
+  return false;
 };
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;

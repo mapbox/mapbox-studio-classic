@@ -1,21 +1,23 @@
+.leaflet-popup .leaflet-popup-content { padding: 10px 10px 5px;}
 .leaflet-popup .leaflet-popup-content .xray-listing {
   width:240px;
   /* leaflet overrides */
-  font-size: 10px;
+  font-size: 11px;
   line-height: 20px;
-  letter-spacing: 0;
-}
-.xray-listing:first-child { border-top: 1px solid rgba(0,0,0,.2);}
-.dark .xray-listing,
-.dark .xray-listing div {
-  border-color: rgba(0,0,0,.2);
+  font-family:'Open Sans', sans-serif;
 }
 
 .source-menu { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
-.leaflet-popup .xray { color: #f1f075;}
-
-.layer-label { width: 80px;}
+.leaflet-popup .xray,
+.editor .field-key {
+  padding:0 5px;
+  border-radius: 3px;
+  background: rgba(241, 240, 117, .75);
+  color: rgba(0,0,0,.75);
+  vertical-align: top;
+  font-family:'Open Sans', sans-serif;
+  }
 
 /* Conf pane */
 .editor > div.conf { display:block; }

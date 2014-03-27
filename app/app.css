@@ -516,7 +516,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   }
 
 /* Data menu */
-#layers .layer { border-bottom-color: rgba(0,0,0,.2);}
+#layers .layer { border-color: rgba(0,0,0,.2);}
 #layers .layer:hover { background: rgba(0,0,0,.05);}
 #layers .data-y,
 #layers .data-n { display:none; }
@@ -528,7 +528,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 
 #layers * { border-color: rgba(0,0,0,.2); }
 #layers .field-key {
-  padding:2px 5px;
+  padding:0 5px;
   border-radius: 3px;
   background: rgba(241, 240, 117, .75);
   color: rgba(0,0,0,.75);
