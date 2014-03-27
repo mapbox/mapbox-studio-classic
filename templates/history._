@@ -70,7 +70,7 @@
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
             <div class='round-left small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-            <span class='fill-darken1 small-graphic inline fl <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
+            <span class='fill-darken1 small-graphic inline fl round-left <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
 
             <div class='truncate pad1 '>
               <strong><%= item.name || 'Untitled' %></strong><br />
