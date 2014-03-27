@@ -330,6 +330,7 @@ Editor.prototype.events = {
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
+  'click .bookmark-n': 'focusBookmark',
   'click .search-result': 'selectSearch',
   'click .search-n': 'focusSearch',
   'submit #user': 'user',
@@ -466,6 +467,10 @@ Editor.prototype.addbookmark = function(ev) {
   field.val('');
   this.appendBookmark(name);
   return false;
+};
+Editor.prototype.focusBookmark = function(ev) {
+  $('#addbookmark').focus();
+  return;
 };
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
