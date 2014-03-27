@@ -350,9 +350,11 @@ Editor.prototype.user = function() {
 };
 Editor.prototype.zoomin = function(out) {
   map.setZoom(map.getZoom()+1);
+  return false;
 };
 Editor.prototype.zoomout = function() {
   map.setZoom(map.getZoom()-1);
+  return false;
 };
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;
@@ -498,11 +500,11 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
   attr._prefs.inspector = $('#layers .js-layer:has(.xrayinspector.active)').size()
-    ? $('#layers .js-layer:has(.xrayinspector.active)').attr('id')
+    ? $('#layers .js-layer:has(.xrayinspector.active)').attr('id').split('-').pop()
     : false;
   attr._prefs.disabled = _($('#layers .layer').map(function(v) {
     return $('.xrayswatch.disabled', this).size()
-        ? $(this).attr('id')
+        ? $(this).attr('id').split('-').pop()
         : false;
   })).compact();
 
