@@ -559,7 +559,6 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #data:target ~ #layers.pane > *,
 #data:target ~ #layers { display:block; }
 #data:target ~ #layers a.delete { display:block; }
-#data:target ~ #layers .sourcetype { display:none; }
 
 #layers * { border-color: rgba(0,0,0,.2); }
 #layers .field-key {
