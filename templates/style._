@@ -155,7 +155,7 @@
   <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
     <div class='col6'>
       <section class='pad1 keyline-bottom'>
-        <h3>Available sources</h3>
+        <h3>Sources</h3>
         <nav class='pin-topright pad1'>
           <a class='inline pad1 icon quiet close' href='#layers'></a>
         </nav>
@@ -194,10 +194,10 @@
 
   <div id='layers' class='pane animate pin-left col6 menu dark fill-dark'>
     <nav class='row1 col12 pin-top pad1 fill-dark keyline-bottom z100'>
-      <h3>Active sources</h3>
+      <h3>Active source</h3>
       <div class='pin-topright pad0y pad1x'><!--
-        --><a href='#data' class='button short data-n icon plus quiet'>Add</a><!--
-        --><a href='#layers' class='button short data-y icon x quiet'>Add</a>
+        --><a href='#data' class='button short data-n icon pencil quiet'>Edit</a><!--
+        --><a href='#layers' class='button short data-y icon x quiet'>Edit</a>
       </div>
     </nav>
     <div class='js-menu-content pin-left col12 top1 scroll-styled'>
