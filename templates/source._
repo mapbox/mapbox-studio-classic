@@ -132,21 +132,18 @@ revlayers.reverse();
     <% } else { %>
     <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
     <% } %>
-    <div class='center pin-right strong small'>
-      <span class='pad0x pad1y keyline-left inline layer-label'>Inspect</span><!--
-      --><span class='pad0x pad1y inline keyline-left layer-label'>Visibility</span><!--
+    <div class='center pin-right col6 strong small'>
+      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Inspect</span><!--
+      --><span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span><!--
       --><% if (!remote) { %><!--
-      --><span class='pad0x pad1y keyline-left inline layer-label'>Delete</span><!--
+      --><span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span><!--
       --><% } %>
-    </div>
+      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span><!--
+    --></div>
   </nav>
   <div class='js-menu-content pin-left col12 top1 scroll-styled'>
     <% _(revlayers).each(function(l) {
-      if (remote) {
-        print(this['layerremote'](l));
-        } else {
-        print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
-      }
+      print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
     }.bind(this)); %>
   </div>
 </div>
