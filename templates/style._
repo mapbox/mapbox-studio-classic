@@ -3,6 +3,7 @@
 
 <head>
   <meta charset='UTF-8'/>
+  <link href='app/icon.png' rel='apple-touch-icon' />
   <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
