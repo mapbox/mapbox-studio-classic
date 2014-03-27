@@ -333,7 +333,6 @@ a.project:hover { background: rgba(255,255,255,.15);}
 .dark #map { background-color: #222;}
 #full:target #map {
   left:0% !important;
-  width:100% !important;
   }
 #map.map-clickable { cursor: pointer;}
 
@@ -756,7 +755,10 @@ span.cm-carto-filter             { color:#66475B; }
   min-width: 50%;
   right: 600px;
 }
-#full:target { min-width:100%; }
+#full:target {
+  min-width:100%;
+  right: 0;
+}
 
 #full:target ~ .pin-right {
   -webkit-transform:translateX(100%);
