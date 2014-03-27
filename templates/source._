@@ -84,7 +84,7 @@
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
   </div>
-  <ul id='bookmark-list' class='clip keyline-top fill-dark scroll-styled round-bottom'></ul>
+  <ul id='bookmark-list' class='clip fill-dark scroll-styled round-bottom'></ul>
 </form>
 
 <form id='search' class='z1 contain fill-dark round animate'>
@@ -92,7 +92,7 @@
   <div class='pin-topleft pad1'>
     <span class='icon search'></span>
   </div>
-  <ul id='search-results' class='clip keyline-top fill-dark dark scroll-styled round-bottom'></ul>
+  <ul id='search-results' class='clip fill-dark dark scroll-styled round-bottom'></ul>
 </form>
 
 <div id='full' class='clip animate pin-left'>

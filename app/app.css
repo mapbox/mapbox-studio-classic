@@ -273,7 +273,6 @@ a.project:hover { background: rgba(255,255,255,.15);}
   max-height:200px;
   overflow:auto;
   }
-  #bookmark-list li:first-child { border-top:none; }
   #bookmark .bookmark-name { padding-right:30px; }
 
 /* Search */
@@ -312,7 +311,6 @@ a.project:hover { background: rgba(255,255,255,.15);}
 }
 #search input { padding-left: 35px; }
 #search-results {max-height:200px;}
-#search-results li:first-child { border-top:none; }
 
 /* Refresh alerts */
 #refresh        { opacity:0; z-index:-1;}
