@@ -11,10 +11,12 @@
 
 .leaflet-popup .xray,
 .editor .field-key {
-  padding:2px 5px;
+  padding:0 5px;
   border-radius: 3px;
   background: rgba(241, 240, 117, .75);
   color: rgba(0,0,0,.75);
+  vertical-align: top;
+  font-family:'Open Sans', sans-serif;
   }
 
 /* Conf pane */

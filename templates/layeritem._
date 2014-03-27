@@ -34,8 +34,8 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
     <div class='small pad0y'>
       <% _(obj.fields||{}).each(function(desc,name) { %>
       <div class='field pad1x space-bottom0 clearfix'>
-        <span class='field-key col2'><%=name%> </span>
-        <span class='quiet col10 pad1x'><%=desc||'No description.'%></span>
+        <span class='field-key break-word col3'><%=name%> </span>
+        <span class='quiet col9 pad1x'><%=desc||'No description.'%></span>
       </div>
       <% }); %>
     </div>
