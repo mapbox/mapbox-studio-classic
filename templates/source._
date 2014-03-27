@@ -14,6 +14,7 @@
   <script src='/ext/codemirror/sql.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
+  <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
   <script src='/app/lib.js'></script>
@@ -86,6 +87,14 @@
   <ul id='bookmark-list' class='clip keyline-top fill-dark scroll-styled round-bottom'></ul>
 </form>
 
+<form id='search' class='z1 contain fill-dark round animate'>
+  <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
+  <div class='pin-topleft pad1'>
+    <span class='icon search'></span>
+  </div>
+  <ul id='search-results' class='clip keyline-top fill-dark dark scroll-styled round-bottom'></ul>
+</form>
+
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
@@ -110,10 +119,16 @@
         --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
-    <a href='#bookmark' class='bookmark-n inline fill-dark dark icon marker quiet'></a>
-    <a href='#' class='bookmark-y fill-dark icon close'></a>
+    <div class='inline'>
+      <div class='z1 fill-dark'>
+        <a href='#search' class='search-n dark keyline-right icon search quiet '></a><!--
+        --><a href='#' class='search-y icon keyline-right search'></a><!--
+        --><a href='#bookmark' class='bookmark-n dark icon marker quiet'></a><!--
+        --><a href='#' class='bookmark-y icon marker'></a>
+      </div>
+    </div>
     <a href='#full' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon close'></a>
+    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -310,10 +325,13 @@ Editor.prototype.events = {
   'submit #addlayer': 'addlayer',
   'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
+  'submit #search': 'search',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
+  'click .search-result': 'selectSearch',
+  'click .search-n': 'focusSearch',
   'submit #user': 'user',
   'keydown': 'keys'
 };
@@ -322,7 +340,12 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
-
+  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
+    // up and down on search results
+    ev.preventDefault();
+    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
+    return;
+  }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
@@ -388,7 +411,7 @@ Editor.prototype.togglemode = function(ev) {
 };
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name">'+name+'</a><a href="#" class="icon trash quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
@@ -420,6 +443,121 @@ Editor.prototype.addbookmark = function(ev) {
   this.appendBookmark(name);
   return false;
 };
+Editor.prototype.removebookmark = function(ev) {
+  ev.preventDefault();
+  var target = $(ev.currentTarget).prev('a'),
+      name = target.text();
+  target.parent('li').remove();
+  if (this.bookmarks[name]) delete this.bookmarks[name];
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  return false;
+};
+Editor.prototype.addbookmark = function(ev) {
+  ev.preventDefault();
+  var coords = map.getCenter(),
+      zoom = map.getZoom(),
+      field = $('#addbookmark'),
+      fieldVal = field.val(),
+      value = [coords.lat, coords.lng, zoom],
+      name = fieldVal ? fieldVal : value;
+  if (this.bookmarks[name]) return false;
+  this.bookmarks[name] = value;
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  field.val('');
+  this.appendBookmark(name);
+  return false;
+};
+Editor.prototype.search = function(ev) {
+  ev.preventDefault();
+  var query = $('#search input').get(0).value;
+  // This query is empty or only whitespace.
+  if (/^\s*$/.test(query)) return null;
+
+  // This query is too short. Wait for more input chars.
+  if (query.length < 3) return;
+
+  // The query matches what is currently displayed.
+  if ($('#search input').val() == $('#dosearch').data('query')) return;
+
+  var $results = $('#search-results');
+  $results.html('');
+
+  var latlon = (function(q) {
+      var parts = sexagesimal.pair(q);
+      if (parts) return { lat: parts[0], lon: parts[1] };
+  })(query);
+
+  if (latlon) {
+    // just go there, no search
+    map.setView([latlon.lat, latlon.lon]);
+    return false;
+  }
+
+  $.ajax('/geocode?search=' + query).done(function(data) {
+    var results = (data && data.results) ? data.results : [];
+    if (!results.length) {
+      $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
+    }
+    $('#dosearch').data('query', query);
+    results.forEach(function(result, idx) {
+      var coords = result[0].lat + ',' + result[0].lon;
+      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
+      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result truncate '+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      selectSearch(false, $('#search-results [data-idx="0"]'));
+    });
+  });
+  return false;
+};
+Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
+  var data;
+  if (ev) {
+    ev.preventDefault();
+    selection = ev.currentTarget;
+    data = ev.currentTarget.dataset;
+  } else {
+    data = selection[0].dataset;
+  }
+  $('#search-results a.active').removeClass('active fill-lighten0');
+  $(selection).addClass('active fill-lighten0');
+  if (data.bounds !== 'false') {
+    var bounds = data.bounds.split(',');
+    map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
+  } else {
+    var coords = data.coords.split(',');
+    if (data.type === 'address') {
+      map.setView(coords, Math.max(16, map.getZoom()));
+    } else if (data.type === 'street') {
+      map.setView(coords, Math.max(15, map.getZoom()));
+    } else {
+      map.setView(coords);
+    }
+  }
+  return false;
+};
+Editor.prototype.navSearch = function(ev, dir) {
+  var results = $('#search-results li');
+  var active = results.find('.active')[0].dataset;
+  var wanted = 0;
+  if (dir === 1) {
+    if (+active.idx - 1 < 0){
+      wanted = results.length - 1;
+    } else {
+      wanted = +active.idx - 1;
+    }
+  } else {
+    if (+active.idx + 1 > results.length - 1) {
+      wanted = 0;
+    } else {
+      wanted = +active.idx + 1;
+    }
+  }
+  this.selectSearch(false, $('#search-results [data-idx="'+wanted+'"]'));
+  return false;
+};
+Editor.prototype.focusSearch = function(ev) {
+  $('#dosearch').focus();
+  return;
+}
 Editor.prototype.resetmode = function(ev) {
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
   $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
