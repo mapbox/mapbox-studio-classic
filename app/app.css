@@ -280,8 +280,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #search {
   pointer-events:none;
   position:absolute;
-  left:95px;
-  width:240px;
+  left:75px;
+  width:280px;
   bottom:45px;
   opacity:0;
   box-shadow:0 0 0 2px rgba(0,0,0,.08);
@@ -310,6 +310,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
       -ms-transform:translateY(0);
           transform:translateY(0);
 }
+#search input { padding-left: 35px; }
 #search-list {
   max-height:200px;
   overflow:auto;

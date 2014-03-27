@@ -108,11 +108,11 @@
 </form>
 
 <form id='search' class='z1 contain fill-white round animate'>
-  <fieldset class='with-icon'>
+  <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
+  <div class='pin-topleft pad1'>
     <span class='icon search'></span>
-    <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
-    <ul id='search-results' class='clip keyline-top fill-light scroll-styled round-bottom'></ul>
-  </fieldset>
+  </div>
+  <ul id='search-results' class='clip keyline-top fill-light scroll-styled round-bottom'></ul>
 </form>
 
 <div id='full' class='clip animate pin-left'>
@@ -382,8 +382,9 @@ Editor.prototype.keys = function(ev) {
     window.location.href = '#';
   }
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
-    // up and down arrows on search results
-    this.navSearch(ev);
+    // up and down on search results
+    ev.preventDefault();
+    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
     return;
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
@@ -530,14 +531,18 @@ Editor.prototype.addbookmark = function(ev) {
 };
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
-  var $results = $('#search-results');
-  $results.html('');
   var query = $('#search input').get(0).value;
   // This query is empty or only whitespace.
   if (/^\s*$/.test(query)) return null;
 
   // This query is too short. Wait for more input chars.
   if (query.length < 3) return;
+
+  // The query matches what is currently displayed
+  if ($('#search input').val() == $('#dosearch').data('query')) return;
+
+  var $results = $('#search-results');
+  $results.html('');
 
   var latlon = (function(q) {
       var parts = sexagesimal.pair(q);
@@ -558,10 +563,11 @@ Editor.prototype.search = function(ev) {
     if (!results.length) {
       $results.html('<li class="keyline-top contain truncate pad0 col12 small">No results</li>');
     }
+    $('#dosearch').data('query', query);
     results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain truncate"><a href="#" class="icon marker quiet pad0 col12 small search-result '+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small search-result truncate '+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
       selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
@@ -599,7 +605,7 @@ Editor.prototype.navSearch = function(ev, dir) {
   var wanted = 0;
   if (dir === 1) {
     if (+active.idx - 1 < 0){
-      wanted = results.length -1 ;
+      wanted = results.length - 1;
     } else {
       wanted = +active.idx - 1;
     }
