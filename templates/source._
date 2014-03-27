@@ -328,6 +328,7 @@ Editor.prototype.events = {
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
   'click .search-result': 'selectSearch',
+  'click .search-n': 'focusSearch',
   'submit #user': 'user',
   'keydown': 'keys'
 };
@@ -336,7 +337,12 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     window.location.href = '#';
   }
-
+  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
+    // up and down on search results
+    ev.preventDefault();
+    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
+    return;
+  }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
@@ -455,6 +461,7 @@ Editor.prototype.addbookmark = function(ev) {
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
   var $results = $('#search-results');
+  $results.html('');
   var query = $('#search input').get(0).value;
   // This query is empty or only whitespace.
   if (/^\s*$/.test(query)) return null;
@@ -469,7 +476,6 @@ Editor.prototype.search = function(ev) {
 
   if (latlon) {
     // just go there, no search
-    $results.html('');
     map.setView([latlon.lat, latlon.lon]);
     return false;
   }
@@ -482,17 +488,26 @@ Editor.prototype.search = function(ev) {
     if (!results.length) {
       $results.html('<li class="keyline-top contain truncate pad0 col12 small">No results</li>');
     }
-    results.forEach(function(result) {
+    results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $results.html('<li class="keyline-top contain truncate"><a href="#" class="icon marker quiet pad0 col12 small search-result" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>');
+      $('<li class="keyline-top contain truncate"><a href="#" class="icon marker dark quiet pad0 col12 small search-result '+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
   return false;
 };
-Editor.prototype.selectSearch = function(ev) {
-  ev.preventDefault();
-  var data = ev.currentTarget.dataset;
+Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
+  var data;
+  if (ev) {
+    ev.preventDefault();
+    selection = ev.currentTarget;
+    data = ev.currentTarget.dataset;
+  } else {
+    data = selection[0].dataset;
+  }
+  $('#search-results a.active').removeClass('active fill-lighten0');
+  $(selection).addClass('active fill-lighten0');
   if (data.bounds !== 'false') {
     var bounds = data.bounds.split(',');
     map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
@@ -508,6 +523,30 @@ Editor.prototype.selectSearch = function(ev) {
   }
   return false;
 };
+Editor.prototype.navSearch = function(ev, dir) {
+  var results = $('#search-results li');
+  var active = results.find('.active')[0].dataset;
+  var wanted = 0;
+  if (dir === 1) {
+    if (+active.idx - 1 < 0){
+      wanted = results.length -1 ;
+    } else {
+      wanted = +active.idx - 1;
+    }
+  } else {
+    if (+active.idx + 1 > results.length - 1) {
+      wanted = 0;
+    } else {
+      wanted = +active.idx + 1;
+    }
+  }
+  this.selectSearch(false, $('#search-results [data-idx="'+wanted+'"]'));
+  return false;
+};
+Editor.prototype.focusSearch = function(ev) {
+  $('#dosearch').focus();
+  return;
+}
 Editor.prototype.resetmode = function(ev) {
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
   $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');

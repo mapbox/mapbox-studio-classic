@@ -371,6 +371,7 @@ Editor.prototype.events = {
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .search-result': 'selectSearch',
+  'click .search-n': 'focusSearch',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -379,6 +380,11 @@ Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
     window.location.href = '#';
+  }
+  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
+    // up and down arrows on search results
+    this.navSearch(ev);
+    return;
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
@@ -524,7 +530,8 @@ Editor.prototype.addbookmark = function(ev) {
 };
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
-
+  var $results = $('#search-results');
+  $results.html('');
   var query = $('#search input').get(0).value;
   // This query is empty or only whitespace.
   if (/^\s*$/.test(query)) return null;
@@ -544,23 +551,33 @@ Editor.prototype.search = function(ev) {
   }
 
   $('#search fieldset').addClass('spinner');
-  var $results = $('#search-results');
-  $results.html('');
 
   geocoder.query(query, function(err, data) {
     $('#search fieldset').removeClass('spinner');
     var results = (data && data.results) ? data.results : [];
-    results.forEach(function(result) {
+    if (!results.length) {
+      $results.html('<li class="keyline-top contain truncate pad0 col12 small">No results</li>');
+    }
+    results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain truncate"><a href="#" class="icon marker quiet pad0 col12 small search-result" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain truncate"><a href="#" class="icon marker quiet pad0 col12 small search-result '+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
   return false;
 };
-Editor.prototype.selectSearch = function(ev) {
-  ev.preventDefault();
-  var data = ev.currentTarget.dataset;
+Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
+  var data;
+  if (ev) {
+    ev.preventDefault();
+    selection = ev.currentTarget;
+    data = ev.currentTarget.dataset;
+  } else {
+    data = selection[0].dataset;
+  }
+  $('#search-results a.active').removeClass('active fill-white');
+  $(selection).addClass('active fill-white');
   if (data.bounds !== 'false') {
     var bounds = data.bounds.split(',');
     map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
@@ -575,6 +592,30 @@ Editor.prototype.selectSearch = function(ev) {
     }
   }
   return false;
+};
+Editor.prototype.navSearch = function(ev, dir) {
+  var results = $('#search-results li');
+  var active = results.find('.active')[0].dataset;
+  var wanted = 0;
+  if (dir === 1) {
+    if (+active.idx - 1 < 0){
+      wanted = results.length -1 ;
+    } else {
+      wanted = +active.idx - 1;
+    }
+  } else {
+    if (+active.idx + 1 > results.length - 1) {
+      wanted = 0;
+    } else {
+      wanted = +active.idx + 1;
+    }
+  }
+  this.selectSearch(false, $('#search-results [data-idx="'+wanted+'"]'));
+  return false;
+};
+Editor.prototype.focusSearch = function(ev) {
+  $('#dosearch').focus();
+  return;
 };
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
