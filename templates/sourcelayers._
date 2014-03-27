@@ -1,7 +1,7 @@
 <div id='<%= obj.id %>' class='js-source source'>
 
 <div class='keyline-bottom contain pad1 clearfix'>
-  <h4 class='truncate block pad0 col8'><%= obj.name || 'Untitled' %></h4>
+  <h4 class='block pad0 col8'><%= obj.name || 'Untitled' %></h4>
   <div class='col4 text-right sourcetype <%= obj.tiles ? 'remote' : 'local' %>'>
     <% if (obj.tiles) { %>
     <span name='remote' class='inline small round-left fill-darken1 strong pad0 quiet'>Remote</span><!--
