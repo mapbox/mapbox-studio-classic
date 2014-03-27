@@ -234,7 +234,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #bookmark {
   pointer-events:none;
   position:absolute;
-  left:25px;
+  left:47px;
   width:280px;
   bottom:45px;
   opacity:0;
@@ -280,7 +280,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #search {
   pointer-events:none;
   position:absolute;
-  left:75px;
+  left:26px;
   width:280px;
   bottom:45px;
   opacity:0;
@@ -311,12 +311,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
           transform:translateY(0);
 }
 #search input { padding-left: 35px; }
-#search-list {
-  max-height:200px;
-  overflow:auto;
-}
-#search-list li:first-child { border-top:none; }
-#search .bookmark-name { padding-right:30px; }
+#search-results {max-height:200px;}
+#search-results li:first-child { border-top:none; }
 
 /* Refresh alerts */
 #refresh        { opacity:0; z-index:-1;}

@@ -132,17 +132,21 @@
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
   <div id='map-controls'>
     <div class='inline'>
-      <div class='z1 fill-white'><!--
-        --><a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
+      <div class='z1 fill-white'>
+        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
         --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
-    <a href='#bookmark' class='bookmark-n inline fill-white icon marker quiet'></a>
-    <a href='#' class='bookmark-y fill-dark dark icon close'></a>
+    <div class='inline'>
+      <div class='z1 fill-white'>
+        <a href='#search' class='search-n keyline-right icon search quiet '></a><!--
+        --><a href='#' class='search-y icon keyline-right search fill-dark dark'></a><!--
+        --><a href='#bookmark' class='bookmark-n icon marker quiet'></a><!--
+        --><a href='#' class='bookmark-y icon marker fill-dark dark'></a>
+      </div>
+    </div>
     <a href='#full' class='full-n inline fill-white icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon close'></a>
-    <a href='#search' class='search-n inline fill-white icon search quiet'></a>
-    <a href='#' class='search-y fill-dark dark icon search'></a>
+    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
 </div>
 
@@ -555,13 +559,10 @@ Editor.prototype.search = function(ev) {
     return false;
   }
 
-  $('#search fieldset').addClass('spinner');
-
   geocoder.query(query, function(err, data) {
-    $('#search fieldset').removeClass('spinner');
     var results = (data && data.results) ? data.results : [];
     if (!results.length) {
-      $results.html('<li class="keyline-top contain truncate pad0 col12 small">No results</li>');
+      $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
     }
     $('#dosearch').data('query', query);
     results.forEach(function(result, idx) {

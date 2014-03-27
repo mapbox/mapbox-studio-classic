@@ -119,12 +119,16 @@
         --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
-    <a href='#bookmark' class='bookmark-n inline fill-dark dark icon marker quiet'></a>
-    <a href='#' class='bookmark-y fill-dark icon close'></a>
+    <div class='inline'>
+      <div class='z1 fill-dark'>
+        <a href='#search' class='search-n dark keyline-right icon search quiet '></a><!--
+        --><a href='#' class='search-y icon keyline-right search'></a><!--
+        --><a href='#bookmark' class='bookmark-n dark icon marker quiet'></a><!--
+        --><a href='#' class='bookmark-y icon marker'></a>
+      </div>
+    </div>
     <a href='#full' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon close'></a>
-    <a href='#search' class='search-n inline fill-dark dark icon search quiet'></a>
-    <a href='#' class='search-y fill-dark icon search'></a>
+    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -484,10 +488,7 @@ Editor.prototype.search = function(ev) {
     return false;
   }
 
-  $('#search fieldset').addClass('spinner');
-
   geocoder.query(query, function(err, data) {
-    $('#search fieldset').removeClass('spinner');
     var results = (data && data.results) ? data.results : [];
     if (!results.length) {
       $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
@@ -496,7 +497,7 @@ Editor.prototype.search = function(ev) {
     results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result truncate'+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result truncate '+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
       selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
