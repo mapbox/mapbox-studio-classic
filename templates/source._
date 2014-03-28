@@ -116,20 +116,20 @@
   <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-dark'>
-        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
-        --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
+        <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
+        --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
     <div class='inline'>
       <div class='z1 fill-dark'>
-        <a href='#search' class='search-n dark keyline-right icon search quiet '></a><!--
-        --><a href='#' class='search-y icon keyline-right search'></a><!--
-        --><a href='#bookmark' class='bookmark-n dark icon marker quiet'></a><!--
-        --><a href='#' class='bookmark-y icon marker'></a>
+        <a href='#search' title='Search' class='search-n dark keyline-right icon search quiet '></a><!--
+        --><a href='#' title='Close search' class='search-y icon keyline-right search'></a><!--
+        --><a href='#bookmark' title='Bookmarks' class='bookmark-n dark icon marker quiet'></a><!--
+        --><a href='#' title='Close bookmarks' class='bookmark-y icon marker'></a>
       </div>
     </div>
-    <a href='#full' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-dark icon fullscreen quiet'></a>
+    <a href='#' title='Exit fullscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
