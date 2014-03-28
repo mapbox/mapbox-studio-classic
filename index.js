@@ -307,6 +307,15 @@ app.get('/:style(style).tm2z', function(req, res, next) {
     });
 });
 
+app.get('/upload', auth, function(req, res, next) {
+    var uri = url.parse(req.query.styleid);
+    var pckage = uri.pathname + '/package-' + +new Date + '.tm2z';
+    style.toPackage(req.query.styleid, pckage, function(err) {
+        if (err) next(err);
+        res.end();
+    });
+});
+
 app.get('/:source(source).xml', function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.source._xml);
