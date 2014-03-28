@@ -51,7 +51,7 @@
         </section>
         <section class='space-bottom1'>
           <label>Attribution</label>
-          <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+          <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></input>
         </section>
       </fieldset>
       <fieldset class='pad1 space-bottom2 keyline-all round'>
@@ -88,6 +88,10 @@
           <label class='inline col4'>Scale</label>
           <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
           <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4 pad0y' for='baselayer_id'>Baselayer ID</label>
+          <input id='baselayer_id' class='short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
         </section>
       </fieldset>
 
@@ -133,20 +137,21 @@
   <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-white'>
-        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
-        --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
+        <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
+        --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
     <div class='inline'>
       <div class='z1 fill-white'>
-        <a href='#search' class='search-n keyline-right icon search quiet '></a><!--
-        --><a href='#' class='search-y icon keyline-right search fill-dark dark'></a><!--
-        --><a href='#bookmark' class='bookmark-n icon marker quiet'></a><!--
-        --><a href='#' class='bookmark-y icon marker fill-dark dark'></a>
+        <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
+        --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
+        --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
+        --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <a href='#full' class='full-n inline fill-white icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#' title='Baselayer visibility' id='baselayer' class='inline fill-white icon mt quiet'></a>
+    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
+    <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
 </div>
 
@@ -370,6 +375,7 @@ Editor.prototype.events = {
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .trash': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
+  'click #baselayer': 'toggleBaselayer',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .search-result': 'selectSearch',
@@ -537,6 +543,11 @@ Editor.prototype.focusBookmark = function(ev) {
   $('#addbookmark').focus();
   return;
 };
+Editor.prototype.toggleBaselayer = function(ev) {
+  $(ev.currentTarget).toggleClass('active dark fill-dark fill-white quiet');
+  this.refresh();
+  return false;
+};
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
   var query = $('#search input').get(0).value;
@@ -681,6 +692,7 @@ Editor.prototype.recache = function(ev) {
   return false;
 };
 Editor.prototype.save = function(ev, options) {
+  var editor = this;
   // Set map in loading state.
   $('#full').addClass('loading');
 
@@ -689,6 +701,14 @@ Editor.prototype.save = function(ev, options) {
   _($('#settings').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom' || field.name === 'scale') {
       memo[field.name] = parseInt(field.value,10);
+    } else if (field.name === 'baselayer') {
+      if (field.value) {
+        editor.model.get('_prefs').baselayer = field.value;
+        $('#baselayer').show();
+      } else {
+        editor.model.get('_prefs').baselayer = '';
+        $('#baselayer').hide();
+      }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -780,11 +800,9 @@ Editor.prototype.refresh = function(ev) {
   map.options.maxZoom = this.model.get('maxzoom');
 
   // Refresh map baselayer.
-  if (this.model.get('_prefs').baselayer) {
-    baselayer = baselayer || L.mapbox.tileLayer(this.model.get('_prefs').baselayer).addTo(map);
-  } else if (baselayer) {
-    map.removeLayer(baselayer);
-  }
+  if (baselayer) map.removeLayer(baselayer);
+  baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
+  if (baselayer && $('#baselayer').is('.active')) baselayer.addTo(map);
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
