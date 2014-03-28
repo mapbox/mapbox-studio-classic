@@ -553,16 +553,6 @@ button:disabled:focus,
     pointer-events:none;
     }
 
-/* A tag link */
-.tag {
-  display:inline-block;
-  text-transform:capitalize;
-  color:rgba(0,0,0,0.75);
-  -webkit-border-radius:0 0 3px 3px;
-          border-radius:0 0 3px 3px;
-  }
-  .tag:hover { color:inherit; }
-
 img {
   max-width:100%;
   vertical-align:top;
@@ -798,11 +788,12 @@ input[type=text]:disabled,
 input[type=email]:disabled,
 input[type=number]:disabled,
 input[type=password]:disabled {
-  border-width: 0;
+  border-color:rgba(0,0,0,0.125);
   color: rgba(0,0,0,0.5);
 }
   .dark textarea:disabled,
   .dark input[type='text']:disabled {
+    border-color:rgba(255,255,255,0.25);
     color: rgba(255,255,255,0.5);
   }
 
@@ -1480,9 +1471,9 @@ a.icon.quiet:not(.button):hover:after {
 .rcon.point-line:after, .icon.point-line:before            { background-position:-3120px 0; }
 .rcon.hand:after, .icon.hand:before                        { background-position:-3160px 0; }
 .rcon.continue:after,.icon.continue:before                 { background-position:-3200px 0; }
-.rcon.bear-right:after,.icon.bear-right:before             { background-position:-3240px 0; }
+.rcon.sharp-right:after,.icon.sharp-right:before           { background-position:-3240px 0; }
 .rcon.turn-right:after,.icon.turn-right:before             { background-position:-3280px 0; }
-.rcon.sharp-right:after,.icon.sharp-right:before           { background-position:-3320px 0; }
+.rcon.bear-right:after,.icon.bear-right:before             { background-position:-3320px 0; }
 .rcon.u-turn:after,.icon.u-turn:before                     { background-position:-3360px 0; }
 .rcon.sharp-left:after,.icon.sharp-left:before             { background-position:-3400px 0; }
 .rcon.turn-left:after,.icon.turn-left:before               { background-position:-3400px 0; }
