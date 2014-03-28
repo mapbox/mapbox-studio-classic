@@ -149,7 +149,7 @@
         --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <a href='#' title='Baselayer visibility' id='baselayer' class='inline fill-white icon mt quiet'></a>
+    <a href='#' title='Baselayer visibility' id='baselayer' class='inline fill-white icon mt quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
