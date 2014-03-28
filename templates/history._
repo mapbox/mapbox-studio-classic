@@ -28,7 +28,8 @@
         %>
       <div class='space-bottom1 contain'>
         <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
-          <div class='round-left fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+          <div class='round-left inline contain small-graphic z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+          <div class='pin-left small-graphic fallback-graphic fill-lighten0 pad1 round-left style'><div class='icon big paint'></div></div>
           <div class='pad1 truncate'>
             <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
             <code><%= item.id.split('/').pop() %></code>
@@ -69,8 +70,8 @@
 
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
-            <div class='round-left small-graphic pin-left z1' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-            <span class='fill-darken1 small-graphic inline fl round-left <%=item.id.indexOf('mapbox://') === 0 ? 'remote' : 'source'%>'></span>
+            <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+            <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big <%=item.id.indexOf('mapbox://') === 0 ? 'mapbox' : 'point-line'%>'></div></div>
 
             <div class='truncate pad1 '>
               <strong><%= item.name || 'Untitled' %></strong><br />

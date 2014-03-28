@@ -1,5 +1,6 @@
-<div class='col12 fl space-bottom1'><a href='#source-<%=obj.id%>' class='js-adddata project col12 fill-lighten0 round small strong quiet inline <%=obj.active ? 'active' : ''%>'>
-  <span class='fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
+<div class='col12 fl space-bottom1'><a href='#source-<%=obj.id%>' class='js-adddata project contain col12 fill-lighten0 round small strong quiet inline <%=obj.active ? 'active' : ''%>'>
+  <span class='z1 contain fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
+  <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big <%=obj.id.indexOf('mapbox://') === 0 ? 'mapbox' : 'point-line'%>'></div></div>
   <div class='pad1 truncate'>
     <strong><%= obj.name || 'Untitled' %></strong><br />
     <code><%= obj.description || 'No description.' %></code>

@@ -46,7 +46,7 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 // Check for authentication credentials. If present, check with test API
 // call. Otherwise, lock the app and redirect to authentication.
 function auth(req, res, next) {
-    if (!tm.db._docs.oauth) return res.redirect('/authorize'); 
+    if (!tm.db._docs.oauth) return res.redirect('/authorize');
     if (basemaps[tm.db._docs.oauth.account]) {
         req.basemap = basemaps[tm.db._docs.oauth.account];
         return next();
