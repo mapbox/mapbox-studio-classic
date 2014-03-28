@@ -141,9 +141,18 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
-  <nav class='row1 col12 pin-top keyline-bottom fill-dark z1'>
+
+  <div id='docs' class='pane animate pin-left fill-dark scroll-styled col6'>
+    <%= this['sourcedocs']() %>
+  </div>
+
+  <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
+    <div class='pin-topleft z1 keyline-bottom row1'><!--
+      --><a class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
+      --><a class='pad1 inline quiet docs-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a><!--
+    --></div>
     <% if (remote) { %>
-    <strong class='small inline pad1'>Layers</strong>
+    <strong class='small inline pad1y pad4x'>Layers</strong>
     <% } else { %>
     <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
     <% } %>
@@ -158,7 +167,7 @@ revlayers.reverse();
       <% } %>
     </div>
   </nav>
-  <div class='js-menu-content pin-left col12 top1 scroll-styled'>
+  <div class='js-menu-content fill-dark pin-left col12 top1 scroll-styled'>
     <% _(revlayers).each(function(l) {
       print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
     }.bind(this)); %>
