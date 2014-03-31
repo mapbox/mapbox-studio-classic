@@ -1,7 +1,7 @@
 
 <article class='fill-darken1 small' id='docs-intro'>
 <div class="row1 pad1 keyline-bottom">
-  <h3>Source editor help</h3>
+  <h3 class='quiet'>Source editor help</h3>
 </div>
 
 <section class='pad1 contain fill-darken0 keyline-bottom'>
@@ -29,12 +29,38 @@
 </section>
 
 <section class='keyline-bottom pad1'>
-<p class='quiet'><strong>Note:</strong> Source mode behaves differently depending on whether your active source is local or <span class='icon lock'>remote</span>.</p>
+<p class='quiet'><strong>Note:</strong> Source mode behaves differently depending on whether your active source is <span class='round fill-darken1 inline pad0x'>local</span> or <span class='round fill-darken1 inline pad0x icon lock'>remote</span>.</p>
 </section>
+
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Creating a source</h3>
-<p>transform traditional geodata formats (shapefiles, geojson, postgis, etc.) into vector tiles. A data.yml file captures a configuration of datasources organized as named layers. There is no visual style associated with any given source and the source UI of TM2 autogenerates an inspection style only for viewing your data.</p>
+<p>TileMill works by transforming traditional geodata formats like shapefiles, geojson, &amp; postgis into vector tiles. Prepare data for a new vector tile source by clicking the  <span class='inline round pad0x fill-darken1 plus icon'>layers</span> button.</p>
+</section>
 
+<section class='keyline-bottom pad1'>
+<h3 class='space-bottom1'>Configuring a source</h3>
+<p>The layer configuration panel for a simple file layer has two views: <strong>configuration</strong> and <strong>field</strong>.</p>
+
+<p>The <strong>configuration</strong> panel lets you adjust:<p>
+<p class='quiet'>The layer <strong>description</strong>. This should be a brief summary of the data/purpose of the layer. When you are creating a style that uses this source, TileMill will show the description in the layers list.</p>
+<p class='quiet'>The <strong>file</strong> location. You can set or change the file by clicking on the browse button (folder icon).</p>
+<p class='quiet'>The data <strong>projection</strong>. This should be the actual projection of the source file; the output projection will always be Web Mercator.</p>
+<p class='quiet'><strong>minzoom</strong> and <strong>maxzoom</strong> let you configure the range of zoom levels the layer should be included in.</li>
+<p class='quiet'>The <strong>buffer size</strong> lets you configure how much extra data should be included around each vector tile. Increasing this will improve certain aspects of styling the data in CartoCSS, but will have a negative impact on export and rendering performance.</p>
+
+<p>The <strong>field</strong> panel lets you add a description for each of the fields in the file. The descriptions should give users an idea of the purpose of fields and the values available in each of them. Good examples:</p>
+
+<p class='quiet'>"Maximum depth of the water body in meters. Range: 1-250."</p>
+<p class='quiet'>"Common name of the street with abbreviated prefixes and postfixes."</p>
+<p class='quiet'>"2-letter region code of the unit. One of: SE, NT, NC, NE, PW, MW, IM, AK, or null."</p>
+
+</section>
+
+
+<section class='keyline-bottom pad1'>
+<h3 class='space-bottom1'>Using a source</h3>
+<p>Once you've finished preparing your source, the next step is to export a vector mbtiles file. Once the export is complete, upload your mbtiles file to mapbox.com, and then add it to TileMill 2 as a remote source by using it's map ID.
+</p>
 </section>
 
 </article>

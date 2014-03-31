@@ -27,7 +27,7 @@ var sections = {
 };
 %>
 <div class="row1 pad1 keyline-bottom">
-  <h3>CartoCSS help</h3>
+  <h3 class='quiet'>CartoCSS help</h3>
   <div class='pad0 pin-topright'><a href='#fonts' class='quiet button icon font short font-link'>Fonts</a></div>
 </div>
 
