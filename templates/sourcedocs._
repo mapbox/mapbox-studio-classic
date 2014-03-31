@@ -29,7 +29,7 @@
 </section>
 
 <section class='keyline-bottom pad1'>
-<p class='quiet'><strong>Note:</strong> Source mode behaves differently depending on whether your active source is <span class='round fill-darken1 inline pad0x'>local</span> or <span class='round fill-darken1 inline pad0x icon lock'>remote</span>. The following documentation is written for <em>local sources</em></p>
+<p class='quiet'><strong>Note:</strong> Source mode behaves differently depending on whether your active source is <span class='round fill-darken1 inline pad0x'>local</span> or <span class='round fill-darken1 inline pad0x icon lock'>remote</span>. The following documentation is for working with <em>local sources</em>.</p>
 </section>
 
 <section class='keyline-bottom pad1'>
