@@ -37,7 +37,8 @@
     "cors": "~2.1.1",
     "request": "~2.34.0",
     "mocha-phantomjs": "~3.1.5",
-    "phantomjs": "~1.9.2-2"
+    "phantomjs": "~1.9.2-2",
+    "mapbox-upload": "0.0.1"
   },
   "devDependencies": {
     "mocha": "1.17.x"

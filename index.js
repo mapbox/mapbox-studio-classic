@@ -13,6 +13,7 @@ var source = require('./lib/source');
 var style = require('./lib/style');
 var express = require('express');
 var cors = require('cors');
+var upload = require('mapbox-upload');
 tm.config(require('optimist')
     .config('config')
     .options('db', {
@@ -312,6 +313,18 @@ app.get('/upload', auth, function(req, res, next) {
     var pckage = uri.pathname + '/package-' + +new Date + '.tm2z';
     style.toPackage(req.query.styleid, pckage, function(err) {
         if (err) next(err);
+        upload({
+            file: pckage,
+            account: tm.db._docs.oauth.account,
+            accesstoken: tm.db._docs.oauth.accesstoken,
+            mapid: tm.db._docs.oauth.account + '.this-is-inside-tm2'
+        }, function(err, task) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('good day sir');
+            }
+        });
         res.end();
     });
 });
