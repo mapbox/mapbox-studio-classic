@@ -375,6 +375,10 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
+  case (which === 72): // h for help
+    ev.preventDefault();
+    this.togglePane('docs');
+    break;
   case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
