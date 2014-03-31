@@ -757,8 +757,8 @@ span.cm-carto-filter             { color:#66475B; }
 }
 
 #code #data,
-#code #fonts,
-#code #docs,
+#fonts,
+#docs,
 #code #layers {
   z-index: -1;
 }
@@ -805,6 +805,88 @@ a.data-y { display:none; }
 #bookmark:target  ~ * a.bookmark-n,
 #search:target    ~ * a.search-n,
 #full:target      a.full-n { display:none; }
+
+/* Carto ref docs */
+#fonts:target ~ * a.docs-n,
+#docs:target ~ * a.docs-n { display:none; }
+
+.expand-link.expanded .expand-off { display: none;}
+.expand-link.expanded .expand-on { display: block;}
+
+#docs section a.fonts {
+  position:absolute;
+  right:0;
+  margin:5px 0px;
+  border-radius:4px 0px 0px 4px;
+  }
+
+a[href='#docs-points'],
+#docs-points section .type   { color: #8a8acb; } /* fill purple */
+a[href='#docs-lines'],
+#docs-lines section .type    { color: #3887be; } /* fill blue */
+a[href='#docs-polygons'],
+#docs-polygons section .type { color: #56b881; } /* fill green */
+a[href='#docs-text'],
+#docs-text section .type     { color: #ee8a65; } /* fill orange */
+a[href='#docs-misc'],
+#docs-misc section .type     { color: #EE6565; } /* fill red */
+
+a[href='#docs-points'],
+#docs-points section   { border-left-color: #8a8acb; } /* fill purple */
+a[href='#docs-lines'],
+#docs-lines section    { border-left-color: #3887be; } /* fill blue */
+a[href='#docs-polygons'],
+#docs-polygons section { border-left-color: #56b881; } /* fill green */
+a[href='#docs-text'],
+#docs-text section     { border-left-color: #ee8a65; } /* fill orange */
+a[href='#docs-misc'],
+#docs-misc section     { border-left-color: #ee6565; } /* fill red */
+
+#docs .code.value,
+#docs .code.options {
+  color:rgba(0,0,0,.75);
+  padding:2px 5px;
+  border-radius: 3px;
+  background: rgba(241, 240, 117, .5); /* fill yellow at .5 opactiy */
+}
+
+#docs .code.value:before {
+  content:'default: ';
+  color: rgba(0,0,0,.5);
+  }
+
+#docs .code.options:before {
+  content:'options: ';
+  color: rgba(0,0,0,.5);
+}
+
+#docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
+
+#docs a.docs-nav,
+#docs section.carto-ref {
+  border-left-width: 3px;
+  border-left-style: solid;
+}
+
+#docs section.carto-ref:not(.active):hover {
+  background-color: rgba(0,0,0,.025)
+}
+
+#docs section.active a,
+#docs .details { display: none;}
+#docs section.active { background-color: rgba(255,255,255,.75);}
+#docs section.active .details { display: block;}
+
+/* Font book */
+#fonts .single-font {
+  height:30px;
+  display:block;
+  background:#eee;
+  background-position:10px 50%;
+  background-repeat:no-repeat;
+  /* render but hide text for copying */
+  color: transparent;
+  }
 
 /* Media queries */
 @media (max-width:800px) {

@@ -100,7 +100,14 @@
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><a href='#settings' class='icon inline sprocket button unround js-name quiet'><%= source.name || 'Untitled' %></a><!--
+      --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
+      --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
+        <% if (remote) { %>
+        <span class='inline quiet fill-darken1 round pad0x icon lock'>Remote</span><!--
+        <% } else {%>
+        <span class='inline quiet fill-darken1 round pad0x'>Local</span><!--
+        <% } %>
+      --></a><!--
       <% if (source._tmp) { %>
       --><a class='button icon floppy settings-n js-save unround' href='#saveas'>Save as</a>
       <% } else { %>
@@ -123,9 +130,9 @@
     <div class='inline'>
       <div class='z1 fill-dark'>
         <a href='#search' title='Search' class='search-n dark keyline-right icon search quiet '></a><!--
-        --><a href='#' title='Close search' class='search-y icon keyline-right search'></a><!--
+        --><a href='#' title='Close search' class='search-y fill-darken2 icon keyline-right search'></a><!--
         --><a href='#bookmark' title='Bookmarks' class='bookmark-n dark icon marker quiet'></a><!--
-        --><a href='#' title='Close bookmarks' class='bookmark-y icon marker'></a>
+        --><a href='#' title='Close bookmarks' class='bookmark-y fill-darken2 icon marker'></a>
       </div>
     </div>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-dark icon fullscreen quiet'></a>
@@ -142,11 +149,20 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='layers' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
-  <nav class='row1 col12 pin-top keyline-bottom fill-dark z1'>
+
+  <div id='docs' class='pane animate pin-left fill-dark scroll-styled col6'>
+    <%= this['sourcedocs']() %>
+  </div>
+
+  <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
+    <div class='pin-topleft z1 row1'><!--
+      --><a class='pad1 inline docs-n icon help unround align-middle fill-darken1 keyline-right' href='#docs'></a><!--
+      --><a class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
+    --></div>
     <% if (remote) { %>
-    <strong class='small inline pad1'>Layers</strong>
+    <strong class='small inline pad1y pad4x'>Layers</strong>
     <% } else { %>
-    <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
+    <div class='inline pad0y pad4x'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
     <% } %>
     <div class='center pin-right col6 strong small'>
       <% if (!remote) { %>
@@ -159,7 +175,7 @@ revlayers.reverse();
       <% } %>
     </div>
   </nav>
-  <div class='js-menu-content pin-left col12 top1 scroll-styled'>
+  <div class='js-menu-content fill-dark pin-left col12 top1 scroll-styled'>
     <% _(revlayers).each(function(l) {
       print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
     }.bind(this)); %>

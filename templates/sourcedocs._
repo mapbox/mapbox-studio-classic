@@ -1,0 +1,40 @@
+
+<article class='fill-darken1 small' id='docs-intro'>
+<div class="row1 pad1 keyline-bottom">
+  <h3>Source editor help</h3>
+</div>
+
+<section class='pad1 contain fill-darken0 keyline-bottom'>
+  <h3 class='space-bottom1'>Keyboard shortcuts</h3>
+  <ul class='code space-bottom1'>
+    <li><h4>Style &amp; Source:</h4></li>
+    <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
+    <li><kbd class='prefixed'>.</kbd> View map.</li>
+    <li><kbd class='prefixed'>/</kbd> View settings.</li>
+    <li><kbd class='prefixed'>h</kbd> View help.</li>
+    <li><kbd class='prefixed'>d</kbd> View data from style.</li>
+    <li><kbd class='prefixed'>b</kbd> View bookmarks.</li>
+    <li><kbd>Esc</kbd> Close popup or window.</li>
+  </ul>
+  <ul class='code space-bottom1'>
+    <li><h4>Style only:</h4></li>
+    <li><kbd class='prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
+    <li><kbd class='prefixed'>f</kbd> Search current stylesheet.</li>
+  </ul>
+  <ul class='code space-bottom1'>
+    <li><h4>While interacting with map:</h4></li>
+    <li><kbd class='prefixed'>+</kbd> &amp; <kbd class='prefixed'>-</kbd> Zoom in and out.</li>
+  </ul>
+  <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
+</section>
+
+<section class='keyline-bottom pad1'>
+<p class='quiet'><strong>Note:</strong> Source mode behaves differently depending on whether your active source is local or <span class='icon lock'>remote</span>.</p>
+</section>
+<section class='keyline-bottom pad1'>
+<h3 class='space-bottom1'>Creating a source</h3>
+<p>transform traditional geodata formats (shapefiles, geojson, postgis, etc.) into vector tiles. A data.yml file captures a configuration of datasources organized as named layers. There is no visual style associated with any given source and the source UI of TM2 autogenerates an inspection style only for viewing your data.</p>
+
+</section>
+
+</article>

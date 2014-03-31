@@ -214,9 +214,9 @@
   <div class='row1 fill-light pin-top'>
     <div class='pin-topleft fill-gray z1 keyline-bottom row1'><!--
     --><a class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-      --><a class='pad1 inline quiet docs-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a><!--
-      --><a class='pad1 inline quiet layers-n icon menu align-middle fill-darken0 keyline-right' href='#layers'></a><!--
-      --><a class='pad1 inline quiet layers-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a>
+      --><a class='pad1 inline dark docs-y icon help unround align-middle fill-darken3 keyline-right' href='#'></a><!--
+      --><a class='pad1 inline quiet layers-n icon point-line align-middle fill-darken0 keyline-right' href='#layers'></a><!--
+      --><a class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken3 keyline-right' href='#'></a>
     </div>
     <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
       --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
