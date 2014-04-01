@@ -780,9 +780,8 @@ Editor.prototype.upload = function(ev) {
     .done(function(data) {
       console.log('success');
     })
-    .error(function() {
-      console.log('failure');
-      return message('Could not upload style "' + style + '"');
+    .error(function(resp) {
+      return message(resp.responseText);
     });
   return false;
 };
