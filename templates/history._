@@ -34,7 +34,7 @@
             <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
             <code><%= item.id.split('/').pop() %></code>
           </div>
-          <div class='z10 pad2 proj-status hidden pin-left'><span class='inline strong dot fill-green icon check'></span></div>
+          <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-green icon check'></span></div>
         </a>
         <a href='style?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
       </div>
@@ -74,10 +74,15 @@
             <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big <%=item.id.indexOf('mapbox://') === 0 ? 'mapbox' : 'point-line'%>'></div></div>
 
             <div class='truncate pad1 '>
-              <strong><%= item.name || 'Untitled' %></strong><br />
+              <strong><%= item.name || 'Untitled' %></strong>
+              <% if (item.id.indexOf('mapbox://')) { %>
+              <span class='inline quiet pad0x icon harddrive'>Local</span>
+              <% } else {%>
+              <span class='inline quiet pad0x icon lock'>Remote</span>
+              <% } %><br />
               <code><%= item.id.split('/').pop() %></code>
             </div>
-            <div class='z10 pad2 proj-status hidden pin-left'><span class='inline strong dot fill-green icon check'></span></div>
+            <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-green icon check'></span></div>
           </a>
           <a href='source?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
         </div>
