@@ -98,10 +98,10 @@
 
       <section class='pill col12 clearfix'><!--
         --><a href='<% if (style._tmp) { %>#saveas<% } else { %>#<% } %>' class='button quiet col6 icon js-save floppy space-bottom1'>Save</a><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package space-bottom1'>Package</a>
+        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package space-bottom1 <% if (style._tmp) { %>disabled <% } %>'>Package</a>
       </section>
       <section class='pill col12 clearfix'><!--
-        --><a id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col12'>Upload</a>
+        --><a id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col12 <% if (style._tmp) { %>disabled <% } %>'>Upload</a>
       </section>
     </div>
   </div>
