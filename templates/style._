@@ -36,6 +36,7 @@
   </div>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='project-settings fill-light round contain col4 pin-topleft'>
+  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
     </header>
@@ -84,7 +85,7 @@
           <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
-        <section class='space-bottom0 clearfix'>
+        <section class='space-bottom1 clearfix'>
           <label class='inline col4'>Scale</label>
           <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
           <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
@@ -188,7 +189,7 @@
     <header class='pad1x pad0y keyline-bottom'>
       <h3 class='pad0y'>Fonts</h3>
       <nav class='pin-topright'>
-        <a class='inline pad1 strong small icon quiet return' href='#docs'></a>
+        <a class='inline pad1 strong small icon quiet x' href='#docs'></a>
       </nav>
     </header>
     <% fontsRef.forEach(function(font) { %>
@@ -274,6 +275,7 @@
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
 <form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
   <div class='clearfix'>
     <span class='input-pill pill col8 margin2'>
       <input class='col8' type='text' placeholder='filename' size='20' id='addtab-filename' required/><!--

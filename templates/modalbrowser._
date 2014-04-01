@@ -8,6 +8,7 @@
 %>
 
 <form id='<%=obj.id%>' class='modal round browser col6 fill-light'>
+  <a class='pad1 quiet icon x submit pin-topright' href='#'></a>
   <div class='cwd row1 truncate keyline-bottom z1'>
     <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 quiet icon prev unround'></a><!--
     --><strong><%=cwd%></strong>
