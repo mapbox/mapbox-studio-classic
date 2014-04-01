@@ -188,19 +188,9 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
 
-/*.project .fallback-graphic {
-  background: url(thumb.png) 0 0 no-repeat;
-  -webkit-background-size: 60px 200px;
-  background-size: 60px 200px;
-}
+a.project.active,
+a.project.active:hover { background: rgba(255,255,255,.2);}
 
-.project .fallback-graphic.source {
-  background-position: 0 -70px;
-}
-
-.project .fallback-graphic.remote {
-  background-position: 0 -140px;
-}*/
 
 /* Flag active project */
 .project.proj-active,
@@ -589,6 +579,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #style-ui #layers a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
+
 
 /* CodeMirror*/
 .CodeMirror,
