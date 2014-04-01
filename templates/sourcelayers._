@@ -1,4 +1,8 @@
-<div id='<%= obj.id %>' class='js-source source'>
+<div id='<%= obj.id %>' class='contain js-source source'>
+
+<div class='pin-topright pad0'>
+<a class='button quiet short icon round refresh js-recache' href='#recache'></a>
+</div>
 
 <a href='#data' class='small block keyline-bottom pad1 clearfix'>
   <strong>
