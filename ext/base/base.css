@@ -316,8 +316,7 @@ button.disabled,
 button:disabled,
 [type=submit]:disabled,
 [type=button]:disabled {
-  background:transparent;
-  border:1px dashed rgba(0,0,0,0.25);
+  background:rgba(0,0,0,.1);
   color:rgba(0,0,0,0.25);
   cursor:not-allowed;
   }
@@ -328,7 +327,7 @@ button.disabled:hover,
 button:disabled:hover,
 [type=submit]:disabled:hover,
 [type=button]:disabled:hover {
-  background:transparent;
+  background:rgba(0,0,0,.1);
   }
 
 .button.disabled:focus,
@@ -346,8 +345,8 @@ button:disabled:focus,
 .dark button:disabled,
 .dark [type=submit]:disabled,
 .dark [type=button]:disabled {
-  border-color:rgba(255,255,255,0.25);
-  color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,.05);
+  color: rgba(255,255,255,.5);
   }
 
 .dark .button.disabled:hover,
@@ -356,7 +355,7 @@ button:disabled:focus,
 .dark button:disabled:hover,
 .dark [type=submit]:disabled:hover,
 .dark [type=button]:disabled:hover {
-  color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,.05);
   }
 
 /* Tab style for links that toggle between views */
@@ -2260,9 +2259,7 @@ img.inline, .inline           { display:inline-block; }
   a.icon:before,
   a.rcon:after,
   a > .icon:before,
-  a > .rcon:after,
-  .quiet a.rcon:after,
-  .quiet a.icon:before {
+  a > .rcon:after {
     background-image:url(icon-3887be@2x.png?1);
     }
   .dark .quiet.rcon:after,
