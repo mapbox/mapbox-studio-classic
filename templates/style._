@@ -795,11 +795,13 @@ Editor.prototype.cartoError = function(ln, e) {
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   var message = this.messagemodal;
+  $('#settings').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function(data) {
-      console.log('success');
+      $('#settings').removeClass('loading');
     })
     .error(function(resp) {
+      $('#settings').removeClass('loading');
       return message(resp.responseText);
     });
   return false;

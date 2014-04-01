@@ -312,9 +312,8 @@ app.get('/:style(style).tm2z', function(req, res, next) {
 });
 
 app.get('/upload', auth, function(req, res, next) {
-    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z) {
+    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
         return res.send('You are not allowed access to tm2z uploads, yet.', 403);
-    }
 
     var uri = url.parse(req.query.styleid);
     var pckage = uri.pathname + '/package-' + +new Date + '.tm2z';
@@ -327,8 +326,9 @@ app.get('/upload', auth, function(req, res, next) {
             mapid: tm.db._docs.oauth.account + '.' + +new Date
         }, function(err, task) {
             if (err) return res.send(err.toString(), 400);
-            console.log('good day sir');
-            res.end();
+            task.once('putmap', function() {
+                res.send();
+            });
         });
     });
 });
