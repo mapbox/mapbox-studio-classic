@@ -5,7 +5,7 @@
 </div>
 
 <nav class='small clearfix col12 contain z1 strong'>
-  <a href='#docs-remote' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon lock'>Remote</div></a>
+  <a href='#docs-remote' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon cloud'>Remote</div></a>
   <a href='#docs-local' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon harddrive'>Local</div></a>
 </nav>
 
