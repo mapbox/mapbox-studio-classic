@@ -7,6 +7,8 @@
   font-family:'Open Sans', sans-serif;
 }
 
+.leaflet-popup-close-button { display: none;}
+
 .project-name {
   max-width: 240px;
   vertical-align: top;

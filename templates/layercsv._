@@ -4,7 +4,7 @@
       --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
       --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
  --></span>
-    <a href='#' class='quiet inline pad1 icon close'></a>
+    <a href='#' class='quiet inline pad1 icon return'></a>
   </nav>
   <section class='pad2 pin-topleft'>
     <h3>

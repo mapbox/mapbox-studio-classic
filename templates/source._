@@ -35,7 +35,6 @@
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
-      <div class='pin-topright pad1'><a class='inline quiet pad1 icon x' href='#'></a></div>
     </header>
 
     <div class='pad2'>
@@ -205,7 +204,6 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
-  <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
   <fieldset class='col8 margin2 space-bottom1'>
     <input class='col12 space-bottom1' type='text' placeholder='layername' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
@@ -245,7 +243,7 @@ revlayers.reverse();
 </form>
 <% } %>
 
-<div id='mask' class='fill-darken2 animate'></div>
+<a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
 var map, tiles, grids, gridc;
@@ -344,7 +342,7 @@ Editor.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
-  'click #bookmark .trash': 'removebookmark',
+  'click #bookmark .x': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
   'click .search-result': 'selectSearch',
   'click .search-n': 'focusSearch',
@@ -436,7 +434,7 @@ Editor.prototype.togglemode = function(ev) {
 };
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name truncate">'+name+'</a><a href="#" class="icon trash quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name truncate">'+name+'</a><a href="#" class="icon x quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
