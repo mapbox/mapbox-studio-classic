@@ -102,12 +102,7 @@
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
       --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
-        <% if (remote) { %>
-        <span class='inline quiet pad0x icon lock'>Remote</span><!--
-        <% } else {%>
-        <span class='inline quiet pad0x icon harddrive'>Local</span><!--
-        <% } %>
-      --></a><!--
+      </a><!--
       <% if (source._tmp) { %>
       --><a class='button icon floppy settings-n js-save unround' href='#saveas'>Save as</a>
       <% } else { %>
