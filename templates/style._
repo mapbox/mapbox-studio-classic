@@ -195,7 +195,7 @@
     <% }); %>
   </div>
 
-  <div id='layers' class='pane animate pin-left col6 menu dark fill-dark'>
+  <div id='layers' class='pane animate pin-left col6 menu dark fill-dark scroll-styled'>
     <nav class='row1 col12 pad1 fill-dark keyline-bottom z100'>
       <h3>Active source</h3>
     </nav>
