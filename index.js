@@ -3,6 +3,8 @@
 // increase the libuv threadpool size to 1.5x the number of logical CPUs.
 process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().length * 1.5));
 
+process.title = 'tm2';
+
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
@@ -198,6 +200,7 @@ app.all('/:style(style.json)', function(req, res, next) {
 app.get('/:style(style):history()', function(req, res, next) {
     res.set({'content-type':'text/html'});
 
+    // identify user's OS for styling docs shortcuts
     var agent = function() {
         var agent = req.headers['user-agent'];
         if (agent.indexOf('Win') != -1) return 'windows';
@@ -377,6 +380,16 @@ app.all('/mbtiles.json', function(req, res, next) {
 });
 
 app.get('/:source(source):history()', function(req, res, next) {
+
+    // identify user's OS for styling docs shortcuts
+    var agent = function() {
+        var agent = req.headers['user-agent'];
+        if (agent.indexOf('Win') != -1) return 'windows';
+        if (agent.indexOf('Mac') != -1) return 'mac';
+        if (agent.indexOf('X11') != -1 || agent.indexOf('Linux') != -1) return 'linux';
+        return 'mac'; // default to Mac.
+    };
+
     res.set({'content-type':'text/html'});
     try {
         var page = tm.templates.source({
@@ -386,7 +399,8 @@ app.get('/:source(source):history()', function(req, res, next) {
             source: req.source.data,
             history: req.history,
             basemap: req.basemap,
-            user: tm.db._docs.user
+            user: tm.db._docs.user,
+            agent: agent()
         });
     } catch(err) {
         return next(new Error('source template: ' + err.message));

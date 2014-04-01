@@ -22,7 +22,7 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='dark'>
+<body id='view' class='<%= agent %> dark'>
 
 <div id='perf'></div>
 
@@ -33,9 +33,9 @@
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
+    <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
-      <div class='pin-topright pad1'><a class='inline quiet pad1 icon x' href='#'></a></div>
     </header>
 
     <div class='pad2'>
@@ -100,7 +100,9 @@
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><a href='#settings' class='icon inline sprocket button unround js-name quiet'><%= source.name || 'Untitled' %></a><!--
+      --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
+      --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
+      </a><!--
       <% if (source._tmp) { %>
       --><a class='button icon floppy settings-n js-save unround' href='#saveas'>Save as</a>
       <% } else { %>
@@ -116,20 +118,20 @@
   <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-dark'>
-        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
-        --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
+        <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
+        --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
     <div class='inline'>
       <div class='z1 fill-dark'>
-        <a href='#search' class='search-n dark keyline-right icon search quiet '></a><!--
-        --><a href='#' class='search-y icon keyline-right search'></a><!--
-        --><a href='#bookmark' class='bookmark-n dark icon marker quiet'></a><!--
-        --><a href='#' class='bookmark-y icon marker'></a>
+        <a href='#search' title='Search' class='search-n dark keyline-right icon search quiet '></a><!--
+        --><a href='#' title='Close search' class='search-y fill-darken2 icon keyline-right search'></a><!--
+        --><a href='#bookmark' title='Bookmarks' class='bookmark-n dark icon marker quiet'></a><!--
+        --><a href='#' title='Close bookmarks' class='bookmark-y fill-darken2 icon marker'></a>
       </div>
     </div>
-    <a href='#full' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-dark icon fullscreen quiet'></a>
+    <a href='#' title='Exit fullscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -141,28 +143,38 @@
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
-<div id='layers' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
-  <nav class='row1 col12 pin-top keyline-bottom fill-dark z1'>
-    <% if (remote) { %>
-    <strong class='small inline pad1'>Layers</strong>
-    <% } else { %>
-    <div class='pin-topleft pad0'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
-    <% } %>
-    <div class='center pin-right col6 strong small'>
-      <% if (!remote) { %>
-      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span>
-      <% } %>
-      <span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span>
-      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Inspect</span>
+<div id='source-ui' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
+
+  <div id='docs' class='pane animate pin-left fill-dark scroll-styled col6'>
+    <%= this['sourcedocs']() %>
+  </div>
+  <div id='layers'>
+    <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
+      <div class='pin-topleft z1 row1'><!--
+        --><a class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
+        --><a class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
+      --></div>
       <% if (remote) { %>
-      <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span>
+      <strong class='small inline pad1y pad4x'>Layers</strong>
+      <% } else { %>
+      <div class='inline pad0y pad4x'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
       <% } %>
+      <div class='center pin-right col6 strong small'>
+        <% if (!remote) { %>
+        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span>
+        <% } %>
+        <span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span>
+        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Inspect</span>
+        <% if (remote) { %>
+        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span>
+        <% } %>
+      </div>
+    </nav>
+    <div class='js-menu-content fill-dark pin-left col12 top1 scroll-styled'>
+      <% _(revlayers).each(function(l) {
+        print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
+      }.bind(this)); %>
     </div>
-  </nav>
-  <div class='js-menu-content pin-left col12 top1 scroll-styled'>
-    <% _(revlayers).each(function(l) {
-      print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
-    }.bind(this)); %>
   </div>
 </div>
 
@@ -193,7 +205,7 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
-  <a class='quiet pad1 icon x dot pin-topright submit' href='#'></a>
+  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
   <fieldset class='col8 margin2 space-bottom1'>
     <input class='col12 space-bottom1' type='text' placeholder='layername' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
@@ -233,7 +245,7 @@ revlayers.reverse();
 </form>
 <% } %>
 
-<div id='mask' class='fill-darken2 animate'></div>
+<a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
 var map, tiles, grids, gridc;
@@ -322,6 +334,7 @@ Editor.prototype.events = {
   'click .layer .xrayinspector': 'toggleinspector',
   'click .js-browsefile': 'browsefile',
   'click #settings .js-tab': 'tabbed',
+  'click #docs .js-docs-nav': 'scrollto',
   'click .layer .js-tab': 'tabbedFields',
   'click #settings .js-ref-delete': 'delstyle',
   'submit #addlayer': 'addlayer',
@@ -331,7 +344,7 @@ Editor.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
-  'click #bookmark .trash': 'removebookmark',
+  'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
   'click .search-result': 'selectSearch',
   'click .search-n': 'focusSearch',
@@ -359,6 +372,10 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
+  case (which === 72): // h for help
+    ev.preventDefault();
+    this.togglePane('docs');
+    break;
   case (which === 191): // / for settings
     ev.preventDefault();
     this.togglePane('settings');
@@ -383,6 +400,11 @@ Editor.prototype.zoomin = function(out) {
 Editor.prototype.zoomout = function() {
   map.setZoom(map.getZoom()-1);
   return false;
+};
+Editor.prototype.scrollto = function(ev) {
+    id = $(ev.currentTarget).attr('href').split('#').pop();
+    document.getElementById(id).scrollIntoView();
+    return false;
 };
 Editor.prototype.tabbedFields = function(ev) {
   $(ev.currentTarget).parent('.layer').addClass('active').siblings('.layer').removeClass('active');
@@ -414,7 +436,7 @@ Editor.prototype.togglemode = function(ev) {
 };
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name truncate">'+name+'</a><a href="#" class="icon trash quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name truncate">'+name+'</a><a href="#" class="icon trash js-del-bookmark quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),

@@ -36,9 +36,9 @@
   </div>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='project-settings fill-light round contain col4 pin-topleft'>
+  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
-      <div class='pin-topright pad1'><a class='inline quiet pad1 icon x' href='#'></a></div>
     </header>
     <div class='pad2'>
       <fieldset>
@@ -52,7 +52,7 @@
         </section>
         <section class='space-bottom1'>
           <label>Attribution</label>
-          <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></textarea>
+          <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></input>
         </section>
       </fieldset>
       <fieldset class='pad1 space-bottom2 keyline-all round'>
@@ -85,10 +85,14 @@
           <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
-        <section class='space-bottom0 clearfix'>
+        <section class='space-bottom1 clearfix'>
           <label class='inline col4'>Scale</label>
           <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
           <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
+        </section>
+        <section class='clearfix'>
+          <label class='inline col4 pad0y' for='baselayer_id'>Baselayer ID</label>
+          <input id='baselayer_id' class='short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
         </section>
       </fieldset>
 
@@ -137,24 +141,25 @@
   <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-white'>
-        <a href='#' id='zoom-in' class='icon plus keyline-right quiet'></a><!--
-        --><a href='#' id='zoom-out' class='icon minus keyline-right quiet'></a>
+        <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
+        --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
       </div>
     </div>
     <div class='inline'>
       <div class='z1 fill-white'>
-        <a href='#search' class='search-n keyline-right icon search quiet '></a><!--
-        --><a href='#' class='search-y icon keyline-right search fill-dark dark'></a><!--
-        --><a href='#bookmark' class='bookmark-n icon marker quiet'></a><!--
-        --><a href='#' class='bookmark-y icon marker fill-dark dark'></a>
+        <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
+        --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
+        --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
+        --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <a href='#full' class='full-n inline fill-white icon fullscreen quiet'></a>
-    <a href='#' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#' title='Baselayer visibility' id='baselayer' class='inline icon mt active dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
+    <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
 </div>
 
-<div id='code' class='animate z1 col6 pin-right fill-light'>
+<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
 
   <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
     <div class='col6'>
@@ -179,7 +184,6 @@
     </div>
   </div>
 
-
   <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
     <%= this['styledocs'](cartoRef) %>
   </div>
@@ -188,7 +192,7 @@
     <header class='pad1x pad0y keyline-bottom'>
       <h3 class='pad0y'>Fonts</h3>
       <nav class='pin-topright'>
-        <a class='inline pad1 strong small icon quiet return' href='#docs'></a>
+        <a class='inline pad1 strong small icon quiet x' href='#docs'></a>
       </nav>
     </header>
     <% fontsRef.forEach(function(font) { %>
@@ -209,12 +213,13 @@
     </div>
   </div>
 
+  <div id='code'>
   <div class='row1 fill-light pin-top'>
     <div class='pin-topleft fill-gray z1 keyline-bottom row1'><!--
     --><a class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-      --><a class='pad1 inline quiet docs-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a><!--
-      --><a class='pad1 inline quiet layers-n icon menu align-middle fill-darken0 keyline-right' href='#layers'></a><!--
-      --><a class='pad1 inline quiet layers-y icon x unround align-middle fill-darken0 keyline-right' href='#'></a>
+      --><a class='pad1 inline dark docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
+      --><a class='pad1 inline quiet layers-n icon point-line align-middle fill-darken0 keyline-right' href='#layers'></a><!--
+      --><a class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken2 keyline-right' href='#'></a>
     </div>
     <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
       --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
@@ -229,10 +234,8 @@
   </div>
 
   <form id='interactivity' class='hidden top1 contain'>
-    <div class='fill-white row1 pad1 keyline-bottom pin-top space'>
-      <div class='pin-right pad1'>
-        <a href='#interaction-info' class='js-info inline icon info quiet'></a>
-      </div>
+    <div class='fill-white row1 pad1 keyline-bottom pin-top'>
+      <a href='#interaction-info' class='pin-right pad1 js-info inline icon info quiet'></a>
       <div id='interaction-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
         <p>Select a layer from the dropdown, and then place an attribute in brackets like <code>{{{attribute}}}</code>. You can combine tags with plain text. For example, <code>{{{featuretype}}} is {{{depth}}} meters deep</code> would result in a popup that read: "lake is 300 meters deep" when hovering over a feature with <span class='quiet'>featuretype:lake</span> and <span class='quiet'>depth:300.</span></p>
       </div>
@@ -263,6 +266,7 @@
       <p class='quiet'><a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags are replaced by your data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize tooltips.</p>
     </div>
   </form>
+  </div>
 
 </div>
 
@@ -274,7 +278,7 @@
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
 <form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class='pad1 quiet submit icon x pin-topright' href='#'></a>
+  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
   <div class='clearfix'>
     <span class='input-pill pill col8 margin2'>
       <input class='col8' type='text' placeholder='filename' size='20' id='addtab-filename' required/><!--
@@ -283,7 +287,7 @@
   </div>
 </form>
 
-<div id='mask' class='fill-darken2 animate'></div>
+<a href='#' id='mask' class='fill-darken2 animate'></a>
 
 </div>
 
@@ -372,8 +376,9 @@ Editor.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
-  'click #bookmark .trash': 'removebookmark',
+  'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
+  'click #baselayer': 'toggleBaselayer',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .search-result': 'selectSearch',
@@ -462,11 +467,11 @@ Editor.prototype.togglePane = function(name) {
 };
 Editor.prototype.toggleInfo = function(ev) {
   var $el = $(ev.currentTarget);
-  if ($el.is('.x')) {
-    $el.removeClass('x').addClass('info');
+  if ($el.is('.fill-darken2')) {
+    $el.removeClass('fill-darken2 dark').addClass('quiet');
     $($el.attr('href')).addClass('hidden');
   } else {
-    $el.removeClass('info').addClass('x');
+    $el.addClass('fill-darken2 dark').removeClass('quiet');
     $($el.attr('href')).removeClass('hidden');
   }
   return false;
@@ -506,7 +511,7 @@ Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon keyline-left trash quiet pin-topright pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a><a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0"></a></li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
@@ -541,6 +546,11 @@ Editor.prototype.addbookmark = function(ev) {
 Editor.prototype.focusBookmark = function(ev) {
   $('#addbookmark').focus();
   return;
+};
+Editor.prototype.toggleBaselayer = function(ev) {
+  $(ev.currentTarget).toggleClass('active dark fill-dark fill-white quiet');
+  this.refresh();
+  return false;
 };
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
@@ -686,6 +696,7 @@ Editor.prototype.recache = function(ev) {
   return false;
 };
 Editor.prototype.save = function(ev, options) {
+  var editor = this;
   // Set map in loading state.
   $('#full').addClass('loading');
 
@@ -694,6 +705,14 @@ Editor.prototype.save = function(ev, options) {
   _($('#settings').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom' || field.name === 'scale') {
       memo[field.name] = parseInt(field.value,10);
+    } else if (field.name === 'baselayer') {
+      if (field.value) {
+        editor.model.get('_prefs').baselayer = field.value;
+        $('#baselayer').show();
+      } else {
+        editor.model.get('_prefs').baselayer = '';
+        $('#baselayer').hide();
+      }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -764,7 +783,7 @@ Editor.prototype.cartoError = function(ln, e) {
     message.innerHTML = e[5];
 
     var close = document.createElement('a');
-    close.className = 'icon x pin-right quiet';
+    close.className = 'icon x pin-right quiet pad0';
     close.href = '#';
 
     message.appendChild(close);
@@ -798,11 +817,9 @@ Editor.prototype.refresh = function(ev) {
   map.options.maxZoom = this.model.get('maxzoom');
 
   // Refresh map baselayer.
-  if (this.model.get('_prefs').baselayer) {
-    baselayer = baselayer || L.mapbox.tileLayer(this.model.get('_prefs').baselayer).addTo(map);
-  } else if (baselayer) {
-    map.removeLayer(baselayer);
-  }
+  if (baselayer) map.removeLayer(baselayer);
+  baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
+  if (baselayer && $('#baselayer').is('.active')) baselayer.addTo(map);
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
@@ -873,7 +890,7 @@ $('pre.carto-snippet').each(function(i, elem) {
   <script src='/app/test/chai.js'></script>
   <script src='/app/test/mocha.js'></script>
   <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
-  <div id='mask' class='fill-darken2 animate'></div>
+  <a href='#' id='mask' class='fill-darken2 animate'></a>
   <script src='/app/test/app.test.js'></script>
 <% } %>
 

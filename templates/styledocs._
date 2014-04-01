@@ -26,6 +26,11 @@ var sections = {
     }
 };
 %>
+<div class="row1 pad1 keyline-bottom">
+  <h3 class='quiet'>CartoCSS help</h3>
+  <div class='pad0 pin-topright'><a href='#fonts' class='quiet button icon font short font-link'>Fonts</a></div>
+</div>
+
 <nav class='fill-grey small clearfix col12 contain z1 strong'>
   <a href='#docs-intro'    class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon home'>Overview</div></a>
   <a href='#docs-points'   class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon marker'>Points</div></a>
@@ -33,7 +38,6 @@ var sections = {
   <a href='#docs-polygons' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon polygon'>Polygons</div></a>
   <a href='#docs-text'     class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon pencil'>Text</div></a>
   <a href='#docs-misc'     class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon star'>Misc</div></a>
-  <div class='pad0 pin-topright'><a href='#fonts' class='quiet button icon font short font-link'>Fonts</a></div>
 </nav>
 
 <article class='small' id='docs-intro'>
@@ -41,20 +45,19 @@ var sections = {
 <section class='keyline-bottom pad1'>
   <p><strong>Just starting?</strong> Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide on using TileMill.</p>
 </section>
-<section class='pad1 contain keyline-bottom'>
+<section class='pad1 contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='code space-bottom1'>
-    <li><h4>Style &amp; Source:</h4></li>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
     <li><kbd class='prefixed'>.</kbd> View map.</li>
     <li><kbd class='prefixed'>/</kbd> View settings.</li>
     <li><kbd class='prefixed'>h</kbd> View help.</li>
-    <li><kbd class='prefixed'>d</kbd> View data from style.</li>
     <li><kbd class='prefixed'>b</kbd> View bookmarks.</li>
     <li><kbd>Esc</kbd> Close popup or window.</li>
   </ul>
   <ul class='code space-bottom1'>
     <li><h4>Style only:</h4></li>
+    <li><kbd class='prefixed'>d</kbd> View data.</li>
     <li><kbd class='prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
     <li><kbd class='prefixed'>f</kbd> Search current stylesheet.</li>
   </ul>

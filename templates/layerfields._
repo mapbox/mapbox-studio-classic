@@ -1,7 +1,7 @@
 <fieldset>
 <section class='keyline-bottom pad1x pad1y small clearfix'>
   <label class='inline col3 field pad1x clearfix'>Name</label>
-  <label class='inline pad1x col9'>Set description <em>(useful when inspecting data for styling)</em></label>
+  <label class='inline pad1x col9'>Description <em>(useful when inspecting data for styling)</em></label>
 </section>
 <% _(obj).each(function(helptext, field) { %>
 <section class='keyline-bottom pad1 clearfix small'>
