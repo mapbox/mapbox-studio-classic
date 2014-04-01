@@ -103,9 +103,9 @@
       --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
       --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
         <% if (remote) { %>
-        <span class='inline quiet fill-darken1 round pad0x icon lock'>Remote</span><!--
+        <span class='inline quiet pad0x icon lock'>Remote</span><!--
         <% } else {%>
-        <span class='inline quiet fill-darken1 round pad0x icon harddrive'>Local</span><!--
+        <span class='inline quiet pad0x icon harddrive'>Local</span><!--
         <% } %>
       --></a><!--
       <% if (source._tmp) { %>
