@@ -71,7 +71,7 @@
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
             <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
-            <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big <%=item.id.indexOf('mapbox://') === 0 ? 'mapbox' : 'point-line'%>'></div></div>
+            <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
 
             <div class='truncate pad1 '>
               <strong><%= item.name || 'Untitled' %></strong>
