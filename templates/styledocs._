@@ -48,7 +48,6 @@ var sections = {
 <section class='pad1 contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='code space-bottom1'>
-    <li><h4>Style &amp; Source:</h4></li>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
     <li><kbd class='prefixed'>.</kbd> View map.</li>
     <li><kbd class='prefixed'>/</kbd> View settings.</li>

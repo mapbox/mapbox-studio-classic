@@ -1,5 +1,5 @@
 /* Code pane */
-#code { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+#source-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Interactivity form */
 #interactivity .content     { max-height:80px; }

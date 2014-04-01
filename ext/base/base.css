@@ -1150,8 +1150,8 @@ h2 a[href^='#']:after,
   border-radius:50%;
   text-indent:-9999px;
   overflow:hidden;
-  -webkit-background-size:4080px 60px;
-          background-size:4080px 60px;
+  -webkit-background-size:4120px 60px;
+          background-size:4120px 60px;
   }
 
 h1 a[href^='#']:hover:after,
@@ -1184,8 +1184,8 @@ h2 .dark > a[href^='#'] {
   height:20px;
   vertical-align:top;
   opacity:0.75;
-  -webkit-background-size:4080px 60px;
-          background-size:4080px 60px;
+  -webkit-background-size:4120px 60px;
+          background-size:4120px 60px;
   }
 
 .rcon.big:after,
@@ -1225,8 +1225,8 @@ a.rcon:after,
 a > .icon:before,
 a > .rcon:after {
   background-image:url(icon-3887be.png?1);
-  -webkit-background-size:4080px 60px;
-          background-size:4080px 60px;
+  -webkit-background-size:4120px 60px;
+          background-size:4120px 60px;
   opacity:1;
 }
 
@@ -1248,8 +1248,8 @@ a > .rcon:after {
 .button.icon:before {
   background-image:url(icon-ffffff.png?1);
   opacity:1;
-  -webkit-background-size:4080px 60px;
-          background-size:4080px 60px;
+  -webkit-background-size:4120px 60px;
+          background-size:4120px 60px;
   }
 
 .dark .quiet.rcon:after,
@@ -1275,8 +1275,8 @@ a.icon.quiet:not(.button):hover:after {
 .quiet .icon:before {
   background-image:url(icon-000000.png?1);
   opacity:0.5;
-  -webkit-background-size:4080px 60px;
-          background-size:4080px 60px;
+  -webkit-background-size:4120px 60px;
+          background-size:4120px 60px;
   }
 
 /* 40x40 icons */
@@ -1385,6 +1385,7 @@ a.icon.quiet:not(.button):hover:after {
 .big.icon.refresh:before          { background-position:-3960px -20px; }
 .big.icon.font:before             { background-position:-4000px -20px; }
 .big.icon.package:before          { background-position:-4040px -20px; }
+.big.icon.harddrive:before        { background-position:-4080px -20px; }
 
 /* 20x20 icons */
 .rcon.pencil:after, .icon.pencil:before                    { background-position:0 0; }
@@ -1492,6 +1493,7 @@ a.icon.quiet:not(.button):hover:after {
 .rcon.refresh:after,.icon.refresh:before                   { background-position:-3960px 0; }
 .rcon.font:after,.icon.font:before                         { background-position:-4000px 0; }
 .rcon.package:after,.icon.package:before                   { background-position:-4040px 0; }
+.rcon.harddrive:after,.icon.harddrive:before               { background-position:-4080px 0; }
 
 /* Multicolored icons */
 .icon.checkmark:before     { background:transparent url(base.png?1) 0px 0px no-repeat; }

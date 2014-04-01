@@ -4,10 +4,14 @@
   <h3 class='quiet'>Source editor help</h3>
 </div>
 
+<nav class='small clearfix col12 contain z1 strong'>
+  <a href='#docs-remote' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon lock'>Remote</div></a>
+  <a href='#docs-local' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon harddrive'>Local</div></a>
+</nav>
+
 <section class='pad1 contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='code space-bottom1'>
-    <li><h4>Style &amp; Source:</h4></li>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
     <li><kbd class='prefixed'>.</kbd> View map.</li>
     <li><kbd class='prefixed'>/</kbd> View settings.</li>
@@ -28,39 +32,62 @@
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
 
-<section class='keyline-bottom pad1'>
-<p class='quiet'><strong>Note:</strong> Source mode behaves differently depending on whether your active source is <span class='round fill-darken1 inline pad0x'>local</span> or <span class='round fill-darken1 inline pad0x icon lock'>remote</span>. The following documentation is for working with <em>local sources</em>.</p>
-</section>
+<div id='docs-remote'>
 
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Creating a source</h3>
 <p>TileMill works by transforming traditional geodata formats like shapefiles, geojson, &amp; postgis into vector tiles. Prepare data for a new vector tile source by clicking the  <span class='inline round pad0x fill-darken1 plus icon'>layers</span> button.</p>
+<p class='quiet'><strong>Why go through the trouble of making vector tiles?</strong> Vector tiles can be styled more quickly and shared more easily than traditional data sources. If you want to use data in TileMill 2's style mode, you must first convert your data into vector tiles.</p>
+
 </section>
 
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Configuring a source</h3>
-<p>The layer configuration panel for a simple file layer has two views: <strong>configuration</strong> and <strong>field</strong>.</p>
+<p>The layer configure panel for a simple file layer has two views: <strong>configuration</strong> and <strong>field</strong>.</p>
 
-<p>The <strong>configuration</strong> panel lets you adjust:<p>
-<p class='quiet'>The layer <strong>description</strong>. This should be a brief summary of the data/purpose of the layer. When you are creating a style that uses this source, TileMill will show the description in the layers list.</p>
-<p class='quiet'>The <strong>file</strong> location. You can set or change the file by clicking on the browse button (folder icon).</p>
-<p class='quiet'>The data <strong>projection</strong>. This should be the actual projection of the source file; the output projection will always be Web Mercator.</p>
-<p class='quiet'><strong>minzoom</strong> and <strong>maxzoom</strong> let you configure the range of zoom levels the layer should be included in.</li>
-<p class='quiet'>The <strong>buffer size</strong> lets you configure how much extra data should be included around each vector tile. Increasing this will improve certain aspects of styling the data in CartoCSS, but will have a negative impact on export and rendering performance.</p>
-
-<p>The <strong>field</strong> panel lets you add a description for each of the fields in the file. The descriptions should give users an idea of the purpose of fields and the values available in each of them. Good examples:</p>
-
-<p class='quiet'>"Maximum depth of the water body in meters. Range: 1-250."</p>
-<p class='quiet'>"Common name of the street with abbreviated prefixes and postfixes."</p>
-<p class='quiet'>"2-letter region code of the unit. One of: SE, NT, NC, NE, PW, MW, IM, AK, or null."</p>
+<p>The <strong>configuration</strong> panel lets you adjust:</p>
+<div class='prose'>
+  <ul class='small'>
+    <li>The layer <strong>description</strong>. This should be a brief summary of the data/purpose of the layer. When you are creating a style that uses this source, TileMill will show the description in the layers list.</li>
+    <li>The <strong>file</strong> location. You can set or change the file by clicking on the browse button (folder icon).</li>
+    <li>The data <strong>projection</strong>. This should be the actual projection of the source file; the output projection will always be Web Mercator.</li>
+    <li><strong>minzoom</strong> and <strong>maxzoom</strong> let you configure the range of zoom levels the layer should be included in.</li>
+    <li>The <strong>buffer size</strong> lets you configure how much extra data should be included around each vector tile. Increasing this will improve certain aspects of styling the data in CartoCSS, but will have a negative impact on export and rendering performance.</li>
+  </ul>
+</div>
+<p>The <strong>field</strong> panel lets you add descriptions to the fields in the data for reference when styling. Good examples:</p>
+<div class='prose'>
+  <ul class='small'>
+    <li>"Maximum depth of the water body in meters. Range: 1-250."</li>
+    <li>"Common name of the street with abbreviated prefixes and postfixes."</li>
+    <li>"2-letter region code of the unit. One of: SE, NT, NC, NE, PW, MW, IM, AK, or null."</li>
+  </ul>
+</div>
 
 </section>
-
 
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Using a source</h3>
-<p>Once you've finished preparing your source, the next step is to export a vector mbtiles file. Once the export is complete, upload your mbtiles file to mapbox.com, and then add it to TileMill 2 as a remote source by using it's map ID.
+<p>Once you've finished importing and preparing your data, the next step is to export a vector mbtiles file. Once the export is complete, upload your mbtiles file to mapbox.com.
 </p>
 </section>
+
+</div>
+
+<div id='docs-local'>
+
+<section class='keyline-bottom pad1'>
+<h3 class='space-bottom1'>Adding a remote source</h3>
+<p>Add a remote source to TileMill 2 by clicking the 'mapbox' button from the settings panel and entering your data source's map ID. Both local and remote sources can referenced in styles, but in order to share a style from mapbox.com, the data your style references must be hosted on mapbox.com.
+</p>
+</section>
+
+<section class='keyline-bottom pad1'>
+<h3 class='space-bottom1'>Inspecting a remote source</h3>
+<p>You cannot manipulate a remote source, but you can inspect it's contents. Click the 'inspect' box for a layer, then save the source to activate inspection for that particular layer. Once inspection has been activated, hover over a feature to inspect it's attributes.
+</p>
+</section>
+
+</div>
 
 </article>

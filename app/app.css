@@ -15,6 +15,10 @@
 .top1 { top:40px; }
 input[type=text].clean { border: none; }
 
+.prose ul.small {
+  margin-left: 15px;
+}
+
 /* icons should match text color on buttons */
 .dark .button.quiet.rcon:after,
 .dark .button.quiet.icon:before,
@@ -582,7 +586,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   color: rgba(0,0,0,.75);
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#code #layers a.active,
+#style-ui #layers a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
@@ -756,10 +760,10 @@ span.cm-carto-filter             { color:#66475B; }
           transform:translateX(-100%);
 }
 
-#code #data,
+#style-ui #data,
 #fonts,
 #docs,
-#code #layers {
+#style-ui #layers {
   z-index: -1;
 }
 
@@ -810,8 +814,8 @@ a.data-y { display:none; }
 #fonts:target ~ * a.docs-n,
 #docs:target ~ * a.docs-n { display:none; }
 
-.expand-link.expanded .expand-off { display: none;}
-.expand-link.expanded .expand-on { display: block;}
+#docs .expand-link.expanded .expand-off { display: none;}
+#docs .expand-link.expanded .expand-on { display: block;}
 
 #docs section a.fonts {
   position:absolute;
@@ -831,6 +835,9 @@ a[href='#docs-text'],
 a[href='#docs-misc'],
 #docs-misc section .type     { color: #EE6565; } /* fill red */
 
+.dark a[href='#docs-remote'] { color: #ee8a65; } /* fill orange */
+.dark a[href='#docs-local']  { color: #3887be; } /* fill blue */
+
 a[href='#docs-points'],
 #docs-points section   { border-left-color: #8a8acb; } /* fill purple */
 a[href='#docs-lines'],
@@ -841,6 +848,11 @@ a[href='#docs-text'],
 #docs-text section     { border-left-color: #ee8a65; } /* fill orange */
 a[href='#docs-misc'],
 #docs-misc section     { border-left-color: #ee6565; } /* fill red */
+
+a[href='#docs-remote'],
+#docs-remote section     { border-left-color: #ee8a65; } /* fill orange */
+a[href='#docs-local'],
+#docs-local section     { border-left-color: #3887be; } /* fill blue */
 
 #docs .code.value,
 #docs .code.options {
@@ -863,6 +875,8 @@ a[href='#docs-misc'],
 #docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
 
 #docs a.docs-nav,
+#docs #docs-remote section,
+#docs #docs-local section,
 #docs section.carto-ref {
   border-left-width: 3px;
   border-left-style: solid;
