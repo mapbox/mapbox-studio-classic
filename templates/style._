@@ -160,11 +160,9 @@
 
   <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
     <div class='col6'>
-      <section class='pad1 keyline-bottom'>
+      <section class='pad1 keyline-bottom contain'>
         <h3>Sources</h3>
-        <nav class='pin-topright pad1'>
-          <a class='inline pad1 icon quiet close' href='#layers'></a>
-        </nav>
+        <a class="pad1 quiet icon x submit pin-topright" href="#layers"></a>
       </section>
       <div class='grid pad1 clearfix'>
       <%
@@ -200,10 +198,6 @@
   <div id='layers' class='pane animate pin-left col6 menu dark fill-dark'>
     <nav class='row1 col12 pin-top pad1 fill-dark keyline-bottom z100'>
       <h3>Active source</h3>
-      <div class='pin-topright pad0y pad1x'><!--
-        --><a href='#data' class='button short data-n icon pencil quiet'>Edit</a><!--
-        --><a href='#layers' class='button short data-y icon x quiet'>Edit</a>
-      </div>
     </nav>
     <div class='js-menu-content pin-left col12 top1 scroll-styled'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
@@ -645,12 +639,13 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('#source-').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#data a.active').removeClass('active');
+      $('#data a.active').removeClass('js-recache active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      target.addClass('active');
+      target.addClass('js-recache active');
     }).bind(this),
     error: _(this.error).bind(this)
   });
+
   return false;
 };
 Editor.prototype.addtab = function(ev) {

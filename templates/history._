@@ -78,7 +78,7 @@
               <% if (item.id.indexOf('mapbox://')) { %>
               <span class='inline quiet pad0x icon harddrive'>Local</span>
               <% } else {%>
-              <span class='inline quiet pad0x icon lock'>Remote</span>
+              <span class='inline quiet pad0x icon cloud'>Remote</span>
               <% } %><br />
               <code><%= item.id.split('/').pop() %></code>
             </div>

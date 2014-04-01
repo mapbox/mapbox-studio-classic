@@ -1,8 +1,13 @@
-<div class='col12 fl space-bottom1'><a href='#source-<%=obj.id%>' class='js-adddata project contain col12 fill-lighten0 round small strong quiet inline <%=obj.active ? 'active' : ''%>'>
-  <span class='z1 contain fill-lighten0 small-graphic inline fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
-  <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big <%=obj.id.indexOf('mapbox://') === 0 ? 'mapbox' : 'point-line'%>'></div></div>
+<div class='col12 fl space-bottom1'><a href='#source-<%=obj.id%>' class='project contain col12 round small strong quiet inline fill-lighten0 js-adddata <%=obj.active ? 'active js-recache' : ''%>'>
+  <span class='z1 contain fill-lighten0 small-graphic inline round-left fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
+  <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
   <div class='pad1 truncate'>
-    <strong><%= obj.name || 'Untitled' %></strong><br />
+    <strong><%= obj.name || 'Untitled' %></strong>
+    <% if (obj.id.indexOf('mapbox://')) { %>
+    <span class='inline quiet pad0x icon harddrive'>Local</span>
+    <% } else {%>
+    <span class='inline quiet pad0x icon cloud'>Remote</span>
+    <% } %><br />
     <code><%= obj.description || 'No description.' %></code>
   </div>
 </a></div>
