@@ -90,6 +90,10 @@
           <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
           <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
         </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4 pad0y' for='map_id'>Map ID</label>
+          <input id='map_id' class='short small col8' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map id'></input>
+        </section>
         <section class='clearfix'>
           <label class='inline col4 pad0y' for='baselayer_id'>Baselayer ID</label>
           <input id='baselayer_id' class='short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
@@ -799,6 +803,7 @@ Editor.prototype.upload = function(ev) {
   $.ajax('/upload?styleid=' + style)
     .done(function(data) {
       $('#settings').removeClass('loading');
+      // need to refresh, like a save
     })
     .error(function(resp) {
       $('#settings').removeClass('loading');
