@@ -28,6 +28,7 @@ tm.config(require('optimist')
     })
     .argv);
 var request = require('request');
+var crypto = require('crypto');
 
 // Load defaults for new styles.
 var defaults = {},
@@ -316,18 +317,21 @@ app.get('/upload', auth, function(req, res, next) {
         return res.send('You are not allowed access to tm2z uploads, yet.', 403);
 
     var uri = url.parse(req.query.styleid);
-    var pckage = uri.pathname + '/package-' + +new Date + '.tm2z';
+    var id = crypto.createHash('md5').update(req.query.styleid).digest('hex').substr(0,8);
+    var pckage = uri.pathname + '/package-' + id + '.tm2z';
     style.toPackage(req.query.styleid, pckage, function(err) {
         if (err) return res.send(err.toString(), 400);
         upload({
             file: pckage,
             account: tm.db._docs.oauth.account,
             accesstoken: tm.db._docs.oauth.accesstoken,
-            mapid: tm.db._docs.oauth.account + '.' + +new Date
+            mapid: tm.db._docs.oauth.account + '.' + id
         }, function(err, task) {
             if (err) return res.send(err.toString(), 400);
             task.once('putmap', function() {
-                res.send();
+                fs.unlink(pckage, function() {
+                    res.send();
+                });
             });
         });
     });
