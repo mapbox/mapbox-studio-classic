@@ -194,7 +194,7 @@ a.project.active:hover { background: rgba(255,255,255,.2);}
 
 /* Flag active project */
 .project.proj-active,
-.project.proj-active:hover { background-color: #56b881;}
+.project.proj-active:hover { background-color: rgba(255,255,255,.2);}
 .project.proj-active .proj-status { display: block;}
 
 /* Project settings */

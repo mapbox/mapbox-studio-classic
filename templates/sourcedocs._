@@ -37,7 +37,7 @@
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Overview</h3>
 <p>TileMill works by transforming traditional geodata formats like shapefiles, geojson, &amp; postgis into vector tiles. Prepare data for a new vector tile source by clicking the  <span class='inline round pad0x fill-darken1 plus icon'>layers</span> button.</p>
-<p class='quiet'><strong>Why go through the trouble of making vector tiles?</strong> Vector tiles can be styled more quickly and shared more easily than traditional data sources. If you want to use data in TileMill 2's style mode, you must first convert your data into vector tiles.</p>
+<p class='quiet'><strong>Why go through the trouble of making vector tiles?</strong> Vector tiles can be styled more quickly and shared more easily than traditional data sources. If you want to use data in TileMill 2's style editor, you must first convert your data into vector tiles.</p>
 
 </section>
 
