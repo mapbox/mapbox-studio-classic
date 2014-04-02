@@ -1,11 +1,11 @@
 
 <article class='fill-darken1 small' id='docs-intro'>
 <div class="row1 pad1 keyline-bottom">
-  <h3 class='quiet'>Source editor help</h3>
+  <h3>Source editor help</h3>
 </div>
 
 <nav class='small clearfix col12 contain z1 strong'>
-  <a href='#docs-remote' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon lock'>Remote</div></a>
+  <a href='#docs-remote' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon cloud'>Remote</div></a>
   <a href='#docs-local' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon harddrive'>Local</div></a>
 </nav>
 
@@ -35,9 +35,9 @@
 <div id='docs-remote'>
 
 <section class='keyline-bottom pad1'>
-<h3 class='space-bottom1'>Creating a source</h3>
+<h3 class='space-bottom1'>Overview</h3>
 <p>TileMill works by transforming traditional geodata formats like shapefiles, geojson, &amp; postgis into vector tiles. Prepare data for a new vector tile source by clicking the  <span class='inline round pad0x fill-darken1 plus icon'>layers</span> button.</p>
-<p class='quiet'><strong>Why go through the trouble of making vector tiles?</strong> Vector tiles can be styled more quickly and shared more easily than traditional data sources. If you want to use data in TileMill 2's style mode, you must first convert your data into vector tiles.</p>
+<p class='quiet'><strong>Why go through the trouble of making vector tiles?</strong> Vector tiles can be styled more quickly and shared more easily than traditional data sources. If you want to use data in TileMill 2's style editor, you must first convert your data into vector tiles.</p>
 
 </section>
 
@@ -67,7 +67,7 @@
 </section>
 
 <section class='keyline-bottom pad1'>
-<h3 class='space-bottom1'>Using a source</h3>
+<h3 class='space-bottom1'>Creating a source</h3>
 <p>Once you've finished importing and preparing your data, the next step is to export a vector mbtiles file. Once the export is complete, upload your mbtiles file to mapbox.com.
 </p>
 </section>

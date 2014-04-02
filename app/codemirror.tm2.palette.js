@@ -80,7 +80,8 @@
                     if (!isFirstLine || offset >= range.from.ch) {
                         var bookmark = doc.setBookmark({
                             line: doc.getLineNumber(line),
-                            ch: offset
+                            // place palettes at end of line to avoid cursor issues.
+                            // ch: offset
                         }, {
                             widget: makeWidget(color),
                             insertLeft: true
