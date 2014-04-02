@@ -316,24 +316,37 @@ app.get('/upload', auth, function(req, res, next) {
     if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
         return res.send('You are not allowed access to tm2z uploads, yet.', 403);
 
-    var uri = url.parse(req.query.styleid);
-    var id = crypto.createHash('md5').update(req.query.styleid).digest('hex').substr(0,8);
-    var pckage = uri.pathname + '/package-' + id + '.tm2z';
-    style.toPackage(req.query.styleid, pckage, function(err) {
+    style.info(req.query.styleid, function(err, data) {
         if (err) return res.send(err.toString(), 400);
-        upload({
-            file: pckage,
-            account: tm.db._docs.oauth.account,
-            accesstoken: tm.db._docs.oauth.accesstoken,
-            mapid: tm.db._docs.oauth.account + '.' + id
-        }, function(err, task) {
+        var mapid = (data._prefs.mapid !== '')
+            ? data._prefs.mapid
+            : tm.db._docs.oauth.account + '.' + crypto.createHash('md5')
+                .update(new Date().getTime().toString())
+                .digest('hex')
+                .substr(0,8);
+
+        var pckage = tm._config.cache + '/package-' + mapid + '.tm2z';
+        style.toPackage(req.query.styleid, pckage, function(err) {
             if (err) return res.send(err.toString(), 400);
-            task.once('putmap', function() {
+            upload({
+                file: pckage,
+                account: tm.db._docs.oauth.account,
+                accesstoken: tm.db._docs.oauth.accesstoken,
+                mapid: mapid
+            }, function(err, task) {
+                if (err) return res.send(err.toString(), 400);
+                task.once('putmap', mapSaved);
+            });
+        });
+
+        function mapSaved() {
+            data._prefs.mapid = mapid;
+            style.save(data, function(){
                 fs.unlink(pckage, function() {
                     res.send();
                 });
             });
-        });
+        }
     });
 });
 
