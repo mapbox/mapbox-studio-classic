@@ -159,7 +159,7 @@
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
 
   <div id='data' class='pin-left animate fill-blue dark scroll-styled col6'>
-    <section class='pad1 keyline-bottom contain'>
+    <section class='pad1 space-bottom1 keyline-bottom contain'>
       <h3>Available sources</h3>
       <a class="pad1 quiet icon x submit pin-topright" href="#layers"></a>
     </section>

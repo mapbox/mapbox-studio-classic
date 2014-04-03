@@ -4,11 +4,6 @@
   <strong class='block'>
   <%= obj.name || 'Untitled' %>
   </strong>
-  <% if (obj.tiles) { %>
-  <span name='remote' class='inline quiet icon cloud'>Remote</span>
-  <% } else { %>
-  <span name='local' class='inline quiet icon harddrive'>Local</span>
-  <% } %>
 </a>
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>

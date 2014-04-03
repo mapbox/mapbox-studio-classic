@@ -74,13 +74,15 @@
             <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
 
             <div class='truncate pad1 '>
-              <strong><%= item.name || 'Untitled' %></strong><br />
-              <% if (item.id.indexOf('mapbox://')) { %>
-              <span class='inline quiet icon harddrive'>Local</span>
-              <% } else {%>
-              <span class='inline quiet icon cloud'>Remote</span>
-              <% } %>
-              <span class='pad0x'><code><%= item.id.split('/').pop() %></code></span>
+              <strong><%= item.name || 'Untitled' %></strong>
+              <div class='block truncate'>
+                <% if (item.id.indexOf('mapbox://')) { %>
+                <span class='inline quiet icon harddrive'>Local</span>
+                <% } else {%>
+                <span class='inline quiet icon cloud'>Remote</span>
+                <% } %>
+                <span class='pad0x'><code><%= item.id.split('/').pop() %></code></span>
+              </div>
             </div>
             <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-blue icon check'></span></div>
           </a>

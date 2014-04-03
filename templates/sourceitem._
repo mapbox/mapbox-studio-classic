@@ -1,11 +1,10 @@
-<a href='#source-<%=obj.id%>' class='fill-lighten0 project small-project contain col12 small strong quiet js-adddata <%=obj.active ? 'proj-active js-recache' : ''%>'>
-  <div class='pad1'>
-    <strong class='block'><%= obj.name || 'Untitled' %></strong>
-    <% if (obj.id.indexOf('mapbox://')) { %>
-    <span class='inline quiet icon harddrive'>Local</span>
-    <% } else {%>
-    <span class='inline quiet icon cloud'>Remote</span>
-    <% } %>
-
-  </div>
-</a>
+<div class='pad1x space-bottom0'>
+    <a href='#source-<%=obj.id%>' class='pad0 round project small-project contain col12 small strong quiet js-adddata <%=obj.active ? 'proj-active js-recache' : ''%>'>
+        <strong class='block'><%= obj.name || 'Untitled' %></strong>
+        <% if (obj.id.indexOf('mapbox://')) { %>
+        <span class='inline quiet icon harddrive'>Local</span>
+        <% } else {%>
+        <span class='inline quiet icon cloud'>Remote</span>
+        <% } %>
+    </a>
+</div>
