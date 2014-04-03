@@ -192,11 +192,11 @@
   </div>
 
   <div id='layers' class='pane animate pin-left col6 menu dark fill-dark scroll-styled'>
-    <nav class='row1 col12 pad1 fill-dark keyline-bottom z100'>
+    <nav class='row1 pad1 fill-dark keyline-bottom z100'>
       <h3>Active source</h3>
       <a class='pad1 quiet icon x pin-topright' href='#'></a>
     </nav>
-    <div class='js-menu-content col12 scroll-styled'>
+    <div class='js-menu-content'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
