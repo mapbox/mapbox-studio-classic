@@ -92,7 +92,7 @@
         </section>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4 pad0y' for='map_id'>Map ID</label>
-          <input id='map_id' class='short small col8' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map id'></input>
+          <input id='map_id' class='short small col8 readonly' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map id' readonly></input>
         </section>
         <section class='clearfix'>
           <label class='inline col4 pad0y' for='baselayer_id'>Baselayer ID</label>
@@ -100,13 +100,16 @@
         </section>
       </fieldset>
 
+      <% if (style._tmp) { %>
+        <section class='pill col12 clearfix'><!--
+          --><a href='#saveas' class='button quiet col12 icon js-save floppy'>Save</a>
+        </section>
+      <% } else { %>
       <section class='pill col12 clearfix'><!--
-        --><a href='<% if (style._tmp) { %>#saveas<% } else { %>#<% } %>' class='button quiet col6 icon js-save floppy space-bottom1'>Save</a><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package space-bottom1 <% if (style._tmp) { %>disabled <% } %>'>Package</a>
+        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet <% if (user.plan.tm2z) { %> col6 <% } else { %> col12 <% } %> submit icon package'>Package</a><% if (user.plan.tm2z) { %><!--
+        --><a id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col6 submit icon up'>Upload</a> <% } %>
       </section>
-      <section class='pill col12 clearfix'><!--
-        --><a id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col12 <% if (style._tmp) { %>disabled <% } %>'>Upload</a>
-      </section>
+      <% } %>
     </div>
   </div>
 </form>
