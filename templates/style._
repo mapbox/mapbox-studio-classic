@@ -158,25 +158,21 @@
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
 
-  <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
-    <div class='col6'>
-      <section class='pad1 keyline-bottom contain'>
-        <h3>Sources</h3>
-        <a class="pad1 quiet icon x submit pin-topright" href="#layers"></a>
-      </section>
-      <div class='grid pad1 clearfix'>
-      <%
-        print(_(history.source).chain()
-          .sortBy(function(item) {
-            return (item.name||'').toLowerCase();
-          })
-          .map(function(item) {
-            return this.sourceitem(_({active:item.id === style.source}).defaults(item));
-          }.bind(this))
-          .value().join(''));
-      %>
-      </div>
-    </div>
+  <div id='data' class='pin-left animate fill-blue dark scroll-styled col6'>
+    <section class='pad1 keyline-bottom contain'>
+      <h3>Available sources</h3>
+      <a class="pad1 quiet icon x submit pin-topright" href="#layers"></a>
+    </section>
+    <%
+      print(_(history.source).chain()
+        .sortBy(function(item) {
+          return (item.name||'').toLowerCase();
+        })
+        .map(function(item) {
+          return this.sourceitem(_({active:item.id === style.source}).defaults(item));
+        }.bind(this))
+        .value().join(''));
+    %>
   </div>
 
   <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
@@ -204,7 +200,7 @@
     </div>
   </div>
 
-  <div id='code'>
+  <div id='code' class='z1 pin-left col12'>
   <div class='row1 fill-light pin-top'>
     <div class='pin-topleft fill-gray z1 keyline-bottom row1'><!--
     --><a class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
@@ -635,13 +631,13 @@ Editor.prototype.focusSearch = function(ev) {
 };
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.is('.active')) return false;
+  if (target.is('.proj-active')) return false;
   var id = target.attr('href').split('#source-').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#data a.active').removeClass('js-recache active');
+      $('#data a.proj-active').removeClass('js-recache proj-active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      target.addClass('js-recache active');
+      target.addClass('js-recache proj-active');
     }).bind(this),
     error: _(this.error).bind(this)
   });

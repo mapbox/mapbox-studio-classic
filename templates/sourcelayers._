@@ -1,18 +1,14 @@
 <div id='<%= obj.id %>' class='contain js-source source'>
 
-<div class='pin-topright pad0'>
-<a class='button quiet short icon round refresh js-recache' href='#recache'></a>
-</div>
-
-<a href='#data' class='small block keyline-bottom pad1 clearfix'>
-  <strong>
+<a href='#data' class='strong small block keyline-bottom pad1 clearfix'>
+  <strong class='block'>
   <%= obj.name || 'Untitled' %>
-  <% if (obj.tiles) { %>
-  <span name='remote' class='inline quiet pad0x icon cloud'>Remote</span>
-  <% } else { %>
-  <span name='local' class='inline quiet pad0x icon harddrive'>Local</span>
-  <% } %>
   </strong>
+  <% if (obj.tiles) { %>
+  <span name='remote' class='inline quiet icon cloud'>Remote</span>
+  <% } else { %>
+  <span name='local' class='inline quiet icon harddrive'>Local</span>
+  <% } %>
 </a>
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>

@@ -74,12 +74,12 @@
             <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
 
             <div class='truncate pad1 '>
-              <strong><%= item.name || 'Untitled' %></strong>
+              <strong><%= item.name || 'Untitled' %></strong><br />
               <% if (item.id.indexOf('mapbox://')) { %>
-              <span class='inline quiet pad0x icon harddrive'>Local</span>
+              <span class='inline quiet icon harddrive'>Local</span>
               <% } else {%>
-              <span class='inline quiet pad0x icon cloud'>Remote</span>
-              <% } %><br />
+              <span class='inline quiet icon cloud'>Remote</span>
+              <% } %>
               <code><%= item.id.split('/').pop() %></code>
             </div>
             <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-blue icon check'></span></div>
