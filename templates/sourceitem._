@@ -1,10 +1,11 @@
 <div class='pad1x space-bottom0'>
-    <a href='#source-<%=obj.id%>' class='pad0 round project small-project contain col12 small strong quiet js-adddata <%=obj.active ? 'proj-active js-recache' : ''%>'>
+    <a href='#source-<%=obj.id%>' class='pad1 round project small-project contain col12 small strong quiet js-adddata <%=obj.active ? 'proj-active js-recache' : ''%>'>
         <strong class='block'><%= obj.name || 'Untitled' %></strong>
         <% if (obj.id.indexOf('mapbox://')) { %>
         <span class='inline quiet icon harddrive'>Local</span>
         <% } else {%>
         <span class='inline quiet icon cloud'>Remote</span>
         <% } %>
+        <div class='proj-status hidden pad1 pin-bottomright'><span class='inline strong icon refresh'>Refresh</span></div>
     </a>
 </div>
