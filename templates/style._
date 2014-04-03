@@ -410,7 +410,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('layers');
     break;
-  case (which === 191): // / for settings
+  case (which === 220): // \ for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;

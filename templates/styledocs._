@@ -51,7 +51,7 @@ var sections = {
   <ul class='code space-bottom1'>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
     <li><kbd class='prefixed'>.</kbd> View map.</li>
-    <li><kbd class='prefixed'>/</kbd> View settings.</li>
+    <li><kbd class='prefixed'>\</kbd> View settings.</li>
     <li><kbd class='prefixed'>h</kbd> View help.</li>
     <li><kbd class='prefixed'>b</kbd> View bookmarks.</li>
     <li><kbd>Esc</kbd> Close popup or window.</li>
