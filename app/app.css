@@ -19,6 +19,20 @@ input[type=text].clean { border: none; }
   margin-left: 15px;
 }
 
+.tip-bottom:before {
+  content:'';
+  display:block;
+  position:absolute;
+  left:50%;
+  bottom:-12px;
+  margin-left:-5px;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-top:10px solid rgba(0,0,0,.1);
+}
+
+.dark .tip-bottom:before { border-top-color: rgba(0,0,0,.5);}
+
 /* icons should match text color on buttons */
 .dark .button.quiet.rcon:after,
 .dark .button.quiet.icon:before,
@@ -219,10 +233,9 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #settings .project-settings {
   top: 60px;
   left: 20px;
-  box-shadow: 0 0 0 2px rgba(0,0,0,.1);
 }
 
-#settings .project-settings:before {
+#settings .project-settings:after {
   content: "";
   display: block;
   position: absolute;
@@ -234,7 +247,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   border-right: 10px solid transparent;
   border-bottom: 10px solid #f8f8f8;
 }
-.dark #settings .project-settings:before {  border-bottom: 10px solid #404040;}
+.dark #settings .project-settings:after {  border-bottom: 10px solid #404040;}
 
 /* Bookmarks */
 #bookmark {
@@ -250,21 +263,10 @@ a.project:hover { background: rgba(255,255,255,.15);}
       -ms-transform:translateY(10px);
           transform:translateY(10px);
   }
-#bookmark > input {
-  padding-right:90px
-  }
-#bookmark:before {
-  content:'';
-  display:block;
-  position:absolute;
-  left:50%;
-  bottom:-9px;
-  margin-left:-5px;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-top:10px solid #f8f8f8;
-  }
-#view.dark #bookmark:before { border-top-color: #404040;}
+
+.dark #bookmark { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
+
+#bookmark > input { padding-right:90px }
 
 #bookmark:target {
   pointer-events:all;
@@ -289,24 +291,15 @@ a.project:hover { background: rgba(255,255,255,.15);}
   width:280px;
   bottom:45px;
   opacity:0;
-  box-shadow:0 0 0 2px rgba(0,0,0,.08);
+  box-shadow:0 0 0 2px rgba(0,0,0,.1);
   -webkit-transform:translateY(10px);
      -moz-transform:translateY(10px);
       -ms-transform:translateY(10px);
           transform:translateY(10px);
   }
-#search:before {
-  content:'';
-  display:block;
-  position:absolute;
-  left:50%;
-  bottom:-9px;
-  margin-left:-5px;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-top:10px solid #f8f8f8;
-}
-#view.dark #search:before { border-top-color: #404040;}
+
+.dark #search { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
+
 #search:target {
   pointer-events:all;
   opacity:1;

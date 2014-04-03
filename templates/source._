@@ -80,7 +80,7 @@
 </div>
 </form>
 
-<form id='bookmark' class='z1 contain fill-dark round animate'>
+<form id='bookmark' class='tip-bottom z1 contain fill-dark round animate'>
   <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
@@ -88,7 +88,7 @@
   <ul id='bookmark-list' class='clip fill-dark scroll-styled round-bottom'></ul>
 </form>
 
-<form id='search' class='z1 contain fill-dark round animate'>
+<form id='search' class='tip-bottom z1 contain fill-dark round animate'>
   <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
   <div class='pin-topleft pad1'>
     <span class='icon search'></span>
@@ -131,7 +131,7 @@
       </div>
     </div>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' title='Exit fullscreen' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#' title='Exit fullscreen' class='full-y fill-dark dark'><span class='fill-darken2 icon fullscreen'></span></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>

@@ -104,7 +104,7 @@
   </div>
 </form>
 
-<form id='bookmark' class='z1 contain fill-white round animate'>
+<form id='bookmark' class='tip-bottom z1 contain fill-white round animate'>
   <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
@@ -112,7 +112,7 @@
   <ul id='bookmark-list' class='clip fill-light scroll-styled round-bottom'></ul>
 </form>
 
-<form id='search' class='z1 contain fill-white round animate'>
+<form id='search' class='tip-bottom z1 contain fill-white round animate'>
   <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
   <div class='pin-topleft pad1'>
     <span class='icon search'></span>
