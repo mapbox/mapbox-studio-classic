@@ -271,7 +271,7 @@
 
 </div>
 
-<%= this.modaluser({name:user.name}) %>
+<%= this.modaluser({name:user.name||user.id}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
