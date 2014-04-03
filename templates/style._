@@ -109,7 +109,7 @@
       </section>
       <% if (!style._tmp && user.plan.tm2z) { %>
       <section class='pill col12 clearfix'><!--
-        --><a id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col12 submit icon up'>Upload</a>
+        --><a href='#' id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col12 submit icon up'>Upload</a>
       </section>
       <% } %>
     </div>
@@ -800,10 +800,11 @@ Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   var message = this.messagemodal;
   $('#settings').addClass('loading');
-  $.ajax('/upload?styleid=' + style)
-    .done(function(data) {
+  $.ajax('/upload?styleid=' + style + '')
+    .done(function() {
+      editor.refresh();
+      window.location.hash = '#';
       $('#settings').removeClass('loading');
-      // need to refresh, like a save
     })
     .error(function(resp) {
       $('#settings').removeClass('loading');
