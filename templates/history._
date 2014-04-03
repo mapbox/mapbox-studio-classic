@@ -75,12 +75,14 @@
 
             <div class='truncate pad1 '>
               <strong><%= item.name || 'Untitled' %></strong>
-              <% if (item.id.indexOf('mapbox://')) { %>
-              <span class='inline quiet pad0x icon harddrive'>Local</span>
-              <% } else {%>
-              <span class='inline quiet pad0x icon cloud'>Remote</span>
-              <% } %><br />
-              <code><%= item.id.split('/').pop() %></code>
+              <div class='block truncate'>
+                <% if (item.id.indexOf('mapbox://')) { %>
+                <span class='inline quiet icon harddrive'>Local</span>
+                <% } else {%>
+                <span class='inline quiet icon cloud'>Remote</span>
+                <% } %>
+                <span class='pad0x'><code><%= item.id.split('/').pop() %></code></span>
+              </div>
             </div>
             <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-blue icon check'></span></div>
           </a>
