@@ -329,15 +329,17 @@ app.get('/upload', auth, function(req, res, next) {
 
         var pckage = tm._config.cache + '/package-' + mapid + '.tm2z';
         style.toPackage(req.query.styleid, pckage, function(err) {
-            if (err) return res.send(err.toString(), 400);
+            if (err) return res.send(err.toString());
             upload({
                 file: pckage,
                 account: tm.db._docs.oauth.account,
                 accesstoken: tm.db._docs.oauth.accesstoken,
                 mapid: mapid
             }, function(err, task) {
-                if (err) return res.send(err.toString(), 400);
-                task.once('putmap', mapSaved);
+                task.once('error', function(err) {
+                    return res.send(err.toString(), 400);
+                })
+                task.once('end', mapSaved);
             });
         });
 
@@ -345,7 +347,7 @@ app.get('/upload', auth, function(req, res, next) {
             data._prefs.mapid = mapid;
             style.save(data, function(){
                 fs.unlink(pckage, function() {
-                    res.send();
+                    return res.send();
                 });
             });
         }
