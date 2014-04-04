@@ -15,7 +15,6 @@ var source = require('./lib/source');
 var style = require('./lib/style');
 var express = require('express');
 var cors = require('cors');
-var upload = require('mapbox-upload');
 tm.config(require('optimist')
     .config('config')
     .options('db', {
@@ -313,44 +312,9 @@ app.get('/:style(style).tm2z', function(req, res, next) {
 });
 
 app.get('/upload', auth, function(req, res, next) {
-    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
-        return res.send('You are not allowed access to tm2z uploads, yet.', 403);
-    if (style.tmpid(req.query.styleid))
-        return res.send('Style must be saved first', 400);
-
-    style.info(req.query.styleid, function(err, data) {
-        if (err) return res.send(err.toString(), 400);
-        var mapid = (typeof data._prefs.mapid !== 'undefined' && data._prefs.mapid !== '')
-            ? data._prefs.mapid
-            : tm.db._docs.oauth.account + '.' + crypto.createHash('md5')
-                .update(new Date().getTime().toString())
-                .digest('hex')
-                .substr(0,8);
-
-        var pckage = tm._config.cache + '/package-' + mapid + '.tm2z';
-        style.toPackage(req.query.styleid, pckage, function(err) {
-            if (err) return res.send(err.toString());
-            upload({
-                file: pckage,
-                account: tm.db._docs.oauth.account,
-                accesstoken: tm.db._docs.oauth.accesstoken,
-                mapid: mapid
-            }, function(err, task) {
-                task.once('error', function(err) {
-                    return res.send(err.toString(), 400);
-                })
-                task.once('end', mapSaved);
-            });
-        });
-
-        function mapSaved() {
-            data._prefs.mapid = mapid;
-            style.save(data, function(){
-                fs.unlink(pckage, function() {
-                    return res.send();
-                });
-            });
-        }
+    style.upload(req.query.styleid, function(err){
+        if (err) next(err);
+        res.end();
     });
 });
 

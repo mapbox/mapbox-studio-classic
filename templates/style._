@@ -805,12 +805,12 @@ Editor.prototype.upload = function(ev) {
       editor.refresh();
       window.location.hash = '#';
       $('#settings').removeClass('loading');
+      return true;
     })
     .error(function(resp) {
       $('#settings').removeClass('loading');
       return message(resp.responseText);
     });
-  return false;
 };
 
 Editor.prototype.refresh = function(ev) {
