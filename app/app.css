@@ -662,7 +662,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   border-bottom:1px solid #eee;
   position:absolute;
   top:0;left:0;right:0;
-  z-index:15;
+  z-index:50;
   padding:0;
   }
 .CodeMirror-dialog input {
