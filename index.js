@@ -312,7 +312,16 @@ app.get('/:style(style).tm2z', function(req, res, next) {
 });
 
 app.get('/upload', auth, function(req, res, next) {
-    style.upload(req.query.styleid, function(err){
+    if (style.tmpid(req.query.styleid))
+        return callback(new Error('Style must be saved first'));
+    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
+        return callback(new Error('You are not allowed access to tm2z uploads yet.'));
+
+    style.upload({
+        id: req.query.styleid,
+        oauth: tm.db._docs.oauth,
+        cache: tm._config.cache
+    }, function(err){
         if (err) next(err);
         res.end();
     });

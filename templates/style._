@@ -802,8 +802,6 @@ Editor.prototype.upload = function(ev) {
   $('#settings').addClass('loading');
   $.ajax('/upload?styleid=' + style + '')
     .done(function() {
-      editor.refresh();
-      window.location.hash = '#';
       $('#settings').removeClass('loading');
       return true;
     })
