@@ -57,7 +57,7 @@ var statHandler = function(key) {
       return memo;
     }, {});
     var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
-    for (var z = 0; z < 22; z++) {
+    for (var z = 0; z < 23; z++) {
       var s = stats[z];
       if (key === 'srcbytes' && s) {
         s = s.map(function(v) { return Math.round(v * 0.001) });
