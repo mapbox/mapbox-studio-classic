@@ -627,7 +627,7 @@ Editor.prototype.addlayer = function(ev) {
     window.location.hash = '#layers-' + values.id;
     $('#layers .js-menu-content').sortable('destroy').sortable();
   } else {
-    window.location.hash = '#';
+    editor.messagemodal('Layer name must be different from existing layer "' + values.id + '"');
   }
   return false;
 };
