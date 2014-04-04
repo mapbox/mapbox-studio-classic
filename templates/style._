@@ -667,6 +667,10 @@ Editor.prototype.addtab = function(ev) {
   if (!code[filename]) {
     $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon keyline-left trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
     code[filename] = Tab(filename, '');
+  } else {
+    editor.messagemodal('Tab name must be different than existing tab "' + field.val() + '"');
+    field.val('');
+    return false;
   }
   field.val('');
   window.location.hash = '#';
