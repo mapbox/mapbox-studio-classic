@@ -9,57 +9,51 @@
 
 /* Editor tabs */
 #tabs {
-  padding-left: 80px;
-  padding-right: 10px;
+  padding-left: 115px;
+  padding-right: 60px;
 }
-#tabs a.tab {
-  margin:0px 0px 0px 5px;
+#tabs .template-tab {
+  left: 85px;
+  top: 5px;
+}
+#tabs .carto-tabs a.tab {
+  border-right: 1px solid #ebebeb;
   display: inline-block;
   vertical-align: top;
-  }
-#tabs a.tab:hover,
-#tabs a.tab.active {
-  background:#f8f8f8;
-  }
-#tabs a.tab.active {
-  padding-right:30px;
-  }
-#tabs a.tab.mini,
-#tabs a.tab.mini.active {
-  padding:5px;
-  }
-#tabs a.tab .trash {
-  display:none;
-  }
-#tabs a.tab.active .trash {
-  display:inline-block;
-  }
+}
 
-#tabs a.tab.active .trash:before { opacity: .25;}
-#tabs a.tab .trash:hover:before { opacity:.5; }
-#tabs a.tab:first-child:nth-last-child(1) { max-width:100%; }
-#tabs a.tab:first-child:nth-last-child(2),
-#tabs a.tab:first-child:nth-last-child(2) ~ a.tab { max-width:50.00%; }
-#tabs a.tab:first-child:nth-last-child(3),
-#tabs a.tab:first-child:nth-last-child(3) ~ a.tab { max-width:33.33%; }
-#tabs a.tab:first-child:nth-last-child(4),
-#tabs a.tab:first-child:nth-last-child(4) ~ a.tab { max-width:25.00%; }
-#tabs a.tab:first-child:nth-last-child(5),
-#tabs a.tab:first-child:nth-last-child(5) ~ a.tab { max-width:20.00%; }
-#tabs a.tab:first-child:nth-last-child(6),
-#tabs a.tab:first-child:nth-last-child(6) ~ a.tab { max-width:16.66%; }
-#tabs a.tab:first-child:nth-last-child(7),
-#tabs a.tab:first-child:nth-last-child(7) ~ a.tab { max-width:14.28%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(8),
-#tabs a.tab:first-child:nth-last-child(8) ~ a.tab { max-width:12.50%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(9),
-#tabs a.tab:first-child:nth-last-child(9) ~ a.tab { max-width:11.11%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(10),
-#tabs a.tab:first-child:nth-last-child(10) ~ a.tab { max-width:10.00%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(11),
-#tabs a.tab:first-child:nth-last-child(11) ~ a.tab { max-width:9.09%; font-size:80%; }
-#tabs a.tab:first-child:nth-last-child(12),
-#tabs a.tab:first-child:nth-last-child(12) ~ a.tab { max-width:8.33%; font-size:80%; }
+#tabs a.tab:hover { background: rgba(255,255,255,.5);}
+#tabs a.tab.active { background:white;}
+
+#tabs .addtab { right:30px;}
+
+#tabs a.tab .trash {display:none;}
+#tabs a.tab.active .trash { display:block;}
+#tabs a.tab .trash:hover:before { opacity:1; }
+
+#tabs .carto-tabs a.tab:first-child:nth-last-child(1) { width:100%; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(2),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(2) ~ a.tab  { width:50.00%; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(3),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(3) ~ a.tab  { width:33.33%; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(4),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(4) ~ a.tab  { width:25.00%; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(5),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(5) ~ a.tab  { width:20.00%; font-size:10px; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(6),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(6) ~ a.tab  { width:16.66%; font-size:10px;}
+#tabs .carto-tabs a.tab:first-child:nth-last-child(7),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(7) ~ a.tab  { width:14.28%; font-size:10px; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(8),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(8) ~ a.tab  { width:12.50%; font-size:10px; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(9),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(9) ~ a.tab  { width:11.11%; font-size:10px; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(10),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(10) ~ a.tab { width:10.00%; font-size:10px; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(11),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(11) ~ a.tab { width:9.09%; font-size:10px; }
+#tabs .carto-tabs a.tab:first-child:nth-last-child(12),
+#tabs .carto-tabs a.tab:first-child:nth-last-child(12) ~ a.tab { width:8.33%; font-size:10px; }
 
 /* CodeMirror */
 .CodeMirror#code-template { top:80px; bottom:160px; }
