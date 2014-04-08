@@ -291,11 +291,6 @@
 
 <a href='#' id='mask' class='fill-darken2 animate'></a>
 
-
-<div id='upload-success' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class="inline pad1 quiet icon close submit pin-topright" href="#"></a>
-</div>
-
 </div>
 
 <script>
@@ -810,7 +805,7 @@ Editor.prototype.upload = function(ev) {
   $('.project-settings').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
-      message(null, '<span class="icon big check"></span> Uploaded! Your map style is at <a href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      message(null, '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
       $('.project-settings').removeClass('loading');
       return true;
     })
