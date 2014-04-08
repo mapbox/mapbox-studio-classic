@@ -80,8 +80,12 @@ var statHandler = function(key) {
   }).throttle(50);
 };
 
-var messageModal = function(text) {
-  $('#message .js-message').text(text);
+var messageModal = function(text, html) {
+  if (html) {
+    $('#message .js-message').html(html);
+  } else {
+    $('#message .js-message').text(text);
+  }
   window.location.hash = '#message';
 };
 

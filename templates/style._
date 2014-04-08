@@ -109,7 +109,7 @@
       </section>
       <% if (!style._tmp && user.plan.tm2z) { %>
       <section class='pill col12 clearfix'><!--
-        --><a href='#' id='upload-style' href='/upload?styleid=<%=style.id%>' class='button quiet col12 submit icon up'>Upload</a>
+        --><a href='#settings' id='upload-style' class='button quiet col12 submit icon up'>Upload</a>
       </section>
       <% } %>
     </div>
@@ -270,7 +270,6 @@
     </div>
   </form>
   </div>
-
 </div>
 
 <%= this.modaluser({name:user.name||user.id}) %>
@@ -291,6 +290,11 @@
 </form>
 
 <a href='#' id='mask' class='fill-darken2 animate'></a>
+
+
+<div id='upload-success' class='modal center round pad2 col6 margin3 fill-light'>
+  <a class="inline pad1 quiet icon close submit pin-topright" href="#"></a>
+</div>
 
 </div>
 
@@ -803,14 +807,15 @@ Editor.prototype.cartoError = function(ln, e) {
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   var message = this.messagemodal;
-  $('#settings').addClass('loading');
-  $.ajax('/upload?styleid=' + style + '')
+  $('.project-settings').addClass('loading');
+  $.ajax('/upload?styleid=' + style)
     .done(function() {
-      $('#settings').removeClass('loading');
+      message(null, '<span class="icon big check"></span> Uploaded! Your map style is at <a href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      $('.project-settings').removeClass('loading');
       return true;
     })
     .error(function(resp) {
-      $('#settings').removeClass('loading');
+      $('.project-settings').removeClass('loading');
       return message(resp.responseText);
     });
 };
