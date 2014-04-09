@@ -272,11 +272,12 @@ $(function() { window.location.href = '#';});
 var Layer = function(id, datasource) {
   var code;
   if (datasource && (datasource.type === 'postgis' || datasource.type === 'sqlite')) {
-    code = CodeMirror($('#layers-' + id + ' div.sql').get(0), {
-      value: datasource.table,
+    var cmParams = {
       lineNumbers: true,
       mode: 'text/x-plsql'
-    });
+    };
+    if (datasource.table) cmParams.value = datasource.table;
+    code = CodeMirror($('#layers-' + id + ' div.sql').get(0), cmParams);
     code.getWrapperElement().id = 'layers-' + id + '-code';
   }
   var layer = {
