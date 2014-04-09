@@ -33,7 +33,7 @@
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
-    <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
+    <a class="pad1 quiet icon x pin-topright" href="#"></a>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
     </header>
@@ -80,7 +80,7 @@
 </div>
 </form>
 
-<form id='bookmark' class='z1 contain fill-dark round animate'>
+<form id='bookmark' class='tip-bottom z1 contain fill-dark round animate'>
   <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
@@ -88,7 +88,7 @@
   <ul id='bookmark-list' class='clip fill-dark scroll-styled round-bottom'></ul>
 </form>
 
-<form id='search' class='z1 contain fill-dark round animate'>
+<form id='search' class='tip-bottom z1 contain fill-dark round animate'>
   <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
   <div class='pin-topleft pad1'>
     <span class='icon search'></span>
@@ -131,7 +131,7 @@
       </div>
     </div>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' title='Exit fullscreen' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#' title='Exit fullscreen' class='full-y fill-dark dark'><span class='fill-darken2 icon fullscreen'></span></a>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -151,8 +151,8 @@ revlayers.reverse();
   <div id='layers'>
     <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
       <div class='pin-topleft z1 row1'><!--
-        --><a class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-        --><a class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
+        --><a title='Documentation' class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
+        --><a title='Documentation' class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
       --></div>
       <% if (remote) { %>
       <strong class='small inline pad1y pad4x'>Layers</strong>
@@ -205,7 +205,7 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
-  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
+  <a class="pad1 quiet icon x pin-topright" href="#"></a>
   <fieldset class='col8 margin2 space-bottom1'>
     <input class='col12 space-bottom1' type='text' placeholder='layername' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
@@ -376,7 +376,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('docs');
     break;
-  case (which === 191): // / for settings
+  case (which === 220): // \ for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;

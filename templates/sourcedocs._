@@ -2,6 +2,7 @@
 <article class='fill-darken1 small' id='docs-intro'>
 <div class="row1 pad1 keyline-bottom">
   <h3>Source editor help</h3>
+  <a class='pad1 quiet icon x pin-topright' href='#'></a>
 </div>
 
 <nav class='small clearfix col12 contain z1 strong'>
@@ -14,14 +15,14 @@
   <ul class='code space-bottom1'>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
     <li><kbd class='prefixed'>.</kbd> View map.</li>
-    <li><kbd class='prefixed'>/</kbd> View settings.</li>
+    <li><kbd class='prefixed'>\</kbd> View settings.</li>
     <li><kbd class='prefixed'>h</kbd> View help.</li>
     <li><kbd class='prefixed'>b</kbd> View bookmarks.</li>
     <li><kbd>Esc</kbd> Close popup or window.</li>
   </ul>
   <ul class='code space-bottom1'>
     <li><h4>Style only:</h4></li>
-    <li><kbd class='prefixed'>d</kbd> View data.</li>
+    <li><kbd class='prefixed'>i</kbd> View data.</li>
     <li><kbd class='prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
     <li><kbd class='prefixed'>f</kbd> Search current stylesheet.</li>
   </ul>

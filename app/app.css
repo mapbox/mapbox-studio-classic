@@ -19,6 +19,20 @@ input[type=text].clean { border: none; }
   margin-left: 15px;
 }
 
+.tip-bottom:before {
+  content:'';
+  display:block;
+  position:absolute;
+  left:50%;
+  bottom:-12px;
+  margin-left:-5px;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-top:10px solid rgba(0,0,0,.1);
+}
+
+.dark .tip-bottom:before { border-top-color: rgba(0,0,0,.5);}
+
 /* icons should match text color on buttons */
 .dark .button.quiet.rcon:after,
 .dark .button.quiet.icon:before,
@@ -188,13 +202,11 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
 
-a.project.active,
-a.project.active:hover { background: rgba(255,255,255,.2);}
-
-
 /* Flag active project */
 .project.proj-active,
-.project.proj-active:hover { background-color: rgba(255,255,255,.2);}
+.project.proj-active:hover {
+  background-color: rgba(255,255,255,.2);
+}
 .project.proj-active .proj-status { display: block;}
 
 /* Project settings */
@@ -221,10 +233,9 @@ a.project.active:hover { background: rgba(255,255,255,.2);}
 #settings .project-settings {
   top: 60px;
   left: 20px;
-  box-shadow: 0 0 0 2px rgba(0,0,0,.1);
 }
 
-#settings .project-settings:before {
+#settings .project-settings:after {
   content: "";
   display: block;
   position: absolute;
@@ -236,7 +247,7 @@ a.project.active:hover { background: rgba(255,255,255,.2);}
   border-right: 10px solid transparent;
   border-bottom: 10px solid #f8f8f8;
 }
-.dark #settings .project-settings:before {  border-bottom: 10px solid #404040;}
+.dark #settings .project-settings:after {  border-bottom: 10px solid #404040;}
 
 /* Bookmarks */
 #bookmark {
@@ -252,21 +263,10 @@ a.project.active:hover { background: rgba(255,255,255,.2);}
       -ms-transform:translateY(10px);
           transform:translateY(10px);
   }
-#bookmark > input {
-  padding-right:90px
-  }
-#bookmark:before {
-  content:'';
-  display:block;
-  position:absolute;
-  left:50%;
-  bottom:-9px;
-  margin-left:-5px;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-top:10px solid #f8f8f8;
-  }
-#view.dark #bookmark:before { border-top-color: #404040;}
+
+.dark #bookmark { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
+
+#bookmark > input { padding-right:90px }
 
 #bookmark:target {
   pointer-events:all;
@@ -291,24 +291,15 @@ a.project.active:hover { background: rgba(255,255,255,.2);}
   width:280px;
   bottom:45px;
   opacity:0;
-  box-shadow:0 0 0 2px rgba(0,0,0,.08);
+  box-shadow:0 0 0 2px rgba(0,0,0,.1);
   -webkit-transform:translateY(10px);
      -moz-transform:translateY(10px);
       -ms-transform:translateY(10px);
           transform:translateY(10px);
   }
-#search:before {
-  content:'';
-  display:block;
-  position:absolute;
-  left:50%;
-  bottom:-9px;
-  margin-left:-5px;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-top:10px solid #f8f8f8;
-}
-#view.dark #search:before { border-top-color: #404040;}
+
+.dark #search { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
+
 #search:target {
   pointer-events:all;
   opacity:1;
@@ -739,7 +730,6 @@ span.cm-carto-filter             { color:#66475B; }
 
 #title .avatar { width: 40px; height: 40px; }
 
-#data:target,
 #data:target ~ #layers,
 #fonts:target,
 #docs:target,
@@ -751,11 +741,12 @@ span.cm-carto-filter             { color:#66475B; }
           transform:translateX(-100%);
 }
 
-#style-ui #data,
-#fonts,
-#docs,
-#style-ui #layers {
-  z-index: -1;
+#data:target {
+box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+  -webkit-transform:translateX(-200%);
+     -moz-transform:translateX(-200%);
+      -ms-transform:translateX(-200%);
+          transform:translateX(-200%);
 }
 
 /* map styles to compensate for col max-widths */
@@ -815,19 +806,11 @@ a.data-y { display:none; }
   border-radius:4px 0px 0px 4px;
   }
 
-a[href='#docs-points'],
 #docs-points section .type   { color: #8a8acb; } /* fill purple */
-a[href='#docs-lines'],
 #docs-lines section .type    { color: #3887be; } /* fill blue */
-a[href='#docs-polygons'],
 #docs-polygons section .type { color: #56b881; } /* fill green */
-a[href='#docs-text'],
 #docs-text section .type     { color: #ee8a65; } /* fill orange */
-a[href='#docs-misc'],
 #docs-misc section .type     { color: #EE6565; } /* fill red */
-
-.dark a[href='#docs-remote'] { color: #ee8a65; } /* fill orange */
-.dark a[href='#docs-local']  { color: #3887be; } /* fill blue */
 
 a[href='#docs-points'],
 #docs-points section   { border-left-color: #8a8acb; } /* fill purple */

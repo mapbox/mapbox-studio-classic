@@ -36,7 +36,7 @@
   </div>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='project-settings fill-light round contain col4 pin-topleft'>
-  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
+  <a class="pad1 quiet icon x pin-topright" href="#"></a>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
     </header>
@@ -116,7 +116,7 @@
   </div>
 </form>
 
-<form id='bookmark' class='z1 contain fill-white round animate'>
+<form id='bookmark' class='tip-bottom z1 contain fill-white round animate'>
   <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
   <div class='pin-topright pad0'>
     <input type='submit' class='short quiet button' value='Add' />
@@ -124,7 +124,7 @@
   <ul id='bookmark-list' class='clip fill-light scroll-styled round-bottom'></ul>
 </form>
 
-<form id='search' class='z1 contain fill-white round animate'>
+<form id='search' class='tip-bottom z1 contain fill-white round animate'>
   <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
   <div class='pin-topleft pad1'>
     <span class='icon search'></span>
@@ -170,25 +170,21 @@
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
 
-  <div id='data' class='pane pin-left animate fill-blue dark scroll-styled col12'>
-    <div class='col6'>
-      <section class='pad1 keyline-bottom contain'>
-        <h3>Sources</h3>
-        <a class="pad1 quiet icon x submit pin-topright" href="#layers"></a>
-      </section>
-      <div class='grid pad1 clearfix'>
-      <%
-        print(_(history.source).chain()
-          .sortBy(function(item) {
-            return (item.name||'').toLowerCase();
-          })
-          .map(function(item) {
-            return this.sourceitem(_({active:item.id === style.source}).defaults(item));
-          }.bind(this))
-          .value().join(''));
-      %>
-      </div>
-    </div>
+  <div id='data' class='pin-left animate fill-blue dark scroll-styled col6'>
+    <section class='pad1 space-bottom1 keyline-bottom contain'>
+      <h3>Available sources</h3>
+      <a class="pad1 quiet icon x pin-topright" href="#layers"></a>
+    </section>
+    <%
+      print(_(history.source).chain()
+        .sortBy(function(item) {
+          return (item.name||'').toLowerCase();
+        })
+        .map(function(item) {
+          return this.sourceitem(_({active:item.id === style.source}).defaults(item));
+        }.bind(this))
+        .value().join(''));
+    %>
   </div>
 
   <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
@@ -208,31 +204,31 @@
   </div>
 
   <div id='layers' class='pane animate pin-left col6 menu dark fill-dark scroll-styled'>
-    <nav class='row1 col12 pad1 fill-dark keyline-bottom z100'>
+    <nav class='row1 pad1 fill-dark keyline-bottom z100'>
       <h3>Active source</h3>
+      <a class='pad1 quiet icon x pin-topright' href='#'></a>
     </nav>
-    <div class='js-menu-content col12 scroll-styled'>
+    <div class='js-menu-content'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
 
-  <div id='code'>
+  <div id='code' class='z1 pin-left col12'>
   <div class='row1 fill-light pin-top'>
-    <div class='pin-topleft fill-gray z1 keyline-bottom row1'><!--
-    --><a class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-      --><a class='pad1 inline dark docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
-      --><a class='pad1 inline quiet layers-n icon point-line align-middle fill-darken0 keyline-right' href='#layers'></a><!--
-      --><a class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken2 keyline-right' href='#'></a>
+    <div class='pin-topleft z1 row1'><!--
+    --><a title='Documentation' class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
+      --><a title='Documentation' class='pad1 inline dark docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
+      --><a title='Data layers' class='pad1 inline quiet layers-n icon point-line align-middle fill-darken0 keyline-right' href='#layers'></a><!--
+      --><a title='Data layers' class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken2 keyline-right' href='#'></a>
     </div>
-    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
-      --><a rel='template' href='#code-template' class='tab js-tab round quiet mini icon tooltip'></a><!--
+    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'>
+      <a rel='template' href='#code-template' class='pin-topleft template-tab pad0 round tab js-tab quiet icon tooltip'></a>
+      <div class='center carto-tabs'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate contain <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash keyline-left js-deltab pin-right pad0y round-right'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
-    -->
-      <span class='z1'>
-        <a class='inline round pad0 short quiet icon plus' href='#addtab'></a>
-      </span>
+      --></div>
+      <a href='#addtab' class='addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
     </nav>
   </div>
 
@@ -280,7 +276,7 @@
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
 <form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class="pad1 quiet icon x submit pin-topright" href="#"></a>
+  <a class="pad1 quiet icon x pin-topright" href="#"></a>
   <div class='clearfix'>
     <span class='input-pill pill col8 margin2'>
       <input class='col8' type='text' placeholder='filename' size='20' id='addtab-filename' required/><!--
@@ -421,11 +417,11 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('full');
     break;
-  case (which === 68): // d for layers/data
+  case (which === 73): // i for layers/data
     ev.preventDefault();
     this.togglePane('layers');
     break;
-  case (which === 191): // / for settings
+  case (which === 220): // \ for settings
     ev.preventDefault();
     this.togglePane('settings');
     break;
@@ -647,13 +643,13 @@ Editor.prototype.focusSearch = function(ev) {
 };
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.is('.active')) return false;
+  if (target.is('.proj-active')) return false;
   var id = target.attr('href').split('#source-').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#data a.active').removeClass('js-recache active');
+      $('#data a.proj-active').removeClass('js-recache proj-active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      target.addClass('js-recache active');
+      target.addClass('js-recache proj-active');
     }).bind(this),
     error: _(this.error).bind(this)
   });
@@ -664,7 +660,7 @@ Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
   var filename = field.val().split('.')[0] + '.mss';
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate contain'>"+filename.replace(/.mss/,'')+" <span class='icon keyline-left trash js-deltab pin-right round-right pad0y'></span></a>").insertAfter('nav#tabs > a:last-of-type');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--").insertAfter('.carto-tabs a:last-child');
     code[filename] = Tab(filename, '');
   } else {
     editor.messagemodal('Tab name must be different than existing tab "' + field.val() + '"');

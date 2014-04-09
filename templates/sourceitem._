@@ -1,13 +1,11 @@
-<div class='col12 fl space-bottom1'><a href='#source-<%=obj.id%>' class='project contain col12 round small strong quiet inline fill-lighten0 js-adddata <%=obj.active ? 'active js-recache' : ''%>'>
-  <span class='z1 contain fill-lighten0 small-graphic inline round-left fl' style='background-image:url("/thumb.png?id=<%=obj.id%>&mtime=<%=obj.mtime%>")'></span>
-  <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
-  <div class='pad1 truncate'>
-    <strong><%= obj.name || 'Untitled' %></strong>
-    <% if (obj.id.indexOf('mapbox://')) { %>
-    <span class='inline quiet pad0x icon harddrive'>Local</span>
-    <% } else {%>
-    <span class='inline quiet pad0x icon cloud'>Remote</span>
-    <% } %><br />
-    <code><%= obj.description || 'No description.' %></code>
-  </div>
-</a></div>
+<div class='pad1x space-bottom0'>
+    <a href='#source-<%=obj.id%>' class='pad1 round project small-project contain col12 small strong quiet js-adddata <%=obj.active ? 'proj-active js-recache' : ''%>'>
+        <strong class='block'><%= obj.name || 'Untitled' %></strong>
+        <% if (obj.id.indexOf('mapbox://')) { %>
+        <span class='inline quiet icon harddrive'>Local</span>
+        <% } else {%>
+        <span class='inline quiet icon cloud'>Remote</span>
+        <% } %>
+        <div class='proj-status hidden pad1 pin-bottomright'><span class='inline strong icon refresh'>Refresh</span></div>
+    </a>
+</div>
