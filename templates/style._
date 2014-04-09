@@ -40,7 +40,7 @@
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
     </header>
-    <div class='pad2'>
+    <div class='settings-body pad2'>
       <fieldset>
         <section class='space-bottom1'>
           <label>Name</label>
@@ -798,15 +798,15 @@ Editor.prototype.cartoError = function(ln, e) {
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   var message = this.messagemodal;
-  $('.project-settings').addClass('loading');
+  $('.settings-body').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
       message(null, '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-      $('.project-settings').removeClass('loading');
+      $('.settings-body').removeClass('loading');
       return true;
     })
     .error(function(resp) {
-      $('.project-settings').removeClass('loading');
+      $('.settings-body').removeClass('loading');
       return message(resp.responseText);
     });
 };
