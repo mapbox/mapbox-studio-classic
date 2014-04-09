@@ -27,6 +27,7 @@ tm.config(require('optimist')
     })
     .argv);
 var request = require('request');
+var crypto = require('crypto');
 
 // Load defaults for new styles.
 var defaults = {},
@@ -305,6 +306,22 @@ app.get('/:style(style).xml', function(req, res, next) {
 
 app.get('/:style(style).tm2z', function(req, res, next) {
     style.toPackage(req.style.data.id, res, function(err) {
+        if (err) next(err);
+        res.end();
+    });
+});
+
+app.get('/upload', auth, function(req, res, next) {
+    if (style.tmpid(req.query.styleid))
+        return next(new Error('Style must be saved first'));
+    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
+        return next(new Error('You are not allowed access to tm2z uploads yet.'));
+
+    style.upload({
+        id: req.query.styleid,
+        oauth: tm.db._docs.oauth,
+        cache: tm._config.cache
+    }, function(err){
         if (err) next(err);
         res.end();
     });

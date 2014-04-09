@@ -196,7 +196,7 @@ revlayers.reverse();
   label: 'Select'
 })); %>
 
-<%= this.modaluser({name:user.name}) %>
+<%= this.modaluser({name:user.name||user.id}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
@@ -627,7 +627,7 @@ Editor.prototype.addlayer = function(ev) {
     window.location.hash = '#layers-' + values.id;
     $('#layers .js-menu-content').sortable('destroy').sortable();
   } else {
-    window.location.hash = '#';
+    editor.messagemodal('Layer name must be different from existing layer "' + values.id + '"');
   }
   return false;
 };

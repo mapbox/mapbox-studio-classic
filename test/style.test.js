@@ -55,7 +55,7 @@ describe('style load', function() {
             assert.ifError(err);
             assert.ok(source);
             done();
-        })
+        });
     });
     it('saves style to disk', function(done) {
         style.save(_({id:'tmstyle://' + tmpPerm}).defaults(data), function(err, source) {
@@ -72,7 +72,7 @@ describe('style load', function() {
                 assert.ok(fs.existsSync(tmpPerm + '/.thumb.png'), 'saves thumb');
                 done();
             }, 500);
-        })
+        });
     });
     it ('packages style to tm2z', function(done) {
         style.toPackage('tmstyle://' + tmpPerm, tmpPerm + '.tm2z', function(err) {
@@ -87,6 +87,13 @@ describe('style load', function() {
                 assert.ok(/\/project.xml/.test(stdout), 'lists files');
                 done();
             });
+        });
+    });
+    it ('fails to package tmp style', function(done) {
+        style.toPackage('tmstyle:///tmp-e31db7cd.tm2z', tmpPerm + '.tm2z', function(err) {
+            assert.ok(err);
+            assert.equal('Error: temporary style must be saved first', err);
+            done();
         });
     });
 });
@@ -117,7 +124,6 @@ describe('style.info', function() {
             done();
         });
     });
-
 });
 
 describe('style.toXML', function() {
@@ -196,5 +202,4 @@ describe('style.toXML', function() {
         });
     });
 });
-
 });

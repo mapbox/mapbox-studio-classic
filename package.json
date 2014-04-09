@@ -36,7 +36,8 @@
     "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
     "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
     "cors": "~2.1.1",
-    "request": "~2.34.0"
+    "request": "~2.34.0",
+    "mapbox-upload": "https://github.com/mapbox/mapbox-upload/archive/master.tar.gz"
   },
   "devDependencies": {
     "mocha": "1.17.x",

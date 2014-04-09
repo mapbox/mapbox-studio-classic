@@ -662,7 +662,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
   border-bottom:1px solid #eee;
   position:absolute;
   top:0;left:0;right:0;
-  z-index:50;
+  z-index:100;
   padding:0;
   }
 .CodeMirror-dialog input {
@@ -883,3 +883,11 @@ a[href='#docs-local'],
   a.section,
   section { float:none; width:auto; }
 }
+
+input.readonly {
+  background:transparent;
+  font-size:12px;
+  line-height:20px;
+  -webkit-box-shadow:none;
+          box-shadow:none;
+  }
