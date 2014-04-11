@@ -292,6 +292,9 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
         }
 
         headers['cache-control'] = 'max-age=3600';
+        if (req.params.format === 'vector.pbf') {
+            headers['content-encoding'] = 'deflate';
+        }
         res.set(headers);
         return res.send(data);
     };
