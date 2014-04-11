@@ -74,13 +74,6 @@ describe('Editor', function() {
                 expect(tab[tab.length - 1].rel).to.equal('foo.mss');
             });
 
-            it('should reject file formats in the filename', function() {
-                var value = document.getElementById('addtab-filename').value = 'foo.mss';
-                event.initEvent('submit', true, false);
-                el.dispatchEvent(event);
-                var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
-                expect(tab[tab.length - 1].rel).to.equal('foo.mss');
-            });
         });
     });
 
