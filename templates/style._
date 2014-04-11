@@ -40,7 +40,7 @@
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
     </header>
-    <div class='settings-body pad2'>
+    <div class='pad2'>
       <fieldset>
         <section class='space-bottom1'>
           <label>Name</label>
@@ -225,7 +225,7 @@
       <a rel='template' href='#code-template' class='pin-topleft template-tab pad0 round tab js-tab quiet icon tooltip'></a>
       <div class='center carto-tabs'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='col4 strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
       --></div>
       <a href='#addtab' class='addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
@@ -279,8 +279,8 @@
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
   <div class='clearfix'>
     <span class='input-pill pill col8 margin2'>
-      <input class='col8' type='text' placeholder='filename' size='20' id='addtab-filename' required/><!--
-      --><input class='col4 round-right' type='submit' value='New tab'/>
+      <input class='col8' type='text' placeholder='filename.mss' title='No spaces allowed. Requires ".mss" extension.' id='addtab-filename' pattern='[\w+\d+\.\/_-]+\.mss' required/><!--
+   --><input class='col4 round-right' type='submit' value='New tab'/>
     </span>
   </div>
 </form>
@@ -658,9 +658,9 @@ Editor.prototype.adddata = function(ev) {
 };
 Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
-  var filename = field.val().split('.')[0] + '.mss';
+  var filename = field.val();
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--").insertAfter('.carto-tabs a:last-child');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='col4 strong quiet tab js-tab round pad0y pad1x truncate'>"+filename+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--").insertAfter('.carto-tabs a:last-child');
     code[filename] = Tab(filename, '');
   } else {
     editor.messagemodal('Tab name must be different than existing tab "' + field.val() + '"');
@@ -798,15 +798,15 @@ Editor.prototype.cartoError = function(ln, e) {
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   var message = this.messagemodal;
-  $('.settings-body').addClass('loading');
+  $('.project-settings').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
       message(null, '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-      $('.settings-body').removeClass('loading');
+      $('.project-settings').removeClass('loading');
       return true;
     })
     .error(function(resp) {
-      $('.settings-body').removeClass('loading');
+      $('.project-settings').removeClass('loading');
       return message(resp.responseText);
     });
 };

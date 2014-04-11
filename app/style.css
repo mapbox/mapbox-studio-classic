@@ -31,11 +31,6 @@
 #tabs a.tab.active .trash { display:block;}
 #tabs a.tab .trash:hover:before { opacity:1; }
 
-#tabs .carto-tabs a.tab:first-child:nth-last-child(1) { width:100%; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(2),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(2) ~ a.tab  { width:50.00%; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(3),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(3) ~ a.tab  { width:33.33%; }
 #tabs .carto-tabs a.tab:first-child:nth-last-child(4),
 #tabs .carto-tabs a.tab:first-child:nth-last-child(4) ~ a.tab  { width:25.00%; }
 #tabs .carto-tabs a.tab:first-child:nth-last-child(5),
