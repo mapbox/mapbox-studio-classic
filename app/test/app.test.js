@@ -67,7 +67,7 @@ describe('Editor', function() {
             });
 
             it('should create a new tab', function() {
-                var value = document.getElementById('addtab-filename').value = 'foo';
+                var value = document.getElementById('addtab-filename').value = 'foo.mss';
                 event.initEvent('submit', true, false);
                 el.dispatchEvent(event);
                 var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
