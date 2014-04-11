@@ -27,7 +27,7 @@
     "fstream": "0.1.x",
     "tar": "0.1.x",
     "mapnik": "1.4.2",
-    "mapnik-reference": "~0.5.8",
+    "mapnik-reference": "~5.0.8",
     "carto": "~0.9.6",
     "tilelive": "4.5.x",
     "tilelive-bridge": "0.3.0",
