@@ -32,6 +32,10 @@
   font-family:'Open Sans', sans-serif;
   }
 
+.settings-body {
+  bottom: 80px;
+}
+
 /* Conf pane */
 .editor > div.conf { display:block; }
 .sql .editor > div.conf,

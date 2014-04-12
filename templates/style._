@@ -35,12 +35,12 @@
     <%= this.history(obj) %>
   </div>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='project-settings fill-light round contain col4 pin-topleft'>
+  <div class='project-settings fill-light round col4 pin-topleft'>
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
     <header class='pad2 keyline-bottom'>
       <h3>Settings</h3>
     </header>
-    <div class='settings-body pad2'>
+    <div class='pin-left col12 settings-body scroll-styled pad2'>
       <fieldset>
         <section class='space-bottom1'>
           <label>Name</label>
@@ -101,7 +101,8 @@
           <input id='baselayer_id' class='short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
         </section>
       </fieldset>
-
+    </div>
+    <div class='settings-footer pad2 fill-light keyline-top round-bottom pin-bottom'>
       <section class='pill col12 clearfix'><!--
         --><a href='#saveas' class='button quiet<% if (style._tmp) { %> col12 <% } else { %> col6 <% } %>icon js-save floppy space-bottom0'>Save</a><% if (!style._tmp) { %><!--
         --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package'>Package</a>
