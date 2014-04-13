@@ -55,6 +55,10 @@ function auth(req, res, next) {
         return next();
     }
     request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
+        if (error) {
+            return next(error);
+        }
+
         if (response.statusCode >= 400) {
             var data = {
                 '_type': 'composite',
