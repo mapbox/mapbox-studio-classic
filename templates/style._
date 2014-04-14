@@ -136,7 +136,7 @@
   <ul id='search-results' class='clip fill-light scroll-styled round-bottom'></ul>
 </form>
 
-<div id='full' class='clip animate pin-left'>
+<div id='full' class='z1 clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
