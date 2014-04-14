@@ -15,7 +15,7 @@ var source = require('./lib/source');
 var style = require('./lib/style');
 var express = require('express');
 var cors = require('cors');
-tm.config(require('optimist')
+var config = require('optimist')
     .config('config')
     .options('db', {
         describe: 'path to tm2 db',
@@ -25,7 +25,12 @@ tm.config(require('optimist')
         describe: 'URL to mapbox auth API',
         default: 'https://api.mapbox.com'
     })
-    .argv);
+    .options('port', {
+        describe: 'Port to run tm2 on',
+        default: '3000'
+    })
+    .argv;
+tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
 
@@ -504,5 +509,5 @@ app.get('/geocode', auth, function(req, res, next) {
     res.redirect(query.replace('{query}', req.query.search));
 });
 
-app.listen(3000);
-console.log('TM2 @ http://localhost:3000/');
+app.listen(config.port);
+console.log('TM2 @ http://localhost:'+config.port+'/');
