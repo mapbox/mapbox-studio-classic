@@ -113,6 +113,15 @@ var delStyle = function(ev) {
   return false;
 };
 
+var justName = function(name, ext) {
+  // removes the given extension if present
+  var split = name.split('.');
+  if (split.pop() == ext) {
+    return split.join('.');
+  }
+  return name;
+}
+
 var views = {};
 
 views.Browser = Backbone.View.extend({});

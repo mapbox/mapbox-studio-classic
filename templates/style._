@@ -279,7 +279,7 @@
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
   <div class='clearfix'>
     <span class='input-pill pill col8 margin2'>
-      <input class='col8' type='text' placeholder='filename' size='20' id='addtab-filename' required/><!--
+      <input class='col8' type='text' placeholder='stylesheet name' size='20' id='addtab-filename' required/><!--
       --><input class='col4 round-right' type='submit' value='New tab'/>
     </span>
   </div>
@@ -342,7 +342,7 @@ var code = _(<%=JSON.stringify(style.styles)%>).reduce(function(memo, value, k) 
   return memo;
 }, {});
 
-// Add in interactivity template.
+// Add in interactivity template. 
 code['template'] = Tab('template', <%=JSON.stringify(style.template)%>);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
@@ -658,12 +658,13 @@ Editor.prototype.adddata = function(ev) {
 };
 Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
-  var filename = field.val().split('.')[0] + '.mss';
+  var name = justName(field.val(), 'mss');
+  var filename = name + '.mss';
   if (!code[filename]) {
-    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--").insertAfter('.carto-tabs a:last-child');
+    $("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+name+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--").insertAfter('.carto-tabs a:last-child');
     code[filename] = Tab(filename, '');
   } else {
-    editor.messagemodal('Tab name must be different than existing tab "' + field.val() + '"');
+    editor.messagemodal('Tab name must be different than existing tab "' + name + '"');
     field.val('');
     return false;
   }
@@ -678,7 +679,7 @@ Editor.prototype.deltab = function(ev) {
   if (!styles[target]) {
     $(code[target].getWrapperElement()).remove();
     parent.remove();
-  } else if (confirm('Remove stylesheet "' + target + '"?')) {
+  } else if (confirm('Remove stylesheet "' + justName(target, 'mss') + '"?')) {
     $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];
