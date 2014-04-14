@@ -202,6 +202,14 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
 
+.project-settings {
+  bottom: 20px;
+}
+.settings-body {
+  top: 40px;
+  bottom: 80px;
+}
+
 /* Flag active project */
 .project.proj-active,
 .project.proj-active:hover {

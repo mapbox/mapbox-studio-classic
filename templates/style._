@@ -35,12 +35,12 @@
     <%= this.history(obj) %>
   </div>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='project-settings fill-light round contain col4 pin-topleft'>
+  <div class='project-settings fill-light round col4 pin-topleft'>
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
-    <header class='pad2 keyline-bottom'>
+    <header class='pad1 keyline-bottom'>
       <h3>Settings</h3>
     </header>
-    <div class='settings-body pad2'>
+    <div class='pin-left col12 settings-body scroll-styled pad2'>
       <fieldset>
         <section class='space-bottom1'>
           <label>Name</label>
@@ -101,17 +101,21 @@
           <input id='baselayer_id' class='short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
         </section>
       </fieldset>
-
-      <section class='pill col12 clearfix'><!--
-        --><a href='#saveas' class='button quiet<% if (style._tmp) { %> col12 <% } else { %> col6 <% } %>icon js-save floppy space-bottom0'>Save</a><% if (!style._tmp) { %><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 submit icon package'>Package</a>
+    </div>
+    <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
+      <section class='pad1x col12 clearfix'>
+        <div class='pad1x <% if (style._tmp) { %> col12 <% } else { %> col4 <% } %>'>
+        <a href='#saveas' class='button col12 quiet icon js-save floppy'>Save</a>
+        </div>
+        <div class='pad1x pill col8'><!--
+       <% if (!style._tmp) { %>
+        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 <% if (!user.plan.tm2z) { %>col12<% } %> submit icon package'>Package</a><!--
         <% } %>
+        <% if (!style._tmp && user.plan.tm2z) { %>
+        --><a href='#settings' id='upload-style' class='button quiet col6 submit icon up'>Upload</a><!--
+        <% } %>
+     --></div>
       </section>
-      <% if (!style._tmp && user.plan.tm2z) { %>
-      <section class='pill col12 clearfix'><!--
-        --><a href='#settings' id='upload-style' class='button quiet col12 submit icon up'>Upload</a>
-      </section>
-      <% } %>
     </div>
   </div>
 </form>
@@ -132,7 +136,7 @@
   <ul id='search-results' class='clip fill-light scroll-styled round-bottom'></ul>
 </form>
 
-<div id='full' class='clip animate pin-left'>
+<div id='full' class='z1 clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
