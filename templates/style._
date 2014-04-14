@@ -50,7 +50,7 @@
           <label>Description</label>
           <textarea class='short small stretch' name='description' type='text' cols='60' rows='8'><%= style.description %></textarea>
         </section>
-        <section class='space-bottom1'>
+        <section>
           <label>Attribution</label>
           <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></input>
         </section>
