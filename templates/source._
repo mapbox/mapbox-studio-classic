@@ -34,7 +34,7 @@
   <div class='pin-topleft project-settings dark fill-dark round col4'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <a class="pad1 quiet icon x pin-topright" href="#"></a>
-    <header class='pad2 keyline-bottom'>
+    <header class='pad1 keyline-bottom'>
       <h3>Settings</h3>
     </header>
 
@@ -66,15 +66,19 @@
         </section>
       </fieldset>
     </div>
-    <div class='keyline-top pad2 settings-footer pin-bottom'>
+    <div class='keyline-top pad2y settings-footer pin-bottom'>
     <% if (!remote) { %>
-      <section class='pill col12 clearfix'><!--
-        --><a href='#' class='quiet button col6 icon js-save floppy'>Save</a><!--
-        --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 icon share'>Export</a>
+      <section class='col12 pad1x clearfix'>
+        <div class='pad1x col6'>
+          <a href='#' class='quiet button col12 icon js-save floppy'>Save</a>
+        </div>
+        <div class='pad1x col6'>
+          <a href='/mbtiles?id=<%= source.id %>' class='quiet button col12 icon share'>Export</a>
+        </div>
       </section>
     <% } else { %>
-      <section class='text-right space clearfix'>
-        <a href='#' class='col6 fr quiet button icon js-save floppy'>Save</a>
+      <section class='pad2x clearfix'>
+        <a href='#' class='col12 quiet button icon js-save floppy'>Save</a>
       </section>
     <% } %>
     </div>

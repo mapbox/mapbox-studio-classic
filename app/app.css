@@ -206,8 +206,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
   bottom: 20px;
 }
 .settings-body {
-  top: 60px;
-  bottom: 125px;
+  top: 40px;
+  bottom: 80px;
 }
 
 /* Flag active project */
