@@ -98,7 +98,7 @@
         <% } %>
       </fieldset>
       <fieldset class='fill-darken0 pad1 round'>
-        <div class='space-bottom0 small quiet'><em>Underlay your style with a mapbox map, for reference only.</em></div>
+        <div class='space-bottom0 small quiet'><em>Underlay your style with a Mapbox map. For reference only.</em></div>
         <section class='clearfix'>
           <label class='inline col4 pad0y' for='baselayer_id'>Baselayer ID</label>
           <input id='baselayer_id' class='short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
