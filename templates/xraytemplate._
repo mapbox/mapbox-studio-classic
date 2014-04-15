@@ -2,7 +2,7 @@
 <% _(obj).each(function(field) { %>
 {{#<%=field%>}}
 <div class='clearfix space-bottom0 xray-listing'>
-    <div class='col4 break-word xray'><%=field%></div>
+    <div class='col4 break-word fill-lighten2 xray'><%=field%></div>
     <div class='quiet pad1x col8'>{{<%=field%>}}</div>
 </div>
 {{/<%=field%>}}
