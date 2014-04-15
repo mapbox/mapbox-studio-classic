@@ -353,6 +353,7 @@ Editor.prototype.events = {
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
   'click .search-result': 'selectSearch',
+  'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
   'submit #user': 'user',
   'keydown': 'keys'
@@ -442,7 +443,10 @@ Editor.prototype.togglemode = function(ev) {
 };
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name truncate">'+name+'</a><a href="#" class="icon trash js-del-bookmark quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain">'+
+    '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+
+    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright fill-dark pad0" title="Delete"></a>'+
+    '</li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
@@ -467,7 +471,6 @@ Editor.prototype.addbookmark = function(ev) {
       fieldVal = field.val(),
       value = [coords.lat, coords.lng, zoom],
       name = fieldVal ? fieldVal : value;
-  if (this.bookmarks[name]) return false;
   this.bookmarks[name] = value;
   localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
@@ -537,7 +540,12 @@ Editor.prototype.search = function(ev) {
     results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result truncate '+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain">'+
+        '<a href="#" class="dark pad0 quiet small search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
+        '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
+        '</a>'+
+        '<a href="#bookmark" class="pad0 icon marker dark search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
+        '</li>').appendTo($results);
       selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
@@ -568,6 +576,12 @@ Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
     }
   }
   return false;
+};
+Editor.prototype.bookmarkSearch = function(ev, selection) {
+  var result = $(ev.currentTarget).siblings('.search-result');
+  selectSearch(false, result);
+  $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
+  $('#bookmark').submit();
 };
 Editor.prototype.navSearch = function(ev, dir) {
   var results = $('#search-results li');

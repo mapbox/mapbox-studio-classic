@@ -305,6 +305,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
       -ms-transform:translateY(10px);
           transform:translateY(10px);
   }
+  #search .search-result { padding-right:30px; }
 
 .dark #search { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
 
