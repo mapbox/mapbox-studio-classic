@@ -93,7 +93,7 @@
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4 pad0y' for='map_id'>Map ID</label>
-          <input id='map_id' class='short small col8 readonly' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map id' readonly></input>
+          <input id='map_id' class='short small col8 readonly' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map id' readonly disabled></input>
         </section>
         <% } %>
       </fieldset>
