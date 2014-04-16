@@ -266,9 +266,6 @@
           <% _(source.vector_layers||{}).each(function(l) { %>
           <pre rel='<%= l.id %>' class='small space js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %><span>{{{<%= name %>}}}</span><% }); %></pre>
           <% }); %>
-          <% if (_(source.vector_layers).length === 0) { %>
-            <%= this.emptystate({message:'No available properties.'}) %>
-          <% } %>
         <% }); %>
         <%= this.emptystate({message:'Select an interaction layer to see available properties.'}) %>
       </div>
