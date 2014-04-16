@@ -210,6 +210,9 @@ a.project:hover { background: rgba(255,255,255,.15);}
   bottom: 80px;
 }
 
+#settings-source .empty-state:only-child,
+#settings-style .empty-state:only-child { display: block;}
+
 /* Flag active project */
 .project.proj-active,
 .project.proj-active:hover {
@@ -578,7 +581,10 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
-#layers .menu-content .empty-state:only-child { display: block;}
+#layers .menu-content .empty-state:only-child {
+  margin: 20px;
+  display: block;
+}
 
 /* CodeMirror*/
 .CodeMirror,

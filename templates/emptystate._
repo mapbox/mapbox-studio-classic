@@ -3,4 +3,4 @@
 // - message, the message that displays when content area is empty
 %>
 
-<div class='js-empty-state hidden empty-state pad2'><div class='pad2 fill-darken0 round'><%=message%></div></div></div>
+<div class='small empty-state hidden fill-darken1 round pad1'><%=message%></div>
