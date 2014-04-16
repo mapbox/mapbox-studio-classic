@@ -578,6 +578,7 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
+#layers .menu-content .empty-state:only-child { display: block;}
 
 /* CodeMirror*/
 .CodeMirror,
@@ -830,11 +831,6 @@ a[href='#docs-text'],
 a[href='#docs-misc'],
 #docs-misc section     { border-left-color: #ee6565; } /* fill red */
 
-a[href='#docs-remote'],
-#docs-remote section     { border-left-color: #ee8a65; } /* fill orange */
-a[href='#docs-local'],
-#docs-local section     { border-left-color: #3887be; } /* fill blue */
-
 #docs .code.value,
 #docs .code.options {
   color:rgba(0,0,0,.75);
@@ -856,8 +852,6 @@ a[href='#docs-local'],
 #docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
 
 #docs a.docs-nav,
-#docs #docs-remote section,
-#docs #docs-local section,
 #docs section.carto-ref {
   border-left-width: 3px;
   border-left-style: solid;

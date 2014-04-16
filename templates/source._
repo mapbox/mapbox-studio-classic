@@ -175,10 +175,15 @@ revlayers.reverse();
         <% } %>
       </div>
     </nav>
-    <div class='js-menu-content fill-dark pin-left col12 top1 scroll-styled'>
+    <div class='js-menu-content menu-content fill-dark pin-left col12 top1 scroll-styled'>
       <% _(revlayers).each(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
+
+      <% if (revlayers.length === 0) { %>
+      <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#addlayer">Add one now</a>.'}) %>
+      <% } %>
+
     </div>
   </div>
 </div>
@@ -650,6 +655,9 @@ Editor.prototype.addlayer = function(ev) {
 
     window.location.hash = '#layers-' + values.id;
     $('#layers .js-menu-content').sortable('destroy').sortable();
+
+//    $('#layers .js-empty-state').remove();
+
   } else {
     editor.messagemodal('Layer name must be different from existing layer "' + values.id + '"');
   }

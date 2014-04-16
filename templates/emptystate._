@@ -1,0 +1,6 @@
+<%
+// Required vars
+// - message, the message that displays when content area is empty
+%>
+
+<div class='js-empty-state hidden empty-state pad2'><div class='pad2 fill-darken0 round'><%=message%></div></div></div>
