@@ -40,6 +40,8 @@
 .editor > div.fields { display:none; }
 .fields .editor > div.fields { display:block; }
 
+section:not(.field) + .empty-state { margin: 20px;display: block;}
+
 /* SQL pane */
 .editor > div.sql {
   position:absolute;

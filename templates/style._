@@ -256,7 +256,7 @@
         <% }); %>
       </select>
     </div>
-    <div class='fill-grey space pad1 keyline-top fixed-bottomright col6 row4 z10 small'>
+    <div class='fill-grey pad1 keyline-top fixed-bottomright col6 row4 z10 small'>
       <div class='space-bottom1'>
         <label class='small'>Available properties:</label>
       </div>
@@ -267,8 +267,8 @@
           <pre rel='<%= l.id %>' class='small space js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %><span>{{{<%= name %>}}}</span><% }); %></pre>
           <% }); %>
         <% }); %>
+        <%= this.emptystate({message:'Select an interaction layer to see available properties.'}) %>
       </div>
-
       <p class='quiet'><a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags are replaced by your data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize tooltips.</p>
     </div>
   </form>

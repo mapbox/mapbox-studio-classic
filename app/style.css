@@ -7,6 +7,9 @@
 #interactivity .content pre { padding:0; }
 #code-template.active ~ #interactivity  { display:block; }
 
+pre ~ .empty-state { display: block;}
+pre:not(.hidden) ~ .empty-state { display: none;}
+
 /* Editor tabs */
 #tabs {
   padding-left: 115px;
