@@ -13,7 +13,7 @@
   </div>
 </section>
 <% }); %>
-<div class='small empty-state hidden fill-darken1 round pad1'>No available fields. Make sure your layer is referencing valid data.</div>
+<div class='empty-state hidden prose'>No available fields. Make sure your layer is referencing valid data.</div>
 <section class='pad2'>
   <a href='#' class='quiet button submit margin6 col6'>Done</a>
 </section>
