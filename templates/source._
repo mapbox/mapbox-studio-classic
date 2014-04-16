@@ -211,10 +211,12 @@ revlayers.reverse();
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
-  <fieldset class='col8 margin2 space-bottom1'>
-    <input class='col12 space-bottom1' type='text' placeholder='layername' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
+  <fieldset class='col8 margin2'>
+    <p class='center'>Add a layer to your source.</p>
+    <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
   <fieldset class='col8 margin2'>
+    <div class="space-bottom1 small quiet">Select the format of the data you wish to convert into a vector source:</div>
     <div class='col12 scroll-styled radio-buttons'>
       <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
       <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
@@ -272,7 +274,9 @@ tm.srs = <%= JSON.stringify(tm.srs) %>;
 statHandler('srcbytes')();
 
 // set initial page view to avoid #browsefile trap
-$(function() { window.location.href = '#';});
+$(function() {
+  if (window.location.hash === '#browsefile') window.location.hash = '#';
+});
 
 var Layer = function(id, datasource) {
   var code;

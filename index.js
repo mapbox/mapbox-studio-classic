@@ -474,7 +474,7 @@ app.get('/new/style', function(req, res, next) {
 });
 
 app.get('/new/source', function(req, res, next) {
-    res.redirect('/source?id=' + source.tmpid());
+    res.redirect('/source?id=' + source.tmpid() + '#addlayer');
 });
 
 app.get('/', function(req, res, next) {
