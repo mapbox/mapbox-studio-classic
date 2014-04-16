@@ -213,7 +213,7 @@ revlayers.reverse();
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
   <fieldset class='col8 margin2'>
     <p class='center'>Add a layer to your source.</p>
-    <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
+    <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
   <fieldset class='col8 margin2'>
     <div class="space-bottom1 small quiet">Select the format of the data you wish to convert into a vector source:</div>
