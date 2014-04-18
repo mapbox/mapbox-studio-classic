@@ -382,6 +382,7 @@ Editor.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click .js-listmapbox': 'listmapbox',
+  'click .js-selectmapbox': 'selectmapbox',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
@@ -519,6 +520,7 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.listmapbox = listMapbox;
+Editor.prototype.selectmapbox = selectMapbox;
 
 if (window.location.hash === '#addmapbox') {
   listMapbox();

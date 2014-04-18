@@ -105,7 +105,7 @@ var listMapbox = function(ev) {
       var projects = _(resp).filter(function(project) {
                           return project.filesize && !project.options
                         });
-      // Make tilejson requests on projects
+      // Make tilejson requests on filtered projects
       for (var i = 0; i < projects.length; i++) {
 
         $.ajax({
@@ -115,7 +115,7 @@ var listMapbox = function(ev) {
             // Filter for pbf
             if (resp.format === 'pbf') {
               // 3. List projects
-              $('.js-addlist').html(resp.id);
+              $('.js-addlist').html('<a id=' + resp.id + ' href="#" class="pad1 round block project js-selectmapbox small"><strong class="block">' + resp.name + '</strong><span><code>' + resp.id + '</code></span></a>');
             }
           },
           error: function(resp) {
@@ -128,9 +128,12 @@ var listMapbox = function(ev) {
       console.log(resp + 'mapsfail');
     }
   });
+};
 
-  // 4. Click project, fill input with source ID
-
+var selectMapbox = function(ev) {
+  var id = $(ev.currentTarget).attr('id');
+  $('input[type="text"]','#addmapbox').val(id);
+  return false;
 };
 
 var delStyle = function(ev) {

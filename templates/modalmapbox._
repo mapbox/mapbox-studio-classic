@@ -1,13 +1,14 @@
 <form id='addmapbox' class='pad2 modal fill-light round col6 margin3'>
     <a class='pad1 quiet icon close submit pin-topright x dot' href='#'></a>
     <p class='center'>Add a remote source from Mapbox.</p>
-    <div class='js-addlist pad2 contain space-bottom2 fill-blue dark round'>
-      <div class='loading pad1'></div>
+    <div class='contain space-bottom2 fill-blue dark clip round'>
+      <div class='small fill-darken0 pad1'>Your remote sources</div>
+      <div class='pad1 js-addlist'><div class='loading pad1'></div></div>
     </div>
     <div class='space-bottom1 clearfix'>
       <div class='input-pill col8 margin2'><!--
         --><input class='col8' type='text' placeholder='Mapbox ID' title='Use "username.project" syntax for IDs. No spaces between IDs.' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
-        --><input class='col4' type='submit' value='Add source'/>
+        --><input class='col4' type='submit' value='Add'/>
       </div>
     </div>
     <p class='center small quiet'>Add a composite source by including multiple comma-separated IDs.</p>
