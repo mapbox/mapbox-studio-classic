@@ -277,7 +277,7 @@
 
 <%= this.modaluser({name:user.name||user.id}) %>
 <%= this.modalmessage() %>
-<%= this.modalmapbox() %>
+<%= this.modalmapbox(obj) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
@@ -381,6 +381,7 @@ Editor.prototype.events = {
   'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
+  'click .js-listmapbox': 'listmapbox',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
@@ -451,6 +452,12 @@ Editor.prototype.user = function() {
   window.location.href = window.location.origin + '/unauthorize';
   return false;
 };
+
+// 1. Get list of users projects
+// 2. Filter for vector data sources
+// 3. List projects
+// 4. Click project, fill input with source ID
+
 Editor.prototype.zoomin = function(out) {
   map.setZoom(map.getZoom()+1);
   return false;
@@ -516,6 +523,7 @@ Editor.prototype.messagemodal = messageModal;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
+Editor.prototype.listmapbox = listMapbox;
 
 Editor.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+

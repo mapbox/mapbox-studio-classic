@@ -1,11 +1,47 @@
-<form id='addmapbox' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class='pad1 quiet icon close submit pin-topright x dot' href='#'></a>
-  <p class='center'>Add a remote source from Mapbox.</p>
-  <div class='space-bottom1 clearfix'>
-    <div class='input-pill col8 margin2'><!--
-      --><input class='col8' type='text' placeholder='MapBox ID' title='Use "username.project" syntax for IDs. No spaces between IDs.' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
-      --><input class='col4' type='submit' value='Add source'/>
+<form id='addmapbox' class='pad2 modal fill-light round col6 margin3'>
+    <a class='pad1 quiet icon close submit pin-topright x dot' href='#'></a>
+    <p class='center'>Add a remote source from Mapbox.</p>
+    <div class='js-addlist pad2 space-bottom2 fill-blue dark round'>
     </div>
+    <div class='space-bottom1 clearfix'>
+      <div class='input-pill col8 margin2'><!--
+        --><input class='col8' type='text' placeholder='Mapbox ID' title='Use "username.project" syntax for IDs. No spaces between IDs.' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
+        --><input class='col4' type='submit' value='Add source'/>
+      </div>
+    </div>
+    <p class='center small quiet'>Add a composite source by including multiple comma-separated IDs.</p>
   </div>
-  <p class='small quiet'>Add a composite source by including multiple comma-separated IDs.</p>
 </form>
+
+
+<%
+
+// var listmapbox = function(ev) {
+
+//   $.ajax({
+//     url:'https://api.mapbox.com/api/Map?account=' + user.id + '?private=1?list=1',
+//     dataType: 'json',
+//     success: function(resp) {
+//       console.log(resp + 'success');
+//       $('.js-addlist').html(resp[1]);
+
+//     },
+//     error: function(resp) {
+//       console.log(resp + 'error');
+//     }
+//   });
+
+// };
+
+// listmapbox();
+
+// console.log(listmapbox);
+
+%>
+<script>
+
+</script>
+
+
+
+

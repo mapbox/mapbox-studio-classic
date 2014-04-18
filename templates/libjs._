@@ -94,6 +94,21 @@ var messageClear = function() {
   $('#full').removeClass('loading');
 };
 
+var listMapbox = function(ev) {
+
+  $.ajax({
+    url:'/listMapbox',
+    dataType: 'json',
+    success: function(resp) {
+      console.log(resp + 'success');
+    },
+    error: function(resp) {
+      console.log(resp + 'fail');
+    }
+  });
+
+};
+
 var delStyle = function(ev) {
   var id = $(ev.currentTarget).attr('href');
   var parent = $(ev.currentTarget).parent();

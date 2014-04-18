@@ -509,5 +509,10 @@ app.get('/geocode', auth, function(req, res, next) {
     res.redirect(query.replace('{query}', req.query.search));
 });
 
+app.get('/listmapbox', auth, function(req, res, next) {
+    var query = 'https://api.mapbox.com/api/Map?account='+tm.db._docs.user.id+'?private=1?list=1';
+    res.redirect(query);
+});
+
 app.listen(config.port);
 console.log('TM2 @ http://localhost:'+config.port+'/');
