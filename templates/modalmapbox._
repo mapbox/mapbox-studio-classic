@@ -12,36 +12,3 @@
     <p class='center small quiet'>Add a composite source by including multiple comma-separated IDs.</p>
   </div>
 </form>
-
-
-<%
-
-// var listmapbox = function(ev) {
-
-//   $.ajax({
-//     url:'https://api.mapbox.com/api/Map?account=' + user.id + '?private=1?list=1',
-//     dataType: 'json',
-//     success: function(resp) {
-//       console.log(resp + 'success');
-//       $('.js-addlist').html(resp[1]);
-
-//     },
-//     error: function(resp) {
-//       console.log(resp + 'error');
-//     }
-//   });
-
-// };
-
-// listmapbox();
-
-// console.log(listmapbox);
-
-%>
-<script>
-
-</script>
-
-
-
-

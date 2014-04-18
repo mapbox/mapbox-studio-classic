@@ -453,11 +453,6 @@ Editor.prototype.user = function() {
   return false;
 };
 
-// 1. Get list of users projects
-// 2. Filter for vector data sources
-// 3. List projects
-// 4. Click project, fill input with source ID
-
 Editor.prototype.zoomin = function(out) {
   map.setZoom(map.getZoom()+1);
   return false;

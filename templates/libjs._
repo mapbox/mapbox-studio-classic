@@ -96,16 +96,21 @@ var messageClear = function() {
 
 var listMapbox = function(ev) {
 
+  // 1. Get list of users projects
   $.ajax({
     url:'/listMapbox',
     dataType: 'json',
     success: function(resp) {
-      console.log(resp + 'success');
+      console.log(_(resp).chain()
+        .filter(function(project) { return project.filesize && !project.options}));
+        // 3. List projects
     },
     error: function(resp) {
       console.log(resp + 'fail');
     }
   });
+
+  // 4. Click project, fill input with source ID
 
 };
 
