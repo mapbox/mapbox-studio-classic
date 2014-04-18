@@ -1,7 +1,8 @@
 <form id='addmapbox' class='pad2 modal fill-light round col6 margin3'>
     <a class='pad1 quiet icon close submit pin-topright x dot' href='#'></a>
     <p class='center'>Add a remote source from Mapbox.</p>
-    <div class='js-addlist pad2 space-bottom2 fill-blue dark round'>
+    <div class='js-addlist pad2 contain space-bottom2 fill-blue dark round'>
+      <div class='loading pad1'></div>
     </div>
     <div class='space-bottom1 clearfix'>
       <div class='input-pill col8 margin2'><!--

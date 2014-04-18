@@ -520,6 +520,10 @@ Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 Editor.prototype.listmapbox = listMapbox;
 
+if (window.location.hash === '#addmapbox') {
+  listMapbox();
+};
+
 Editor.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+
     '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+

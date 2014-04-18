@@ -101,12 +101,31 @@ var listMapbox = function(ev) {
     url:'/listMapbox',
     dataType: 'json',
     success: function(resp) {
-      console.log(_(resp).chain()
-        .filter(function(project) { return project.filesize && !project.options}));
-        // 3. List projects
+      // Filter for TM2
+      var projects = _(resp).filter(function(project) {
+                          return project.filesize && !project.options
+                        });
+      // Make tilejson requests on projects
+      for (var i = 0; i < projects.length; i++) {
+
+        $.ajax({
+          url: 'http://api.tiles.mapbox.com/v3/' + projects[i].id + '.json',
+          dataType: 'json',
+          success: function(resp) {
+            // Filter for pbf
+            if (resp.format === 'pbf') {
+              // 3. List projects
+              $('.js-addlist').html(resp.id);
+            }
+          },
+          error: function(resp) {
+            console.log(resp + 'tilejsonfail');
+          }
+        })
+      }
     },
     error: function(resp) {
-      console.log(resp + 'fail');
+      console.log(resp + 'mapsfail');
     }
   });
 
