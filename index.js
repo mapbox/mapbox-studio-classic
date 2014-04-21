@@ -13,6 +13,7 @@ var url = require('url');
 var path = require('path');
 var source = require('./lib/source');
 var style = require('./lib/style');
+var middleware = require('./lib/middleware');
 var express = require('express');
 var cors = require('cors');
 var config = require('optimist')
@@ -135,9 +136,6 @@ app.param('style', auth, exporting, function(req, res, next) {
     } else {
         style(id, done);
     }
-}, function(req, res, next) {
-    if (!req.style) return next();
-    next();
 });
 
 app.param('source', auth, exporting, function(req, res, next) {
@@ -165,36 +163,7 @@ app.param('source', auth, exporting, function(req, res, next) {
     }
 });
 
-app.param('history', function(req, res, next) {
-    req.history = {};
-    var history = tm.history();
-    var types = Object.keys(history);
-
-    if (!types.length) return next();
-
-    var load = function(type, queue) {
-        if (!queue.length && !types.length) return next();
-        if (!queue.length) {
-            type = types.shift();
-            queue = history[type].slice(0);
-            return load(type, queue);
-        }
-        var id = queue.shift();
-        var method = type === 'style' ? style.info : source.info;
-        method(id, function(err, info) {
-            if (err) {
-                tm.history(type, id, true);
-            } else {
-                req.history[type] = req.history[type] || {};
-                req.history[type][id] = info;
-            }
-            load(type, queue);
-        });
-    };
-    var type = types.shift();
-    var queue = history[type].slice(0);
-    load(type, queue);
-});
+app.param('history', middleware.history);
 
 app.all('/:style(style.json)', function(req, res, next) {
     if (req.method === 'GET') return res.send(req.style.data);
