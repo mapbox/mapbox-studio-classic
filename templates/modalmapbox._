@@ -1,9 +1,10 @@
 <form id='addmapbox' class='pad2 modal fill-light round col6 margin3'>
     <a class='pad1 quiet icon close submit pin-topright x dot' href='#'></a>
     <p class='center'>Add a remote source from Mapbox.</p>
-    <div class='contain space-bottom2 fill-blue dark clip round'>
-      <div class='small fill-darken0 pad1'>Your remote sources</div>
-      <div class='pad1 js-addlist'><div class='loading pad1'></div></div>
+    <div class='space-bottom2 fill-blue dark clip round'>
+      <div class='small fill-darken0 pad0x'><span class='inline icon cloud pad1'></span>Available on <strong><%= user.id %>'s</strong> Mapbox account</div>
+      <div class='contain pad1'><div class='pad1 js-addlist loading'>
+      </div></div>
     </div>
     <div class='space-bottom1 clearfix'>
       <div class='input-pill col8 margin2'><!--
