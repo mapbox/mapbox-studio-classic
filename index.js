@@ -37,6 +37,13 @@ var crypto = require('crypto');
 
 // Load defaults for new styles.
 var basemaps = {};
+var defaults = {};
+style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
+    if (err) throw err;
+    var data = JSON.parse(JSON.stringify(info));
+    delete data.id;
+    defaults.style = data;
+});
 
 var app = express();
 app.use(express.bodyParser());
