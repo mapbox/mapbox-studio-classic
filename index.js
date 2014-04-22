@@ -5,6 +5,13 @@ process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().leng
 
 process.title = 'tm2';
 
+if (process.platform === 'win32') {
+    // HOME is undefined on windows
+    process.env.HOME = process.env.USERPROFILE;
+    // Add custom library paths to the PATH
+    process.env.PATH = path.join(__dirname,"node_modules/mapnik/lib/binding/");
+}
+
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
