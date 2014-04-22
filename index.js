@@ -35,15 +35,7 @@ tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
 
-// Load defaults for new styles.
 var basemaps = {};
-var defaults = {};
-style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
-    if (err) throw err;
-    var data = JSON.parse(JSON.stringify(info));
-    delete data.id;
-    defaults.style = data;
-});
 
 var app = express();
 app.use(express.bodyParser());
@@ -112,31 +104,7 @@ function exporting(req, res, next) {
     });
 };
 
-app.param('style', auth, exporting, function(req, res, next) {
-    // @TODO...
-    if (req.method === 'PUT' && req.body._recache && req.query.id) {
-        source.invalidate(req.body.source, next);
-    } else {
-        next();
-    }
-}, function(req, res, next) {
-    var id = req.query.id;
-    var tmp = id && style.tmpid(id);
-    var data = false;
-    var done = function(err, s) {
-        if (err) return next(err);
-        if (!tmp) tm.history('style', id);
-        req.style = s;
-        return next();
-    };
-    if (req.method === 'PUT') {
-        style.save(req.body, done);
-    } else if (tmp && req.path === '/style') {
-        style.save(_({id:id}).defaults(defaults.style), done);
-    } else {
-        style(id, done);
-    }
-});
+app.param('style', auth, exporting, middleware.loadStyle);
 
 app.param('source', auth, exporting, function(req, res, next) {
     if (req.method === 'PUT' && req.query.id) {
@@ -165,14 +133,16 @@ app.param('source', auth, exporting, function(req, res, next) {
 
 app.param('history', middleware.history);
 
-app.all('/:style(style.json)', function(req, res, next) {
-    if (req.method === 'GET') return res.send(req.style.data);
-    if (req.method === 'PUT') return res.send({
-        _recache:false,
-        mtime:req.style.data.mtime,
-        background:req.style.data.background
+app.put('/style.json', middleware.writeStyle, function(req, res, next) {
+    res.send({
+        _recache: false,
+        mtime: req.style.data.mtime,
+        background: req.style.data.background
     });
-    next();
+});
+
+app.get('/:style(style.json)', function(req, res, next) {
+    res.send(req.style.data);
 });
 
 app.get('/:style(style):history()', function(req, res, next) {
@@ -438,8 +408,8 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/new/style', function(req, res, next) {
-    res.redirect('/style?id=' + style.tmpid());
+app.get('/new/style', exporting, middleware.writeStyle, function(req, res) {
+    res.redirect('/style?id=' + req.style.data.id);
 });
 
 app.get('/new/source', function(req, res, next) {
@@ -447,7 +417,7 @@ app.get('/new/source', function(req, res, next) {
 });
 
 app.get('/', function(req, res, next) {
-    res.redirect('/style?id=' + style.tmpid());
+    res.redirect('/new/style');
 });
 
 app.del('/history/:type(style|source)', function(req, res, next) {
