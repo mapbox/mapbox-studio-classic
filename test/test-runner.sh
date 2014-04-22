@@ -4,9 +4,6 @@ set -e -x
 # Kill sub-processes when this script is finished
 trap 'kill $(jobs -p)' EXIT
 
-# Run backend tests
-mocha -R spec
-
 # Make a working copy of the test database that is excluded in .gitignore
 cp ./test/fixtures-oauth/test.db ./test/fixtures-oauth/test-clone.db
 
@@ -22,5 +19,8 @@ styleId=${result[1]}
 # Run front-end tests
 ./node_modules/.bin/mocha-phantomjs "http://localhost:3000/style?id=$styleId&test=true"
 sleep 10
+
+# Run backend tests
+mocha -R spec
 
 exit 0
