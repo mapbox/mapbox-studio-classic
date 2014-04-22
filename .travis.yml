@@ -10,3 +10,7 @@ addons:
 before_install:
  - createdb template_postgis
  - psql -c "CREATE EXTENSION postgis" template_postgis
+
+before_script:
+ - npm install mocha
+ - npm ls
