@@ -121,6 +121,10 @@ describe('middleware', function() {
                 done();
             });
         });
+        // @TODO: testing this requires some work on source.invalidate
+        // it('invalidates source if req._recache', function() {
+        //     done();
+        // });
     });
     
     describe('loadStyle', function() {
