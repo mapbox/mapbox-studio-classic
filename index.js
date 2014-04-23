@@ -381,7 +381,7 @@ app.use(function(err, req, res, next) {
     }
 });
 
-app.get('/geocode', middleware.auth, function(req, res, next) {
+app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next) {
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
