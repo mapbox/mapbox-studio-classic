@@ -21,6 +21,8 @@ styleId=${result[1]}
 
 # Run front-end tests
 ./node_modules/.bin/mocha-phantomjs "http://localhost:3000/style?id=$styleId&test=true"
-sleep 10
+
+# Remove working database
+rm ./test/fixtures-oauth/test-clone.db
 
 exit 0
