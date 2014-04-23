@@ -42,60 +42,12 @@ tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
 
-var basemaps = {};
-
 var app = express();
 app.use(express.bodyParser());
 app.use(require('./lib/oauth'));
 app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
-
-// Check for authentication credentials. If present, check with test API
-// call. Otherwise, lock the app and redirect to authentication.
-function auth(req, res, next) {
-    if (!tm.db._docs.oauth) return res.redirect('/authorize');
-    if (basemaps[tm.db._docs.oauth.account]) {
-        req.basemap = basemaps[tm.db._docs.oauth.account];
-        return next();
-    }
-    request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
-        if (error) {
-            return next(error);
-        }
-
-        if (response.statusCode >= 400) {
-            var data = {
-                '_type': 'composite',
-                'center': [0,0,3],
-                'created': 1394571600000,
-                'description': '',
-                'id': tm.db._docs.oauth.account+'.tm2-basemap',
-                'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
-                'name': 'Untitled project',
-                'new': true,
-                'private': true
-            };
-            request({
-                method: 'PUT',
-                uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
-                headers: {'content-type': 'application/json'},
-                body: JSON.stringify(data)
-            }, function(error, response, body) {
-                if (!response.statusCode === 200) return res.redirect('/unauthorize');
-                // Map has been written successfully but we don't have a fresh
-                // copy to cache and attach to req.basemap. Run the middleware
-                // again which will do a GET that should now be successful.
-                auth(req, res, next);
-            });
-        } else {
-            try { body = JSON.parse(body); }
-            catch(err) { return next(err); }
-            req.basemap = basemaps[tm.db._docs.oauth.account] = body;
-            next();
-        }
-    });
-};
 
 // Check for an active export. If present, redirect to the export page
 // effectively locking the application from use until export is complete.
@@ -111,9 +63,9 @@ function exporting(req, res, next) {
     });
 };
 
-app.param('style', auth, exporting, middleware.loadStyle);
+app.param('style', middleware.auth, exporting, middleware.basemap, middleware.loadStyle);
 
-app.param('source', auth, exporting, middleware.loadSource);
+app.param('source', middleware.auth, exporting, middleware.loadSource);
 
 app.param('history', middleware.history);
 
@@ -246,7 +198,7 @@ app.get('/:style(style).tm2z', function(req, res, next) {
     });
 });
 
-app.get('/upload', auth, function(req, res, next) {
+app.get('/upload', middleware.auth, function(req, res, next) {
     if (style.tmpid(req.query.styleid))
         return next(new Error('Style must be saved first'));
     if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
@@ -429,7 +381,7 @@ app.use(function(err, req, res, next) {
     }
 });
 
-app.get('/geocode', auth, function(req, res, next) {
+app.get('/geocode', middleware.auth, function(req, res, next) {
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
