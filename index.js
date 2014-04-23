@@ -113,30 +113,7 @@ function exporting(req, res, next) {
 
 app.param('style', auth, exporting, middleware.loadStyle);
 
-app.param('source', auth, exporting, function(req, res, next) {
-    if (req.method === 'PUT' && req.query.id) {
-        source.invalidate(req.query.id, next);
-    } else {
-        next();
-    }
-}, function(req, res, next) {
-    var id = req.query.id;
-    var tmp = id && source.tmpid(id);
-    var data = false;
-    var done = function(err, s) {
-        if (err) return next(err);
-        if (!tmp) tm.history('source', id);
-        req.source = s;
-        return next();
-    };
-    if (req.method === 'PUT') {
-        source.save(req.body, done);
-    } else if (tmp && req.path === '/source') {
-        source.save({id:id}, done);
-    } else {
-        source(id, done);
-    }
-});
+app.param('source', auth, exporting, middleware.loadSource);
 
 app.param('history', middleware.history);
 
@@ -360,14 +337,16 @@ app.get('/:source(source):history()', function(req, res, next) {
     return res.send(page);
 });
 
-app.all('/:source(source.json)', function(req, res, next) {
-    if (req.method === 'GET') return res.send(req.source.data);
-    if (req.method === 'PUT') return res.send({
+app.put('/source.json', middleware.writeSource, function(req, res, next) {
+    res.send({
         mtime:req.source.data.mtime,
         vector_layers:req.source.data.vector_layers,
         _template:req.source.data._template
     });
-    next();
+});
+
+app.get('/:source(source.json)', function(req, res, next) {
+    res.send(req.source.data);
 });
 
 app.get('/browse*', function(req, res, next) {
@@ -419,8 +398,8 @@ app.get('/new/style', exporting, middleware.writeStyle, function(req, res) {
     res.redirect('/style?id=' + req.style.data.id);
 });
 
-app.get('/new/source', function(req, res, next) {
-    res.redirect('/source?id=' + source.tmpid() + '#addlayer');
+app.get('/new/source', exporting, middleware.writeSource, function(req, res, next) {
+    res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
 app.get('/', function(req, res, next) {
