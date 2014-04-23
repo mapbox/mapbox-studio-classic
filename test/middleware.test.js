@@ -2,19 +2,23 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
+var tilelive = require('tilelive');
+var yaml = require('js-yaml');
+
 var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
-var tilelive = require('tilelive');
-var yaml = require('js-yaml');
+var mockOauth = require('./fixtures-oauth/mapbox');
 
 describe('middleware', function() {
     var tmppath = '/tmp/tm2-test-' + +new Date;
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
-            cache: path.join(tmppath, 'cache')
+            cache: path.join(tmppath, 'cache'),
+            // fonts: path.join(tmppath, 'fonts'), maybe?
+            mapboxauth: 'http://localhost:3001'
         }, done);
     });
     after(function(done) {
@@ -248,6 +252,60 @@ describe('middleware', function() {
                 assert.equal(req.source.data.minzoom, sourceDoc.minzoom, 'has the correct minzoom');
                 assert.equal(req.source.data.maxzoom, sourceDoc.maxzoom, 'has the correct maxzoom');
                 assert.deepEqual(req.source.data.Layer[0].Datasource, sourceDoc.Layer[0].Datasource, 'has the correct Layer');
+                done();
+            });
+        });
+    });
+
+    describe('auth', function() {
+        it('redirects unauthenticated requests', function(done) {
+            function redirectedTo(path) {
+                assert.equal('/authorize', path);
+                done();
+            }
+            middleware.auth({}, { redirect: redirectedTo }, function() {
+                assert.fail('did not redirect');
+                done();
+            });
+        });
+        it('passes through authenticated requests', function(done) {
+            tm.db.set('oauth', {
+                account: 'test',
+                accesstoken: '12345678'
+            });
+            function redirectedTo(path) {
+                assert.fail('redirected authenticated request');
+                done();
+            }
+            middleware.auth({}, {redirect: redirectedTo}, function(err) {
+                assert(!err);
+                done();
+            });
+        });
+    });
+
+    describe('basemap', function() {
+        before(function(done) {
+            tm.db.set('oauth', {
+                account: 'test',
+                accesstoken: '12345678'
+            });
+            mockOauth.start(done);
+        });
+        after(function(done) {
+            mockOauth.stop(done);
+        });
+        it('appends a basemap to req', function(done) {
+            var req = {};
+            middleware.basemap(req, {}, function(err) {
+                assert(req.basemap);
+                done();
+            });
+        });
+        it('error when unauthenticated', function(done) {
+            tm.db.rm('oauth');
+            middleware.basemap({}, {}, function(err) {
+                assert(err);
                 done();
             });
         });
