@@ -5,6 +5,7 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
 var style = require('../lib/style');
+var source = require('../lib/source');
 var tilelive = require('tilelive');
 var yaml = require('js-yaml');
 
@@ -152,6 +153,101 @@ describe('middleware', function() {
                 assert.equal(req.style.data.id, styleId, 'has the correct id');
                 assert(tm.history().style.indexOf(req.style.data.id) !== -1, 'writes to history');
                 assert.equal(req.style.data.mtime, styleDoc.mtime, 'style info was loaded');
+                done();
+            });
+        });
+    });
+
+    describe('writeSource', function() {
+        var tmpId = '/tmp/tm2-perm-' + (+new Date);
+        after(function(done) {
+            setTimeout(function() {
+                ['data.xml', 'data.yml'].forEach(function(file) {
+                    try { fs.unlinkSync(tmpId + '/' + file) } catch(err) {};
+                });
+                try { fs.rmdirSync(tmpId) } catch(err) {};
+                done();
+            }, 250);
+        });
+        it('makes tmp sources', function(done) {
+            var req = { body: {} };
+            middleware.writeSource(req, {}, function() {
+                assert(req.source, 'appends source to req');
+                assert(source.tmpid(req.source.data.id), 'creates a valid tmp id');
+                var history = tm.history();
+                if (history.source) {
+                    assert(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
+                }
+                done();
+            });
+        });
+        it('makes persistent sources', function(done) {
+            var data = {
+                id: 'tmsource://' + tmpId,
+                name: 'Test source',
+                attribution: '&copy; John Doe 2013.',
+                minzoom: 0,
+                maxzoom: 6,
+                Layer: [ {
+                    id: 'box',
+                    name: 'box',
+                    description: '',
+                    srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
+                    properties: {
+                        'buffer-size': 0,
+                        minzoom: 0,
+                        maxzoom: 6
+                    },
+                    Datasource: {
+                        file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+                        type: 'shape'
+                    }
+                } ]
+            };
+            var req = { body: data };
+            middleware.writeSource(req, {}, function() {
+                var s = req.source;
+                assert(s, 'appends source to req');
+                assert(!source.tmpid(s.data.id), 'does not creates a tmp id');
+                var history = tm.history();
+                if (history.source) {
+                    assert(history.source.indexOf(s.data.id) !== -1, 'writes to history');
+                }
+                assert.deepEqual(s.data, data, 'has the right data');
+                done();
+            });
+        });
+    });
+    
+    describe('loadSource', function() {
+        it('loads a tmp source', function(done) {
+            var writeReq = { body: {} };
+            middleware.writeSource(writeReq, {}, function() {
+                var req = { query: { id: writeReq.source.data.id } };
+                middleware.loadSource(req, {}, function() {
+                    assert(req.source, 'appends source to req');
+                    assert.equal(req.source.data.id, writeReq.source.data.id, 'has the correct id');
+                    var history = tm.history();
+                    if (history.source) {
+                        assert(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
+                    }
+                    done();
+                });
+            });
+        });
+        it('loads a persistent source', function(done) {
+            var sourceId = 'tmsource://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
+            var sourceDoc = require('./fixtures-localsource/data.yml');
+            var req = { query: { id: sourceId } };
+            middleware.loadSource(req, {}, function() {
+                assert(req.source, 'appends source to req');
+                assert.equal(req.source.data.id, sourceId, 'has the correct id');
+                assert(tm.history().source.indexOf(req.source.data.id) !== -1, 'writes to history');
+                assert.equal(req.source.data.name, sourceDoc.name, 'has the correct name');
+                assert.equal(req.source.data.attribution, sourceDoc.attribution, 'has the correct attribution');
+                assert.equal(req.source.data.minzoom, sourceDoc.minzoom, 'has the correct minzoom');
+                assert.equal(req.source.data.maxzoom, sourceDoc.maxzoom, 'has the correct maxzoom');
+                assert.deepEqual(req.source.data.Layer[0].Datasource, sourceDoc.Layer[0].Datasource, 'has the correct Layer');
                 done();
             });
         });
