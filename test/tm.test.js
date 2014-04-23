@@ -1,7 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
-var tm = require('../lib/tm');
+var lib = process.env.TM_COV ? path.resolve(__dirname, '../lib-cov') : path.resolve(__dirname, '../lib');
+var tm = require(path.resolve(lib, 'tm'));
 
 describe('tm', function() {
 

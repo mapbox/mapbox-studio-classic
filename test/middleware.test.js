@@ -5,10 +5,11 @@ var assert = require('assert');
 var tilelive = require('tilelive');
 var yaml = require('js-yaml');
 
-var tm = require('../lib/tm');
-var middleware = require('../lib/middleware');
-var style = require('../lib/style');
-var source = require('../lib/source');
+var lib = process.env.TM_COV ? path.resolve(__dirname, '../lib-cov') : path.resolve(__dirname, '../lib');
+var tm = require(path.resolve(lib, 'tm'));
+var middleware = require(path.resolve(lib, 'middleware'));
+var style = require(path.resolve(lib, 'style'));
+var source = require(path.resolve(lib, 'source'));
 var mockOauth = require('./fixtures-oauth/mapbox');
 
 describe('middleware', function() {

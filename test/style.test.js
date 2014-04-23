@@ -2,8 +2,9 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
-var tm = require('../lib/tm');
-var style = require('../lib/style');
+var lib = process.env.TM_COV ? path.resolve(__dirname, '../lib-cov') : path.resolve(__dirname, '../lib');
+var tm = require(path.resolve(lib, 'tm'));
+var style = require(path.resolve(lib, 'style'));
 var defpath = path.dirname(require.resolve('tm2-default-style'));
 
 describe('style', function() {

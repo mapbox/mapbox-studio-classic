@@ -41,10 +41,12 @@
   "devDependencies": {
     "mocha": "1.17.x",
     "mocha-phantomjs": "~3.1.5",
-    "phantomjs": "~1.9.2-2"
+    "phantomjs": "~1.9.2-2",
+    "jscoverage": "^0.5.0-rc2"
   },
   "scripts": {
     "start": "./index.js",
-    "test": "./test/test-runner.sh"
+    "test": "./test/test-runner.sh",
+    "coverage": "./test/test-coverage.sh"
   }
 }
