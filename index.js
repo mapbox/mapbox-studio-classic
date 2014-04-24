@@ -5,6 +5,8 @@ process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().leng
 
 process.title = 'tm2';
 
+var path = require('path');
+
 if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
@@ -17,7 +19,6 @@ var qs = require('querystring');
 var tm = require('./lib/tm');
 var fs = require('fs');
 var url = require('url');
-var path = require('path');
 var source = require('./lib/source');
 var style = require('./lib/style');
 var middleware = require('./lib/middleware');
