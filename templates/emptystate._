@@ -1,0 +1,6 @@
+<%
+// Required vars
+// - message, the message that displays when content area is empty
+%>
+
+<div class='empty-state hidden prose'><%=message%></div>

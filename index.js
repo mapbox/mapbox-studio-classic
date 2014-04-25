@@ -5,17 +5,26 @@ process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().leng
 
 process.title = 'tm2';
 
+var path = require('path');
+
+if (process.platform === 'win32') {
+    // HOME is undefined on windows
+    process.env.HOME = process.env.USERPROFILE;
+    // Add custom library paths to the PATH
+    process.env.PATH = path.join(__dirname,"node_modules/mapnik/lib/binding/");
+}
+
 var _ = require('underscore');
 var qs = require('querystring');
 var tm = require('./lib/tm');
 var fs = require('fs');
 var url = require('url');
-var path = require('path');
 var source = require('./lib/source');
 var style = require('./lib/style');
+var middleware = require('./lib/middleware');
 var express = require('express');
 var cors = require('cors');
-tm.config(require('optimist')
+var config = require('optimist')
     .config('config')
     .options('db', {
         describe: 'path to tm2 db',
@@ -25,19 +34,14 @@ tm.config(require('optimist')
         describe: 'URL to mapbox auth API',
         default: 'https://api.mapbox.com'
     })
-    .argv);
+    .options('port', {
+        describe: 'Port to run tm2 on',
+        default: '3000'
+    })
+    .argv;
+tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
-
-// Load defaults for new styles.
-var defaults = {},
-    basemaps = {};
-style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, info) {
-    if (err) throw err;
-    var data = JSON.parse(JSON.stringify(info));
-    delete data.id;
-    defaults.style = data;
-});
 
 var app = express();
 app.use(express.bodyParser());
@@ -45,52 +49,6 @@ app.use(require('./lib/oauth'));
 app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
-
-// Check for authentication credentials. If present, check with test API
-// call. Otherwise, lock the app and redirect to authentication.
-function auth(req, res, next) {
-    if (!tm.db._docs.oauth) return res.redirect('/authorize');
-    if (basemaps[tm.db._docs.oauth.account]) {
-        req.basemap = basemaps[tm.db._docs.oauth.account];
-        return next();
-    }
-    request(tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken, function(error, response, body) {
-        if (error) {
-            return next(error);
-        }
-
-        if (response.statusCode >= 400) {
-            var data = {
-                '_type': 'composite',
-                'center': [0,0,3],
-                'created': 1394571600000,
-                'description': '',
-                'id': tm.db._docs.oauth.account+'.tm2-basemap',
-                'layers': ['base.mapbox-streets+bg-e8e0d8_landuse_water_buildings_streets'],
-                'name': 'Untitled project',
-                'new': true,
-                'private': true
-            };
-            request({
-                method: 'PUT',
-                uri: tm._config.mapboxauth+'/api/Map/'+tm.db._docs.oauth.account+'.tm2-basemap?access_token='+tm.db._docs.oauth.accesstoken,
-                headers: {'content-type': 'application/json'},
-                body: JSON.stringify(data)
-            }, function(error, response, body) {
-                if (!response.statusCode === 200) return res.redirect('/unauthorize');
-                // Map has been written successfully but we don't have a fresh
-                // copy to cache and attach to req.basemap. Run the middleware
-                // again which will do a GET that should now be successful.
-                auth(req, res, next);
-            });
-        } else {
-            try { body = JSON.parse(body); }
-            catch(err) { return next(err); }
-            req.basemap = basemaps[tm.db._docs.oauth.account] = body;
-            next();
-        }
-    });
-};
 
 // Check for an active export. If present, redirect to the export page
 // effectively locking the application from use until export is complete.
@@ -106,99 +64,22 @@ function exporting(req, res, next) {
     });
 };
 
-app.param('style', auth, exporting, function(req, res, next) {
-    // @TODO...
-    if (req.method === 'PUT' && req.body._recache && req.query.id) {
-        source.invalidate(req.body.source, next);
-    } else {
-        next();
-    }
-}, function(req, res, next) {
-    var id = req.query.id;
-    var tmp = id && style.tmpid(id);
-    var data = false;
-    var done = function(err, s) {
-        if (err) return next(err);
-        if (!tmp) tm.history('style', id);
-        req.style = s;
-        return next();
-    };
-    if (req.method === 'PUT') {
-        style.save(req.body, done);
-    } else if (tmp && req.path === '/style') {
-        style.save(_({id:id}).defaults(defaults.style), done);
-    } else {
-        style(id, done);
-    }
-}, function(req, res, next) {
-    if (!req.style) return next();
-    next();
-});
+app.param('style', middleware.auth, exporting, middleware.basemap, middleware.loadStyle);
 
-app.param('source', auth, exporting, function(req, res, next) {
-    if (req.method === 'PUT' && req.query.id) {
-        source.invalidate(req.query.id, next);
-    } else {
-        next();
-    }
-}, function(req, res, next) {
-    var id = req.query.id;
-    var tmp = id && source.tmpid(id);
-    var data = false;
-    var done = function(err, s) {
-        if (err) return next(err);
-        if (!tmp) tm.history('source', id);
-        req.source = s;
-        return next();
-    };
-    if (req.method === 'PUT') {
-        source.save(req.body, done);
-    } else if (tmp && req.path === '/source') {
-        source.save({id:id}, done);
-    } else {
-        source(id, done);
-    }
-});
+app.param('source', middleware.auth, exporting, middleware.loadSource);
 
-app.param('history', function(req, res, next) {
-    req.history = {};
-    var history = tm.history();
-    var types = Object.keys(history);
+app.param('history', middleware.history);
 
-    if (!types.length) return next();
-
-    var load = function(type, queue) {
-        if (!queue.length && !types.length) return next();
-        if (!queue.length) {
-            type = types.shift();
-            queue = history[type].slice(0);
-            return load(type, queue);
-        }
-        var id = queue.shift();
-        var method = type === 'style' ? style.info : source.info;
-        method(id, function(err, info) {
-            if (err) {
-                tm.history(type, id, true);
-            } else {
-                req.history[type] = req.history[type] || {};
-                req.history[type][id] = info;
-            }
-            load(type, queue);
-        });
-    };
-    var type = types.shift();
-    var queue = history[type].slice(0);
-    load(type, queue);
-});
-
-app.all('/:style(style.json)', function(req, res, next) {
-    if (req.method === 'GET') return res.send(req.style.data);
-    if (req.method === 'PUT') return res.send({
-        _recache:false,
-        mtime:req.style.data.mtime,
-        background:req.style.data.background
+app.put('/style.json', middleware.writeStyle, function(req, res, next) {
+    res.send({
+        _recache: false,
+        mtime: req.style.data.mtime,
+        background: req.style.data.background
     });
-    next();
+});
+
+app.get('/:style(style.json)', function(req, res, next) {
+    res.send(req.style.data);
 });
 
 app.get('/:style(style):history()', function(req, res, next) {
@@ -318,7 +199,7 @@ app.get('/:style(style).tm2z', function(req, res, next) {
     });
 });
 
-app.get('/upload', auth, function(req, res, next) {
+app.get('/upload', middleware.auth, function(req, res, next) {
     if (style.tmpid(req.query.styleid))
         return next(new Error('Style must be saved first'));
     if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
@@ -409,14 +290,16 @@ app.get('/:source(source):history()', function(req, res, next) {
     return res.send(page);
 });
 
-app.all('/:source(source.json)', function(req, res, next) {
-    if (req.method === 'GET') return res.send(req.source.data);
-    if (req.method === 'PUT') return res.send({
+app.put('/source.json', middleware.writeSource, function(req, res, next) {
+    res.send({
         mtime:req.source.data.mtime,
         vector_layers:req.source.data.vector_layers,
         _template:req.source.data._template
     });
-    next();
+});
+
+app.get('/:source(source.json)', function(req, res, next) {
+    res.send(req.source.data);
 });
 
 app.get('/browse*', function(req, res, next) {
@@ -464,16 +347,16 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/new/style', function(req, res, next) {
-    res.redirect('/style?id=' + style.tmpid());
+app.get('/new/style', exporting, middleware.writeStyle, function(req, res) {
+    res.redirect('/style?id=' + req.style.data.id);
 });
 
-app.get('/new/source', function(req, res, next) {
-    res.redirect('/source?id=' + source.tmpid());
+app.get('/new/source', exporting, middleware.writeSource, function(req, res, next) {
+    res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
 app.get('/', function(req, res, next) {
-    res.redirect('/style?id=' + style.tmpid());
+    res.redirect('/new/style');
 });
 
 app.del('/history/:type(style|source)', function(req, res, next) {
@@ -485,6 +368,9 @@ app.del('/history/:type(style|source)', function(req, res, next) {
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
     if (err && 'z' in req.params) return res.send(err.toString(), 404);
+
+    console.error(err.stack);
+
     // Otherwise 500 for now.
     if (/application\/json/.test(req.headers.accept)) {
         res.set({'content-type':'application/javascript'});
@@ -496,10 +382,10 @@ app.use(function(err, req, res, next) {
     }
 });
 
-app.get('/geocode', auth, function(req, res, next) {
+app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next) {
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
 
-app.listen(3000);
-console.log('TM2 @ http://localhost:3000/');
+app.listen(config.port);
+console.log('TM2 @ http://localhost:'+config.port+'/');

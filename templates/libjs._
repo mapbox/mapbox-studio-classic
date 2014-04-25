@@ -116,7 +116,7 @@ var delStyle = function(ev) {
 var justName = function(name, ext) {
   // removes the given extension if present
   if (ext[0] != '.') ext = '.' + ext;
-  if (name.length - name.indexOf(ext) === ext.length) {
+  if (name.indexOf(ext) !== -1 && name.length - name.indexOf(ext) === ext.length) {
     // name has extension, we must remove it
     return name.substr(0, name.indexOf(ext));
   } else {

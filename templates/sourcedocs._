@@ -5,12 +5,7 @@
   <a class='pad1 quiet icon x pin-topright' href='#'></a>
 </div>
 
-<nav class='small clearfix col12 contain z1 strong'>
-  <a href='#docs-remote' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon cloud'>Remote</div></a>
-  <a href='#docs-local' class='js-docs-nav docs-nav row1 block quiet'><div class='col12 pad1 keyline-bottom icon harddrive'>Local</div></a>
-</nav>
-
-<section class='pad1 contain fill-darken0 keyline-bottom'>
+<section class='quiet pad1 contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='code space-bottom1'>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
@@ -33,7 +28,7 @@
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
 
-<div id='docs-remote'>
+<div id='docs-local'>
 
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Overview</h3>
@@ -44,7 +39,7 @@
 
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Configuring a source</h3>
-<p>The layer configure panel for a simple file layer has two views: <strong>configuration</strong> and <strong>field</strong>.</p>
+<p>Once you've added your first layer, begin configuring it by clicking the layer name in the layer list. The layer configure panel for a simple file layer has two views: <strong>configuration</strong> and <strong>field</strong>.</p>
 
 <p>The <strong>configuration</strong> panel lets you adjust:</p>
 <div class='prose'>
@@ -75,7 +70,7 @@
 
 </div>
 
-<div id='docs-local'>
+<div id='docs-remote'>
 
 <section class='keyline-bottom pad1'>
 <h3 class='space-bottom1'>Adding a remote source</h3>

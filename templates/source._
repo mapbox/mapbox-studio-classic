@@ -31,14 +31,14 @@
   <%= this.history(obj) %>
 </div>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='project-settings dark fill-dark round contain col4 pin-topleft'>
+  <div class='pin-topleft project-settings dark fill-dark round col4'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <a class="pad1 quiet icon x pin-topright" href="#"></a>
-    <header class='pad2 keyline-bottom'>
+    <header class='pad1 keyline-bottom'>
       <h3>Settings</h3>
     </header>
 
-    <div class='pad2'>
+    <div class='pin-left col12 settings-body scroll-styled pad2'>
       <fieldset>
         <section class='space-bottom1'>
           <label>Name</label>
@@ -65,19 +65,24 @@
           <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
         </section>
       </fieldset>
-
-      <% if (!remote) { %>
-        <section class='pill col12 clearfix'><!--
-          --><a href='#' class='quiet button col6 icon js-save floppy'>Save</a><!--
-          --><a href='/mbtiles?id=<%= source.id %>' class='quiet button col6 icon share'>Export</a>
-        </section>
-      <% } else { %>
-        <section class='text-right space clearfix'>
-          <a href='#' class='col6 fr quiet button icon js-save floppy'>Save</a>
-        </section>
-      <% } %>
     </div>
-</div>
+    <div class='keyline-top pad2y settings-footer pin-bottom'>
+    <% if (!remote) { %>
+      <section class='col12 pad1x clearfix'>
+        <div class='pad1x col6'>
+          <a href='#' class='quiet button col12 icon js-save floppy'>Save</a>
+        </div>
+        <div class='pad1x col6'>
+          <a href='/mbtiles?id=<%= source.id %>' class='quiet button col12 icon share'>Export</a>
+        </div>
+      </section>
+    <% } else { %>
+      <section class='pad2x clearfix'>
+        <a href='#' class='col12 quiet button icon js-save floppy'>Save</a>
+      </section>
+    <% } %>
+    </div>
+  </div>
 </form>
 
 <form id='bookmark' class='tip-bottom z1 contain fill-dark round animate'>
@@ -170,10 +175,13 @@ revlayers.reverse();
         <% } %>
       </div>
     </nav>
-    <div class='js-menu-content fill-dark pin-left col12 top1 scroll-styled'>
+    <div class='js-menu-content menu-content fill-dark pin-left col12 top1 scroll-styled'>
       <% _(revlayers).each(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
+      <% if (!remote) { %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#addlayer">Add one now</a>.'}) %>
+      <% } %>
     </div>
   </div>
 </div>
@@ -206,10 +214,12 @@ revlayers.reverse();
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
-  <fieldset class='col8 margin2 space-bottom1'>
-    <input class='col12 space-bottom1' type='text' placeholder='layername' title='No spaces allowed.' size='20' name='id' pattern='\w+'/>
+  <fieldset class='col8 margin2'>
+    <p class='center'>Add a layer to your source.</p>
+    <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
   </fieldset>
   <fieldset class='col8 margin2'>
+    <div class="space-bottom1 small quiet">Select the format of the data you wish to convert into a vector source:</div>
     <div class='col12 scroll-styled radio-buttons'>
       <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
       <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
@@ -267,7 +277,9 @@ tm.srs = <%= JSON.stringify(tm.srs) %>;
 statHandler('srcbytes')();
 
 // set initial page view to avoid #browsefile trap
-$(function() { window.location.href = '#';});
+$(function() {
+  if (window.location.hash === '#browsefile') window.location.hash = '#';
+});
 
 var Layer = function(id, datasource) {
   var code;
@@ -348,6 +360,7 @@ Editor.prototype.events = {
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
   'click .search-result': 'selectSearch',
+  'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
   'submit #user': 'user',
   'keydown': 'keys'
@@ -437,7 +450,10 @@ Editor.prototype.togglemode = function(ev) {
 };
 
 Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain"><a href="#" class="icon marker quiet pad0 col12 small bookmark-name truncate">'+name+'</a><a href="#" class="icon trash js-del-bookmark quiet pin-topright fill-dark pad0"></a></li>').appendTo('#bookmark-list');
+  $('<li class="keyline-top contain">'+
+    '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+
+    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright fill-dark pad0" title="Delete"></a>'+
+    '</li>').appendTo('#bookmark-list');
 };
 Editor.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
@@ -462,7 +478,6 @@ Editor.prototype.addbookmark = function(ev) {
       fieldVal = field.val(),
       value = [coords.lat, coords.lng, zoom],
       name = fieldVal ? fieldVal : value;
-  if (this.bookmarks[name]) return false;
   this.bookmarks[name] = value;
   localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
@@ -532,7 +547,12 @@ Editor.prototype.search = function(ev) {
     results.forEach(function(result, idx) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain"><a href="#" class="icon marker dark quiet pad0 col12 small search-result truncate '+(!idx ? 'active fill-lighten0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'"><strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span></a></li>').appendTo($results);
+      $('<li class="keyline-top contain">'+
+        '<a href="#" class="dark pad0 quiet small search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
+        '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
+        '</a>'+
+        '<a href="#bookmark" class="pad0 icon marker dark search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
+        '</li>').appendTo($results);
       selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
@@ -563,6 +583,12 @@ Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
     }
   }
   return false;
+};
+Editor.prototype.bookmarkSearch = function(ev, selection) {
+  var result = $(ev.currentTarget).siblings('.search-result');
+  selectSearch(false, result);
+  $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
+  $('#bookmark').submit();
 };
 Editor.prototype.navSearch = function(ev, dir) {
   var results = $('#search-results li');
@@ -627,6 +653,7 @@ Editor.prototype.addlayer = function(ev) {
 
     window.location.hash = '#layers-' + values.id;
     $('#layers .js-menu-content').sortable('destroy').sortable();
+
   } else {
     editor.messagemodal('Layer name must be different from existing layer "' + values.id + '"');
   }

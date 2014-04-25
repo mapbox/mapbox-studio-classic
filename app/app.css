@@ -123,8 +123,8 @@ kbd {
   }
 #mask {
   display:none;
-  position:absolute; z-index:2000;
-  width:100%; height:100%;
+  position:fixed; z-index:2000;
+  left:0; right: 0; height:100%;
   }
 .modal.target,
 .modal:target,
@@ -201,6 +201,17 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 
 a.project strong { color: white;}
 a.project:hover { background: rgba(255,255,255,.15);}
+
+.project-settings {
+  bottom: 20px;
+}
+.settings-body {
+  top: 40px;
+  bottom: 80px;
+}
+
+#settings-source .empty-state:only-child,
+#settings-style .empty-state:only-child { display: block;}
 
 /* Flag active project */
 .project.proj-active,
@@ -563,14 +574,17 @@ a.project:hover { background: rgba(255,255,255,.15);}
 #layers .field-key {
   padding:0 5px;
   border-radius: 3px;
-  background: rgba(241, 240, 117, .75);
-  color: rgba(0,0,0,.75);
+  color: #343434;
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
 #style-ui #layers a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
+#layers .menu-content .empty-state:only-child {
+  margin: 20px;
+  display: block;
+}
 
 /* CodeMirror*/
 .CodeMirror,
@@ -823,11 +837,6 @@ a[href='#docs-text'],
 a[href='#docs-misc'],
 #docs-misc section     { border-left-color: #ee6565; } /* fill red */
 
-a[href='#docs-remote'],
-#docs-remote section     { border-left-color: #ee8a65; } /* fill orange */
-a[href='#docs-local'],
-#docs-local section     { border-left-color: #3887be; } /* fill blue */
-
 #docs .code.value,
 #docs .code.options {
   color:rgba(0,0,0,.75);
@@ -849,8 +858,6 @@ a[href='#docs-local'],
 #docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
 
 #docs a.docs-nav,
-#docs #docs-remote section,
-#docs #docs-local section,
 #docs section.carto-ref {
   border-left-width: 3px;
   border-left-style: solid;

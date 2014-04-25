@@ -26,7 +26,6 @@
 .editor .field-key {
   padding:0 5px;
   border-radius: 3px;
-  background: rgba(241, 240, 117, .75);
   color: rgba(0,0,0,.75);
   vertical-align: top;
   font-family:'Open Sans', sans-serif;
@@ -40,6 +39,8 @@
 /* Fields pane */
 .editor > div.fields { display:none; }
 .fields .editor > div.fields { display:block; }
+
+section:not(.field) + .empty-state { margin: 20px;display: block;}
 
 /* SQL pane */
 .editor > div.sql {
