@@ -6,9 +6,9 @@
 <% print(this.modalbrowser({
   id: 'saveas',
   cwd: cwd,
-  hint: 'No spaces allowed. Requires ".tm2" extension.',
-  placeholder: type + '.tm2',
-  pattern: '[\\w+\\d+\\.\\/_-]+\\.tm2'
+  hint: 'Letters and numbers only',
+  placeholder: type + ' name',
+  pattern: '[\\w+\\d+\\.\\s\\/_-]+'
 })); %>
 <script>
 new views.Browser({
@@ -16,6 +16,8 @@ new views.Browser({
   filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
   callback: function(err, filepath) {
     if (err) return false; // @TODO
+    filepath = filepath.split(' ').join('_');
+    filepath = addExtension(filepath, '.tm2');
     var id = 'tm<%=type%>://' + filepath;
     window.editor.model.set({id:id});
     window.editor.save(null, {
