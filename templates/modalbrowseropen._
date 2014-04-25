@@ -7,9 +7,9 @@
   id: 'browse' + obj.type,
   cwd: obj.cwd,
   label: 'Open',
-  hint: 'No spaces allowed. Requires ".tm2" extension.',
-  placeholder: type + '.tm2',
-  pattern: '[\\w+\\d+\\.-]+\\.tm2'
+  hint: 'Letters and numbers only',
+  placeholder: type + ' name',
+  pattern: '[\\w+\\d+\\s\\.-]+'
 })); %>
 <script>
 new views.Browser({
@@ -18,6 +18,8 @@ new views.Browser({
   isFile: function(file) { return /\.tm2$/.test(file) },
   callback: function(err, filepath) {
     if (err) return false; // @TODO
+    filepath = filepath.split(' ').join('_');
+    filepath = filepath.replace(/.tm2/, '') + '.tm2';
     window.location = '/<%=type%>?id=tm<%=type%>://' + filepath;
     return false;
   }
