@@ -680,10 +680,9 @@ Editor.prototype.adddata = function(ev) {
 };
 Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
-  var name = justName(field.val(), 'mss');
-  var filename = name + '.mss';
+  var filename = field.val().replace(/.mss/,'') + '.mss';
   if (!code[filename]) {
-    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+name+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
+    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
     editor.messagemodal('Tab name must be different than existing tab "' + name + '"');
@@ -701,7 +700,7 @@ Editor.prototype.deltab = function(ev) {
   if (!styles[target]) {
     $(code[target].getWrapperElement()).remove();
     parent.remove();
-  } else if (confirm('Remove stylesheet "' + justName(target, 'mss') + '"?')) {
+  } else if (confirm('Remove stylesheet "' + target.replace(/.mss/,'') + '"?')) {
     $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];

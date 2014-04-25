@@ -113,23 +113,6 @@ var delStyle = function(ev) {
   return false;
 };
 
-var justName = function(name, ext) {
-  // removes the given extension if present
-  if (ext[0] != '.') ext = '.' + ext;
-  if (name.indexOf(ext) !== -1 && name.length - name.indexOf(ext) === ext.length) {
-    // name has extension, we must remove it
-    return name.substr(0, name.indexOf(ext));
-  } else {
-    return name;
-  }
-}
-
-var addExtension = function(name, ext) {
-  // return a name, adding the extension if needed
-  if (ext[0] != '.') ext = '.' + ext;
-  return justName(name, ext) + ext;
-}
-
 var views = {};
 
 views.Browser = Backbone.View.extend({});
