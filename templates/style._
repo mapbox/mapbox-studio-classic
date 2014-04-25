@@ -685,7 +685,7 @@ Editor.prototype.addtab = function(ev) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
-    editor.messagemodal('Tab name must be different than existing tab "' + name + '"');
+    editor.messagemodal('Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
     field.val('');
     return false;
   }
