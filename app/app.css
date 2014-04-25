@@ -85,36 +85,6 @@ kbd {
 
 .radio-buttons input[type=radio]:checked + label.quiet { background: rgba(255,255,255,0.25);}
 
-/* Cleanup of toggle from base TODO finalize and move to base */
-.rounded-toggle {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 2px;
-  border-radius: 20px;
-  vertical-align: middle;
-  }
-
-.rounded-toggle a {
-  font-family:'Open Sans Bold', sans-serif;
-  vertical-align: top;
-  display: inline-block;
-  border-radius: 16px;
-  padding: 3px 10px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.5);
-  line-height: 20px;
-}
-
-.rounded-toggle:hover a.active { box-shadow: none !important; }
-.rounded-toggle a { background: transparent;}
-
-.dark .rounded-toggle { background: rgba(255,255,255,.1);}
-.dark .rounded-toggle:hover { background: rgba(255,255,255,.25);}
-.dark .rounded-toggle a { color: white;}
-
-.fill-blue .rounded-toggle a.active { background: #3887be;}
-.fill-dark .rounded-toggle a.active { background: #404040;}
-
 /* Modal popup */
 .modal {
   display:none;

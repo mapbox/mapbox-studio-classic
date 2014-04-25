@@ -48,6 +48,13 @@ table { border-collapse: collapse; border-spacing:0; }
 /* @FontFace
 ------------------------------------------------------- */
 @font-face {
+  font-family:'Futura';
+    src:url('futura.eot');
+    src:url('futura.eot?#iefix') format('embedded-opentype'),
+        url('futura.woff') format('woff');
+  }
+
+@font-face {
   font-family:'Open Sans';
     src:url('opensans-regular.eot');
     src:url('opensans-regular.eot?#iefix') format('embedded-opentype'),
@@ -163,6 +170,36 @@ strong {
 address,
 em {
   font-family:'Open Sans Italic', sans-serif;
+  }
+
+/* Fancy font style */
+
+h1.futura,
+h2.futura,
+h3.futura {
+  font-family:'Futura', sans-serif;
+  }
+
+h1.futura {
+  font-size:60px;
+  line-height:80px;
+  letter-spacing:3px;
+  text-transform: uppercase;
+  }
+h2.futura {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size:40px;
+  letter-spacing:3px;
+  line-height:60px;
+  text-transform: uppercase;
+  }
+
+h3.futura {
+  font-size:26px;
+  letter-spacing:2px;
+  line-height:40px;
+  text-transform: uppercase;
   }
 
 /* Links */
@@ -530,27 +567,80 @@ button:disabled:focus,
 
 /* Rounded toggle for filtering/modifying lists */
 .rounded-toggle {
-  padding:3px;
-  border-radius:12px;
-  background:#ddd;
-  }
-  .rounded-toggle input[type=radio] { display:none; }
-  .rounded-toggle input[type=radio] + label {
-    cursor:pointer;
-    padding:0 10px 1px;
-    border-radius:10px;
-    font-size:12px;
-    line-height:18px;
-    color:rgba(0,0,0,0.5);
-    float:left;
-    }
-  .rounded-toggle input[type=radio] + label:hover   { color:rgba(0,0,0,0.8); }
-  .rounded-toggle input[type=radio]:checked + label {
-    background:#fff;
-    color:rgba(0,0,0,0.8);
-    cursor:auto;
-    pointer-events:none;
-    }
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px;
+  border-radius: 20px;
+  vertical-align: middle;
+  background: rgba(0,0,0,.1)
+}
+.rounded-toggle:hover { background: rgba(0,0,0,.15);}
+
+.dark .rounded-toggle { background: rgba(255,255,255,.1);}
+.dark .rounded-toggle:hover { background: rgba(255,255,255,.25);}
+
+.rounded-toggle input[type=radio] + label,
+.rounded-toggle a {
+  cursor:pointer;
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 16px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.5);
+  line-height: 20px;
+}
+
+.dark .rounded-toggle input[type=radio] + label,
+.dark .rounded-toggle a { color: white;}
+
+.rounded-toggle input[type=radio] { display:none; }
+
+.rounded-toggle input[type=radio]:checked + label,
+.rounded-toggle a.active { background: white; color: rgba(0,0,0,.5); }
+
+.dark .rounded-toggle input[type=radio]:checked + label,
+.dark .rounded-toggle a.active { color: white; }
+
+.fill-dark .rounded-toggle input[type=radio]:checked + label,
+.fill-dark .rounded-toggle a.active        { background-color:#404040; }
+.fill-gray  .rounded-toggle input[type=radio]:checked + label,
+.fill-gray .rounded-toggle a.active,
+.fill-grey .rounded-toggle input[type=radio]:checked + label,
+.fill-grey .rounded-toggle a.active        { background:#eee; }
+.fill-grey-dark .rounded-toggle input[type=radio]:checked + label,
+.fill-grey-dark .rounded-toggle a.active,
+.fill-gray-dark .rounded-toggle input[type=radio]:checked + label,
+.fill-gray-dark .rounded-toggle a.active   { background:#404040; }
+.fill-white .rounded-toggle input[type=radio]:checked + label,
+.fill-white .rounded-toggle a.active       { background:#fff; }
+.fill-light .rounded-toggle input[type=radio]:checked + label,
+.fill-light .rounded-toggle a.active       { background:#f8f8f8; }
+.fill-blue .rounded-toggle input[type=radio]:checked + label,
+.fill-blue .rounded-toggle a.active        { background:#3887be; }
+.fill-denim .rounded-toggle input[type=radio]:checked + label,
+.fill-denim .rounded-toggle a.active       { background:#3c4e5a; }
+.fill-navy .rounded-toggle input[type=radio]:checked + label,
+.fill-navy .rounded-toggle a.active        { background:#28353d; }
+.fill-navy-dark .rounded-toggle input[type=radio]:checked + label,
+.fill-navy-dark .rounded-toggle a.active   { background:#222B30; }
+.fill-purple .rounded-toggle input[type=radio]:checked + label,
+.fill-purple .rounded-toggle a.active      { background:#8a8acb; }
+.fill-green .rounded-toggle input[type=radio]:checked + label,
+.fill-green .rounded-toggle a.active       { background:#56b881; }
+.fill-yellow .rounded-toggle input[type=radio]:checked + label,
+.fill-yellow .rounded-toggle a.active      { background:#f1f075; }
+
+.short.rounded-toggle {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.rounded-toggle.short input[type=radio] + label,
+.rounded-toggle.short a {
+  font-size: 10px;
+  padding:0 7px;
+}
 
 img {
   max-width:100%;
@@ -1135,23 +1225,21 @@ h2 a[href^='#']:after,
 .doc h2[id]:after,
 .doc h3[id]:after,
 .doc h4[id]:after {
-  background:transparent url(icon-000000.png?1) -1280px 0px no-repeat;
-  color:rgba(0, 0, 0, 0.75);
+  background:transparent url(icon-000000@2x.png) -1280px 0px no-repeat;
+  color:rgba(0,0,0,0.75);
   content:'Permalink';
-  display:inline-block;
   float:left;
   margin:0 0 0 -20px;
   width:20px;
   height:20px;
-  line-height:20px;
-  vertical-align:middle;
   opacity:0;
   border-radius:50%;
   text-indent:-9999px;
-  overflow:hidden;
-  -webkit-background-size:4120px 60px;
-          background-size:4120px 60px;
+  -webkit-background-size:4240px 60px;
+          background-size:4240px 60px;
   }
+  .doc h1[id]:after { margin-top:10px; }
+  .doc h2[id]:after { margin-top:5px; }
 
 h1 a[href^='#']:hover:after,
 h2 a[href^='#']:hover:after,
@@ -1173,7 +1261,7 @@ h2 .dark > a[href^='#'] {
 ------------------------------------------------------- */
 .rcon:after,
 .icon:before {
-  background-image:url(icon-000000.png?1);
+  background-image:url(icon-000000@2x.png);
   background-color:transparent;
   background-repeat:no-repeat;
   background-position:40px 40px;
@@ -1183,8 +1271,8 @@ h2 .dark > a[href^='#'] {
   height:20px;
   vertical-align:top;
   opacity:0.75;
-  -webkit-background-size:4120px 60px;
-          background-size:4120px 60px;
+  -webkit-background-size:4240px 60px;
+          background-size:4240px 60px;
   }
 
 .rcon.big:after,
@@ -1223,9 +1311,9 @@ a.icon:before,
 a.rcon:after,
 a > .icon:before,
 a > .rcon:after {
-  background-image:url(icon-3887be.png?1);
-  -webkit-background-size:4120px 60px;
-          background-size:4120px 60px;
+  background-image:url(icon-3887be@2x.png);
+  -webkit-background-size:4240px 60px;
+          background-size:4240px 60px;
   opacity:1;
 }
 
@@ -1245,10 +1333,10 @@ a > .rcon:after {
 .button .icon:before,
 .button.rcon:after,
 .button.icon:before {
-  background-image:url(icon-ffffff.png?1);
+  background-image:url(icon-ffffff@2x.png);
   opacity:1;
-  -webkit-background-size:4120px 60px;
-          background-size:4120px 60px;
+  -webkit-background-size:4240px 60px;
+          background-size:4240px 60px;
   }
 
 .dark .quiet.rcon:after,
@@ -1256,7 +1344,7 @@ a > .rcon:after {
 .dark .quiet .rcon:after,
 .dark .quiet .icon:before {
   opacity: .5;
-  background-image:url(icon-ffffff.png?1);
+  background-image:url(icon-ffffff@2x.png);
   }
 
 .dark a.icon:not(.button):hover:before,
@@ -1272,10 +1360,10 @@ a.icon.quiet:not(.button):hover:after {
 .quiet.icon:before,
 .quiet .rcon:after,
 .quiet .icon:before {
-  background-image:url(icon-000000.png?1);
+  background-image:url(icon-000000@2x.png);
   opacity:0.5;
-  -webkit-background-size:4120px 60px;
-          background-size:4120px 60px;
+  -webkit-background-size:4240px 60px;
+          background-size:4240px 60px;
   }
 
 /* 40x40 icons */
@@ -1385,6 +1473,9 @@ a.icon.quiet:not(.button):hover:after {
 .big.icon.font:before             { background-position:-4000px -20px; }
 .big.icon.package:before          { background-position:-4040px -20px; }
 .big.icon.harddrive:before        { background-position:-4080px -20px; }
+.big.icon.apple:before            { background-position:-4120px -20px; }
+.big.icon.android:before          { background-position:-4160px -20px; }
+.big.icon.foundations:before      { background-position:-4200px -20px; }
 
 /* 20x20 icons */
 .rcon.pencil:after, .icon.pencil:before                    { background-position:0 0; }
@@ -1493,13 +1584,20 @@ a.icon.quiet:not(.button):hover:after {
 .rcon.font:after,.icon.font:before                         { background-position:-4000px 0; }
 .rcon.package:after,.icon.package:before                   { background-position:-4040px 0; }
 .rcon.harddrive:after,.icon.harddrive:before               { background-position:-4080px 0; }
+.icon.apple:after,.icon.apple:before                       { background-position:-4120px 0; }
+.icon.android:after,.icon.android:before                   { background-position:-4160px 0; }
+.icon.foundations:after,.icon.foundations:before           { background-position:-4200px 0; }
 
 /* Multicolored icons */
-.icon.checkmark:before     { background:transparent url(base.png?1) 0px 0px no-repeat; }
+.icon.checkmark:before     {
+  background:transparent url(base@2x.png) 0px 0px no-repeat;
+  -webkit-background-size:100px 350px;
+          background-size:100px 350px;
+}
 
 /* Credit card icons */
 .credit-card {
-  background:url(credit-cards.png?1) 0 0 no-repeat;
+  background:url(credit-cards@2x.png) 0 0 no-repeat;
   height:30px;
   width:45px;
   display:inline-block;
@@ -1758,13 +1856,15 @@ nav.v.dark a.active.keyline-bottom,
   }
 
 .mb-logo {
-  background:transparent url(base.png?1) no-repeat 0 0;
+  background:transparent url(base@2x.png) no-repeat 0 0;
   display:inline-block;
   vertical-align:top;
   height:40px;
   width:100px;
   text-indent:-999em;
   overflow:hidden;
+  -webkit-background-size:100px 350px;
+          background-size:100px 350px;
   }
   .mb-logo.white { background-position:0px -60px; }
   .mb-logo.quiet { background-position:0px -120px; }
@@ -1775,11 +1875,6 @@ nav.v.dark a.active.keyline-bottom,
     }
   .mb-logo.small.white { background-position:0 -240px;}
   .mb-logo.small.quiet { background-position:0 -300px;}
-
-.mb-logo {
-  -webkit-background-size:100px 350px;
-          background-size:100px 350px;
-  }
 
 /* Pygments Syntax Highlighting
 ------------------------------------------------------- */
@@ -2227,72 +2322,23 @@ img.inline, .inline           { display:inline-block; }
   .mobile-cols > .margin11 { margin-left:91.6666%; }
   .mobile-cols > .margin12 { margin-left:100.0000%; }
 
+  /* Futura gets too big, revert to defaults */
+  h1.futura { font-size:30px;line-height:40px;}
+  h2.futura {
+    font-size:20px;
+    line-height:30px;
+  }
+  h3.futura {
+    font-size:15px;
+    line-height:20px;
+  }
+
   /* Anchor icon adds noise to the page on smaller displays */
   .doc h1[id]:before,
   .doc h2[id]:before,
   .doc h3[id]:before,
   .doc h4[id]:before { visibility:hidden; }
   }
-
-/* Retina Screens @2x icons
-------------------------------------------------------- */
-@media
-  (-webkit-min-device-pixel-ratio:2),
-  (min-resolution:192dpi),
-  (min-resolution:2dppx) {
-  .mb-logo,
-  .mb-logo-app:after,
-  .mb-logo-thumb:after {
-    background-image:url(base@2x.png?1);
-    }
-  .doc h1[id]:before,
-  .doc h2[id]:before,
-  .doc h3[id]:before,
-  .doc h4[id]:before,
-  .rcon:after,
-  .icon:before {
-    background-image:url(icon-000000@2x.png?1);
-    }
-  .credit-card {
-    background-image:url(credit-cards@2x.png?1);
-    }
-  a.icon:before,
-  a.rcon:after,
-  a > .icon:before,
-  a > .rcon:after {
-    background-image:url(icon-3887be@2x.png?1);
-    }
-  .dark .quiet.rcon:after,
-  .dark .quiet.icon:before,
-  .dark .rcon:after,
-  .dark .icon:before,
-  .dark.tabs .rcon:after,
-  .dark.tabs .icon:before,
-  .dark .tabs .rcon:after,
-  .dark .tabs .icon:before,
-  .dark.rcon:after,
-  .dark.icon:before,
-  .dark .rcon:after,
-  .dark .icon:before,
-  .quiet.button.rcon:after,
-  .quiet.button.icon:before,
-  .quiet.button .rcon:after,
-  .quiet.button .icon:before,
-  .button .rcon:after,
-  .button .icon:before,
-  .button.rcon:after,
-  .button.icon:before {
-    background-image:url(icon-ffffff@2x.png?1);
-    }
-  .tabs .rcon:after,
-  .tabs .icon:before,
-  .quiet.rcon:after,
-  .quiet.icon:before,
-  .quiet .rcon:after,
-  .quiet .icon:before {
-    background-image:url(icon-000000@2x.png?1);
-    }
-}
 
 /* Print
 ------------------------------------------------------- */
