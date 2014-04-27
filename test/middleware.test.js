@@ -310,4 +310,15 @@ describe('middleware', function() {
             });
         });
     });
+
+    describe('exporting', function() {
+        it('passes through', function(done) {
+            middleware.exporting({}, {}, function(err) {
+                assert.ifError(err);
+                done();
+            });
+        });
+        // @TODO test cases where copytask has been started.
+        // Requires fixes for copytask pause/cancel.
+    });
 });

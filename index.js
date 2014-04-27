@@ -50,25 +50,18 @@ app.use(app.router);
 app.use('/app', express.static(__dirname + '/app', { maxAge:3600e3 }));
 app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 
-// Check for an active export. If present, redirect to the export page
-// effectively locking the application from use until export is complete.
-function exporting(req, res, next) {
-    tm.copytask(null, null, function(err, job) {
-        if (err) {
-            next(err);
-        } else if (job && (req.path !== '/mbtiles' || req.query.id !== job.id)) {
-            res.redirect('/mbtiles?id=' + job.id);
-        } else {
-            next();
-        }
-    });
-};
+middleware.style = [
+    middleware.auth,
+    middleware.exporting,
+    middleware.basemap,
+    middleware.loadStyle
+];
 
-app.param('style', middleware.auth, exporting, middleware.basemap, middleware.loadStyle);
-
-app.param('source', middleware.auth, exporting, middleware.loadSource);
-
-app.param('history', middleware.history);
+middleware.source = [
+    middleware.auth,
+    middleware.exporting,
+    middleware.loadSource
+];
 
 app.put('/style.json', middleware.writeStyle, function(req, res, next) {
     res.send({
@@ -78,11 +71,11 @@ app.put('/style.json', middleware.writeStyle, function(req, res, next) {
     });
 });
 
-app.get('/:style(style.json)', function(req, res, next) {
+app.get('/style.json', middleware.style, function(req, res, next) {
     res.send(req.style.data);
 });
 
-app.get('/:style(style):history()', function(req, res, next) {
+app.get('/style', middleware.style, middleware.history, function(req, res, next) {
     res.set({'content-type':'text/html'});
 
     // identify user's OS for styling docs shortcuts
@@ -113,7 +106,7 @@ app.get('/:style(style):history()', function(req, res, next) {
     return res.send(page);
 });
 
-app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', function(req, res, next) {
+app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style, function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
@@ -129,7 +122,7 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', function(r
     });
 });
 
-app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', cors(), function(req, res, next) {
+app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), function(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
@@ -187,12 +180,12 @@ app.get('/:style(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', c
     source.getTile(z,x,y, done);
 });
 
-app.get('/:style(style).xml', function(req, res, next) {
+app.get('/style.xml', middleware.style, function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.style._xml);
 });
 
-app.get('/:style(style).tm2z', function(req, res, next) {
+app.get('/style.tm2z', middleware.style, function(req, res, next) {
     style.toPackage(req.style.data.id, res, function(err) {
         if (err) next(err);
         res.end();
@@ -215,12 +208,12 @@ app.get('/upload', middleware.auth, function(req, res, next) {
     });
 });
 
-app.get('/:source(source).xml', function(req, res, next) {
+app.get('/source.xml', middleware.source, function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.source._xml);
 });
 
-app.get('/:source(source).mbtiles', function(req, res, next) {
+app.get('/source.mbtiles', middleware.source, function(req, res, next) {
     res.set({'content-type':'text/xml'});
     source.toMBTiles(req.source.data.id, res, function(err) {
         if (err) next(err);
@@ -261,7 +254,7 @@ app.all('/mbtiles.json', function(req, res, next) {
     });
 });
 
-app.get('/:source(source):history()', function(req, res, next) {
+app.get('/source', middleware.source, middleware.history, function(req, res, next) {
 
     // identify user's OS for styling docs shortcuts
     var agent = function() {
@@ -298,7 +291,7 @@ app.put('/source.json', middleware.writeSource, function(req, res, next) {
     });
 });
 
-app.get('/:source(source.json)', function(req, res, next) {
+app.get('/source.json', middleware.source, function(req, res, next) {
     res.send(req.source.data);
 });
 
@@ -347,11 +340,11 @@ app.get('/app/lib.js', function(req, res, next) {
     }));
 });
 
-app.get('/new/style', exporting, middleware.writeStyle, function(req, res) {
+app.get('/new/style', middleware.exporting, middleware.writeStyle, function(req, res) {
     res.redirect('/style?id=' + req.style.data.id);
 });
 
-app.get('/new/source', exporting, middleware.writeSource, function(req, res, next) {
+app.get('/new/source', middleware.exporting, middleware.writeSource, function(req, res, next) {
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
