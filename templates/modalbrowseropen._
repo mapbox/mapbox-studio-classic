@@ -19,7 +19,7 @@ new views.Browser({
   callback: function(err, filepath) {
     if (err) return false; // @TODO
     filepath = filepath.split(' ').join('_');
-    filepath = filepath.replace(/.tm2/, '') + '.tm2';
+    filepath = filepath.replace(/\.tm2/, '') + '.tm2';
     window.location = '/<%=type%>?id=tm<%=type%>://' + filepath;
     return false;
   }
