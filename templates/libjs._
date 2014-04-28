@@ -146,6 +146,8 @@ views.Browser.prototype.render = function() {
         })
         .value()
         .join('\n'));
+      // Reset scroll position to top.
+      view.$('.list').get(0).scrollTop = 0;
     },
     // @TODO
     error: function(resp) {}
