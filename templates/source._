@@ -731,7 +731,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=<%=source._style%>&mtime=' + this.model.get('mtime') ],
+    tiles: ['/source/{z}/{x}/{y}.png?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
     minzoom: this.model.get('minzoom'),
     maxzoom: 22
   })
@@ -744,7 +744,7 @@ Editor.prototype.refresh = function(ev) {
   if (gridc) map.removeControl(gridc);
   if (this.model.get('_template')) {
     grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=source._style%>&mtime=' + this.model.get('mtime') ],
+      grids: ['/source/{z}/{x}/{y}.grid.json?id=<%=source.id%>&mtime=' + this.model.get('mtime') ],
       minzoom: this.model.get('minzoom'),
       maxzoom: 22
     });

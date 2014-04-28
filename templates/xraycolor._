@@ -1,4 +1,5 @@
 <%
+/* Copy of require('tilelive-vector').xray.color */
 function tocolor(str) {
   var rgb = [0, 0, 0];
   for (var i = 0; i < str.length; i++) {

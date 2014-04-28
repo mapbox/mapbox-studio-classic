@@ -122,10 +122,15 @@ app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style
     });
 });
 
-app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), function(req, res, next) {
+app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.source, cors(), tile);
+
+app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
+
+function tile(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
+    var id = req.source ? req.source.data.id : req.style.data.id;
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
         : req.style;
@@ -134,22 +139,22 @@ app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middlew
             return res.redirect(req.path);
         } else if (err) {
             // Set errors cookie for this style.
-            style.error(req.style.data.id, err);
-            res.cookie('errors', _(style.error(req.style.data.id)).join('|'));
+            style.error(id, err);
+            res.cookie('errors', _(style.error(id)).join('|'));
             return next(err);
         }
 
         // Set drawtime cookie for a given style.
-        style.stats(req.style.data.id, 'drawtime', z, data._drawtime);
-        res.cookie('drawtime', _(style.stats(req.style.data.id, 'drawtime'))
+        style.stats(id, 'drawtime', z, data._drawtime);
+        res.cookie('drawtime', _(style.stats(id, 'drawtime'))
             .reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
                 return memo;
             }, []).join('.'));
 
         // Set srcbytes cookie for a given style.
-        style.stats(req.style.data.id, 'srcbytes', z, data._srcbytes);
-        res.cookie('srcbytes', _(style.stats(req.style.data.id, 'srcbytes')).
+        style.stats(id, 'srcbytes', z, data._srcbytes);
+        res.cookie('srcbytes', _(style.stats(id, 'srcbytes')).
             reduce(function(memo, stat, z) {
                 memo.push([z,stat.min,stat.avg|0,stat.max].join('-'));
                 return memo;
@@ -178,7 +183,7 @@ app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middlew
     };
     if (req.params.format !== 'png') done.format = req.params.format;
     source.getTile(z,x,y, done);
-});
+};
 
 app.get('/style.xml', middleware.style, function(req, res, next) {
     res.set({'content-type':'text/xml'});
