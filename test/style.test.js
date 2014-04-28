@@ -117,6 +117,20 @@ describe('style.info', function() {
             done();
         });
     });
+    it('invalid yaml (non-object)', function(done) {
+        style.info('tmstyle://' + __dirname + '/fixtures-invalid-nonobj', function(err, source) {
+            assert.ok(err);
+            assert.ok(/^Error: Invalid YAML/.test(err.toString()));
+            done();
+        });
+    });
+    it('invalid yaml', function(done) {
+        style.info('tmstyle://' + __dirname + '/fixtures-invalid-yaml', function(err, source) {
+            assert.ok(err);
+            assert.ok(/^JS-YAML/.test(err.toString()));
+            done();
+        });
+    });
     it('resolves self-alias', function(done) {
         style.info('tmstyle://' + __dirname + '/fixtures-localsource', function(err, info) {
             assert.ifError(err);

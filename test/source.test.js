@@ -140,6 +140,20 @@ describe('source local', function() {
             done();
         }, 250);
     });
+    it('invalid yaml (non-object)', function(done) {
+        source('tmsource://' + __dirname + '/fixtures-invalid-nonobj', function(err, source) {
+            assert.ok(err);
+            assert.ok(/^Error: Invalid YAML/.test(err.toString()));
+            done();
+        });
+    });
+    it('invalid yaml', function(done) {
+        source('tmsource://' + __dirname + '/fixtures-invalid-yaml', function(err, source) {
+            assert.ok(err);
+            assert.ok(/^JS-YAML/.test(err.toString()));
+            done();
+        });
+    });
     it('loads', function(done) {
         source('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
             assert.ifError(err);
