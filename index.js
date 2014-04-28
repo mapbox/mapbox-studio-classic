@@ -106,7 +106,16 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
     return res.send(page);
 });
 
-app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style, function(req, res, next) {
+app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.source, cors(), grid);
+
+app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style, cors(), grid);
+
+app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.source, cors(), tile);
+
+app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
+
+
+function grid(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
@@ -120,11 +129,7 @@ app.get('/(style|source)/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style
         res.set(headers);
         return res.json(data);
     });
-});
-
-app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.source, cors(), tile);
-
-app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
+};
 
 function tile(req, res, next) {
     var z = req.params.z | 0;
