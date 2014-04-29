@@ -1,17 +1,5 @@
 /* Base candidates */
 
-.col1    { max-width: 100px; }
-.col2    { max-width: 200px; }
-.col3    { max-width: 300px; }
-.col4    { max-width: 400px; }
-.col5    { max-width: 500px; }
-.col6    { max-width: 600px; }
-.col7    { max-width: 700px; }
-.col8    { max-width: 800px; }
-.col9    { max-width: 900px; }
-.col10   { max-width: 1000px; }
-.col11   { max-width: 1100px; }
-
 .top1 { top:40px; }
 input[type=text].clean { border: none; }
 
