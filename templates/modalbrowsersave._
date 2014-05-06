@@ -17,7 +17,7 @@ new views.Browser({
   callback: function(err, filepath) {
     if (err) return false; // @TODO
     filepath = filepath.split(' ').join('_');
-    filepath = filepath.replace(/.tm2/,'') + '.tm2';
+    filepath = filepath.replace(/\.tm2/,'') + '.tm2';
     var id = 'tm<%=type%>://' + filepath;
     window.editor.model.set({id:id});
     window.editor.save(null, {
