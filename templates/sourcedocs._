@@ -30,14 +30,14 @@
 
 <div id='docs-local'>
 
-<section class='keyline-bottom pad1'>
+<section class='keyline-bottom pad1x pad2y'>
 <h3 class='space-bottom1'>Overview</h3>
 <p>TileMill works by transforming traditional geodata formats like shapefiles, geojson, &amp; postgis into vector tiles. Prepare data for a new vector tile source by clicking the  <span class='inline round pad0x fill-darken1 plus icon'>layers</span> button.</p>
 <p class='quiet'><strong>Why go through the trouble of making vector tiles?</strong> Vector tiles can be styled more quickly and shared more easily than traditional data sources. If you want to use data in TileMill 2's style editor, you must first convert your data into vector tiles.</p>
 
 </section>
 
-<section class='keyline-bottom pad1'>
+<section class='keyline-bottom pad1x pad2y'>
 <h3 class='space-bottom1'>Configuring a source</h3>
 <p>Once you've added your first layer, begin configuring it by clicking the layer name in the layer list. The layer configure panel for a simple file layer has two views: <strong>configuration</strong> and <strong>field</strong>.</p>
 
@@ -62,7 +62,7 @@
 
 </section>
 
-<section class='keyline-bottom pad1'>
+<section class='keyline-bottom pad1x pad2y'>
 <h3 class='space-bottom1'>Creating a source</h3>
 <p>Once you've finished importing and preparing your data, the next step is to export a vector mbtiles file. Once the export is complete, upload your mbtiles file to mapbox.com.
 </p>
@@ -72,13 +72,13 @@
 
 <div id='docs-remote'>
 
-<section class='keyline-bottom pad1'>
+<section class='keyline-bottom pad1x pad2y'>
 <h3 class='space-bottom1'>Adding a remote source</h3>
 <p>Add a remote source to TileMill 2 by clicking the 'mapbox' button from the settings panel and entering your data source's map ID. Both local and remote sources can referenced in styles, but in order to share a style from mapbox.com, the data your style references must be hosted on mapbox.com.
 </p>
 </section>
 
-<section class='keyline-bottom pad1'>
+<section class='keyline-bottom pad1x pad2y'>
 <h3 class='space-bottom1'>Inspecting a remote source</h3>
 <p>You cannot manipulate a remote source, but you can inspect it's contents. Click the 'inspect' box for a layer, then save the source to activate inspection for that particular layer. Once inspection has been activated, hover over a feature to inspect it's attributes.
 </p>

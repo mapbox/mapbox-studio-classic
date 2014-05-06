@@ -46,7 +46,7 @@ var sections = {
 <section class='keyline-bottom pad1'>
   <p><strong>Just starting?</strong> Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide on using TileMill.</p>
 </section>
-<section class='pad1 contain fill-darken0 keyline-bottom'>
+<section class='pad1x pad2y contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='code space-bottom1'>
     <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
@@ -68,7 +68,7 @@ var sections = {
   </ul>
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad1x pad2y keyline-bottom'>
   <h3 class='space-bottom1'>Selectors</h3>
   <p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
   <p>A simple carto style looks like</p>
@@ -95,7 +95,7 @@ var sections = {
 [zoom &gt; 10].red#world[NAME='USA']
 [NAME='USA'] [zoom &gt; 10] #world.red</pre>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad2y pad1x keyline-bottom'>
   <h3 class='space-bottom1'>Nested styles</h3>
   <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
 <pre class='carto-snippet'>
@@ -114,7 +114,7 @@ var sections = {
   #lakes { polygon-fill: #144; }
 }</pre>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad2y pad1x keyline-bottom'>
   <h3 class='space-bottom1'>Attachments</h3>
   <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
 <pre class='carto-snippet'>
@@ -135,7 +135,7 @@ var sections = {
   }
 }</pre>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad2y pad1x keyline-bottom'>
   <h3 class='space-bottom1'>Values</h3>
   <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
   <h4>Colors</h4>
@@ -160,7 +160,7 @@ line-width: 5;</pre>
 <pre class='carto-snippet'>
 raster-mode: normal;</pre>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad2y pad1x keyline-bottom'>
   <h3 class='space-bottom1'>Variables</h3>
   <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
 <pre class='carto-snippet'>
@@ -168,7 +168,7 @@ raster-mode: normal;</pre>
 Map { background-color: @green; }
 #world { polygon-fill: @green; }</pre>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad2y pad1x keyline-bottom'>
   <h3 class='space-bottom1'>Operations</h3>
   <p>Any number, color or variable can be operated on using mathematical expressions.</p>
 <pre class='carto-snippet'>
@@ -180,7 +180,7 @@ Map { background-color: @green; }
   line-color: @gray / 2;
 }</pre>
 </section>
-<section class='pad1 keyline-bottom'>
+<section class='pad2y pad1x keyline-bottom'>
   <h3 class='space-bottom1'>Color functions</h3>
   <p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
 <pre class='carto-snippet'>
