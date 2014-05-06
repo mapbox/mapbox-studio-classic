@@ -18,6 +18,7 @@ new views.Browser({
     if (err) return false; // @TODO
     filepath = filepath.split(' ').join('_');
     filepath = filepath.replace(/\.tm2/,'') + '.tm2';
+    if (type == 'source') filepath = filepath.replace(/\.tm2/,'') + '.tm2source';
     var id = 'tm<%=type%>://' + filepath;
     window.editor.model.set({id:id});
     window.editor.save(null, {
