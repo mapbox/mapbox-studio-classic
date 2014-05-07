@@ -187,13 +187,16 @@ describe('source local', function() {
             assert.ifError(err);
             assert.ok(source);
 
+            var datayml = fs.readFileSync(tmp + '/data.yml', 'utf8').replace(__dirname,'[basepath]');
+            var dataxml = fs.readFileSync(tmp + '/data.xml', 'utf8').replace(__dirname,'[basepath]');
+
             if (UPDATE) {
-                fs.writeFileSync(__dirname + '/expected/source-save-data.yml', fs.readFileSync(tmp + '/data.yml'));
-                fs.writeFileSync(__dirname + '/expected/source-save-data.xml', fs.readFileSync(tmp + '/data.xml'));
+                fs.writeFileSync(__dirname + '/expected/source-save-data.yml', datayml);
+                fs.writeFileSync(__dirname + '/expected/source-save-data.xml', dataxml);
             }
 
-            assert.equal(fs.readFileSync(tmp + '/data.yml', 'utf8'), fs.readFileSync(__dirname + '/expected/source-save-data.yml'));
-            assert.equal(fs.readFileSync(tmp + '/data.xml', 'utf8'), fs.readFileSync(__dirname + '/expected/source-save-data.xml'));
+            assert.equal(datayml, fs.readFileSync(__dirname + '/expected/source-save-data.yml'));
+            assert.equal(dataxml, fs.readFileSync(__dirname + '/expected/source-save-data.xml'));
 
             // This setTimeout is here because thumbnail generation on save
             // is an optimistic operation (e.g. callback does not wait for it
@@ -222,7 +225,7 @@ describe('source local', function() {
 
                 var filepath = __dirname + '/expected/source-info.json';
                 if (UPDATE) {
-                    fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+                    fs.writeFileSync(filepath, JSON.stringify(info, null, 2).replace(__dirname, '[basepath]'));
                 }
                 assert.deepEqual(info, require(filepath));
                 done();

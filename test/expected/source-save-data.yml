@@ -11,7 +11,7 @@ description: ''
 Layer: 
   - id: box
     Datasource: 
-      file: /home/devseed/tm2/test/fixtures-localsource/10m-900913-bounding-box.shp
+      file: [basepath]/fixtures-localsource/10m-900913-bounding-box.shp
       type: shape
     description: ''
     fields: {}
@@ -22,5 +22,4 @@ Layer:
     srs: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
 maxzoom: 6
 minzoom: 0
-mtime: 1399495170632
 name: Test source
