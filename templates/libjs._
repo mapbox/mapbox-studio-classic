@@ -179,3 +179,34 @@ views.Browser.prototype.browse = function(ev) {
   }
   return false;
 };
+
+views.Modal = Backbone.View.extend({});
+views.Modal.prototype.events = {
+  'click a.close': 'close'
+};
+views.Modal.prototype.active = false;
+views.Modal.prototype.modals = {};
+views.Modal.prototype.close = function(ev) {
+    // default, just close the modal
+    // need to also accept a url and redirect there on close
+    var el = $(this.el);
+    var id = el.children()[0].id;
+    el.children().remove();
+    el.parent().removeClass('active');
+    this.modals[id].callback();
+    delete this.modals[id];
+    this.active = false;
+};
+views.Modal.prototype.show = function(id, options, callback) {
+  callback = callback || function() {};
+  if (this.modals[id]) return callback();
+
+  var modal = {
+    el: $('#' + id),
+    callback: callback
+  }
+
+  this.$el.append(modal.el.clone()).parent().addClass('active');
+  this.modals[id] = modal;
+  this.active = true;
+}

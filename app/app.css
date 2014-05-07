@@ -74,6 +74,8 @@ kbd {
 .radio-buttons input[type=radio]:checked + label.quiet { background: rgba(255,255,255,0.25);}
 
 /* Modal popup */
+
+/* -- old modals, to remove -- */
 .modal {
   display:none;
   position:absolute; left:50%; top:20%; z-index:2001;
@@ -91,6 +93,48 @@ kbd {
 
 .dark .fill-light.modal { background:#444; }
 .dark #mask { background:rgba(0,0,0,0.8); }
+
+/* --- new modals --- */
+#modal > div {
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  overflow-y: auto;
+}
+
+#modal.active .modal {
+  display: block;
+}
+
+#modal.active > div {
+  z-index:99999;
+  transition:all .1s, z-index 0 0;
+}
+
+#modal .modal-mask {
+  opacity: 0;
+}
+
+#modal.active .modal-mask {
+  opacity: 1;
+}
+
+#modal .modal-content {
+  -webkit-transform:translateY(-100%);
+     -moz-transform:translateY(-100%);
+      -ms-transform:translateY(-100%);
+          transform:translateY(-100%);
+}
+
+#modal.active .modal-content {
+  -webkit-transform:translateY(0%);
+     -moz-transform:translateY(0%);
+      -ms-transform:translateY(0%);
+          transform:translateY(0%);
+}
 
 /* END Base candidates */
 
