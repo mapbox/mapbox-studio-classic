@@ -147,7 +147,7 @@
 <div id='full' class='z1 clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
-      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
         --><a class='js-save settings-n button icon inline floppy unround' href='#saveas'>Save as</a>
@@ -384,13 +384,14 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
+  'click .avatar': 'userModal',
   'click .js-save': 'save',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
   'click .addtab': 'addtabModal',
   'submit #addtab-modal': 'addtab',
   'submit #addmapbox': 'addmapbox',
-  'submit #user': 'user',
+  'submit #user-modal': 'user',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
@@ -548,6 +549,10 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
+Editor.prototype.userModal = function() {
+  Modal.show('user-modal');
+  return false;
+},
 Editor.prototype.addtabModal = function() {
   Modal.show('addtab-modal', {}, function(e) {
     console.log(e);
