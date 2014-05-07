@@ -848,6 +848,8 @@ Editor.prototype.upload = function(ev) {
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
+  var rand = Math.random().toString(16).split('.')[1];
+
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
@@ -864,7 +866,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&' + rand ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
@@ -877,7 +879,7 @@ Editor.prototype.refresh = function(ev) {
   if (gridc) map.removeControl(gridc);
   if (this.model.get('template') && this.model.get('interactivity_layer')) {
     grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&mtime=' + this.model.get('mtime') ],
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&' + rand ],
       minzoom: this.model.get('minzoom'),
       maxzoom: 22
     });

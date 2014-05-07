@@ -1,3 +1,5 @@
+<% var rand = Math.random().toString(16).split('.')[1]; %>
+
  <nav class='pin-topright pad1y pad2x'>
     <div class='rounded-toggle'><!--
       --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
@@ -19,7 +21,7 @@
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.style).chain()
-        .sortBy(function(item) { return -1 * item.mtime })
+        .sortBy(function(item) { return item.id })
         .each(function(item) {
           %>
         <%
@@ -29,7 +31,7 @@
 
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
-            <div class='round-left inline contain small-graphic z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+            <div class='round-left inline contain small-graphic z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
             <div class='pin-left small-graphic fallback-graphic fill-lighten0 pad1 round-left style'><div class='icon big paint'></div></div>
             <div class='pad1 truncate'>
               <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
@@ -67,7 +69,7 @@
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.source).chain()
-        .sortBy(function(item) { return -1 * item.mtime })
+        .sortBy(function(item) { return item.id })
         .each(function(item) { %>
         <%
         var isactive = '';
@@ -76,7 +78,7 @@
 
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
-            <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&mtime=<%=item.mtime%>")'></div>
+            <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
             <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
 
             <div class='truncate pad1 '>
