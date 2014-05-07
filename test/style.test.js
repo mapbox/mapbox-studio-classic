@@ -5,6 +5,7 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
+var UPDATE = !!process.env.UPDATE;
 
 describe('style', function() {
 
@@ -61,10 +62,19 @@ describe('style load', function() {
         style.save(_({id:'tmstyle://' + tmpPerm}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
-            assert.ok(/maxzoom: 22/.test(fs.readFileSync(tmpPerm + '/project.yml', 'utf8')), 'saves project.yml');
-            assert.equal(data.styles['a.mss'], fs.readFileSync(tmpPerm + '/a.mss', 'utf8'), 'saves a.mss');
-            assert.equal(data.styles['b.mss'], fs.readFileSync(tmpPerm + '/b.mss', 'utf8'), 'saves b.mss');
-            assert.ok(/<Map srs/.test(fs.readFileSync(tmpPerm + '/project.xml', 'utf8')), 'saves project.xml');
+
+            if (UPDATE) {
+                fs.writeFileSync(__dirname + '/expected/style-save-project.yml', fs.readFileSync(tmpPerm + '/project.yml'));
+                fs.writeFileSync(__dirname + '/expected/style-save-project.xml', fs.readFileSync(tmpPerm + '/project.xml'));
+                fs.writeFileSync(__dirname + '/expected/style-save-a.mss', fs.readFileSync(tmpPerm + '/a.mss'));
+                fs.writeFileSync(__dirname + '/expected/style-save-b.mss', fs.readFileSync(tmpPerm + '/b.mss'));
+            }
+
+            assert.equal(fs.readFileSync(tmpPerm + '/project.yml', 'utf8'), fs.readFileSync(__dirname + '/expected/style-save-project.yml'));
+            assert.equal(fs.readFileSync(tmpPerm + '/project.xml', 'utf8'), fs.readFileSync(__dirname + '/expected/style-save-project.xml'));
+            assert.equal(fs.readFileSync(tmpPerm + '/a.mss', 'utf8'), fs.readFileSync(__dirname + '/expected/style-save-a.mss'));
+            assert.equal(fs.readFileSync(tmpPerm + '/b.mss', 'utf8'), fs.readFileSync(__dirname + '/expected/style-save-b.mss'));
+
             // This setTimeout is here because thumbnail generation on save
             // is an optimistic operation (e.g. callback does not wait for it
             // to complete).
@@ -109,11 +119,15 @@ describe('style.info', function() {
     it('reads style YML', function(done) {
         style.info('tmstyle://' + defpath, function(err, info) {
             assert.ifError(err);
-            assert.equal(info.minzoom, 0);
-            assert.equal(info.maxzoom, 22);
-            assert.equal(info.source, 'mapbox:///mapbox.mapbox-streets-v4');
-            assert.ok(/background-color:#fff/.test(info.styles['style.mss']));
             assert.equal(info.id, 'tmstyle://' + defpath, 'style.info adds id key');
+
+            info.id = '[id]';
+
+            var filepath = __dirname + '/expected/style-info-default.json';
+            if (UPDATE) {
+                fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+            }
+            assert.deepEqual(info, require(filepath));
             done();
         });
     });
