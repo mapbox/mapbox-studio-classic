@@ -304,6 +304,12 @@ templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 statHandler('drawtime')();
 
+if ('onbeforeunload' in window) window.onbeforeunload = function() {
+  if (Editor && Editor.changed) return 'Save your changes?';
+};
+
+var Editor = Backbone.View.extend({});
+
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
     document.getElementById('code')
@@ -339,8 +345,13 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
+  function changed() {
+    Editor.changed = true;
+  }
+
   if (id === 'template') templateEditor = tab;
   tab.on('keydown', completer.onKeyEvent);
+  tab.on('change', changed);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
@@ -361,7 +372,6 @@ Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
 var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
-var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-recache': 'recache',
@@ -765,6 +775,7 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
 
+  Editor.changed = false;
   options = options || {
     success:_(this.refresh).bind(this),
     error: _(this.error).bind(this)
