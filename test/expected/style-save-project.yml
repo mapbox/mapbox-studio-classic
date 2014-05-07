@@ -1,0 +1,27 @@
+_prefs: 
+  mapid: ''
+  saveCenter: true
+_properties: {}
+attribution: ''
+bounds: 
+  - -180
+  - -85.0511
+  - 180
+  - 85.0511
+center: 
+  - 0
+  - 0
+  - 3
+description: ''
+format: "png8:m=h"
+interactivity_layer: ''
+layers: null
+maxzoom: 22
+minzoom: 0
+name: tmp-1234
+scale: 1
+source: "mapbox:///mapbox.mapbox-streets-v2"
+styles: 
+  - a.mss
+  - b.mss
+template: ''

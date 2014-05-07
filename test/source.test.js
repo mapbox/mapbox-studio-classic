@@ -5,6 +5,7 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
+var UPDATE = !!process.env.UPDATE;
 
 describe('source', function() {
 
@@ -185,8 +186,15 @@ describe('source local', function() {
         source.save(_({id:'tmsource://' + tmp}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
-            assert.ok(/maxzoom: 6/.test(fs.readFileSync(tmp + '/data.yml', 'utf8')), 'saves data.yml');
-            assert.ok(/<Map srs/.test(fs.readFileSync(tmp + '/data.xml', 'utf8')), 'saves data.xml');
+
+            if (UPDATE) {
+                fs.writeFileSync(__dirname + '/expected/source-save-data.yml', fs.readFileSync(tmp + '/data.yml'));
+                fs.writeFileSync(__dirname + '/expected/source-save-data.xml', fs.readFileSync(tmp + '/data.xml'));
+            }
+
+            assert.equal(fs.readFileSync(tmp + '/data.yml', 'utf8'), fs.readFileSync(__dirname + '/expected/source-save-data.yml'));
+            assert.equal(fs.readFileSync(tmp + '/data.xml', 'utf8'), fs.readFileSync(__dirname + '/expected/source-save-data.xml'));
+
             // This setTimeout is here because thumbnail generation on save
             // is an optimistic operation (e.g. callback does not wait for it
             // to complete).
@@ -194,6 +202,31 @@ describe('source local', function() {
                 assert.ok(fs.existsSync(tmp + '/.thumb.png'), 'saves thumb');
                 done();
             }, 1000);
+        });
+    });
+
+    describe('source.info', function() {
+        it('fails on bad path', function(done) {
+            source.info('tmsource:///path/does/not/exist', function(err, info) {
+                assert.ok(err);
+                assert.equal('ENOENT', err.code);
+                done();
+            });
+        });
+        it('reads source YML', function(done) {
+            source.info('tmsource://' + __dirname + '/fixtures-localsource', function(err, info) {
+                assert.ifError(err);
+                assert.equal(info.id, 'tmsource://' + __dirname + '/fixtures-localsource', 'source.info adds id key');
+
+                info.id = '[id]';
+
+                var filepath = __dirname + '/expected/source-info.json';
+                if (UPDATE) {
+                    fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+                }
+                assert.deepEqual(info, require(filepath));
+                done();
+            });
         });
     });
 });
