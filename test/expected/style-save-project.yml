@@ -18,7 +18,6 @@ interactivity_layer: ''
 layers: null
 maxzoom: 22
 minzoom: 0
-mtime: 1399495408979
 name: tmp-1234
 scale: 1
 source: "mapbox:///mapbox.mapbox-streets-v2"
