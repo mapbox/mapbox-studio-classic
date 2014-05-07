@@ -14,7 +14,7 @@
       <a class='button quiet col12 icon plus' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1 space-bottom1'>
-      <a class='button quiet col12 icon folder' href='#browsestyle'>Browse</a>
+      <a class='browsestyle button quiet col12 icon folder' href='#'>Browse</a>
     </div>
 
     <div class='col12 fl clearfix pad1x'>
@@ -59,10 +59,10 @@
     </div>
 
     <div class='col3 pad1 space-bottom1'>
-      <a class='col12 button quiet col6 icon folder' href='#browsesource'>Browse</a>
+      <a class='browsesource col12 button quiet col6 icon folder' href='#'>Browse</a>
     </div>
     <div class='col3 pad1 space-bottom1'>
-      <a class='col12 button quiet col6 icon mapbox' href='#addmapbox'>Mapbox</a>
+      <a class='addmapbox col12 button quiet col6 icon mapbox' href='#addmapbox'>Mapbox</a>
     </div>
 
     <div class='col12 fl clearfix pad1x'>

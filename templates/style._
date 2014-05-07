@@ -17,7 +17,7 @@
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
-  <script src='/app/lib.js?max=29222229'></script>
+  <script src='/app/lib.js'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
@@ -390,7 +390,10 @@ Editor.prototype.events = {
   'submit #settings': 'save',
   'click .addtab': 'addtabModal',
   'submit #addtab-modal': 'addtab',
-  'submit #addmapbox': 'addmapbox',
+  'click .addmapbox': 'addmapboxModal',
+  'submit #addmapbox-modal': 'addmapbox',
+  'click .browsestyle': 'browsestyleModal',
+  'click .browsesource': 'browsesourceModal',
   'submit #user-modal': 'user',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
@@ -549,10 +552,22 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
+Editor.prototype.browsestyleModal = function() {
+  Modal.show('browsestyle');
+  return false;
+};
+Editor.prototype.browsesourceModal = function() {
+  Modal.show('browsesource');
+  return false;
+};
+Editor.prototype.addmapboxModal = function() {
+  Modal.show('addmapbox-modal');
+  return false;
+};
 Editor.prototype.userModal = function() {
   Modal.show('user-modal');
   return false;
-},
+};
 Editor.prototype.addtabModal = function() {
   Modal.show('addtab-modal', {}, function(e) {
     console.log(e);

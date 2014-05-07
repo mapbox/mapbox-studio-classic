@@ -255,6 +255,11 @@ revlayers.reverse();
 </form>
 <% } %>
 
+<form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
+<a class="pad1 quiet icon x pin-topright close" href="#"></a>
+<div class='message-modal-body'></div>
+</form>
+
 <a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
@@ -337,6 +342,7 @@ var layers = _(<%=JSON.stringify(revlayers)%>).reduce(function(memo, l) {
 var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
+var Modal = new views.Modal({ el: $('.modal-content') });
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click .js-save': 'save',
@@ -350,8 +356,10 @@ Editor.prototype.events = {
   'click #docs .js-docs-nav': 'scrollto',
   'click .layer .js-tab': 'tabbedFields',
   'click #settings .js-ref-delete': 'delstyle',
+  'click .browsestyle': 'browsestyleModal',
+  'click .browsesource': 'browsesourceModal',
   'submit #addlayer': 'addlayer',
-  'submit #addmapbox': 'addmapbox',
+  'submit #addmapbox-modal': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #zoom-in': 'zoomin',
@@ -401,6 +409,14 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.browsestyleModal = function() {
+  Modal.show('browsestyle');
+  return false;
+};
+Editor.prototype.browsesourceModal = function() {
+  Modal.show('browsesource');
   return false;
 };
 Editor.prototype.user = function() {
