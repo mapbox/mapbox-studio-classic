@@ -133,9 +133,8 @@ Creating a source with TM2
 
 Local TM2 source transform traditional geodata formats (shapefiles, geojson, postgis, etc.) into vector tiles. A `data.yml` file captures a configuration of datasources organized as named layers. There is no visual style associated with any given source and the source UI of TM2 autogenerates an inspection style only for viewing your data.
 
-When configuring your source there are several parameters to give extra attention:
+When configuring your source give extra attention to:
 
-- **Maxzoom (source)**: the highest zoom level for which vector tiles should be rendered. After this zoom level styles using this source will *overzoom*, using geometries from the maxzoom level. If this value is set too low, geometries will appear crude/oversimplified at higher zoomlevels. If this value is set too high, you will need to generate many more vector tiles than necessary for your data.
 - **Buffer size (layer)**: the number of "pixel" units geometries should extend beyond tile boundaries. If set too low, especially for lines and polygons, geometries will not extend beyond tiles enough to allow for wide strokes, blurs, and other styles. Higher values, however, include more geometry data in each vector tile bloating size.
 
 ### Exporting and uploading a source MBTiles
