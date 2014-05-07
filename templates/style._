@@ -17,7 +17,7 @@
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
-  <script src='/app/lib.js'></script>
+  <script src='/app/lib.js?max=29222229'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
@@ -240,7 +240,7 @@
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
       --></div>
-      <a href='#' data-modal='addtab' class='addtab openmodal quiet icon plus pad1y pad0x z1 pin-topright'></a>
+      <a href='#' data-modal='addtab' class='addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
     </nav>
   </div>
 
@@ -287,7 +287,7 @@
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
-<form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
+<form id='addtab-modal' class='modal center round pad2 col6 margin3 fill-light'>
   <a class="pad1 quiet icon x pin-topright close" href="#"></a>
   <p>Add a new cartoCSS tab to your style.</p>
   <div class='clearfix'>
@@ -298,7 +298,12 @@
   </div>
 </form>
 
-<!-- <a href='#' id='mask' class='fill-darken2 animate'></a> -->
+<form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
+<a class="pad1 quiet icon x pin-topright close" href="#"></a>
+<div class='message-modal-body'></div>
+</form>
+
+<a href='#' id='mask' class='fill-darken2 animate'></a>
 
 </div>
 
@@ -381,9 +386,9 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-recache': 'recache',
-  'click .openmodal': 'openmodal',
   'submit #settings': 'save',
-  'submit #addtab': 'addtab',
+  'click .addtab': 'addtabModal',
+  'submit #addtab-modal': 'addtab',
   'submit #addmapbox': 'addmapbox',
   'submit #user': 'user',
   'submit #bookmark': 'addbookmark',
@@ -415,6 +420,7 @@ Editor.prototype.events = {
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
+    if (Modal.active) Modal.close();
     window.location.href = '#';
   }
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
@@ -529,14 +535,26 @@ Editor.prototype.messageclear = function() {
   });
 };
 
-Editor.prototype.messagemodal = messageModal;
+Editor.prototype.messagemodal = function(text, html) {
+  if (html) {
+    $('.message-modal-body').html(html);
+  } else {
+    $('.message-modal-body').text(text);
+  }
+  if (Modal.active) Modal.close();
+  Modal.show('message-modal');
+};
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
-Editor.prototype.openmodal = function(ev) {
-  var id = $(ev.currentTarget).data('modal');
-  if (id) Modal.show(id);
+Editor.prototype.addtabModal = function() {
+  Modal.show('addtab-modal', {}, function(e) {
+    console.log(e);
+    //if (e) editor.messagemodal('message-modal');
+  });
+
+  return false;
 };
 Editor.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+
@@ -711,7 +729,7 @@ Editor.prototype.addtab = function(ev) {
     return false;
   }
   field.val('');
-  window.location.hash = '#';
+  Modal.close();
   return false;
 };
 Editor.prototype.deltab = function(ev) {

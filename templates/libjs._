@@ -186,11 +186,12 @@ views.Modal.prototype.events = {
 };
 views.Modal.prototype.active = false;
 views.Modal.prototype.modals = {};
-views.Modal.prototype.close = function(ev) {
+views.Modal.prototype.close = function() {
     // default, just close the modal
     // need to also accept a url and redirect there on close
+    if (!Modal.active) return;
     var el = $(this.el);
-    var id = el.children()[0].id;
+    var id = '#' + el.children()[0].id;
     el.children().remove();
     el.parent().removeClass('active');
     this.modals[id].callback();
@@ -198,12 +199,14 @@ views.Modal.prototype.close = function(ev) {
     this.active = false;
 };
 views.Modal.prototype.show = function(id, options, callback) {
-  callback = callback || function() {};
-  if (this.modals[id]) return callback();
+  if (id[0] != '#') id = '#' + id;
+  options = options || {};
+  if (this.active && !options.overwrite)
+    return new Error('Modal already active')
 
   var modal = {
-    el: $('#' + id),
-    callback: callback
+    el: $(id),
+    callback: callback || function() {}
   }
 
   this.$el.append(modal.el.clone()).parent().addClass('active');
