@@ -28,7 +28,7 @@
     "tar": "0.1.x",
     "mapnik": "1.4.2",
     "mapnik-reference": "~5.0.8",
-    "carto": "~0.9.6",
+    "carto": "https://github.com/mapbox/carto/tarball/no-max-extent",
     "tilelive": "4.5.x",
     "tilelive-bridge": "0.4.0",
     "tilelive-vector": "0.11.0",
