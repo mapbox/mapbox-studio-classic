@@ -23,8 +23,6 @@
     {
       "id": "box",
       "description": "",
-      "minzoom": 0,
-      "maxzoom": 6,
       "fields": {
         "ScaleRank": "String",
         "FeatureCla": "String",
@@ -36,8 +34,6 @@
     {
       "id": "solid",
       "description": "",
-      "minzoom": 0,
-      "maxzoom": 6,
       "fields": {
         "Id": "Number"
       }
