@@ -361,8 +361,6 @@ Editor.prototype.events = {
   'click #docs .js-docs-nav': 'scrollto',
   'click .layer .js-tab': 'tabbedFields',
   'click #settings .js-ref-delete': 'delstyle',
-  'click .browsestyle': 'browsestyleModal',
-  'click .browsesource': 'browsesourceModal',
   'submit #addlayer': 'addlayer',
   'click .addmapbox': 'addmapboxModal',
   'submit #addmapbox-modal': 'addmapbox',
@@ -415,14 +413,6 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
-  return false;
-};
-Editor.prototype.browsestyleModal = function() {
-  Modal.show('browsestyle');
-  return false;
-};
-Editor.prototype.browsesourceModal = function() {
-  Modal.show('browsesource');
   return false;
 };
 Editor.prototype.user = function() {

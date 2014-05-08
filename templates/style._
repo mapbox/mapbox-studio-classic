@@ -392,8 +392,6 @@ Editor.prototype.events = {
   'submit #addtab-modal': 'addtab',
   'click .addmapbox': 'addmapboxModal',
   'submit #addmapbox-modal': 'addmapbox',
-  'click .browsestyle': 'browsestyleModal',
-  'click .browsesource': 'browsesourceModal',
   'submit #user-modal': 'user',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
@@ -552,14 +550,6 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
-Editor.prototype.browsestyleModal = function() {
-  Modal.show('browsestyle');
-  return false;
-};
-Editor.prototype.browsesourceModal = function() {
-  Modal.show('browsesource');
-  return false;
-};
 Editor.prototype.addmapboxModal = function() {
   Modal.show('addmapbox-modal');
   return false;
