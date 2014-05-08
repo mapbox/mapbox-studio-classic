@@ -114,6 +114,17 @@ app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.sour
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
+app.get('/source/:lon,:lat.json', middleware.source, cors(), inspect);
+
+function inspect(req, res, next) {
+    var lon = parseFloat(req.params.lon);
+    var lat = parseFloat(req.params.lat);
+    req.style.queryTile(lon, lat, { tolerance:10 }, function(err, data, headers) {
+        if (err) return next(err);
+        res.set(headers);
+        return res.json(data);
+    });
+};
 
 function grid(req, res, next) {
     var z = req.params.z | 0;
