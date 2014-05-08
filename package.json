@@ -31,7 +31,7 @@
     "carto": "~0.9.6",
     "tilelive": "4.5.x",
     "tilelive-bridge": "0.4.0",
-    "tilelive-vector": "https://github.com/mapbox/tilelive-vector/tarball/vtile-query",
+    "tilelive-vector": "0.12.0",
     "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
     "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
     "cors": "~2.1.1",
