@@ -170,6 +170,7 @@
       </div>
     </div>
     <a href='#' title='Baselayer visibility' id='baselayer' class='inline icon mt active dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+    <a href='#' title='Inspector' id='xray' class='inline icon eye fill-white quiet'></a>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
@@ -298,7 +299,7 @@
 </div>
 
 <script>
-var map = baselayer = tiles = grids = gridc = templateEditor = null;
+var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
@@ -395,6 +396,7 @@ Editor.prototype.events = {
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
   'click #baselayer': 'toggleBaselayer',
+  'click #xray': 'toggleXray',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .search-result': 'selectSearch',
@@ -567,6 +569,11 @@ Editor.prototype.focusBookmark = function(ev) {
   return;
 };
 Editor.prototype.toggleBaselayer = function(ev) {
+  $(ev.currentTarget).toggleClass('active dark fill-dark fill-white quiet');
+  this.refresh();
+  return false;
+};
+Editor.prototype.toggleXray = function(ev) {
   $(ev.currentTarget).toggleClass('active dark fill-dark fill-white quiet');
   this.refresh();
   return false;
@@ -861,7 +868,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map baselayer.
   if (baselayer) map.removeLayer(baselayer);
   baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && $('#baselayer').is('.active')) baselayer.addTo(map);
+  if (baselayer && !$('#xray').is('.active') && $('#baselayer').is('.active')) baselayer.addTo(map);
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
@@ -871,8 +878,17 @@ Editor.prototype.refresh = function(ev) {
     maxzoom: this.model.get('maxzoom')
   })
   .on('tileload', statHandler('drawtime'))
-  .on('load', errorHandler)
-  .addTo(map);
+  .on('load', errorHandler);
+  if (!$('#xray').is('.active')) tiles.addTo(map);
+
+  // Refresh xray layer.
+  if (xray) map.removeLayer(xray);
+  xray = L.mapbox.tileLayer({
+    tiles: ['/source/{z}/{x}/{y}.png?id=<%=style.source%>&' + rand ],
+    minzoom: this.model.get('minzoom'),
+    maxzoom: this.model.get('maxzoom')
+  });
+  if(xray && $('#xray').is('.active')) xray.addTo(map);
 
   // Refresh gridcontrol template.
   if (grids) map.removeLayer(grids);
