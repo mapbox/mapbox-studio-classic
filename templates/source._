@@ -18,13 +18,18 @@
   <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
-  <script src='/app/lib.js'></script>
+  <script src='/app/lib.js?_=<%= no_cache %>'></script>
   <title><%= source.name %></title>
 </head>
 
 <body id='view' class='<%= agent %> dark'>
 
 <div id='perf'></div>
+
+<div id='modal'>
+  <div class='modal-mask fill-darken2 animate'></div>
+  <div id='modal-content' class='contain modal-content animate'></div>
+</div>
 
 <form id='settings' class='z10 col12 pin-top'>
 <div class='z1 col6 pin-right fill-blue dark scroll-styled'>
@@ -359,6 +364,7 @@ Editor.prototype.events = {
   'click .browsestyle': 'browsestyleModal',
   'click .browsesource': 'browsesourceModal',
   'submit #addlayer': 'addlayer',
+  'click .addmapbox': 'addmapboxModal',
   'submit #addmapbox-modal': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
@@ -832,6 +838,11 @@ Editor.prototype.browsefile = function(ev) {
     }
   });
 
+};
+
+Editor.prototype.addmapboxModal = function() {
+  Modal.show('addmapbox-modal');
+  return false;
 };
 
 Editor.prototype.messagemodal = messageModal;

@@ -190,12 +190,9 @@ views.Modal.prototype.close = function() {
     // default, just close the modal
     // need to also accept a url and redirect there on close
     if (!Modal.active) return;
-    var el = $(this.el);
-    var id = '#' + el.children()[0].id;
-    el.children().remove();
-    el.parent().removeClass('active');
-    this.modals[id].callback();
-    delete this.modals[id];
+    this.$el.children().remove();
+    this.$el.parent().removeClass('active');
+    this.active.callback();
     this.active = false;
 };
 views.Modal.prototype.show = function(id, options, callback) {
@@ -210,6 +207,5 @@ views.Modal.prototype.show = function(id, options, callback) {
   }
 
   this.$el.append(modal.el.clone()).parent().addClass('active');
-  this.modals[id] = modal;
-  this.active = true;
+  this.active = modal;
 }
