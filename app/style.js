@@ -704,11 +704,11 @@ Editor.prototype.refresh = function(ev) {
   return false;
 };
 
-var editor = new Editor({
+window.editor = new Editor({
   el: document.body,
   model: new Style(style)
 });
-editor.refresh();
+window.editor.refresh();
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

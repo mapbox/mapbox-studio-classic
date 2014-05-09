@@ -607,10 +607,10 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
-var editor = new Editor({
+window.editor = new Editor({
   el: document.body,
   model: new Source(source)
 });
-editor.refresh();
+window.editor.refresh();
 
 };
