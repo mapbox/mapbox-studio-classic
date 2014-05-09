@@ -35,7 +35,7 @@
 
 <form id='settings' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='pin-topleft megamenu caret2 dark fill-dark round col4'>
+  <div class='pin-topleft megamenu caret2 dark fill-dark col4'>
     <% var disabled = remote ? "disabled='disabled'" : ''; %>
     <a class="pad1 quiet icon x pin-topright" href="#"></a>
     <header class='pad1 keyline-bottom'>
