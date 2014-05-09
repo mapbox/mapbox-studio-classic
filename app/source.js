@@ -592,6 +592,7 @@ Editor.prototype.browsefile = function(ev) {
         target.val(filepath);
         window.location.href = '#' + target.parents('form').attr('id');
       }
+      Modal.close();
     }
   });
 
