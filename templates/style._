@@ -299,12 +299,16 @@
 </div>
 
 <script>
-var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
+var style = <%= JSON.stringify(style) %>;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
+
+(function(templates, style) {
+
+var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
@@ -359,13 +363,13 @@ var Tab = function(id, value) {
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
 };
-var code = _(<%=JSON.stringify(style.styles)%>).reduce(function(memo, value, k) {
+var code = _(style.styles).reduce(function(memo, value, k) {
   memo[k] = Tab(k, value);
   return memo;
 }, {});
 
 // Add in interactivity template. 
-code['template'] = Tab('template', <%=JSON.stringify(style.template)%>);
+code['template'] = Tab('template', style.template);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
@@ -880,7 +884,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&' + rand ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + rand ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
@@ -902,7 +906,7 @@ Editor.prototype.refresh = function(ev) {
   if (gridc) map.removeControl(gridc);
   if (this.model.get('template') && this.model.get('interactivity_layer')) {
     grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&' + rand ],
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=' + this.model.id + '&' + rand ],
       minzoom: this.model.get('minzoom'),
       maxzoom: 22
     });
@@ -937,7 +941,7 @@ Editor.prototype.refresh = function(ev) {
 
 var editor = new Editor({
   el: document.body,
-  model: new Style(<%= JSON.stringify(style) %>)
+  model: new Style(style)
 });
 editor.refresh();
 
@@ -947,6 +951,8 @@ $('pre.carto-snippet').each(function(i, elem) {
   $(elem).empty();
   CodeMirror.runMode(text, {name:'carto',reference:window.cartoRef}, $(elem).get(0));
 });
+
+})(templates, style);
 </script>
 
 <% if (test) { %>

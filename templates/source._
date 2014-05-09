@@ -257,8 +257,6 @@ revlayers.reverse();
 <a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
-var map, tiles;
-
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerconf = <%= this.layerconf.source %>;
@@ -273,6 +271,12 @@ templates.xraypopup = <%= this.xraypopup.source %>;
 
 var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;
+
+var source = <%= JSON.stringify(source) %>;
+
+(function(templates, tm, source) {
+
+var map, tiles;
 
 statHandler('srcbytes')();
 
@@ -730,7 +734,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/source/{z}/{x}/{y}.png?id=<%=source.id%>&' + rand ],
+    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + rand ],
     minzoom: this.model.get('minzoom'),
     maxzoom: 22
   })
@@ -808,9 +812,11 @@ Editor.prototype.addmapbox = addMapBox;
 
 var editor = new Editor({
   el: document.body,
-  model: new Source(<%= JSON.stringify(source) %>)
+  model: new Source(source)
 });
 editor.refresh();
+
+})(templates, tm, source);
 
 <% if (!remote) { %>
 // Sortable layers.
