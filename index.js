@@ -98,8 +98,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
             basemap: req.basemap,
             user: tm.db._docs.user,
             test: 'test' in req.query,
-            agent: agent(),
-            no_cache: +new Date
+            agent: agent()
         });
     } catch(err) {
         return next(new Error('style template: ' + err.message));
@@ -286,8 +285,7 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
             history: req.history,
             basemap: req.basemap,
             user: tm.db._docs.user,
-            agent: agent(),
-            no_cache: +new Date
+            agent: agent()
         });
     } catch(err) {
         return next(new Error('source template: ' + err.message));

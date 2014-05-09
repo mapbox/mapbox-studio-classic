@@ -18,7 +18,7 @@
   <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
-  <script src='/app/lib.js?_=<%= no_cache %>'></script>
+  <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <title><%= source.name %></title>
 </head>
 
@@ -109,7 +109,7 @@
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
-      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#' class='user inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
       --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
       </a><!--
@@ -375,6 +375,7 @@ Editor.prototype.events = {
   'click .search-result': 'selectSearch',
   'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
+  'click .user': 'userModal',
   'submit #user': 'user',
   'keydown': 'keys'
 };
@@ -414,6 +415,10 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.userModal = function() {
+  Modal.show('user-modal');
   return false;
 };
 Editor.prototype.user = function() {
