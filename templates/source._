@@ -18,7 +18,9 @@
   <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
+  <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
+  <script src='/app/source.js'></script>
   <title><%= source.name %></title>
 </head>
 
@@ -269,8 +271,6 @@ revlayers.reverse();
 </form>
 
 <a href='#' id='mask' class='fill-darken2 animate'></a>
-
-<script src='/app/source.js'></script>
 
 <script>
 var templates = {};

@@ -1,5 +1,3 @@
-window.cartoRef = <%=JSON.stringify(cartoRef)%>;
-
 var addMapBox = function(ev) {
   var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
