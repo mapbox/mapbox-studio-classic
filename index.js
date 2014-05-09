@@ -114,6 +114,32 @@ app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.sour
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
+app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
+
+function inspect(req, res, next) {
+    var lon = parseFloat(req.params.lon);
+    var lat = parseFloat(req.params.lat);
+    var z = parseInt(req.params.z, 10);
+
+    // Tolerance at z0.
+    var tolerance = Math.round(20037508.34 / 32 / Math.pow(2,z));
+
+    req.style.queryTile(z, lon, lat, { tolerance:tolerance }, function(err, data, headers) {
+        if (err) return next(err);
+        res.set(headers);
+        data.sort(function(a, b) {
+            var ad = a.distance || 0;
+            var bd = b.distance || 0;
+            return ad < bd ? -1 : ad > bd ? 1 : 0;
+        });
+        data = data.reduce(function(memo, feature) {
+            memo[feature.layer] = memo[feature.layer] || [];
+            memo[feature.layer].push(feature);
+            return memo;
+        }, {});
+        return res.json(data);
+    });
+};
 
 function grid(req, res, next) {
     var z = req.params.z | 0;

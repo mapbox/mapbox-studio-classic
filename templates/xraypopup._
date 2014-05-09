@@ -1,0 +1,20 @@
+<%
+var xraycolor = this.xraycolor;
+_(obj).each(function(layer) {
+%>
+  <% var feature = layer[0]; %>
+  <div class='clearfix xray-listing fill-darken1 space-bottom0 pad1'>
+  <strong class='block'>
+    <span class='icon round' style='background-color:<%=xraycolor(feature.layer)%>'></span>
+    <%= feature.layer %>
+  </strong>
+  <% _(feature.attributes).each(function(val, key) { %>
+  <div class='clearfix xray-listing'>
+    <div class='col4 break-word'><%=key%></div>
+    <div class='quiet pad1x col8'><%=val%></div>
+  </div>
+  <% }); %>
+  </div>
+<%
+});
+%>

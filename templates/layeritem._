@@ -8,11 +8,6 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
     <% if (obj.Datasource && obj.Datasource.type) { %>
     <span><code><%= (obj.Datasource.type) %></code></span>
     <% } %>
-    <% if ('minzoom' && 'maxzoom' in obj) { %>
-    <div class="center col3 pin-right pad1x">
-      <span class="inline zooms pad0 micro"><%= obj.minzoom %>-<%= obj.maxzoom %></span>
-    </div>
-    <% } %>
   </a>
   <div class='center col6 pin-right small'>
     <% if (obj.Datasource && obj.Datasource.type) { %>
@@ -23,9 +18,11 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
     <span class='pad0 col4 fr center layer-label'>
       <a href='#refresh' class='icon xrayswatch x inline round fill-darken1 <%=disabled ? 'disabled' : ''%> <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></a>
     </span>
-    <span class='pad0 col4 fr layer-label center'>
-      <a href='#refresh' class='icon xrayinspector inline round fill-darken1 search <%= inspector ? 'active' : '' %>'></a>
-    </span>
+    <% if ('minzoom' && 'maxzoom' in obj) { %>
+    <div class='center col3 fr pad1x'>
+      <span class='inline zooms pad0 micro'><%= obj.minzoom %>-<%= obj.maxzoom %></span>
+    </div>
+    <% } %>
   </div>
 
   <div class='col12 fl description'>
