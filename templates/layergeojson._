@@ -24,7 +24,7 @@
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='geojson' />
           <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".json" or ".geojson" extension.' placeholder='data.json' pattern='[\w+\d+\.\/_-]+\.(json|geojson|JSON)'/><!--
-          --><a href='#browsefile' class='col4 quiet button icon folder js-browsefile'>Browse</a>
+          --><a class='col4 quiet button icon folder js-browsefile'>Browse</a>
         </div>
       </section>
       <%= this.layerconf(obj) %>

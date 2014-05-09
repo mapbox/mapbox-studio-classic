@@ -86,7 +86,9 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
+  'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
+  'click .js-addmapbox': 'addmapboxModal',
   'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
@@ -113,8 +115,7 @@ Editor.prototype.events = {
   'click .search-n': 'focusSearch',
   'click #upload-style': 'upload',
   'change .js-layer-options': 'populateInteractiveVals',
-  'keydown': 'keys',
-  'click [data-modal]': 'simpleModal'
+  'keydown': 'keys'
 };
 
 Editor.prototype.keys = function(ev) {
@@ -298,6 +299,10 @@ Editor.prototype.messagemodal = function(text, html) {
   if (Modal.active) Modal.close();
   Modal.show('message-modal');
 };
+Editor.prototype.addmapboxModal = function() {
+  Modal.show('addmapbox');
+  return false;
+};
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
@@ -466,6 +471,10 @@ Editor.prototype.adddata = function(ev) {
     error: _(this.error).bind(this)
   });
 
+  return false;
+};
+Editor.prototype.addtabModal = function() {
+  Modal.show('addtab');
   return false;
 };
 Editor.prototype.addtab = function(ev) {

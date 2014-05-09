@@ -250,7 +250,7 @@
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
       --></div>
-      <a href='#' data-modal='addtab' class='addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
+      <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
     </nav>
   </div>
 

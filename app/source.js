@@ -82,7 +82,9 @@ Editor.prototype.events = {
   'click #settings .js-tab': 'tabbed',
   'click #docs .js-docs-nav': 'scrollto',
   'click .layer .js-tab': 'tabbedFields',
+  'click .js-addlayer': 'addlayerModal',
   'submit #addlayer': 'addlayer',
+  'click .js-addmapbox': 'addmapboxModal',
   'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
@@ -94,8 +96,7 @@ Editor.prototype.events = {
   'click .search-result': 'selectSearch',
   'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
-  'keydown': 'keys',
-  'click [data-modal]': 'simpleModal'
+  'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
@@ -412,6 +413,10 @@ Editor.prototype.resetmode = function(ev) {
 Editor.prototype.togglelayer = function(ev) {
   $(ev.currentTarget).toggleClass('disabled');
 };
+Editor.prototype.addlayerModal = function() {
+  Modal.show('addlayer');
+  return false;
+};
 Editor.prototype.addlayer = function(ev) {
   var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
@@ -552,6 +557,7 @@ Editor.prototype.refresh = function(ev) {
   return false;
 };
 Editor.prototype.browsefile = function(ev) {
+  Modal.show('browsefile');
   var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
   $('.browsefile-pending').removeClass('browsefile-pending');
   target.addClass('browsefile-pending');
@@ -601,6 +607,10 @@ Editor.prototype.messagemodal = function(text, html) {
   }
   if (Modal.active) Modal.close();
   Modal.show('message-modal');
+};
+Editor.prototype.addmapboxModal = function() {
+  Modal.show('addmapbox');
+  return false;
 };
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;

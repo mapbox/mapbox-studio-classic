@@ -173,7 +173,7 @@ revlayers.reverse();
       <% if (remote) { %>
       <strong class='small inline pad1y pad4x'>Layers</strong>
       <% } else { %>
-      <div class='inline pad0y pad4x'><a data-modal='addlayer' class='button quiet short icon plus'>Layers</a></div>
+      <div class='inline pad0y pad4x'><a class='js-addlayer button quiet short icon plus'>Layers</a></div>
       <% } %>
       <div class='center pin-right col6 strong small'>
         <% if (!remote) { %>
@@ -190,7 +190,7 @@ revlayers.reverse();
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
       <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a data-modal="addlayer">Add one now</a>.'}) %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a class="js-addlayer">Add one now</a>.'}) %>
       <% } %>
     </div>
   </div>
