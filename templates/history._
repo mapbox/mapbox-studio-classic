@@ -1,23 +1,29 @@
 <% var rand = Math.random().toString(16).split('.')[1]; %>
 
- <nav class='pin-topright pad1y pad2x'>
+<div id='history'>
+
+  <header class='row1 pad1 keyline-bottom'>
+    <h3 class='inline'><%= obj.user.name||obj.user.id %></h3>
+    <a class='small inline' href='/unauthorize'>Logout</a>
+  </header>
+
+  <nav class='pin-topright pad1x'>
     <div class='rounded-toggle'><!--
-      --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#settings-style'>Styles</a><!--
-      --><a class='js-tab <%= obj.source ? 'active' : '' %>' href='#settings-source'>Sources</a>
+    --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#history-style'>Styles</a><!--
+    --><a class='js-tab <%= obj.source ? 'active' : '' %>' href='#history-source'>Sources</a>
     <div>
   </nav>
 
-
-<div id='settings-style' <% if (obj.style) { %>class='active'<% } %>>
-  <h3 class='pad2 keyline-bottom'>Styles</h3>
-  <div class='clearfix pad1'>
-
-    <div class='col6 pad1 space-bottom1'>
+<div id='history-style' <% if (obj.style) { %>class='active'<% } %>>
+  <div class='pin-bottom keyline-top row2 pad1'>
+    <div class='col6 pad1'>
       <a class='button quiet col12 icon plus' href='/new/style'>New style</a>
     </div>
-    <div class='col6 pad1 space-bottom1'>
+    <div class='col6 pad1'>
       <a class='browsestyle button quiet col12 icon folder'>Browse</a>
     </div>
+  </div>
+  <div class='clearfix pad1 col12 pin-top settings-body scroll-styled fill-darken0'>
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.style).chain()
@@ -32,7 +38,7 @@
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
             <div class='round-left inline contain small-graphic z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
-            <div class='pin-left small-graphic fallback-graphic fill-lighten0 pad1 round-left style'><div class='icon big paint'></div></div>
+            <div class='pin-left small-graphic fallback-graphic fill-lighten1 pad1 round-left style'><div class='icon big paint'></div></div>
             <div class='pad1 truncate'>
               <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
               <code><%= item.id.split('/').pop().replace('.tm2', '') %></code>
@@ -52,20 +58,19 @@
   </div>
 </div>
 
-<div id='settings-source' <% if (obj.source) { %>class='active'<% } %>>
-  <h3 class='keyline-bottom pad2'>Sources</h3>
-  <div class='pad1 clearfix'>
-
-    <div class='col6 pad1 space-bottom1'>
+<div id='history-source' <% if (obj.source) { %>class='active'<% } %>>
+  <div class='pin-bottom keyline-top row2 pad1'>
+    <div class='col6 pad1'>
       <a class='col12 button quiet icon plus' href='/new/source'>New source</a>
     </div>
-
-    <div class='col3 pad1 space-bottom1'>
+    <div class='col3 pad1'>
       <a class='browsesource col12 button quiet col6 icon folder'>Browse</a>
     </div>
-    <div class='col3 pad1 space-bottom1'>
+    <div class='col3 pad1'>
       <a data-modal='addmapbox' class='col12 button quiet col6 icon mapbox'>Mapbox</a>
     </div>
+  </div>
+  <div class='clearfix pad1 col12 pin-top settings-body scroll-styled'>
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.source).chain()
@@ -79,7 +84,7 @@
         <div class='space-bottom1 contain'>
           <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
             <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
-            <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten0'><div class='icon big point-line'></div></div>
+            <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten1'><div class='icon big point-line'></div></div>
 
             <div class='truncate pad1 '>
               <strong><%= item.name || 'Untitled' %></strong>
@@ -105,4 +110,6 @@
 
     </div>
   </div>
+</div>
+
 </div>
