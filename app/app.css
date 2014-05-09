@@ -122,19 +122,7 @@ kbd {
   opacity: 1;
 }
 
-#modal .modal-content {
-  -webkit-transform:translateY(-100%);
-     -moz-transform:translateY(-100%);
-      -ms-transform:translateY(-100%);
-          transform:translateY(-100%);
-}
-
-#modal.active .modal-content {
-  -webkit-transform:translateY(0%);
-     -moz-transform:translateY(0%);
-      -ms-transform:translateY(0%);
-          transform:translateY(0%);
-}
+#modal .close { cursor: pointer; }
 
 /* END Base candidates */
 

@@ -109,7 +109,7 @@
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
-      --><a href='#' data-modal='user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a data-modal='user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
       --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
       </a><!--
@@ -145,7 +145,7 @@
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view inspect and visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
+    <a class='quiet pin-topright inline pad1 icon close'></a>
   </div>
 </div>
 
@@ -167,7 +167,7 @@ revlayers.reverse();
       <% if (remote) { %>
       <strong class='small inline pad1y pad4x'>Layers</strong>
       <% } else { %>
-      <div class='inline pad0y pad4x'><a href='#' data-modal='addlayer' class='button quiet short icon plus'>Layers</a></div>
+      <div class='inline pad0y pad4x'><a data-modal='addlayer' class='button quiet short icon plus'>Layers</a></div>
       <% } %>
       <div class='center pin-right col6 strong small'>
         <% if (!remote) { %>
@@ -185,7 +185,7 @@ revlayers.reverse();
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
       <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" data-modal="addlayer">Add one now</a>.'}) %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a data-modal="addlayer">Add one now</a>.'}) %>
       <% } %>
     </div>
   </div>
@@ -218,7 +218,7 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
-  <a class="pad1 quiet icon x pin-topright close" href="#"></a>
+  <a class="pad1 quiet icon x pin-topright close"></a>
   <fieldset class='col8 margin2'>
     <p class='center'>Add a layer to your source.</p>
     <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
@@ -261,7 +261,7 @@ revlayers.reverse();
 <% } %>
 
 <form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
-<a class="pad1 quiet icon x pin-topright close" href="#"></a>
+<a class="pad1 quiet icon x pin-topright close"></a>
 <div class='message-modal-body'></div>
 </form>
 
