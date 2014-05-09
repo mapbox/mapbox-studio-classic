@@ -220,7 +220,7 @@ views.Modal.prototype.modals = {};
 views.Modal.prototype.close = function() {
     // default, just close the modal
     // need to also accept a url and redirect there on close
-    if (!Modal.active) return;
+    if (!views.Modal.active) return false;
     this.$el.children().remove();
     this.$el.parent().removeClass('active');
     this.active.callback();
