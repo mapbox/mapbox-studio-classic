@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
+var UPDATE = !!process.env.UPDATE;
 
 describe('copytask', function() {
     this.timeout(20e3);
@@ -35,40 +36,10 @@ describe('copytask', function() {
             function check(queue) {
                 if (!queue.length) return src.getInfo(function(err, info) {
                     assert.ifError(err);
-                    assert.deepEqual({
-                        scheme: 'tms',
-                        basename: 'export.mbtiles',
-                        id: 'export',
-                        format: 'pbf',
-                        filesize: 44032,
-                        attribution: '&copy; John Doe 2013.',
-                        center: [ 0, 0, 3 ],
-                        bounds: [ -180, -85.0511, 180, 85.0511 ],
-                        maxzoom: 4,
-                        minzoom: 0,
-                        name: 'Test source',
-                        vector_layers: [ {
-                            id: 'box',
-                            description: '',
-                            minzoom: 0,
-                            maxzoom: 6,
-                            fields: {
-                                ScaleRank: 'String',
-                                FeatureCla: 'String',
-                                Name1: 'String',
-                                Name2: 'String',
-                                Date: 'String'
-                            }
-                        }, {
-                            id: 'solid',
-                            description: '',
-                            minzoom: 0,
-                            maxzoom: 6,
-                            fields: {
-                                Id: 'Number'
-                            }
-                        } ]
-                    }, info);
+                    if (UPDATE) {
+                        fs.writeFileSync(__dirname + '/expected/copytask-info.json', JSON.stringify(info, null, 2));
+                    }
+                    assert.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/copytask-info.json')), info);
                     done();
                 });
                 var zxy = queue.shift();

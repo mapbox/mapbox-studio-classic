@@ -48,8 +48,6 @@ describe('middleware', function() {
             });
         });
         it('gets style/source info', function(done) {
-            var sourceDoc = require('./fixtures-localsource/data.yml');
-            var styleDoc = require('./fixtures-localsource/project.yml');
             tm.history('source', sourceId);
             tm.history('style', styleId);
 
@@ -57,8 +55,8 @@ describe('middleware', function() {
             middleware.history(req, {}, function() {
                 var sourceInfo = req.history.source[sourceId];
                 var styleInfo = req.history.style[styleId];
-                assert.equal(sourceDoc.attribution, sourceInfo.attribution, 'source info was loaded');
-                assert.equal(styleDoc.mtime, styleInfo.mtime, 'style info was loaded');
+                assert.equal('Test source', sourceInfo.name, 'source info was loaded');
+                assert.equal('Test style', styleInfo.name, 'style info was loaded');
                 done();    
             });
         });

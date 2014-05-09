@@ -6,16 +6,6 @@
     </select>
   </section>
   <section class='pad2x pad1y keyline-bottom'>
-    <label class='col3 inline'>Minzoom</label>
-    <input id='<%=obj.id%>-minzoom' name='properties-minzoom' class='min' type='range' value='<%= obj.properties.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#<%=obj.id%>-maxzoom");' />
-    <span class='small quiet code inline range' id='<%=obj.id%>-minzoom-val'><%= obj.properties.minzoom %></span>
-  </section>
-  <section class='pad2x pad1y keyline-bottom'>
-    <label class='col3 inline'>Maxzoom</label>
-    <input id='<%=obj.id%>-maxzoom' name='properties-maxzoom' class='max' type='range' value='<%= obj.properties.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#<%=obj.id%>-minzoom");' />
-    <span class='small quiet code inline range' id='<%=obj.id%>-maxzoom-val'><%= obj.properties.maxzoom %></span>
-  </section>
-  <section class='pad2x pad1y keyline-bottom'>
     <label class='col3 inline'>Buffer size</label>
     <% if (obj.properties['buffer-size'] > 128) { %>
     <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='text' value='<%= obj.properties['buffer-size'] %>' size='12' />
