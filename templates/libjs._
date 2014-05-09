@@ -114,6 +114,12 @@ var delStyle = function(ev) {
 };
 
 var inspectFeature = function(options) {
+  var map = options.map;
+  var popup;
+  map.on('layeradd', function() {
+    if (popup) map.closePopup(popup);
+    delete popup;
+  });
   return function(ev) {
     if (options.type === 'style' && !$('#xray').is('.active')) return;
     var rand = Math.random().toString(16).split('.')[1];
@@ -125,10 +131,13 @@ var inspectFeature = function(options) {
       dataType: 'json',
       success: function(data) {
         if (!_(data).size()) return;
-        L.popup({closeButton:true, minWidth:200})
-          .setLatLng(ev.latlng)
-          .setContent(templates.xraypopup(data))
-          .openOn(map);
+        popup = L.popup({
+          closeButton:false,
+          minWidth:200
+        })
+        .setLatLng(ev.latlng)
+        .setContent(templates.xraypopup(data))
+        .openOn(map);
       },
       error: function(resp) {}
     });

@@ -1,17 +1,19 @@
 <%
 var xraycolor = this.xraycolor;
-_(obj).each(function(layer) {
+_(obj).chain().toArray().each(function(layer,i) {
+var last = i === (_(obj).size() - 1);
 %>
   <% var feature = layer[0]; %>
-  <div class='clearfix xray-listing fill-darken1 space-bottom0 pad1'>
-  <strong class='block'>
+  <div class='clearfix xray-listing <%= !last ? 'space-bottom1' : '' %>'>
+  <div class='space'>
     <span class='icon round' style='background-color:<%=xraycolor(feature.layer)%>'></span>
-    <%= feature.layer %>
-  </strong>
+    <strong><%= feature.layer %></strong>
+  </div>
   <% _(feature.attributes).each(function(val, key) { %>
-  <div class='clearfix xray-listing'>
-    <div class='col4 break-word'><%=key%></div>
-    <div class='quiet pad1x col8'><%=val%></div>
+  <div class='xray-listing space truncate'>
+    <span class='icon'></span>
+    <span><%=key%></span>
+    <span class='quiet'><%=val%></span>
   </div>
   <% }); %>
   </div>

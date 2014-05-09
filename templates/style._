@@ -865,7 +865,8 @@ Editor.prototype.refresh = function(ev) {
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
     map.on('click', inspectFeature({
       id: this.model.id,
-      type: 'style'
+      type: 'style',
+      map: map
     }));
   }
   map.options.minZoom = this.model.get('minzoom');
