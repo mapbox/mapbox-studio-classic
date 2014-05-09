@@ -62,7 +62,7 @@
       <a class='col12 button quiet col6 icon folder' href='#browsesource'>Browse</a>
     </div>
     <div class='col3 pad1 space-bottom1'>
-      <a class='addmapbox col12 button quiet col6 icon mapbox' href='#addmapbox'>Mapbox</a>
+      <a data-modal='addmapbox' class='col12 button quiet col6 icon mapbox' href='#'>Mapbox</a>
     </div>
 
     <div class='col12 fl clearfix pad1x'>

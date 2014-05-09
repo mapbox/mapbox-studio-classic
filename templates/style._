@@ -147,7 +147,7 @@
 <div id='full' class='z1 clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken2 row1'><!--
-      --><a href='#' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#' data-modal='user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
         --><a class='js-save settings-n button icon inline floppy unround' href='#saveas'>Save as</a>
@@ -287,7 +287,7 @@
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
-<form id='addtab-modal' class='modal center round pad2 col6 margin3 fill-light'>
+<form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
   <a class="pad1 quiet icon x pin-topright close" href="#"></a>
   <p>Add a new cartoCSS tab to your style.</p>
   <div class='clearfix'>
@@ -384,15 +384,12 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
-  'click .avatar': 'userModal',
   'click .js-save': 'save',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
-  'click .addtab': 'addtabModal',
-  'submit #addtab-modal': 'addtab',
-  'click .addmapbox': 'addmapboxModal',
-  'submit #addmapbox-modal': 'addmapbox',
-  'submit #user-modal': 'user',
+  'submit #addtab': 'addtab',
+  'submit #addmapbox': 'addmapbox',
+  'submit #user': 'user',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
@@ -416,7 +413,8 @@ Editor.prototype.events = {
   'click .search-n': 'focusSearch',
   'click #upload-style': 'upload',
   'change .js-layer-options': 'populateInteractiveVals',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click [data-modal]': 'simpleModal'
 };
 
 Editor.prototype.keys = function(ev) {
@@ -470,6 +468,12 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.simpleModal = function(ev) {
+  // for modals that just need to be shown, no callbacks/options
+  var modalid = $(ev.currentTarget).data('modal');
+  if (modalid) Modal.show(modalid);
   return false;
 };
 Editor.prototype.user = function() {
@@ -550,22 +554,6 @@ Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
 
-Editor.prototype.addmapboxModal = function() {
-  Modal.show('addmapbox-modal');
-  return false;
-};
-Editor.prototype.userModal = function() {
-  Modal.show('user-modal');
-  return false;
-};
-Editor.prototype.addtabModal = function() {
-  Modal.show('addtab-modal', {}, function(e) {
-    console.log(e);
-    //if (e) editor.messagemodal('message-modal');
-  });
-
-  return false;
-};
 Editor.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+
     '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+

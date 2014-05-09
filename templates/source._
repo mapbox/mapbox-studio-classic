@@ -109,7 +109,7 @@
 <div id='full' class='clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
     <div class='inline clip fill-darken2 row1'><!--
-      --><a href='#' class='user inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
+      --><a href='#' data-modal='user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='icon inline sprocket button unround quiet'><!--
       --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
       </a><!--
@@ -167,7 +167,7 @@ revlayers.reverse();
       <% if (remote) { %>
       <strong class='small inline pad1y pad4x'>Layers</strong>
       <% } else { %>
-      <div class='inline pad0y pad4x'><a href='#' class='addlayer button quiet short icon plus'>Layers</a></div>
+      <div class='inline pad0y pad4x'><a href='#' data-modal='addlayer' class='button quiet short icon plus'>Layers</a></div>
       <% } %>
       <div class='center pin-right col6 strong small'>
         <% if (!remote) { %>
@@ -185,7 +185,7 @@ revlayers.reverse();
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
       <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="addlayer">Add one now</a>.'}) %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" data-modal="addlayer">Add one now</a>.'}) %>
       <% } %>
     </div>
   </div>
@@ -361,10 +361,8 @@ Editor.prototype.events = {
   'click #docs .js-docs-nav': 'scrollto',
   'click .layer .js-tab': 'tabbedFields',
   'click #settings .js-ref-delete': 'delstyle',
-  'click .addlayer': 'addlayerModal',
   'submit #addlayer': 'addlayer',
-  'click .addmapbox': 'addmapboxModal',
-  'submit #addmapbox-modal': 'addmapbox',
+  'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #zoom-in': 'zoomin',
@@ -375,9 +373,9 @@ Editor.prototype.events = {
   'click .search-result': 'selectSearch',
   'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
-  'click .user': 'userModal',
   'submit #user': 'user',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click [data-modal]': 'simpleModal'
 };
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
@@ -417,8 +415,10 @@ Editor.prototype.keys = function(ev) {
   }
   return false;
 };
-Editor.prototype.userModal = function() {
-  Modal.show('user-modal');
+Editor.prototype.simpleModal = function(ev) {
+  // for modals that just need to be shown, no callbacks/options
+  var modalid = $(ev.currentTarget).data('modal');
+  if (modalid) Modal.show(modalid);
   return false;
 };
 Editor.prototype.user = function() {
@@ -643,10 +643,6 @@ Editor.prototype.toggleinspector = function(ev) {
   $('.js-layer .xrayinspector.active').removeClass('active');
   $(ev.currentTarget).addClass('active');
 };
-Editor.prototype.addlayerModal = function(ev) {
-  Modal.show('addlayer');
-  return false;
-};
 Editor.prototype.addlayer = function(ev) {
   var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
@@ -839,11 +835,6 @@ Editor.prototype.browsefile = function(ev) {
     }
   });
 
-};
-
-Editor.prototype.addmapboxModal = function() {
-  Modal.show('addmapbox-modal');
-  return false;
 };
 
 Editor.prototype.messagemodal = function(text, html) {
