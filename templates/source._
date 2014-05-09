@@ -205,7 +205,7 @@ revlayers.reverse();
 
 <%= this.modaluser({name:user.name||user.id}) %>
 <%= this.modalmessage() %>
-<%= this.modalmapbox() %>
+<%= this.modalmapbox(obj) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
@@ -355,6 +355,7 @@ Editor.prototype.events = {
   'submit #search': 'search',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
+  'click .js-listmapbox': 'listmapbox',
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
@@ -805,6 +806,8 @@ Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
+Editor.prototype.listmapbox = listMapbox;
+Editor.prototype.selectmapbox = selectMapbox;
 
 var editor = new Editor({
   el: document.body,

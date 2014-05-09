@@ -94,6 +94,49 @@ var messageClear = function() {
   $('#full').removeClass('loading');
 };
 
+var listMapbox = function(ev) {
+  // Get list of users projects
+  $.ajax({
+    url:'/listMapbox',
+    dataType: 'json',
+    success: function(resp) {
+      // Filter for TM2
+      var projects = _(resp).filter(function(project) {
+                          return project.filesize && !project.options
+                        });
+      // Make tilejson requests on filtered projects
+      for (var i = 0; i < projects.length; i++) {
+
+        $.ajax({
+          url: 'http://api.tiles.mapbox.com/v3/' + projects[i].id + '.json',
+          dataType: 'json',
+          success: function(resp) {
+            // Filter for pbf
+            if (resp.format === 'pbf') {
+              // List projects
+              // Need to do this differently. Join all the projects, and then iterate through them and use html not append.
+              $('.js-addlist').append('<a id=' + resp.id + ' href="#" class="pad1 round block project js-selectmapbox small"><strong class="block">' + resp.name + '</strong><span><code>' + resp.id + '</code></span></a>');
+            }
+            $('.js-addlist').removeClass('loading');
+          },
+          error: function(resp) {
+            console.log(resp + 'tilejsonfail');
+          }
+        })
+      }
+    },
+    error: function(resp) {
+      console.log(resp + 'mapsfail');
+    }
+  });
+};
+
+var selectMapbox = function(ev) {
+  var id = $(ev.currentTarget).attr('id');
+  $('input[type="text"]','#addmapbox').val(id);
+  return false;
+};
+
 var delStyle = function(ev) {
   var id = $(ev.currentTarget).attr('href');
   var parent = $(ev.currentTarget).parent();
