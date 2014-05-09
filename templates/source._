@@ -271,8 +271,6 @@ revlayers.reverse();
 <a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
-var map, tiles;
-
 var templates = {};
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerconf = <%= this.layerconf.source %>;
