@@ -11,17 +11,3 @@
   placeholder: type + ' name',
   pattern: '[\\w+\\d+\\s\\.-]+'
 })); %>
-<script>
-new views.Browser({
-  el: $('#browse<%=type%>'),
-  filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
-  isFile: function(file) { return /\.tm2$/.test(file) },
-  callback: function(err, filepath) {
-    if (err) return false; // @TODO
-    filepath = filepath.split(' ').join('_');
-    filepath = filepath.replace(/\.tm2/, '') + '.tm2';
-    window.location = '/<%=type%>?id=tm<%=type%>://' + filepath;
-    return false;
-  }
-});
-</script>

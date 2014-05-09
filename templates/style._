@@ -17,7 +17,7 @@
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
-  <script src='/app/lib.js'></script>
+  <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
@@ -29,6 +29,11 @@
 <body id='view' class='<%= agent %>'>
 
 <div id='perf'></div>
+
+<div id='modal'>
+  <div class='modal-mask fill-darken2 animate'></div>
+  <div id='modal-content' class='contain modal-content animate'></div>
+</div>
 
 <div id='user' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
@@ -112,7 +117,7 @@
     <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
       <section class='pad1x col12 clearfix'>
         <div class='pad1x <% if (style._tmp) { %> col12 <% } else { %> col4 <% } %>'>
-        <a href='#saveas' class='button col12 quiet icon js-save floppy'>Save</a>
+        <a class='saveas button col12 quiet icon js-save floppy'>Save</a>
         </div>
         <div class='pad1x pill col8'><!--
        <% if (!style._tmp) { %>
@@ -151,7 +156,7 @@
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (style._tmp) { %>
-        --><a class='round-right js-save short button icon inline floppy' href='#saveas'>Save as</a>
+        --><a class='saveas round-right js-save short button icon inline floppy'>Save as</a>
       <% } else { %>
         --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
@@ -243,7 +248,7 @@
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
       --></div>
-      <a href='#addtab' class='addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
+      <a href='#' data-modal='addtab' class='addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
     </nav>
   </div>
 
@@ -291,7 +296,7 @@
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
 <form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class="pad1 quiet icon x pin-topright" href="#"></a>
+  <a class="pad1 quiet icon x pin-topright close" href="#"></a>
   <p>Add a new cartoCSS tab to your style.</p>
   <div class='clearfix'>
     <span class='input-pill pill col8 margin2'>
@@ -301,17 +306,26 @@
   </div>
 </form>
 
+<form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
+<a class="pad1 quiet icon x pin-topright close" href="#"></a>
+<div class='message-modal-body'></div>
+</form>
+
 <a href='#' id='mask' class='fill-darken2 animate'></a>
 
 </div>
 
 <script>
-var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
+var style = <%= JSON.stringify(style) %>;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
+
+(function(templates, style) {
+
+var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
@@ -319,6 +333,7 @@ if ('onbeforeunload' in window) window.onbeforeunload = function() {
 };
 
 var Editor = Backbone.View.extend({});
+var Modal = new views.Modal({ el: $('.modal-content') });
 
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
@@ -366,13 +381,13 @@ var Tab = function(id, value) {
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
 };
-var code = _(<%=JSON.stringify(style.styles)%>).reduce(function(memo, value, k) {
+var code = _(style.styles).reduce(function(memo, value, k) {
   memo[k] = Tab(k, value);
   return memo;
 }, {});
 
 // Add in interactivity template. 
-code['template'] = Tab('template', <%=JSON.stringify(style.template)%>);
+code['template'] = Tab('template', style.template);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
@@ -383,6 +398,9 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
+  'click .saveas': 'saveModal',
+  'click .browsestyle': 'browseStyle',
+  'click .browsesource': 'browseSource',
   'click .js-save': 'save',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
@@ -413,12 +431,14 @@ Editor.prototype.events = {
   'click .search-n': 'focusSearch',
   'click #upload-style': 'upload',
   'change .js-layer-options': 'populateInteractiveVals',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click [data-modal]': 'simpleModal'
 };
 
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
+    if (Modal.active) Modal.close();
     window.location.href = '#';
   }
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
@@ -466,6 +486,64 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.saveModal = function() {
+  Modal.show('saveas');
+  new views.Browser({
+    el: $('.modal-content #saveas'),
+    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/,'') + '.tm2';
+      var id = 'tmstyle://' + filepath;
+      window.editor.model.set({id:id});
+      window.editor.save(null, {
+        success: function() { window.location = '/style?id=' + id; },
+        error: _(window.editor.error).bind(window.editor)
+      });
+      return false;
+    }
+  });
+  return false;
+};
+Editor.prototype.browseStyle = function() {
+  Modal.show('browsestyle');
+  new views.Browser({
+    el: $('.modal-content #browsestyle'),
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
+    isFile: function(file) { return /\.tm2$/.test(file) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
+      window.location = '/style?id=tmstyle://' + filepath;
+      return false;
+    }
+  });
+  return false;
+};
+Editor.prototype.browseSource = function() {
+  Modal.show('browsesource');
+  new views.Browser({
+    el: $('.modal-content #browsesource'),
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
+    isFile: function(file) { return /\.tm2$/.test(file) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
+      window.location = '/source?id=tmsource://' + filepath;
+      return false;
+    }
+  });
+  return false;
+};
+Editor.prototype.simpleModal = function(ev) {
+  // for modals that just need to be shown, no callbacks/options
+  var modalid = $(ev.currentTarget).data('modal');
+  if (modalid) Modal.show(modalid);
   return false;
 };
 Editor.prototype.zoomin = function(out) {
@@ -529,7 +607,15 @@ Editor.prototype.messageclear = function() {
   });
 };
 
-Editor.prototype.messagemodal = messageModal;
+Editor.prototype.messagemodal = function(text, html) {
+  if (html) {
+    $('.message-modal-body').html(html);
+  } else {
+    $('.message-modal-body').text(text);
+  }
+  if (Modal.active) Modal.close();
+  Modal.show('message-modal');
+};
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 Editor.prototype.addmapbox = addMapBox;
@@ -712,7 +798,7 @@ Editor.prototype.addtab = function(ev) {
     return false;
   }
   field.val('');
-  window.location.hash = '#';
+  Modal.close();
   return false;
 };
 Editor.prototype.deltab = function(ev) {
@@ -741,7 +827,7 @@ Editor.prototype.recache = function(ev) {
 };
 Editor.prototype.save = function(ev, options) {
   if (this.model.get('id').indexOf('///tmp-') !== -1) {
-    window.location.hash = 'saveas';
+    $('.saveas').click();
     return;
   }
   var editor = this;
@@ -883,7 +969,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=<%=style.id%>&' + rand ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + rand ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
@@ -905,7 +991,7 @@ Editor.prototype.refresh = function(ev) {
   if (gridc) map.removeControl(gridc);
   if (this.model.get('template') && this.model.get('interactivity_layer')) {
     grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=<%=style.id%>&' + rand ],
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=' + this.model.id + '&' + rand ],
       minzoom: this.model.get('minzoom'),
       maxzoom: 22
     });
@@ -940,7 +1026,7 @@ Editor.prototype.refresh = function(ev) {
 
 var editor = new Editor({
   el: document.body,
-  model: new Style(<%= JSON.stringify(style) %>)
+  model: new Style(style)
 });
 editor.refresh();
 
@@ -950,6 +1036,8 @@ $('pre.carto-snippet').each(function(i, elem) {
   $(elem).empty();
   CodeMirror.runMode(text, {name:'carto',reference:window.cartoRef}, $(elem).get(0));
 });
+
+})(templates, style);
 </script>
 
 <% if (test) { %>

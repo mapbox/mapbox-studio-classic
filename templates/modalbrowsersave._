@@ -10,22 +10,3 @@
   placeholder: type + ' name',
   pattern: '[\\w+\\d+\\.\\s\\/_-]+'
 })); %>
-<script>
-new views.Browser({
-  el: $('#saveas'),
-  filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
-  callback: function(err, filepath) {
-    if (err) return false; // @TODO
-    filepath = filepath.split(' ').join('_');
-    filepath = filepath.replace(/\.tm2/,'') + '.tm2';
-    if ('<%=type%>' == 'source') filepath = filepath.replace(/\.tm2/,'') + '.tm2source';
-    var id = 'tm<%=type%>://' + filepath;
-    window.editor.model.set({id:id});
-    window.editor.save(null, {
-      success: function() { window.location = '/<%=type%>?id=' + id; },
-      error: _(window.editor.error).bind(window.editor)
-    });
-    return false;
-  }
-});
-</script>

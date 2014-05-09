@@ -18,13 +18,18 @@
   <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/backbone.js'></script>
   <script src='/ext/mapbox.js'></script>
-  <script src='/app/lib.js'></script>
+  <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <title><%= source.name %></title>
 </head>
 
 <body id='view' class='<%= agent %> dark'>
 
 <div id='perf'></div>
+
+<div id='modal'>
+  <div class='modal-mask fill-darken2 animate'></div>
+  <div id='modal-content' class='contain modal-content animate'></div>
+</div>
 
 <div id='user' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
@@ -113,7 +118,7 @@
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (source._tmp) { %>
-        --><a class='round-right js-save short button icon inline floppy' href='#saveas'>Save as</a>
+        --><a class='saveas round-right js-save short button icon inline floppy'>Save as</a>
       <% } else { %>
         --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
@@ -144,7 +149,7 @@
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
+    <a class='quiet pin-topright inline pad1 icon close'></a>
   </div>
 </div>
 
@@ -166,7 +171,7 @@ revlayers.reverse();
       <% if (remote) { %>
       <strong class='small inline pad1y pad4x'>Layers</strong>
       <% } else { %>
-      <div class='inline pad0y pad4x'><a href='#addlayer' class='button quiet short icon plus'>Layers</a></div>
+      <div class='inline pad0y pad4x'><a data-modal='addlayer' class='button quiet short icon plus'>Layers</a></div>
       <% } %>
       <div class='center pin-right col6 strong small'>
         <% if (!remote) { %>
@@ -183,7 +188,7 @@ revlayers.reverse();
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
       <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#addlayer">Add one now</a>.'}) %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a data-modal="addlayer">Add one now</a>.'}) %>
       <% } %>
     </div>
   </div>
@@ -216,7 +221,7 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
-  <a class="pad1 quiet icon x pin-topright" href="#"></a>
+  <a href='#' class="pad1 quiet icon x pin-topright close"></a>
   <fieldset class='col8 margin2'>
     <p class='center'>Add a layer to your source.</p>
     <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
@@ -258,6 +263,11 @@ revlayers.reverse();
 </form>
 <% } %>
 
+<form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
+<a class="pad1 quiet icon x pin-topright close"></a>
+<div class='message-modal-body'></div>
+</form>
+
 <a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
@@ -277,6 +287,12 @@ templates.xraypopup = <%= this.xraypopup.source %>;
 
 var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;
+
+var source = <%= JSON.stringify(source) %>;
+
+(function(templates, tm, source) {
+
+var map, tiles;
 
 statHandler('srcbytes')();
 
@@ -341,8 +357,12 @@ var layers = _(<%=JSON.stringify(revlayers)%>).reduce(function(memo, l) {
 var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
+var Modal = new views.Modal({ el: $('.modal-content') });
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
+  'click .saveas': 'saveModal',
+  'click .browsesource': 'browseSource',
+  'click .browsestyle': 'browseStyle',
   'click .js-save': 'save',
   'click .js-reset-mode': 'resetmode',
   'click .editor .js-tab': 'togglemode',
@@ -366,11 +386,13 @@ Editor.prototype.events = {
   'click .search-result': 'selectSearch',
   'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click [data-modal]': 'simpleModal'
 };
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
+    if (Modal.active) Modal.close();
     window.location.href = '#';
   }
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
@@ -404,6 +426,68 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.saveModal = function() {
+  Modal.show('saveas');
+  new views.Browser({
+    el: $('.modal-content #saveas'),
+    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/,'') + '.tm2source';
+      var id = 'tmsource://' + filepath;
+      window.editor.model.set({id:id});
+      window.editor.save(null, {
+        success: function() { window.location = '/source?id=' + id; },
+        error: _(window.editor.error).bind(window.editor)
+      });
+      return false;
+    }
+  });
+  return false;
+};
+Editor.prototype.browseSource = function() {
+  Modal.show('browsesource');
+  new views.Browser({
+    el: $('.modal-content #browsesource'),
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
+    isFile: function(file) { return /\.tm2$/.test(file) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
+      window.location = '/source?id=tmsource://' + filepath;
+      return false;
+    }
+  });
+  return false;
+};
+Editor.prototype.browseStyle = function() {
+  Modal.show('browsestyle');
+  new views.Browser({
+    el: $('.modal-content #browsestyle'),
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
+    isFile: function(file) { return /\.tm2$/.test(file) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
+      window.location = '/style?id=tmstyle://' + filepath;
+      return false;
+    }
+  });
+  return false;
+};
+Editor.prototype.simpleModal = function(ev) {
+  // for modals that just need to be shown, no callbacks/options
+  var modalid = $(ev.currentTarget).data('modal');
+  if (modalid) Modal.show(modalid);
+  return false;
+};
+Editor.prototype.user = function() {
+  window.location.href = window.location.origin + '/unauthorize';
   return false;
 };
 Editor.prototype.zoomin = function(out) {
@@ -646,6 +730,7 @@ Editor.prototype.addlayer = function(ev) {
     $('#layers .js-menu-content').prepend(templates['layeritem'](layer));
     layers[values.id] = Layer(values.id, layer.Datasource);
 
+    Modal.close();
     window.location.hash = '#layers-' + values.id;
     $('#layers .js-menu-content').sortable('destroy').sortable();
 
@@ -675,6 +760,10 @@ Editor.prototype.error = function(model, resp) {
   }
 };
 Editor.prototype.save = function(ev, options) {
+  if (this.model.get('id').indexOf('///tmp-') !== -1) {
+    $('.saveas').click();
+    return;
+  }
   // Set map in loading state.
   $('#full').addClass('loading');
 
@@ -730,7 +819,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/source/{z}/{x}/{y}.png?id=<%=source.id%>&' + rand ],
+    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + rand ],
     minzoom: this.model.get('minzoom'),
     maxzoom: 22
   })
@@ -800,7 +889,15 @@ Editor.prototype.browsefile = function(ev) {
 
 };
 
-Editor.prototype.messagemodal = messageModal;
+Editor.prototype.messagemodal = function(text, html) {
+  if (html) {
+    $('.message-modal-body').html(html);
+  } else {
+    $('.message-modal-body').text(text);
+  }
+  if (Modal.active) Modal.close();
+  Modal.show('message-modal');
+};
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
@@ -808,9 +905,11 @@ Editor.prototype.addmapbox = addMapBox;
 
 var editor = new Editor({
   el: document.body,
-  model: new Source(<%= JSON.stringify(source) %>)
+  model: new Source(source)
 });
 editor.refresh();
+
+})(templates, tm, source);
 
 <% if (!remote) { %>
 // Sortable layers.

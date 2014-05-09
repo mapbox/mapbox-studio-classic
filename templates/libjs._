@@ -152,7 +152,7 @@ views.Browser.prototype.events = {
   'click .list a': 'browse',
   'submit': 'submit'
 };
-views.Browser.prototype.initialize = function(options) {
+views.Browser.prototype.initialize = function(options, initCallback) {
   this.callback = options.callback || function() {};
   this.filter = options.filter || function(f) { return true };
   this.isFile = options.isFile || function() {};
@@ -210,3 +210,33 @@ views.Browser.prototype.browse = function(ev) {
   }
   return false;
 };
+
+views.Modal = Backbone.View.extend({});
+views.Modal.prototype.events = {
+  'click a.close': 'close'
+};
+views.Modal.prototype.active = false;
+views.Modal.prototype.modals = {};
+views.Modal.prototype.close = function() {
+    // default, just close the modal
+    // need to also accept a url and redirect there on close
+    if (!this.active) return false;
+    this.$el.children().remove();
+    this.$el.parent().removeClass('active');
+    this.active.callback();
+    this.active = false;
+};
+views.Modal.prototype.show = function(id, options, callback) {
+  if (id[0] != '#') id = '#' + id;
+  options = options || {};
+  if (this.active && !options.overwrite)
+    return new Error('Modal already active')
+
+  var modal = {
+    el: $(id),
+    callback: callback || function() {}
+  }
+
+  this.$el.append(modal.el.clone()).parent().addClass('active');
+  this.active = modal;
+}
