@@ -1,6 +1,9 @@
 /* Base candidates */
 
 .top1 { top:40px; }
+.top2 { top:80px; }
+.bottom1 { bottom:40px; }
+.bottom2 { bottom:80px; }
 input[type=text].clean { border: none; }
 
 .prose ul.small {
@@ -190,14 +193,6 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #history-source.active { display:block; }
 
 a.project:hover { background: rgba(255,255,255,.15);}
-
-.project-settings {
-  bottom: 20px;
-}
-.settings-body {
-  top: 40px;
-  bottom: 80px;
-}
 
 #history-source .empty-state:only-child,
 #history-style .empty-state:only-child { display: block;}

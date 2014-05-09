@@ -23,7 +23,7 @@
       <a class='browsestyle button quiet col12 icon folder'>Browse</a>
     </div>
   </div>
-  <div class='clearfix pad1 col12 pin-top settings-body scroll-styled fill-darken0'>
+  <div class='clearfix pad1 col12 pin-top scroll-styled fill-darken0 top1 bottom2'>
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.style).chain()
@@ -70,7 +70,7 @@
       <a data-modal='addmapbox' class='col12 button quiet col6 icon mapbox'>Mapbox</a>
     </div>
   </div>
-  <div class='clearfix pad1 col12 pin-top settings-body scroll-styled'>
+  <div class='clearfix pad1 col12 pin-top scroll-styled top1 bottom2'>
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.source).chain()

@@ -49,7 +49,7 @@
       <h3>Settings</h3>
     </header>
 
-    <div class='pin-left col12 settings-body scroll-styled pad2'>
+    <div class='pin-left col12 scroll-styled pad2 top1 bottom2'>
       <fieldset>
         <section class='space-bottom1'>
           <label>Name</label>
