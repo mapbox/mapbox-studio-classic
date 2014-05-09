@@ -303,6 +303,8 @@ var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
 var templates = {};
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
+templates.xraycolor = <%= this.xraycolor.source %>;
+templates.xraypopup = <%= this.xraypopup.source %>;
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
@@ -861,6 +863,7 @@ Editor.prototype.refresh = function(ev) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
+    map.on('click', inspectFeature({id:this.model.get('source')}));
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
