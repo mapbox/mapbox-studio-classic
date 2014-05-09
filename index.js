@@ -368,14 +368,12 @@ app.get('/font.png', function(req, res, next) {
     });
 });
 
-app.get('/app/lib.js', function(req, res, next) {
+app.get('/app/cartoref.js', function(req, res, next) {
     res.set({
         'content-type':'application/javascript',
         'cache-control':'max-age=3600'
     });
-    res.send(tm.templates.libjs({
-        cartoRef: require('carto').tree.Reference.data
-    }));
+    res.send('window.cartoRef = ' + JSON.stringify(require('carto').tree.Reference.data) + ';');
 });
 
 app.get('/new/style', middleware.exporting, middleware.writeStyle, function(req, res) {
