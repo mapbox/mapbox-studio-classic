@@ -473,8 +473,6 @@ Editor.prototype.error = function(model, resp) {
   }
 };
 Editor.prototype.save = function(ev, options) {
-  if (this.model.get('id').indexOf('///tmp-') !== -1) return;
-
   // Set map in loading state.
   $('#full').addClass('loading');
 

@@ -517,8 +517,6 @@ Editor.prototype.recache = function(ev) {
   return false;
 };
 Editor.prototype.save = function(ev, options) {
-  if (this.model.get('id').indexOf('///tmp-') !== -1) return;
-
   var editor = this;
   // Set map in loading state.
   $('#full').addClass('loading');
