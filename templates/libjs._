@@ -152,7 +152,7 @@ views.Browser.prototype.events = {
   'click .list a': 'browse',
   'submit': 'submit'
 };
-views.Browser.prototype.initialize = function(options) {
+views.Browser.prototype.initialize = function(options, initCallback) {
   this.callback = options.callback || function() {};
   this.filter = options.filter || function(f) { return true };
   this.isFile = options.isFile || function() {};

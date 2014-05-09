@@ -350,6 +350,7 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 var Modal = new views.Modal({ el: $('.modal-content') });
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
+  'click .browsesource': 'browseModal',
   'click .js-save': 'save',
   'click .js-reset-mode': 'resetmode',
   'click .editor .js-tab': 'togglemode',
@@ -412,6 +413,22 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.browseModal = function() {
+  Modal.show('browsesource');
+  new views.Browser({
+    el: $('.modal-content #browsesource'),
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
+    isFile: function(file) { return /\.tm2$/.test(file) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
+      window.location = '/source?id=tmsource://' + filepath;
+      return false;
+    }
+  });
   return false;
 };
 Editor.prototype.simpleModal = function(ev) {
