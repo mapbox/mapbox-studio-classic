@@ -19,7 +19,7 @@
   <script src='/ext/mapbox.js'></script>
   <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
-  <script src='/app/style.js'></script>
+  <script src='/app/style.js?_=<%= +new Date %>'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
