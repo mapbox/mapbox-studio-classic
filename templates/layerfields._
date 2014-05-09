@@ -15,6 +15,6 @@
 <% }); %>
 <div class='empty-state hidden prose'>No available fields. Make sure your layer is referencing valid data.</div>
 <section class='pad2'>
-  <a href='#' class='quiet button submit margin6 col6'>Done</a>
+  <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
 </section>
 </fieldset>
