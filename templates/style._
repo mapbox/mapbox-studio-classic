@@ -863,7 +863,10 @@ Editor.prototype.refresh = function(ev) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
-    map.on('click', inspectFeature({id:this.model.get('source')}));
+    map.on('click', inspectFeature({
+      id: this.model.id,
+      type: 'style'
+    }));
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
@@ -887,7 +890,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh xray layer.
   if (xray) map.removeLayer(xray);
   xray = L.mapbox.tileLayer({
-    tiles: ['/source/{z}/{x}/{y}.png?id=<%=style.source%>&' + rand ],
+    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.get('source') + '&' + rand ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   });

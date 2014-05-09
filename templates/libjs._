@@ -114,14 +114,14 @@ var delStyle = function(ev) {
 };
 
 var inspectFeature = function(options) {
-  if (options.type === 'style' && !$('#xray').is('.active')) return;
-  var rand = Math.random().toString(16).split('.')[1];
   return function(ev) {
+    if (options.type === 'style' && !$('#xray').is('.active')) return;
+    var rand = Math.random().toString(16).split('.')[1];
     var lon = ev.latlng.wrap().lng;
     var lat = ev.latlng.wrap().lat;
     var zoom = map.getZoom()|0;
     $.ajax({
-      url: '/source/' + zoom + ',' + lon + ',' + lat + '.json?id=' + options.id + '&' + rand,
+      url: '/' + options.type + '/' + zoom + ',' + lon + ',' + lat + '.json?id=' + options.id + '&' + rand,
       dataType: 'json',
       success: function(data) {
         if (!_(data).size()) return;

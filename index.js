@@ -116,6 +116,8 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
+app.get('/style/:z,:lon,:lat.json', middleware.style, cors(), inspect);
+
 function inspect(req, res, next) {
     var lon = parseFloat(req.params.lon);
     var lat = parseFloat(req.params.lat);

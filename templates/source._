@@ -718,7 +718,10 @@ Editor.prototype.refresh = function(ev) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
-    map.on('click', inspectFeature({id:this.model.id}));
+    map.on('click', inspectFeature({
+      id: this.model.id,
+      type: 'source'
+    }));
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = 22;
