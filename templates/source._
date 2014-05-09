@@ -718,23 +718,11 @@ Editor.prototype.refresh = function(ev) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
-    map.on('click', function(ev) {
-      var lon = ev.latlng.wrap().lng;
-      var lat = ev.latlng.wrap().lat;
-      var zoom = map.getZoom()|0;
-      $.ajax({
-        url: '/source/' + zoom + ',' + lon + ',' + lat + '.json?id=<%=source.id%>&' + rand,
-        dataType: 'json',
-        success: function(data) {
-          if (!_(data).size()) return;
-          L.popup({closeButton:true, minWidth:200})
-            .setLatLng(ev.latlng)
-            .setContent(templates.xraypopup(data))
-            .openOn(map);
-        },
-        error: function(resp) {}
-      });
-    });
+    map.on('click', inspectFeature({
+      id: this.model.id,
+      type: 'source',
+      map: map
+    }));
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = 22;
