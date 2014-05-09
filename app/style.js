@@ -1,6 +1,13 @@
 window.Style = function(templates, style) {
 
-var map = baselayer = tiles = xray = grids = gridc = templateEditor = null;
+var map;
+var baselayer;
+var tiles;
+var xray;
+var grids;
+var gridc;
+var templateEditor;
+
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
@@ -62,7 +69,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
 }, {});
 
 // Add in interactivity template. 
-code['template'] = Tab('template', style.template);
+code.template = Tab('template', style.template);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
@@ -167,7 +174,7 @@ Editor.prototype.saveModal = function() {
   Modal.show('saveas');
   new views.Browser({
     el: $('.modal-content #saveas'),
-    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
@@ -187,8 +194,8 @@ Editor.prototype.browseStyle = function() {
   Modal.show('browsestyle');
   new views.Browser({
     el: $('.modal-content #browsestyle'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
-    isFile: function(file) { return /\.tm2$/.test(file) },
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
+    isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
@@ -203,8 +210,8 @@ Editor.prototype.browseSource = function() {
   Modal.show('browsesource');
   new views.Browser({
     el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
-    isFile: function(file) { return /\.tm2$/.test(file) },
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
+    isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
@@ -258,7 +265,7 @@ Editor.prototype.expandall = function(ev) {
 
   if ( button.hasClass('expanded') ) {
     $('.carto-ref').removeClass('active');
-    button.removeClass('expanded')
+    button.removeClass('expanded');
   } else {
     $('.carto-ref').addClass('active');
     button.addClass('expanded');

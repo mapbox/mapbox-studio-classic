@@ -26,7 +26,7 @@ var Layer = function(id, datasource) {
     item: $('#layers #'+id)
   };
   layer.refresh = function() {
-    var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id });
+    var l = _(editor.model.get('vector_layers')).find(function(l) { return l.id === id; });
     var fields = l.fields || {};
     $('div.fields', layer.form).html(templates.layerfields(fields));
   };
@@ -140,7 +140,7 @@ Editor.prototype.saveModal = function() {
   Modal.show('saveas');
   new views.Browser({
     el: $('.modal-content #saveas'),
-    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
@@ -160,8 +160,8 @@ Editor.prototype.browseSource = function() {
   Modal.show('browsesource');
   new views.Browser({
     el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
-    isFile: function(file) { return /\.tm2$/.test(file) },
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
+    isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
@@ -176,8 +176,8 @@ Editor.prototype.browseStyle = function() {
   Modal.show('browsestyle');
   new views.Browser({
     el: $('.modal-content #browsestyle'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename) },
-    isFile: function(file) { return /\.tm2$/.test(file) },
+    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
+    isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
@@ -222,7 +222,7 @@ Editor.prototype.togglePane = function(name) {
   } else {
     location.href = loc.replace('#'+name, '#');
   }
-}
+};
 Editor.prototype.togglemode = function(ev) {
   var target = $(ev.currentTarget);
   switch (target.attr('href').split('#editor-').pop()) {
@@ -404,7 +404,7 @@ Editor.prototype.navSearch = function(ev, dir) {
 Editor.prototype.focusSearch = function(ev) {
   $('#dosearch').focus();
   return;
-}
+};
 Editor.prototype.resetmode = function(ev) {
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
   $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
@@ -435,7 +435,7 @@ Editor.prototype.addlayer = function(ev) {
       }
     };
     $('#editor').prepend(templates['layer' + values.type](layer));
-    $('#layers .js-menu-content').prepend(templates['layeritem'](layer));
+    $('#layers .js-menu-content').prepend(templates.layeritem(layer));
     layers[values.id] = Layer(values.id, layer.Datasource);
 
     Modal.close();
@@ -480,7 +480,7 @@ Editor.prototype.save = function(ev, options) {
   }, this.model.attributes);
 
   // Grab layers. Reverse at save time.
-  attr.Layer = _(layers).map(function(l) { return l.get() });
+  attr.Layer = _(layers).map(function(l) { return l.get(); });
   attr.Layer.reverse();
 
   // Save center, disabled layers.
@@ -491,9 +491,7 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
   attr._prefs.disabled = _($('#layers .layer').map(function(v) {
-    return $('.xrayswatch.disabled', this).size()
-        ? $(this).attr('id')
-        : false;
+    return $('.xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
   })).compact();
 
   options = options || {
@@ -540,10 +538,10 @@ Editor.prototype.refresh = function(ev) {
   // Clear save notice.
   if (window.location.hash === '#refresh') {
     window.location.hash = '#';
-  };
+  }
 
   // Rerender fields forms.
-  _(layers).each(function(l) { l.refresh() });
+  _(layers).each(function(l) { l.refresh(); });
 
   // Get existing bookamarks
   this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
