@@ -30,12 +30,16 @@
 
 <div id='perf'></div>
 
-<form id='settings' class='z10 col12 pin-top'>
-  <div class='z1 col6 pin-right fill-blue dark scroll-styled'>
+<div id='user' class='z10 col12 pin-top'>
+  <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
+  <div class='megamenu caret1 fill-light col5 pin-topleft'>
     <%= this.history(obj) %>
   </div>
+</div>
+
+<form id='settings' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='project-settings fill-light round col4 pin-topleft'>
+  <div class='megamenu caret2 fill-light col5 pin-topleft'>
   <a class="pad1 quiet icon x pin-topright" href="#"></a>
     <header class='pad1 keyline-bottom'>
       <h3>Settings</h3>
@@ -141,14 +145,17 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
-    <span class='inline clip fill-darken2 row1'><!--
+    <span class='inline clip fill-darken3 dark row1 round-bottomright'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
+      --><strong class='unround icon paint project-name small js-name inline pad1x'><%= style.name || 'Untitled' %></strong><!--
+      --><span class='pad0x row1 inline'><!--
+      --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (style._tmp) { %>
-        --><a class='js-save settings-n button icon inline floppy unround' href='#saveas'>Save as</a>
+        --><a class='round-right js-save short button icon inline floppy' href='#saveas'>Save as</a>
       <% } else { %>
-        --><a class='js-save settings-n button icon inline floppy unround' href='#'>Save</a>
+        --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
+    </span>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
@@ -381,17 +388,17 @@ Editor.prototype.events = {
   'submit #settings': 'save',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
-  'submit #user': 'user',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
   'click #tabs .js-tab': 'tabbed',
   'click #docs .js-docs-nav': 'scrollto',
   'click #docs .js-tab': 'tabbed',
+  'click #history .js-tab': 'tabbed',
+  'click #history .js-ref-delete': 'delstyle',
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
   'click #data .js-adddata': 'adddata',
-  'click #settings .js-ref-delete': 'delstyle',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
@@ -459,10 +466,6 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
-  return false;
-};
-Editor.prototype.user = function() {
-  window.location.href = window.location.origin + '/unauthorize';
   return false;
 };
 Editor.prototype.zoomin = function(out) {
