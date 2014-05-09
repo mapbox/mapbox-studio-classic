@@ -114,7 +114,7 @@
       --><span title='<%= source.name || "Untitled" %>' class='js-name inline truncate project-name'><%= source.name || 'Untitled' %></span>
       </a><!--
       <% if (source._tmp) { %>
-      --><a class='button icon floppy settings-n js-save unround' href='#saveas'>Save as</a>
+      --><a class='saveas button icon floppy settings-n unround'>Save as</a>
       <% } else { %>
       --><a class='button icon floppy settings-n js-save unround' href='#'>Save</a>
       <% } %>
@@ -217,7 +217,7 @@ revlayers.reverse();
 
 <% if (!remote) { %>
 <form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
-  <a class="pad1 quiet icon x pin-topright close"></a>
+  <a href='#' class="pad1 quiet icon x pin-topright close"></a>
   <fieldset class='col8 margin2'>
     <p class='center'>Add a layer to your source.</p>
     <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
@@ -350,6 +350,7 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 var Modal = new views.Modal({ el: $('.modal-content') });
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
+  'click .saveas': 'saveModal',
   'click .browsesource': 'browseModal',
   'click .js-save': 'save',
   'click .js-reset-mode': 'resetmode',
@@ -380,6 +381,7 @@ Editor.prototype.events = {
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
+    if (Modal.active) Modal.close();
     window.location.href = '#';
   }
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
@@ -413,6 +415,26 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.saveModal = function() {
+  Modal.show('saveas');
+  new views.Browser({
+    el: $('.modal-content #saveas'),
+    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/,'') + '.tm2source';
+      var id = 'tmsource://' + filepath;
+      window.editor.model.set({id:id});
+      window.editor.save(null, {
+        success: function() { window.location = '/source?id=' + id; },
+        error: _(window.editor.error).bind(window.editor)
+      });
+      return false;
+    }
+  });
   return false;
 };
 Editor.prototype.browseModal = function() {
@@ -711,6 +733,10 @@ Editor.prototype.error = function(model, resp) {
   }
 };
 Editor.prototype.save = function(ev, options) {
+  if (this.model.get('id').indexOf('///tmp-') !== -1) {
+    $('.saveas').click();
+    return;
+  }
   // Set map in loading state.
   $('#full').addClass('loading');
 

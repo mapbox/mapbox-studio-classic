@@ -113,7 +113,7 @@
     <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
       <section class='pad1x col12 clearfix'>
         <div class='pad1x <% if (style._tmp) { %> col12 <% } else { %> col4 <% } %>'>
-        <a href='#saveas' class='button col12 quiet icon js-save floppy'>Save</a>
+        <a class='saveas button col12 quiet icon js-save floppy'>Save</a>
         </div>
         <div class='pad1x pill col8'><!--
        <% if (!style._tmp) { %>
@@ -150,7 +150,7 @@
       --><a href='#' data-modal='user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><a href='#settings' class='unround icon sprocket project-name js-name button inline quiet'><%= style.name || 'Untitled' %></a><!--
       <% if (style._tmp) { %>
-        --><a class='js-save settings-n button icon inline floppy unround' href='#saveas'>Save as</a>
+        --><a class='saveas settings-n button icon inline floppy unround'>Save as</a>
       <% } else { %>
         --><a class='js-save settings-n button icon inline floppy unround' href='#'>Save</a>
       <% } %>
@@ -387,6 +387,7 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
+  'click .saveas': 'saveModal',
   'click .browsestyle': 'browseModal',
   'click .js-save': 'save',
   'click .js-recache': 'recache',
@@ -473,6 +474,26 @@ Editor.prototype.keys = function(ev) {
   default:
     return true;
   }
+  return false;
+};
+Editor.prototype.saveModal = function() {
+  Modal.show('saveas');
+  new views.Browser({
+    el: $('.modal-content #saveas'),
+    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename) },
+    callback: function(err, filepath) {
+      if (err) return false; // @TODO
+      filepath = filepath.split(' ').join('_');
+      filepath = filepath.replace(/\.tm2/,'') + '.tm2';
+      var id = 'tmstyle://' + filepath;
+      window.editor.model.set({id:id});
+      window.editor.save(null, {
+        success: function() { window.location = '/style?id=' + id; },
+        error: _(window.editor.error).bind(window.editor)
+      });
+      return false;
+    }
+  });
   return false;
 };
 Editor.prototype.browseModal = function() {
@@ -782,7 +803,7 @@ Editor.prototype.recache = function(ev) {
 };
 Editor.prototype.save = function(ev, options) {
   if (this.model.get('id').indexOf('///tmp-') !== -1) {
-    window.location.hash = 'saveas';
+    $('.saveas').click();
     return;
   }
   var editor = this;
