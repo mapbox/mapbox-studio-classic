@@ -7,6 +7,7 @@ var xray;
 var grids;
 var gridc;
 var templateEditor;
+var mtime = (+new Date).toString(36);
 
 statHandler('drawtime')();
 
@@ -560,6 +561,9 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
 
+  // New mtime querystring
+  mtime = (+new Date).toString(36);
+
   Editor.changed = false;
   options = options || {
     success:_(this.refresh).bind(this),
@@ -633,8 +637,6 @@ Editor.prototype.upload = function(ev) {
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
-  var rand = Math.random().toString(16).split('.')[1];
-
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
@@ -656,7 +658,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + rand ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
@@ -667,7 +669,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh xray layer.
   if (xray) map.removeLayer(xray);
   xray = L.mapbox.tileLayer({
-    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.get('source') + '&' + rand ],
+    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.get('source') + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   });
@@ -678,7 +680,7 @@ Editor.prototype.refresh = function(ev) {
   if (gridc) map.removeControl(gridc);
   if (this.model.get('template') && this.model.get('interactivity_layer')) {
     grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=' + this.model.id + '&' + rand ],
+      grids: ['/style/{z}/{x}/{y}.grid.json?id=' + this.model.id + '&' + mtime ],
       minzoom: this.model.get('minzoom'),
       maxzoom: 22
     });

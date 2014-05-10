@@ -1,6 +1,8 @@
 window.Source = function(templates, tm, source, revlayers) {
 
-var map, tiles;
+var map;
+var tiles;
+var mtime = (+new Date).toString(36);
 
 statHandler('srcbytes')();
 
@@ -497,6 +499,9 @@ Editor.prototype.save = function(ev, options) {
     return $('.xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
   })).compact();
 
+  // New mtime querystring.
+  mtime = (+new Date).toString(36);
+
   options = options || {
     success:_(this.refresh).bind(this),
     error: _(this.error).bind(this)
@@ -507,8 +512,6 @@ Editor.prototype.save = function(ev, options) {
 };
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
-
-  var rand = Math.random().toString(16).split('.')[1];
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -526,7 +529,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + rand ],
+    tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: 22
   })
