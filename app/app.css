@@ -77,27 +77,9 @@ kbd {
 .radio-buttons input[type=radio]:checked + label.quiet { background: rgba(255,255,255,0.25);}
 
 /* Modal popup */
-
-/* -- old modals, to remove -- */
-.modal {
-  display:none;
-  position:absolute; left:50%; top:20%; z-index:2001;
-  margin:0px 0px 0px -25%;
-  }
-#mask {
-  display:none;
-  position:fixed; z-index:2000;
-  left:0; right: 0; height:100%;
-  }
-.modal.target,
-.modal:target,
-.modal.target ~ #mask,
-.modal:target ~ #mask { display:block; }
-
+.modal { display:none; }
 .dark .fill-light.modal { background:#444; }
-.dark #mask { background:rgba(0,0,0,0.8); }
 
-/* --- new modals --- */
 #modal > div {
   position:fixed;
   left:0px;

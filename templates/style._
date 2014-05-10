@@ -290,14 +290,13 @@
   </div>
 </div>
 
-<%= this.modaluser({name:user.name||user.id}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
 
-<form id='addtab' class='modal center round pad2 col6 margin3 fill-light'>
+<form id='addtab' class='modal center round pad2 col6 margin3 pin-top top2 fill-light'>
   <a class="pad1 quiet icon x pin-topright close" href="#"></a>
   <p>Add a new cartoCSS tab to your style.</p>
   <div class='clearfix'>
@@ -307,13 +306,6 @@
     </span>
   </div>
 </form>
-
-<form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
-<a class="pad1 quiet icon x pin-topright close" href="#"></a>
-<div class='message-modal-body'></div>
-</form>
-
-<a href='#' id='mask' class='fill-darken2 animate'></a>
 
 </div>
 

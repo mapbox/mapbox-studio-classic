@@ -1,4 +1,4 @@
-<div id='message' class='modal center round pad2 col6 margin3 fill-light'>
-  <a class='inline pad1 quiet icon close submit pin-topright' href='#'></a>
-  <div class='message js-message'></div>
-</div>
+<form id='message-modal' class='modal center round pad2 col6 margin3 pin-top top2 fill-light'>
+  <a class='pad1 quiet icon x pin-topright close'></a>
+  <div class='message-modal-body'></div>
+</form>

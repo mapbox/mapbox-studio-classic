@@ -222,7 +222,6 @@ revlayers.reverse();
   label: 'Select'
 })); %>
 
-<%= this.modaluser({name:user.name||user.id}) %>
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
@@ -230,7 +229,7 @@ revlayers.reverse();
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
 
 <% if (!remote) { %>
-<form id='addlayer' class='modal round pad2 col6 margin3 fill-light'>
+<form id='addlayer' class='modal round pad2 col6 margin3 pin-top top2 fill-dark'>
   <a href='#' class="pad1 quiet icon x pin-topright close"></a>
   <fieldset class='col8 margin2'>
     <p class='center'>Add a layer to your source.</p>
@@ -272,13 +271,6 @@ revlayers.reverse();
   </div>
 </form>
 <% } %>
-
-<form id='message-modal' class='modal center round pad2 col6 margin3 fill-light'>
-<a class="pad1 quiet icon x pin-topright close"></a>
-<div class='message-modal-body'></div>
-</form>
-
-<a href='#' id='mask' class='fill-darken2 animate'></a>
 
 <script>
 var templates = {};
