@@ -9,11 +9,6 @@
 
 .leaflet-popup-close-button { display: none;}
 
-.project-name {
-  max-width: 240px;
-  vertical-align: top;
-}
-
 #docs .keyline-bottom,
 #docs .keyline-top {
   border-top-color: rgba(0,0,0,.2);
