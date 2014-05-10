@@ -154,7 +154,7 @@
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken3 dark row1 round-bottomright'><!--
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><strong class='unround icon paint project-name small js-name inline pad1x'><%= style.name || 'Untitled' %></strong><!--
+      --><strong class='unround icon paint project-name small js-name inline pad1 truncate'><%= style.name || 'Untitled' %></strong><!--
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (style._tmp) { %>

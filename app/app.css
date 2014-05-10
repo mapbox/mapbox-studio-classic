@@ -204,6 +204,11 @@ a.project:hover { background: rgba(255,255,255,.15);}
 }
 .project.proj-active .proj-status { display: block;}
 
+.project-name {
+  max-width: 240px;
+  vertical-align: top;
+}
+
 /* Project settings */
 #user,
 #settings {
