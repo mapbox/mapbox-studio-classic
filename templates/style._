@@ -158,7 +158,7 @@
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (style._tmp) { %>
-        --><a class='saveas round-right js-save short button icon inline floppy'>Save as</a>
+        --><a class='saveas round-right short button icon inline floppy'>Save as</a>
       <% } else { %>
         --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
