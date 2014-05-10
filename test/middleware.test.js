@@ -146,6 +146,28 @@ describe('middleware', function() {
                 });
             });
         });
+        it('loads a tmp style with source', function(done) {
+            var sourceId = 'tmsource://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
+            var req = { body: {}, query: { source:sourceId } };
+            middleware.writeStyle(req, {}, function(err) {
+                assert.ifError(err);
+                assert.deepEqual({
+                    'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
+                }, req.style.data.styles, 'creates default styles');
+                assert.equal(sourceId, req.style.data.source, 'sets source from input param');
+                assert.ok(tm.tmpid(req.style.data.id));
+                done();
+            });
+        });
+        it('errors a tmp style with bad source', function(done) {
+            var sourceId = 'tmsource:///bad/path/to/nonexistent/source';
+            var req = { body: {}, query: { source:sourceId } };
+            middleware.writeStyle(req, {}, function(err) {
+                assert.ok(err);
+                assert.equal('ENOENT', err.code);
+                done();
+            });
+        });
         it('loads a persistent style', function(done) {
             var styleId = 'tmstyle://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
             var styleDoc = require('./fixtures-localsource/project.yml');
