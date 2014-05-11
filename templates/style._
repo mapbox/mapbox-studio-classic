@@ -118,17 +118,19 @@
     </div>
     <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
       <section class='pad1x col12 clearfix'>
-        <div class='pad1x <% if (style._tmp) { %> col12 <% } else { %> col4 <% } %>'>
-        <a class='saveas button col12 quiet icon js-save floppy'>Save</a>
+        <% if (style._tmp) { %>
+        <div class='pad1x col12'>
+          <a class='button col12 quiet icon floppy saveas'>Save as</a>
+        </div>
+        <% } else { %>
+        <div class='pad1x col4'>
+          <a class='button col12 quiet icon js-save floppy'>Save</a>
         </div>
         <div class='pad1x pill col8'><!--
-       <% if (!style._tmp) { %>
         --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 <% if (!user.plan.tm2z) { %>col12<% } %> submit icon package'>Package</a><!--
-        <% } %>
-        <% if (!style._tmp && user.plan.tm2z) { %>
         --><a href='#settings' id='upload-style' class='button quiet col6 submit icon up'>Upload</a><!--
-        <% } %>
      --></div>
+        <% } %>
       </section>
     </div>
   </div>
