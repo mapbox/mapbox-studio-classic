@@ -223,7 +223,6 @@ revlayers.reverse();
 })); %>
 
 <%= this.modalmessage() %>
-<%= this.modalmapbox() %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>

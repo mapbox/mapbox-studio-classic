@@ -86,8 +86,6 @@ Editor.prototype.events = {
   'click .layer .js-tab': 'tabbedFields',
   'click .js-addlayer': 'addlayerModal',
   'submit #addlayer': 'addlayer',
-  'click .js-addmapbox': 'addmapboxModal',
-  'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #zoom-in': 'zoomin',
@@ -610,14 +608,9 @@ Editor.prototype.messagemodal = function(text, html) {
   if (Modal.active) Modal.close();
   Modal.show('message-modal');
 };
-Editor.prototype.addmapboxModal = function() {
-  Modal.show('addmapbox');
-  return false;
-};
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
-Editor.prototype.addmapbox = addMapBox;
 
 window.editor = new Editor({
   el: document.body,

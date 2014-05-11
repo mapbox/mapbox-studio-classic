@@ -1,19 +1,54 @@
-<form id='modalsources' class='modal round col6 margin3 pin-top top2 bottom2 fill-light'>
+<%
+var active = _(history.source).find(function(item) {
+  return item.id === style.source;
+});
+var activeType = 'remote';
+if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
+%>
+<div id='modalsources' class='modal round col6 margin3 pin-top top2 bottom2 fill-light'>
   <a class='pad1 quiet icon close submit pin-topright x dot'></a>
-  <h3 class='row1 pad1 keyline-bottom'>Sources</h3>
-  <div class='pin-top pin-bottom pad1y pad2x fill-darken0 scroll-styled top1'>
+  <div class='row1 keyline-bottom pad1x space'>
+    <h3 class='inline'>Sources</h3>
+    <span class='rounded-toggle inline'>
+      <a href='#modalsources-local' class='js-tab <%= activeType === 'local' ? 'active' : ''%>'>Local</a>
+      <a href='#modalsources-remote' class='js-tab <%= activeType === 'remote' ? 'active' : ''%>'>Remote</a>
+    </span>
+  </div>
+  <div id='modalsources-local' class='pin-top pin-bottom pad1y pad2x fill-darken0 scroll-styled top1 <%= activeType === 'local' ? 'active' : ''%>'>
   <%
     print(_(history.source).chain()
-      .sortBy(function(item) {
-        return (item.name||'').toLowerCase();
-      })
+      .filter(function(item) { return item.id.indexOf('tmsource://') === 0 })
+      .sortBy(function(item) { return (item.name||'').toLowerCase(); })
       .map(function(item) {
         return this.sourceitem({
-          classes: 'js-adddata ' + (item.id === style.source ? 'proj-active' : ''),
+          classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
           item: item
         });
       }.bind(this))
       .value().join(''));
   %>
   </div>
-</form>
+  <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
+    <div class='pin-top pin-bottom pad1y pad2x fill-darken0 scroll-styled bottom2'>
+    <%
+      print(_(history.source).chain()
+        .filter(function(item) { return item.id.indexOf('tmsource://') === -1 })
+        .sortBy(function(item) { return (item.name||'').toLowerCase(); })
+        .map(function(item) {
+          return this.sourceitem({
+            classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
+            item: item
+          });
+        }.bind(this))
+        .value().join(''));
+    %>
+    </div>
+    <form id='addmapbox' class='pin-bottom pad1 keyline-top row2'>
+      <div class='input-pill col8 margin2'><!--
+        --><input class='col8' type='text' placeholder='MapBox ID' title='Use "username.project" syntax for IDs. No spaces between IDs.' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
+        --><input class='col4' type='submit' value='Add source'/>
+      </div>
+      <p class='small quiet col8 margin2 center'>Add another source by its Mapbox ID.</p>
+    </form>
+  </div>
+</div>

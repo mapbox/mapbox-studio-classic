@@ -1,12 +1,3 @@
-var addMapBox = function(ev) {
-  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = field.value;
-    return memo;
-  }, {});
-  window.location.href = '/source?id=mapbox:///' + attr.id;
-  return false;
-};
-
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');

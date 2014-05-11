@@ -169,8 +169,12 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;}
 
 /* Project history */
+#modalsources-local,
+#modalsources-remote,
 #history-style,
 #history-source { display:none; }
+#modalsources-local.active,
+#modalsources-remote.active,
 #history-style.active,
 #history-source.active { display:block; }
 
