@@ -8,7 +8,7 @@
   <title>TM2 Authorization</title>
 </head>
 
-<body id='view' class='fill-denim pad4y'>
+<body id='view' class='fill-denim pad2y'>
   <div class='center col6 margin3 dark'>
     <h3 class='icon tilemill pad4y'>TileMill 2</h3>
     <div class='pad4 fill-darken0 clearfix'>
