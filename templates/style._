@@ -274,7 +274,6 @@
 
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
-<%= this.modalsources(obj) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
@@ -295,6 +294,7 @@
 <script>
 var style = <%= JSON.stringify(style) %>;
 var templates = {};
+templates.modalsources = <%= this.modalsources.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;

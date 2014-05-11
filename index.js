@@ -388,6 +388,10 @@ app.get('/', function(req, res, next) {
     res.redirect('/new/style');
 });
 
+app.get('/history.json', middleware.history, function(req, res, next) {
+    res.send(req.history);
+});
+
 app.del('/history/:type(style|source)', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
     tm.history(req.params.type,req.query.id, true);

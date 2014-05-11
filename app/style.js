@@ -462,6 +462,16 @@ Editor.prototype.focusSearch = function(ev) {
 };
 Editor.prototype.modalsources = function(ev) {
   Modal.show('modalsources');
+  var style = this.model.attributes;
+  $.ajax({
+    url: '/history.json',
+    success: function(history) {
+      $('#modal-content').html(templates.modalsources({
+        style: style,
+        history: history
+      }));
+    }
+  });
   return false;
 };
 Editor.prototype.adddata = function(ev) {
@@ -469,9 +479,8 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#modalsources a.proj-active').removeClass('proj-active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      target.addClass('proj-active');
+      this.model.set({source:id});
       Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
