@@ -373,10 +373,8 @@ describe('middleware', function() {
             });
             middleware.userTilesets({}, {}, function(err) {
                 assert.ifError(err);
-                assert.deepEqual([
-                    'mapbox:///mapbox.mapbox-streets-v4',
-                    'mapbox:///test.vector-source'
-                ], tm.history().source);
+                assert.ok(tm.history().source.indexOf('mapbox:///test.vector-source') !== -1);
+                assert.ok(tm.history().source.indexOf('mapbox:///test.raster-source') === -1);
                 done();
             });
         });
