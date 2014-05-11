@@ -6,9 +6,10 @@
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
+  <title>Error</title>
 </head>
 
-<body id='view'>
+<body id='view' class='fill-denim pad2y'>
 
 <%
 var title = 'Error';
@@ -21,15 +22,15 @@ case 'ENOENT':
 };
 %>
 
-<div class='pad4 center' id='error'>
-<div class='pad4 margin4 col4 round js-message message fill-white'>
-  <h2><%= title %></h2>
-  <%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %>
+<div class='center col6 margin3 dark'>
+  <h3 class='icon tilemill pad4y'>TileMill 2</h3>
+  <div class='pad4 fill-darken0 clearfix'>
+    <h2><%= title %></h2>
+    <p><%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %></p>
+    <a href='/' class='button icon quiet prev col8 margin2'>Back</a>
+  </div>
 </div>
-<div class='col6 margin3 center pad2 dark'>
-  <a class='button icon prev' href='/'>Back</a>
-</div>
-</div>
+
 
 <style type='text/css'>
 /* Error page */
