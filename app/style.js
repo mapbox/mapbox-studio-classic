@@ -471,7 +471,6 @@ Editor.prototype.adddata = function(ev) {
     success: _(function(model, resp) {
       $('#modalsources a.proj-active').removeClass('proj-active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      console.warn(target);
       target.addClass('proj-active');
       Modal.close();
     }).bind(this),
