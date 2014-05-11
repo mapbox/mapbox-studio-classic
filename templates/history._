@@ -43,7 +43,7 @@
               <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
               <code><%= item.id.split('/').pop().replace('.tm2', '') %></code>
             </div>
-            <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-blue icon check'></span></div>
+            <div class='z10 pad1x pad2y proj-status hidden pin-right fill-green round-right'><span class='inline strong dot dark icon check'></span></div>
           </a>
           <a href='style?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
         </div>
@@ -63,45 +63,26 @@
     <div class='col6 pad1'>
       <a class='col12 button quiet icon plus' href='/new/source'>New source</a>
     </div>
-    <div class='col3 pad1'>
+    <div class='col6 pad1'>
       <a class='browsesource col12 button quiet col6 icon folder'>Browse</a>
-    </div>
-    <div class='col3 pad1'>
-      <a class='js-addmapbox col12 button quiet col6 icon mapbox'>Mapbox</a>
     </div>
   </div>
   <div class='clearfix pad1 col12 pin-top scroll-styled fill-darken0 top1 bottom2'>
 
-    <div class='col12 fl clearfix pad1x'>
-      <% _(obj.history.source).chain()
+    <div class='clearfix pad1x'>
+      <%
+      var sourceitem = this.sourceitem;
+      _(obj.history.source).chain()
+        .filter(function(item) { return item.id.indexOf('tmsource://') === 0 })
         .sortBy(function(item) { return item.id })
-        .each(function(item) { %>
-        <%
-        var isactive = '';
-        if (obj.source) { (obj.source.id === item.id) ? (isactive = 'proj-active') : '' }
-        %>
-
-        <div class='space-bottom1 contain'>
-          <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
-            <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
-            <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten1'><div class='icon big point-line'></div></div>
-
-            <div class='truncate pad1 '>
-              <strong><%= item.name || 'Untitled' %></strong>
-              <div class='block truncate'>
-                <% if (item.id.indexOf('mapbox://')) { %>
-                <span class='inline quiet icon harddrive'>Local</span>
-                <% } else {%>
-                <span class='inline quiet icon cloud'>Remote</span>
-                <% } %>
-                <span class='pad0x'><code><%= item.id.split('/').pop() %></code></span>
-              </div>
-            </div>
-            <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-blue icon check'></span></div>
-          </a>
-          <a href='source?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
-        </div>
-      <% }); %>
+        .each(function(item) {
+          print(sourceitem({
+            item: item,
+            withdel: true,
+            classes: (obj.source && obj.source.id === item.id) ? 'proj-active' : ''
+          }));
+        });
+      %>
       <% if (obj.source) { %>
       <%= this.emptystate({message:'You don\'t have any saved sources yet. <a class="saveas"> Save your currently active source</a> or <a class="browsestyle">add an existing remote source from Mapbox</a> to see it appear in this list.'}) %>
       <% } else { %>

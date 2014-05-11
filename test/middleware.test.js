@@ -341,4 +341,42 @@ describe('middleware', function() {
         // @TODO test cases where copytask has been started.
         // Requires fixes for copytask pause/cancel.
     });
+
+    describe('userTilesets', function() {
+        before(function(done) {
+            mockOauth.start(done);
+        });
+        after(function(done) {
+            mockOauth.stop(done);
+        });
+        it('fails without oauth', function(done) {
+            tm.db.rm('oauth');
+            middleware.userTilesets({}, {}, function(err) {
+                assert.equal('Error: oauth required', err.toString());
+                done();
+            });
+        });
+        it('requires 200 from Mapbox API', function(done) {
+            tm.db.set('oauth', {
+                account: 'baduser',
+                accesstoken: 'badtoken'
+            });
+            middleware.userTilesets({}, {}, function(err) {
+                assert.equal('Error: 403 GET http://localhost:3001/api/Map?account=baduser&_type=tileset&private=true&access_token=badtoken', err.toString());
+                done();
+            });
+        });
+        it('adds history entries for tilesets', function(done) {
+            tm.db.set('oauth', {
+                account: 'test',
+                accesstoken: '12345678'
+            });
+            middleware.userTilesets({}, {}, function(err) {
+                assert.ifError(err);
+                assert.ok(tm.history().source.indexOf('mapbox:///test.vector-source') !== -1);
+                assert.ok(tm.history().source.indexOf('mapbox:///test.raster-source') === -1);
+                done();
+            });
+        });
+    });
 });

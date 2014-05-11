@@ -84,24 +84,20 @@ Editor.prototype.events = {
   'click .saveas': 'saveModal',
   'click .browsestyle': 'browseStyle',
   'click .browsesource': 'browseSource',
+  'click .js-tab': 'tabbed',
   'click .js-save': 'save',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
-  'click .js-addmapbox': 'addmapboxModal',
   'submit #addmapbox': 'addmapbox',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
-  'click #tabs .js-tab': 'tabbed',
   'click #docs .js-docs-nav': 'scrollto',
-  'click #docs .js-tab': 'tabbed',
-  'click #history .js-tab': 'tabbed',
   'click #history .js-ref-delete': 'delstyle',
-  'click #settings .js-tab': 'tabbed',
-  'click #layers .js-tab': 'tabbed',
-  'click #data .js-adddata': 'adddata',
+  'click .js-modalsources': 'modalsources',
+  'click .js-adddata': 'adddata',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
@@ -298,13 +294,8 @@ Editor.prototype.messagemodal = function(text, html) {
   if (Modal.active) Modal.close();
   Modal.show('message-modal');
 };
-Editor.prototype.addmapboxModal = function() {
-  Modal.show('addmapbox');
-  return false;
-};
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
-Editor.prototype.addmapbox = addMapBox;
 
 Editor.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+
@@ -447,19 +438,47 @@ Editor.prototype.focusSearch = function(ev) {
   $('#dosearch').focus();
   return;
 };
+Editor.prototype.modalsources = function(ev) {
+  Modal.show('modalsources');
+  var style = this.model.attributes;
+  $.ajax({
+    url: '/history.json',
+    success: function(history) {
+      $('#modal-content').html(templates.modalsources({
+        style: style,
+        history: history
+      }));
+    }
+  });
+  return false;
+};
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.is('.proj-active')) return false;
-  var id = target.attr('href').split('#source-').pop();
+  var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#data a.proj-active').removeClass('js-recache proj-active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      target.addClass('js-recache proj-active');
+      this.model.set({source:id});
+      Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
   });
-
+  return false;
+};
+Editor.prototype.addmapbox = function(ev) {
+  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = field.value;
+    return memo;
+  }, {});
+  var id = 'mapbox:///' + attr.id;
+  (new Source({id:id})).fetch({
+    success: _(function(model, resp) {
+      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
+      this.model.set({source:id});
+      Modal.close();
+    }).bind(this),
+    error: _(this.error).bind(this)
+  });
   return false;
 };
 Editor.prototype.addtabModal = function() {
