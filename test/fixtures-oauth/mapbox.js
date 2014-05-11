@@ -8,6 +8,14 @@ app.get('/api/User/test', function(req, res, next) {
 app.get('/api/Map/test.tm2-basemap', function(req, res, next) {
 	res.send({statusCode:200});
 });
+app.get('/api/Map', function(req, res, next) {
+    if (!req.query) return res.send(403);
+    if (req.query.access_token != '12345678') return res.send(403);
+	res.send([
+        { id:'test.vector-source', metadata: { format:'pbf' } },
+        { id:'test.raster-source', metadata: { format:'png' } }
+    ]);
+});
 
 if (require.main === module) {
     // If this script is executed directly...
