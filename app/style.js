@@ -673,7 +673,7 @@ Editor.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   });
-  if(xray && $('#xray').is('.active')) xray.addTo(map);
+  if (xray && $('#xray').is('.active')) xray.addTo(map);
 
   // Refresh gridcontrol template.
   if (grids) map.removeLayer(grids);
@@ -698,8 +698,11 @@ Editor.prototype.refresh = function(ev) {
   $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
-  if (this.model.get('background'))
+  if (xray && $('#xray').is('.active')) {
+    $('#map').css({'background-color':'#222'});
+  } else if (this.model.get('background')) {
     $('#map').css({'background-color':this.model.get('background')});
+  }
 
   // Get existing bookmarks
   if (!this.bookmarks) {
