@@ -388,7 +388,7 @@ app.get('/', function(req, res, next) {
     res.redirect('/new/style');
 });
 
-app.get('/history.json', middleware.history, function(req, res, next) {
+app.get('/history.json', middleware.userTilesets, middleware.history, function(req, res, next) {
     res.send(req.history);
 });
 
