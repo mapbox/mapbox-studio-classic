@@ -107,8 +107,6 @@ Editor.prototype.events = {
   'click #bookmark .bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
-  'click #baselayer': 'toggleBaselayer',
-  'click #xray': 'toggleXray',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .search-result': 'selectSearch',
@@ -346,16 +344,6 @@ Editor.prototype.addbookmark = function(ev) {
 Editor.prototype.focusBookmark = function(ev) {
   $('#addbookmark').focus();
   return;
-};
-Editor.prototype.toggleBaselayer = function(ev) {
-  $(ev.currentTarget).toggleClass('active dark fill-dark fill-white quiet');
-  this.refresh();
-  return false;
-};
-Editor.prototype.toggleXray = function(ev) {
-  $(ev.currentTarget).toggleClass('active dark fill-dark fill-white quiet');
-  this.refresh();
-  return false;
 };
 Editor.prototype.search = function(ev) {
   ev.preventDefault();
@@ -653,7 +641,7 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map baselayer.
   if (baselayer) map.removeLayer(baselayer);
   baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && !$('#xray').is('.active') && $('#baselayer').is('.active')) baselayer.addTo(map);
+  if (baselayer && window.location.hash === '#baselayer') baselayer.addTo(map);
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
@@ -664,7 +652,7 @@ Editor.prototype.refresh = function(ev) {
   })
   .on('tileload', statHandler('drawtime'))
   .on('load', errorHandler);
-  if (!$('#xray').is('.active')) tiles.addTo(map);
+  if (window.location.hash !== '#xray') tiles.addTo(map);
 
   // Refresh xray layer.
   if (xray) map.removeLayer(xray);
@@ -673,7 +661,7 @@ Editor.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   });
-  if (xray && $('#xray').is('.active')) xray.addTo(map);
+  if (window.location.hash === '#xray') xray.addTo(map);
 
   // Refresh gridcontrol template.
   if (grids) map.removeLayer(grids);
@@ -698,7 +686,7 @@ Editor.prototype.refresh = function(ev) {
   $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
-  if (xray && $('#xray').is('.active')) {
+  if (xray && window.location.hash === '#xray') {
     $('#map').css({'background-color':'#222'});
   } else if (this.model.get('background')) {
     $('#map').css({'background-color':this.model.get('background')});
@@ -721,6 +709,20 @@ window.editor = new Editor({
   model: new Style(style)
 });
 window.editor.refresh();
+
+// A few :target events need supplemental JS action. Handled here.
+window.onhashchange = function(ev) {
+  var oldHash = ev.oldURL.split('#').pop();
+  var newHash = ev.newURL.split('#').pop();
+  if (oldHash === 'xray' || newHash === 'xray') {
+    window.editor.refresh();
+    return;
+  }
+  if (oldHash === 'baselayer' || newHash === 'baselayer') {
+    window.editor.refresh();
+    return;
+  }
+};
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {
