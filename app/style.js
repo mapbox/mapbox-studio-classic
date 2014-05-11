@@ -733,11 +733,11 @@ window.editor.refresh();
 window.onhashchange = function(ev) {
   var oldHash = ev.oldURL.split('#').pop();
   var newHash = ev.newURL.split('#').pop();
-  if (oldHash === 'xray' || newHash === 'xray') {
+  if (newHash === 'xray' || (oldHash === 'xray' && newHash === '')) {
     window.editor.refresh();
     return;
   }
-  if (oldHash === 'baselayer' || newHash === 'baselayer') {
+  if (newHash === 'baselayer' || (oldHash === 'baselayer' && newHash === '')) {
     window.editor.refresh();
     return;
   }
