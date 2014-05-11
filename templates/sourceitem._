@@ -1,11 +1,22 @@
-<div class='pad1x space-bottom0'>
-    <a href='#source-<%=obj.id%>' class='pad1 round project small-project contain col12 small strong quiet js-adddata <%=obj.active ? 'proj-active js-recache' : ''%>'>
-        <strong class='block'><%= obj.name || 'Untitled' %></strong>
-        <% if (obj.id.indexOf('mapbox://')) { %>
+<div class='space-bottom1 contain'>
+  <a class='<%=obj.classes||''%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
+    <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>")'></div>
+    <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten1'><div class='icon big point-line'></div></div>
+    <div class='truncate pad1 '>
+      <strong><%= item.name || 'Untitled' %></strong>
+      <div class='block truncate'>
+        <% if (item.id.indexOf('mapbox://')) { %>
         <span class='inline quiet icon harddrive'>Local</span>
         <% } else {%>
         <span class='inline quiet icon cloud'>Remote</span>
         <% } %>
-        <div class='proj-status hidden pad1 pin-bottomright'><span class='inline strong icon refresh'>Refresh</span></div>
-    </a>
+        <span class='pad0x'><code><%= item.id.split('/').pop() %></code></span>
+      </div>
+    </div>
+    <div class='z10 pad1x pad2y proj-status hidden pin-right'><span class='inline strong dot fill-blue icon check'></span></div>
+  </a>
+  <% if (obj.withdel) { %>
+  <a href='source?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
+  <% } %>
 </div>
+

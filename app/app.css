@@ -555,7 +555,6 @@ a.project:hover { background: rgba(255,255,255,.15);}
   color: #343434;
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#style-ui #layers a.active,
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 

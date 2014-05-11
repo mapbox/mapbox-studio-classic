@@ -1,10 +1,20 @@
 <div id='<%= obj.id %>' class='contain js-source source'>
 
-<a href='#data' class='strong small block keyline-bottom pad1 clearfix'>
-  <strong class='block'>
-  <%= obj.name || 'Untitled' %>
-  </strong>
-</a>
+<div class='pad1 keyline-bottom'>
+  <h3><%= obj.name || 'Untitled' %></h3>
+  <div class='clearfix small'>
+    <div class='col6'>
+    <% if (obj.id.indexOf('tmsource://') === 0) { %>
+    <span class='quiet icon harddrive'>Local</span>
+    <% } else {%>
+    <span class='quiet icon cloud'>Remote</span>
+    <% } %>
+    </div>
+    <div class='col6 text-right'>
+      <a href='#source-<%=obj.id%>' class='js-recache icon refresh'>Refresh</a>
+    </div>
+  </div>
+</div>
 
 <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
 <div class='small layer col12 contain clip' id='layers-<%=l.id%>'>

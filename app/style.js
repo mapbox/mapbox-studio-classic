@@ -101,7 +101,8 @@ Editor.prototype.events = {
   'click #history .js-ref-delete': 'delstyle',
   'click #settings .js-tab': 'tabbed',
   'click #layers .js-tab': 'tabbed',
-  'click #data .js-adddata': 'adddata',
+  'click .js-modalsources': 'modalsources',
+  'click .js-adddata': 'adddata',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'click #bookmark .bookmark-name': 'gotoBookmark',
@@ -459,19 +460,23 @@ Editor.prototype.focusSearch = function(ev) {
   $('#dosearch').focus();
   return;
 };
+Editor.prototype.modalsources = function(ev) {
+  Modal.show('modalsources');
+  return false;
+};
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.is('.proj-active')) return false;
-  var id = target.attr('href').split('#source-').pop();
+  var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#data a.proj-active').removeClass('js-recache proj-active');
+      $('#modalsources a.proj-active').removeClass('proj-active');
       $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      target.addClass('js-recache proj-active');
+      console.warn(target);
+      target.addClass('proj-active');
+      Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
   });
-
   return false;
 };
 Editor.prototype.addtabModal = function() {

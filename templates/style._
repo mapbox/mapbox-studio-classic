@@ -191,24 +191,6 @@
 </div>
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-
-  <div id='data' class='pin-left animate fill-blue dark scroll-styled col6'>
-    <section class='pad1 space-bottom1 keyline-bottom contain'>
-      <h3>Available sources</h3>
-      <a class="pad1 quiet icon x pin-topright" href="#layers"></a>
-    </section>
-    <%
-      print(_(history.source).chain()
-        .sortBy(function(item) {
-          return (item.name||'').toLowerCase();
-        })
-        .map(function(item) {
-          return this.sourceitem(_({active:item.id === style.source}).defaults(item));
-        }.bind(this))
-        .value().join(''));
-    %>
-  </div>
-
   <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
     <%= this['styledocs'](cartoRef) %>
   </div>
@@ -226,8 +208,8 @@
   </div>
 
   <div id='layers' class='pane animate pin-left col6 menu dark fill-dark scroll-styled'>
-    <nav class='row1 pad1 fill-dark keyline-bottom z100'>
-      <h3>Active source</h3>
+    <nav class='pad0y pad1x row1 keyline-bottom fill-darken1'>
+      <a href='#layers' class='js-modalsources button short icon point-line'>Change source</a>
       <a class='pad1 quiet icon x pin-topright' href='#'></a>
     </nav>
     <div class='js-menu-content'>
@@ -292,6 +274,7 @@
 
 <%= this.modalmessage() %>
 <%= this.modalmapbox() %>
+<%= this.modalsources(obj) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
 <%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
 <%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
