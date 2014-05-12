@@ -155,15 +155,17 @@
   </div>
 </div>
 
+<div id='docs' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled fill-dark animate pane'>
+  <%= this['sourcedocs']() %>
+  </div>
+</div>
+
 <%
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='source-ui' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
-
-  <div id='docs' class='pane animate pin-left fill-dark scroll-styled col6'>
-    <%= this['sourcedocs']() %>
-  </div>
   <div id='layers'>
     <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
       <div class='pin-topleft z1 row1'><!--
