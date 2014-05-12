@@ -660,7 +660,10 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map baselayer.
   if (baselayer) map.removeLayer(baselayer);
   baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && window.location.hash === '#baselayer') baselayer.addTo(map);
+  if (baselayer && window.location.hash === '#baselayer') {
+    $('#baselayer').addClass('active');
+    baselayer.addTo(map);
+  }
 
   // Refresh map layer.
   if (tiles) map.removeLayer(tiles);
@@ -671,7 +674,10 @@ Editor.prototype.refresh = function(ev) {
   })
   .on('tileload', statHandler('drawtime'))
   .on('load', errorHandler);
-  if (window.location.hash !== '#xray') tiles.addTo(map);
+  if (window.location.hash !== '#xray') {
+    $('#xray').removeClass('active');
+    tiles.addTo(map);
+  }
 
   // Refresh xray layer.
   if (xray) map.removeLayer(xray);
@@ -680,7 +686,11 @@ Editor.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   });
-  if (window.location.hash === '#xray') xray.addTo(map);
+  if (window.location.hash === '#xray') {
+    $('#xray').addClass('active');
+    $('#baselayer').removeClass('active');
+    xray.addTo(map);
+  }
 
   // Refresh gridcontrol template.
   if (grids) map.removeLayer(grids);
@@ -733,15 +743,14 @@ window.editor.refresh();
 window.onhashchange = function(ev) {
   var oldHash = ev.oldURL.split('#').pop();
   var newHash = ev.newURL.split('#').pop();
-  if (newHash === 'xray' || (oldHash === 'xray' && newHash === '')) {
-    window.editor.refresh();
-    return;
-  }
-  if (newHash === 'baselayer' || (oldHash === 'baselayer' && newHash === '')) {
-    window.editor.refresh();
-    return;
-  }
+  if (newHash === 'xray') return window.editor.refresh();
+  if (newHash === 'baselayer') return window.editor.refresh();
+  if (newHash === 'map') return window.editor.refresh();
 };
+window.onhashchange({
+  oldURL:window.location.toString(),
+  newURL:window.location.toString()
+});
 
 // Syntax highlighting for carto ref.
 $('pre.carto-snippet').each(function(i, elem) {

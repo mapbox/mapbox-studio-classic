@@ -30,9 +30,6 @@
 
 <body id='view' class='<%= agent %>'>
 
-<a id='xray'></a>
-<a id='baselayer'></a>
-
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
   <div id='modal-content' class='contain modal-content animate'></div>
@@ -186,10 +183,14 @@
         --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-    <a href='#' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-    <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
-    <a href='#' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
+    <span id='baselayer'>
+      <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+      <a href='#map' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+    </span>
+    <span id='xray'>
+      <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
+      <a href='#map' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
+    </span>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
