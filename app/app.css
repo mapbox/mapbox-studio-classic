@@ -884,7 +884,7 @@ body.demo #app {
 #demo { display:none; }
 body.demo #demo { display:block; }
 
-.demo-step { opacity:0; z-index:-1001; visibility:hidden; }
+.demo-step { display:none; }
 
 #demo:target     .demo-nav.demo-demo,
 #xray:target ~ * .demo-nav.demo-xray,
@@ -900,7 +900,7 @@ body.demo #demo { display:block; }
   color:#fff;
 }
 
-#demo:target     .demo-step.demo-demo,
+body.demo .demo-step.demo-demo,
 #xray:target ~ * .demo-step.demo-xray,
 #full:target ~ * .demo-step.demo-full,
 #home:target ~ * .demo-step.demo-home,
@@ -910,8 +910,33 @@ body.demo #demo { display:block; }
 #fonts:target ~ * .demo-step.demo-fonts,
 #layers:target ~ * .demo-step.demo-layers,
 #settings:target ~ * .demo-step.demo-settings,
-#user:target ~ * .demo-step.demo-user {
-  opacity:1;
-  z-index:1;
-  visibility:visible;
-}
+#user:target ~ * .demo-step.demo-user { display:block; }
+
+#xray:target ~ * .demo-step.demo-demo,
+#full:target ~ * .demo-step.demo-demo,
+#home:target ~ * .demo-step.demo-demo,
+#search:target ~ * .demo-step.demo-demo,
+#bookmark:target ~ * .demo-step.demo-demo,
+#docs:target ~ * .demo-step.demo-demo,
+#fonts:target ~ * .demo-step.demo-demo,
+#layers:target ~ * .demo-step.demo-demo,
+#settings:target ~ * .demo-step.demo-demo,
+#user:target ~ * .demo-step.demo-demo { display:none; }
+
+body.demo #xray:target ~ #full,
+body.demo #docs:target,
+body.demo #fonts:target,
+body.demo #layers:target,
+body.demo #home:target ~ #style-ui { z-index:10; }
+
+body.demo #xray:target ~ #full,
+body.demo #home:target ~ #style-ui,
+body.demo #full:target ~ #style-ui,
+body.demo #search:target ~ #style-ui,
+body.demo #bookmark:target ~ #style-ui,
+body.demo #docs:target > .pin-left,
+body.demo #fonts:target > .pin-left,
+body.demo #layers:target > .pin-left,
+body.demo #settings:target > .megamenu,
+body.demo #user:target > .megamenu { box-shadow: 0px 0px 0px 5px #3bb2d0, 0px 0px 5px 10px rgba(0,0,0,0.2); }
+

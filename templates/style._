@@ -309,8 +309,8 @@
     <div class='clearfix small strong space-bottom2'>
       <div class='col6'>
         <a class='demo-nav demo-demo quiet block' href='#demo'>Overview</a>
-        <a class='demo-nav demo-xray quiet block' href='#xray'>Inspector</a>
         <a class='demo-nav demo-home demo-full demo-search demo-bookmark demo-zoomedto quiet block' href='#home'>Styling</a>
+        <a class='demo-nav demo-xray quiet block' href='#xray'>Inspector</a>
         <a class='demo-nav demo-docs quiet block' href='#docs'>CartoCSS</a>
       </div>
       <div class='col6'>
