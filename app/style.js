@@ -661,7 +661,7 @@ Editor.prototype.refresh = function(ev) {
   if (baselayer) map.removeLayer(baselayer);
   baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
   if (baselayer && window.location.hash === '#baselayer') {
-    $('#baselayer').addClass('active');
+    $('.base-toggle').addClass('active');
     baselayer.addTo(map);
   }
 
@@ -675,7 +675,7 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', statHandler('drawtime'))
   .on('load', errorHandler);
   if (window.location.hash !== '#xray') {
-    $('#xray').removeClass('active');
+    $('.xray-toggle').removeClass('active');
     tiles.addTo(map);
   }
 
@@ -687,8 +687,8 @@ Editor.prototype.refresh = function(ev) {
     maxzoom: this.model.get('maxzoom')
   });
   if (window.location.hash === '#xray') {
-    $('#xray').addClass('active');
-    $('#baselayer').removeClass('active');
+    $('.xray-toggle').addClass('active');
+    $('.base-toggle').removeClass('active');
     xray.addTo(map);
   }
 
@@ -741,11 +741,22 @@ window.editor.refresh();
 
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
-  var oldHash = ev.oldURL.split('#').pop();
-  var newHash = ev.newURL.split('#').pop();
-  if (newHash === 'xray') return window.editor.refresh();
-  if (newHash === 'baselayer') return window.editor.refresh();
-  if (newHash === 'map') return window.editor.refresh();
+  switch (ev.newURL.split('#').pop()) {
+  case 'demo':
+    $('body').addClass('demo');
+    window.editor.refresh();
+    break;
+  case 'start':
+    $('body').removeClass('demo');
+    window.editor.refresh();
+    setTimeout(map.invalidateSize, 200);
+    break;
+  case 'home':
+  case 'xray':
+  case 'baselayer':
+    window.editor.refresh();
+    break;
+  }
 };
 window.onhashchange({
   oldURL:window.location.toString(),

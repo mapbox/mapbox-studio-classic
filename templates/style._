@@ -28,7 +28,11 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %>'>
+<body id='view' class='<%= agent %>'><div id='app' class='pin-top pin-bottom animate'>
+
+<a id='home'></a>
+<a id='xray'></a>
+<a id='baselayer'></a>
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
@@ -183,25 +187,27 @@
         --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <span id='baselayer'>
+    <span class='base-toggle'>
       <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-      <a href='#map' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+      <a href='#home' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
     </span>
-    <span id='xray'>
+    <span class='xray-toggle'>
       <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
-      <a href='#map' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
+      <a href='#home' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
     </span>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
 </div>
 
-<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
+<div id='docs' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
     <%= this['styledocs'](cartoRef) %>
   </div>
+</div>
 
-  <div id='fonts' class='pane animate pin-left col6 scroll-styled fill-grey'>
+<div id='fonts' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
     <header class='pad1x pad0y keyline-bottom'>
       <h3 class='pad0y'>Fonts</h3>
       <nav class='pin-topright'>
@@ -212,8 +218,10 @@
     <div class='keyline-bottom'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div>
     <% }); %>
   </div>
+</div>
 
-  <div id='layers' class='pane animate pin-left col6 menu dark fill-dark scroll-styled'>
+<div id='layers' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled menu dark fill-dark animate pane'>
     <nav class='pad0y pad1x row1 keyline-bottom fill-darken1'>
       <a href='#layers' class='js-modalsources button short icon point-line'>Change source</a>
       <a class='pad1 quiet icon x pin-topright' href='#'></a>
@@ -222,7 +230,9 @@
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
+</div>
 
+<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
   <div id='code' class='z1 pin-left col12'>
   <div class='row1 fill-light pin-top'>
     <div class='pin-topleft z1 row1'><!--
@@ -293,6 +303,50 @@
     </span>
   </div>
 </form>
+
+<div id='demo' class='pin-bottom dark'>
+  <div class='pin-top margin7 col4 pad2y'>
+    <div class='clearfix small strong space-bottom2'>
+      <div class='col6'>
+        <a class='demo-nav demo-demo quiet block' href='#demo'>Overview</a>
+        <a class='demo-nav demo-xray quiet block' href='#xray'>Inspector</a>
+        <a class='demo-nav demo-home demo-full demo-search demo-bookmark demo-zoomedto quiet block' href='#home'>Styling</a>
+        <a class='demo-nav demo-docs quiet block' href='#docs'>CartoCSS</a>
+      </div>
+      <div class='col6'>
+        <a class='demo-nav demo-fonts quiet block' href='#fonts'>Fonts</a>
+        <a class='demo-nav demo-layers quiet block' href='#layers'>Vector sources</a>
+        <a class='demo-nav demo-settings quiet block' href='#settings'>Publishing</a>
+        <a class='demo-nav demo-user quiet block' href='#user'>More</a>
+      </div>
+    </div>
+    <a href='#start' class='button col12 icon check'>Done</a>
+  </div>
+  <div class='demo-step demo-demo pin-top col6 pad2'>
+    <h3>Overview</h3>
+  </div>
+  <div class='demo-step demo-xray pin-top col6 pad2'>
+    <h3>Inspecting vector data</h3>
+  </div>
+  <div class='demo-step demo-home demo-full demo-search demo-bookmark demo-zoomedto pin-top col6 pad2'>
+    <h3>Creating and previewing styles</h3>
+  </div>
+  <div class='demo-step demo-docs pin-top col6 pad2'>
+    <h3>CartoCSS docs</h3>
+  </div>
+  <div class='demo-step demo-fonts pin-top col6 pad2'>
+    <h3>Fonts and their names</h3>
+  </div>
+  <div class='demo-step demo-layers pin-top col6 pad2'>
+    <h3>Vector sources</h3>
+  </div>
+  <div class='demo-step demo-settings pin-top col6 pad2'>
+    <h3>Saving and publishing</h3>
+  </div>
+  <div class='demo-step demo-user pin-top col6 pad2'>
+    <h3>Managing projects</h3>
+  </div>
+</div>
 
 </div>
 
