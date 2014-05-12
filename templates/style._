@@ -28,7 +28,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %>'><div id='app' class='pin-top pin-bottom animate'>
+<body id='view' class='<%= agent %> demo'><div id='app' class='pin-top pin-bottom animate'>
 
 <a id='home'></a>
 <a id='xray'></a>
@@ -352,37 +352,44 @@
     </div>
     <div class='pin-top col7 pad2y row4 demo-docs'>
       <h2>CartoCSS</h2>
-      <div></div>
+      <div>
+        View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
+      </div>
       <div class='pad0y'>
         <a href='#fonts' class='button short quiet rcon next pin-bottomright'>Next</a>
       </div>
     </div>
     <div class='pin-top col7 pad2y row4 demo-fonts'>
       <h2>Fonts</h2>
-      <div></div>
+      <div>
+        The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
+      </div>
       <div class='pad0y'>
         <a href='#layers' class='button short quiet rcon next pin-bottomright'>Next</a>
       </div>
     </div>
     <div class='pin-top col7 pad2y row4 demo-layers'>
       <h2>Vector sources</h2>
-      <div></div>
+      <div>
+        Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
+      </div>
       <div class='pad0y'>
         <a href='#settings' class='button short quiet rcon next pin-bottomright'>Next</a>
       </div>
     </div>
     <div class='pin-top col7 pad2y row4 demo-settings'>
       <h2>Publishing</h2>
-      <div></div>
+      <div>
+        Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
+      </div>
       <div class='pad0y'>
         <a href='#user' class='button short quiet rcon next pin-bottomright'>Next</a>
       </div>
     </div>
     <div class='pin-top col7 pad2y row4 demo-user'>
       <h2>Switching projects</h2>
-      <div></div>
-      <div class='pad0y'>
-        <a href='#start' class='button short icon check pin-bottomright'>Done</a>
+      <div>
+        Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
       </div>
     </div>
   </div>
