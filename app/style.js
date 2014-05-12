@@ -750,6 +750,7 @@ window.onhashchange = function(ev) {
     $('body').removeClass('demo');
     window.editor.refresh();
     setTimeout(map.invalidateSize, 200);
+    localStorage.setItem('style.demo', true);
     break;
   case 'home':
   case 'xray':
@@ -758,6 +759,10 @@ window.onhashchange = function(ev) {
     break;
   }
 };
+
+// Enter walkthrough if not yet set.
+if (!localStorage.getItem('style.demo')) window.location.hash = '#demo';
+
 window.onhashchange({
   oldURL:window.location.toString(),
   newURL:window.location.toString()
