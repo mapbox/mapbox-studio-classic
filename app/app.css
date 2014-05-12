@@ -884,44 +884,44 @@ body.demo #app {
 #demo { display:none; }
 body.demo #demo { display:block; }
 
-.demo-step { display:none; }
+.demo-step > div { display:none; }
 
-#demo:target     .demo-nav.demo-demo,
-#xray:target ~ * .demo-nav.demo-xray,
-#full:target ~ * .demo-nav.demo-full,
-#home:target ~ * .demo-nav.demo-home,
-#search:target ~ * .demo-nav.demo-search,
-#bookmark:target ~ * .demo-nav.demo-bookmark,
-#docs:target ~ * .demo-nav.demo-docs,
-#fonts:target ~ * .demo-nav.demo-fonts,
-#layers:target ~ * .demo-nav.demo-layers,
-#settings:target ~ * .demo-nav.demo-settings,
-#user:target ~ * .demo-nav.demo-user {
+#demo:target     a.demo-demo,
+#xray:target ~ * a.demo-xray,
+#full:target ~ * a.demo-full,
+#home:target ~ * a.demo-home,
+#search:target ~ * a.demo-search,
+#bookmark:target ~ * a.demo-bookmark,
+#docs:target ~ * a.demo-docs,
+#fonts:target ~ * a.demo-fonts,
+#layers:target ~ * a.demo-layers,
+#settings:target ~ * a.demo-settings,
+#user:target ~ * a.demo-user {
   color:#fff;
 }
 
-body.demo .demo-step.demo-demo,
-#xray:target ~ * .demo-step.demo-xray,
-#full:target ~ * .demo-step.demo-full,
-#home:target ~ * .demo-step.demo-home,
-#search:target ~ * .demo-step.demo-search,
-#bookmark:target ~ * .demo-step.demo-bookmark,
-#docs:target ~ * .demo-step.demo-docs,
-#fonts:target ~ * .demo-step.demo-fonts,
-#layers:target ~ * .demo-step.demo-layers,
-#settings:target ~ * .demo-step.demo-settings,
-#user:target ~ * .demo-step.demo-user { display:block; }
+body.demo div.demo-demo,
+#xray:target ~ * div.demo-xray,
+#full:target ~ * div.demo-full,
+#home:target ~ * div.demo-home,
+#search:target ~ * div.demo-search,
+#bookmark:target ~ * div.demo-bookmark,
+#docs:target ~ * div.demo-docs,
+#fonts:target ~ * div.demo-fonts,
+#layers:target ~ * div.demo-layers,
+#settings:target ~ * div.demo-settings,
+#user:target ~ * div.demo-user { display:block; }
 
-#xray:target ~ * .demo-step.demo-demo,
-#full:target ~ * .demo-step.demo-demo,
-#home:target ~ * .demo-step.demo-demo,
-#search:target ~ * .demo-step.demo-demo,
-#bookmark:target ~ * .demo-step.demo-demo,
-#docs:target ~ * .demo-step.demo-demo,
-#fonts:target ~ * .demo-step.demo-demo,
-#layers:target ~ * .demo-step.demo-demo,
-#settings:target ~ * .demo-step.demo-demo,
-#user:target ~ * .demo-step.demo-demo { display:none; }
+#xray:target ~ * div.demo-demo,
+#full:target ~ * div.demo-demo,
+#home:target ~ * div.demo-demo,
+#search:target ~ * div.demo-demo,
+#bookmark:target ~ * div.demo-demo,
+#docs:target ~ * div.demo-demo,
+#fonts:target ~ * div.demo-demo,
+#layers:target ~ * div.demo-demo,
+#settings:target ~ * div.demo-demo,
+#user:target ~ * div.demo-demo { display:none; }
 
 body.demo #xray:target ~ #full,
 body.demo #docs:target,
