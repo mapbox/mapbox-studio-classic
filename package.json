@@ -16,7 +16,7 @@
     "connect": "2.7.x",
     "passport": "0.1.x",
     "passport-oauth": "0.1.x",
-    "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
+    "minimist": "0.1.x",
     "underscore": "1.4.x",
     "tilejson": "~0.6.3",
     "mbtiles": "0.4.x",
