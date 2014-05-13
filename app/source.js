@@ -431,9 +431,7 @@ Editor.prototype.addlayer = function(ev) {
       vt: {},
       id: values.id,
       properties: {
-        minzoom:0,
-        maxzoom:22,
-        'buffer-size':0
+        'buffer-size': 8
       },
       Datasource: {
         type: values.type
