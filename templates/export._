@@ -9,9 +9,9 @@
   <title><%= source.name || 'Untitled' %></title>
 </head>
 
-<body id='view' class='dark <%= job.stats ? 'task' : 'stat' %>'>
+<body id='view' class='fill-denim <%= job.stats ? 'task' : 'stat' %>'>
 
-<div class='modal fill-blue center target round pad2 col6 margin3'>
+<div class='dark fill-blue center target round pad2 col6 margin3 pin-top top2'>
   <h2><%= source.name || 'Untitled' %></h2>
   <a href='/source?id=<%=source.id%>' class='icon pad1 quiet x dot stat pin-topright'></a>
 

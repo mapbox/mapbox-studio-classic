@@ -52,7 +52,7 @@
       <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
       <% } %>
       <section class='pad2'>
-        <a href='#' class='quiet button submit margin6 col6'>Done</a>
+        <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
       </section>
     </fieldset>
   </div>

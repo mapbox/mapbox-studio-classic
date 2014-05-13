@@ -7,8 +7,8 @@
 // - label, optional defaults to 'Save'
 %>
 
-<form id='<%=obj.id%>' class='modal round browser col6 fill-light'>
-  <a class='pad1 quiet icon x pin-topright' href='#'></a>
+<form id='<%=obj.id%>' class='modal round browser col6 margin3 pin-top top2 fill-light'>
+  <a class='pad1 quiet icon x pin-topright close'></a>
   <div class='cwd row1 truncate keyline-bottom z1'>
     <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 quiet icon prev unround'></a><!--
     --><strong><%=cwd%></strong>

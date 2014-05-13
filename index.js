@@ -24,24 +24,14 @@ var style = require('./lib/style');
 var middleware = require('./lib/middleware');
 var express = require('express');
 var cors = require('cors');
-var config = require('optimist')
-    .config('config')
-    .options('db', {
-        describe: 'path to tm2 db',
-        default: path.join(process.env.HOME, '.tilemill', 'v2', 'app.db')
-    })
-    .options('mapboxauth', {
-        describe: 'URL to mapbox auth API',
-        default: 'https://api.mapbox.com'
-    })
-    .options('port', {
-        describe: 'Port to run tm2 on',
-        default: '3000'
-    })
-    .argv;
-tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
+
+var config = require('minimist')(process.argv.slice(2));
+config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
+config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
+config.port = config.port || '3000';
+tm.config(config);
 
 var app = express();
 app.use(express.bodyParser());
@@ -114,6 +104,34 @@ app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.sour
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
+app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
+
+app.get('/style/:z,:lon,:lat.json', middleware.style, cors(), inspect);
+
+function inspect(req, res, next) {
+    var lon = parseFloat(req.params.lon);
+    var lat = parseFloat(req.params.lat);
+    var z = parseInt(req.params.z, 10);
+
+    // Tolerance at z0.
+    var tolerance = Math.round(20037508.34 / 32 / Math.pow(2,z));
+
+    req.style.queryTile(z, lon, lat, { tolerance:tolerance }, function(err, data, headers) {
+        if (err) return next(err);
+        res.set(headers);
+        data.sort(function(a, b) {
+            var ad = a.distance || 0;
+            var bd = b.distance || 0;
+            return ad < bd ? -1 : ad > bd ? 1 : 0;
+        });
+        data = data.reduce(function(memo, feature) {
+            memo[feature.layer] = memo[feature.layer] || [];
+            memo[feature.layer].push(feature);
+            return memo;
+        }, {});
+        return res.json(data);
+    });
+};
 
 function grid(req, res, next) {
     var z = req.params.z | 0;
@@ -340,14 +358,12 @@ app.get('/font.png', function(req, res, next) {
     });
 });
 
-app.get('/app/lib.js', function(req, res, next) {
+app.get('/app/cartoref.js', function(req, res, next) {
     res.set({
         'content-type':'application/javascript',
         'cache-control':'max-age=3600'
     });
-    res.send(tm.templates.libjs({
-        cartoRef: require('carto').tree.Reference.data
-    }));
+    res.send('window.cartoRef = ' + JSON.stringify(require('carto').tree.Reference.data) + ';');
 });
 
 app.get('/new/style', middleware.exporting, middleware.writeStyle, function(req, res) {
@@ -362,6 +378,10 @@ app.get('/', function(req, res, next) {
     res.redirect('/new/style');
 });
 
+app.get('/history.json', middleware.userTilesets, middleware.history, function(req, res, next) {
+    res.send(req.history);
+});
+
 app.del('/history/:type(style|source)', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
     tm.history(req.params.type,req.query.id, true);
@@ -370,7 +390,7 @@ app.del('/history/:type(style|source)', function(req, res, next) {
 
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
-    if (err && 'z' in req.params) return res.send(err.toString(), 404);
+    if (err && req.params && 'z' in req.params) return res.send(err.toString(), 404);
 
     console.error(err.stack);
 

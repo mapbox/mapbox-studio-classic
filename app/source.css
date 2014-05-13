@@ -9,11 +9,6 @@
 
 .leaflet-popup-close-button { display: none;}
 
-.project-name {
-  max-width: 240px;
-  vertical-align: top;
-}
-
 #docs .keyline-bottom,
 #docs .keyline-top {
   border-top-color: rgba(0,0,0,.2);
@@ -22,7 +17,6 @@
 
 .source-menu { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
-.leaflet-popup .xray,
 .editor .field-key {
   padding:0 5px;
   border-radius: 3px;

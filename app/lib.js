@@ -1,14 +1,3 @@
-window.cartoRef = <%=JSON.stringify(cartoRef)%>;
-
-var addMapBox = function(ev) {
-  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = field.value;
-    return memo;
-  }, {});
-  window.location.href = '/source?id=mapbox:///' + attr.id;
-  return false;
-};
-
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
@@ -35,7 +24,7 @@ var errorHandler = _(function() {
     .split(';')
     .shift()
     .split('|')
-    .filter(function(msg) { return msg })
+    .filter(function(msg) { return msg; })
     .map(function(msg) {
       return "<div class='msg pad1 fill-darken1'>" + decodeURIComponent(msg) + "</div>";
     });
@@ -53,14 +42,17 @@ var statHandler = function(key) {
       .split('.')).reduce(function(memo, z) {
       z = z.split('-');
       if (z.length !== 4) return memo;
-      memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10) });
+      memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10); });
       return memo;
     }, {});
     var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
+
+    function round(v) { return Math.round(v * 0.001); }
+
     for (var z = 0; z < 23; z++) {
       var s = stats[z];
       if (key === 'srcbytes' && s) {
-        s = s.map(function(v) { return Math.round(v * 0.001) });
+        s = s.map(round);
       }
       var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
@@ -109,8 +101,39 @@ var delStyle = function(ev) {
         messageModal(resp.status + " " + resp.statusText);
       }
     });
-  };
+  }
   return false;
+};
+
+var inspectFeature = function(options) {
+  var map = options.map;
+  var popup;
+  map.on('layeradd', function() {
+    if (popup) map.closePopup(popup);
+    popup = null;
+  });
+  return function(ev) {
+    if (options.type === 'style' && !$('#xray').is('.active')) return;
+    var rand = Math.random().toString(16).split('.')[1];
+    var lon = ev.latlng.wrap().lng;
+    var lat = ev.latlng.wrap().lat;
+    var zoom = map.getZoom()|0;
+    $.ajax({
+      url: '/' + options.type + '/' + zoom + ',' + lon + ',' + lat + '.json?id=' + options.id + '&' + rand,
+      dataType: 'json',
+      success: function(data) {
+        if (!_(data).size()) return;
+        popup = L.popup({
+          closeButton:false,
+          minWidth:200
+        })
+        .setLatLng(ev.latlng)
+        .setContent(templates.xraypopup(data))
+        .openOn(map);
+      },
+      error: function(resp) {}
+    });
+  };
 };
 
 var views = {};
@@ -121,9 +144,9 @@ views.Browser.prototype.events = {
   'click .list a': 'browse',
   'submit': 'submit'
 };
-views.Browser.prototype.initialize = function(options) {
+views.Browser.prototype.initialize = function(options, initCallback) {
   this.callback = options.callback || function() {};
-  this.filter = options.filter || function(f) { return true };
+  this.filter = options.filter || function(f) { return true; };
   this.isFile = options.isFile || function() {};
   this.cwd = this.$('input[name=cwd]').val();
   return this.render();
@@ -164,9 +187,9 @@ views.Browser.prototype.submit = function(ev) {
   }, {});
   if (!values.basename) return false;
   if (!this.callback) return false;
-  this.callback(null, values.basename[0] === '/'
-    ? values.basename
-    : values.cwd + '/' + values.basename);
+  this.callback(null, values.basename[0] === '/' ?
+    values.basename :
+    values.cwd + '/' + values.basename);
   return false;
 };
 views.Browser.prototype.browse = function(ev) {
@@ -178,4 +201,34 @@ views.Browser.prototype.browse = function(ev) {
     this.render();
   }
   return false;
+};
+
+views.Modal = Backbone.View.extend({});
+views.Modal.prototype.events = {
+  'click a.close': 'close'
+};
+views.Modal.prototype.active = false;
+views.Modal.prototype.modals = {};
+views.Modal.prototype.close = function() {
+    // default, just close the modal
+    // need to also accept a url and redirect there on close
+    if (!this.active) return false;
+    this.$el.children().remove();
+    this.$el.parent().removeClass('active');
+    this.active.callback();
+    this.active = false;
+};
+views.Modal.prototype.show = function(id, options, callback) {
+  if (id[0] != '#') id = '#' + id;
+  options = options || {};
+  if (this.active && !options.overwrite)
+    return new Error('Modal already active');
+
+  var modal = {
+    el: $(id),
+    callback: callback || function() {}
+  };
+
+  this.$el.append(modal.el.clone()).parent().addClass('active');
+  this.active = modal;
 };
