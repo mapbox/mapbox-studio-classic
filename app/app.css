@@ -242,6 +242,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
 .dark .megamenu.caret1:after,
 .dark .megamenu.caret2:after {  border-bottom-color:#404040;}
 
+.resolution { height: 30px; }
+
 /* Bookmarks */
 #bookmark {
   pointer-events:none;

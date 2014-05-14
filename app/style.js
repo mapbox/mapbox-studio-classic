@@ -543,6 +543,8 @@ Editor.prototype.save = function(ev, options) {
         editor.model.get('_prefs').baselayer = '';
         $('#baselayer').hide();
       }
+    } else if (field.name === 'rtoggle'){
+      editor.model.get('_prefs').print = (field.value === 'printresolution') ? true : false;
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -667,10 +669,13 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map layer.
-  var tileUrl = (window.devicePixelRatio > 1) ? '/style/{z}/{x}/{y}@2x.png?id=' : '/style/{z}/{x}/{y}.png?id=';
+  if (editor.model.get('_prefs').print) var scale = '@4x';
+  else if (window.devicePixelRatio > 1) var scale = '@2x';
+  else var scale = '';
+
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: [tileUrl + this.model.id + '&' + mtime ],
+    tiles: ['/style/{z}/{x}/{y}'+scale+'.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })

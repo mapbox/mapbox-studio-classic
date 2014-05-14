@@ -94,6 +94,15 @@
           <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4'>Resolution <br> <em class='small quiet'> screen resolution recommended </em></label>
+          <div class='rounded-toggle inline resolution'>
+            <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
+            <label for='screenresolution'>Screen</label>
+            <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
+            <label for='printresolution'>Print</label>
+          </div>
+        </section>
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4 pad0y' for='map_id'>Map ID</label>
