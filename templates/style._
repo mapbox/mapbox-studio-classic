@@ -94,11 +94,6 @@
           <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
-        <section class='space-bottom1 clearfix'>
-          <label class='inline col4'>Scale</label>
-          <input id='scale' name='scale' type='range' value='<%= style.scale %>' min='1' max='4' step='1' onchange='rangeHandler(this, "scale", "#scale");' />
-          <span class='small quiet code inline range' id='scale-val'><%= style.scale %></span>
-        </section>
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4 pad0y' for='map_id'>Map ID</label>
