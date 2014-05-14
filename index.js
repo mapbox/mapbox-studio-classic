@@ -114,6 +114,8 @@ app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.sour
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
+app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
+
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
 app.get('/style/:z,:lon,:lat.json', middleware.style, cors(), inspect);
@@ -163,6 +165,9 @@ function tile(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
+    var scale = (req.params.scale) ? req.params.scale[1] | 0 : 1;
+    scale = scale > 4 ? 4 : scale;
+
     var id = req.source ? req.source.data.id : req.style.data.id;
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -214,6 +219,7 @@ function tile(req, res, next) {
         res.set(headers);
         return res.send(data);
     };
+    done.scale = scale;
     if (req.params.format !== 'png') done.format = req.params.format;
     source.getTile(z,x,y, done);
 };
