@@ -666,9 +666,10 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map layer.
+  var tileUrl = (window.devicePixelRatio > 1) ? '/style/{z}/{x}/{y}@2x.png?id=' : '/style/{z}/{x}/{y}.png?id=';
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
+    tiles: [tileUrl + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })

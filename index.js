@@ -165,7 +165,7 @@ function tile(req, res, next) {
     var z = req.params.z | 0;
     var x = req.params.x | 0;
     var y = req.params.y | 0;
-    var scale = (req.params.scale) ? req.params.scale[1] | 0 : 1;
+    var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     scale = scale > 4 ? 4 : scale;
 
     var id = req.source ? req.source.data.id : req.style.data.id;
