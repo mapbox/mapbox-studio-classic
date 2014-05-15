@@ -161,8 +161,8 @@ Editor.prototype.browseSource = function() {
   Modal.show('browsesource');
   new views.Browser({
     el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2source$/.test(file.basename); },
-    isFile: function(file) { return /\.tm2source$/.test(file); },
+    filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) ; },
+    isFile: function(file) { return (/\.tm2source$/.test(file) || /\.tm2$/.test(file.basename)); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
