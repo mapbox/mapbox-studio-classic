@@ -163,7 +163,7 @@ describe('tm', function() {
         tm.font('Source Sans Pro Bold', function(err, buffer) {
             assert.ifError(err);
             assert.ok(buffer.length > 600 && buffer.length < 1000);
-            assert.ok((+new Date - start) < 10);
+            assert.ok((+new Date - start) < 50);
             done();
         });
     });
