@@ -24,24 +24,14 @@ var style = require('./lib/style');
 var middleware = require('./lib/middleware');
 var express = require('express');
 var cors = require('cors');
-var config = require('optimist')
-    .config('config')
-    .options('db', {
-        describe: 'path to tm2 db',
-        default: path.join(process.env.HOME, '.tilemill', 'v2', 'app.db')
-    })
-    .options('mapboxauth', {
-        describe: 'URL to mapbox auth API',
-        default: 'https://api.mapbox.com'
-    })
-    .options('port', {
-        describe: 'Port to run tm2 on',
-        default: '3000'
-    })
-    .argv;
-tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
+
+var config = require('minimist')(process.argv.slice(2));
+config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
+config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
+config.port = config.port || '3000';
+tm.config(config);
 
 var app = express();
 app.use(express.bodyParser());

@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
+var dirty = require('dirty');
 
 describe('tm', function() {
 
@@ -12,12 +13,49 @@ describe('tm', function() {
             cache: path.join(tmppath, 'cache')
         }, done);
     });
+    before(function(done) {
+        fs.writeFileSync(path.join(tmppath, 'noncompact.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'noncompact.db')));
+        fs.writeFileSync(path.join(tmppath, 'schema-v1.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v1.db')));
+        done();
+    });
     after(function(done) {
         try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
+        try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
+        try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {} 
         try { fs.unlinkSync(path.join(tmppath, 'cache', 'font-dbad83a6.png')); } catch(err) {}
         try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
         try { fs.rmdirSync(tmppath); } catch(err) {}
         done();
+    });
+
+    it('migrates', function(done) {
+        var dbpath = path.join(tmppath, 'schema-v1.db');
+        var db = dirty(dbpath);
+        db.once('load', function() {
+            var docs = {};
+            tm.dbmigrate(db);
+            db.forEach(function(k,v) { docs[k] = v });
+            assert.deepEqual({
+                version: 2,
+                history: {
+                    style: [ 'tmstyle:///no-protocol/path/style.tm2' ],
+                    source: [ 'mapbox:///mapbox.mapbox-streets-v2' ]
+                }
+            }, docs);
+            done();
+        });
+    });
+
+    it('compacts', function(done) {
+        var dbpath = path.join(tmppath, 'noncompact.db');
+        assert.equal(276, fs.statSync(dbpath).size);
+        tm.dbcompact(dbpath, function(err, db) {
+            assert.ifError(err);
+            db.on('drain', function() {
+                assert.equal(23, fs.statSync(dbpath).size);
+                done();
+            });
+        });
     });
 
     it('sortkeys', function() {
@@ -125,7 +163,7 @@ describe('tm', function() {
         tm.font('Source Sans Pro Bold', function(err, buffer) {
             assert.ifError(err);
             assert.ok(buffer.length > 600 && buffer.length < 1000);
-            assert.ok((+new Date - start) < 10);
+            assert.ok((+new Date - start) < 50);
             done();
         });
     });

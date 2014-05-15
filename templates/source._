@@ -293,20 +293,6 @@ var source = <%= JSON.stringify(source) %>;
 var revlayers = <%= JSON.stringify(revlayers) %>;
 
 Source(templates, tm, source, revlayers);
-
-<% if (!remote) { %>
-// Sortable layers.
-$('#layers .js-menu-content').sortable();
-$('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
-  var ids = $('#layers .js-menu-content .js-layer').map(function() {
-    return $(this).attr('id');
-  }).get();
-  layers = _(ids).reduce(function(memo, id) {
-    memo[id] = layers[id];
-    return memo;
-  }, {});
-});
-<% } %>
 </script>
 </body>
 
