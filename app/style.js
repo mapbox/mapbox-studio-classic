@@ -206,12 +206,11 @@ Editor.prototype.browseSource = function() {
   Modal.show('browsesource');
   new views.Browser({
     el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
-    isFile: function(file) { return /\.tm2$/.test(file); },
+    filter: function(file) { return file.type === 'dir' || /\.tm2source$/.test(file.basename); },
+    isFile: function(file) { return /\.tm2source$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.split(' ').join('_');
-      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
       window.location = '/source?id=tmsource://' + filepath;
       return false;
     }
