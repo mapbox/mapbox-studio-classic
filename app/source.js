@@ -616,4 +616,18 @@ window.editor = new Editor({
 });
 window.editor.refresh();
 
+// Sortable layers for local sources.
+if (source.id.indexOf('tmsource://' === 0)) {
+  $('#layers .js-menu-content').sortable();
+  $('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
+    var ids = $('#layers .js-menu-content .js-layer').map(function() {
+      return $(this).attr('id');
+    }).get();
+    layers = _(ids).reduce(function(memo, id) {
+      memo[id] = layers[id];
+      return memo;
+    }, {});
+  });
+}
+
 };
