@@ -84,8 +84,8 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
-  'click .browsestyle': 'browseStyle',
-  'click .browsesource': 'browseSource',
+  'click .js-browsestyle': 'browseStyle',
+  'click .js-browsesource': 'browseSource',
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
@@ -111,7 +111,7 @@ Editor.prototype.events = {
   'click .search-result': 'selectSearch',
   'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
-  'click #upload-style': 'upload',
+  'click .js-upload': 'upload',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };

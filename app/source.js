@@ -73,14 +73,14 @@ var Modal = new views.Modal({
 });
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click .browsesource': 'browseSource',
-  'click .browsestyle': 'browseStyle',
+  'click .js-browsesource': 'browseSource',
+  'click .js-browsestyle': 'browseStyle',
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
   'click .js-reset-mode': 'resetmode',
   'click .editor .js-tab': 'togglemode',
   'click .layer .js-delete': 'deletelayer',
-  'click .layer .xrayswatch': 'togglelayer',
+  'click .layer .js-xrayswatch': 'togglelayer',
   'click .js-browsefile': 'browsefile',
   'click #history .js-tab': 'tabbed',
   'click #history .js-ref-delete': 'delstyle',
@@ -490,7 +490,7 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
   attr._prefs.disabled = _($('#layers .layer').map(function(v) {
-    return $('.xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
+    return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
   })).compact();
 
   // New mtime querystring.
