@@ -1,13 +1,13 @@
 <div id='demo' class='pin-bottom dark'>
-  <div class='pin-top margin8 col4 pad2y demo-nav'>
+  <div class='pin-top margin4 col4 pad2y demo-nav'>
     <div class='clearfix small strong space-bottom2'>
-      <div class='col6'>
+      <div class='col6 pad1x'>
         <a class='demo-demo quiet block' href='#demo'>Style editor</a>
         <a class='demo-home demo-full demo-search demo-bookmark demo-zoomedto quiet block' href='#home'>Editing + saving</a>
         <a class='demo-xray quiet block' href='#xray'>Inspecting data</a>
         <a class='demo-docs quiet block' href='#docs'>CartoCSS</a>
       </div>
-      <div class='col6'>
+      <div class='col6 pad1x'>
         <a class='demo-fonts quiet block' href='#fonts'>Fonts</a>
         <a class='demo-layers quiet block' href='#layers'>Vector sources</a>
         <a class='demo-settings quiet block' href='#settings'>Publishing</a>
@@ -15,77 +15,6 @@
       </div>
     </div>
     <a href='#start' class='button col12 icon check'>Done</a>
-  </div>
-  <div class='demo-step'>
-    <div class='pin-top col7 pad2y row4 demo-demo'>
-      <h2>Style editor</h3>
-      <div>
-        In the TM2 <strong class='icon paint'>style editor</strong> you can design map styles using data from OpenStreetMap, Mapbox, and other custom source. Then publish them to be used with the Mapbox API.
-      </div>
-      <div class='pad0y'>
-        <a href='#home' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-home demo-full demo-search demo-bookmark demo-zoomedto'>
-      <h2>Editing + saving</h2>
-      <div>
-        Change the Map <code>background-color</code> property to a hex code (<code>#f88</code>) or html color (<code>pink</code>). Hit <kbd class='prefixed'>s</kbd> to save and update your style. The map preview on the left updates as you work.
-      </div>
-      <div class='pad0y'>
-        <a href='#xray' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-xray'>
-      <h2>Inspecting data</h2>
-      <div>
-        TM2 styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
-      </div>
-      <div class='pad0y'>
-        <a href='#docs' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-docs'>
-      <h2>CartoCSS</h2>
-      <div>
-        View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
-      </div>
-      <div class='pad0y'>
-        <a href='#fonts' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-fonts'>
-      <h2>Fonts</h2>
-      <div>
-        The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
-      </div>
-      <div class='pad0y'>
-        <a href='#layers' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-layers'>
-      <h2>Vector sources</h2>
-      <div>
-        Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
-      </div>
-      <div class='pad0y'>
-        <a href='#settings' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-settings'>
-      <h2>Publishing</h2>
-      <div>
-        Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
-      </div>
-      <div class='pad0y'>
-        <a href='#user' class='button quiet rcon next pin-bottomright'>Next</a>
-      </div>
-    </div>
-    <div class='pin-top col7 pad2y row4 demo-user'>
-      <h2>Switching projects</h2>
-      <div>
-        Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
-      </div>
-    </div>
   </div>
 </div>
 

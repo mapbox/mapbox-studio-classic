@@ -877,14 +877,38 @@ body.demo #app {
   top:20px;
   left:20px;
   right:20px;
-  bottom:200px;
+  bottom:180px;
   border-radius:1px;
-  box-shadow:0px 0px 0px 5px rgba(0,0,0,0.1);
+  box-shadow:0px 0px 0px 2px rgba(0,0,0,0.1);
   }
 #demo { display:none; }
 body.demo #demo { display:block; }
 
-.demo-step > div { display:none; }
+.demo-popup { display:none; }
+body.demo .demo-popup { display:block; opacity:0; z-index:-1; }
+
+body.demo .demo-fallback,
+body.demo #home:target ~ #style-ui .demo-popup,
+body.demo #full:target ~ #style-ui .demo-popup,
+body.demo #search:target ~ #style-ui .demo-popup,
+body.demo #bookmark:target ~ #style-ui .demo-popup,
+body.demo #xray:target ~ #full .demo-popup,
+body.demo #docs:target .demo-popup,
+body.demo #fonts:target .demo-popup,
+body.demo #layers:target .demo-popup,
+body.demo #settings:target .demo-popup,
+body.demo #user:target .demo-popup { z-index:10; opacity:1; }
+
+#xray:target ~ .demo-fallback,
+#full:target ~ .demo-fallback,
+#home:target ~ .demo-fallback,
+#search:target ~ .demo-fallback,
+#bookmark:target ~ .demo-fallback,
+#docs:target ~ .demo-fallback,
+#fonts:target ~ .demo-fallback,
+#layers:target ~ .demo-fallback,
+#settings:target ~ .demo-fallback,
+#user:target ~ .demo-fallback { opacity:0; z-index:-1; }
 
 #demo:target     a.demo-demo,
 #xray:target ~ * a.demo-xray,
@@ -899,29 +923,6 @@ body.demo #demo { display:block; }
 #user:target ~ * a.demo-user {
   color:#fff;
 }
-
-body.demo div.demo-demo,
-#xray:target ~ * div.demo-xray,
-#full:target ~ * div.demo-full,
-#home:target ~ * div.demo-home,
-#search:target ~ * div.demo-search,
-#bookmark:target ~ * div.demo-bookmark,
-#docs:target ~ * div.demo-docs,
-#fonts:target ~ * div.demo-fonts,
-#layers:target ~ * div.demo-layers,
-#settings:target ~ * div.demo-settings,
-#user:target ~ * div.demo-user { display:block; }
-
-#xray:target ~ * div.demo-demo,
-#full:target ~ * div.demo-demo,
-#home:target ~ * div.demo-demo,
-#search:target ~ * div.demo-demo,
-#bookmark:target ~ * div.demo-demo,
-#docs:target ~ * div.demo-demo,
-#fonts:target ~ * div.demo-demo,
-#layers:target ~ * div.demo-demo,
-#settings:target ~ * div.demo-demo,
-#user:target ~ * div.demo-demo { display:none; }
 
 body.demo #xray:target ~ #full,
 body.demo #docs:target,
@@ -938,5 +939,5 @@ body.demo #docs:target > .pin-left,
 body.demo #fonts:target > .pin-left,
 body.demo #layers:target > .pin-left,
 body.demo #settings:target > .megamenu,
-body.demo #user:target > .megamenu { box-shadow: 0px 0px 0px 5px #3bb2d0, 0px 0px 5px 10px rgba(0,0,0,0.2); }
+body.demo #user:target > .megamenu { box-shadow: 0px 0px 0px 5px #3887be, 0px 0px 5px 10px rgba(0,0,0,0.2); }
 
