@@ -48,6 +48,17 @@ describe('source util', function() {
             'Populates deep defaults in Layer objects');
         assert.deepEqual(Object.keys(tm.sortkeys(n.Layer[0].Datasource)), ['file','type'],
             'Strips invalid datasource properties based on type');
+
+        // Throws for bad datasource type.
+        assert.throws(function() {
+            source.normalize({ Layer: [{ Datasource: { type: 'xboxlive' } }] });
+        }, /Invalid datasource type/);
+
+        // Throws if datasource is missing required fields.
+        assert.throws(function() {
+            source.normalize({ Layer: [{ Datasource: { type: 'shape' } }] });
+        }, /Missing required field/);
+
         // @TODO check postgis auto srs extent generation ... without postgis.
     });
 });
