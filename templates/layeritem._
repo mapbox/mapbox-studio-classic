@@ -16,7 +16,7 @@ var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(
       </span>
     <% } %>
     <span class='pad0 col4 fr center layer-label'>
-      <a href='#refresh' class='icon xrayswatch x inline round fill-darken1 <%=disabled ? 'disabled' : ''%> <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></a>
+      <a href='#refresh' class='icon xrayswatch js-xrayswatch x inline round fill-darken1 <%=disabled ? 'disabled' : ''%> <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></a>
     </span>
     <% if ('minzoom' && 'maxzoom' in obj) { %>
     <div class='center col3 fr pad1x'>

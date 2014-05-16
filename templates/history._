@@ -20,7 +20,7 @@
       <a class='button quiet col12 icon plus' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1'>
-      <a class='browsestyle button quiet col12 icon folder'>Browse</a>
+      <a class='js-browsestyle button quiet col12 icon folder'>Browse</a>
     </div>
   </div>
   <div class='clearfix pad1 col12 pin-top scroll-styled fill-darken0 top1 bottom2'>
@@ -64,7 +64,7 @@
       <a class='col12 button quiet icon plus' href='/new/source'>New source</a>
     </div>
     <div class='col6 pad1'>
-      <a class='browsesource col12 button quiet col6 icon folder'>Browse</a>
+      <a class='js-browsesource col12 button quiet col6 icon folder'>Browse</a>
     </div>
   </div>
   <div class='clearfix pad1 col12 pin-top scroll-styled fill-darken0 top1 bottom2'>
@@ -84,9 +84,9 @@
         });
       %>
       <% if (obj.source) { %>
-      <%= this.emptystate({message:'You don\'t have any saved sources yet. <a class="saveas"> Save your currently active source</a> or <a class="browsestyle">add an existing remote source from Mapbox</a> to see it appear in this list.'}) %>
+      <%= this.emptystate({message:'You don\'t have any saved sources yet. <a class="saveas"> Save your currently active source</a> or <a class="js-browsestyle">add an existing remote source from Mapbox</a> to see it appear in this list.'}) %>
       <% } else { %>
-      <%= this.emptystate({message:'You don\'t have any saved sources. <a href="/new/source"> Create a new local source now</a> or <a class="browsestyle">add an existing remote source from Mapbox</a>.'}) %>
+      <%= this.emptystate({message:'You don\'t have any saved sources. <a href="/new/source"> Create a new local source now</a> or <a class="js-browsestyle">add an existing remote source from Mapbox</a>.'}) %>
       <% } %>
 
     </div>
