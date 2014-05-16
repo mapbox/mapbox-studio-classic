@@ -94,8 +94,6 @@ Editor.prototype.events = {
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
-  'submit #bookmark': 'addbookmark',
-  'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
   'click #docs .js-docs-nav': 'scrollto',
   'click #history .js-ref-delete': 'delstyle',
@@ -103,14 +101,8 @@ Editor.prototype.events = {
   'click .js-adddata': 'adddata',
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
-  'click #bookmark .bookmark-name': 'gotoBookmark',
-  'click #bookmark .js-del-bookmark': 'removebookmark',
-  'click .bookmark-n': 'focusBookmark',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
-  'click .search-result': 'selectSearch',
-  'click .search-result-bookmark': 'bookmarkSearch',
-  'click .search-n': 'focusSearch',
   'click .js-upload': 'upload',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
@@ -284,147 +276,6 @@ Editor.prototype.messageclear = function() {
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 
-Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain">'+
-    '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+
-    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
-    '</li>').appendTo('#bookmark-list');
-};
-Editor.prototype.gotoBookmark = function(ev) {
-  var target = $(ev.currentTarget),
-      coords = this.bookmarks[target.text()];
-  map.setView([coords[0], coords[1]], coords[2]);
-  return false;
-};
-Editor.prototype.removebookmark = function(ev) {
-  ev.preventDefault();
-  var target = $(ev.currentTarget).prev('a'),
-      name = target.text();
-  target.parent('li').remove();
-  if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  return false;
-};
-Editor.prototype.addbookmark = function(ev) {
-  ev.preventDefault();
-  var coords = map.getCenter(),
-      zoom = map.getZoom(),
-      field = $('#addbookmark'),
-      fieldVal = field.val(),
-      value = [coords.lat, coords.lng, zoom],
-      name = fieldVal ? fieldVal : value;
-  this.bookmarks[name] = value;
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  field.val('');
-  this.appendBookmark(name);
-  return false;
-};
-Editor.prototype.focusBookmark = function(ev) {
-  $('#addbookmark').focus();
-  return;
-};
-Editor.prototype.search = function(ev) {
-  ev.preventDefault();
-  var query = $('#search input').get(0).value;
-  // This query is empty or only whitespace.
-  if (/^\s*$/.test(query)) return null;
-
-  // This query is too short. Wait for more input chars.
-  if (query.length < 3) return;
-
-  // The query matches what is currently displayed
-  if ($('#search input').val() == $('#dosearch').data('query')) return;
-
-  var $results = $('#search-results');
-  $results.html('');
-
-  var latlon = (function(q) {
-      var parts = sexagesimal.pair(q);
-      if (parts) return { lat: parts[0], lon: parts[1] };
-  })(query);
-
-  if (latlon) {
-    // just go there, no search
-    map.setView([latlon.lat, latlon.lon]);
-    return false;
-  }
-
-  $.ajax('/geocode?search=' + query).done(function(data) {
-    var results = (data && data.results) ? data.results : [];
-    if (!results.length) {
-      $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
-    }
-    $('#dosearch').data('query', query);
-    results.forEach(function(result, idx) {
-      var coords = result[0].lat + ',' + result[0].lon;
-      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain">'+
-        '<a href="#" class="pad0 quiet small search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
-        '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
-        '</a>'+
-        '<a href="#bookmark" class="pad0 icon marker search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
-        '</li>').appendTo($results);
-      selectSearch(false, $('#search-results [data-idx="0"]'));
-    });
-  });
-  return false;
-};
-Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
-  var data;
-  if (ev) {
-    ev.preventDefault();
-    selection = ev.currentTarget;
-    data = ev.currentTarget.dataset;
-  } else {
-    data = selection[0].dataset;
-  }
-  $('#search-results a.active').removeClass('active fill-white');
-  $(selection).addClass('active fill-white');
-  if (data.bounds !== 'false') {
-    var bounds = data.bounds.split(',');
-    map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
-  } else {
-    var coords = data.coords.split(',');
-    if (data.type === 'address') {
-      map.setView(coords, Math.max(16, map.getZoom()));
-    } else if (data.type === 'street') {
-      map.setView(coords, Math.max(15, map.getZoom()));
-    } else {
-      map.setView(coords);
-    }
-  }
-  return false;
-};
-Editor.prototype.bookmarkSearch = function(ev, selection) {
-  var result = $(ev.currentTarget).siblings('.search-result');
-  selectSearch(false, result);
-  $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
-  $('#bookmark').submit();
-};
-Editor.prototype.navSearch = function(ev, dir) {
-  var results = $('#search-results li');
-  var active = results.find('.active')[0].dataset;
-  var wanted = 0;
-  if (dir === 1) {
-    if (+active.idx - 1 < 0){
-      wanted = results.length - 1;
-    } else {
-      wanted = +active.idx - 1;
-    }
-  } else {
-    if (+active.idx + 1 > results.length - 1) {
-      wanted = 0;
-    } else {
-      wanted = +active.idx + 1;
-    }
-  }
-  this.selectSearch(false, $('#search-results [data-idx="'+wanted+'"]'));
-  return false;
-};
-Editor.prototype.focusSearch = function(ev) {
-  $('#dosearch').focus();
-  return;
-};
 Editor.prototype.modalsources = function(ev) {
   var style = this.model.attributes;
   $.ajax({
@@ -638,6 +489,11 @@ Editor.prototype.refresh = function(ev) {
       type: 'style',
       map: map
     }));
+    new views.Maputils({
+      el: $('#view'),
+      map: map,
+      model: this.model
+    });
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
@@ -704,15 +560,6 @@ Editor.prototype.refresh = function(ev) {
     $('#map').css({'background-color':'#222'});
   } else if (this.model.get('background')) {
     $('#map').css({'background-color':this.model.get('background')});
-  }
-
-  // Get existing bookmarks
-  if (!this.bookmarks) {
-    this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
-      JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
-    for (var b in this.bookmarks) {
-      this.appendBookmark(b);
-    }
   }
 
   return false;
