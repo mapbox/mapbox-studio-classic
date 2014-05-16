@@ -344,7 +344,7 @@ views.Maputils.prototype.search = function(ev) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
       $('<li class="keyline-top contain">'+
-        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
+        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle'+(!idx ? 'active fill-darken0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
         '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
         '</a>'+
         '<a href="#bookmark" class="pad0 icon marker js-search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
@@ -363,8 +363,8 @@ views.Maputils.prototype.selectSearch = function(ev, selection) {
   } else {
     data = selection[0].dataset;
   }
-  $('#search-results a.active').removeClass('active fill-white');
-  $(selection).addClass('active fill-white');
+  $('#search-results a.active').removeClass('active fill-darken0');
+  $(selection).addClass('active fill-darken0');
   if (data.bounds !== 'false') {
     var bounds = data.bounds.split(',');
     this.map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
