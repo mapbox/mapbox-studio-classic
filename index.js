@@ -31,6 +31,7 @@ var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
 config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
 config.port = config.port || '3000';
+config.test = config.test || false;
 tm.config(config);
 
 var app = express();
@@ -412,6 +413,9 @@ app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
+
+// Include mock mapbox API routes if in test mode.
+if (config.test) require('./lib/mapbox-mock')(app);
 
 app.listen(config.port);
 console.log('TM2 @ http://localhost:'+config.port+'/');
