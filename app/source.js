@@ -97,12 +97,6 @@ Editor.prototype.keys = function(ev) {
     if (Modal.active) Modal.close();
     window.location.href = '#';
   }
-  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
-    // up and down on search results
-    ev.preventDefault();
-    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
-    return;
-  }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {

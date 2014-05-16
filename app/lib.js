@@ -243,12 +243,13 @@ views.Maputils = Backbone.View.extend({});
 views.Maputils.prototype.events = {
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
-  'click #bookmark .bookmark-name': 'gotoBookmark',
+  'click #bookmark .js-bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .bookmark-n': 'focusBookmark',
-  'click .search-result': 'selectSearch',
-  'click .search-result-bookmark': 'bookmarkSearch',
-  'click .search-n': 'focusSearch'
+  'click .search-n': 'focusSearch',
+  'click .js-search-result': 'selectSearch',
+  'click .js-search-result-bookmark': 'bookmarkSearch',
+  'keydown': 'keys'
 };
 views.Maputils.prototype.initialize = function (options) {
   this.map = options.map;
@@ -258,9 +259,17 @@ views.Maputils.prototype.initialize = function (options) {
     this.appendBookmark(b);
   }
 };
+views.Maputils.prototype.keys = function(ev) {
+  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
+    // up and down on search results
+    ev.preventDefault();
+    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
+    return;
+  }
+};
 views.Maputils.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+
-    '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+
+    '<a href="#" class="icon marker quiet pad0 col12 small truncate js-bookmark-name">'+name+'</a>'+
     '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
     '</li>').appendTo('#bookmark-list');
 };
@@ -323,6 +332,8 @@ views.Maputils.prototype.search = function(ev) {
     return false;
   }
 
+  var view = this;
+
   $.ajax('/geocode?search=' + query).done(function(data) {
     var results = (data && data.results) ? data.results : [];
     if (!results.length) {
@@ -333,17 +344,17 @@ views.Maputils.prototype.search = function(ev) {
       var coords = result[0].lat + ',' + result[0].lon;
       var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
       $('<li class="keyline-top contain">'+
-        '<a href="#" class="pad0 quiet small search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
+        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
         '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
         '</a>'+
-        '<a href="#bookmark" class="pad0 icon marker search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
+        '<a href="#bookmark" class="pad0 icon marker js-search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
         '</li>').appendTo($results);
-      selectSearch(false, $('#search-results [data-idx="0"]'));
+      view.selectSearch(false, $('#search-results [data-idx="0"]'));
     });
   });
   return false;
 };
-views.Maputils.prototype.selectSearch = selectSearch = function(ev, selection) {
+views.Maputils.prototype.selectSearch = function(ev, selection) {
   var data;
   if (ev) {
     ev.preventDefault();
@@ -370,8 +381,8 @@ views.Maputils.prototype.selectSearch = selectSearch = function(ev, selection) {
   return false;
 };
 views.Maputils.prototype.bookmarkSearch = function(ev, selection) {
-  var result = $(ev.currentTarget).siblings('.search-result');
-  selectSearch(false, result);
+  var result = $(ev.currentTarget).siblings('.js-search-result');
+  this.selectSearch(false, result);
   $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
   $('#bookmark').submit();
 };
