@@ -61,23 +61,32 @@ describe('Editor', function() {
         });
 
         describe('Tab creation', function() {
-            beforeEach(function() {
-                event = document.createEvent('HTMLEvents');
-                el = document.getElementById('addtab');
-            });
-
             it('should create a new tab', function() {
+                var addlinkEv = document.createEvent('HTMLEvents');
+                addlinkEv.initEvent('click', true, false);
+                document.getElementById('tabs').getElementsByClassName('js-addtab')[0].dispatchEvent(addlinkEv);
+
                 var value = document.getElementById('addtab-filename').value = 'foo';
-                event.initEvent('submit', true, false);
-                el.dispatchEvent(event);
+                var addform = document.getElementById('addtab');
+                var addformEv = document.createEvent('HTMLEvents');
+                addformEv.initEvent('submit', true, false);
+                addform.dispatchEvent(addformEv);
+
                 var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
                 expect(tab[tab.length - 1].rel).to.equal('foo.mss');
             });
 
             it('should reject file formats in the filename', function() {
+                var addlinkEv = document.createEvent('HTMLEvents');
+                addlinkEv.initEvent('click', true, false);
+                document.getElementById('tabs').getElementsByClassName('js-addtab')[0].dispatchEvent(addlinkEv);
+
                 var value = document.getElementById('addtab-filename').value = 'foo.mss';
-                event.initEvent('submit', true, false);
-                el.dispatchEvent(event);
+                var addform = document.getElementById('addtab');
+                var addformEv = document.createEvent('HTMLEvents');
+                addformEv.initEvent('submit', true, false);
+                addform.dispatchEvent(addformEv);
+
                 var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
                 expect(tab[tab.length - 1].rel).to.equal('foo.mss');
             });
