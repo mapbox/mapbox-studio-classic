@@ -223,7 +223,9 @@ views.Modal.prototype.show = function(id, options, callback) {
     callback = callback || function(err) { if (err) console.warn(err); };
 
     if (!this.options.templates['modal'+id]) return callback(new Error('Modal template "modal'+id+'" not found'));
-    if (this.active && !options.overwrite) return callback(new Error('Modal already active'));
+
+    // Close active modal first. Maybe implement modal stacking in the future.
+    if (this.active) this.close();
 
     try {
         var html = this.options.templates['modal' + id](options);
