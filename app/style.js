@@ -81,11 +81,11 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
-  'click .saveas': 'saveModal',
   'click .browsestyle': 'browseStyle',
   'click .browsesource': 'browseSource',
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
+  'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
   'click .js-addtab': 'addtabModal',

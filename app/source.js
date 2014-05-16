@@ -70,10 +70,10 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 var Modal = new views.Modal({ el: $('.modal-content') });
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click .saveas': 'saveModal',
   'click .browsesource': 'browseSource',
   'click .browsestyle': 'browseStyle',
   'click .js-save': 'save',
+  'click .js-saveas': 'saveModal',
   'click .js-reset-mode': 'resetmode',
   'click .editor .js-tab': 'togglemode',
   'click .layer .js-delete': 'deletelayer',

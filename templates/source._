@@ -78,7 +78,11 @@
       </fieldset>
     </div>
     <div class='keyline-top pad2y settings-footer pin-bottom'>
-    <% if (!remote) { %>
+    <% if (!remote && source._tmp) { %>
+      <section class='col12 pad2x clearfix'>
+        <a href='#' class='quiet button col12 icon js-saveas floppy'>Save as</a>
+      </section>
+    <% } else if (!remote) { %>
       <section class='col12 pad1x clearfix'>
         <div class='pad1x col6'>
           <a href='#' class='quiet button col12 icon js-save floppy'>Save</a>
@@ -120,7 +124,7 @@
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (source._tmp) { %>
-        --><a class='saveas round-right short button icon inline floppy'>Save as</a>
+        --><a class='js-saveas round-right short button icon inline floppy'>Save as</a>
       <% } else { %>
         --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
