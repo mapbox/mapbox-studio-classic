@@ -26,13 +26,16 @@ var sections = {
     }
 };
 %>
-<div class="row1 pad1 contain keyline-bottom">
-  <h3>Style editor help</h3>
+<div class="row2 pad1 contain keyline-bottom">
+  <h3 class='space-bottom1'>Style editor help</h3>
   <a class='pad1 quiet icon x pin-topright' href='#'></a>
+  <div class='center'><div class='pill'><!--
+    --><a href='#fonts' class='button quiet icon font short'>Fonts</a><!--
+    --><a href='#demo' class='button quiet icon tilemill short'>Walkthrough</a>
+  </div></div>
 </div>
 
-<nav class='fill-grey small clearfix col12 contain z1 strong'>
-  <a href='#fonts'         class='fill-darken0 quiet block row1 small strong'><div class='pad1 keyline-bottom icon font'>Fonts</div></a>
+<nav class='fill-grey small contain z1 strong'>
   <a href='#docs-intro'    class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon home'>Overview</div></a>
   <a href='#docs-points'   class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon marker'>Points</div></a>
   <a href='#docs-lines'    class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polyline'>Lines</div></a>

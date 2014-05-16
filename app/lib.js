@@ -113,7 +113,7 @@ var inspectFeature = function(options) {
     popup = null;
   });
   return function(ev) {
-    if (options.type === 'style' && !$('#xray').is('.active')) return;
+    if (options.type === 'style' && !$('.xray-toggle').is('.active')) return;
     var rand = Math.random().toString(16).split('.')[1];
     var lon = ev.latlng.wrap().lng;
     var lat = ev.latlng.wrap().lat;
