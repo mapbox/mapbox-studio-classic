@@ -9,7 +9,7 @@ var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
-var mockOauth = require('./fixtures-oauth/mapbox');
+var mockOauth = require('../lib/mapbox-mock')(require('express')());
 
 describe('middleware', function() {
     var tmppath = '/tmp/tm2-test-' + +new Date;
@@ -305,15 +305,16 @@ describe('middleware', function() {
     });
 
     describe('basemap', function() {
+        var server;
         before(function(done) {
             tm.db.set('oauth', {
                 account: 'test',
                 accesstoken: '12345678'
             });
-            mockOauth.start(done);
+            server = mockOauth.listen(3001, done);
         });
         after(function(done) {
-            mockOauth.stop(done);
+            server.close(done);
         });
         it('appends a basemap to req', function(done) {
             var req = {};
@@ -343,11 +344,12 @@ describe('middleware', function() {
     });
 
     describe('userTilesets', function() {
+        var server;
         before(function(done) {
-            mockOauth.start(done);
+            server = mockOauth.listen(3001, done);
         });
         after(function(done) {
-            mockOauth.stop(done);
+            server.close(done);
         });
         it('fails without oauth', function(done) {
             tm.db.rm('oauth');
