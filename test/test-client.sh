@@ -11,10 +11,10 @@ trap 'kill $(jobs -p)' EXIT
 cp ./test/fixtures-oauth/test.db $tmpdb
 
 # Run mock oauth server and tm2
-node index.js --test --mapboxauth="http://localhost:3000" --db="$tmpdb" &
+node index.js --test --mapboxauth="http://localhost:3001" --port=3001 --db="$tmpdb" &
 sleep 2
 
-./node_modules/.bin/mocha-phantomjs "http://localhost:3000/style?id=$styleid&test=true"
+./node_modules/.bin/mocha-phantomjs "http://localhost:3001/style?id=$styleid&test=true"
 
 # Remove working database
 rm $tmpdb
