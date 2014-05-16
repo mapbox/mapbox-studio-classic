@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = chai.expect;
+var assert = chai.assert;
 
 var event = function(type, bubbles, cancelable) {
     var ev = document.createEvent('HTMLEvents');
@@ -48,14 +48,13 @@ describe('Code editor', function() {
     it('should set a tab as active', function() {
         var el = document.getElementById('tabs').getElementsByClassName('js-tab');
         el[0].dispatchEvent(event('click', true, false));
-        var isActive = el[0].getAttribute('class').match(/active/);
-        expect(isActive).to.not.be.null;
+        assert.ok(el[0].getAttribute('class').match(/active/));
     });
 
     it('should delete a tab', function() {
         var el = document.getElementsByClassName('js-deltab');
         el[0].dispatchEvent(event('click', true, false));
-        expect(el[0]).to.be.undefined;
+        assert.ok(!el[0]);
     });
 
     describe('Tab creation', function() {
@@ -68,7 +67,7 @@ describe('Code editor', function() {
                 .dispatchEvent(event('submit', true, false));
 
             var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
-            expect(tab[tab.length - 1].rel).to.equal('foo.mss');
+            assert.equal('foo.mss', tab[tab.length - 1].rel);
         });
 
         it('should reject file formats in the filename', function() {
@@ -80,7 +79,7 @@ describe('Code editor', function() {
                 .dispatchEvent(event('submit', true, false));
 
             var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
-            expect(tab[tab.length - 1].rel).to.equal('foo.mss');
+            assert.equal('foo.mss', tab[tab.length - 1].rel);
         });
     });
 });
@@ -89,8 +88,7 @@ describe('Layers', function() {
     it('should open layers description', function() {
         var el = document.getElementById('layers').getElementsByClassName('js-tab');
         el[0].dispatchEvent(event('click', true, false));
-        var isActive = el[0].getAttribute('class').match(/active/);
-        expect(isActive).to.not.be.null;
+        assert.ok(el[0].getAttribute('class').match(/active/));
     });
 });
 
@@ -99,10 +97,8 @@ describe('Documentation', function() {
         var el = document.getElementById('docs').getElementsByClassName('js-tab');
         var last = el[el.length - 1];
         last.dispatchEvent(event('click', true, false));
-        var isActive = last.getAttribute('class').match(/active/);
-        var docIsActive = document.getElementById(last.href.split('#')[1]).getAttribute('class').match(/active/);
-        expect(isActive).to.not.be.null;
-        expect(docIsActive).to.not.be.null;
+        assert.ok(last.getAttribute('class').match(/active/));
+        assert.ok(document.getElementById(last.href.split('#')[1]).getAttribute('class').match(/active/));
     });
 });
 
