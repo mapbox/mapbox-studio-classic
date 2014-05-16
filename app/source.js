@@ -464,7 +464,9 @@ Editor.prototype.deletelayer = function(ev) {
 Editor.prototype.error = function(model, resp) {
   this.messageclear();
   if (resp.responseText) {
-    this.messagemodal(resp.responseText);
+    var json;
+    try { json = JSON.parse(resp.responseText); } catch(err) {}
+    this.messagemodal(json ? json.message : resp.responseText);
   } else {
     this.messagemodal('Could not save source "' + model.id + '"');
   }

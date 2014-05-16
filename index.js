@@ -397,7 +397,10 @@ app.use(function(err, req, res, next) {
     // Otherwise 500 for now.
     if (/application\/json/.test(req.headers.accept)) {
         res.set({'content-type':'application/javascript'});
-        res.send({message:err.toString()}, 500);
+        res.send({
+            message: err.message,
+            code: err.code
+        }, 500);
     } else if (/text\/html/.test(req.headers.accept)) {
         res.send(tm.templates.error({ error:err }), 500);
     } else {
