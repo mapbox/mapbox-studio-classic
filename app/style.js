@@ -109,6 +109,7 @@ Editor.prototype.events = {
   'click .search-result-bookmark': 'bookmarkSearch',
   'click .search-n': 'focusSearch',
   'click #upload-style': 'upload',
+  'click #print-style': 'print',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -544,7 +545,13 @@ Editor.prototype.save = function(ev, options) {
         $('#baselayer').hide();
       }
     } else if (field.name === 'rtoggle'){
-      editor.model.get('_prefs').print = (field.value === 'printresolution') ? true : false;
+      if (field.value === 'printresolution') {
+        editor.model.get('_prefs').print = true;
+        $('#print').removeClass('disabled');
+      } else {
+        editor.model.get('_prefs').print = false;
+        $('#print').addClass('disabled');
+      }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -642,6 +649,20 @@ Editor.prototype.upload = function(ev) {
       $('.settings-body').removeClass('loading');
       return message(resp.responseText);
     });
+};
+
+Editor.prototype.print = function() {
+  var printMap = function(err, canvas) {
+    var button = document.getElementById('print-style');
+    button.innerHTML = 'Click to Download';
+    button.setAttribute('href', canvas.toDataURL());
+    button.setAttribute('download', '');
+    button.setAttribute('class', button.className + ' download');
+  };
+  printMap.scale = 1;
+  // client side stitching can't handle higher scales
+  // printMap.scale = (editor.model.get('_prefs').print) ? 4 : (window.devicePixelRatio > 1) ? 2 : 1;;
+  leafletImage(map, printMap);
 };
 
 Editor.prototype.refresh = function(ev) {

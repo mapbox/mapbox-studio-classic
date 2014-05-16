@@ -25,6 +25,7 @@
   <script src='/app/codemirror.tm2.search.js'></script>
   <script src='/app/codemirror.tm2.palette.js'></script>
   <script src='/ext/sexagesimal.js'></script>
+  <script src='/ext/leaflet-image.js'></script>
   <title><%= style.name %></title>
 </head>
 
@@ -129,8 +130,9 @@
           <a class='button col12 quiet icon js-save floppy'>Save</a>
         </div>
         <div class='pad1x pill col8'><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col6 <% if (!user.plan.tm2z) { %>col12<% } %> submit icon package'>Package</a><!--
-        --><a href='#settings' id='upload-style' class='button quiet col6 submit icon up'>Upload</a><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col4 <% if (!user.plan.tm2z) { %>col12<% } %> submit icon package'>Package</a><!--
+        --><a href='#settings' id='upload-style' class='button quiet col4 submit icon up'>Upload</a><!--
+        --><a href='#settings' id='print-style' class='button quiet col4 submit printer icon'>Print</a><!--
      --></div>
         <% } %>
       </section>
