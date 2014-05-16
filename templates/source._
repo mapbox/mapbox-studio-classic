@@ -24,7 +24,7 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> dark'>
+<body id='view' class='<%= agent %> clip dark'>
 
 <div id='perf'></div>
 

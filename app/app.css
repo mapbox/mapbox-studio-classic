@@ -144,10 +144,7 @@ kbd {
 pre,
 .CodeMirror { font:12px/20px normal Menlo, Droidsansmono, Bitstream Vera Sans Mono, Monaco, Consolas, monospace; }
 
-body {
-  background:#3c4e5a;
-  overflow:hidden;
-  }
+body { background:#3c4e5a; }
 
 label.ghost {
   position:absolute;

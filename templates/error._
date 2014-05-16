@@ -9,7 +9,7 @@
   <title>Error</title>
 </head>
 
-<body id='view' class='fill-denim pad2y'>
+<body id='view' class='fill-denim pad4y'>
 
 <%
 var title = 'Error';
@@ -22,15 +22,13 @@ case 'ENOENT':
 };
 %>
 
-<div class='center col6 margin3 dark'>
-  <h3 class='icon tilemill pad4y'>TileMill 2</h3>
-  <div class='pad4 fill-darken0 clearfix'>
-    <h2><%= title %></h2>
-    <p><%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %></p>
-    <a href='/' class='button icon quiet prev col8 margin2'>Back</a>
+<div class='clearfix'>
+  <div class='col6 margin3 dark'>
+    <h2 class='center pad2y pad4x fill-darken0'><%= title %></h2>
+    <pre class='fill-darken1 unround pad2y pad4x'><%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %></pre>
+    <a href='/' class='button icon quiet prev col12 round-bottom'>Back</a>
   </div>
 </div>
-
 
 <style type='text/css'>
 /* Error page */

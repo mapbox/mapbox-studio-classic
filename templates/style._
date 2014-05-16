@@ -28,7 +28,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %>'><div id='app' class='pin-top pin-bottom animate'>
+<body id='view' class='<%= agent %> clip'><div id='app' class='pin-top pin-bottom animate'>
 
 <a id='home'></a>
 <a id='xray'></a>
