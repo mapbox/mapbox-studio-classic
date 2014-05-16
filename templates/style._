@@ -358,22 +358,6 @@
   </div>
 </div>
 
-<%= this.modalmessage() %>
-<%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
-<%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
-<%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
-
-<form id='addtab' class='modal center round pad2 col6 margin3 pin-top top2 fill-light'>
-  <a class="pad1 quiet icon x pin-topright close" href="#"></a>
-  <p>Add a new cartoCSS tab to your style.</p>
-  <div class='clearfix'>
-    <span class='input-pill pill col8 margin2'>
-      <input class='col8' type='text' placeholder='stylesheet name' size='20' id='addtab-filename' required/><!--
-      --><input class='col4 round-right' type='submit' value='New tab'/>
-    </span>
-  </div>
-</form>
-
 <div class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark'>
   <h3>Style editor</h3>
   <small class='space-bottom4'>
@@ -389,14 +373,20 @@
 </div>
 
 <script>
+var cwd = <%= JSON.stringify(cwd) %>;
 var style = <%= JSON.stringify(style) %>;
 var templates = {};
+templates.modalbrowser = <%= this.modalbrowser.source %>;
+templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
+templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
+templates.modaladdtab = <%= this.modaladdtab.source %>;
+templates.modalmessage = <%= this.modalmessage.source %>;
 templates.modalsources = <%= this.modalsources.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
-Style(templates, style);
+Style(templates, cwd, style);
 </script>
 
 <% if (test) { %>

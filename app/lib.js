@@ -213,22 +213,26 @@ views.Modal.prototype.close = function() {
     // default, just close the modal
     // need to also accept a url and redirect there on close
     if (!this.active) return false;
-    this.$el.children().remove();
+    this.$el.empty();
     this.$el.parent().removeClass('active');
     this.active.callback();
     this.active = false;
 };
 views.Modal.prototype.show = function(id, options, callback) {
-  if (id[0] != '#') id = '#' + id;
-  options = options || {};
-  if (this.active && !options.overwrite)
-    return new Error('Modal already active');
+    options = options || {};
+    callback = callback || function(err) { if (err) console.warn(err); };
 
-  var modal = {
-    el: $(id),
-    callback: callback || function() {}
-  };
+    if (!this.options.templates['modal'+id]) return callback(new Error('Modal template "modal'+id+'" not found'));
+    if (this.active && !options.overwrite) return callback(new Error('Modal already active'));
 
-  this.$el.append(modal.el.clone()).parent().addClass('active');
-  this.active = modal;
+    try {
+        var html = this.options.templates['modal' + id](options);
+    } catch(err) {
+        return callback('Error in template "modal' + id + '": ' + err.toString());
+    }
+
+    var modal = { el: $(html), callback: callback };
+    this.$el.append(modal.el);
+    this.$el.parent().addClass('active');
+    this.active = modal;
 };
