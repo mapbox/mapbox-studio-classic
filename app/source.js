@@ -1,4 +1,4 @@
-window.Source = function(templates, tm, source, revlayers) {
+window.Source = function(templates, cwd, tm, source, revlayers) {
 
 var map;
 var tiles;
@@ -67,7 +67,10 @@ var layers = _(revlayers).reduce(function(memo, l) {
 var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
-var Modal = new views.Modal({ el: $('.modal-content') });
+var Modal = new views.Modal({
+  el: $('.modal-content'),
+  templates: templates
+});
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
   'click .browsesource': 'browseSource',
@@ -138,7 +141,7 @@ Editor.prototype.keys = function(ev) {
   return false;
 };
 Editor.prototype.saveModal = function() {
-  Modal.show('saveas');
+  Modal.show('browsersave', {type:'source', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #saveas'),
     filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
@@ -158,7 +161,7 @@ Editor.prototype.saveModal = function() {
   return false;
 };
 Editor.prototype.browseSource = function() {
-  Modal.show('browsesource');
+  Modal.show('browseropen', {type:'source', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsesource'),
     filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) ; },
@@ -173,7 +176,7 @@ Editor.prototype.browseSource = function() {
   return false;
 };
 Editor.prototype.browseStyle = function() {
-  Modal.show('browsestyle');
+  Modal.show('browseropen', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsestyle'),
     filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
@@ -186,12 +189,6 @@ Editor.prototype.browseStyle = function() {
       return false;
     }
   });
-  return false;
-};
-Editor.prototype.simpleModal = function(ev) {
-  // for modals that just need to be shown, no callbacks/options
-  var modalid = $(ev.currentTarget).data('modal');
-  if (modalid) Modal.show(modalid);
   return false;
 };
 Editor.prototype.user = function() {
@@ -445,7 +442,7 @@ Editor.prototype.addlayer = function(ev) {
     $('#layers .js-menu-content').sortable('destroy').sortable();
 
   } else {
-    editor.messagemodal('Layer name must be different from existing layer "' + values.id + '"');
+    Modal.show('message', 'Layer name must be different from existing layer "' + values.id + '"');
   }
   return false;
 };
@@ -466,9 +463,9 @@ Editor.prototype.error = function(model, resp) {
   if (resp.responseText) {
     var json;
     try { json = JSON.parse(resp.responseText); } catch(err) {}
-    this.messagemodal(json ? json.message : resp.responseText);
+    Modal.show('message', json ? json.message : resp.responseText);
   } else {
-    this.messagemodal('Could not save source "' + model.id + '"');
+    Modal.show('message', 'Could not save source "' + model.id + '"');
   }
 };
 Editor.prototype.save = function(ev, options) {
@@ -555,7 +552,7 @@ Editor.prototype.refresh = function(ev) {
   return false;
 };
 Editor.prototype.browsefile = function(ev) {
-  Modal.show('browsefile');
+  Modal.show('browser', { id:'browsefile', cwd:cwd, label:'Select'});
   var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
   $('.browsefile-pending').removeClass('browsefile-pending');
   target.addClass('browsefile-pending');
@@ -598,15 +595,6 @@ Editor.prototype.browsefile = function(ev) {
 
 };
 
-Editor.prototype.messagemodal = function(text, html) {
-  if (html) {
-    $('.message-modal-body').html(html);
-  } else {
-    $('.message-modal-body').text(text);
-  }
-  if (Modal.active) Modal.close();
-  Modal.show('message-modal');
-};
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;

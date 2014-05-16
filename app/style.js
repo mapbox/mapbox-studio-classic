@@ -1,4 +1,4 @@
-window.Style = function(templates, style) {
+window.Style = function(templates, cwd, style) {
 
 var map;
 var baselayer;
@@ -16,7 +16,10 @@ if ('onbeforeunload' in window) window.onbeforeunload = function() {
 };
 
 var Editor = Backbone.View.extend({});
-var Modal = new views.Modal({ el: $('.modal-content') });
+var Modal = new views.Modal({
+  el: $('.modal-content'),
+  templates: templates
+});
 
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
@@ -167,7 +170,7 @@ Editor.prototype.keys = function(ev) {
   return false;
 };
 Editor.prototype.saveModal = function() {
-  Modal.show('saveas');
+  Modal.show('browsersave', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #saveas'),
     filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
@@ -187,7 +190,7 @@ Editor.prototype.saveModal = function() {
   return false;
 };
 Editor.prototype.browseStyle = function() {
-  Modal.show('browsestyle');
+  Modal.show('browseropen', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsestyle'),
     filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
@@ -203,7 +206,7 @@ Editor.prototype.browseStyle = function() {
   return false;
 };
 Editor.prototype.browseSource = function() {
-  Modal.show('browsesource');
+  Modal.show('browseropen', {type:'source', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsesource'),
     filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)); },
@@ -215,12 +218,6 @@ Editor.prototype.browseSource = function() {
       return false;
     }
   });
-  return false;
-};
-Editor.prototype.simpleModal = function(ev) {
-  // for modals that just need to be shown, no callbacks/options
-  var modalid = $(ev.currentTarget).data('modal');
-  if (modalid) Modal.show(modalid);
   return false;
 };
 Editor.prototype.zoomin = function(out) {
@@ -284,15 +281,6 @@ Editor.prototype.messageclear = function() {
   });
 };
 
-Editor.prototype.messagemodal = function(text, html) {
-  if (html) {
-    $('.message-modal-body').html(html);
-  } else {
-    $('.message-modal-body').text(text);
-  }
-  if (Modal.active) Modal.close();
-  Modal.show('message-modal');
-};
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 
@@ -438,15 +426,14 @@ Editor.prototype.focusSearch = function(ev) {
   return;
 };
 Editor.prototype.modalsources = function(ev) {
-  Modal.show('modalsources');
   var style = this.model.attributes;
   $.ajax({
     url: '/history.json',
     success: function(history) {
-      $('#modal-content').html(templates.modalsources({
+      Modal.show('sources', {
         style: style,
         history: history
-      }));
+      });
     }
   });
   return false;
@@ -491,7 +478,7 @@ Editor.prototype.addtab = function(ev) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
-    editor.messagemodal('Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
+    Modal.show('message', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
     field.val('');
     return false;
   }
@@ -583,7 +570,7 @@ Editor.prototype.error = function(model, resp) {
   this.messageclear();
 
   if (!resp.responseText)
-    return this.messagemodal('Could not save style "' + model.id + '"');
+    return Modal.show('message', 'Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -597,7 +584,7 @@ Editor.prototype.error = function(model, resp) {
         code[id]._cartoErrors.push(ln);
         code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
       } else {
-        return this.messagemodal(e);
+        return Modal.show('message', e);
       }
     }).bind(this));
 };
@@ -626,17 +613,16 @@ Editor.prototype.cartoError = function(ln, e) {
 
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
-  var message = this.messagemodal;
   $('.settings-body').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
-      message(null, '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
       $('.settings-body').removeClass('loading');
       return true;
     })
     .error(function(resp) {
       $('.settings-body').removeClass('loading');
-      return message(resp.responseText);
+      return Modal.show('message', resp.responseText);
     });
 };
 
