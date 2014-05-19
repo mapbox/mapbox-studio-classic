@@ -9,30 +9,34 @@
   <title><%= source.name || 'Untitled' %></title>
 </head>
 
-<body id='view' class='fill-denim <%= job.stats ? 'task' : 'stat' %>'>
+<body id='view' class='fill-denim pad4y <%= job.stats ? 'task' : 'stat' %>'>
 
-<div class='dark fill-blue center target round pad2 col6 margin3 pin-top top2'>
-  <h2><%= source.name || 'Untitled' %></h2>
-  <a href='/source?id=<%=source.id%>' class='icon pad1 quiet x dot stat pin-topright'></a>
+<div class='clearfix limiter'>
+  <div class='dark center target round col6 margin3 contain'>
+    <div class='pad2 fill-darken0'>
+      <h2><%= source.name || 'Untitled' %></h2>
 
-  <% var pct = job.stats ? (100 * job.stats.processed / job.stats.total).toFixed(1) : '100.0'; %>
-  <small class='quiet'>
-    <span class='stat'><span class='size'><%= job.stat ? this.exportsize(job.stat.size) : 0 %></span> &mdash;</span>
-    <span class='task'><span class='speed'><%= job.stats ? job.stats.speed : 0 %></span> tiles/sec &mdash;</span>
-    z<%= source.minzoom %>-<%= source.maxzoom %>
-  </small>
-
-  <div class='pad2y space-bottom2'>
-    <h1 class='percent'><%= pct %></h1>
-    <div class='pad0 fill-darken1 round col8 margin2 progress'>
-      <div class='pad0 fill-white fill' style='width:<%= pct %>%'></div>
+      <% var pct = job.stats ? (100 * job.stats.processed / job.stats.total).toFixed(1) : '100.0'; %>
+      <small class='quiet'>
+        <span class='stat'><span class='size'><%= job.stat ? this.exportsize(job.stat.size) : 0 %></span> &mdash;</span>
+        <span class='task'><span class='speed'><%= job.stats ? job.stats.speed : 0 %></span> tiles/sec &mdash;</span>
+        z<%= source.minzoom %>-<%= source.maxzoom %>
+      </small>
     </div>
-  </div>
+    <div class='pad2y fill-darken1'>
+      <h1 class='percent'><%= pct %></h1>
+      <div class='pad0 fill-darken1 round col8 margin2 progress space-bottom2'>
+        <div class='pad0 fill-white fill' style='width:<%= pct %>%'></div>
+      </div>
 
-    <a href='/source?id=<%=source.id%>' class='button big submit icon x task js-cancel'> Cancel export</a>
-    <a href='/source.mbtiles?id=<%=source.id%>' class='button quiet big submit icon folder stat'> Vector MBTiles</a>
-  <div class='stat col12 pad1'>
-    <a href='#recache' class='js-recache quiet strong small icon refresh'> Redo export</a>
+      <a href='/source?id=<%=source.id%>' class='button big submit icon x task js-cancel'> Cancel export</a>
+      <a href='/source.mbtiles?id=<%=source.id%>' class='button big submit icon folder stat'> Vector MBTiles</a>
+      <div class='stat col12 pad1'>
+        <a href='#recache' class='js-recache quiet strong small icon refresh'> Redo export</a>
+      </div>
+    </div>
+
+    <a href='/source?id=<%=source.id%>' class='button icon quiet prev col12 round-bottom stat'>Back</a>
   </div>
 </div>
 

@@ -36,7 +36,7 @@
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
-  <div id='modal-content' class='contain modal-content animate'></div>
+  <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
 <div id='user' class='z10 col12 pin-top'>
