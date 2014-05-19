@@ -42,6 +42,10 @@ var config = require('optimist')
 tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
+var queue = require('./lib/queue');
+var blend = require('blend');
+var st = require('./lib/static');
+
 
 var app = express();
 app.use(express.bodyParser());
@@ -115,6 +119,8 @@ app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.sour
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
+
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), staticTile);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -224,6 +230,50 @@ function tile(req, res, next) {
     source.getTile(z,x,y, done);
 };
 
+function staticTile(req, res, next){
+    // x & y are lon + lat at the center of the map
+    var z = req.params.z | 0;
+    var x = req.params.x | 0;
+    var y = req.params.y | 0;
+    var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    scale = scale > 4 ? 4 : scale;
+    var w = (req.params.px | 0) * scale;
+    var h = (req.params.py | 0) * scale;
+
+    var id = req.source ? req.source.data.id : req.style.data.id;
+    var source = req.params.format === 'vector.pbf'
+        ? req.style._backend._source
+        : req.style;
+
+    var tileQueue = new queue(1);
+    var tiles = st.staticTiles(z, x, y, scale, w, h);
+
+    var dat = [];
+    tiles.forEach(function(t){
+            tileQueue.defer(function(z, x, y, done){
+                done.scale = scale;
+                if (req.params.format !== 'png') done.format = req.params.format;
+                source.getTile(z, x, y, done);
+            }, t.z, t.x, t.y);
+    });
+
+    function tileQueueFinish(err, data) {
+        if (err) console.log(err, data)
+        data.forEach(function(d, i){
+            dat.push({buffer: d, x: tiles[i].px, y: tiles[i].py})
+        });
+        blend(dat, {
+            width: w,
+            height: h
+        }, function(err, result){
+            return res.send(result);
+        })
+    }
+
+    tileQueue.awaitAll(tileQueueFinish);
+};
+
+
 app.get('/style.xml', middleware.style, function(req, res, next) {
     res.set({'content-type':'text/xml'});
     return res.send(req.style._xml);
@@ -299,7 +349,6 @@ app.all('/mbtiles.json', function(req, res, next) {
 });
 
 app.get('/source', middleware.source, middleware.history, function(req, res, next) {
-
     // identify user's OS for styling docs shortcuts
     var agent = function() {
         var agent = req.headers['user-agent'];

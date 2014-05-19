@@ -652,17 +652,14 @@ Editor.prototype.upload = function(ev) {
 };
 
 Editor.prototype.print = function() {
-  var printMap = function(err, canvas) {
-    var button = document.getElementById('print-style');
-    button.innerHTML = 'Click to Download';
-    button.setAttribute('href', canvas.toDataURL());
-    button.setAttribute('download', '');
-    button.setAttribute('class', button.className + ' download');
-  };
-  printMap.scale = 1;
-  // client side stitching can't handle higher scales
-  // printMap.scale = (editor.model.get('_prefs').print) ? 4 : (window.devicePixelRatio > 1) ? 2 : 1;;
-  leafletImage(map, printMap);
+  var scale = (editor.model.get('_prefs').print) ? 4 : (window.devicePixelRatio > 1) ? 2 : 1;;
+  var zoom = map.getZoom();
+  var dim = map.getSize();
+  var center = map.getCenter();
+  var url = window.location.origin + '/static/' + zoom + ',' + center.lng.toFixed(4) + ',' + center.lat.toFixed(4) + '/' + dim.x + 'x' + dim.y + '@' + scale + 'x' + '.png?id=' + this.model.id + '&' + mtime;
+  var button = $('#print-style');
+  button.attr('href', url);
+  button.attr('download', '');
 };
 
 Editor.prototype.refresh = function(ev) {
