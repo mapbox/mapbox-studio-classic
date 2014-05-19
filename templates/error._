@@ -22,7 +22,7 @@ case 'ENOENT':
 };
 %>
 
-<div class='clearfix'>
+<div class='clearfix limiter'>
   <div class='col6 margin3 dark'>
     <h2 class='center pad2y pad4x fill-darken0'><%= title %></h2>
     <pre class='fill-darken1 unround pad2y pad4x'><%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %></pre>
