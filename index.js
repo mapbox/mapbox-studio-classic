@@ -233,8 +233,8 @@ function tile(req, res, next) {
 function staticTile(req, res, next){
     // x & y are lon + lat at the center of the map
     var z = req.params.z | 0;
-    var x = req.params.x | 0;
-    var y = req.params.y | 0;
+    var x = parseFloat(req.params.x)
+    var y = parseFloat(req.params.y);
     var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     scale = scale > 4 ? 4 : scale;
     var w = (req.params.px | 0) * scale;
@@ -250,11 +250,11 @@ function staticTile(req, res, next){
 
     var dat = [];
     tiles.forEach(function(t){
-            tileQueue.defer(function(z, x, y, done){
-                done.scale = scale;
-                if (req.params.format !== 'png') done.format = req.params.format;
-                source.getTile(z, x, y, done);
-            }, t.z, t.x, t.y);
+        tileQueue.defer(function(z, x, y, done){
+            done.scale = scale;
+            if (req.params.format !== 'png') done.format = req.params.format;
+            source.getTile(z, x, y, done);
+        }, t.z, t.x, t.y);
     });
 
     function tileQueueFinish(err, data) {
