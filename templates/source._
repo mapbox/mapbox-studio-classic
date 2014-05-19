@@ -155,7 +155,7 @@
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a class='quiet pin-topright inline pad1 icon close'></a>
+    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
   </div>
 </div>
 
@@ -192,13 +192,13 @@ revlayers.reverse();
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
       <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a class="js-addlayer">Add one now</a>.'}) %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
       <% } %>
     </div>
     <div class='pin-bottom row2 keyline-top pad1 clearfix'>
       <div class='col6 pad1'>
         <% if (!remote) { %>
-        <a class='js-addlayer button col12 quiet icon plus'>New layer</a>
+        <a href='#' class='js-addlayer button col12 quiet icon plus'>New layer</a>
         <% } %>
       </div>
       <div class='col6 pad1'>
