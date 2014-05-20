@@ -121,8 +121,8 @@ describe('#style-ui', function() {
         $('#addtab-filename').val('baz');
         $('#addtab').submit();
 
-        assert.ok(hasModal('#message'));
-        assert.equal('Tab name must be different than existing tab "baz"', $('#message > div').text());
+        assert.ok(hasModal('#error'));
+        assert.equal('Tab name must be different than existing tab "baz"', $('#error > pre').text());
     });
 });
 
