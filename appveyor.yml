@@ -14,6 +14,7 @@ install:
   - SET PATH=c:\python27;%PATH%
   - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin\;%PATH%
   - npm install --msvs_version=2013
+  - npm test
 
 build: OFF
 
