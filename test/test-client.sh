@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e -u
+set -o pipefail
 
-tmpdb=$(mktemp)
+tmpdb=$(mktemp -d -t XXXXXXXXXXX)/tm2-test.db
 styleid="tmstyle://$(pwd)/node_modules/tm2-default-style"
 
 # Kill sub-processes when this script is finished
