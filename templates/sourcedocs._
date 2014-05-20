@@ -7,23 +7,23 @@
 
 <section class='quiet pad1 contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
-  <ul class='code space-bottom1'>
-    <li><kbd class='prefixed'>s</kbd> Save style or source.</li>
-    <li><kbd class='prefixed'>.</kbd> View map.</li>
-    <li><kbd class='prefixed'>\</kbd> View settings.</li>
-    <li><kbd class='prefixed'>h</kbd> View help.</li>
-    <li><kbd class='prefixed'>b</kbd> View bookmarks.</li>
-    <li><kbd>Esc</kbd> Close popup or window.</li>
+  <ul class='space-bottom1'>
+    <li><kbd class='code prefixed'>s</kbd> Save style or source.</li>
+    <li><kbd class='code prefixed'>.</kbd> View map.</li>
+    <li><kbd class='code prefixed'>\</kbd> View settings.</li>
+    <li><kbd class='code prefixed'>h</kbd> View help.</li>
+    <li><kbd class='code prefixed'>b</kbd> View bookmarks.</li>
+    <li><kbd class='code'>Esc</kbd> Close popup or window.</li>
   </ul>
-  <ul class='code space-bottom1'>
+  <ul class='space-bottom1'>
     <li><h4>Style only:</h4></li>
-    <li><kbd class='prefixed'>i</kbd> View data.</li>
-    <li><kbd class='prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
-    <li><kbd class='prefixed'>f</kbd> Search current stylesheet.</li>
+    <li><kbd class='code prefixed'>i</kbd> View data.</li>
+    <li><kbd class='code prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
+    <li><kbd class='code prefixed'>f</kbd> Search current stylesheet.</li>
   </ul>
-  <ul class='code space-bottom1'>
+  <ul class='space-bottom1'>
     <li><h4>While interacting with map:</h4></li>
-    <li><kbd class='prefixed'>+</kbd> &amp; <kbd class='prefixed'>-</kbd> Zoom in and out.</li>
+    <li><kbd class='code prefixed'>+</kbd> &amp; <kbd class='code prefixed'>-</kbd> Zoom in and out.</li>
   </ul>
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
