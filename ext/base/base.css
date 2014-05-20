@@ -631,6 +631,8 @@ button:disabled:focus,
 .fill-green .rounded-toggle a.active       { background:#56b881; }
 .fill-yellow .rounded-toggle input[type=radio]:checked + label,
 .fill-yellow .rounded-toggle a.active      { background:#f1f075; }
+.fill-orange .rounded-toggle input[type=radio]:checked + label,
+.fill-orange .rounded-toggle a.active      { background:#ee8a65; }
 
 .short.rounded-toggle {
   margin-top: 3px;
@@ -719,7 +721,10 @@ pre,
 em pre,
 pre em,
 pre strong,
-strong pre { font-family:Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace; }
+strong pre {
+  font-family:Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
+  white-space: pre;
+}
 
 strong code,
 code strong,
@@ -741,7 +746,6 @@ pre {
   border-radius: 3px;
   }
 pre {
-  background:#f8f8f8;
   color:rgba(0,0,0,0.75);
   display:block;
   padding:10px;
@@ -829,6 +833,7 @@ input[type=text].code,
 input[type=email].code,
 input[type=number].code {
   font-family:Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
+  white-space: pre;
   }
 textarea,
 input[type=password],
@@ -1129,6 +1134,33 @@ table.fixed {
 .prose object:last-child  {
   margin-bottom: 0;
 }
+
+.prose h2 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.prose h1,
+.prose h2 {
+  padding-top: 40px;
+}
+
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  padding-top: 20px;
+  }
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child,
+.prose h4:first-child,
+.prose h5:first-child,
+.prose h6:first-child {
+  padding-top: 0;
+}
+
 
 .prose blockquote {
   padding: 20px;
@@ -1666,6 +1698,26 @@ a.icon.quiet:not(.button):hover:after {
 .col11   { float:left; width:91.6666%; max-width:1100px; }
 .col12   { width:100%; display:block; }
 
+.fifths > * {
+  float: left;
+  width: 20%;
+}
+
+.unlimiter .col0,
+.unlimiter .col1,
+.unlimiter .col2,
+.unlimiter .col3,
+.unlimiter .col4,
+.unlimiter .col5,
+.unlimiter .col6,
+.unlimiter .col7,
+.unlimiter .col8,
+.unlimiter .col9,
+.unlimiter .col10,
+.unlimiter .col11 {
+  max-width: none;
+}
+
 .margin0  { margin-left:04.1666%; }
 .margin1  { margin-left:08.3333%; }
 .margin2  { margin-left:16.6666%; }
@@ -1712,11 +1764,6 @@ a.icon.quiet:not(.button):hover:after {
 .row14 { height: 560px;}
 .row15 { height: 600px;}
 .row16 { height: 640px;}
-
-.fifths > * {
-  float: left;
-  width: 20%;
-}
 
 /* Padding
 ------------------------------------------------------- */
@@ -1833,6 +1880,7 @@ nav.v.dark a.active.keyline-bottom,
 .fill-purple      { background:#8a8acb; }
 .fill-green       { background:#56b881; }
 .fill-yellow      { background:#f1f075; }
+.fill-orange      { background:#ee8a65; }
 
 .fill-darken0 { background:rgba(0,0,0,0.05); }
 .fill-darken1 { background:rgba(0,0,0,0.25); }
@@ -2319,14 +2367,14 @@ img.inline, .inline           { display:inline-block; }
   .mobile-cols > .margin12 { margin-left:100.0000%; }
 
   /* Futura gets too big, revert to defaults */
-  h1.futura { font-size:30px;line-height:40px;}
+  h1.futura { font-size:40px;line-height:60px;}
   h2.futura {
-    font-size:20px;
-    line-height:30px;
+    font-size:30px;
+    line-height:40px;
   }
   h3.futura {
-    font-size:15px;
-    line-height:20px;
+    font-size:20px;
+    line-height:30px;
   }
 
   /* Anchor icon adds noise to the page on smaller displays */
