@@ -11,7 +11,7 @@ if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
     // Add custom library paths to the PATH
-    process.env.PATH = path.join(__dirname,"node_modules/mapnik/lib/binding/");
+    process.env.PATH = path.join(__dirname,'node_modules/mapnik/lib/binding/');
 }
 
 var _ = require('underscore');
@@ -149,7 +149,7 @@ function inspect(req, res, next) {
         }, {});
         return res.json(data);
     });
-};
+}
 
 function grid(req, res, next) {
     var z = req.params.z | 0;
