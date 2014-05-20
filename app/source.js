@@ -179,14 +179,6 @@ Editor.prototype.user = function() {
   window.location.href = window.location.origin + '/unauthorize';
   return false;
 };
-Editor.prototype.zoomin = function(out) {
-  map.setZoom(map.getZoom()+1);
-  return false;
-};
-Editor.prototype.zoomout = function() {
-  map.setZoom(map.getZoom()-1);
-  return false;
-};
 Editor.prototype.scrollto = function(ev) {
     id = $(ev.currentTarget).attr('href').split('#').pop();
     document.getElementById(id).scrollIntoView();

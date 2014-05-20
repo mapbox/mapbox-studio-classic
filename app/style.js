@@ -99,8 +99,6 @@ Editor.prototype.events = {
   'click #history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
-  'click #zoom-in': 'zoomin',
-  'click #zoom-out': 'zoomout',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
@@ -119,12 +117,6 @@ Editor.prototype.keys = function(ev) {
   switch (true) {
   case (which === 83): // s
     this.save();
-    break;
-  case (which === 187): // +
-    map.zoomBy(1);
-    break;
-  case (which === 189): // -
-    map.zoomBy(-1);
     break;
   case (which === 72): // h for help
     ev.preventDefault();
@@ -204,14 +196,6 @@ Editor.prototype.browseSource = function() {
       return false;
     }
   });
-  return false;
-};
-Editor.prototype.zoomin = function(out) {
-  map.setZoom(map.getZoom()+1);
-  return false;
-};
-Editor.prototype.zoomout = function() {
-  map.setZoom(map.getZoom()-1);
   return false;
 };
 Editor.prototype.scrollto = function(ev) {

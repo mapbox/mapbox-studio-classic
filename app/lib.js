@@ -241,6 +241,8 @@ views.Modal.prototype.show = function(id, options, callback) {
 
 views.Maputils = Backbone.View.extend({});
 views.Maputils.prototype.events = {
+  'click #zoom-in': 'zoomin',
+  'click #zoom-out': 'zoomout',
   'submit #bookmark': 'addbookmark',
   'submit #search': 'search',
   'click #bookmark .js-bookmark-name': 'gotoBookmark',
@@ -266,6 +268,19 @@ views.Maputils.prototype.keys = function(ev) {
     this.navSearch(ev, (ev.which === 38 ? 1 : -1));
     return;
   }
+  if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
+  var which = ev.which;
+  switch (true) {
+  case (which === 187): // +
+    this.zoomin();
+    return false;
+    break;
+  case (which === 189): // -
+    this.zoomout();
+    return false;
+    break;
+  }
+  return true;
 };
 views.Maputils.prototype.appendBookmark = function(name) {
   $('<li class="keyline-top contain">'+
@@ -410,3 +425,12 @@ views.Maputils.prototype.focusSearch = function(ev) {
   $('#dosearch').focus();
   return;
 };
+views.Maputils.prototype.zoomin = function() {
+  this.map.setZoom(this.map.getZoom()+1);
+  return false;
+};
+views.Maputils.prototype.zoomout = function() {
+  this.map.setZoom(this.map.getZoom()-1);
+  return false;
+};
+
