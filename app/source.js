@@ -260,7 +260,7 @@ Editor.prototype.addlayer = function(ev) {
     $('#layers .js-menu-content').sortable('destroy').sortable();
 
   } else {
-    Modal.show('message', 'Layer name must be different from existing layer "' + values.id + '"');
+    Modal.show('error', 'Layer name must be different from existing layer "' + values.id + '"');
   }
   return false;
 };
@@ -281,9 +281,9 @@ Editor.prototype.error = function(model, resp) {
   if (resp.responseText) {
     var json;
     try { json = JSON.parse(resp.responseText); } catch(err) {}
-    Modal.show('message', json ? json.message : resp.responseText);
+    Modal.show('error', json ? json.message : resp.responseText);
   } else {
-    Modal.show('message', 'Could not save source "' + model.id + '"');
+    Modal.show('error', 'Could not save source "' + model.id + '"');
   }
 };
 Editor.prototype.save = function(ev, options) {

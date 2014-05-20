@@ -323,7 +323,7 @@ Editor.prototype.addtab = function(ev) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
-    Modal.show('message', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
+    Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
     field.val('');
     return false;
   }
@@ -415,7 +415,7 @@ Editor.prototype.error = function(model, resp) {
   this.messageclear();
 
   if (!resp.responseText)
-    return Modal.show('message', 'Could not save style "' + model.id + '"');
+    return Modal.show('error', 'Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -429,7 +429,7 @@ Editor.prototype.error = function(model, resp) {
         code[id]._cartoErrors.push(ln);
         code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
       } else {
-        return Modal.show('message', e);
+        return Modal.show('error', e);
       }
     }).bind(this));
 };
@@ -467,7 +467,7 @@ Editor.prototype.upload = function(ev) {
     })
     .error(function(resp) {
       $('.settings-body').removeClass('loading');
-      return Modal.show('message', resp.responseText);
+      return Modal.show('error', resp.responseText);
     });
 };
 

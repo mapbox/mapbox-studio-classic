@@ -382,6 +382,7 @@ templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
 templates.modaladdtab = <%= this.modaladdtab.source %>;
 templates.modalmessage = <%= this.modalmessage.source %>;
 templates.modalsources = <%= this.modalsources.source %>;
+templates.modalerror = <%= this.modalerror.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
