@@ -25,7 +25,6 @@
   <script src='/app/codemirror.tm2.search.js'></script>
   <script src='/app/codemirror.tm2.palette.js'></script>
   <script src='/ext/sexagesimal.js'></script>
-  <script src='/ext/leaflet-image.js'></script>
   <title><%= style.name %></title>
 </head>
 
