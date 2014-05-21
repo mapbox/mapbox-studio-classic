@@ -45,6 +45,6 @@
   },
   "scripts": {
     "start": "./index.js",
-    "test": "./test/test-runner"
+    "test": "mocha -R spec"
   }
 }
