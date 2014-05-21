@@ -25,6 +25,7 @@ after(function(done) {
 
 describe('style load', function() {
     var tmpPerm = '/tmp/tm2-perm-' + (+new Date);
+    var tmpSpace = '/tmp/tm2-space ' + (+new Date);
     var data = {
         name:'tmp-1234',
         source:'mapbox:///mapbox.mapbox-streets-v2',
@@ -37,9 +38,12 @@ describe('style load', function() {
         setTimeout(function() {
             ['project.xml','project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
                 try { fs.unlinkSync(tmpPerm + '/' + file) } catch(err) {};
+                try { fs.unlinkSync(tmpSpace + '/' + file) } catch(err) {};
             });
             try { fs.rmdirSync(tmpPerm) } catch(err) {};
+            try { fs.rmdirSync(tmpSpace) } catch(err) {};
             try { fs.unlinkSync(tmpPerm + '.tm2z') } catch(err) {};
+            try { fs.unlinkSync(tmpSpace + '.tm2z') } catch(err) {};
             done();
         }, 250);
     });
@@ -82,6 +86,15 @@ describe('style load', function() {
                 assert.ok(fs.existsSync(tmpPerm + '/.thumb.png'), 'saves thumb');
                 done();
             }, 500);
+        });
+    });
+    it('saves style with space', function(done) {
+        style.save(_({id:'tmstyle://' + tmpSpace}).defaults(data), function(err, source) {
+            assert.ifError(err);
+            fs.stat(tmpSpace, function(err, stat) {
+                assert.ifError(err);
+                done();
+            });
         });
     });
     it ('packages style to tm2z', function(done) {
