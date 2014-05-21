@@ -23,7 +23,7 @@
       <a class='js-browsestyle button quiet col12 icon folder'>Browse</a>
     </div>
   </div>
-  <div class='clearfix pad1 col12 pin-top scroll-styled fill-darken0 top1 bottom2'>
+  <div class='clearfix pad1 col12 pin-top scroll-styled top1 bottom2'>
 
     <div class='col12 fl clearfix pad1x'>
       <% _(obj.history.style).chain()
@@ -36,7 +36,7 @@
         %>
 
         <div class='space-bottom1 contain'>
-          <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
+          <a class='<%=isactive%> project col12 round small fill-darken0 strong contain' href='/style?id=<%=item.id%>'>
             <div class='round-left inline contain small-graphic z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
             <div class='pin-left small-graphic fallback-graphic fill-lighten1 pad1 round-left style'><div class='icon big paint'></div></div>
             <div class='pad1 truncate'>
@@ -67,7 +67,7 @@
       <a class='js-browsesource col12 button quiet col6 icon folder'>Browse</a>
     </div>
   </div>
-  <div class='clearfix pad1 col12 pin-top scroll-styled fill-darken0 top1 bottom2'>
+  <div class='clearfix pad1 col12 pin-top scroll-styled top1 bottom2'>
 
     <div class='clearfix pad1x'>
       <%

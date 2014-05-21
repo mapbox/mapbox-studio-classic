@@ -172,16 +172,25 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #history-style.active,
 #history-source.active { display:block; }
 
-a.project:hover { background: rgba(255,255,255,.15);}
-
 #history-source .empty-state:only-child,
 #history-style .empty-state:only-child { display: block;}
+
+.project:hover { background: rgba(0,0,0,.075);}
+
+.dark .project { background-color: rgba(255,255,255,.05);}
+.dark .project:hover { background: rgba(255,255,255,.075);}
 
 /* Flag active project */
 .project.proj-active,
 .project.proj-active:hover {
-  background-color: rgba(255,255,255,.2);
+  background-color: rgba(0,0,0,.075);
 }
+
+.dark .project.proj-active,
+.dark .project.proj-active:hover {
+  background-color: rgba(255,255,255,.075);
+}
+
 .project.proj-active .proj-status { display: block;}
 
 .project-name {
