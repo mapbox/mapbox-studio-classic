@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
@@ -10,7 +11,9 @@ var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
-var tmp = process.env.TEMP || '/tmp';
+var tmp = os.tmpdir();
+
+console.log('tmp dir', tmp);
 
 describe('middleware', function() {
     var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
