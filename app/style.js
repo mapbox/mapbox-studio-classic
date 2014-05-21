@@ -175,7 +175,6 @@ Editor.prototype.browseStyle = function() {
     isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       filepath = filepath.replace(/\.tm2/, '') + '.tm2';
       window.location = '/style?id=tmstyle://' + filepath;
       return false;
@@ -191,7 +190,6 @@ Editor.prototype.browseSource = function() {
     isFile: function(file) { return (/\.tm2source$/.test(file) || /\.tm2$/.test(file)); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       window.location = '/source?id=tmsource://' + filepath;
       return false;
     }
