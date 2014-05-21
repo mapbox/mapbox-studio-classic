@@ -13,8 +13,6 @@ var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var tmp = os.tmpdir();
 
-console.log('tmp dir', tmp);
-
 describe('middleware', function() {
     var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
     before(function(done) {
