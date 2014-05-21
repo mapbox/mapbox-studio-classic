@@ -154,7 +154,6 @@ Editor.prototype.saveModal = function() {
     filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       filepath = filepath.replace(/\.tm2/,'') + '.tm2';
       var id = 'tmstyle://' + filepath;
       window.editor.model.set({id:id});
