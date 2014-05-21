@@ -180,4 +180,10 @@ describe('tm', function() {
             assert.ok(tm.tmpid(protocol, protocol + '///tmp-12345678'));
         });
     });
+
+    it('parse', function() {
+        assert.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
+        assert.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
+        assert.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+    });
 });

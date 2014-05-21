@@ -120,7 +120,8 @@ describe('source remote', function() {
 });
 
 describe('source local', function() {
-    var tmp = '/tmp/tm2-source-' + (+new Date);
+    var tmpPerm = '/tmp/tm2-source-' + (+new Date);
+    var tmpSpace = '/tmp/tm2-source ' + (+new Date);
     var data = {
         name: 'Test source',
         attribution: '&copy; John Doe 2013.',
@@ -145,10 +146,13 @@ describe('source local', function() {
     after(function(done) {
         setTimeout(function() {
             ['data.xml','data.yml'].forEach(function(file) {
-                try { fs.unlinkSync(tmp + '/' + file) } catch(err) {};
+                try { fs.unlinkSync(tmpPerm + '/' + file) } catch(err) {};
+                try { fs.unlinkSync(tmpSpace + '/' + file) } catch(err) {};
             });
-            try { fs.rmdirSync(tmp) } catch(err) {};
-            try { fs.unlinkSync(tmp + '.tm2z') } catch(err) {};
+            try { fs.rmdirSync(tmpPerm) } catch(err) {};
+            try { fs.rmdirSync(tmpSpace) } catch(err) {};
+            try { fs.unlinkSync(tmpPerm + '.tm2z') } catch(err) {};
+            try { fs.unlinkSync(tmpSpace + '.tm2z') } catch(err) {};
             done();
         }, 250);
     });
@@ -194,12 +198,12 @@ describe('source local', function() {
         });
     });
     it('saves source to disk', function(done) {
-        source.save(_({id:'tmsource://' + tmp}).defaults(data), function(err, source) {
+        source.save(_({id:'tmsource://' + tmpPerm}).defaults(data), function(err, source) {
             assert.ifError(err);
             assert.ok(source);
 
-            var datayml = fs.readFileSync(tmp + '/data.yml', 'utf8').replace(__dirname,'[basepath]');
-            var dataxml = fs.readFileSync(tmp + '/data.xml', 'utf8').replace(__dirname,'[basepath]');
+            var datayml = fs.readFileSync(tmpPerm + '/data.yml', 'utf8').replace(__dirname,'[basepath]');
+            var dataxml = fs.readFileSync(tmpPerm + '/data.xml', 'utf8').replace(__dirname,'[basepath]');
 
             if (UPDATE) {
                 fs.writeFileSync(__dirname + '/expected/source-save-data.yml', datayml);
@@ -213,9 +217,18 @@ describe('source local', function() {
             // is an optimistic operation (e.g. callback does not wait for it
             // to complete).
             setTimeout(function() {
-                assert.ok(fs.existsSync(tmp + '/.thumb.png'), 'saves thumb');
+                assert.ok(fs.existsSync(tmpPerm + '/.thumb.png'), 'saves thumb');
                 done();
             }, 1000);
+        });
+    });
+    it('saves source with space', function(done) {
+        source.save(_({id:'tmsource://' + tmpSpace}).defaults(data), function(err, source) {
+            assert.ifError(err);
+            fs.stat(tmpSpace, function(err, stat) {
+                assert.ifError(err);
+                done();
+            });
         });
     });
 
