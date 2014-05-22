@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
@@ -9,10 +10,11 @@ var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
-var mockOauth = require('./fixtures-oauth/mapbox');
+var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var tmp = os.tmpdir();
 
 describe('middleware', function() {
-    var tmppath = '/tmp/tm2-test-' + +new Date;
+    var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
@@ -29,8 +31,8 @@ describe('middleware', function() {
     });
 
     describe('history', function() {
-        var sourceId = 'tmsource://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
-        var styleId = 'tmstyle://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
+        var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+        var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
 
         after(function(done) {
             tm.history('source', sourceId, true);
@@ -73,11 +75,11 @@ describe('middleware', function() {
     });
 
     describe('writeStyle', function() {
-        var tmpId = '/tmp/tm2-perm-' + (+new Date);
+        var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
         after(function(done) {
             setTimeout(function() {
                 ['project.xml','project.yml','a.mss','.thumb.png'].forEach(function(file) {
-                    try { fs.unlinkSync(tmpId + '/' + file) } catch(err) {};
+                    try { fs.unlinkSync(path.join(tmpId,file)) } catch(err) {};
                 });
                 try { fs.rmdirSync(tmpId) } catch(err) {};
                 done();
@@ -147,7 +149,7 @@ describe('middleware', function() {
             });
         });
         it('loads a tmp style with source', function(done) {
-            var sourceId = 'tmsource://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
+            var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
             var req = { body: {}, query: { source:sourceId } };
             middleware.writeStyle(req, {}, function(err) {
                 assert.ifError(err);
@@ -169,7 +171,7 @@ describe('middleware', function() {
             });
         });
         it('loads a persistent style', function(done) {
-            var styleId = 'tmstyle://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
+            var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
             var styleDoc = require('./fixtures-localsource/project.yml');
             var req = { query: { id: styleId } };
             middleware.loadStyle(req, {}, function() {
@@ -183,11 +185,11 @@ describe('middleware', function() {
     });
 
     describe('writeSource', function() {
-        var tmpId = '/tmp/tm2-perm-' + (+new Date);
+        var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
         after(function(done) {
             setTimeout(function() {
                 ['data.xml', 'data.yml'].forEach(function(file) {
-                    try { fs.unlinkSync(tmpId + '/' + file) } catch(err) {};
+                    try { fs.unlinkSync(path.join(tmpId,file)) } catch(err) {};
                 });
                 try { fs.rmdirSync(tmpId) } catch(err) {};
                 done();
@@ -260,7 +262,7 @@ describe('middleware', function() {
             });
         });
         it('loads a persistent source', function(done) {
-            var sourceId = 'tmsource://' + path.resolve(path.dirname(__filename), './fixtures-localsource');
+            var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
             var sourceDoc = require('./fixtures-localsource/data.yml');
             var req = { query: { id: sourceId } };
             middleware.loadSource(req, {}, function() {
@@ -305,15 +307,16 @@ describe('middleware', function() {
     });
 
     describe('basemap', function() {
+        var server;
         before(function(done) {
             tm.db.set('oauth', {
                 account: 'test',
                 accesstoken: '12345678'
             });
-            mockOauth.start(done);
+            server = mockOauth.listen(3001, done);
         });
         after(function(done) {
-            mockOauth.stop(done);
+            server.close(done);
         });
         it('appends a basemap to req', function(done) {
             var req = {};
@@ -343,11 +346,12 @@ describe('middleware', function() {
     });
 
     describe('userTilesets', function() {
+        var server;
         before(function(done) {
-            mockOauth.start(done);
+            server = mockOauth.listen(3001, done);
         });
         after(function(done) {
-            mockOauth.stop(done);
+            server.close(done);
         });
         it('fails without oauth', function(done) {
             tm.db.rm('oauth');

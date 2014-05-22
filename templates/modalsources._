@@ -14,7 +14,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       <a href='#modalsources-remote' class='js-tab <%= activeType === 'remote' ? 'active' : ''%>'>Remote</a>
     </span>
   </div>
-  <div id='modalsources-local' class='pin-top pin-bottom pad1y pad2x fill-darken0 scroll-styled top1 <%= activeType === 'local' ? 'active' : ''%>'>
+  <div id='modalsources-local' class='pin-top pin-bottom pad1y pad2x scroll-styled top1 <%= activeType === 'local' ? 'active' : ''%>'>
   <%
     print(_(history.source).chain()
       .filter(function(item) { return item.id.indexOf('tmsource://') === 0 })
@@ -29,7 +29,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
   %>
   </div>
   <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
-    <div class='pin-top pin-bottom pad1y pad2x fill-darken0 scroll-styled bottom2'>
+    <div class='pin-top pin-bottom pad1y pad2x scroll-styled bottom2'>
     <%
       print(_(history.source).chain()
         .filter(function(item) { return item.id.indexOf('tmsource://') === -1 })

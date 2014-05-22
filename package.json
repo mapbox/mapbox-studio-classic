@@ -16,22 +16,22 @@
     "connect": "2.7.x",
     "passport": "0.1.x",
     "passport-oauth": "0.1.x",
-    "optimist": "https://github.com/willwhite/node-optimist/tarball/config-file",
+    "minimist": "0.1.x",
     "underscore": "1.4.x",
     "tilejson": "~0.6.3",
     "mbtiles": "0.4.x",
     "mkdirp": "0.3.x",
-    "dirty": "0.9.x",
+    "dirty": "0.9.9",
     "sphericalmercator": "1.0.x",
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "0.1.x",
     "tar": "0.1.x",
     "mapnik": "~1.4.3",
     "mapnik-reference": "~5.0.8",
-    "carto": "~0.9.6",
+    "carto": "0.11.0",
     "tilelive": "4.5.x",
     "tilelive-bridge": "0.4.0",
-    "tilelive-vector": "https://github.com/mapbox/tilelive-vector/tarball/512",
+    "tilelive-vector": "0.13.0",
     "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
     "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
     "cors": "~2.1.1",
@@ -46,6 +46,6 @@
   },
   "scripts": {
     "start": "./index.js",
-    "test": "./test/test-runner.sh"
+    "test": "mocha -R spec"
   }
 }
