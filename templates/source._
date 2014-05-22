@@ -24,13 +24,13 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> dark'>
+<body id='view' class='<%= agent %> clip dark'>
 
 <div id='perf'></div>
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
-  <div id='modal-content' class='contain modal-content animate'></div>
+  <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
 <div id='user' class='z10 col12 pin-top'>
@@ -78,7 +78,11 @@
       </fieldset>
     </div>
     <div class='keyline-top pad2y settings-footer pin-bottom'>
-    <% if (!remote) { %>
+    <% if (!remote && source._tmp) { %>
+      <section class='col12 pad2x clearfix'>
+        <a href='#' class='quiet button col12 icon js-saveas floppy'>Save as</a>
+      </section>
+    <% } else if (!remote) { %>
       <section class='col12 pad1x clearfix'>
         <div class='pad1x col6'>
           <a href='#' class='quiet button col12 icon js-save floppy'>Save</a>
@@ -120,7 +124,7 @@
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (source._tmp) { %>
-        --><a class='saveas round-right short button icon inline floppy'>Save as</a>
+        --><a class='js-saveas round-right short button icon inline floppy'>Save as</a>
       <% } else { %>
         --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
@@ -151,7 +155,13 @@
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a class='quiet pin-topright inline pad1 icon close'></a>
+    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
+  </div>
+</div>
+
+<div id='docs' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled fill-dark animate pane'>
+  <%= this['sourcedocs']() %>
   </div>
 </div>
 
@@ -160,10 +170,6 @@ var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
 %>
 <div id='source-ui' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
-
-  <div id='docs' class='pane animate pin-left fill-dark scroll-styled col6'>
-    <%= this['sourcedocs']() %>
-  </div>
   <div id='layers'>
     <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
       <div class='pin-topleft z1 row1'><!--
@@ -186,13 +192,13 @@ revlayers.reverse();
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
       <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a class="js-addlayer">Add one now</a>.'}) %>
+        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
       <% } %>
     </div>
     <div class='pin-bottom row2 keyline-top pad1 clearfix'>
       <div class='col6 pad1'>
         <% if (!remote) { %>
-        <a class='js-addlayer button col12 quiet icon plus'>New layer</a>
+        <a href='#' class='js-addlayer button col12 quiet icon plus'>New layer</a>
         <% } %>
       </div>
       <div class='col6 pad1'>
@@ -216,63 +222,14 @@ revlayers.reverse();
 } %>
 </div>
 
-<% if (!remote) print(this.modalbrowser({
-  id: 'browsefile',
-  cwd: cwd,
-  label: 'Select'
-})); %>
-
-<%= this.modalmessage() %>
-<%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
-<%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
-<%= source._tmp ? this.modalbrowsersave({cwd:cwd, type:'source'}) : '' %>
-
-<% if (!remote) { %>
-<form id='addlayer' class='modal round pad2 col6 margin3 pin-top top2 fill-dark'>
-  <a href='#' class="pad1 quiet icon x pin-topright close"></a>
-  <fieldset class='col8 margin2'>
-    <p class='center'>Add a layer to your source.</p>
-    <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
-  </fieldset>
-  <fieldset class='col8 margin2'>
-    <div class="space-bottom1 small quiet">Select the format of the data you wish to convert into a vector source:</div>
-    <div class='col12 scroll-styled radio-buttons'>
-      <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
-      <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
-        PostGIS
-        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-shape' value='shape'>
-      <label class='contain icon check quiet short button col12' for='addlayer-shape'>
-        Shapefile
-        <span class='micro pin-right quiet pad0y pad1x'>.shp</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-geojson' value='geojson'>
-      <label class='contain icon check quiet short button col12' for='addlayer-geojson'>
-        GeoJSON
-        <span class='micro pin-right quiet pad0y pad1x'>.json &amp; .geojson</span>
-        </label>
-      <input name='type' type='radio' id='addlayer-sqlite' value='sqlite'>
-      <label class='contain icon check quiet short button col12' for='addlayer-sqlite'>
-        SQLite
-        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-csv' value='csv'>
-      <label class='contain icon check quiet short button col12' for='addlayer-csv'>
-        CSV
-        <span class='micro pin-right quiet pad0y pad1x'>.csv</span>
-      </label>
-    </div>
-  </fieldset>
-  </div>
-  <div class='center'>
-  <input class='js-reset-mode margin2 col8' type='submit' value='New layer'/>
-  </div>
-</form>
-<% } %>
-
 <script>
 var templates = {};
+templates.modalbrowser = <%= this.modalbrowser.source %>;
+templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
+templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
+templates.modaladdlayer = <%= this.modaladdlayer.source %>;
+templates.modalmessage = <%= this.modalmessage.source %>;
+templates.modalerror = <%= this.modalerror.source %>;
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerconf = <%= this.layerconf.source %>;
 templates.layerfields = <%= this.layerfields.source %>;
@@ -287,24 +244,11 @@ templates.xraypopup = <%= this.xraypopup.source %>;
 var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;
 
+var cwd = <%= JSON.stringify(cwd) %>;
 var source = <%= JSON.stringify(source) %>;
 var revlayers = <%= JSON.stringify(revlayers) %>;
 
-Source(templates, tm, source, revlayers);
-
-<% if (!remote) { %>
-// Sortable layers.
-$('#layers .js-menu-content').sortable();
-$('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
-  var ids = $('#layers .js-menu-content .js-layer').map(function() {
-    return $(this).attr('id');
-  }).get();
-  layers = _(ids).reduce(function(memo, id) {
-    memo[id] = layers[id];
-    return memo;
-  }, {});
-});
-<% } %>
+Source(templates, cwd, tm, source, revlayers);
 </script>
 </body>
 

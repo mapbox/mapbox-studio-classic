@@ -81,10 +81,10 @@ kbd {
 .dark .fill-light.modal { background:#444; }
 
 #modal > div {
-  position:fixed;
+  position:absolute;
   left:0px;
+  right:0px;
   top:0px;
-  width:100%;
   height:100%;
   z-index:-1;
   overflow-y: auto;
@@ -144,13 +144,7 @@ kbd {
 pre,
 .CodeMirror { font:12px/20px normal Menlo, Droidsansmono, Bitstream Vera Sans Mono, Monaco, Consolas, monospace; }
 
-body {
-  background:#404040;
-  overflow:hidden;
-  }
-body.dark {
-  background-color:#333;
-  }
+body { background:#3c4e5a; }
 
 label.ghost {
   position:absolute;
@@ -178,16 +172,25 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 #history-style.active,
 #history-source.active { display:block; }
 
-a.project:hover { background: rgba(255,255,255,.15);}
-
 #history-source .empty-state:only-child,
 #history-style .empty-state:only-child { display: block;}
+
+.project:hover { background: rgba(0,0,0,.075);}
+
+.dark .project { background-color: rgba(255,255,255,.05);}
+.dark .project:hover { background: rgba(255,255,255,.075);}
 
 /* Flag active project */
 .project.proj-active,
 .project.proj-active:hover {
-  background-color: rgba(255,255,255,.2);
+  background-color: rgba(0,0,0,.075);
 }
+
+.dark .project.proj-active,
+.dark .project.proj-active:hover {
+  background-color: rgba(255,255,255,.075);
+}
+
 .project.proj-active .proj-status { display: block;}
 
 .project-name {
@@ -313,7 +316,8 @@ a.project:hover { background: rgba(255,255,255,.15);}
 /* Panes for display:none on hidden content */
 .pane { height:100%;}
 .pane > * { display:none; }
-.pane:target > * { display:block; }
+.pane:target > *,
+*:target > .pane > * { display:block; }
 
 /* Map */
 #map {
@@ -728,23 +732,14 @@ span.cm-carto-filter             { color:#66475B; }
 #title .avatar { width: 40px; height: 40px; }
 .round-bottomright { border-radius:0px 0px 3px 0px; }
 
-#data:target ~ #layers,
-#fonts:target,
-#docs:target,
-#layers:target {
+#docs:target > .pin-left,
+#fonts:target > .pin-left,
+#layers:target > .pin-left {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
   -webkit-transform:translateX(-100%);
      -moz-transform:translateX(-100%);
       -ms-transform:translateX(-100%);
           transform:translateX(-100%);
-}
-
-#data:target {
-box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
-  -webkit-transform:translateX(-200%);
-     -moz-transform:translateX(-200%);
-      -ms-transform:translateX(-200%);
-          transform:translateX(-200%);
 }
 
 /* map styles to compensate for col max-widths */
@@ -790,14 +785,14 @@ a.data-y { display:none; }
 #full:target      a.full-n { display:none; }
 
 /* Map layer state */
-#baselayer a.baselayer-y,
-#baselayer.active a.baselayer-n,
-#xray a.xray-y,
-#xray.active a.xray-n { display:none; }
-#baselayer a.baselayer-n,
-#baselayer.active a.baselayer-y,
-#xray a.xray-n,
-#xray.active a.xray-y { display:inline-block; }
+.base-toggle a.baselayer-y,
+.base-toggle.active a.baselayer-n,
+.xray-toggle a.xray-y,
+.xray-toggle.active a.xray-n { display:none; }
+.base-toggle a.baselayer-n,
+.base-toggle.active a.baselayer-y,
+.xray-toggle a.xray-n,
+.xray-toggle.active a.xray-y { display:inline-block; }
 
 /* Carto ref docs */
 #fonts:target ~ * a.docs-n,
@@ -805,13 +800,6 @@ a.data-y { display:none; }
 
 #docs .expand-link.expanded .expand-off { display: none;}
 #docs .expand-link.expanded .expand-on { display: block;}
-
-#docs section a.fonts {
-  position:absolute;
-  right:0;
-  margin:5px 0px;
-  border-radius:4px 0px 0px 4px;
-  }
 
 #docs-points section .type   { color: #8a8acb; } /* fill purple */
 #docs-lines section .type    { color: #3887be; } /* fill blue */
@@ -891,3 +879,72 @@ input.readonly {
   -webkit-box-shadow:none;
           box-shadow:none;
   }
+
+/* Demo time */
+body.demo #app {
+  top:20px;
+  left:20px;
+  right:20px;
+  bottom:180px;
+  box-shadow:0px 0px 0px 2px rgba(0,0,0,0.1);
+  }
+
+#demo { display:none; }
+body.demo #demo { display:block; }
+.demo-popup { display:none; }
+
+body.demo .demo-fallback,
+body.demo #home:target ~ #style-ui .demo-popup,
+body.demo #full:target ~ #style-ui .demo-popup,
+body.demo #search:target ~ #style-ui .demo-popup,
+body.demo #bookmark:target ~ #style-ui .demo-popup,
+body.demo #xray:target ~ #full .demo-popup,
+body.demo #docs:target .demo-popup,
+body.demo #fonts:target .demo-popup,
+body.demo #layers:target .demo-popup,
+body.demo #settings:target .demo-popup,
+body.demo #user:target .demo-popup { display:block; }
+
+#xray:target ~ .demo-fallback,
+#full:target ~ .demo-fallback,
+#home:target ~ .demo-fallback,
+#search:target ~ .demo-fallback,
+#bookmark:target ~ .demo-fallback,
+#docs:target ~ .demo-fallback,
+#fonts:target ~ .demo-fallback,
+#layers:target ~ .demo-fallback,
+#settings:target ~ .demo-fallback,
+#user:target ~ .demo-fallback { display:none; }
+
+#demo:target     a.demo-demo,
+#xray:target ~ * a.demo-xray,
+#full:target ~ * a.demo-full,
+#home:target ~ * a.demo-home,
+#search:target ~ * a.demo-search,
+#bookmark:target ~ * a.demo-bookmark,
+#docs:target ~ * a.demo-docs,
+#fonts:target ~ * a.demo-fonts,
+#layers:target ~ * a.demo-layers,
+#settings:target ~ * a.demo-settings,
+#user:target ~ * a.demo-user { color:#fff; }
+
+body.demo #xray:target ~ #full,
+body.demo #docs:target,
+body.demo #fonts:target,
+body.demo #layers:target,
+body.demo #home:target ~ #style-ui { z-index:10; }
+
+body.demo #xray:target ~ #full,
+body.demo #home:target ~ #style-ui,
+body.demo #full:target ~ #style-ui,
+body.demo #search:target ~ #style-ui,
+body.demo #bookmark:target ~ #style-ui,
+body.demo #docs:target > .pin-left,
+body.demo #fonts:target > .pin-left,
+body.demo #layers:target > .pin-left,
+body.demo #settings:target > .megamenu,
+body.demo #user:target > .megamenu {
+  box-shadow: 0px 0px 0px 5px #3887be, 0px 0px 5px 10px rgba(0,0,0,0.2);
+  -webkit-transition:none;
+  }
+

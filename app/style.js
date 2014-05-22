@@ -1,4 +1,4 @@
-window.Style = function(templates, style) {
+window.Style = function(templates, cwd, style) {
 
 var map;
 var baselayer;
@@ -16,7 +16,10 @@ if ('onbeforeunload' in window) window.onbeforeunload = function() {
 };
 
 var Editor = Backbone.View.extend({});
-var Modal = new views.Modal({ el: $('.modal-content') });
+var Modal = new views.Modal({
+  el: $('.modal-content'),
+  templates: templates
+});
 
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
@@ -81,34 +84,24 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
-  'click .saveas': 'saveModal',
-  'click .browsestyle': 'browseStyle',
-  'click .browsesource': 'browseSource',
+  'click .js-browsestyle': 'browseStyle',
+  'click .js-browsesource': 'browseSource',
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
+  'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
   'submit #settings': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
-  'submit #bookmark': 'addbookmark',
-  'submit #search': 'search',
   'click #tabs .js-deltab': 'deltab',
   'click #docs .js-docs-nav': 'scrollto',
   'click #history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
-  'click #zoom-in': 'zoomin',
-  'click #zoom-out': 'zoomout',
-  'click #bookmark .bookmark-name': 'gotoBookmark',
-  'click #bookmark .js-del-bookmark': 'removebookmark',
-  'click .bookmark-n': 'focusBookmark',
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
-  'click .search-result': 'selectSearch',
-  'click .search-result-bookmark': 'bookmarkSearch',
-  'click .search-n': 'focusSearch',
-  'click #upload-style': 'upload',
+  'click .js-upload': 'upload',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -119,23 +112,11 @@ Editor.prototype.keys = function(ev) {
     if (Modal.active) Modal.close();
     window.location.href = '#';
   }
-  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
-    // up and down on search results
-    ev.preventDefault();
-    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
-    return;
-  }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
   case (which === 83): // s
     this.save();
-    break;
-  case (which === 187): // +
-    map.zoomBy(1);
-    break;
-  case (which === 189): // -
-    map.zoomBy(-1);
     break;
   case (which === 72): // h for help
     ev.preventDefault();
@@ -167,13 +148,12 @@ Editor.prototype.keys = function(ev) {
   return false;
 };
 Editor.prototype.saveModal = function() {
-  Modal.show('saveas');
+  Modal.show('browsersave', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #saveas'),
     filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       filepath = filepath.replace(/\.tm2/,'') + '.tm2';
       var id = 'tmstyle://' + filepath;
       window.editor.model.set({id:id});
@@ -187,14 +167,13 @@ Editor.prototype.saveModal = function() {
   return false;
 };
 Editor.prototype.browseStyle = function() {
-  Modal.show('browsestyle');
+  Modal.show('browseropen', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsestyle'),
     filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
     isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       filepath = filepath.replace(/\.tm2/, '') + '.tm2';
       window.location = '/style?id=tmstyle://' + filepath;
       return false;
@@ -203,33 +182,17 @@ Editor.prototype.browseStyle = function() {
   return false;
 };
 Editor.prototype.browseSource = function() {
-  Modal.show('browsesource');
+  Modal.show('browseropen', {type:'source', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
-    isFile: function(file) { return /\.tm2$/.test(file); },
+    filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)); },
+    isFile: function(file) { return (/\.tm2source$/.test(file) || /\.tm2$/.test(file)); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
-      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
       window.location = '/source?id=tmsource://' + filepath;
       return false;
     }
   });
-  return false;
-};
-Editor.prototype.simpleModal = function(ev) {
-  // for modals that just need to be shown, no callbacks/options
-  var modalid = $(ev.currentTarget).data('modal');
-  if (modalid) Modal.show(modalid);
-  return false;
-};
-Editor.prototype.zoomin = function(out) {
-  map.setZoom(map.getZoom()+1);
-  return false;
-};
-Editor.prototype.zoomout = function() {
-  map.setZoom(map.getZoom()-1);
   return false;
 };
 Editor.prototype.scrollto = function(ev) {
@@ -285,169 +248,18 @@ Editor.prototype.messageclear = function() {
   });
 };
 
-Editor.prototype.messagemodal = function(text, html) {
-  if (html) {
-    $('.message-modal-body').html(html);
-  } else {
-    $('.message-modal-body').text(text);
-  }
-  if (Modal.active) Modal.close();
-  Modal.show('message-modal');
-};
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
 
-Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain">'+
-    '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+
-    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
-    '</li>').appendTo('#bookmark-list');
-};
-Editor.prototype.gotoBookmark = function(ev) {
-  var target = $(ev.currentTarget),
-      coords = this.bookmarks[target.text()];
-  map.setView([coords[0], coords[1]], coords[2]);
-  return false;
-};
-Editor.prototype.removebookmark = function(ev) {
-  ev.preventDefault();
-  var target = $(ev.currentTarget).prev('a'),
-      name = target.text();
-  target.parent('li').remove();
-  if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  return false;
-};
-Editor.prototype.addbookmark = function(ev) {
-  ev.preventDefault();
-  var coords = map.getCenter(),
-      zoom = map.getZoom(),
-      field = $('#addbookmark'),
-      fieldVal = field.val(),
-      value = [coords.lat, coords.lng, zoom],
-      name = fieldVal ? fieldVal : value;
-  this.bookmarks[name] = value;
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  field.val('');
-  this.appendBookmark(name);
-  return false;
-};
-Editor.prototype.focusBookmark = function(ev) {
-  $('#addbookmark').focus();
-  return;
-};
-Editor.prototype.search = function(ev) {
-  ev.preventDefault();
-  var query = $('#search input').get(0).value;
-  // This query is empty or only whitespace.
-  if (/^\s*$/.test(query)) return null;
-
-  // This query is too short. Wait for more input chars.
-  if (query.length < 3) return;
-
-  // The query matches what is currently displayed
-  if ($('#search input').val() == $('#dosearch').data('query')) return;
-
-  var $results = $('#search-results');
-  $results.html('');
-
-  var latlon = (function(q) {
-      var parts = sexagesimal.pair(q);
-      if (parts) return { lat: parts[0], lon: parts[1] };
-  })(query);
-
-  if (latlon) {
-    // just go there, no search
-    map.setView([latlon.lat, latlon.lon]);
-    return false;
-  }
-
-  $.ajax('/geocode?search=' + query).done(function(data) {
-    var results = (data && data.results) ? data.results : [];
-    if (!results.length) {
-      $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
-    }
-    $('#dosearch').data('query', query);
-    results.forEach(function(result, idx) {
-      var coords = result[0].lat + ',' + result[0].lon;
-      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain">'+
-        '<a href="#" class="pad0 quiet small search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
-        '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
-        '</a>'+
-        '<a href="#bookmark" class="pad0 icon marker search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
-        '</li>').appendTo($results);
-      selectSearch(false, $('#search-results [data-idx="0"]'));
-    });
-  });
-  return false;
-};
-Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
-  var data;
-  if (ev) {
-    ev.preventDefault();
-    selection = ev.currentTarget;
-    data = ev.currentTarget.dataset;
-  } else {
-    data = selection[0].dataset;
-  }
-  $('#search-results a.active').removeClass('active fill-white');
-  $(selection).addClass('active fill-white');
-  if (data.bounds !== 'false') {
-    var bounds = data.bounds.split(',');
-    map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
-  } else {
-    var coords = data.coords.split(',');
-    if (data.type === 'address') {
-      map.setView(coords, Math.max(16, map.getZoom()));
-    } else if (data.type === 'street') {
-      map.setView(coords, Math.max(15, map.getZoom()));
-    } else {
-      map.setView(coords);
-    }
-  }
-  return false;
-};
-Editor.prototype.bookmarkSearch = function(ev, selection) {
-  var result = $(ev.currentTarget).siblings('.search-result');
-  selectSearch(false, result);
-  $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
-  $('#bookmark').submit();
-};
-Editor.prototype.navSearch = function(ev, dir) {
-  var results = $('#search-results li');
-  var active = results.find('.active')[0].dataset;
-  var wanted = 0;
-  if (dir === 1) {
-    if (+active.idx - 1 < 0){
-      wanted = results.length - 1;
-    } else {
-      wanted = +active.idx - 1;
-    }
-  } else {
-    if (+active.idx + 1 > results.length - 1) {
-      wanted = 0;
-    } else {
-      wanted = +active.idx + 1;
-    }
-  }
-  this.selectSearch(false, $('#search-results [data-idx="'+wanted+'"]'));
-  return false;
-};
-Editor.prototype.focusSearch = function(ev) {
-  $('#dosearch').focus();
-  return;
-};
 Editor.prototype.modalsources = function(ev) {
-  Modal.show('modalsources');
   var style = this.model.attributes;
   $.ajax({
     url: '/history.json',
     success: function(history) {
-      $('#modal-content').html(templates.modalsources({
+      Modal.show('sources', {
         style: style,
         history: history
-      }));
+      });
     }
   });
   return false;
@@ -492,7 +304,7 @@ Editor.prototype.addtab = function(ev) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
-    editor.messagemodal('Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
+    Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
     field.val('');
     return false;
   }
@@ -587,7 +399,7 @@ Editor.prototype.error = function(model, resp) {
   this.messageclear();
 
   if (!resp.responseText)
-    return this.messagemodal('Could not save style "' + model.id + '"');
+    return Modal.show('error', 'Could not save style "' + model.id + '"');
 
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
@@ -601,7 +413,7 @@ Editor.prototype.error = function(model, resp) {
         code[id]._cartoErrors.push(ln);
         code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
       } else {
-        return this.messagemodal(e);
+        return Modal.show('error', e);
       }
     }).bind(this));
 };
@@ -630,17 +442,16 @@ Editor.prototype.cartoError = function(ln, e) {
 
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
-  var message = this.messagemodal;
   $('.settings-body').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
-      message(null, '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
       $('.settings-body').removeClass('loading');
       return true;
     })
     .error(function(resp) {
       $('.settings-body').removeClass('loading');
-      return message(resp.responseText);
+      return Modal.show('error', resp.responseText);
     });
 };
 
@@ -656,6 +467,11 @@ Editor.prototype.refresh = function(ev) {
       type: 'style',
       map: map
     }));
+    new views.Maputils({
+      el: $('#view'),
+      map: map,
+      model: this.model
+    });
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
@@ -664,7 +480,7 @@ Editor.prototype.refresh = function(ev) {
   if (baselayer) map.removeLayer(baselayer);
   baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
   if (baselayer && window.location.hash === '#baselayer') {
-    $('#baselayer').addClass('active');
+    $('.base-toggle').addClass('active');
     baselayer.addTo(map);
   }
 
@@ -682,7 +498,7 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', statHandler('drawtime'))
   .on('load', errorHandler);
   if (window.location.hash !== '#xray') {
-    $('#xray').removeClass('active');
+    $('.xray-toggle').removeClass('active');
     tiles.addTo(map);
   }
 
@@ -694,8 +510,8 @@ Editor.prototype.refresh = function(ev) {
     maxzoom: this.model.get('maxzoom')
   });
   if (window.location.hash === '#xray') {
-    $('#xray').addClass('active');
-    $('#baselayer').removeClass('active');
+    $('.xray-toggle').addClass('active');
+    $('.base-toggle').removeClass('active');
     xray.addTo(map);
   }
 
@@ -728,15 +544,6 @@ Editor.prototype.refresh = function(ev) {
     $('#map').css({'background-color':this.model.get('background')});
   }
 
-  // Get existing bookmarks
-  if (!this.bookmarks) {
-    this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
-      JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
-    for (var b in this.bookmarks) {
-      this.appendBookmark(b);
-    }
-  }
-
   return false;
 };
 
@@ -748,12 +555,28 @@ window.editor.refresh();
 
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
-  var oldHash = ev.oldURL.split('#').pop();
-  var newHash = ev.newURL.split('#').pop();
-  if (newHash === 'xray') return window.editor.refresh();
-  if (newHash === 'baselayer') return window.editor.refresh();
-  if (newHash === 'map') return window.editor.refresh();
+  switch (ev.newURL.split('#').pop()) {
+  case 'demo':
+    $('body').addClass('demo');
+    window.editor.refresh();
+    break;
+  case 'start':
+    $('body').removeClass('demo');
+    window.editor.refresh();
+    setTimeout(map.invalidateSize, 200);
+    localStorage.setItem('style.demo', true);
+    break;
+  case 'home':
+  case 'xray':
+  case 'baselayer':
+    window.editor.refresh();
+    break;
+  }
 };
+
+// Enter walkthrough if not yet set.
+if (!localStorage.getItem('style.demo')) window.location.hash = '#demo';
+
 window.onhashchange({
   oldURL:window.location.toString(),
   newURL:window.location.toString()

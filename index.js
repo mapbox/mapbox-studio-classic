@@ -24,24 +24,15 @@ var style = require('./lib/style');
 var middleware = require('./lib/middleware');
 var express = require('express');
 var cors = require('cors');
-var config = require('optimist')
-    .config('config')
-    .options('db', {
-        describe: 'path to tm2 db',
-        default: path.join(process.env.HOME, '.tilemill', 'v2', 'app.db')
-    })
-    .options('mapboxauth', {
-        describe: 'URL to mapbox auth API',
-        default: 'https://api.mapbox.com'
-    })
-    .options('port', {
-        describe: 'Port to run tm2 on',
-        default: '3000'
-    })
-    .argv;
-tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
+
+var config = require('minimist')(process.argv.slice(2));
+config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
+config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
+config.port = config.port || '3000';
+config.test = config.test || false;
+tm.config(config);
 
 var app = express();
 app.use(express.bodyParser());
@@ -413,7 +404,10 @@ app.use(function(err, req, res, next) {
     // Otherwise 500 for now.
     if (/application\/json/.test(req.headers.accept)) {
         res.set({'content-type':'application/javascript'});
-        res.send({message:err.toString()}, 500);
+        res.send({
+            message: err.message,
+            code: err.code
+        }, 500);
     } else if (/text\/html/.test(req.headers.accept)) {
         res.send(tm.templates.error({ error:err }), 500);
     } else {
@@ -425,6 +419,9 @@ app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
+
+// Include mock mapbox API routes if in test mode.
+if (config.test) require('./lib/mapbox-mock')(app);
 
 app.listen(config.port);
 console.log('TM2 @ http://localhost:'+config.port+'/');

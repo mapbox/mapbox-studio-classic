@@ -1,4 +1,4 @@
-window.Source = function(templates, tm, source, revlayers) {
+window.Source = function(templates, cwd, tm, source, revlayers) {
 
 var map;
 var tiles;
@@ -67,17 +67,20 @@ var layers = _(revlayers).reduce(function(memo, l) {
 var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
-var Modal = new views.Modal({ el: $('.modal-content') });
+var Modal = new views.Modal({
+  el: $('.modal-content'),
+  templates: templates
+});
 var Editor = Backbone.View.extend({});
 Editor.prototype.events = {
-  'click .saveas': 'saveModal',
-  'click .browsesource': 'browseSource',
-  'click .browsestyle': 'browseStyle',
+  'click .js-browsesource': 'browseSource',
+  'click .js-browsestyle': 'browseStyle',
   'click .js-save': 'save',
+  'click .js-saveas': 'saveModal',
   'click .js-reset-mode': 'resetmode',
   'click .editor .js-tab': 'togglemode',
   'click .layer .js-delete': 'deletelayer',
-  'click .layer .xrayswatch': 'togglelayer',
+  'click .layer .js-xrayswatch': 'togglelayer',
   'click .js-browsefile': 'browsefile',
   'click #history .js-tab': 'tabbed',
   'click #history .js-ref-delete': 'delstyle',
@@ -86,16 +89,6 @@ Editor.prototype.events = {
   'click .layer .js-tab': 'tabbedFields',
   'click .js-addlayer': 'addlayerModal',
   'submit #addlayer': 'addlayer',
-  'submit #bookmark': 'addbookmark',
-  'submit #search': 'search',
-  'click #zoom-in': 'zoomin',
-  'click #zoom-out': 'zoomout',
-  'click #bookmark .bookmark-name': 'gotoBookmark',
-  'click #bookmark .js-del-bookmark': 'removebookmark',
-  'click .bookmark-n': 'focusBookmark',
-  'click .search-result': 'selectSearch',
-  'click .search-result-bookmark': 'bookmarkSearch',
-  'click .search-n': 'focusSearch',
   'keydown': 'keys'
 };
 Editor.prototype.keys = function(ev) {
@@ -103,12 +96,6 @@ Editor.prototype.keys = function(ev) {
   if (ev.which === 27) {
     if (Modal.active) Modal.close();
     window.location.href = '#';
-  }
-  if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
-    // up and down on search results
-    ev.preventDefault();
-    this.navSearch(ev, (ev.which === 38 ? 1 : -1));
-    return;
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
@@ -138,13 +125,12 @@ Editor.prototype.keys = function(ev) {
   return false;
 };
 Editor.prototype.saveModal = function() {
-  Modal.show('saveas');
+  Modal.show('browsersave', {type:'source', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #saveas'),
     filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       filepath = filepath.replace(/\.tm2/,'') + '.tm2source';
       var id = 'tmsource://' + filepath;
       window.editor.model.set({id:id});
@@ -158,15 +144,13 @@ Editor.prototype.saveModal = function() {
   return false;
 };
 Editor.prototype.browseSource = function() {
-  Modal.show('browsesource');
+  Modal.show('browseropen', {type:'source', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
-    isFile: function(file) { return /\.tm2$/.test(file); },
+    filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) ; },
+    isFile: function(file) { return (/\.tm2source$/.test(file) || /\.tm2$/.test(file.basename)); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
-      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
       window.location = '/source?id=tmsource://' + filepath;
       return false;
     }
@@ -174,14 +158,13 @@ Editor.prototype.browseSource = function() {
   return false;
 };
 Editor.prototype.browseStyle = function() {
-  Modal.show('browsestyle');
+  Modal.show('browseropen', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #browsestyle'),
     filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
     isFile: function(file) { return /\.tm2$/.test(file); },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
-      filepath = filepath.split(' ').join('_');
       filepath = filepath.replace(/\.tm2/, '') + '.tm2';
       window.location = '/style?id=tmstyle://' + filepath;
       return false;
@@ -189,22 +172,8 @@ Editor.prototype.browseStyle = function() {
   });
   return false;
 };
-Editor.prototype.simpleModal = function(ev) {
-  // for modals that just need to be shown, no callbacks/options
-  var modalid = $(ev.currentTarget).data('modal');
-  if (modalid) Modal.show(modalid);
-  return false;
-};
 Editor.prototype.user = function() {
   window.location.href = window.location.origin + '/unauthorize';
-  return false;
-};
-Editor.prototype.zoomin = function(out) {
-  map.setZoom(map.getZoom()+1);
-  return false;
-};
-Editor.prototype.zoomout = function() {
-  map.setZoom(map.getZoom()-1);
   return false;
 };
 Editor.prototype.scrollto = function(ev) {
@@ -240,172 +209,6 @@ Editor.prototype.togglemode = function(ev) {
   tabbedHandler(ev);
   return false;
 };
-
-Editor.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain">'+
-    '<a href="#" class="icon marker quiet pad0 col12 small truncate bookmark-name">'+name+'</a>'+
-    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright fill-dark pad0" title="Delete"></a>'+
-    '</li>').appendTo('#bookmark-list');
-};
-Editor.prototype.gotoBookmark = function(ev) {
-  var target = $(ev.currentTarget),
-      coords = this.bookmarks[target.text()];
-  map.setView([coords[0], coords[1]], coords[2]);
-  return false;
-};
-Editor.prototype.removebookmark = function(ev) {
-  ev.preventDefault();
-  var target = $(ev.currentTarget).prev('a'),
-      name = target.text();
-  target.parent('li').remove();
-  if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
-  return false;
-};
-Editor.prototype.addbookmark = function(ev) {
-  ev.preventDefault();
-  var coords = map.getCenter(),
-      zoom = map.getZoom(),
-      field = $('#addbookmark'),
-      fieldVal = field.val(),
-      value = [coords.lat, coords.lng, zoom],
-      name = fieldVal ? fieldVal : value;
-  this.bookmarks[name] = value;
-  localStorage.setItem('tm2.bookmarks', JSON.stringify(this.bookmarks));
-  field.val('');
-  this.appendBookmark(name);
-  return false;
-};
-Editor.prototype.removebookmark = function(ev) {
-  ev.preventDefault();
-  var target = $(ev.currentTarget).prev('a'),
-      name = target.text();
-  target.parent('li').remove();
-  if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  return false;
-};
-Editor.prototype.addbookmark = function(ev) {
-  ev.preventDefault();
-  var coords = map.getCenter(),
-      zoom = map.getZoom(),
-      field = $('#addbookmark'),
-      fieldVal = field.val(),
-      value = [coords.lat, coords.lng, zoom],
-      name = fieldVal ? fieldVal : value;
-  if (this.bookmarks[name]) return false;
-  this.bookmarks[name] = value;
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  field.val('');
-  this.appendBookmark(name);
-  return false;
-};
-Editor.prototype.focusBookmark = function(ev) {
-  $('#addbookmark').focus();
-  return;
-};
-Editor.prototype.search = function(ev) {
-  ev.preventDefault();
-  var query = $('#search input').get(0).value;
-  // This query is empty or only whitespace.
-  if (/^\s*$/.test(query)) return null;
-
-  // This query is too short. Wait for more input chars.
-  if (query.length < 3) return;
-
-  // The query matches what is currently displayed.
-  if ($('#search input').val() == $('#dosearch').data('query')) return;
-
-  var $results = $('#search-results');
-  $results.html('');
-
-  var latlon = (function(q) {
-      var parts = sexagesimal.pair(q);
-      if (parts) return { lat: parts[0], lon: parts[1] };
-  })(query);
-
-  if (latlon) {
-    // just go there, no search
-    map.setView([latlon.lat, latlon.lon]);
-    return false;
-  }
-
-  $.ajax('/geocode?search=' + query).done(function(data) {
-    var results = (data && data.results) ? data.results : [];
-    if (!results.length) {
-      $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
-    }
-    $('#dosearch').data('query', query);
-    results.forEach(function(result, idx) {
-      var coords = result[0].lat + ',' + result[0].lon;
-      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
-      $('<li class="keyline-top contain">'+
-        '<a href="#" class="dark pad0 quiet small search-result truncate col12 align-middle'+(!idx ? 'active fill-white': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
-        '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
-        '</a>'+
-        '<a href="#bookmark" class="pad0 icon marker dark search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
-        '</li>').appendTo($results);
-      selectSearch(false, $('#search-results [data-idx="0"]'));
-    });
-  });
-  return false;
-};
-Editor.prototype.selectSearch = selectSearch = function(ev, selection) {
-  var data;
-  if (ev) {
-    ev.preventDefault();
-    selection = ev.currentTarget;
-    data = ev.currentTarget.dataset;
-  } else {
-    data = selection[0].dataset;
-  }
-  $('#search-results a.active').removeClass('active fill-lighten0');
-  $(selection).addClass('active fill-lighten0');
-  if (data.bounds !== 'false') {
-    var bounds = data.bounds.split(',');
-    map.fitBounds([[bounds[1],bounds[0]], [bounds[3],bounds[2]]]);
-  } else {
-    var coords = data.coords.split(',');
-    if (data.type === 'address') {
-      map.setView(coords, Math.max(16, map.getZoom()));
-    } else if (data.type === 'street') {
-      map.setView(coords, Math.max(15, map.getZoom()));
-    } else {
-      map.setView(coords);
-    }
-  }
-  return false;
-};
-Editor.prototype.bookmarkSearch = function(ev, selection) {
-  var result = $(ev.currentTarget).siblings('.search-result');
-  selectSearch(false, result);
-  $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
-  $('#bookmark').submit();
-};
-Editor.prototype.navSearch = function(ev, dir) {
-  var results = $('#search-results li');
-  var active = results.find('.active')[0].dataset;
-  var wanted = 0;
-  if (dir === 1) {
-    if (+active.idx - 1 < 0){
-      wanted = results.length - 1;
-    } else {
-      wanted = +active.idx - 1;
-    }
-  } else {
-    if (+active.idx + 1 > results.length - 1) {
-      wanted = 0;
-    } else {
-      wanted = +active.idx + 1;
-    }
-  }
-  this.selectSearch(false, $('#search-results [data-idx="'+wanted+'"]'));
-  return false;
-};
-Editor.prototype.focusSearch = function(ev) {
-  $('#dosearch').focus();
-  return;
-};
 Editor.prototype.resetmode = function(ev) {
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
   $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
@@ -431,9 +234,7 @@ Editor.prototype.addlayer = function(ev) {
       vt: {},
       id: values.id,
       properties: {
-        minzoom:0,
-        maxzoom:22,
-        'buffer-size':0
+        'buffer-size': 8
       },
       Datasource: {
         type: values.type
@@ -448,7 +249,7 @@ Editor.prototype.addlayer = function(ev) {
     $('#layers .js-menu-content').sortable('destroy').sortable();
 
   } else {
-    editor.messagemodal('Layer name must be different from existing layer "' + values.id + '"');
+    Modal.show('error', 'Layer name must be different from existing layer "' + values.id + '"');
   }
   return false;
 };
@@ -467,9 +268,11 @@ Editor.prototype.deletelayer = function(ev) {
 Editor.prototype.error = function(model, resp) {
   this.messageclear();
   if (resp.responseText) {
-    this.messagemodal(resp.responseText);
+    var json;
+    try { json = JSON.parse(resp.responseText); } catch(err) {}
+    Modal.show('error', json ? json.message : resp.responseText);
   } else {
-    this.messagemodal('Could not save source "' + model.id + '"');
+    Modal.show('error', 'Could not save source "' + model.id + '"');
   }
 };
 Editor.prototype.save = function(ev, options) {
@@ -494,7 +297,7 @@ Editor.prototype.save = function(ev, options) {
     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
   }
   attr._prefs.disabled = _($('#layers .layer').map(function(v) {
-    return $('.xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
+    return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
   })).compact();
 
   // New mtime querystring.
@@ -520,6 +323,11 @@ Editor.prototype.refresh = function(ev) {
       type: 'source',
       map: map
     }));
+    new views.Maputils({
+      el: $('#view'),
+      map: map,
+      model: this.model
+    });
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = 22;
@@ -556,7 +364,7 @@ Editor.prototype.refresh = function(ev) {
   return false;
 };
 Editor.prototype.browsefile = function(ev) {
-  Modal.show('browsefile');
+  Modal.show('browser', { id:'browsefile', cwd:cwd, label:'Select'});
   var target = $(ev.currentTarget).siblings('input[name=Datasource-file]');
   $('.browsefile-pending').removeClass('browsefile-pending');
   target.addClass('browsefile-pending');
@@ -599,15 +407,6 @@ Editor.prototype.browsefile = function(ev) {
 
 };
 
-Editor.prototype.messagemodal = function(text, html) {
-  if (html) {
-    $('.message-modal-body').html(html);
-  } else {
-    $('.message-modal-body').text(text);
-  }
-  if (Modal.active) Modal.close();
-  Modal.show('message-modal');
-};
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
@@ -617,5 +416,19 @@ window.editor = new Editor({
   model: new Source(source)
 });
 window.editor.refresh();
+
+// Sortable layers for local sources.
+if (source.id.indexOf('tmsource://' === 0)) {
+  $('#layers .js-menu-content').sortable();
+  $('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
+    var ids = $('#layers .js-menu-content .js-layer').map(function() {
+      return $(this).attr('id');
+    }).get();
+    layers = _(ids).reduce(function(memo, id) {
+      memo[id] = layers[id];
+      return memo;
+    }, {});
+  });
+}
 
 };

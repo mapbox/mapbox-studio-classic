@@ -1,118 +1,164 @@
 'use strict';
 
-var expect = chai.expect;
-var event, el;
+var assert = chai.assert;
+
 mocha.setup('bdd');
 
 // Override window methods for the test runner.
 window.confirm = function(message) { return true; };
 
-describe('Editor', function() {
+// Global queue for testing post-ajax request. Use by calling
+//
+// onajax(function() {
+//   // run once after the next ajax request completes
+// });
+var _onajax = [];
+function onajax(callback) {
+    _onajax.push(callback);
+}
+$(document).ajaxComplete(function() {
+    if (!_onajax.length) return;
+    var callback = _onajax.shift();
+    // This setTimeout prevents the onajax callback from being called
+    // before the actual ajax call's success/error handlers are called.
+    setTimeout(function() { callback(); }, 1);
+});
 
-    /*
-    TODO - https://github.com/mapbox/tm2/issues/203
-    beforeEach(function() {
-        event = document.createEvent('HTMLEvents');
+function hasModal(selector) {
+    return $('#modal-content ' + selector).size() > 0;
+}
+
+/*
+TODO - https://github.com/mapbox/tm2/issues/203
+beforeEach(function() {
+    event = document.createEvent('HTMLEvents');
+});
+
+it('saves a project', function() {
+    el = document.getElementById('title').getElementsByClassName('js-save')[0];
+    event.initEvent('click', true, false);
+    el.dispatchEvent(event);
+
+    var form = document.getElementById('saveas');
+    form.getElementsByTagName('input')[1].value = 'foo.tm2';
+    var submit = document.createEvent('HTMLEvents');
+    submit.initEvent('submit', true, false);
+    form.dispatchEvent(submit);
+});
+*/
+
+describe('#user', function() {
+    it('browses sources', function() {
+        $('#user .js-browsesource').click();
+        assert.ok(hasModal('#browsesource'));
     });
 
-    it('saves a project', function() {
-        el = document.getElementById('title').getElementsByClassName('js-save')[0];
-        event.initEvent('click', true, false);
-        el.dispatchEvent(event);
-
-        var form = document.getElementById('saveas');
-        form.getElementsByTagName('input')[1].value = 'foo.tm2';
-        var submit = document.createEvent('HTMLEvents');
-        submit.initEvent('submit', true, false);
-        form.dispatchEvent(submit);
+    it('browses styles', function() {
+        $('#user .js-browsestyle').click();
+        assert.ok(hasModal('#browsestyle'));
     });
 
-    it('loads a project');
-
-    describe('Settings', function() {
-        beforeEach(function() {
-            event = document.createEvent('HTMLEvents');
-        });
-
-        it('should delete a project', function() {
-            el = document.getElementById('settings-style').getElementsByClassName('js-ref-delete')[0];
+    it('removes history style', function(done) {
+        var count = $('#history-style .project').size();
+        $('#history-style .js-ref-delete:eq(0)').click();
+        onajax(function() {
+            assert.equal(count - 1, $('#history-style .project').size());
+            done();
         });
     });
-    */
+});
 
-    describe('Code editor', function() {
-        beforeEach(function() {
-            event = document.createEvent('HTMLEvents');
+describe('#style-ui', function() {
+    it('sets a tab as active', function() {
+        $('#tabs .js-tab:eq(0)').click();
+        assert.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
+    });
+
+    it('deletes a tab', function() {
+        var count = $('#tabs .js-tab').size();
+        $('#tabs .js-deltab:eq(0)').click();
+        assert.equal(count - 1, $('#tabs .js-tab').size());
+    });
+
+    it('creates a new tab', function() {
+        $('#tabs .js-addtab:eq(0)').click();
+        assert.ok(hasModal('form#addtab'));
+
+        $('#addtab-filename').val('foo');
+        $('#addtab').submit();
+
+        // Submit removes modal.
+        assert.equal(0, $('#addtab-filename').size());
+
+        // Automatically adds .mss extension.
+        assert.equal('foo.mss', $('#tabs .js-tab:last').attr('rel'));
+    });
+
+    it('prevents duplicate extensions in filename', function() {
+        $('#tabs .js-addtab:eq(0)').click();
+        assert.ok(hasModal('#addtab'));
+
+        $('#addtab-filename').val('bar.mss');
+        $('#addtab').submit();
+
+        // Submit removes modal.
+        assert.ok(!hasModal('#addtab'));
+
+        // Prevents duplicate .mss extension.
+        assert.equal('bar.mss', $('#tabs .js-tab:last').attr('rel'));
+    });
+
+    it('requires unique stylesheet name', function() {
+        $('#tabs .js-addtab:eq(0)').click();
+        assert.ok(hasModal('form#addtab'));
+
+        $('#addtab-filename').val('baz');
+        $('#addtab').submit();
+
+        $('#tabs .js-addtab:eq(0)').click();
+        assert.ok(hasModal('form#addtab'));
+
+        $('#addtab-filename').val('baz');
+        $('#addtab').submit();
+
+        assert.ok(hasModal('#error'));
+        assert.equal('Tab name must be different than existing tab "baz"', $('#error > pre').text());
+    });
+});
+
+describe('#layers', function() {
+    it('opens layer description', function() {
+        $('#layers .js-tab:eq(0)').click();
+        assert.ok($('#layers .js-tab:eq(0)').hasClass('active'));
+    });
+
+    it('shows sources modal', function(done) {
+        $('#layers .js-modalsources:eq(0)').click();
+        onajax(function() {
+            assert.ok(hasModal('#modalsources'));
+            done();
         });
+    });
 
-        it('should set a tab as active', function() {
-            el = document.getElementById('tabs').getElementsByClassName('js-tab');
-            event.initEvent('click', true, false);
-            el[0].dispatchEvent(event);
-            var isActive = el[0].getAttribute('class').match(/active/);
-            expect(isActive).to.not.be.null;
-        });
-
-        it('should delete a tab', function() {
-            el = document.getElementsByClassName('js-deltab');
-            event.initEvent('click', true, false);
-            el[0].dispatchEvent(event);
-            expect(el[0]).to.be.undefined;
-        });
-
-        describe('Tab creation', function() {
-            beforeEach(function() {
-                event = document.createEvent('HTMLEvents');
-                el = document.getElementById('addtab');
+    it('shows sources modal', function(done) {
+        $('#layers .js-modalsources:eq(0)').click();
+        onajax(function() {
+            assert.ok(hasModal('#modalsources'));
+            $('#modalsources-remote .js-adddata:eq(0)').click();
+            onajax(function() {
+                assert.ok(!hasModal('#modalsources'));
+                done();
             });
-
-            it('should create a new tab', function() {
-                var value = document.getElementById('addtab-filename').value = 'foo';
-                event.initEvent('submit', true, false);
-                el.dispatchEvent(event);
-                var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
-                expect(tab[tab.length - 1].rel).to.equal('foo.mss');
-            });
-
-            it('should reject file formats in the filename', function() {
-                var value = document.getElementById('addtab-filename').value = 'foo.mss';
-                event.initEvent('submit', true, false);
-                el.dispatchEvent(event);
-                var tab = document.getElementById('tabs').getElementsByClassName('js-tab');
-                expect(tab[tab.length - 1].rel).to.equal('foo.mss');
-            });
         });
     });
+});
 
-    describe('Layers', function() {
-        beforeEach(function() {
-            event = document.createEvent('HTMLEvents');
-        });
-
-        it('should open layers description', function() {
-            var el = document.getElementById('layers').getElementsByClassName('js-tab');
-            event.initEvent('click', true, false);
-            el[0].dispatchEvent(event);
-            var isActive = el[0].getAttribute('class').match(/active/);
-            expect(isActive).to.not.be.null;
-        });
-    });
-
-    describe('Documentation', function() {
-        beforeEach(function() {
-            event = document.createEvent('HTMLEvents');
-        });
-
-        it('should tab through help topics', function() {
-            var el = document.getElementById('docs').getElementsByClassName('js-tab');
-            event.initEvent('click', true, false);
-            var last = el[el.length - 1];
-            last.dispatchEvent(event);
-            var isActive = last.getAttribute('class').match(/active/);
-            var docIsActive = document.getElementById(last.href.split('#')[1]).getAttribute('class').match(/active/);
-            expect(isActive).to.not.be.null;
-            expect(docIsActive).to.not.be.null;
-        });
+describe('#docs', function() {
+    it('tabs through help topics', function() {
+        $('#docs .js-tab:last').click();
+        var target = $('#' + $('#docs .js-tab:last').attr('href').split('#').pop());
+        assert.ok($('#docs .js-tab:last').hasClass('active'));
+        assert.ok(target.hasClass('active'));
     });
 });
 
