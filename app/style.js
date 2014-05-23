@@ -21,6 +21,14 @@ var Modal = new views.Modal({
   templates: templates
 });
 
+CodeMirror.keyMap.tabSpace = {
+  Tab: function(cm) {
+    var spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
+    cm.replaceSelection(spaces, 'end', '+input');
+  },
+  fallthrough: ['default']
+};
+
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
     document.getElementById('code')
@@ -33,7 +41,8 @@ var Tab = function(id, value) {
     mode: {
       name: 'carto',
       reference: window.cartoRef
-    }
+    },
+    keyMap: 'tabSpace'
   });
   var completer = cartoCompletion(tab, window.cartoRef);
 
@@ -72,7 +81,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   return memo;
 }, {});
 
-// Add in interactivity template. 
+// Add in interactivity template.
 code.template = Tab('template', style.template);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
