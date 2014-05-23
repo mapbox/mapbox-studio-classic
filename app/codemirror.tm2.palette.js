@@ -65,13 +65,26 @@
             var text = line.text;
             var match = null;
             var offset = 0;
+
             while ((match = text.match(COLOR_PATTERN))) {
+
                 var color = match[0];
+
+                // # of characters left of where color code begins
                 var start = text.indexOf(color);
+
+                // # characters left of where color code ends
                 var index = start + color.length;
+
+                // character immediately preceding color code
                 var before = text[start - 1];
+
+                // character immediately succeeding color code
                 var after = text[index];
-                offset = offset + index;
+
+                // placement of the widget
+                offset = offset + start;
+
                 text = text.substr(index);
 
                 if ((!after || ',; )}'.indexOf(after) >= 0) &&
@@ -80,8 +93,7 @@
                     if (!isFirstLine || offset >= range.from.ch) {
                         var bookmark = doc.setBookmark({
                             line: doc.getLineNumber(line),
-                            // place palettes at end of line to avoid cursor issues.
-                            // ch: offset
+                            ch: offset
                         }, {
                             widget: makeWidget(color),
                             insertLeft: true
@@ -110,7 +122,7 @@
                     ch: 0
                 },
                 to: {
-                    line: editor.lastLine() + 1,
+                    line: editor.lastLine(),
                     ch: 0
                 }
             });
