@@ -89,7 +89,9 @@ Editor.prototype.events = {
   'click .layer .js-tab': 'tabbedFields',
   'click .js-addlayer': 'addlayerModal',
   'submit #addlayer': 'addlayer',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click .js-zoomTo': 'zoomToLayer'
+  // 'change .js-metadata': 'lookupMetadata'
 };
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
@@ -399,6 +401,14 @@ Editor.prototype.browsefile = function(ev) {
         window.location.href = '#';
       } else {
         target.val(filepath);
+        $.ajax({
+          url: '/metadata?file=' + filepath,
+          success: function(metadata){
+            var target = $('.js-metadata-projection');
+            target.val(metadata.projection);
+            console.log(metadata);
+          }
+        });
         window.location.href = '#' + target.parents('form').attr('id');
       }
       Modal.close();
@@ -410,6 +420,23 @@ Editor.prototype.browsefile = function(ev) {
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
+
+// Editor.prototype.lookupMetadata = function(ev){
+//   console.log(ev);
+// }; 
+Editor.prototype.zoomToLayer = function(ev){
+  var id = $(ev.currentTarget).attr('id').split('-').pop();
+  var filepath = layers[id].get().Datasource.file;
+  $.ajax({
+    url: '/metadata?file=' + filepath,
+    success: function(metadata){
+      console.log("Zooming to layer!");
+      var center = metadata.center;
+      map.setView([center[0], center[1]], (metadata.maxzoom-1));
+      console.log(metadata); 
+     }
+  });
+}; 
 
 window.editor = new Editor({
   el: document.body,

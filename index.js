@@ -26,6 +26,7 @@ var express = require('express');
 var cors = require('cors');
 var request = require('request');
 var crypto = require('crypto');
+var mapnik_omnivore = require('mapnik-omnivore');
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -413,6 +414,15 @@ app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
+
+//Calls mapnik-omnivore for file's metadata
+app.get('/metadata', function(req, res, next) {
+    mapnik_omnivore.digest(req.query.file, function(err, metadata){
+        if(err) return next(err);
+        res.send(metadata);
+    });
+});
+
 
 // Include mock mapbox API routes if in test mode.
 if (config.test) require('./lib/mapbox-mock')(app);

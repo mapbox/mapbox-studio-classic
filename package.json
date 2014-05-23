@@ -36,7 +36,8 @@
     "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
     "cors": "~2.1.1",
     "request": "~2.34.0",
-    "mapbox-upload": "0.0.2"
+    "mapbox-upload": "0.0.2",
+    "mapnik-omnivore": "1.0.1"
   },
   "devDependencies": {
     "mocha": "1.17.x",
