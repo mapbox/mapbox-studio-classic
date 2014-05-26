@@ -65,11 +65,23 @@
         });
     }
 
+
     function batchUpdate(editor, change) {
+
         while (change) {
-            updatePaletteWidgets(editor, change);
+            updatePaletteWidgets(editor, {
+                from: {
+                    line: change.from.line,
+                    ch: 0
+                },
+                to: {
+                    line: change.to.line + (change.text.length - 1),
+                    ch: 0
+                }
+            });
             change = change.next;
         }
+
     }
 
     CodeMirror.defineOption('paletteHints', false, function (editor, current, past) {
