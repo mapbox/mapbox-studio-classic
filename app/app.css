@@ -675,7 +675,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .CodeMirror .cm-palette-hint {
   display:inline-block;
   box-sizing:border-box;
-  margin:0 5px 3px 0px;
+  margin:0 5px 3px 5px;
   border-radius:50%;
   vertical-align:middle;
   width:10px;
