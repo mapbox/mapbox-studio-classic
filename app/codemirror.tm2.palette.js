@@ -25,20 +25,19 @@
     function updatePaletteWidgets(editor, range) {
         var doc = editor.getDoc();
 
+        doc.findMarks({
+            line:range.from.line,
+            ch:0
+        }, {
+            line:range.to.line + 1,
+            ch:0
+        }).filter(isPaletteMark).forEach(clear);
+
         editor.eachLine(range.from.line, range.to.line + 1, function (line) {
 
             var text = line.text;
             var match = null;
             var offset = 0;
-
-            // Clear out swatches on current lines.
-            doc.findMarks({
-                line:doc.getLineNumber(line),
-                ch:0
-            }, {
-                line:doc.getLineNumber(line) + 1,
-                ch:0
-            }).filter(isPaletteMark).forEach(clear);
 
             while ((match = text.match(COLOR_PATTERN))) {
                 var color = match[0];
