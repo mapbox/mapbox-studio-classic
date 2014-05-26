@@ -42,7 +42,7 @@
             while ((match = text.match(COLOR_PATTERN))) {
                 var color = match[0];
                 var start = match.index;
-                var index = match.index + color.length + 1;
+                var index = start + color.length + 1;
                 var before = text[start - 1];
                 var after = text[index - 1];
                 offset = offset + index;
