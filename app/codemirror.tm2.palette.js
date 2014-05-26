@@ -84,7 +84,7 @@
 
     }
 
-    CodeMirror.defineOption('paletteHints', false, function (editor, current, past) {
+    CodeMirror.defineOption('paletteHints', false, function (editor, current) {
         if (current) {
             editor.on('change', batchUpdate);
             updatePaletteWidgets(editor, {
