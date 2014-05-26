@@ -25,14 +25,13 @@
     function updatePaletteWidgets(editor, range) {
         var doc = editor.getDoc();
 
-        var isFirstLine = true;
         editor.eachLine(range.from.line, range.to.line + 1, function (line) {
 
             var text = line.text;
             var match = null;
             var offset = 0;
 
-            // if there is already a swatch before the hex code, clear it.
+            // Clear out swatches on current lines.
             doc.findMarks({
                 line:doc.getLineNumber(line),
                 ch:0
@@ -40,7 +39,6 @@
                 line:doc.getLineNumber(line) + 1,
                 ch:0
             }).filter(isPaletteMark).forEach(clear);
-
 
             while ((match = text.match(COLOR_PATTERN))) {
                 var color = match[0];
@@ -54,19 +52,16 @@
                 if ((!after || ',; )}'.indexOf(after) >= 0) &&
                     (!before || '{(,: '.indexOf(before)) >= 0) {
 
-                    if (!isFirstLine || offset >= range.from.ch) {
-                        var bookmark = doc.setBookmark({
-                            line: doc.getLineNumber(line),
-                            ch: offset - (color.length + 1)
-                        }, {
-                            widget: makeWidget(color),
-                            insertLeft: true
-                        });
-                        bookmark.isPaletteMark = true;
-                    }
+                    var bookmark = doc.setBookmark({
+                        line: doc.getLineNumber(line),
+                        ch: offset - (color.length + 1)
+                    }, {
+                        widget: makeWidget(color),
+                        insertLeft: true
+                    });
+                    bookmark.isPaletteMark = true;
                 }
             }
-            isFirstLine = false;
         });
     }
 
