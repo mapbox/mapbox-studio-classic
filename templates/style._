@@ -110,13 +110,8 @@
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
         <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Resolution <br> <em class='small quiet'> screen resolution recommended </em></label>
-          <div class='rounded-toggle inline resolution'>
-            <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
-            <label for='screenresolution'>Screen</label>
-            <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
-            <label for='printresolution'>Print</label>
-          </div>
+          <label class='inline col4'>Resolution</label>
+          <span id='resolution' class='small quiet'> Currently showing standard resolution tiles </span>
         </section>
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>

@@ -102,7 +102,6 @@ Editor.prototype.events = {
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
-  'click #print-style': 'print',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -356,14 +355,6 @@ Editor.prototype.save = function(ev, options) {
         editor.model.get('_prefs').baselayer = '';
         $('#baselayer').hide();
       }
-    } else if (field.name === 'rtoggle'){
-      if (field.value === 'printresolution') {
-        editor.model.get('_prefs').print = true;
-        $('#print').removeClass('disabled');
-      } else {
-        editor.model.get('_prefs').print = false;
-        $('#print').addClass('disabled');
-      }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -462,20 +453,6 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
-Editor.prototype.print = function() {
-  var printMap = function(err, canvas) {
-    var button = document.getElementById('print-style');
-    button.innerHTML = 'Click to Download';
-    button.setAttribute('href', canvas.toDataURL());
-    button.setAttribute('download', '');
-    button.setAttribute('class', button.className + ' download');
-  };
-  printMap.scale = 1;
-  // client side stitching can't handle higher scales
-  // printMap.scale = (editor.model.get('_prefs').print) ? 4 : (window.devicePixelRatio > 1) ? 2 : 1;;
-  leafletImage(map, printMap);
-};
-
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
@@ -506,9 +483,14 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map layer.
-  if (editor.model.get('_prefs').print) var scale = '@4x';
-  else if (window.devicePixelRatio > 1) var scale = '@2x';
-  else var scale = '';
+  if (window.devicePixelRatio > 1) {
+    var scale = '@2x';
+    $('#resolution').html("Displaying 2x retina-optimized tiles");
+  }
+  else {
+    var scale = '';
+    $('#resolution').html("Displaying standard resolution tiles");
+  }
 
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
