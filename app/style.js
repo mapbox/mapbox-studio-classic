@@ -636,7 +636,7 @@ Editor.prototype.upload = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
-
+  mtime = (+new Date).toString(36);
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);

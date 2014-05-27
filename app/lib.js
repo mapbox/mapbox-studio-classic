@@ -241,3 +241,8 @@ views.Modal.prototype.show = function(id, options, callback) {
   this.$el.append(modal.el.clone()).parent().addClass('active');
   this.active = modal;
 };
+
+var source = new EventSource('/event-stream');
+source.addEventListener('message', function(e) {
+    window.editor.refresh();
+}, false);

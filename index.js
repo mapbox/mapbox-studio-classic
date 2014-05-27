@@ -42,6 +42,7 @@ var config = require('optimist')
 tm.config(config);
 var request = require('request');
 var crypto = require('crypto');
+var events = middleware.events = new (require('events').EventEmitter)();
 
 var app = express();
 app.use(express.bodyParser());
@@ -415,6 +416,29 @@ app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
+
+app.get('/event-stream', function(req, res) {
+  // let request last as long as possible
+  req.socket.setTimeout(Infinity);
+
+  var messageCount = 0;
+
+  // When we receive a message from the redis connection
+  events.on("message", function(message) {
+    messageCount++; // Increment our message count
+    res.write('id: ' + messageCount + '\n');
+    res.write("data: " + message + '\n\n'); // Note the extra newline
+  });
+
+  //send headers for event-stream connection
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive'
+  });
+  res.write('\n');
+});
+
 
 app.listen(config.port);
 console.log('TM2 @ http://localhost:'+config.port+'/');
