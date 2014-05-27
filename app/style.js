@@ -485,11 +485,13 @@ Editor.prototype.refresh = function(ev) {
   // Refresh map layer.
   if (window.devicePixelRatio > 1) {
     var scale = '@2x';
-    $('#resolution').html("Displaying 2x retina-optimized tiles");
+    $('#resolution_retina').show();
+    $('#resolution_standard').hide();
   }
   else {
     var scale = '';
-    $('#resolution').html("Displaying standard resolution tiles");
+    $('#resolution_standard').show();
+    $('#resolution_retina').hide();
   }
 
   if (tiles) map.removeLayer(tiles);

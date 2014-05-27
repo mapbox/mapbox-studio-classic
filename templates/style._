@@ -111,7 +111,8 @@
         </section>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4'>Resolution</label>
-          <span id='resolution' class='small quiet'> Currently showing standard resolution tiles </span>
+          <span id='resolution_standard' class='small quiet'> Displaying standard resolution tiles </span>
+          <span id='resolution_retina' class='small quiet'> Displaying 2x tiles optimized for retina </span>
         </section>
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>
