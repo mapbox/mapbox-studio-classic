@@ -61,12 +61,5 @@ pre:not(.hidden) ~ .empty-state { display: none;}
 /* CodeMirror */
 .CodeMirror#code-template { top:80px; bottom:160px; }
 
-/* Overrides for util panes vs. Menu */
-#layers:target a.data-n { display:inline-block; }
-.pane.util:target ~ * a.data-n,
-.pane.util:target ~ * a.data-y { display:none !important; }
-.pane.util:target ~ #util { display:block; }
-.pane.util:target ~ #layers { display:none; }
-
 /* Search */
 .search-dialog { z-index: 11; }

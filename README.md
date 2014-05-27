@@ -3,6 +3,9 @@ TM2 (development)
 Experimental version of TileMill powered by vector tiles. There are currently no supported releases of this software.
 
 [![Build Status](https://secure.travis-ci.org/mapbox/tm2.png)](http://travis-ci.org/mapbox/tm2)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/m1pci64maldvoiai)](https://ci.appveyor.com/project/springmeyer/tm2)
+
 [![Dependencies](https://david-dm.org/mapbox/tm2.png)](https://david-dm.org/mapbox/tm2)
 
 ### What are vector tiles?

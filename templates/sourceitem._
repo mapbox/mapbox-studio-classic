@@ -7,7 +7,7 @@ if (item.id.indexOf('mapbox://') === 0) {
 }
 %>
 <div class='space-bottom1 contain'>
-  <a class='<%=obj.classes||''%> project col12 round small fill-lighten0 strong contain' href='/source?id=<%=item.id%>'>
+  <a class='<%=obj.classes||''%> project col12 round small fill-darken0 strong contain' href='/source?id=<%=item.id%>'>
     <div class='round-left inline small-graphic contain z1 fl' style='background-image:url("<%=thumburl%>")'></div>
     <div class='small-graphic fallback-graphic pin-left round-left pad1 fill-lighten1'><div class='icon big point-line'></div></div>
     <div class='truncate pad1 '>

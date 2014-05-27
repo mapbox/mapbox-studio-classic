@@ -14,3 +14,7 @@ before_install:
 before_script:
  - npm install mocha
  - npm ls
+
+script:
+ - npm test
+ - ./test/test-client.sh

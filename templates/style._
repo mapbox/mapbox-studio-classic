@@ -29,17 +29,31 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %>'>
+<body id='view' class='<%= agent %> clip'><div id='app' class='pin-top pin-bottom animate'>
+
+<a id='home'></a>
+<a id='xray'></a>
+<a id='baselayer'></a>
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
-  <div id='modal-content' class='contain modal-content animate'></div>
+  <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
 <div id='user' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
   <div class='megamenu caret1 fill-light col5 pin-topleft'>
     <%= this.history(obj) %>
+    <div class='demo-popup col8 pin-bottomright offcanvas-right pad2 bottom2 fill-blue dark'>
+      <h3>Switching projects</h3>
+      <small class='space-bottom4'>
+      Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
+      </small>
+      <div class='pin-bottom clearfix center'><!--
+      --><a href='#settings' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+      --><a href='#start' class='small fill-darken0 pad1 col6 icon check quiet'>Done</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -123,7 +137,7 @@
       <section class='pad1x col12 clearfix'>
         <% if (style._tmp) { %>
         <div class='pad1x col12'>
-          <a class='button col12 quiet icon floppy saveas'>Save as</a>
+          <a class='button col12 quiet icon floppy js-saveas'>Save as</a>
         </div>
         <% } else { %>
         <div class='pad1x col4'>
@@ -136,6 +150,16 @@
      --></div>
         <% } %>
       </section>
+    </div>
+    <div class='demo-popup col8 pin-topright offcanvas-right pad2 top2 fill-blue dark'>
+      <h3>Publishing</h3>
+      <small class='space-bottom4'>
+      Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
+      </small>
+      <div class='pin-bottom clearfix center'><!--
+      --><a href='#layers' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+      --><a href='#user' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+      </div>
     </div>
   </div>
 </form>
@@ -164,7 +188,7 @@
       --><span class='pad0x row1 inline'><!--
       --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
       <% if (style._tmp) { %>
-        --><a class='saveas round-right short button icon inline floppy'>Save as</a>
+        --><a class='js-saveas round-right short button icon inline floppy'>Save as</a>
       <% } else { %>
         --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
       <% } %>
@@ -189,25 +213,47 @@
         --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <span id='baselayer'>
+    <span class='base-toggle'>
       <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-      <a href='#map' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+      <a href='#home' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
     </span>
-    <span id='xray'>
+    <span class='xray-toggle'>
       <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
-      <a href='#map' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
+      <a href='#home' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
     </span>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
+  <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+    <h3>Inspecting data</h3>
+    <small class='space-bottom4'>
+    TM2 styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
+    </small>
+    <div class='pin-bottom clearfix center'><!--
+    --><a href='#home' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+    --><a href='#docs' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    </div>
+  </div>
 </div>
 
-<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='docs' class='pane animate pin-left fill-grey scroll-styled col6'>
+<div id='docs' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
     <%= this['styledocs'](cartoRef) %>
   </div>
+  <div class='demo-popup col6 pin-topleft pad2 top1 fill-blue dark'>
+    <h3>CartoCSS</h3>
+    <small class='space-bottom4'>
+    View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
+    </small>
+    <div class='pin-bottom clearfix center'><!--
+    --><a href='#xray' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+    --><a href='#fonts' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    </div>
+  </div>
+</div>
 
-  <div id='fonts' class='pane animate pin-left col6 scroll-styled fill-grey'>
+<div id='fonts' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
     <header class='pad1x pad0y keyline-bottom'>
       <h3 class='pad0y'>Fonts</h3>
       <nav class='pin-topright'>
@@ -218,8 +264,20 @@
     <div class='keyline-bottom'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div>
     <% }); %>
   </div>
+  <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark'>
+    <h3>Fonts</h3>
+    <small class='space-bottom4'>
+    The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
+    </small>
+    <div class='pin-bottom clearfix center'><!--
+    --><a href='#docs' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+    --><a href='#layers' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    </div>
+  </div>
+</div>
 
-  <div id='layers' class='pane animate pin-left col6 menu dark fill-dark scroll-styled'>
+<div id='layers' class='pin-right col6 z1'>
+  <div class='col6 pin-left scroll-styled menu dark fill-dark animate pane'>
     <nav class='pad0y pad1x row1 keyline-bottom fill-darken1'>
       <a href='#layers' class='js-modalsources button short icon point-line'>Change source</a>
       <a class='pad1 quiet icon x pin-topright' href='#'></a>
@@ -228,7 +286,19 @@
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
   </div>
+  <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+    <h3>Vector sources</h3>
+    <small class='space-bottom4'>
+    Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
+    </small>
+    <div class='pin-bottom clearfix center'><!--
+    --><a href='#fonts' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+    --><a href='#settings' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    </div>
+  </div>
+</div>
 
+<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
   <div id='code' class='z1 pin-left col12'>
   <div class='row1 fill-light pin-top'>
     <div class='pin-topleft z1 row1'><!--
@@ -282,35 +352,48 @@
     </div>
   </form>
   </div>
+  <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
+    <h3>Editing + saving</h3>
+    <small class='space-bottom4'>
+    Change the Map <code>background-color</code> property to a hex code (<code>#f88</code>) or html color (<code>pink</code>). Hit <kbd class='prefixed'>s</kbd> to save and update your style. The map preview on the left updates as you work.
+    </small>
+    <div class='pin-bottom clearfix center'><!--
+    --><a href='#demo' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+    --><a href='#xray' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    </div>
+  </div>
 </div>
 
-<%= this.modalmessage() %>
-<%= this.modalbrowseropen({cwd:cwd, type:'style'}) %>
-<%= this.modalbrowseropen({cwd:cwd, type:'source'}) %>
-<%= style._tmp ? this.modalbrowsersave({cwd:cwd, type:'style'}) : '' %>
-
-<form id='addtab' class='modal center round pad2 col6 margin3 pin-top top2 fill-light'>
-  <a class="pad1 quiet icon x pin-topright close" href="#"></a>
-  <p>Add a new cartoCSS tab to your style.</p>
-  <div class='clearfix'>
-    <span class='input-pill pill col8 margin2'>
-      <input class='col8' type='text' placeholder='stylesheet name' size='20' id='addtab-filename' required/><!--
-      --><input class='col4 round-right' type='submit' value='New tab'/>
-    </span>
+<div class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark z1'>
+  <h3>Style editor</h3>
+  <small class='space-bottom4'>
+  In the TM2 style editor you can design map styles using data from OpenStreetMap, Mapbox, and other custom sources. Then publish them to be used with the Mapbox API.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#home' class='small fill-darken0 pad1 col12 icon next quiet'>Next</a>
   </div>
-</form>
+</div>
+
+<%= this.styledemo() %>
 
 </div>
 
 <script>
+var cwd = <%= JSON.stringify(cwd) %>;
 var style = <%= JSON.stringify(style) %>;
 var templates = {};
+templates.modalbrowser = <%= this.modalbrowser.source %>;
+templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
+templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
+templates.modaladdtab = <%= this.modaladdtab.source %>;
+templates.modalmessage = <%= this.modalmessage.source %>;
 templates.modalsources = <%= this.modalsources.source %>;
+templates.modalerror = <%= this.modalerror.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
-Style(templates, style);
+Style(templates, cwd, style);
 </script>
 
 <% if (test) { %>
