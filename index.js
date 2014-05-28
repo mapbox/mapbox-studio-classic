@@ -231,8 +231,6 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 app.get('/upload', middleware.auth, function(req, res, next) {
     if (style.tmpid(req.query.styleid))
         return next(new Error('Style must be saved first'));
-    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
-        return next(new Error('You are not allowed access to tm2z uploads yet.'));
 
     style.upload({
         id: req.query.styleid,
