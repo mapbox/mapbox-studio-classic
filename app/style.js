@@ -347,13 +347,14 @@ Editor.prototype.recache = function(ev) {
 };
 Editor.prototype.save = function(ev, options) {
   var editor = this;
+
   // Set map in loading state.
   $('#full').addClass('loading');
 
   var attr = {};
   // Grab settings form values.
   _($('#settings').serializeArray()).reduce(function(memo, field) {
-    if (field.name === 'minzoom' || field.name === 'maxzoom' || field.name === 'scale') {
+    if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
     } else if (field.name === 'baselayer') {
       if (field.value) {
@@ -491,9 +492,20 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map layer.
+  if (window.devicePixelRatio > 1) {
+    var scale = '@2x';
+    $('#resolution_retina').show();
+    $('#resolution_standard').hide();
+  }
+  else {
+    var scale = '';
+    $('#resolution_standard').show();
+    $('#resolution_retina').hide();
+  }
+
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
+    tiles: ['/style/{z}/{x}/{y}'+scale+'.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
