@@ -157,6 +157,7 @@ function tile(req, res, next) {
     var x = req.params.x | 0;
     var y = req.params.y | 0;
     var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    // limits scale to 4x (1024 x 1024 tiles or 288dpi) for now
     scale = scale > 4 ? 4 : scale;
 
     var id = req.source ? req.source.data.id : req.style.data.id;
