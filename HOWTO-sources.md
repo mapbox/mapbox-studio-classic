@@ -55,7 +55,15 @@ Important Concepts
 
 ### Labeling polygons
 
-_TODO_
+Labeling polygons doesn't work quite like it could in TileMill 1. With vector tiles a polygon might be split across many vector tiles, so if you try to label it directly you will end up with lots of duplicate labels. Instead you willl need to derive a separate point layer and use that for polygon labeling.
+
+You can do this beforehand with a tool like QGIS, or on-the-fly in a TM2 SQL query using PostGIS's `ST_PointOnSurface` function, eg:
+
+```sql
+( SELECT ST_PointOnSurface(geom) AS geom, name
+  FROM ne_10m_lakes
+) AS data
+```
 
 ### Layer ordering
 
@@ -85,10 +93,4 @@ _TODO_
 Advanced PostgreSQL Layers
 --------------------------
 
-### Multiple tables in one layer
-
-_TODO_
-
-### Scale-aware queries
-
-_TODO_
+Have a look at the [Natural Earth TM2 project](https://github.com/mapbox/natural-earth-tm2) for a full TM2 source example, and advanced PostgreSQL tricks like having multiple tables in one layer and scale-aware queries.
