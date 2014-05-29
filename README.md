@@ -52,10 +52,8 @@ TM2 ships with an example vector tile source: MapBox Streets. When you create yo
 
 Unlike TileMill, TM2 makes a hard split between two types of packages:
 
-- **Styles** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a datasource.
-- **Sources** describe a source for vector tiles, for example a URL endpoint from which to download tiles. We also have an API for generating vector tiles on the fly from traditional Mapnik datasources (shapefiles, postgis, etc) -- see [tilelive-bridge](http://github.com/mapbox/tilelive-bridge) for more info.
-
-TM2 focuses on editing **Styles,** but there is also an early UI for working with **Sources**.
+- **[Styles](./HOWTO-styles.md)** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a datasource.
+- **[Sources](./HOWTO-sources.md)** describe a source for vector tiles, for example a URL endpoint from which to download tiles. We also have an API for generating vector tiles on the fly from traditional Mapnik datasources (shapefiles, postgis, etc) -- see [tilelive-bridge](http://github.com/mapbox/tilelive-bridge) for more info.
 
 Building TM2
 ------------
@@ -111,50 +109,3 @@ Then build:
     npm install
     node index.js
 
-Creating a style with TM2
--------------------------
-
-A valid TM2 project is a folder that contains at minimum a valid `project.yml` file and at least one CartoCSS `.mss` file that is referenced by the YML file. The folder should also contain any images that are directly referenced by the style as patterns, icons, etc.
-
-If you have any source files (Photoshop/Gimp/Illustrator/Inkscape documents, mockups, reference files, etc) that are not directly required to render the style, they should be named beginning with an underscore or kept in a subdirectory beginning with an underscore. TM2 will ignore such files & folders when creating packages to deploy for rendering.
-
-### Generating a style package
-
-Click the **Package** link from the settings pane of a project.
-
-![tmp-tm2-package](https://f.cloud.github.com/assets/83384/2247003/51f03262-9d6a-11e3-906a-934cfe7629e7.png)
-
-TM2 styles are packaged into 'tm2z' files for deployment to a rendering server. The package *only* contains:
-
-- `project.xml` - the Mapnik-ready XML style definition automatically built by TM2 from the project's CartoCSS files and project.yml
-- `png`, `jpg`, and `svg` files unless they begin with an `_`
-
-All other files are omitted from packaging.
-
-Creating a source with TM2
---------------------------
-
-Local TM2 source transform traditional geodata formats (shapefiles, geojson, postgis, etc.) into vector tiles. A `data.yml` file captures a configuration of datasources organized as named layers. There is no visual style associated with any given source and the source UI of TM2 autogenerates an inspection style only for viewing your data.
-
-When configuring your source give extra attention to:
-
-- **Buffer size (layer)**: the number of "pixel" units geometries should extend beyond tile boundaries. If set too low, especially for lines and polygons, geometries will not extend beyond tiles enough to allow for wide strokes, blurs, and other styles. Higher values, however, include more geometry data in each vector tile bloating size.
-
-### Exporting and uploading a source MBTiles
-
-Click the **Export** link from the settings pane of a source.
-
-![tmp-tm2-export](https://f.cloud.github.com/assets/83384/2247377/0cb98e92-9d6e-11e3-9359-b7e7851c6217.png)
-
-The resulting MBTiles file contains mapnik vector PBF tiles rather than PNG or JPG image tiles. This MBTiles file can be uploaded to Mapbox and served from your Mapbox account via its Map ID.
-
-Loading a source from Mapbox
-----------------------------
-
-Once your source data is uploaded to Mapbox you (or your colleagues) can start working with it without needing the original database or setup.
-
-Click the **Mapbox** link from the Sources pane and enter the Map ID of your source.
-
-![tmp-tm2-mapboxsource](https://f.cloud.github.com/assets/83384/2247458/038c1122-9d6f-11e3-8d8e-8e1c130bfcbf.png)
-
-Vector tiles for this source are now loaded over HTTP from Mapbox and can be added to a style.

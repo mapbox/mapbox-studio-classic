@@ -19,7 +19,6 @@ layers: null
 maxzoom: 22
 minzoom: 0
 name: tmp-1234
-scale: 1
 source: "mapbox:///mapbox.mapbox-streets-v2"
 styles: 
   - a.mss

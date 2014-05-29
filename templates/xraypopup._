@@ -4,7 +4,7 @@ _(obj).chain().toArray().each(function(layer,i) {
 var last = i === (_(obj).size() - 1);
 %>
   <% var feature = layer[0]; %>
-  <div class='clearfix xray-listing <%= !last ? 'space-bottom1' : '' %>'>
+  <div class='xray-listing <%= !last ? 'space-bottom1' : '' %>'>
   <div class='space'>
     <span class='icon round' style='background-color:<%=xraycolor(feature.layer)%>'></span>
     <strong><%= feature.layer %></strong>
