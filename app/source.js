@@ -51,6 +51,7 @@ var Layer = function(id, datasource) {
       }
       return memo;
     }, {});
+
     if (code) {
       attr.Datasource = attr.Datasource || {};
       attr.Datasource.table = code.getValue();
@@ -404,8 +405,9 @@ Editor.prototype.browsefile = function(ev) {
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata){
-            var target = $('.js-metadata-projection');
-            target.val(metadata.projection);
+            var id = '#' + target.parents('form').attr('id');
+            var projTarget = $(id + ' .js-metadata-projection');
+            projTarget.val(metadata.projection);
             console.log(metadata);
           }
         });
@@ -432,8 +434,7 @@ Editor.prototype.zoomToLayer = function(ev){
     success: function(metadata){
       console.log("Zooming to layer!");
       var center = metadata.center;
-      map.setView([center[0], center[1]], (metadata.maxzoom-1));
-      console.log(metadata); 
+      map.setView([center[1], center[0]], metadata.maxzoom);
      }
   });
 }; 

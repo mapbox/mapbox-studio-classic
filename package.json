@@ -34,7 +34,7 @@
     "tilelive-vector": "0.13.0",
     "tm2-default-fonts": "https://github.com/mapbox/tm2-default-fonts/tarball/master",
     "tm2-default-style": "https://github.com/mapbox/tm2-default-style/tarball/master",
-    "mapnik-omnivore": "1.0.1"
+    "mapnik-omnivore": "1.0.3",
     "cors": "~2.3.1",
     "request": "~2.36.0",
     "mapbox-upload": "0.0.2"
