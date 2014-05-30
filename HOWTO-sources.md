@@ -36,13 +36,17 @@ Next you'll need to make sure your projection is set correctly. For the Natural 
 
 _Currently TM2 only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
 
+You can now click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
+
 ### Inspect your data properties
 
-_TODO_
+You can click on any elements on the map in the preview pane to inspect the data fields and values within your layers. The layer name and color are shown so you can inspect multiple layers if features overlap.
 
 ### Saving
 
 At this point you should save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
+
+TM2 source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 
 ### Exporting & Uploading
 
@@ -74,9 +78,9 @@ You can drag and drop layers in the layer list to reorder them. The order they'r
 - roads and/or data layers in the middle
 - landuse and landcover areas on the bottom
 
-### Tile Buffers
+### Buffers
 
-Tile buffers allow you to inlcude extra data around the outside of each tile. Depending on the data and desired styles this can be necessary to ensure seamless rendering across tile boundaries. Tile buffers are set individually for each layer; different layers have different requirements and it's important to make boundaries no larger than necessary in order to keep the size of your vector tiles to a minimum.
+The buffer setting on a layer allows you to inlcude extra data around the outside of each tile. Depending on the data and desired styles this can be necessary to ensure seamless rendering across tile boundaries. Tile buffers are set individually for each layer; different layers have different requirements and it's important to make boundaries no larger than necessary in order to keep the size of your vector tiles to a minimum.
 
 The value for the buffer setting is in pixels (with the assumption that the vector tile is rendered at 256x256 pixels). General guidelines:
 
@@ -85,10 +89,6 @@ The value for the buffer setting is in pixels (with the assumption that the vect
 - If you think styles such as blurs or geometry-transforms will be useful for a layer, you'll want to take this into account. A buffer of 8 pixels will allow blurring by up to 8 pixels without artifacts.
 
 Also note that tile buffers get stretched along with the rest of the tile when overzooming. A z14 layer with an 8 pixel buffer will actually have a 16 pixel buffer if shown overzoomed at z15, 32 pixels at z16, and so on.
-
-### Object ordering for labels
-
-_TODO_
 
 Advanced PostgreSQL Layers
 --------------------------
