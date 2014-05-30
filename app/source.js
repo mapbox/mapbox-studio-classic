@@ -405,10 +405,14 @@ Editor.prototype.browsefile = function(ev) {
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata){
+            //set projection
             var id = '#' + target.parents('form').attr('id');
             var projTarget = $(id + ' .js-metadata-projection');
             projTarget.val(metadata.projection);
-            console.log(metadata);
+
+            //set maxzoom, if needed
+            var maxzoomTarget = $('.max');
+            if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom - 1);
           }
         });
         window.location.href = '#' + target.parents('form').attr('id');
@@ -432,7 +436,6 @@ Editor.prototype.zoomToLayer = function(ev){
   $.ajax({
     url: '/metadata?file=' + filepath,
     success: function(metadata){
-      console.log("Zooming to layer!");
       var center = metadata.center;
       map.setView([center[1], center[0]], metadata.maxzoom);
      }
