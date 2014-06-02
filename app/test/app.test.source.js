@@ -24,19 +24,6 @@ $(document).ajaxComplete(function() {
     setTimeout(function() { callback(); }, 1);
 });
 
-/*
-Is it possible to re-enact uploading a file and sending it through the #browsesource functions?
-   if so....
-Test that zoomToLayer is disabled for non-local files?
-Test that #layer-world_merc has populated projection input field?
-Test that #settings #maxzoom has proper maxzoom based on source's metadata
-*/
-
-
-//use test/fixtures-localsource/data.yml
-//.....make sure this yml file is updated based on info from the shp file below
-//use test/fixtures-localsource/10m-900913-bounding-box.shp 
-//.....this might require playing around with path module
 
 describe('Setting maxzoom', function() {
     it('sets maxzoom to higher value than 6 (checks logic preference for higher maxzoom...see #addlayer-shape test)', function() {
