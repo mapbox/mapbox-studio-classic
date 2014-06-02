@@ -34,7 +34,6 @@ config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
 config.port = config.port || '3000';
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
-console.log(config);
 
 tm.config(config);
 
