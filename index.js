@@ -26,9 +26,7 @@ var express = require('express');
 var cors = require('cors');
 var request = require('request');
 var crypto = require('crypto');
-var queue = require('./lib/queue');
-var blend = require('blend');
-var st = require('./lib/static');
+var printer = require('abaculus');
 
 
 var config = require('minimist')(process.argv.slice(2));
@@ -111,7 +109,9 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
-app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), staticTile);
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+
+app.get('/static/:z/:topLeftx,:topLefty/:bottomRightx,:bottomRighty/:scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCorners);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -156,7 +156,7 @@ function grid(req, res, next) {
         res.set(headers);
         return res.json(data);
     });
-};
+}
 
 function tile(req, res, next) {
     var z = req.params.z | 0;
@@ -219,51 +219,65 @@ function tile(req, res, next) {
     done.scale = scale;
     if (req.params.format !== 'png') done.format = req.params.format;
     source.getTile(z,x,y, done);
-};
+}
 
-function staticTile(req, res, next){
-    // x & y are lon + lat at the center of the map
-    var z = req.params.z | 0;
-    var x = parseFloat(req.params.x)
-    var y = parseFloat(req.params.y);
-    var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
-    scale = scale > 4 ? 4 : scale;
-    var w = (req.params.px | 0) * scale;
-    var h = (req.params.py | 0) * scale;
 
-    var id = req.source ? req.source.data.id : req.style.data.id;
+
+function printFromCenter(req, res, next){
+    // x & y are lng,lat at the center of the map
+    var params = {};
+    params.zoom = req.params.z | 0;
+    params.center = {
+        x: parseFloat(req.params.x),
+        y: parseFloat(req.params.y),
+        w: req.params.px | 0,
+        h: req.params.py | 0
+    };
+
+    params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    params.scale = params.scale > 4 ? 4 : params.scale;
+    params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
         : req.style;
 
-    var tileQueue = new queue(1);
-    var tiles = st.staticTiles(z, x, y, scale, w, h);
-
-    var dat = [];
-    tiles.forEach(function(t){
-        tileQueue.defer(function(z, x, y, done){
-            done.scale = scale;
-            if (req.params.format !== 'png') done.format = req.params.format;
-            source.getTile(z, x, y, done);
-        }, t.z, t.x, t.y);
+    params.getTile = source.getTile.bind(source);
+    printer(params, function(err, image){
+        if (err) return next(err);
+        return res.send(image);
     });
-
-    function tileQueueFinish(err, data) {
-        if (err) console.log(err, data)
-        data.forEach(function(d, i){
-            dat.push({buffer: d, x: tiles[i].px, y: tiles[i].py})
-        });
-        blend(dat, {
-            width: w,
-            height: h
-        }, function(err, result){
-            return res.send(result);
-        })
-    }
-
-    tileQueue.awaitAll(tileQueueFinish);
 };
 
+function printFromCorners(req, res, next){
+    // x & y are lng,lat for top left & bottom right corners of a rectangle
+    var params = {};
+    params.zoom = req.params.z | 0;
+    params.corners = {
+        topLeft: {
+            x: parseFloat(req.params.topLeftx),
+            y: parseFloat(req.params.topLefty)
+        },
+        bottomRight: {
+            x: parseFloat(req.params.bottomRightx),
+            y: parseFloat(req.params.bottomRighty)
+        }
+    };
+    params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    params.scale = params.scale > 4 ? 4 : params.scale;
+    params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+
+    var source = req.params.format === 'vector.pbf'
+        ? req.style._backend._source
+        : req.style;
+
+    params.getTile = source.getTile.bind(source);
+    printer(params, function(err, image){
+        if (err) return next(err);
+        return res.send(image);
+    });
+
+}
 
 app.get('/style.xml', middleware.style, function(req, res, next) {
     res.set({'content-type':'text/xml'});
