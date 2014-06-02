@@ -92,7 +92,6 @@ Editor.prototype.events = {
   'submit #addlayer': 'addlayer',
   'keydown': 'keys',
   'click .js-zoomTo': 'zoomToLayer'
-  // 'change .js-metadata': 'lookupMetadata'
 };
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
@@ -412,7 +411,7 @@ Editor.prototype.browsefile = function(ev) {
 
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
-            if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom - 1);
+            if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
           }
         });
         window.location.href = '#' + target.parents('form').attr('id');
@@ -420,16 +419,11 @@ Editor.prototype.browsefile = function(ev) {
       Modal.close();
     }
   });
-
 };
 
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
-
-// Editor.prototype.lookupMetadata = function(ev){
-//   console.log(ev);
-// }; 
 Editor.prototype.zoomToLayer = function(ev){
   var id = $(ev.currentTarget).attr('id').split('-').pop();
   var filepath = layers[id].get().Datasource.file;
