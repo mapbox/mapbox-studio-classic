@@ -33,6 +33,9 @@ config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db'
 config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
 config.port = config.port || '3000';
 config.test = config.test || false;
+config.cwd = path.resolve(config.cwd || process.env.HOME);
+console.log(config);
+
 tm.config(config);
 
 var app = express();
@@ -81,7 +84,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
 
     try {
         var page = tm.templates.style({
-            cwd: process.env.HOME,
+            cwd: config.cwd,
             fontsRef: require('mapnik').fonts(),
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
@@ -304,12 +307,13 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
     try {
         var page = tm.templates.source({
             tm: tm,
-            cwd: process.env.HOME,
+            cwd: config.cwd,
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
             history: req.history,
             basemap: req.basemap,
             user: tm.db._docs.user,
+            test: 'test' in req.query,
             agent: agent()
         });
     } catch(err) {
