@@ -123,15 +123,15 @@
         </section>
       </fieldset>
       <fieldset class='fill-darken0 pad1 round space-bottom0 clearfix'>
-          <div class='space-bottom0 small quiet'><em>Screen resolution recommended for performance. This is for tm2 display only, and will not be affect your packaged tileset.</em></div>
-          <label class='inline col4'>Display Resolution</label>
-          <div class='rounded-toggle inline resolution'>
-            <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
-            <label for='screenresolution'>Screen</label>
-            <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
-            <label for='printresolution'>Print</label>
-          </div>
-        </fieldset>
+        <div class='space-bottom0 small quiet'><em>Screen resolution recommended for performance. This is for tm2 display only, and will not affect your packaged tileset.</em></div>
+        <label class='inline col4'>Display Resolution</label>
+        <div class='rounded-toggle inline resolution'>
+          <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
+          <label for='screenresolution'>Screen</label>
+          <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
+          <label for='printresolution'>Print</label>
+        </div>
+      </fieldset>
     </div>
     <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
       <section class='pad1x col12 clearfix'>

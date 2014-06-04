@@ -142,7 +142,7 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', mi
 
 app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
 
-app.get('/static/:z/:topLeftx,:topLefty/:bottomRightx,:bottomRighty/:scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCorners);
+app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -274,26 +274,20 @@ function printFromCenter(req, res, next){
         : req.style;
 
     params.getTile = source.getTile.bind(source);
-    printer(params, function(err, image){
+    printer(params, function(err, image, header){
         if (err) return next(err);
+        _(header).each(function(v, k) {
+            res.set(k, v);
+        });
         return res.send(image);
     });
 };
 
-function printFromCorners(req, res, next){
-    // x & y are lng,lat for top left & bottom right corners of a rectangle
+function printFromBbox(req, res, next){
+    // bbox is [w,s,e,n] boundaries for rectangle
     var params = {};
     params.zoom = req.params.z | 0;
-    params.corners = {
-        topLeft: {
-            x: parseFloat(req.params.topLeftx),
-            y: parseFloat(req.params.topLefty)
-        },
-        bottomRight: {
-            x: parseFloat(req.params.bottomRightx),
-            y: parseFloat(req.params.bottomRighty)
-        }
-    };
+    params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n]
     params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
@@ -303,11 +297,13 @@ function printFromCorners(req, res, next){
         : req.style;
 
     params.getTile = source.getTile.bind(source);
-    printer(params, function(err, image){
+    printer(params, function(err, image, header){
         if (err) return next(err);
+        _(header).each(function(v, k) {
+            res.set(k, v);
+        });
         return res.send(image);
     });
-
 }
 
 app.get('/style.xml', middleware.style, function(req, res, next) {
