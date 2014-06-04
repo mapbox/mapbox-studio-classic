@@ -23,6 +23,7 @@
         <label>OGR File<label>
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='ogr' />
+          <input type='hidden' name='Datasource-layer' value='<%= obj.Datasource.layer %>' />
           <input class='col12 filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
         </div>
       </section>

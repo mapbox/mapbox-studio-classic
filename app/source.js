@@ -184,7 +184,6 @@ Editor.prototype.scrollto = function(ev) {
     return false;
 };
 Editor.prototype.tabbedFields = function(ev) {
-  console.log("in tabbedFields");
   $(ev.currentTarget).parent('.layer').addClass('active').siblings('.layer').removeClass('active');
   return false;
 };
@@ -197,7 +196,6 @@ Editor.prototype.togglePane = function(name) {
   }
 };
 Editor.prototype.togglemode = function(ev) {
-  console.log("in togglemode");
   var target = $(ev.currentTarget);
   switch (target.attr('href').split('#editor-').pop()) {
     case 'sql':
@@ -214,7 +212,6 @@ Editor.prototype.togglemode = function(ev) {
   return false;
 };
 Editor.prototype.resetmode = function(ev) {
-    console.log("in resetmode");
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
   $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
 };
@@ -227,14 +224,25 @@ Editor.prototype.addlayerModal = function() {
 };
 
 Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
-  console.log("in addlayer");
-  console.log(filetype);
-  console.log(layersArray);
   //make filetypes mapnik-reference friendly
   if(filetype === 'shp') filetype = 'shape';
+  var gpx = false;
+  if(filetype === 'gpx') gpx = true; 
   if(filetype === 'kml' || filetype === 'gpx') filetype = 'ogr';
-
   layersArray.forEach(function(current_layer, index, array){
+    //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
+    //so this is just reversing that process in order to properly render the mapnikXML for TM2
+    //This only applies to files that have gone through mapnik-omnivore
+    var layername;
+    if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
+    else layername = current_layer;
+    
+    //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
+    //To avoid all geojson layers having the same name, replace id with the filename. 
+    if (filetype === 'geojson') current_layer.id = metadata.filename;
+    //All gpx files have the same three layer names (wayponts, routes, tracks)
+    //Append filename to differentiate
+    if (gpx) current_layer.id = metadata.filename + '_' + current_layer.id;
     //checks that the layer doesn't already exist
     if (!layers[current_layer.id]) {
       //Setup layer object
@@ -248,18 +256,16 @@ Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) 
         Datasource: {
           type: filetype,
           file: filepath,
-          layer: current_layer.id
+          layer: layername
         } 
       };
-      console.log(layer);
-      console.log(templates['layer' + filetype](layer));
+
       $('#editor').prepend(templates['layer' + filetype](layer));
       $('#layers .js-menu-content').prepend(templates.layeritem(layer));
       //Add new layer to the project's layers array
       layers[layer.id] = Layer(layer.id, layer.Datasource);
 
       if(metadata !== null){
-        console.log("should have metadata");
         //set projection
         var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
         projTarget.val(metadata.projection);
@@ -267,20 +273,18 @@ Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) 
         //set maxzoom, if needed
         var maxzoomTarget = $('.max');
         if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-      }//end if(metadata)
+      }
 
       Modal.close();
       if(layersArray.length > 1){
         window.location.hash = '#';
         $('#layers .js-menu-content').sortable('destroy').sortable();    
       } else{
-        console.log("should only have one layer");
         window.location.hash = '#layers-' + layersArray[0].id;
         $('#layers .js-menu-content').sortable('destroy').sortable();
       }
     //else layer already exists, show error  
     } else {
-      console.log("should error here");
       Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
     }
   });
@@ -320,9 +324,6 @@ Editor.prototype.save = function(ev, options) {
   // Grab layers. Reverse at save time.
   attr.Layer = _(layers).map(function(l) { return l.get(); });
   attr.Layer.reverse();
-
-  console.log("layers.......");
-  console.log(attr.Layer);
 
   // Save center, disabled layers.
   attr._prefs = attr._prefs || {};
@@ -427,31 +428,28 @@ Editor.prototype.browsefile = function(ev) {
       }
     },
     callback: function(err, filepath) {
-      console.log("in callback");
       if (err || !target.size()) {
         window.location.href = '#';
       } else {
         target.val(filepath);
         var extension = filepath.split('.').pop().toLowerCase();
+        if(filepath.indexOf('.geo.json') !== -1) extension = 'geojson';
 
         //if file is compatible with mapnik omnivore, send to mapnik-omnivore for file's metadata
         if(mapnikOmnivore_digestable(extension)){
           $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata){
-              console.log("metadata");
-              console.log(metadata);
               window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
-              //Modal.close();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              Modal.show('error', jqXHR.responseText);
             }
           });
         //else file is either postgis, sqlite, or csv...for now
         } else if (extension === 'sqlite' || extension === 'csv' || extension === 'postgis'){
             var layername = filepath.substring(filepath.lastIndexOf("/")+1,filepath.lastIndexOf("."));
-            console.log(layername);
-            //go straight to addlayer function
             window.editor.addlayer(extension, [{id: layername}], filepath, null);
-            //Modal.close();
         } else {
             Modal.show('error', 'File type "' + extension + '" unknown.');
         }
@@ -461,7 +459,7 @@ Editor.prototype.browsefile = function(ev) {
 };
 
 function mapnikOmnivore_digestable(ext){
-  if(ext === '.gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp') return true;
+  if(ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp') return true;
   else return false;
 };
 
