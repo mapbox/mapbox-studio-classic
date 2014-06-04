@@ -462,20 +462,6 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
-<<<<<<< HEAD
-Editor.prototype.print = function() {
-  var scale = (editor.model.get('_prefs').print) ? 4 : (window.devicePixelRatio > 1) ? 2 : 1;;
-  var zoom = map.getZoom();
-  var dim = map.getSize();
-  var center = map.getCenter();
-  var url = window.location.origin + '/static/' + zoom + ',' + center.lng.toFixed(4) + ',' + center.lat.toFixed(4) + '/' + dim.x + 'x' + dim.y + '@' + scale + 'x' + '.png?id=' + this.model.id + '&' + mtime;
-  var button = $('#print-style');
-  button.attr('href', url);
-  button.attr('download', '');
-};
-
-=======
->>>>>>> master
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
