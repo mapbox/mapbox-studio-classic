@@ -222,8 +222,6 @@ function tile(req, res, next) {
     source.getTile(z,x,y, done);
 }
 
-
-
 function printFromCenter(req, res, next){
     // x & y are lng,lat at the center of the map
     var params = {};
@@ -349,6 +347,7 @@ app.all('/mbtiles.json', function(req, res, next) {
 });
 
 app.get('/source', middleware.source, middleware.history, function(req, res, next) {
+
     // identify user's OS for styling docs shortcuts
     var agent = function() {
         var agent = req.headers['user-agent'];
