@@ -184,6 +184,7 @@ Editor.prototype.scrollto = function(ev) {
     return false;
 };
 Editor.prototype.tabbedFields = function(ev) {
+  console.log("in tabbedFields");
   $(ev.currentTarget).parent('.layer').addClass('active').siblings('.layer').removeClass('active');
   return false;
 };
@@ -196,6 +197,7 @@ Editor.prototype.togglePane = function(name) {
   }
 };
 Editor.prototype.togglemode = function(ev) {
+  console.log("in togglemode");
   var target = $(ev.currentTarget);
   switch (target.attr('href').split('#editor-').pop()) {
     case 'sql':
@@ -212,6 +214,7 @@ Editor.prototype.togglemode = function(ev) {
   return false;
 };
 Editor.prototype.resetmode = function(ev) {
+    console.log("in resetmode");
   $('body').removeClass('fields').removeClass('sql').removeClass('conf');
   $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
 };
@@ -222,38 +225,62 @@ Editor.prototype.addlayerModal = function() {
   Modal.show('addlayer');
   return false;
 };
-Editor.prototype.addlayer = function(ev) {
-  var values = _($('#addlayer').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = field.value;
-    return memo;
-  }, {});
 
-  if (!values.id || !templates['layer' + values.type]) return false;
+Editor.prototype.addlayer = function(filetype, layersArray, metadata) {
+  console.log("in addlayer");
+  console.log(filetype);
+  console.log(layersArray);
+  if(filetype === 'shp') filetype = 'shape';
 
-  if (!layers[values.id]) {
+  layersArray.forEach(function(current_layer, index, array){
+    //checks that the layer doesn't already exist
+    console.log("valid?..." + layers[current_layer.id]);
+    console.log(layers);
+    if (!layers[current_layer.id]) {
     var layer = {
       tm: tm,
       vt: {},
-      id: values.id,
+      id: current_layer.id,
       properties: {
         'buffer-size': 8
       },
       Datasource: {
-        type: values.type
+        type: filetype
       }
     };
-    $('#editor').prepend(templates['layer' + values.type](layer));
+    console.log(layer);
+    $('#editor').prepend(templates['layer' + filetype](layer));
     $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-    layers[values.id] = Layer(values.id, layer.Datasource);
+    layers[layer.id] = Layer(layer.id, layer.Datasource);
+    console.log("layer index");
+    console.log(layers[layer.id]);
 
-    Modal.close();
-    window.location.hash = '#layers-' + values.id;
-    $('#layers .js-menu-content').sortable('destroy').sortable();
+    if(metadata !== null){
+      console.log("should have metadata");
+      //show that modal and somehow do the following...
+      //set projection
+      var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
+      projTarget.val(metadata.projection);
 
-  } else {
-    Modal.show('error', 'Layer name must be different from existing layer "' + values.id + '"');
+      //set maxzoom, if needed
+      var maxzoomTarget = $('.max');
+      if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+    }//end if(metadata)
+
+    } else {
+      Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
+    }
+  });
+  Modal.close();
+  if(layersArray.length > 1){
+    window.location.hash = '#';
+    $('#layers .js-menu-content').sortable('destroy').sortable();    
+  } else{
+    console.log("should only have one layer");
+      window.location.hash = '#layers-' + layersArray[0].id;
+      $('#layers .js-menu-content').sortable('destroy').sortable();
   }
-  return false;
+
 };
 Editor.prototype.deletelayer = function(ev) {
   var id = $(ev.currentTarget).attr('id').split('-').pop();
@@ -373,13 +400,13 @@ Editor.prototype.browsefile = function(ev) {
   $('#browsefile input[name=basename]').attr('title', target.attr('title'));
   $('#browsefile input[name=basename]').attr('pattern', target.attr('pattern'));
   $('#browsefile input[name=basename]').attr('placeholder', target.attr('placeholder'));
+  
+  var pattern = target.attr('pattern') && new RegExp(target.attr('pattern'));
 
   // File browser.
   new views.Browser({
     el: $('#browsefile'),
     filter: function(file) {
-      var target = $('.browsefile-pending');
-      var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
       if (pattern) {
           return file.type === 'dir' || pattern.test(file.basename);
       } else {
@@ -387,8 +414,6 @@ Editor.prototype.browsefile = function(ev) {
       }
     },
     isFile: function(file) {
-      var target = $('.browsefile-pending');
-      var pattern = target.size() && target.attr('pattern') && new RegExp(target.attr('pattern'));
       if (pattern) {
           return file.type === 'dir' || pattern.test(file);
       } else {
@@ -396,29 +421,45 @@ Editor.prototype.browsefile = function(ev) {
       }
     },
     callback: function(err, filepath) {
-      var target = $('.browsefile-pending');
+      console.log("in callback");
       if (err || !target.size()) {
         window.location.href = '#';
       } else {
         target.val(filepath);
-        $.ajax({
-          url: '/metadata?file=' + filepath,
-          success: function(metadata){
-            //set projection
-            var id = '#' + target.parents('form').attr('id');
-            var projTarget = $(id + ' .js-metadata-projection');
-            projTarget.val(metadata.projection);
+        var extension = filepath.split('.').pop().toLowerCase();
 
-            //set maxzoom, if needed
-            var maxzoomTarget = $('.max');
-            if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-          }
-        });
-        window.location.href = '#' + target.parents('form').attr('id');
-      }
+        //if file is compatible with mapnik omnivore, send to mapnik-omnivore for file's metadata
+        if(mapnikOmnivore_digestable(extension)){
+          $.ajax({
+            url: '/metadata?file=' + filepath,
+            success: function(metadata){
+              console.log("metadata");
+              console.log(metadata);
+              window.editor.addlayer(extension, metadata.json.vector_layers, metadata);
+            }
+          });
+        //else file is either postgis, sqlite, or csv...for now
+        } else if (extension === 'sqlite' || extension === 'csv' || extension === 'postgis'){
+          var layername = filepath.substring(filepath.lastIndexOf("/")+1,filepath.lastIndexOf("."));
+          console.log(layername);
+          //go straight to addlayer function
+          window.editor.addlayer(extension, [{id: layername}], null);
+        } else {
+          Modal.show('error', 'File type "' + extension + '" unknown.');
+        }
+
+      //what is this used for?
+      //window.location.href = '#' + target.parents('form').attr('id');
+      
+    }
       Modal.close();
     }
   });
+};
+
+function mapnikOmnivore_digestable(ext){
+  if(ext === '.gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp') return true;
+  else return false;
 };
 
 Editor.prototype.messageclear = messageClear;
