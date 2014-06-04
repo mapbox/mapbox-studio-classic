@@ -245,8 +245,6 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .dark .megamenu.caret1:after,
 .dark .megamenu.caret2:after {  border-bottom-color:#404040;}
 
-.resolution { height: 30px; }
-
 /* Bookmarks */
 #bookmark {
   pointer-events:none;
@@ -528,6 +526,22 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   z-index:1000;
   }
 
+/* Inspector popup */
+.leaflet-popup .leaflet-popup-content-wrapper { padding: 10px; }
+.leaflet-popup .leaflet-popup-content {
+  border: none;
+  padding: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.leaflet-popup .leaflet-popup-content .xray-listing {
+  width:240px;
+  /* leaflet overrides */
+  font-size: 11px;
+  line-height: 20px;
+  font-family:'Open Sans', sans-serif;
+}
+
 /* Menu (off-canvas) */
 .menu .sortable-dragging,
 .menu .sortable-placeholder {
@@ -565,6 +579,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   color: #343434;
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
+#layers .layer.active a { display: none;}
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
@@ -677,7 +692,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .CodeMirror .cm-palette-hint {
   display:inline-block;
   box-sizing:border-box;
-  margin:0 2px 3px 5px;
+  margin:0 5px 3px 5px;
   border-radius:50%;
   vertical-align:middle;
   width:10px;

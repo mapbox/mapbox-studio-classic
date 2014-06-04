@@ -1,14 +1,3 @@
-.leaflet-popup .leaflet-popup-content { padding: 10px 10px 5px;}
-.leaflet-popup .leaflet-popup-content .xray-listing {
-  width:240px;
-  /* leaflet overrides */
-  font-size: 11px;
-  line-height: 20px;
-  font-family:'Open Sans', sans-serif;
-}
-
-.leaflet-popup-close-button { display: none;}
-
 #docs .keyline-bottom,
 #docs .keyline-top {
   border-top-color: rgba(0,0,0,.2);

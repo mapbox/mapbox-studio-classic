@@ -26,8 +26,8 @@ var express = require('express');
 var cors = require('cors');
 var request = require('request');
 var crypto = require('crypto');
+var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
-
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -163,6 +163,7 @@ function tile(req, res, next) {
     var x = req.params.x | 0;
     var y = req.params.y | 0;
     var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    // limits scale to 4x (1024 x 1024 tiles or 288dpi) for now
     scale = scale > 4 ? 4 : scale;
 
     var id = req.source ? req.source.data.id : req.style.data.id;
@@ -290,8 +291,6 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 app.get('/upload', middleware.auth, function(req, res, next) {
     if (style.tmpid(req.query.styleid))
         return next(new Error('Style must be saved first'));
-    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
-        return next(new Error('You are not allowed access to tm2z uploads yet.'));
 
     style.upload({
         id: req.query.styleid,
@@ -478,6 +477,15 @@ app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
+
+//Calls mapnik-omnivore for file's metadata
+app.get('/metadata', function(req, res, next) {
+    mapnik_omnivore.digest(req.query.file, function(err, metadata){
+        if(err) return next(err);
+        res.send(metadata);
+    });
+});
+
 
 // Include mock mapbox API routes if in test mode.
 if (config.test) require('./lib/mapbox-mock')(app);

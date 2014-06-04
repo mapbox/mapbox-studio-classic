@@ -125,7 +125,10 @@ var inspectFeature = function(options) {
         if (!_(data).size()) return;
         popup = L.popup({
           closeButton:false,
-          minWidth:200
+          minWidth:200,
+          maxHeight:window.innerHeight-100,
+          autoPanPaddingTopLeft:L.point(5,45),
+          autoPanPaddingBottomRight:L.point(5,15)
         })
         .setLatLng(ev.latlng)
         .setContent(templates.xraypopup(data))

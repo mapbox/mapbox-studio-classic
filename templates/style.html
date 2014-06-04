@@ -122,14 +122,10 @@
           <input id='baselayer_id' class='code short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
         </section>
       </fieldset>
-      <fieldset class='fill-darken0 pad1 round space-bottom0 clearfix'>
-        <div class='space-bottom0 small quiet'><em>Screen resolution recommended for performance. This is for tm2 display only, and will not affect your packaged tileset.</em></div>
-        <label class='inline col4'>Display Resolution</label>
-        <div class='rounded-toggle inline resolution'>
-          <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
-          <label for='screenresolution'>Screen</label>
-          <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
-          <label for='printresolution'>Print</label>
+      <fieldset class='fill-darken0 pad1 round'>
+          <div class='small quiet'>
+            <em id='resolution_standard'>Displaying standard resolution tiles </em>
+            <em id='resolution_retina'> Displaying 2x tiles optimized for retina </em>
         </div>
       </fieldset>
     </div>

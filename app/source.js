@@ -51,6 +51,7 @@ var Layer = function(id, datasource) {
       }
       return memo;
     }, {});
+
     if (code) {
       attr.Datasource = attr.Datasource || {};
       attr.Datasource.table = code.getValue();
@@ -89,7 +90,9 @@ Editor.prototype.events = {
   'click .layer .js-tab': 'tabbedFields',
   'click .js-addlayer': 'addlayerModal',
   'submit #addlayer': 'addlayer',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click .js-zoomTo': 'zoomToLayer'
+  // 'change .js-metadata': 'lookupMetadata'
 };
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
@@ -399,6 +402,19 @@ Editor.prototype.browsefile = function(ev) {
         window.location.href = '#';
       } else {
         target.val(filepath);
+        $.ajax({
+          url: '/metadata?file=' + filepath,
+          success: function(metadata){
+            //set projection
+            var id = '#' + target.parents('form').attr('id');
+            var projTarget = $(id + ' .js-metadata-projection');
+            projTarget.val(metadata.projection);
+
+            //set maxzoom, if needed
+            var maxzoomTarget = $('.max');
+            if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom - 1);
+          }
+        });
         window.location.href = '#' + target.parents('form').attr('id');
       }
       Modal.close();
@@ -410,6 +426,21 @@ Editor.prototype.browsefile = function(ev) {
 Editor.prototype.messageclear = messageClear;
 Editor.prototype.delstyle = delStyle;
 Editor.prototype.tabbed = tabbedHandler;
+
+// Editor.prototype.lookupMetadata = function(ev){
+//   console.log(ev);
+// }; 
+Editor.prototype.zoomToLayer = function(ev){
+  var id = $(ev.currentTarget).attr('id').split('-').pop();
+  var filepath = layers[id].get().Datasource.file;
+  $.ajax({
+    url: '/metadata?file=' + filepath,
+    success: function(metadata){
+      var center = metadata.center;
+      map.setView([center[1], center[0]], metadata.maxzoom);
+     }
+  });
+}; 
 
 window.editor = new Editor({
   el: document.body,
