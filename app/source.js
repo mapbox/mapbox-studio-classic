@@ -226,61 +226,64 @@ Editor.prototype.addlayerModal = function() {
   return false;
 };
 
-Editor.prototype.addlayer = function(filetype, layersArray, metadata) {
+Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
   console.log("in addlayer");
   console.log(filetype);
   console.log(layersArray);
+  //make filetypes mapnik-reference friendly
   if(filetype === 'shp') filetype = 'shape';
+  if(filetype === 'kml' || filetype === 'gpx') filetype = 'ogr';
 
   layersArray.forEach(function(current_layer, index, array){
     //checks that the layer doesn't already exist
-    console.log("valid?..." + layers[current_layer.id]);
-    console.log(layers);
     if (!layers[current_layer.id]) {
-    var layer = {
-      tm: tm,
-      vt: {},
-      id: current_layer.id,
-      properties: {
-        'buffer-size': 8
-      },
-      Datasource: {
-        type: filetype
+      //Setup layer object
+      var layer = {
+        tm: tm,
+        vt: {},
+        id: current_layer.id,
+        properties: {
+          'buffer-size': 8
+        },
+        Datasource: {
+          type: filetype,
+          file: filepath,
+          layer: current_layer.id
+        } 
+      };
+      console.log(layer);
+      console.log(templates['layer' + filetype](layer));
+      $('#editor').prepend(templates['layer' + filetype](layer));
+      $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+      //Add new layer to the project's layers array
+      layers[layer.id] = Layer(layer.id, layer.Datasource);
+
+      if(metadata !== null){
+        console.log("should have metadata");
+        //set projection
+        var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
+        projTarget.val(metadata.projection);
+
+        //set maxzoom, if needed
+        var maxzoomTarget = $('.max');
+        if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+      }//end if(metadata)
+
+      Modal.close();
+      if(layersArray.length > 1){
+        window.location.hash = '#';
+        $('#layers .js-menu-content').sortable('destroy').sortable();    
+      } else{
+        console.log("should only have one layer");
+        window.location.hash = '#layers-' + layersArray[0].id;
+        $('#layers .js-menu-content').sortable('destroy').sortable();
       }
-    };
-    console.log(layer);
-    $('#editor').prepend(templates['layer' + filetype](layer));
-    $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-    layers[layer.id] = Layer(layer.id, layer.Datasource);
-    console.log("layer index");
-    console.log(layers[layer.id]);
-
-    if(metadata !== null){
-      console.log("should have metadata");
-      //show that modal and somehow do the following...
-      //set projection
-      var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
-      projTarget.val(metadata.projection);
-
-      //set maxzoom, if needed
-      var maxzoomTarget = $('.max');
-      if(maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-    }//end if(metadata)
-
+    //else layer already exists, show error  
     } else {
+      console.log("should error here");
       Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
     }
   });
-  Modal.close();
-  if(layersArray.length > 1){
-    window.location.hash = '#';
-    $('#layers .js-menu-content').sortable('destroy').sortable();    
-  } else{
-    console.log("should only have one layer");
-      window.location.hash = '#layers-' + layersArray[0].id;
-      $('#layers .js-menu-content').sortable('destroy').sortable();
-  }
-
 };
 Editor.prototype.deletelayer = function(ev) {
   var id = $(ev.currentTarget).attr('id').split('-').pop();
@@ -317,6 +320,9 @@ Editor.prototype.save = function(ev, options) {
   // Grab layers. Reverse at save time.
   attr.Layer = _(layers).map(function(l) { return l.get(); });
   attr.Layer.reverse();
+
+  console.log("layers.......");
+  console.log(attr.Layer);
 
   // Save center, disabled layers.
   attr._prefs = attr._prefs || {};
@@ -435,24 +441,21 @@ Editor.prototype.browsefile = function(ev) {
             success: function(metadata){
               console.log("metadata");
               console.log(metadata);
-              window.editor.addlayer(extension, metadata.json.vector_layers, metadata);
+              window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+              //Modal.close();
             }
           });
         //else file is either postgis, sqlite, or csv...for now
         } else if (extension === 'sqlite' || extension === 'csv' || extension === 'postgis'){
-          var layername = filepath.substring(filepath.lastIndexOf("/")+1,filepath.lastIndexOf("."));
-          console.log(layername);
-          //go straight to addlayer function
-          window.editor.addlayer(extension, [{id: layername}], null);
+            var layername = filepath.substring(filepath.lastIndexOf("/")+1,filepath.lastIndexOf("."));
+            console.log(layername);
+            //go straight to addlayer function
+            window.editor.addlayer(extension, [{id: layername}], filepath, null);
+            //Modal.close();
         } else {
-          Modal.show('error', 'File type "' + extension + '" unknown.');
+            Modal.show('error', 'File type "' + extension + '" unknown.');
         }
-
-      //what is this used for?
-      //window.location.href = '#' + target.parents('form').attr('id');
-      
-    }
-      Modal.close();
+      }
     }
   });
 };

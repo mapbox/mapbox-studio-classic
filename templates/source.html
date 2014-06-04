@@ -213,6 +213,8 @@ revlayers.reverse();
 <div class='z10' id='editor'>
 <% if (!remote) {
   _(revlayers).each(function(l) {
+    console.log("in source.html revlayers function......");
+    console.log(l);
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
@@ -238,6 +240,7 @@ templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layergeojson = <%= this.layergeojson.source %>;
 templates.layersqlite = <%= this.layersqlite.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
+templates.layerogr = <%= this.layerogr.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 

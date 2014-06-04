@@ -15,9 +15,16 @@
 
   <div class='conf'>
     <fieldset>
-        <section class='pad2x pad1y keyline-bottom'>
+      <section class='pad2x pad1y keyline-bottom'>
         <label>Description</label>
         <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>Shapefile<label>
+        <div class='input-pill clearfix'>
+          <input type='hidden' name='Datasource-type' value='shape' />
+          <input class='col12 filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
+        </div>
       </section>
       <%= this.layerconf(obj) %>
       <section class='pad2'>

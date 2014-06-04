@@ -20,9 +20,9 @@
         <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
-        <label>CSV<label>
+        <label>OGR File<label>
         <div class='input-pill clearfix'>
-          <input type='hidden' name='Datasource-type' value='csv' />
+          <input type='hidden' name='Datasource-type' value='ogr' />
           <input class='col12 filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
         </div>
       </section>
