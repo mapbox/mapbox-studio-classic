@@ -243,8 +243,11 @@ function printFromCenter(req, res, next){
         : req.style;
 
     params.getTile = source.getTile.bind(source);
-    printer(params, function(err, image){
+    printer(params, function(err, image, header){
         if (err) return next(err);
+        _(header).each(function(v, k) {
+            res.set(k, v);
+        });
         return res.send(image);
     });
 };
@@ -263,8 +266,11 @@ function printFromBbox(req, res, next){
         : req.style;
 
     params.getTile = source.getTile.bind(source);
-    printer(params, function(err, image){
+    printer(params, function(err, image, header){
         if (err) return next(err);
+        _(header).each(function(v, k) {
+            res.set(k, v);
+        });
         return res.send(image);
     });
 }
