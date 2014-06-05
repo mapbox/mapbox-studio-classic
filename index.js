@@ -11,7 +11,7 @@ if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
     // Add custom library paths to the PATH
-    process.env.PATH = path.join(__dirname,"node_modules/mapnik/lib/binding/");
+    process.env.PATH = path.join(__dirname,'node_modules/mapnik/lib/binding/');
 }
 
 var _ = require('underscore');
@@ -27,6 +27,7 @@ var cors = require('cors');
 var request = require('request');
 var crypto = require('crypto');
 var mapnik_omnivore = require('mapnik-omnivore');
+var printer = require('abaculus');
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -110,6 +111,10 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+
+app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
+
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
 app.get('/style/:z,:lon,:lat.json', middleware.style, cors(), inspect);
@@ -137,7 +142,7 @@ function inspect(req, res, next) {
         }, {});
         return res.json(data);
     });
-};
+}
 
 function grid(req, res, next) {
     var z = req.params.z | 0;
@@ -153,7 +158,7 @@ function grid(req, res, next) {
         res.set(headers);
         return res.json(data);
     });
-};
+}
 
 function tile(req, res, next) {
     var z = req.params.z | 0;
@@ -217,7 +222,59 @@ function tile(req, res, next) {
     done.scale = scale;
     if (req.params.format !== 'png') done.format = req.params.format;
     source.getTile(z,x,y, done);
+}
+
+function printFromCenter(req, res, next){
+    // x & y are lng,lat at the center of the map
+    var params = {};
+    params.zoom = req.params.z | 0;
+    params.center = {
+        x: parseFloat(req.params.x),
+        y: parseFloat(req.params.y),
+        w: req.params.px | 0,
+        h: req.params.py | 0
+    };
+
+    params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    params.scale = params.scale > 4 ? 4 : params.scale;
+    params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+
+    var source = req.params.format === 'vector.pbf'
+        ? req.style._backend._source
+        : req.style;
+
+    params.getTile = source.getTile.bind(source);
+    printer(params, function(err, image, header){
+        if (err) return next(err);
+        _(header).each(function(v, k) {
+            res.set(k, v);
+        });
+        return res.send(image);
+    });
 };
+
+function printFromBbox(req, res, next){
+    // bbox is [w,s,e,n] boundaries for rectangle
+    var params = {};
+    params.zoom = req.params.z | 0;
+    params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n]
+    params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    params.scale = params.scale > 4 ? 4 : params.scale;
+    params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+
+    var source = req.params.format === 'vector.pbf'
+        ? req.style._backend._source
+        : req.style;
+
+    params.getTile = source.getTile.bind(source);
+    printer(params, function(err, image, header){
+        if (err) return next(err);
+        _(header).each(function(v, k) {
+            res.set(k, v);
+        });
+        return res.send(image);
+    });
+}
 
 app.get('/style.xml', middleware.style, function(req, res, next) {
     res.set({'content-type':'text/xml'});
