@@ -235,7 +235,7 @@ Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) 
     //This only applies to files that have gone through mapnik-omnivore
     var layername;
     if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
-    else layername = current_layer;
+    else layername = current_layer.id;
     
     //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
     //To avoid all geojson layers having the same name, replace id with the filename. 
@@ -447,7 +447,7 @@ Editor.prototype.browsefile = function(ev) {
             }
           });
         //else file is either postgis, sqlite, or csv...for now
-        } else if (extension === 'sqlite' || extension === 'csv' || extension === 'postgis'){
+        } else if (extension === 'sqlite' || extension === 'postgis'){
             var layername = filepath.substring(filepath.lastIndexOf("/")+1,filepath.lastIndexOf("."));
             window.editor.addlayer(extension, [{id: layername}], filepath, null);
         } else {
@@ -459,7 +459,7 @@ Editor.prototype.browsefile = function(ev) {
 };
 
 function mapnikOmnivore_digestable(ext){
-  if(ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp') return true;
+  if(ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' ) return true;
   else return false;
 };
 

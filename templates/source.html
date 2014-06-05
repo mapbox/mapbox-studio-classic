@@ -213,8 +213,6 @@ revlayers.reverse();
 <div class='z10' id='editor'>
 <% if (!remote) {
   _(revlayers).each(function(l) {
-    console.log("in source.html revlayers function......");
-    console.log(l);
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,

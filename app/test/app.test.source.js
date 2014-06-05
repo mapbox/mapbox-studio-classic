@@ -26,7 +26,7 @@ $(document).ajaxComplete(function() {
 
 
 describe('Setting maxzoom', function() {
-    it('sets maxzoom to higher value than 6 (checks logic preference for higher maxzoom...see #addlayer-shape test)', function() {
+    it('sets maxzoom to higher value than 6 (tests logic preference for higher maxzoom...see #addlayer-shape test)', function() {
         var maxzoomTarget = $('#settings #maxzoom');
         maxzoomTarget.val(12);
         $('#settings .js-save').submit();
@@ -38,14 +38,9 @@ describe('Setting maxzoom', function() {
 
 describe('#addlayer-shape', function() {
     it('adds new shapefile and checks input values', function(done) {
-        //Create new shape layer
+        //Browse for file and add new shape layer
         $('.js-addlayer').click();
-        $('#addlayer-shape').click();
-        $('#addlayer .col12').val('Testing');
-        $('#addlayer .js-reset-mode').submit();
-
-        //Browse for shapefile
-        $('#layers-Testing .js-browsefile').click();
+        $('.js-browsefile').click();
         var cwd = $('div.cwd').text();
         //This RegEx can probably be cleaned up, but it works for now
         cwd = cwd.replace(/\s*$/,"");
