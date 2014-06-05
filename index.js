@@ -26,14 +26,16 @@ var express = require('express');
 var cors = require('cors');
 var request = require('request');
 var crypto = require('crypto');
+var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
-
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
 config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
 config.port = config.port || '3000';
 config.test = config.test || false;
+config.cwd = path.resolve(config.cwd || process.env.HOME);
+
 tm.config(config);
 
 var app = express();
@@ -82,7 +84,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
 
     try {
         var page = tm.templates.style({
-            cwd: process.env.HOME,
+            cwd: config.cwd,
             fontsRef: require('mapnik').fonts(),
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
@@ -194,6 +196,7 @@ function tile(req, res, next) {
     var x = req.params.x | 0;
     var y = req.params.y | 0;
     var scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
+    // limits scale to 4x (1024 x 1024 tiles or 288dpi) for now
     scale = scale > 4 ? 4 : scale;
 
     var id = req.source ? req.source.data.id : req.style.data.id;
@@ -251,8 +254,6 @@ function tile(req, res, next) {
     if (req.params.format !== 'png') done.format = req.params.format;
     source.getTile(z,x,y, done);
 }
-
-
 
 function printFromCenter(req, res, next){
     // x & y are lng,lat at the center of the map
@@ -321,8 +322,6 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 app.get('/upload', middleware.auth, function(req, res, next) {
     if (style.tmpid(req.query.styleid))
         return next(new Error('Style must be saved first'));
-    if (typeof tm.db._docs.user.plan.tm2z == 'undefined' || !tm.db._docs.user.plan.tm2z)
-        return next(new Error('You are not allowed access to tm2z uploads yet.'));
 
     style.upload({
         id: req.query.styleid,
@@ -381,6 +380,7 @@ app.all('/mbtiles.json', function(req, res, next) {
 });
 
 app.get('/source', middleware.source, middleware.history, function(req, res, next) {
+
     // identify user's OS for styling docs shortcuts
     var agent = function() {
         var agent = req.headers['user-agent'];
@@ -394,12 +394,13 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
     try {
         var page = tm.templates.source({
             tm: tm,
-            cwd: process.env.HOME,
+            cwd: config.cwd,
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
             history: req.history,
             basemap: req.basemap,
             user: tm.db._docs.user,
+            test: 'test' in req.query,
             agent: agent()
         });
     } catch(err) {
@@ -513,6 +514,15 @@ app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next
     var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
     res.redirect(query.replace('{query}', req.query.search));
 });
+
+//Calls mapnik-omnivore for file's metadata
+app.get('/metadata', function(req, res, next) {
+    mapnik_omnivore.digest(req.query.file, function(err, metadata){
+        if(err) return next(err);
+        res.send(metadata);
+    });
+});
+
 
 // Include mock mapbox API routes if in test mode.
 if (config.test) require('./lib/mapbox-mock')(app);

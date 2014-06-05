@@ -21,6 +21,14 @@ var Modal = new views.Modal({
   templates: templates
 });
 
+CodeMirror.keyMap.tabSpace = {
+  Tab: function(cm) {
+    var spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
+    cm.replaceSelection(spaces, 'end', '+input');
+  },
+  fallthrough: ['default']
+};
+
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
     document.getElementById('code')
@@ -33,7 +41,8 @@ var Tab = function(id, value) {
     mode: {
       name: 'carto',
       reference: window.cartoRef
-    }
+    },
+    keyMap: 'tabSpace'
   });
   var completer = cartoCompletion(tab, window.cartoRef);
 
@@ -72,7 +81,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   return memo;
 }, {});
 
-// Add in interactivity template. 
+// Add in interactivity template.
 code.template = Tab('template', style.template);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
@@ -355,14 +364,6 @@ Editor.prototype.save = function(ev, options) {
         editor.model.get('_prefs').baselayer = '';
         $('#baselayer').hide();
       }
-    } else if (field.name === 'rtoggle'){
-      if (field.value === 'printresolution') {
-        editor.model.get('_prefs').print = true;
-        $('#print').removeClass('disabled');
-      } else {
-        editor.model.get('_prefs').print = false;
-        $('#print').addClass('disabled');
-      }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -491,9 +492,16 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map layer.
-  if (editor.model.get('_prefs').print) var scale = '@4x';
-  else if (window.devicePixelRatio > 1) var scale = '@2x';
-  else var scale = '';
+  if (window.devicePixelRatio > 1) {
+    var scale = '@2x';
+    $('#resolution_retina').show();
+    $('#resolution_standard').hide();
+  }
+  else {
+    var scale = '';
+    $('#resolution_standard').show();
+    $('#resolution_retina').hide();
+  }
 
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
