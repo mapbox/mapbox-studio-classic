@@ -38,7 +38,7 @@
     "request": "~2.34.0",
     "mapbox-upload": "0.0.2",
     "mapnik-omnivore": "1.0.3",
-    "abaculus": "https://github.com/mapbox/abaculus/tarball/master"
+    "abaculus": "0.0.1"
   },
   "devDependencies": {
     "mocha": "1.17.x",
