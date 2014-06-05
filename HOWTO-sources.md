@@ -1,7 +1,7 @@
 TM2 Vector Tile Sources
 =======================
 
-TM2 source projects transform traditional geodata formats (shapefiles, geojson, postgis, etc.) into vector tiles. A `data.yml` file captures a configuration of datasources organized as named layers.
+Unlike TileMill 1, TM2 cannot apply visual styles to geospatial data files directly. Instead, the raw data must be collected and cut into [Mapnik Vector Tiles](./README.md#what-are-vector-tiles). This happens via TM2 source projects which transform traditional geodata formats (Shapefiles, GeoJSON, PostGIS databases, etc.) into vector tiles containing the appropriate layers and configurations needed for styling.
 
 There is no visual style directly associated with sources - the source view of TM2 autogenerates an inspection style only for viewing your data. See [HOWTO-styles.md](./HOWTO-styles.md) to learn about applying styles to vector tile sources.
 
