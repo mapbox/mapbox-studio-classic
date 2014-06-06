@@ -114,7 +114,7 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
     };
 
     try {
-        var page = tm.templates.style({
+        var page = tm.templates.print({
             cwd: process.env.HOME,
             fontsRef: require('mapnik').fonts(),
             cartoRef: require('carto').tree.Reference.data,
@@ -127,7 +127,7 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
             agent: agent()
         });
     } catch(err) {
-        return next(new Error('style template: ' + err.message));
+        return next(new Error('print template: ' + err.message));
     }
     return res.send(page);
 });
@@ -472,9 +472,9 @@ app.get('/new/source', middleware.exporting, middleware.writeSource, function(re
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
-app.get('/new/print', middleware.exporting, middleware.loadStyle, function(req, res, next) {
-    res.redirect('/print?id=' + req.style.data.id);
-});
+// app.get('/new/print', middleware.exporting, middleware.loadStyle, function(req, res, next) {
+//     res.redirect('/print?id=' + req.style.data.id);
+// });
 
 app.get('/', function(req, res, next) {
     res.redirect('/new/style');

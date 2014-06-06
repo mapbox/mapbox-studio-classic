@@ -4,15 +4,10 @@
 <head>
   <meta charset='UTF-8'/>
   <link href='/app/icon.png' rel='apple-touch-icon' />
-  <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
-  <link href='/app/style.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
-  <script src='/ext/codemirror/codemirror.js'></script>
-  <script src='/ext/codemirror/runmode.js'></script>
-  <script src='/ext/codemirror/searchcursor.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
   <script src='/ext/backbone.js'></script>
@@ -20,18 +15,20 @@
   <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <script src='/app/style.js?_=<%= +new Date %>'></script>
-  <script src='/app/codemirror.carto.js'></script>
-  <script src='/app/codemirror.carto.complete.js'></script>
-  <script src='/app/codemirror.tm2.search.js'></script>
-  <script src='/app/codemirror.tm2.palette.js'></script>
+  <script src='/app/print.js?_=<%= +new Date %>'></script>
   <script src='/ext/sexagesimal.js'></script>
+  <link href='/app/print.css' rel='stylesheet' />
+  <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
+  <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
+  <script src='/ext/sphericalmercator.js'></script>
+
+
   <title><%= style.name %></title>
 </head>
 
 <body id='view' class='<%= agent %> clip'><div id='app' class='pin-top pin-bottom animate'>
 
 <a id='home'></a>
-<a id='xray'></a>
 <a id='baselayer'></a>
 
 <div id='modal'>
@@ -108,6 +105,15 @@
           <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4'>Resolution <br> <em class='small quiet'> screen resolution recommended </em></label>
+          <div class='rounded-toggle inline resolution'>
+            <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
+            <label for='screenresolution'>Screen</label>
+            <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
+            <label for='printresolution'>Print</label>
+          </div>
+        </section>
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4 pad0y' for='map_id'>Map ID</label>
@@ -122,13 +128,6 @@
           <input id='baselayer_id' class='code short small col8' name='baselayer' type='text' value='<%= _(style._prefs.baselayer).escape() %>' placeholder='Mapbox map id'></input>
         </section>
       </fieldset>
-      <fieldset class='fill-darken0 pad1 round'>
-          <div class='small quiet'>
-            <em id='resolution_standard'>Displaying standard resolution tiles </em>
-            <em id='resolution_retina'> Displaying 2x tiles optimized for retina </em>
-        </div>
-      </fieldset>
-
     </div>
     <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
       <section class='pad1x col12 clearfix'>
@@ -143,7 +142,7 @@
         <div class='pad1x pill col8'><!--
         --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col4 <% if (!user.plan.tm2z) { %>col12<% } %> submit icon package'>Package</a><!--
         --><a href='#settings' class='js-upload button quiet col4 submit icon up'>Upload</a><!--
-        --><a href='/print?id=<%=style.id%>' id='print-style' class='button quiet col4 submit printer icon'>Print</a><!--
+        --><a href='#settings' id='print-style' class='button quiet col4 submit printer icon'>Print</a><!--
      --></div>
         <% } %>
       </section>
@@ -214,10 +213,6 @@
       <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
       <a href='#home' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
     </span>
-    <span class='xray-toggle'>
-      <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
-      <a href='#home' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
-    </span>
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
@@ -233,45 +228,6 @@
   </div>
 </div>
 
-<div id='docs' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
-    <%= this['styledocs'](cartoRef) %>
-  </div>
-  <div class='demo-popup col6 pin-topleft pad2 top1 fill-blue dark'>
-    <h3>CartoCSS</h3>
-    <small class='space-bottom4'>
-    View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
-    </small>
-    <div class='pin-bottom clearfix center'><!--
-    --><a href='#xray' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-    --><a href='#fonts' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-    </div>
-  </div>
-</div>
-
-<div id='fonts' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
-    <header class='pad1x pad0y keyline-bottom'>
-      <h3 class='pad0y'>Fonts</h3>
-      <nav class='pin-topright'>
-        <a class='inline pad1 strong small icon quiet x' href='#docs'></a>
-      </nav>
-    </header>
-    <% fontsRef.forEach(function(font) { %>
-    <div class='keyline-bottom'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div>
-    <% }); %>
-  </div>
-  <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark'>
-    <h3>Fonts</h3>
-    <small class='space-bottom4'>
-    The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
-    </small>
-    <div class='pin-bottom clearfix center'><!--
-    --><a href='#docs' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-    --><a href='#layers' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-    </div>
-  </div>
-</div>
 
 <div id='layers' class='pin-right col6 z1'>
   <div class='col6 pin-left scroll-styled menu dark fill-dark animate pane'>
@@ -295,83 +251,66 @@
   </div>
 </div>
 
-<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='code' class='z1 pin-left col12'>
-  <div class='row1 fill-light pin-top'>
-    <div class='pin-topleft z1 row1'><!--
-    --><a title='Documentation' class='pad1 inline quiet docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-      --><a title='Documentation' class='pad1 inline dark docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
-      --><a title='Data layers' class='pad1 inline quiet layers-n icon point-line align-middle fill-darken0 keyline-right' href='#layers'></a><!--
-      --><a title='Data layers' class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken2 keyline-right' href='#'></a>
+<div id='print-ui' class='animate z1 col6 pin-right fill-light'>
+  <div id='print' class='z1 pin-left col12'>
+    <div class='pin-topleft z1 row1 keyline-bottom'><!--
+      --><a title='Documentation' class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
+      --><a title='Documentation' class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
+      -->
+      <a title='Fullscreen' class='pad1 inline quiet docs-n icon l-r-arrow unround align-middle fill-darken0 keyline-right' href='#full'></a><!--
+      -->
+      <strong class='small inline pad1y pad4x'>Export Settings</strong>
     </div>
-    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'>
-      <a rel='template' href='#code-template' class='pin-topleft template-tab pad0 round tab js-tab quiet icon tooltip'></a>
-      <div class='center carto-tabs'><!--
-      <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
-      <% }); %>
-      --></div>
-      <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
-    </nav>
-  </div>
-
-  <form id='interactivity' class='hidden top1 contain'>
-    <div class='fill-white row1 pad1 keyline-bottom pin-top'>
-      <a href='#interaction-info' class='pin-right pad1 js-info inline icon info quiet'></a>
-      <div id='interaction-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
-        <p>Select a layer from the dropdown, and then place an attribute in brackets like <code>{{{attribute}}}</code>. You can combine tags with plain text. For example, <code>{{{featuretype}}} is {{{depth}}} meters deep</code> would result in a popup that read: "lake is 300 meters deep" when hovering over a feature with <span class='quiet'>featuretype:lake</span> and <span class='quiet'>depth:300.</span></p>
+    <br>
+    <br>
+    <div>
+      <div class='keyline-bottom pad1'>
+        <fieldset>
+          <label class='pad1x inline'>Filename</label>
+          <input class='exportInput' type='text' value='<%=style.name %>' />.<span class='format'>png</span>
+        </fieldset>
       </div>
-
-      <label class='small strong'>Interaction layer</label>
-      <select name='interactivity_layer' class='js-layer-options'>
-        <option value=''>Choose:</option>
-        <% _(sources).each(function(source) { %>
-          <% _(source.vector_layers||{}).each(function(l) { %>
-            <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
-          <% }); %>
-        <% }); %>
-      </select>
+      <div class='keyline-bottom pad1 round'>
+        <label class='label pad1x inline'>Format </label>
+        <div id='formatInput' class='rounded-toggle inline short'>
+          <input id='png' type='radio' name='rtoggle' value='png' checked='checked'>
+          <label for='png'>png</label>
+          <input id='jpeg' type='radio' name='rtoggle' value='jpeg'>
+          <label for='jpeg'>jpeg</label>
+        </div>
+        <fieldset class='pad1'>
+          <label >Scale</label>
+          <input id='scale' type='range' value='1' min='1' max='4' step='1'>
+          <br>
+          <span id='scaleValue'>1</span>x for <span id='dpi'>72</span> dpi
+        </fieldset>
+      </div>
+    <div class='keyline-bottom pad1'>
+      <a href="#" id='bboxEnable'>click for bounding box</a>
     </div>
-    <div class='fill-grey pad1 keyline-top fixed-bottomright col6 row4 z10 small'>
-      <div class='space-bottom1'>
-        <label class='small'>Available properties:</label>
-      </div>
 
-      <div class='pad1 round fill-light content scroll-styled space-bottom1'>
-        <% _(sources).each(function(source) { %>
-          <% _(source.vector_layers||{}).each(function(l) { %>
-          <pre rel='<%= l.id %>' class='small space js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %><span>{{{<%= name %>}}}</span><% }); %></pre>
-          <% }); %>
-        <% }); %>
-        <%= this.emptystate({message:'Select an interaction layer to see available properties.'}) %>
-      </div>
-      <p class='quiet'><a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags are replaced by your data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize tooltips.</p>
+    <div class='keyline-bottom pad1 round'>
+      <fieldset>
+        <label class='inline'>Bounds</label>
+        <input id='bboxInput' class='exportInput' type='text' value='' />
+        <br>
+        <label class='inline'>Center</label>
+        <input id='centerInput' class='exportInput' type='text' value='' />
+        <br>
+        <input id='redraw' class='quiet' type='submit' value='Redraw' name='' />
+      </fieldset>
     </div>
-  </form>
-  </div>
-  <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
-    <h3>Editing + saving</h3>
-    <small class='space-bottom4'>
-    Change the Map <code>background-color</code> property to a hex code (<code>#f88</code>) or html color (<code>pink</code>). Hit <kbd class='prefixed'>s</kbd> to save and update your style. The map preview on the left updates as you work.
-    </small>
-    <div class='pin-bottom clearfix center'><!--
-    --><a href='#demo' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-    --><a href='#xray' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    <div class='keyline-bottom pad1 round'>
+      Dimensions: <span id='dimX'>wut</span> x <span id='dimY'>lol</span> (<span id='imageSize'></span>)
+      <br>
+      <span class='warning'>Image is at <span id='sizePerc'>lol</span>% of size limit</span>
+    </div>
+    <div class='keyline-bottom pad1 round'>
+      <input id='export' type='button' class='button disabled' value='Export Static Map' name='' />
+    </div>
     </div>
   </div>
 </div>
-
-<div class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark z1'>
-  <h3>Style editor</h3>
-  <small class='space-bottom4'>
-  In the TM2 style editor you can design map styles using data from OpenStreetMap, Mapbox, and other custom sources. Then publish them to be used with the Mapbox API.
-  </small>
-  <div class='pin-bottom clearfix center'><!--
-  --><a href='#home' class='small fill-darken0 pad1 col12 icon next quiet'>Next</a>
-  </div>
-</div>
-
-<%= this.styledemo() %>
 
 </div>
 
@@ -388,9 +327,8 @@ templates.modalsources = <%= this.modalsources.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
-templates.xraycolor = <%= this.xraycolor.source %>;
-templates.xraypopup = <%= this.xraypopup.source %>;
-Style(templates, cwd, style);
+Print(templates, cwd, style);
+console.log(style)
 </script>
 
 <% if (test) { %>
@@ -400,7 +338,7 @@ Style(templates, cwd, style);
   <script src='/app/test/mocha.js'></script>
   <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
   <a href='#' id='mask' class='fill-darken2 animate'></a>
-  <script src='/app/test/app.test.style.js'></script>
+  <script src='/app/test/app.test.js'></script>
 <% } %>
 
 </body>

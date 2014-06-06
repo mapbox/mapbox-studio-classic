@@ -1,0 +1,16 @@
+/* Code pane */
+#style-ui,
+#source-ui,
+#print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+
+/* Interactivity form */
+#interactivity .content     { max-height:80px; }
+#interactivity .content pre { padding:0; }
+#code-template.active ~ #interactivity  { display:block; }
+
+pre ~ .empty-state { display: block;}
+pre:not(.hidden) ~ .empty-state { display: none;}
+
+/* Export Settings */
+
+.exportInput { height: 20px !important; }
