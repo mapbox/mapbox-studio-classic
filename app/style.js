@@ -111,6 +111,7 @@ Editor.prototype.events = {
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
+  'click .js-baselayer': 'toggleBaselayer',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -359,10 +360,10 @@ Editor.prototype.save = function(ev, options) {
     } else if (field.name === 'baselayer') {
       if (field.value) {
         editor.model.get('_prefs').baselayer = field.value;
-        $('#baselayer').show();
+        $('.js-baselayer').removeClass('hidden');
       } else {
         editor.model.get('_prefs').baselayer = '';
-        $('#baselayer').hide();
+        $('.js-baselayer').addClass('hidden');
       }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
@@ -462,6 +463,24 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
+Editor.prototype.toggleBaselayer = function(ev) {
+  var $el = $(ev.currentTarget);
+  var $parent = $(ev.currentTarget).parent('div');
+
+  baselayer = baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
+
+  if ($el.hasClass('active')) {
+    $el.removeClass('active');
+    map.removeLayer(baselayer);
+  } else {
+    $el.addClass('active');
+    baselayer.addTo(map).bringToBack();
+  }
+
+  return false;
+
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
@@ -482,14 +501,6 @@ Editor.prototype.refresh = function(ev) {
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
-
-  // Refresh map baselayer.
-  if (baselayer) map.removeLayer(baselayer);
-  baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && window.location.hash === '#baselayer') {
-    $('.base-toggle').addClass('active');
-    baselayer.addTo(map);
-  }
 
   // Refresh map layer.
   if (window.devicePixelRatio > 1) {
@@ -525,7 +536,6 @@ Editor.prototype.refresh = function(ev) {
   });
   if (window.location.hash === '#xray') {
     $('.xray-toggle').addClass('active');
-    $('.base-toggle').removeClass('active');
     xray.addTo(map);
   }
 
@@ -582,7 +592,6 @@ window.onhashchange = function(ev) {
     break;
   case 'home':
   case 'xray':
-  case 'baselayer':
     window.editor.refresh();
     break;
   }
