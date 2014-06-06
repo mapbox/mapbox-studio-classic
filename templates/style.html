@@ -209,9 +209,9 @@
         --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <span class='base-toggle'>
-      <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-      <a href='#home' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
+    <span class='base-toggle js-baselayer <% if (!style._prefs.baselayer) { %>hidden<% }%>'>
+      <a href='#' title='Toggle baselayer' class='baselayer-n inline icon mt fill-white quiet'></a>
+      <a href='#' title='Toggle baselayer' class='baselayer-y inline icon mt dark fill-dark'></a>
     </span>
     <span class='xray-toggle'>
       <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
