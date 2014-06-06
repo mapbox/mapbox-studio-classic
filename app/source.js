@@ -262,6 +262,9 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             };
             $('#editor').prepend(templates['layer' + values.type](layer));
             $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+            //set projection and allow edits
+            var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
+            projTarget.attr('readonly', false);
             layers[values.id] = Layer(values.id, layer.Datasource);
             Modal.close();
             window.location.hash = '#layers-' + values.id;
@@ -310,9 +313,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
-                //set projection
+                //set projection and readonly
                 var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
                 projTarget.val(metadata.projection);
+                projTarget.attr('readonly', true);
                 //set maxzoom, if needed
                 var maxzoomTarget = $('.max');
                 if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
