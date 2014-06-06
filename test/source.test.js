@@ -6,6 +6,10 @@ var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var creds = {
+    account: 'test',
+    accesstoken: 'testaccesstoken'
+};
 var UPDATE = !!process.env.UPDATE;
 
 describe('source', function() {
@@ -20,10 +24,7 @@ before(function(done) {
     }, done);
 });
 before(function(done) {
-    tm.db.set('oauth', {
-        account: 'test',
-        accesstoken: 'testaccesstoken'
-    });
+    tm.db.set('oauth', creds);
     tm._config.mapboxtile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, done);
 });
@@ -78,6 +79,15 @@ describe('source util', function() {
 });
 
 describe('source remote', function() {
+    it('fails without oauth', function(done) {
+        tm.db.set('oauth', null);
+        source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
+            assert.ok(err);
+            assert.equal('EOAUTH', err.code);
+            tm.db.set('oauth', creds);
+            done();
+        });
+    });
     it('loads', function(done) {
         source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
             assert.ifError(err);

@@ -8,6 +8,10 @@ var defpath = path.dirname(require.resolve('tm2-default-style'));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var UPDATE = !!process.env.UPDATE;
 var tmp = require('os').tmpdir();
+var creds = {
+    account: 'test',
+    accesstoken: 'testaccesstoken'
+};
 
 describe('style', function() {
 
@@ -20,10 +24,7 @@ before(function(done) {
     }, done);
 });
 before(function(done) {
-    tm.db.set('oauth', {
-        account: 'test',
-        accesstoken: 'testaccesstoken'
-    });
+    tm.db.set('oauth', creds);
     tm._config.mapboxtile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, done);
 });
@@ -60,6 +61,15 @@ describe('style load', function() {
             try { fs.unlinkSync(tmpSpace + '.tm2z') } catch(err) {};
             done();
         }, 250);
+    });
+    it('fails to load without oauth', function(done) {
+        tm.db.set('oauth', null);
+        style('tmstyle:///' + defpath, function(err, proj) {
+            assert.ok(err);
+            assert.equal('EOAUTH', err.code);
+            tm.db.set('oauth', creds);
+            done();
+        });
     });
     it('loads default style from disk', function(done) {
         style('tmstyle:///' + defpath, function(err, proj) {
