@@ -78,6 +78,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-reset-mode': 'resetmode',
         'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
+        'click .layer .js-refreshSource': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
         'click .js-browsefile': 'browsefile',
         'click #history .js-tab': 'tabbed',
@@ -275,11 +276,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
-        //make filetypes mapnik-reference friendly
-        if (filetype === 'shp') filetype = 'shape';
-        var gpx = false;
-        if (filetype === 'gpx') gpx = true;
-        if (filetype === 'kml' || filetype === 'gpx') filetype = 'ogr';
         layersArray.forEach(function(current_layer, index, array) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
             //so this is just reversing that process in order to properly render the mapnikXML for TM2
@@ -292,7 +288,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             if (filetype === 'geojson') current_layer.id = metadata.filename;
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
-            if (gpx) current_layer.id = metadata.filename + '_' + current_layer.id;
+            if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
             //checks that the layer doesn't already exist
             if (!layers[current_layer.id]) {
                 //Setup layer object
@@ -304,12 +300,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                         'buffer-size': 8
                     },
                     Datasource: {
-                        type: filetype,
+                        type: metadata.dstype,
                         file: filepath,
                         layer: layername
                     }
                 };
-                $('#editor').prepend(templates['layer' + filetype](layer));
+                $('#editor').prepend(templates['layer' + metadata.dstype](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
@@ -346,6 +342,80 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             delete layers[id];
         }
         window.location.href = '#';
+        return false;
+    };
+    //This only applies to single-layer sources at the moment
+    Editor.prototype.refreshSource = function(ev) {
+        // 'id' will remain consistent between the old and the new, since 'id' comes from the name of the actual file. So var 'id'
+        // and var 'new_layer.id' will be the same thing in this function.
+        // A source's 'id' is set in mapnik-omnivore here: https://github.com/mapbox/mapnik-omnivore/blob/master/lib/datasourceProcessor.js#L32
+        // There's no way for the id to change as long as the filename/filepath is the same. The user would have to create an
+        // entirely new datasource with the new filename/filepath in order to change the id. 
+        var id = $(ev.currentTarget).attr('id').split('-').pop();
+        if (!layers[id]) return false;
+        var layerform = '#layers-' + id;
+        var filepath = $(layerform + ' .filepath').val();
+        $.ajax({
+          url: '/metadata?file=' + filepath,
+          success: function(metadata) {
+            //id will remain consistent between the old and the new, since 'id' comes from the name of the actual file.
+            //This is set in mapnik-omnivore here: https://github.com/mapbox/mapnik-omnivore/blob/master/lib/datasourceProcessor.js#L32
+            //There's no way for the id to change as long as the filename/filepath is the same. The user would have to create an
+            //entirely new datasource with the new filename/filepath in order to change the id.
+            var new_layer = metadata.json.vector_layers[0];
+
+            //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
+            //so this is just reversing that process in order to properly render the mapnikXML for TM2
+            //This only applies to files that have gone through mapnik-omnivore
+            //Used for Datasource only
+            var layername = (new_layer.id).split('_').join(' ');
+            
+            //Setup new layer object
+            var layer = {
+              tm: tm,
+              vt: {},
+              id: new_layer.id,
+              properties: {
+               'buffer-size': 8
+              },
+              Datasource: {
+                type: metadata.dstype,
+                file: filepath,
+                layer: layername
+              }
+            };
+            //Retain current settings to copy over
+            var current_state = layers[id].get();
+            //Add new layer and replace old in the project's layers array
+            layers[layer.id] = Layer(layer.id, layer.Datasource);
+            
+            //Grab current settings in case they've been changed by user and apply them to refreshed modal
+            //Set buffer size from current modal
+            $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
+            //Set description from current modal
+            $(layerform + ' input[name=description]').val(current_state.description);
+            
+            //Transfer current field descriptions to the new fields, if relevant
+            var new_fields = metadata.json.vector_layers[0].fields;
+            var current_fields = current_state.fields;
+            for(var field in new_fields){
+              if(current_fields.TRADE_NAME !== undefined) new_fields[field] = current_fields[field];
+            };
+            //refresh fields
+            $('div.fields', layerform).html(templates.layerfields(new_fields));
+
+            //set projection and readonly
+            var projTarget = $(layerform + ' .js-metadata-projection');
+            projTarget.val(metadata.projection);
+            projTarget.attr('readonly', true);
+            //set maxzoom, if needed
+            var maxzoomTarget = $('.max');
+            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            Modal.show('error', 'Cannot refresh source. ' + jqXHR.responseText);
+          }
+        });
         return false;
     };
     Editor.prototype.error = function(model, resp) {
@@ -486,7 +556,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                                 Modal.show('error', jqXHR.responseText);
                             }
                         });
-                        //else file is either postgis, sqlite, or csv...for now
+                        //else file is either postgis or sqlite...for now
                     } else if (extension === 'sqlite' || extension === 'postgis') {
                         var layername = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.lastIndexOf("."));
                         window.editor.addlayer(extension, [{

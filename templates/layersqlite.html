@@ -25,7 +25,8 @@
         <label>SQLite<label>
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='sqlite' />
-          <input class='col12 filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
+          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".sqlite" extension.' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/>
+          <a class='quiet col4 button icon folder js-browsefile'>Browse</a>
         </div>
       </section>
       <section class='pad2x pad1y clearfix keyline-bottom'>
