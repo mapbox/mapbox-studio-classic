@@ -124,7 +124,6 @@ var inspectFeature = function(options) {
       success: function(data) {
         if (!_(data).size()) return;
         popup = L.popup({
-          closeButton:false,
           minWidth:200,
           maxHeight:window.innerHeight-100,
           autoPanPaddingTopLeft:L.point(5,45),
