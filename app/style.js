@@ -465,7 +465,6 @@ Editor.prototype.upload = function(ev) {
 
 Editor.prototype.toggleBaselayer = function(ev) {
   var $el = $(ev.currentTarget);
-  var $parent = $(ev.currentTarget).parent('div');
 
   baselayer = baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
 
