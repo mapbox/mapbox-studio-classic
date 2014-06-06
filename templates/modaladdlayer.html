@@ -1,32 +1,30 @@
-<form id='addlayer' class='modal round pad2 col6 margin3 pin-top top2 fill-dark'>
-    <a href='#' class="pad1 quiet icon x pin-topright close"></a>
-    <fieldset class='col12'>
-        <p class='center'>Add a new datasource.</p>
-        <div class='input-pill clearfix'>
+<form id='addlayer' class='modal margin2 round col6 pin-top top2'>
+  <a href='#' class="pad1 quiet icon x pin-topright close"></a>
+    <fieldset class='col12 pad2 fill-dark'>
+        <p class='center col8 margin2'>Add a new datasource.</p>
+        <div class='input-pill clearfix col12'>
             <input type='hidden' name='Datasource-type' value='shape' />
             <input class='col8' type='text' name='Datasource-file' title='No spaces allowed.' placeholder='.shp .kml .geojson .gpx .csv' pattern='[\w+\d+\.\/_-]+\.(shp|SHP|json|geojson|JSON|kml|KML|gpx|GPX|csv|CSV)'/>
             <a class='quiet col4 button icon folder js-browsefile'>Browse</a>
         </div>
     </fieldset>
-    <fieldset class='col12'>
-    </fieldset>
-    <fieldset id='addDatabase' class='col8 margin2'>
-        <div class="space-bottom1 small quiet">Do you wish to add a Database file?</br>Select which type and name the new layer:</div>
-         <div class='col12 scroll-styled radio-buttons'>
-      <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
-      <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
+    <fieldset id='addDatabase' class='col12 pad2 fill-dark'>
+        <p class='center'>Add a new database.</p>
+        <div class='margin4 col4 scroll-styled radio-buttons'>
+        <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
+        <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
         PostGIS
-        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-sqlite' value='sqlite'>
-      <label class='contain icon check quiet short button col12' for='addlayer-sqlite'>
-        SQLite
-        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
-      </label>
-    </div>
-            <fieldset class='col12'>
+        </label>
+        <input name='type' type='radio' id='addlayer-sqlite' value='sqlite'>
+        <label class='contain icon check quiet short button col12' for='addlayer-sqlite'>
+          SQLite
+        </label>
+        </div>
+        <fieldset class='col12'>
         </fieldset>
-        <input class='col10 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
-        <input class='js-reset-mode col2' type='submit' value='+'/>
+        <div class='input-pill col12'>
+          <input class='col10 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
+          <input class='js-reset-mode col2' type='submit' value='+'/>
+        </div>
     </fieldset>
 </form>
