@@ -81,7 +81,7 @@ describe('source util', function() {
 describe('source remote', function() {
     it('fails without oauth', function(done) {
         tm.db.set('oauth', null);
-        source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
+        source('mapbox:///test.oauth-fail-source', function(err, source) {
             assert.ok(err);
             assert.equal('EOAUTH', err.code);
             tm.db.set('oauth', creds);

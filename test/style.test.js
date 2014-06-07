@@ -62,15 +62,6 @@ describe('style load', function() {
             done();
         }, 250);
     });
-    it('fails to load without oauth', function(done) {
-        tm.db.set('oauth', null);
-        style('tmstyle:///' + defpath, function(err, proj) {
-            assert.ok(err);
-            assert.equal('EOAUTH', err.code);
-            tm.db.set('oauth', creds);
-            done();
-        });
-    });
     it('loads default style from disk', function(done) {
         style('tmstyle:///' + defpath, function(err, proj) {
             assert.ifError(err);
