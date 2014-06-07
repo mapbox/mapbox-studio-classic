@@ -316,6 +316,8 @@ Printer.prototype.calculateCoordinates = function(ev){
   window.exporter.model.set({
       coordinates: { 
         zoom: zoom,
+        scale: $('#scale').prop('value') | 0,
+        format: ($('#png').prop('checked')) ? 'png' : 'jpeg',
         bbox: [
           parseFloat(bounds._southWest.lat.toFixed(decimals)), 
           parseFloat(bounds._southWest.lng.toFixed(decimals)), 
@@ -329,7 +331,7 @@ Printer.prototype.calculateCoordinates = function(ev){
       }
   });
   var coordinates = window.exporter.model.get('coordinates');
-  if ($('#redraw').hasClass('quiet')) $('#redraw').removeClass('quiet');
+  if ($('#redraw').hasClass('disabled')) $('#redraw').removeClass('disabled');
   $('#bboxInput').attr('value', coordinates.bbox[0]+', '+coordinates.bbox[1]+', '+coordinates.bbox[2]+', '+coordinates.bbox[3]);
   $('#centerInput').attr('value', coordinates.center[0]+', '+coordinates.center[1]);
 
@@ -342,7 +344,7 @@ Printer.prototype.calculateTotal = function(){
     bbox = window.exporter.model.get('coordinates').bbox,
     center;
   var sm = new SphericalMercator();
-    sm.size = scale * 256;
+  sm.size = scale * 256;
   
   var topRight = sm.px([bbox[3], bbox[2]], zoom),
     bottomLeft = sm.px([bbox[1], bbox[0]], zoom),
@@ -355,6 +357,7 @@ Printer.prototype.calculateTotal = function(){
     $('#sizePerc').html(percentage);
     if (percentage > 100 ) $('#export').addClass('disabled');
     if (percentage <= 100 ) $('#export').removeClass('disabled');
+    this.updateUrl();
 };
 
 Printer.prototype.modifyCoordinates = function(ev){
@@ -382,10 +385,19 @@ Printer.prototype.modifyCoordinates = function(ev){
 };
 
 Printer.prototype.updateScale = function(ev){
+  if (!boundingBox.isEnabled()) return;
   var scale =  $('#scale').prop('value');
   $('#scaleValue').html(scale);
   $('#dpi').html(scale * 72);
+  this.model.get('coordinates').scale = scale;
   this.calculateTotal();
+};
+
+Printer.prototype.updateUrl = function(){
+  var coords = window.exporter.model.get('coordinates');
+  var url = 'http://localhost:3000/static/'+coords.zoom+'/'+coords.bbox.toString()+'@'+coords.scale+'x.'+coords.format+'?id='+window.exporter.model.get('id');
+  console.log(url)
+  $('#export').attr('href', url)
 };
 
 Printer.prototype.refresh = function(ev) {
@@ -396,8 +408,12 @@ Printer.prototype.refresh = function(ev) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { 
-      $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0));
-      if (boundingBox.isEnabled()) calcTotal();
+      var zoom = map.getZoom()|0;
+      $('#zoomedto').attr('class', 'contain z' + zoom);
+      if (boundingBox.isEnabled()) {
+        window.exporter.model.get('coordinates').zoom = zoom;
+        calcTotal();
+      }
     });
     map.on('click', inspectFeature({
       id: this.model.id,

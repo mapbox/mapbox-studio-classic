@@ -303,6 +303,7 @@ function printFromBbox(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
+        res.set({'Content-disposition': 'attachment; filename=image.'+params.format});
         return res.send(image);
     });
 }
