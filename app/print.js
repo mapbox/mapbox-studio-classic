@@ -51,7 +51,9 @@ Printer.prototype.events = {
   // 'keydown': 'keys'
   'click #bboxEnable': 'bboxEnable',
   'click #redraw': 'modifyCoordinates',
-  'change #scale': 'updateScale'
+  'change #scale': 'updateScale',
+  'change #format': 'updateFormat'
+
 };
 
 Printer.prototype.keys = function(ev) {
@@ -305,6 +307,9 @@ Printer.prototype.bboxEnable = function(ev){
       boundingBox.fire("enableClick");
   }
   $('#export').removeClass('disabled');
+  $('.attributes').removeClass('quiet');
+  $('#bboxInput').prop('disabled', false);
+  $('#centerInput').prop('disabled', false);;
 };
 
 Printer.prototype.calculateCoordinates = function(ev){
@@ -312,12 +317,14 @@ Printer.prototype.calculateCoordinates = function(ev){
   var center = [(bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng, (bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat];
   var zoom = map.getZoom();
   var decimals = 4;
+  var format = $('select#format option:selected').prop('value').split(':');
 
   window.exporter.model.set({
       coordinates: { 
         zoom: zoom,
         scale: $('#scale').prop('value') | 0,
-        format: ($('#png').prop('checked')) ? 'png' : 'jpeg',
+        format: format[0],
+        quality: format[1],
         bbox: [
           parseFloat(bounds._southWest.lat.toFixed(decimals)), 
           parseFloat(bounds._southWest.lng.toFixed(decimals)), 
@@ -385,12 +392,24 @@ Printer.prototype.modifyCoordinates = function(ev){
 };
 
 Printer.prototype.updateScale = function(ev){
-  if (!boundingBox.isEnabled()) return;
   var scale =  $('#scale').prop('value');
   $('#scaleValue').html(scale);
   $('#dpi').html(scale * 72);
+
+  if (!boundingBox.isEnabled()) return;
   this.model.get('coordinates').scale = scale;
   this.calculateTotal();
+};
+
+Printer.prototype.updateFormat = function(){
+  var format = $('select#format option:selected').prop('value').split(':');
+  $('#format').html('.'+format[0]);
+
+  if (!boundingBox.isEnabled()) return;
+  window.exporter.model.get('coordinates').format = format[0];
+  window.exporter.model.get('coordinates').quality = format[1];
+  console.log(format)
+  this.updateUrl();
 };
 
 Printer.prototype.updateUrl = function(){

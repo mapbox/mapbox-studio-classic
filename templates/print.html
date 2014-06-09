@@ -105,15 +105,6 @@
           <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
           <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
         </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Resolution <br> <em class='small quiet'> screen resolution recommended </em></label>
-          <div class='rounded-toggle inline resolution'>
-            <input id='screenresolution' name='rtoggle' type='radio' value='screenresolution' <% if (!style._prefs.print) {%> checked <%}%>/>
-            <label for='screenresolution'>Screen</label>
-            <input id='printresolution' name='rtoggle' type='radio' value='printresolution' <% if (style._prefs.print) {%> checked <%}%>/>
-            <label for='printresolution'>Print</label>
-          </div>
-        </section>
         <% if (style._prefs.mapid) { %>
         <section class='space-bottom0 clearfix'>
           <label class='inline col4 pad0y' for='map_id'>Map ID</label>
@@ -146,16 +137,6 @@
      --></div>
         <% } %>
       </section>
-    </div>
-    <div class='demo-popup col8 pin-topright offcanvas-right pad2 top2 fill-blue dark'>
-      <h3>Publishing</h3>
-      <small class='space-bottom4'>
-      Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
-      </small>
-      <div class='pin-bottom clearfix center'><!--
-      --><a href='#layers' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-      --><a href='#user' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-      </div>
     </div>
   </div>
 </form>
@@ -216,7 +197,7 @@
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
-  <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+  <div class='demo-popup col4 pin-bottomleft pad2 bottom2 fill-blue dark'>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
     TM2 styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
@@ -229,29 +210,7 @@
 </div>
 
 
-<div id='layers' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled menu dark fill-dark animate pane'>
-    <nav class='pad0y pad1x row1 keyline-bottom fill-darken1'>
-      <a href='#layers' class='js-modalsources button short icon point-line'>Change source</a>
-      <a class='pad1 quiet icon x pin-topright' href='#'></a>
-    </nav>
-    <div class='js-menu-content'>
-      <%= _(sources).map(this.sourcelayers).join('\n') %>
-    </div>
-  </div>
-  <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
-    <h3>Vector sources</h3>
-    <small class='space-bottom4'>
-    Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
-    </small>
-    <div class='pin-bottom clearfix center'><!--
-    --><a href='#fonts' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-    --><a href='#settings' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-    </div>
-  </div>
-</div>
-
-<div id='print-ui' class='animate z1 col6 pin-right fill-light'>
+<div id='print-ui' class='animate z1 col5 pin-right fill-light'>
   <div id='print' class='z1 pin-left col12'>
     <div class='pin-topleft z1 row1 keyline-bottom'><!--
       --><a title='Documentation' class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
@@ -266,47 +225,84 @@
     <div>
       <div class='keyline-bottom pad1'>
         <fieldset>
-          <label class='pad1x inline'>Filename</label>
-          <input class='exportInput' type='text' value='<%=style.name %>' />.<span class='format'>png</span>
+          <section class='space-bottom1'>
+          <label>Filename</label>
+          <input id='' class='col10 short small' type='text' value='<%=style.name %>' /><span id='format' class='format col2 pad1x'>.png</span>
+        </section>
+        <section>
+          <label>Attribution</label>
+          <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
+        </section>
         </fieldset>
       </div>
-      <div class='keyline-bottom pad1 round'>
-        <label class='label pad1x inline'>Format </label>
+      <fieldset class='pad1 space-bottom2 keyline-all'>
+        <section class='space-bottom1 clearfix'>
+          <label class='inline col4'>Image format</label>
+          <select id='format' name='format'>
+            <% _({
+              'png:256': 'png (256 colors)',
+              'png:192': 'png (192 colors)',
+              'png:128': 'png (128 colors)',
+              'png:64': 'png (64 colors)',
+              'png:32': 'png (32 colors)',
+              'jpeg:95': 'jpeg (95%)',
+              'jpeg:90': 'jpeg (90%)',
+              'jpeg:85': 'jpeg (85%)',
+              'jpeg:80': 'jpeg (80%)',
+              'jpeg:60': 'jpeg (60%)',
+              'jpeg:50': 'jpeg (50%)'
+
+            }).each(function(label, format) { %>
+            <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+            <% }); %>
+          </select>
+        </section>
+        <section class='space-bottom0 clearfix'>
+          <label class='inline col4'>Scale</label>
+          <input id='scale' type='range' value='1' min='1' max='4' step='1'>
+          <span class='small quiet code inline range'><span id='scaleValue'>1</span>x for <span id='dpi'>72</span> dpi</span>
+        </section>
+      </fieldset>
+
+
+<!--       <div class='keyline-bottom pad1 round space-bottom0 clearfix'>
+        <label class='inline col4'>Format </label>
         <div id='formatInput' class='rounded-toggle inline short'>
           <input id='png' type='radio' name='rtoggle' value='png' checked='checked'>
           <label for='png'>png</label>
           <input id='jpeg' type='radio' name='rtoggle' value='jpeg'>
           <label for='jpeg'>jpeg</label>
-        </div>
-        <fieldset class='pad1'>
-          <label >Scale</label>
-          <input id='scale' type='range' value='1' min='1' max='4' step='1'>
-          <br>
-          <span id='scaleValue'>1</span>x for <span id='dpi'>72</span> dpi
-        </fieldset>
-      </div>
-    <div class='keyline-bottom pad1'>
-      <a href="#" id='bboxEnable'>click for bounding box</a>
-    </div>
+        </div> -->
 
+      </div>
+    <div class='pad1'>
+      <a href="#" type='button' class='col12 button icon polygon' id='bboxEnable'>Select Area to Export</a>
+    </div>
     <div class='keyline-bottom pad1 round'>
-      <fieldset>
-        <label class='inline'>Bounds</label>
-        <input id='bboxInput' class='exportInput' type='text' value='' />
-        <br>
-        <label class='inline'>Center</label>
-        <input id='centerInput' class='exportInput' type='text' value='' />
-        <br>
-        <input id='redraw' class='button disabled' type='submit' value='Redraw' name='' />
+      <fieldset class='attributes quiet'>
+        <div class='space-bottom2'>
+          <span class='col4'>Dimensions: </span>
+          <span class='col8'>
+            <span id='dimX' class='code'>0</span> x <span id='dimY' class='code'>0</span> pixels
+            <br>
+            <span class='warning quiet small'>Image is at <strong id='sizePerc'>0</strong class='code'>% of size limit</span>
+        </span>
+        </div>
+        <section class='space-bottom1'>
+          <label class='inline'>Bounds</label>
+          <span class='small quiet code inline'>[W, S, E, N]</span>
+          <input id='bboxInput' class='stretch short small' disabled='true' type='text' value='' />
+        </section>
+        <section class='space-bottom1'>
+          <label class='inline'>Center</label>
+          <span class='small quiet code inline'>[Lng, Lat]</span>
+          <input id='centerInput' class='stretch short small' disabled='true' type='text' value='' />
+        </section>
+        <input id='redraw' class='button short center disabled' type='submit' value='Redraw' name='' />
       </fieldset>
     </div>
     <div class='keyline-bottom pad1 round'>
-      Dimensions: <span id='dimX'>wut</span> x <span id='dimY'>lol</span>
-      <br>
-      <span class='warning'>Image is at <span id='sizePerc'>lol</span>% of size limit</span>
-    </div>
-    <div class='keyline-bottom pad1 round'>
-      <a id='export' href='#' type='button' class='button disabled' value='' name='' >Export Static Map</a>
+      <a id='export' href='#' type='button' class='button disabled icon floppy' value='' name='' >Export Static Map</a>
     </div>
     </div>
   </div>
