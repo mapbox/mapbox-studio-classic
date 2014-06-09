@@ -217,7 +217,7 @@ revlayers.reverse();
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
-        vt: source.vector_layers.filter(function(v) { return v.id === l.id })[0]
+        fields: source.vector_layers.filter(function(v) { return v.id === l.id })[0].fields
     }).extend(l)));
   }.bind(this));
 } %>
