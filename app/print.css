@@ -12,7 +12,3 @@ pre ~ .empty-state { display: block;}
 pre:not(.hidden) ~ .empty-state { display: none;}
 
 /* Export Settings */
-
-/*.exportInput { height: 20px !important; }*/
-
-#filename { width: 80%;}
