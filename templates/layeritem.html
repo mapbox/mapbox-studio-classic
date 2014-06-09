@@ -21,12 +21,12 @@ if ((obj.Datasource.type === 'shape') || (obj.Datasource.type === 'csv')) refres
   <div class='center col6 pin-right small'>
     <% if (local) { %>
       <span class='pad0 col4 fr center layer-label'>
+        <a href='#' id='del-<%=obj.id%>' class='inline round icon trash js-delete'></a>
+      </span>
+      <span class='pad0 col4 fr center layer-label'>
         <% if (refreshable) { %>
           <a href='#' id='refresh-<%=obj.id%>' class='icon refresh inline round js-refreshSource'></a>
         <% } %>
-      </span>
-      <span class='pad0 col4 fr center layer-label'>
-        <a href='#' id='del-<%=obj.id%>' class='inline round icon trash js-delete'></a>
       </span>
     <% } %>
     <span class='pad0 col4 fr center layer-label'>

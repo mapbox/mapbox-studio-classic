@@ -88,6 +88,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
         'submit #addlayer': 'addDatabase',
+        'click .js-updatename': 'updatenameModal',
+        'submit #updatename': 'updateLayername',
         'keydown': 'keys',
         'click .js-zoomTo': 'zoomToLayer'
     };
@@ -243,6 +245,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         Modal.show('addlayer');
         return false;
     };
+    Editor.prototype.updatenameModal = function(ev) {
+        //send layer id to update modal
+        var id = $(ev.currentTarget).attr('id').split('-').pop();
+        Modal.show('updatename', {'id':id});
+        return false;
+    };
     Editor.prototype.addDatabase = function(ev) {
         var values = _($('#addDatabase').serializeArray()).reduce(function(memo, field) {
             memo[field.name] = field.value;
@@ -349,49 +357,40 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // 'id' will remain consistent between the old and the new, since 'id' comes from the name of the actual file. So var 'id'
         // and var 'new_layer.id' will be the same thing in this function.
         // A source's 'id' is set in mapnik-omnivore here: https://github.com/mapbox/mapnik-omnivore/blob/master/lib/datasourceProcessor.js#L32
-        // There's no way for the id to change as long as the filename/filepath is the same. The user would have to create an
-        // entirely new datasource with the new filename/filepath in order to change the id. 
+        // There's no way for the id to change as long as the filepath is the same.
         var id = $(ev.currentTarget).attr('id').split('-').pop();
         if (!layers[id]) return false;
         var layerform = '#layers-' + id;
         var filepath = $(layerform + ' .filepath').val();
+        
+        //Retain current settings to copy over
+        var current_state = layers[id].get();
+
+        //Get updated metadata from source
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata) {
-            //id will remain consistent between the old and the new, since 'id' comes from the name of the actual file.
-            //This is set in mapnik-omnivore here: https://github.com/mapbox/mapnik-omnivore/blob/master/lib/datasourceProcessor.js#L32
-            //There's no way for the id to change as long as the filename/filepath is the same. The user would have to create an
-            //entirely new datasource with the new filename/filepath in order to change the id.
-            var new_layer = metadata.json.vector_layers[0];
-
-            //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
-            //so this is just reversing that process in order to properly render the mapnikXML for TM2
-            //This only applies to files that have gone through mapnik-omnivore
-            //Used for Datasource only
-            var layername = (new_layer.id).split('_').join(' ');
-            
             //Setup new layer object
             var layer = {
               tm: tm,
               vt: {},
-              id: new_layer.id,
+              id: id,   //id will carry from current state, just in case the layer has been renamed by user.
               properties: {
                'buffer-size': 8
               },
               Datasource: {
                 type: metadata.dstype,
-                file: filepath,
-                layer: layername
+                file: filepath
               }
             };
-            //Retain current settings to copy over
-            var current_state = layers[id].get();
+
             //Add new layer and replace old in the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             
             //Grab current settings in case they've been changed by user and apply them to refreshed modal
             //Set buffer size from current modal
             $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
+            
             //Set description from current modal
             $(layerform + ' input[name=description]').val(current_state.description);
             
@@ -401,13 +400,15 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             for(var field in new_fields){
               if(current_fields.TRADE_NAME !== undefined) new_fields[field] = current_fields[field];
             };
-            //refresh fields
+            
+            //Refresh fields
             $('div.fields', layerform).html(templates.layerfields(new_fields));
 
             //set projection and readonly
             var projTarget = $(layerform + ' .js-metadata-projection');
             projTarget.val(metadata.projection);
             projTarget.attr('readonly', true);
+            
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -417,6 +418,61 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
           }
         });
         return false;
+    };
+    //This only applies to single-layer sources and PostGIS/SQLite at the moment 
+    Editor.prototype.updateLayername = function(ev) {
+      //Retain current settings to copy over
+      var current_id = $('#current_id').val();
+      var current_state = layers[current_id].get();
+      var new_id = $('#newLayername').val(); 
+      var new_layerform = '#layers-' + new_id;
+      
+      //Setup new layer object
+      var layer = {
+        tm: tm,
+        vt: {},
+        id: new_id,
+        properties: {
+         'buffer-size': 8
+        },
+        Datasource: {
+          type: current_state.Datasource.type,
+          file: current_state.Datasource.file
+        }
+      };
+      //Add the new layer form and div
+      $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
+      $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+      
+      //Replace old layer with new in the project's layers array
+      layers[layer.id] = Layer(layer.id, layer.Datasource);
+      
+      //Grab current settings in case they've been changed by user and apply them to refreshed modal
+      //Set buffer size from current modal
+      $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
+      
+      //Set description from current modal
+      $(new_layerform + ' input[name=description]').val(current_state.description);
+            
+      //Transfer fields
+      $('div.fields', new_layerform).html(templates.layerfields(current_state.fields));
+
+      //Set projection and readonly
+      var projTarget = $(new_layerform + ' .js-metadata-projection');
+      projTarget.val(current_state.srs);
+      projTarget.attr('readonly', true);
+      
+      //Delete old layer
+      layers[current_id].form.remove();
+      layers[current_id].item.remove();
+      delete layers[current_id];
+      
+      //Close
+      Modal.close();
+      $('#layers .js-menu-content').sortable('destroy').sortable();
+      window.location.href = '#layers-' + new_id;
+      
+      return false;
     };
     Editor.prototype.error = function(model, resp) {
         this.messageclear();
