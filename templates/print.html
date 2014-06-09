@@ -210,78 +210,58 @@
 </div>
 
 
-<div id='print-ui' class='animate z1 col5 pin-right fill-light'>
-  <div id='print' class='z1 pin-left col12'>
-    <div class='pin-topleft z1 row1 keyline-bottom'><!--
-      --><a title='Documentation' class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-      --><a title='Documentation' class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
-      -->
-      <a title='Fullscreen' class='pad1 inline quiet docs-n icon l-r-arrow unround align-middle fill-darken0 keyline-right' href='#full'></a><!--
-      -->
+<div id='print-ui' class='animate z1 col5 export-menu pin-right fill-light'>
+  <div id='layers'>
+    <nav class='pad1x row1 col12 pin-top keyline-bottom fill-light z1'>
+      <div class='pin-topleft z1 row1'><!--
+        -->
+        <a title='Fullscreen' class='pad1 inline quiet docs-n icon l-r-arrow unround align-middle fill-darken0 keyline-right' href='#full'></a><!--
+        -->
+      </div>
       <strong class='small inline pad1y pad4x'>Export Settings</strong>
-    </div>
-    <br>
-    <br>
-    <div>
+    </nav>
+    <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
       <div class='pad1'>
-        <fieldset>
-          <section class='space-bottom1'>
-          <label>Filename</label>
-          <br>
-          <input id='' class='col10 short small' type='text' value='<%=style.name %>' /><span id='format' class='format col2 pad1x'>.png</span>
-        </section>
-        <section>
-          <br>
-          <label>Attribution</label>
-          <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
-        </section>
+        <fieldset class=' space-bottom1'>
+          <section >
+            <label>Filename</label>
+            <br>
+            <input id='' class='col10 short small' type='text' value='<%=style.name %>' /><span id='format' class='format small col2 pad1x'>.png</span>
+          </section>
+         <!--  <section class='space-bottom1'>
+            <br>
+            <label>Attribution</label>
+            <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
+          </section> -->
         </fieldset>
-      </div>
-      <fieldset class='pad1 space-bottom2 keyline-all'>
-        <section class='space-bottom1 clearfix'>
-          <label class='inline col4'>Image format</label>
-          <select id='format' name='format'>
+
+        <fieldset class='space-bottom1'>
+            <label class='inline col4'>Image format</label>
+            <div id='format' class='rounded-toggle inline short'>
+              <input id='png' type='radio' name='format' value='png' checked='checked'>
+              <label for='png'>png</label>
+              <input id='jpeg' type='radio' name='format' value='jpeg'>
+              <label for='jpeg'>jpeg</label>
+            </div>
+        </fieldset>
+        <fieldset class='space-bottom0'>
+            <label class='inline col4'>Resolution</label>
+            <div id='resolution' class='rounded-toggle inline short'>
             <% _({
-              'png:256': 'png (256 colors)',
-              'png:192': 'png (192 colors)',
-              'png:128': 'png (128 colors)',
-              'png:64': 'png (64 colors)',
-              'png:32': 'png (32 colors)',
-              'jpeg:95': 'jpeg (95%)',
-              'jpeg:90': 'jpeg (90%)',
-              'jpeg:85': 'jpeg (85%)',
-              'jpeg:80': 'jpeg (80%)',
-              'jpeg:60': 'jpeg (60%)',
-              'jpeg:50': 'jpeg (50%)'
-
+              '1': 'low',
+              '2': 'med',
+              '4': 'high'
             }).each(function(label, format) { %>
-            <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+            <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === 'high') { %> checked='true' <% } %>>
+            <label for='<%= label %>'><%= label %></label>
             <% }); %>
-          </select>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Scale</label>
-          <input id='scale' type='range' value='1' min='1' max='4' step='1'>
-          <span class='small quiet code inline range'><span id='scaleValue'>1</span>x for <span id='dpi'>72</span> dpi</span>
-        </section>
-      </fieldset>
-
-
-<!--       <div class='keyline-bottom pad1 round space-bottom0 clearfix'>
-        <label class='inline col4'>Format </label>
-        <div id='formatInput' class='rounded-toggle inline short'>
-          <input id='png' type='radio' name='rtoggle' value='png' checked='checked'>
-          <label for='png'>png</label>
-          <input id='jpeg' type='radio' name='rtoggle' value='jpeg'>
-          <label for='jpeg'>jpeg</label>
-        </div> -->
+        </div>
+       </fieldset>
 
       </div>
-    <div class='pad1'>
-      <a href="#" type='button' class='col12 button icon polygon' id='bboxEnable'>Select Area to Export</a>
-    </div>
-    <div class='keyline-bottom pad1 round'>
-      <fieldset class='attributes quiet'>
+
+    <div class='pad1y'>
+      <fieldset class='attributes quiet keyline-all pad1'>
         <div class='space-bottom2'>
           <span class='col4'>Dimensions: </span>
           <span class='col8'>
@@ -303,13 +283,11 @@
         <input id='redraw' class='button short center disabled' type='submit' value='Redraw' name='' />
       </fieldset>
     </div>
-    <div class='keyline-bottom pad1 round'>
-      <a id='export' href='#' type='button' class='button disabled icon floppy' value='' name='' >Export Static Map</a>
-    </div>
+    <div class='pad1'>
+      <a href="#" type='button' class='col6 button icon polygon' id='bboxEnable'>Select Area to Export</a>
+      <a id='export' href='#' type='button' class='col6 button disabled icon floppy' value='' name='' >Export Static Map</a>
     </div>
   </div>
-</div>
-
 </div>
 
 <script>

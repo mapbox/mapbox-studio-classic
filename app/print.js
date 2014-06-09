@@ -304,12 +304,13 @@ Printer.prototype.bboxEnable = function(ev){
   if (!boundingBox._enabled) {
       // Enable the location filter
       boundingBox.enable();
-      boundingBox.fire("enableClick");
+      boundingBox.fire('enableClick');
   }
   $('#export').removeClass('disabled');
   $('.attributes').removeClass('quiet');
   $('#bboxInput').prop('disabled', false);
-  $('#centerInput').prop('disabled', false);;
+  $('#centerInput').prop('disabled', false);
+  $('#bboxEnable').addClass('disabled');
 };
 
 Printer.prototype.calculateCoordinates = function(ev){
@@ -317,14 +318,14 @@ Printer.prototype.calculateCoordinates = function(ev){
   var center = [(bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng, (bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat];
   var zoom = map.getZoom();
   var decimals = 4;
-  var format = $('select#format option:selected').prop('value').split(':');
+  var format = $('input[name=format]:checked').prop('value');
 
   window.exporter.model.set({
       coordinates: { 
         zoom: zoom,
         scale: $('#scale').prop('value') | 0,
-        format: format[0],
-        quality: format[1],
+        format: format,
+        quality: (format === 'png') ? 256 : 100,
         bbox: [
           parseFloat(bounds._southWest.lat.toFixed(decimals)), 
           parseFloat(bounds._southWest.lng.toFixed(decimals)), 
@@ -339,14 +340,14 @@ Printer.prototype.calculateCoordinates = function(ev){
   });
   var coordinates = window.exporter.model.get('coordinates');
   if ($('#redraw').hasClass('disabled')) $('#redraw').removeClass('disabled');
-  $('#bboxInput').attr('value', coordinates.bbox[0]+', '+coordinates.bbox[1]+', '+coordinates.bbox[2]+', '+coordinates.bbox[3]);
-  $('#centerInput').attr('value', coordinates.center[0]+', '+coordinates.center[1]);
+  $('#bboxInput').prop('value', coordinates.bbox[0]+', '+coordinates.bbox[1]+', '+coordinates.bbox[2]+', '+coordinates.bbox[3]);
+  $('#centerInput').prop('value', coordinates.center[0]+', '+coordinates.center[1]);
 
   this.calculateTotal();
 };
 
 Printer.prototype.calculateTotal = function(){
-  var scale = $('#scale').prop('value'),
+  var scale = $('input[name=resolution]:checked').prop('value'),
     zoom = map.getZoom(),
     bbox = window.exporter.model.get('coordinates').bbox,
     center;
@@ -392,9 +393,7 @@ Printer.prototype.modifyCoordinates = function(ev){
 };
 
 Printer.prototype.updateScale = function(ev){
-  var scale =  $('#scale').prop('value');
-  $('#scaleValue').html(scale);
-  $('#dpi').html(scale * 72);
+  var scale =  $('input[name=resolution]:checked').prop('value');
 
   if (!boundingBox.isEnabled()) return;
   this.model.get('coordinates').scale = scale;
@@ -402,21 +401,19 @@ Printer.prototype.updateScale = function(ev){
 };
 
 Printer.prototype.updateFormat = function(){
-  var format = $('select#format option:selected').prop('value').split(':');
-  $('#format').html('.'+format[0]);
+  var format = $('input[name=format]:checked').prop('value');
+  $('#format').html('.'+format);
 
   if (!boundingBox.isEnabled()) return;
-  window.exporter.model.get('coordinates').format = format[0];
-  window.exporter.model.get('coordinates').quality = format[1];
-  console.log(format)
+  window.exporter.model.get('coordinates').format = format;
+  window.exporter.model.get('coordinates').quality = (format === 'png') ? 256 : 100;
   this.updateUrl();
 };
 
 Printer.prototype.updateUrl = function(){
   var coords = window.exporter.model.get('coordinates');
   var url = 'http://localhost:3000/static/'+coords.zoom+'/'+coords.bbox.toString()+'@'+coords.scale+'x.'+coords.format+'?id='+window.exporter.model.get('id');
-  console.log(url)
-  $('#export').attr('href', url)
+  $('#export').attr('href', url);
 };
 
 Printer.prototype.refresh = function(ev) {

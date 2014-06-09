@@ -12,3 +12,5 @@ pre ~ .empty-state { display: block;}
 pre:not(.hidden) ~ .empty-state { display: none;}
 
 /* Export Settings */
+
+#print-ui { font: 12px 'Open Sans Bold'; }

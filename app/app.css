@@ -759,8 +759,8 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* map styles to compensate for col max-widths */
 #full {
-  min-width: 66%;
-  right: 400px;
+  min-width: 58.333%;
+  right: 500px;
 }
 #full:target {
   min-width:100%;
