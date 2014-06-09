@@ -111,6 +111,7 @@ Editor.prototype.events = {
   'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
+  'click .js-baselayer': 'toggleBaselayer',
   'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
@@ -175,35 +176,8 @@ Editor.prototype.saveModal = function() {
   });
   return false;
 };
-Editor.prototype.browseStyle = function() {
-  Modal.show('browseropen', {type:'style', cwd:cwd});
-  new views.Browser({
-    el: $('.modal-content #browsestyle'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
-    isFile: function(file) { return /\.tm2$/.test(file); },
-    callback: function(err, filepath) {
-      if (err) return false; // @TODO
-      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
-      window.location = '/style?id=tmstyle://' + filepath;
-      return false;
-    }
-  });
-  return false;
-};
-Editor.prototype.browseSource = function() {
-  Modal.show('browseropen', {type:'source', cwd:cwd});
-  new views.Browser({
-    el: $('.modal-content #browsesource'),
-    filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)); },
-    isFile: function(file) { return (/\.tm2source$/.test(file) || /\.tm2$/.test(file)); },
-    callback: function(err, filepath) {
-      if (err) return false; // @TODO
-      window.location = '/source?id=tmsource://' + filepath;
-      return false;
-    }
-  });
-  return false;
-};
+Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
+Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
 Editor.prototype.scrollto = function(ev) {
     id = $(ev.currentTarget).attr('href').split('#').pop();
     document.getElementById(id).scrollIntoView();
@@ -359,10 +333,10 @@ Editor.prototype.save = function(ev, options) {
     } else if (field.name === 'baselayer') {
       if (field.value) {
         editor.model.get('_prefs').baselayer = field.value;
-        $('#baselayer').show();
+        $('.js-baselayer').removeClass('hidden');
       } else {
         editor.model.get('_prefs').baselayer = '';
-        $('#baselayer').hide();
+        $('.js-baselayer').addClass('hidden');
       }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
@@ -462,6 +436,23 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
+Editor.prototype.toggleBaselayer = function(ev) {
+  var $el = $(ev.currentTarget);
+
+  baselayer = baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
+
+  if ($el.hasClass('active')) {
+    $el.removeClass('active');
+    map.removeLayer(baselayer);
+  } else {
+    $el.addClass('active');
+    baselayer.addTo(map).bringToBack();
+  }
+
+  return false;
+
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
@@ -482,14 +473,6 @@ Editor.prototype.refresh = function(ev) {
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
-
-  // Refresh map baselayer.
-  if (baselayer) map.removeLayer(baselayer);
-  baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && window.location.hash === '#baselayer') {
-    $('.base-toggle').addClass('active');
-    baselayer.addTo(map);
-  }
 
   // Refresh map layer.
   if (window.devicePixelRatio > 1) {
@@ -525,7 +508,6 @@ Editor.prototype.refresh = function(ev) {
   });
   if (window.location.hash === '#xray') {
     $('.xray-toggle').addClass('active');
-    $('.base-toggle').removeClass('active');
     xray.addTo(map);
   }
 
@@ -582,7 +564,6 @@ window.onhashchange = function(ev) {
     break;
   case 'home':
   case 'xray':
-  case 'baselayer':
     window.editor.refresh();
     break;
   }

@@ -541,6 +541,13 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   line-height: 20px;
   font-family:'Open Sans', sans-serif;
 }
+.leaflet-popup-close-button { opacity: .5;}
+
+.leaflet-popup-close-button:hover {
+  opacity: 1;
+  /* mapbox.js override */
+  background-color: transparent;
+}
 
 /* Menu (off-canvas) */
 .menu .sortable-dragging,
