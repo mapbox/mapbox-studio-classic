@@ -335,7 +335,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
               vt: {},
               id: id,   //id will carry from current state, just in case the layer has been renamed by user.
               properties: {
-               'buffer-size': 8
+                'buffer-size': current_state.properties['buffer-size']
               },
               Datasource: {
                 type: metadata.dstype,
@@ -385,20 +385,66 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       var current_state = layers[current_id].get();
       var new_id = $('#newLayername').val(); 
       var new_layerform = '#layers-' + new_id;
+      console.log(current_state);
       
-      //Setup new layer object
-      var layer = {
-        tm: tm,
-        vt: {},
-        id: new_id,
-        properties: {
-         'buffer-size': 8
-        },
-        Datasource: {
-          type: current_state.Datasource.type,
-          file: current_state.Datasource.file
-        }
-      };
+      //Check if sqlite or postgis
+      if(current_state.Datasource.type === 'sqlite'){
+        var layer = {
+          tm: tm,
+          vt: {},
+          id: new_id,
+          name: current_state.name,
+          properties: {
+            'buffer-size': current_state.properties['buffer-size']
+          },
+          Datasource: {
+            type: current_state.Datasource.type,
+            extent: current_state.Datasource.extent,
+            file: current_state.Datasource.file,
+            geometry_table: current_state.Datasource.geometry_table,
+            key_field: current_state.Datasource.key_field,
+            table: current_state.Datasource.table
+          }
+        };
+      } else if(current_state.Datasource.type === 'postgis'){
+        var layer = {
+          tm: tm,
+          vt: {},
+          id: new_id,
+          properties: {
+            'buffer-size': current_state.properties['buffer-size']
+          },
+          Datasource: {
+            dbname: current_state.Datasource.dbname,
+            type: current_state.Datasource.type,
+            extent: current_state.Datasource.extent,
+            file: current_state.Datasource.file,
+            geometry_table: current_state.Datasource.geometry_table,
+            geometry_field: current_state.Datasource.geometry_field,
+            host: current_state.Datasource.host,
+            key_field: current_state.Datasource.key_field,
+            max_size: current_state.Datasource.max_size,
+            port: current_state.Datasource.port,
+            user: current_state.Datasource.user,
+            table: current_state.Datasource.table
+          }
+        };
+      //else type is shape or csv...for now
+      } else {
+        //Setup new layer object
+        var layer = {
+          tm: tm,
+          vt: {},
+          id: new_id,
+          properties: {
+            'buffer-size': current_state.properties['buffer-size']
+          },
+          Datasource: {
+            type: current_state.Datasource.type,
+            file: current_state.Datasource.file
+          }
+        };
+      }
       //Add the new layer form and div
       $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
       $('#layers .js-menu-content').prepend(templates.layeritem(layer));
@@ -432,6 +478,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       window.location.href = '#layers-' + new_id;
       
       return false;
+      
     };
     Editor.prototype.error = function(model, resp) {
         this.messageclear();
