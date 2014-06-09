@@ -142,9 +142,9 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
-app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
 
-app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
+app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -269,6 +269,7 @@ function printFromCenter(req, res, next){
     params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+    params.quality = req.params.quality | 0 || null;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -292,6 +293,7 @@ function printFromBbox(req, res, next){
     params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+    params.quality = req.params.quality | 0 || null;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
