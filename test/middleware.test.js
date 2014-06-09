@@ -15,6 +15,7 @@ var tmp = os.tmpdir();
 
 describe('middleware', function() {
     var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
+
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
@@ -33,11 +34,21 @@ describe('middleware', function() {
     describe('history', function() {
         var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
         var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+        var server;
 
+        before(function(done) {
+            tm.db.set('oauth', {
+                account: 'test',
+                accesstoken: 'testaccesstoken'
+            });
+            tm._config.mapboxtile = 'http://localhost:3001/v4';
+            server = mockOauth.listen(3001, done);
+        });
         after(function(done) {
+            tm.db.set('oauth', null);
             tm.history('source', sourceId, true);
             tm.history('style', styleId, true);
-            done();
+            server.close(done);
         });
         it('loads history', function(done) {
             this.timeout(10000);
@@ -76,6 +87,19 @@ describe('middleware', function() {
 
     describe('writeStyle', function() {
         var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
+        var server;
+        before(function(done) {
+            tm.db.set('oauth', {
+                account: 'test',
+                accesstoken: 'testaccesstoken'
+            });
+            tm._config.mapboxtile = 'http://localhost:3001/v4';
+            server = mockOauth.listen(3001, done);
+        });
+        after(function(done) {
+            tm.db.set('oauth', null);
+            server.close(done);
+        });
         after(function(done) {
             setTimeout(function() {
                 ['project.xml','project.yml','a.mss','.thumb.png'].forEach(function(file) {
