@@ -14,7 +14,7 @@ trap 'kill $(jobs -p)' EXIT
 cp ./test/fixtures-oauth/test.db $tmpdb
 
 # Run mock oauth server and tm2
-node index.js --test --cwd=$testPath --mapboxauth="http://localhost:3001" --port=3001 --db="$tmpdb" &
+node index.js --test --cwd=$testPath --mapboxauth="http://localhost:3001" --mapboxtile="http://localhost:3001/v4" --port=3001 --db="$tmpdb" &
 sleep 2
 
 ./node_modules/.bin/mocha-phantomjs "http://localhost:3001/style?id=$styleid&test=true"

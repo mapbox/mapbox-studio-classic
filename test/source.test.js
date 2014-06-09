@@ -5,16 +5,31 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
+var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var creds = {
+    account: 'test',
+    accesstoken: 'testaccesstoken'
+};
 var UPDATE = !!process.env.UPDATE;
 
 describe('source', function() {
 
+var server;
 var tmppath = '/tmp/tm2-test-' + +new Date;
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
-        cache: path.join(tmppath, 'cache')
+        cache: path.join(tmppath, 'cache'),
+        mapboxtile: 'https://a.tiles.mapbox.com/v4'
     }, done);
+});
+before(function(done) {
+    tm.db.set('oauth', creds);
+    tm._config.mapboxtile = 'http://localhost:3001/v4';
+    server = mockOauth.listen(3001, done);
+});
+after(function(done) {
+    server.close(done);
 });
 after(function(done) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
@@ -64,6 +79,15 @@ describe('source util', function() {
 });
 
 describe('source remote', function() {
+    it('fails without oauth', function(done) {
+        tm.db.set('oauth', null);
+        source('mapbox:///test.oauth-fail-source', function(err, source) {
+            assert.ok(err);
+            assert.equal('EOAUTH', err.code);
+            tm.db.set('oauth', creds);
+            done();
+        });
+    });
     it('loads', function(done) {
         source('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
             assert.ifError(err);

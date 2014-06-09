@@ -18,7 +18,7 @@
     "passport-oauth": "1.0.x",
     "minimist": "0.1.x",
     "underscore": "1.4.x",
-    "tilejson": "~0.6.3",
+    "tilejson": "0.7.0",
     "mbtiles": "0.4.x",
     "mkdirp": "0.5.x",
     "dirty": "0.9.9",

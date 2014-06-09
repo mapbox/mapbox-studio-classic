@@ -5,17 +5,31 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
+var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var UPDATE = !!process.env.UPDATE;
 var tmp = require('os').tmpdir();
+var creds = {
+    account: 'test',
+    accesstoken: 'testaccesstoken'
+};
 
 describe('style', function() {
 
+var server;
 var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache')
-    }, done());
+    }, done);
+});
+before(function(done) {
+    tm.db.set('oauth', creds);
+    tm._config.mapboxtile = 'http://localhost:3001/v4';
+    server = mockOauth.listen(3001, done);
+});
+after(function(done) {
+    server.close(done);
 });
 after(function(done) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
