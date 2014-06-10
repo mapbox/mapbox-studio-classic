@@ -261,7 +261,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 //Setup layer object
                 var layer = {
                     tm: tm,
-                    vt: {},
                     id: current_layer.id,
                     properties: {
                         'buffer-size': 8
@@ -270,16 +269,14 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                         type: metadata.dstype,
                         file: filepath,
                         layer: layername
-                    }
+                    },
+                    srs: metadata.projection
                 };
                 $('#editor').prepend(templates['layer' + metadata.dstype](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
-                //set projection and readonly
-                var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
-                projTarget.val(metadata.projection);
-                projTarget.attr('readonly', true);
+
                 //set maxzoom, if needed
                 var maxzoomTarget = $('.max');
                 if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -323,54 +320,32 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         var filepath = $(layerform + ' .filepath').val();
         
         //Retain current settings to copy over
-        var current_state = layers[id].get();
+        var layer = layers[id].get();
 
         //Get updated metadata from source
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata) {
-            //Setup new layer object
-            var layer = {
-              tm: tm,
-              vt: {},
-              id: id,   //id will carry from current state, just in case the layer has been renamed by user.
-              properties: {
-                'buffer-size': current_state.properties['buffer-size']
-              },
-              Datasource: {
-                type: metadata.dstype,
-                file: filepath
-              }
-            };
-
-            //Add new layer and replace old in the project's layers array
-            layers[layer.id] = Layer(layer.id, layer.Datasource);
-            
-            //Grab current settings in case they've been changed by user and apply them to refreshed modal
-            //Set buffer size from current modal
-            $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
-            
-            //Set description from current modal
-            $(layerform + ' input[name=description]').val(current_state.description);
+            //Transfer new maxzoom, if relevant
+            var maxzoomTarget = $('.max');
+            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
             
             //Transfer current field descriptions to the new fields, if relevant
             var new_fields = metadata.json.vector_layers[0].fields;
-            var current_fields = current_state.fields;
+            var current_fields = layer.fields;
             for(var field in new_fields){
-              if(current_fields.TRADE_NAME !== undefined) new_fields[field] = current_fields[field];
+              if(current_fields.field !== undefined) new_fields[field] = current_fields[field];
             };
+            layer.fields = new_fields;
             
-            //Refresh fields
-            $('div.fields', layerform).html(templates.layerfields(new_fields));
+            //Transfer new projection
+            layer.srs = metadata.projection;
+          
+            //Add new layer and replace old in the project's layers array
+            layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-            //set projection and readonly
-            var projTarget = $(layerform + ' .js-metadata-projection');
-            projTarget.val(metadata.projection);
-            projTarget.attr('readonly', true);
-            
-            //set maxzoom, if needed
-            var maxzoomTarget = $('.max');
-            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+            //Save
+            window.editor.save();
           },
           error: function(jqXHR, textStatus, errorThrown) {
             Modal.show('error', 'Cannot refresh source. ' + jqXHR.responseText);
@@ -378,96 +353,23 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
         return false;
     };
-    //This only applies to single-layer sources and PostGIS/SQLite at the moment 
+    //This only applies to single-layer sources and PostGIS/SQLite  
     Editor.prototype.updateLayername = function(ev) {
       //Retain current settings to copy over
       var current_id = $('#current_id').val();
-      var current_state = layers[current_id].get();
+      var layer = layers[current_id].get();
       var new_id = $('#newLayername').val(); 
       var new_layerform = '#layers-' + new_id;
-      console.log(current_state);
-      
-      //Check if sqlite or postgis
-      if(current_state.Datasource.type === 'sqlite'){
-        var layer = {
-          tm: tm,
-          vt: {},
-          id: new_id,
-          name: current_state.name,
-          properties: {
-            'buffer-size': current_state.properties['buffer-size']
-          },
-          Datasource: {
-            type: current_state.Datasource.type,
-            extent: current_state.Datasource.extent,
-            file: current_state.Datasource.file,
-            geometry_table: current_state.Datasource.geometry_table,
-            key_field: current_state.Datasource.key_field,
-            table: current_state.Datasource.table
-          }
-        };
-      } else if(current_state.Datasource.type === 'postgis'){
-        var layer = {
-          tm: tm,
-          vt: {},
-          id: new_id,
-          properties: {
-            'buffer-size': current_state.properties['buffer-size']
-          },
-          Datasource: {
-            dbname: current_state.Datasource.dbname,
-            type: current_state.Datasource.type,
-            extent: current_state.Datasource.extent,
-            file: current_state.Datasource.file,
-            geometry_table: current_state.Datasource.geometry_table,
-            geometry_field: current_state.Datasource.geometry_field,
-            host: current_state.Datasource.host,
-            key_field: current_state.Datasource.key_field,
-            max_size: current_state.Datasource.max_size,
-            port: current_state.Datasource.port,
-            user: current_state.Datasource.user,
-            table: current_state.Datasource.table
-          }
-        };
-      //else type is shape or csv...for now
-      } else {
-        //Setup new layer object
-        var layer = {
-          tm: tm,
-          vt: {},
-          id: new_id,
-          properties: {
-            'buffer-size': current_state.properties['buffer-size']
-          },
-          Datasource: {
-            type: current_state.Datasource.type,
-            file: current_state.Datasource.file
-          }
-        };
-      }
+      layer.id = new_id;
+
       //Add the new layer form and div
       $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
       $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-      
+
       //Replace old layer with new in the project's layers array
       layers[layer.id] = Layer(layer.id, layer.Datasource);
       
-      //Grab current settings in case they've been changed by user and apply them to refreshed modal
-      //Set buffer size from current modal
-      $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
-      
-      //Set description from current modal
-      $(new_layerform + ' input[name=description]').val(current_state.description);
-            
-      //Transfer fields
-      $('div.fields', new_layerform).html(templates.layerfields(current_state.fields));
-
-      //Set projection and readonly
-      var projTarget = $(new_layerform + ' .js-metadata-projection');
-      projTarget.val(current_state.srs);
-      projTarget.attr('readonly', true);
-      
-      //Delete old layer
+      //Delete old layer/form
       layers[current_id].form.remove();
       layers[current_id].item.remove();
       delete layers[current_id];
@@ -476,7 +378,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       Modal.close();
       $('#layers .js-menu-content').sortable('destroy').sortable();
       window.location.href = '#layers-' + new_id;
-      
+
       return false;
       
     };
