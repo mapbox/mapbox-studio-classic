@@ -30,29 +30,22 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Printer.prototype.events = {
-  // 'click .js-savearea': 'saveArea',
-  // // 'click #print-style': 'print',
-
-  // 'click .js-browsestyle': 'browseStyle',
-  // 'click .js-tab': 'tabbed',
-  // 'click .js-save': 'save',
-  // 'click .js-saveas': 'saveModal',
-  // 'click .js-recache': 'recache',
-  // 'submit #settings': 'save',
-  // 'submit #addmapbox': 'addmapbox',
+  'click .js-browsestyle': 'browseStyle',
+  'click .js-save': 'save',
+  'click .js-recache': 'recache',
+  'submit #settings': 'save',
+  'submit #addmapbox': 'addmapbox',
   'click #docs .js-docs-nav': 'scrollto',
-  // 'click #history .js-ref-delete': 'delstyle',
-  // 'click .js-modalsources': 'modalsources',
+  'click #history .js-ref-delete': 'delstyle',
+  'click .js-modalsources': 'modalsources',
   // 'click .js-adddata': 'adddata',
-  // 'click .js-info': 'toggleInfo',
-  // 'click .js-expandall': 'expandall',
   // 'click .js-upload': 'upload',
-  // 'change .js-layer-options': 'populateInteractiveVals',
-  // 'keydown': 'keys'
+  'keydown': 'keys',
   'click #bboxEnable': 'bboxEnable',
   'click #redraw': 'modifyCoordinates',
-  'change #scale': 'updateScale',
-  'change #format': 'updateFormat'
+  'change #resolution': 'updateScale',
+  'change #format': 'updateFormat',
+  'change #filename': 'updateUrl'
 
 };
 
@@ -93,25 +86,7 @@ Printer.prototype.keys = function(ev) {
   }
   return false;
 };
-Printer.prototype.saveModal = function() {
-  Modal.show('browsersave', {type:'style', cwd:cwd});
-  new views.Browser({
-    el: $('.modal-content #saveas'),
-    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
-    callback: function(err, filepath) {
-      if (err) return false; // @TODO
-      filepath = filepath.replace(/\.tm2/,'') + '.tm2';
-      var id = 'tmstyle://' + filepath;
-      window.exporter.model.set({id:id});
-      window.exporter.save(null, {
-        success: function() { window.location = '/style?id=' + id; },
-        error: _(window.exporter.error).bind(window.exporter)
-      });
-      return false;
-    }
-  });
-  return false;
-};
+
 Printer.prototype.browseStyle = function() {
   Modal.show('browseropen', {type:'style', cwd:cwd});
   new views.Browser({
@@ -201,71 +176,72 @@ Printer.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
-// Printer.prototype.save = function(ev, options) {
-//   var exporter = this;
 
-//   // Set map in loading state.
-//   $('#full').addClass('loading');
+Printer.prototype.save = function(ev, options) {
+  var exporter = this;
 
-//   var attr = {};
-//   // Grab settings form values.
-//   _($('#settings').serializeArray()).reduce(function(memo, field) {
-//     if (field.name === 'minzoom' || field.name === 'maxzoom') {
-//       memo[field.name] = parseInt(field.value,10);
-//     } else if (field.name === 'baselayer') {
-//       if (field.value) {
-//         exporter.model.get('_prefs').baselayer = field.value;
-//         $('#baselayer').show();
-//       } else {
-//         exporter.model.get('_prefs').baselayer = '';
-//         $('#baselayer').hide();
-//       }
-//     } else if (field.name === 'rtoggle'){
-//       if (field.value === 'printresolution') {
-//         exporter.model.get('_prefs').print = true;
-//         $('#print').removeClass('disabled');
-//       } else {
-//         exporter.model.get('_prefs').print = false;
-//         $('#print').addClass('disabled');
-//       }
-//     } else if (field.name && field.value) {
-//       memo[field.name] = field.value;
-//     }
-//     return memo;
-//   }, attr);
-//   // Grab interactivity form values.
-//   _($('#interactivity').serializeArray()).reduce(function(memo, field) {
-//     memo[field.name] = field.value;
-//     return memo;
-//   }, attr);
-//   // Grab styles, sources.
-//   attr.styles = _(code).reduce(function(memo, cm, k) {
-//     if (k !== 'template') memo[k] = cm.getValue();
-//     return memo;
-//   }, {});
-//   attr.source = $('#layers .js-source').map(function() {
-//     return $(this).attr('id').split('source-').pop();
-//   }).get().shift();
-//   attr.template = code.template ? code.template.getValue() : '';
+  // Set map in loading state.
+  $('#full').addClass('loading');
 
-//   if (this.model.get('_prefs').saveCenter) {
-//     var lon = map.getCenter().lng % 360;
-//     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-//     attr.center = [lon , map.getCenter().lat, map.getZoom() ];
-//   }
+  var attr = {};
+  // Grab settings form values.
+  _($('#settings').serializeArray()).reduce(function(memo, field) {
+    if (field.name === 'minzoom' || field.name === 'maxzoom') {
+      memo[field.name] = parseInt(field.value,10);
+    } else if (field.name === 'baselayer') {
+      if (field.value) {
+        exporter.model.get('_prefs').baselayer = field.value;
+        $('#baselayer').show();
+      } else {
+        exporter.model.get('_prefs').baselayer = '';
+        $('#baselayer').hide();
+      }
+    } else if (field.name === 'rtoggle'){
+      if (field.value === 'printresolution') {
+        exporter.model.get('_prefs').print = true;
+        $('#print').removeClass('disabled');
+      } else {
+        exporter.model.get('_prefs').print = false;
+        $('#print').addClass('disabled');
+      }
+    } else if (field.name && field.value) {
+      memo[field.name] = field.value;
+    }
+    return memo;
+  }, attr);
+  // Grab interactivity form values.
+  _($('#interactivity').serializeArray()).reduce(function(memo, field) {
+    memo[field.name] = field.value;
+    return memo;
+  }, attr);
+  // Grab styles, sources.
+  attr.styles = _(code).reduce(function(memo, cm, k) {
+    if (k !== 'template') memo[k] = cm.getValue();
+    return memo;
+  }, {});
+  attr.source = $('#layers .js-source').map(function() {
+    return $(this).attr('id').split('source-').pop();
+  }).get().shift();
+  attr.template = code.template ? code.template.getValue() : '';
 
-//   // New mtime querystring
-//   mtime = (+new Date).toString(36);
+  if (this.model.get('_prefs').saveCenter) {
+    var lon = map.getCenter().lng % 360;
+    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
+    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
+  }
 
-//   Printer.changed = false;
-//   options = options || {
-//     success:_(this.refresh).bind(this),
-//     error: _(this.error).bind(this)
-//   };
-//   this.model.save(attr, options);
+  // New mtime querystring
+  mtime = (+new Date).toString(36);
 
-//   return ev && !!$(ev.currentTarget).is('a');
-// };
+  Printer.changed = false;
+  options = options || {
+    success:_(this.refresh).bind(this),
+    error: _(this.error).bind(this)
+  };
+  this.model.save(attr, options);
+
+  return ev && !!$(ev.currentTarget).is('a');
+};
 
 Printer.prototype.error = function(model, resp) {
   this.messageclear();
@@ -289,23 +265,26 @@ Printer.prototype.upload = function(ev) {
     });
 };
 
-// Printer.prototype.print = function() {
-//   var scale = (exporter.model.get('_prefs').print) ? 4 : (window.devicePixelRatio > 1) ? 2 : 1;;
-//   var zoom = map.getZoom();
-//   var dim = map.getSize();
-//   var center = map.getCenter();
-//   var url = window.location.origin + '/static/' + zoom + ',' + center.lng.toFixed(4) + ',' + center.lat.toFixed(4) + '/' + dim.x + 'x' + dim.y + '@' + scale + 'x' + '.png?id=' + this.model.id + '&' + mtime;
-//   var button = $('#print-style');
-//   button.attr('href', url);
-//   button.attr('download', '');
-// };
-
 Printer.prototype.bboxEnable = function(ev){
   if (!boundingBox._enabled) {
       // Enable the location filter
       boundingBox.enable();
       boundingBox.fire('enableClick');
   }
+
+  var bounds = map.getBounds();
+  var zoom =  map.getZoom();
+  var sm = new SphericalMercator();
+  var ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom);
+  var sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom);
+
+  var w = (ne[0] - sw[0]);
+
+  ne = sm.ll([ne[0] - (w * 0.05), ne[1]], zoom);
+  sw = sm.ll([sw[0] + (w * 0.05), sw[1]], zoom);
+
+  boundingBox.setBounds(L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0])));
+
   $('#export').removeClass('disabled');
   $('.attributes').removeClass('quiet');
   $('#bboxInput').prop('disabled', false);
@@ -323,7 +302,7 @@ Printer.prototype.calculateCoordinates = function(ev){
   window.exporter.model.set({
       coordinates: { 
         zoom: zoom,
-        scale: $('#scale').prop('value') | 0,
+        scale: $('input[name=resolution]:checked').prop('value'),
         format: format,
         quality: (format === 'png') ? 256 : 100,
         bbox: [
@@ -411,8 +390,10 @@ Printer.prototype.updateFormat = function(){
 };
 
 Printer.prototype.updateUrl = function(){
+  if (!boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
-  var url = 'http://localhost:3000/static/'+coords.zoom+'/'+coords.bbox.toString()+'@'+coords.scale+'x.'+coords.format+'?id='+window.exporter.model.get('id');
+  var filename = $('#filename').prop('value');
+  var url = 'http://localhost:3000/static/'+coords.zoom+'/'+coords.bbox.toString()+'@'+coords.scale+'x'+'/'+filename+'.'+coords.format+'?id='+window.exporter.model.get('id');
   $('#export').attr('href', url);
 };
 

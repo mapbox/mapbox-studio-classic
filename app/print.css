@@ -14,3 +14,8 @@ pre:not(.hidden) ~ .empty-state { display: none;}
 /* Export Settings */
 
 #print-ui { font: 12px 'Open Sans Bold'; }
+
+#full {
+  min-width: 58.333%;
+  right: 500px;
+}
