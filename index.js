@@ -91,7 +91,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
             style: req.style.data,
             history: req.history,
             basemap: req.basemap,
-            user: tm.db._docs.user,
+            user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
         });
@@ -294,8 +294,8 @@ app.get('/upload', middleware.auth, function(req, res, next) {
 
     style.upload({
         id: req.query.styleid,
-        oauth: tm.db._docs.oauth,
-        cache: tm._config.cache
+        oauth: tm.db.get('oauth'),
+        cache: tm.config().cache
     }, function(err){
         if (err) next(err);
         res.end();
@@ -368,7 +368,7 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
             source: req.source.data,
             history: req.history,
             basemap: req.basemap,
-            user: tm.db._docs.user,
+            user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
         });
@@ -458,6 +458,7 @@ app.del('/history/:type(style|source)', function(req, res, next) {
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
     if (err && req.params && 'z' in req.params) return res.send(err.toString(), 404);
+    if (err && err.status === 401) return res.redirect('/unauthorize');
 
     console.error(err.stack);
 
