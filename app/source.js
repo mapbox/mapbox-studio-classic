@@ -228,12 +228,14 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     type: values.type
                 }
             };
+            //Add the new layer form and div
             $('#editor').prepend(templates['layer' + values.type](layer));
             $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-            //set projection and allow edits
-            var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
-            projTarget.attr('readonly', false);
+
+            //Add layer
             layers[values.id] = Layer(values.id, layer.Datasource);
+            
+            //Close modal
             Modal.close();
             window.location.hash = '#layers-' + values.id;
             $('#layers .js-menu-content').sortable('destroy').sortable();
@@ -272,8 +274,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     },
                     srs: metadata.projection
                 };
+                
+                //Add the new layer form and div
                 $('#editor').prepend(templates['layer' + metadata.dstype](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+                
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
 
@@ -281,8 +286,9 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 var maxzoomTarget = $('.max');
                 if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
                 
-                //open proper modal, depending on if there are multiple layers
                 Modal.close();
+                
+                //open proper modal, depending on if there are multiple layers
                 if (layersArray.length > 1) {
                     window.location.hash = '#';
                     $('#layers .js-menu-content').sortable('destroy').sortable();
@@ -290,7 +296,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     window.location.hash = '#layers-' + layersArray[0].id;
                     $('#layers .js-menu-content').sortable('destroy').sortable();
                 }
-                //else layer already exists, show error  
+              //else layer already exists, show error  
             } else {
                 Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
             }
