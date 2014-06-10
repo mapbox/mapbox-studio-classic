@@ -185,22 +185,20 @@
         return query;
     }
 
-    var infoText = '<div id="search-info" class="clearfix keyline-bottom keyline-top small fill-white search-info hidden">'+
-    '<div class="pad1x pad0y quiet">You can use /re/ syntax for regex search</div>'+
-    '<div class="clearfix col12">'+
-        '<label class="col12 pad1x pad0y keyline-bottom">Keyboard Commands</label>'+
-        '<div class="pad1 keyline-right col6">'+
+    var infoText = '<div id="search-info" class="clearfix keyline-top small fill-white search-info hidden">'+
+        '<div class="pad1 col6">'+
           '<span class="code inline"><kbd class="prefixed">F</kbd> Find</span><br/>'+
           '<span class="code inline"><kbd class="prefixed">G</kbd> Next result</span><br />'+
           '<span class="code inline"><kbd class="prefixed">Shift+G</kbd> Previous result</span>'+
         '</div>' +
         '<div class="pad1 col6">'+
           '<span class="code inline"><kbd class="prefixed">Alt+F</kbd> Find & replace all</span>'+
+          '<div class="quiet">use /re/ syntax for regex search.</div>'+
         '</div>' +
-    '</div>' +
     '</div>';
-    var infoAndClose = "<div class='pin-right pad1'><a href='#search-info' id='dialog-info' class='inline icon info quiet'></a><a href='#' id='dialog-close' class='inline icon x quiet'></a></div>";
-    var queryDialog = "<fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch'></fieldset>" + infoAndClose + infoText;
+    var infoAndClose = "<a href='#search-info' id='dialog-info' class='pin-left pad1 inline icon info quiet'></a><a href='#' id='dialog-close' class='pin-right pad1 inline icon x quiet'></a></div>";
+    var queryButton = "<div class='pin-topright pad0y'><a href='#' class='button short icon small quiet search'>Search</a></div>"
+    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' value='' class='stretch'>" + queryButton + "</fieldset></div>" + infoAndClose + infoText;
 
     function doSearch(cm, rev) {
         var state = getSearchState(cm);
