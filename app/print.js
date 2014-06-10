@@ -22,7 +22,6 @@ var Modal = new views.Modal({
   templates: templates
 });
 
-
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
 
@@ -31,22 +30,15 @@ Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); 
 
 Printer.prototype.events = {
   'click .js-browsestyle': 'browseStyle',
-  'click .js-save': 'save',
   'click .js-recache': 'recache',
-  'submit #settings': 'save',
-  'submit #addmapbox': 'addmapbox',
-  'click #docs .js-docs-nav': 'scrollto',
   'click #history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
-  // 'click .js-adddata': 'adddata',
-  // 'click .js-upload': 'upload',
   'keydown': 'keys',
   'click #bboxEnable': 'bboxEnable',
   'click #redraw': 'modifyCoordinates',
   'change #resolution': 'updateScale',
   'change #format': 'updateFormat',
   'change #filename': 'updateUrl'
-
 };
 
 Printer.prototype.keys = function(ev) {
@@ -127,19 +119,7 @@ Printer.prototype.toggleInfo = function(ev) {
   return false;
 };
 
-Printer.prototype.populateInteractiveVals = function(ev) {
-  var layerName = $(ev.currentTarget).val();
-  $('.js-layer-option[rel=' + layerName + ']')
-    .removeClass('hidden')
-    .siblings('.js-layer-option')
-    .addClass('hidden');
-};
-Printer.prototype.messageclear = function() {
-  messageClear();
-};
-
 Printer.prototype.delstyle = delStyle;
-Printer.prototype.tabbed = tabbedHandler;
 
 Printer.prototype.modalsources = function(ev) {
   var style = this.model.attributes;
@@ -154,115 +134,11 @@ Printer.prototype.modalsources = function(ev) {
   });
   return false;
 };
-Printer.prototype.addmapbox = function(ev) {
-  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = field.value;
-    return memo;
-  }, {});
-  var id = 'mapbox:///' + attr.id;
-  (new Source({id:id})).fetch({
-    success: _(function(model, resp) {
-      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
-      this.model.set({source:id});
-      Modal.close();
-    }).bind(this),
-    error: _(this.error).bind(this)
-  });
-  return false;
-};
 
 Printer.prototype.recache = function(ev) {
   this.model.set({_recache:true});
   this.save(ev);
   return false;
-};
-
-Printer.prototype.save = function(ev, options) {
-  var exporter = this;
-
-  // Set map in loading state.
-  $('#full').addClass('loading');
-
-  var attr = {};
-  // Grab settings form values.
-  _($('#settings').serializeArray()).reduce(function(memo, field) {
-    if (field.name === 'minzoom' || field.name === 'maxzoom') {
-      memo[field.name] = parseInt(field.value,10);
-    } else if (field.name === 'baselayer') {
-      if (field.value) {
-        exporter.model.get('_prefs').baselayer = field.value;
-        $('#baselayer').show();
-      } else {
-        exporter.model.get('_prefs').baselayer = '';
-        $('#baselayer').hide();
-      }
-    } else if (field.name === 'rtoggle'){
-      if (field.value === 'printresolution') {
-        exporter.model.get('_prefs').print = true;
-        $('#print').removeClass('disabled');
-      } else {
-        exporter.model.get('_prefs').print = false;
-        $('#print').addClass('disabled');
-      }
-    } else if (field.name && field.value) {
-      memo[field.name] = field.value;
-    }
-    return memo;
-  }, attr);
-  // Grab interactivity form values.
-  _($('#interactivity').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = field.value;
-    return memo;
-  }, attr);
-  // Grab styles, sources.
-  attr.styles = _(code).reduce(function(memo, cm, k) {
-    if (k !== 'template') memo[k] = cm.getValue();
-    return memo;
-  }, {});
-  attr.source = $('#layers .js-source').map(function() {
-    return $(this).attr('id').split('source-').pop();
-  }).get().shift();
-  attr.template = code.template ? code.template.getValue() : '';
-
-  if (this.model.get('_prefs').saveCenter) {
-    var lon = map.getCenter().lng % 360;
-    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
-  }
-
-  // New mtime querystring
-  mtime = (+new Date).toString(36);
-
-  Printer.changed = false;
-  options = options || {
-    success:_(this.refresh).bind(this),
-    error: _(this.error).bind(this)
-  };
-  this.model.save(attr, options);
-
-  return ev && !!$(ev.currentTarget).is('a');
-};
-
-Printer.prototype.error = function(model, resp) {
-  this.messageclear();
-
-  if (!resp.responseText)
-    return Modal.show('error', 'Could not save style "' + model.id + '"');
-};
-
-Printer.prototype.upload = function(ev) {
-  var style = this.model.get('id');
-  $('.settings-body').addClass('loading');
-  $.ajax('/upload?styleid=' + style)
-    .done(function() {
-      Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-      $('.settings-body').removeClass('loading');
-      return true;
-    })
-    .error(function(resp) {
-      $('.settings-body').removeClass('loading');
-      return Modal.show('error', resp.responseText);
-    });
 };
 
 Printer.prototype.bboxEnable = function(ev){
@@ -398,7 +274,6 @@ Printer.prototype.updateUrl = function(){
 };
 
 Printer.prototype.refresh = function(ev) {
-  this.messageclear();
   var calcTotal = this.calculateTotal.bind(this);
 
   if (!map) {
