@@ -118,54 +118,55 @@
 
 
 <div id='print-ui' class='animate z1 col5 export-menu pin-right fill-light'>
-  <div id='layers'>
-    <nav class='pad1x row1 col12 pin-top keyline-bottom fill-light z1'>
-      <div class='pin-topleft z1 row1'><!--
-        -->
-        <a title='Fullscreen' class='pad1 inline quiet docs-n icon l-r-arrow unround align-middle fill-darken0 keyline-right' href='#full'></a><!--
-        -->
+  <nav class='pad1x row1 col12 pin-top keyline-bottom fill-light z1'>
+    <div class='pin-topleft z1 row1'><!--
+      -->
+      <a title='Fullscreen' class='pad1 inline quiet docs-n icon l-r-arrow unround align-middle fill-darken0 keyline-right' href='#full'></a><!--
+      -->
+    </div>
+    <strong class='small inline pad1y pad4x'>Export Settings for Static Maps</strong>
+    <a href='#export-info' class='pin-right pad1 js-info inline icon info quiet'></a>
+    <div id='export-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
+      <p>To export a static map, select an area to export using the button below. You can specify <code>jpeg</code> or <code>png</code> image formats, and resolution. High resolution is 288 dpi, low is 72 dpi. Large images may take up to a minute to process. If you have specific coordinates for image boundaries, enter it into Bounds or Center forms after initializing an area to export. </p>
+    </div>
+  </nav>
+  <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
+    <div class='pad1'>
+      <fieldset class=' space-bottom1'>
+        <section>
+          <label>Filename</label>
+          <br>
+          <input id='filename' class='col10 short small' type='text' value='<%=style.name %>' /><span id='format' class='format small col2 pad1x'>.png</span>
+        </section>
+       <!--  <section class='space-bottom1'>
+          <br>
+          <label>Attribution</label>
+          <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
+        </section> -->
+      </fieldset>
+      <fieldset class='space-bottom1'>
+          <label class='inline col4 pad1y'>Image format</label>
+          <div id='format' class='rounded-toggle inline short'>
+            <input id='png' type='radio' name='format' value='png' checked='checked'>
+            <label for='png'>png</label>
+            <input id='jpeg' type='radio' name='format' value='jpeg'>
+            <label for='jpeg'>jpeg</label>
+          </div>
+      </fieldset>
+      <fieldset class='space-bottom0'>
+          <label class='inline col4 pad1y'>Resolution</label>
+          <div id='resolution' class='rounded-toggle inline short'>
+          <% _({
+            '1': 'low',
+            '2': 'med',
+            '4': 'high'
+          }).each(function(label, format) { %>
+          <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === 'high') { %> checked='true' <% } %>>
+          <label for='<%= label %>'><%= label %></label>
+          <% }); %>
       </div>
-      <strong class='small inline pad1y pad4x'>Export Settings for Static Maps</strong>
-    </nav>
-    <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
-      <div class='pad1'>
-        <fieldset class=' space-bottom1'>
-          <section >
-            <label>Filename</label>
-            <br>
-            <input id='filename' class='col10 short small' type='text' value='<%=style.name %>' /><span id='format' class='format small col2 pad1x'>.png</span>
-          </section>
-         <!--  <section class='space-bottom1'>
-            <br>
-            <label>Attribution</label>
-            <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
-          </section> -->
-        </fieldset>
-
-        <fieldset class='space-bottom1'>
-            <label class='inline col4 pad1y'>Image format</label>
-            <div id='format' class='rounded-toggle inline short'>
-              <input id='png' type='radio' name='format' value='png' checked='checked'>
-              <label for='png'>png</label>
-              <input id='jpeg' type='radio' name='format' value='jpeg'>
-              <label for='jpeg'>jpeg</label>
-            </div>
-        </fieldset>
-        <fieldset class='space-bottom0'>
-            <label class='inline col4 pad1y'>Resolution</label>
-            <div id='resolution' class='rounded-toggle inline short'>
-            <% _({
-              '1': 'low',
-              '2': 'med',
-              '4': 'high'
-            }).each(function(label, format) { %>
-            <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === 'high') { %> checked='true' <% } %>>
-            <label for='<%= label %>'><%= label %></label>
-            <% }); %>
-        </div>
-       </fieldset>
-
-      </div>
+     </fieldset>
+    </div>
 
     <div class='pad1y'>
       <fieldset class='attributes quiet keyline-all pad1'>
@@ -191,8 +192,8 @@
       </fieldset>
     </div>
     <div class='pad1'>
-      <a href="#" type='button' class='col6 button icon polygon' id='bboxEnable'>Select Area to Export</a>
-      <a id='export' href='#' type='button' class='col6 button disabled icon floppy' value='' name='' >Download Static Map</a>
+      <a href="#" type='button' class='round-left keyline-right enable col6 button icon polygon' id='bboxEnable'>Select Area to Export</a>
+      <a id='export' href='#' type='button' class='round-right col6 button disabled icon floppy' value='' name='' >Download Static Map</a>
     </div>
   </div>
 </div>
@@ -211,7 +212,6 @@ templates.modalerror = <%= this.modalerror.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 Print(templates, cwd, style);
-console.log(style)
 </script>
 
 <% if (test) { %>

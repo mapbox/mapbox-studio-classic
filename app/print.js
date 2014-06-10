@@ -9,6 +9,7 @@ var templateEditor;
 var boundingBox;
 var mtime = (+new Date).toString(36);
 var limit = 19008;
+var sm = new SphericalMercator();
 
 statHandler('drawtime')();
 
@@ -30,7 +31,9 @@ Printer.prototype.events = {
   'click #history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'keydown': 'keys',
-  'click #bboxEnable': 'bboxEnable',
+  'click .js-info': 'toggleInfo',
+  'click .enable': 'bboxEnable',
+  'click .reselect': 'bboxReselect',
   'click #redraw': 'modifyCoordinates',
   'change #resolution': 'updateScale',
   'change #format': 'updateFormat',
@@ -56,10 +59,6 @@ Printer.prototype.keys = function(ev) {
   case (which === 190): // . for fullscreen
     ev.preventDefault();
     this.togglePane('full');
-    break;
-  case (which === 73): // i for layers/data
-    ev.preventDefault();
-    this.togglePane('layers');
     break;
   case (which === 220): // \ for settings
     ev.preventDefault();
@@ -137,30 +136,53 @@ Printer.prototype.recache = function(ev) {
   return false;
 };
 
+Printer.prototype.toggleInfo = function(ev) {
+  var $el = $(ev.currentTarget);
+  if ($el.is('.fill-darken2')) {
+    $el.removeClass('fill-darken2 dark').addClass('quiet');
+    $($el.attr('href')).addClass('hidden');
+  } else {
+    $el.addClass('fill-darken2 dark').removeClass('quiet');
+    $($el.attr('href')).removeClass('hidden');
+  }
+  return false;
+};
+
 Printer.prototype.bboxEnable = function(ev){
   if (!boundingBox._enabled) {
     // Enable the location filter
     boundingBox.enable();
     boundingBox.fire('enableClick');
 
-    var bounds = map.getBounds(),
-      zoom =  map.getZoom(),
-      sm = new SphericalMercator(),
-      ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom),
-      sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom),
-      w = (ne[0] - sw[0]);
-
-    ne = sm.ll([ne[0] - (w * 0.05), ne[1]], zoom);
-    sw = sm.ll([sw[0] + (w * 0.05), sw[1]], zoom);
-
-    boundingBox.setBounds(L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0])));
+    this.calculateBounds();
 
     $('#export').removeClass('disabled');
     $('.attributes').removeClass('quiet');
     $('#bboxInput').prop('disabled', false);
     $('#centerInput').prop('disabled', false);
-    $('#bboxEnable').addClass('disabled');
+    $('#bboxEnable').html('Reselect within current view').addClass('reselect').removeClass('enable')
   }
+};
+
+Printer.prototype.bboxReselect = function(){
+  if (!boundingBox._enabled) return;
+  this.calculateBounds();
+  map.zoomOut();
+};
+
+Printer.prototype.calculateBounds = function(){
+  var sidebar = $('#full').width();
+  var bounds = map.getBounds(),
+    zoom = map.getZoom(),
+    ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom),
+    sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom),
+    center = map.getCenter(),
+    center = sm.px([center.lng, center.lat], zoom);
+
+  ne = sm.ll([center[0] + sidebar/2, ne[1]], zoom);
+  sw = sm.ll([center[0] - sidebar/2, sw[1]], zoom);
+
+  boundingBox.setBounds(L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0])));
 };
 
 Printer.prototype.calculateCoordinates = function(ev){
@@ -190,8 +212,8 @@ Printer.prototype.calculateCoordinates = function(ev){
   });
   var coordinates = window.exporter.model.get('coordinates');
   if ($('#redraw').hasClass('disabled')) $('#redraw').removeClass('disabled');
-  $('#bboxInput').prop('value', coordinates.bbox[0]+', '+coordinates.bbox[1]+', '+coordinates.bbox[2]+', '+coordinates.bbox[3]);
-  $('#centerInput').prop('value', coordinates.center[0]+', '+coordinates.center[1]);
+  $('#bboxInput').prop('value', coordinates.bbox[0]+','+coordinates.bbox[1]+','+coordinates.bbox[2]+','+coordinates.bbox[3]);
+  $('#centerInput').prop('value', coordinates.center[0]+','+coordinates.center[1]);
 
   this.calculateTotal();
 };
@@ -201,7 +223,6 @@ Printer.prototype.calculateTotal = function(){
     zoom = map.getZoom(),
     bbox = window.exporter.model.get('coordinates').bbox,
     center;
-  var sm = new SphericalMercator();
   sm.size = scale * 256;
   
   var topRight = sm.px([bbox[3], bbox[2]], zoom),
@@ -219,8 +240,8 @@ Printer.prototype.calculateTotal = function(){
 };
 
 Printer.prototype.modifyCoordinates = function(ev){
-  var bounds = $('#bboxInput').prop('value').split(', ').map(parseFloat);
-  var center = $('#centerInput').prop('value').split(', ').map(parseFloat);
+  var bounds = $('#bboxInput').prop('value').split(',').map(parseFloat);
+  var center = $('#centerInput').prop('value').split(',').map(parseFloat);
   var bSum = bounds.reduce(function(a, b){ return a + b; });
   var bboxSum = window.exporter.model.get('coordinates').bbox.reduce(function(a, b){ return a + b; });
   if (bSum != bboxSum) {
@@ -229,7 +250,6 @@ Printer.prototype.modifyCoordinates = function(ev){
     map.setView(center, window.exporter.model.get('coordinates').zoom);
     return;
   }
-
   var cSum = center.reduce(function(a, b){ return a + b; });
   var centerSum = window.exporter.model.get('coordinates').center.reduce(function(a, b){ return a + b; });
   if (cSum != centerSum) {
