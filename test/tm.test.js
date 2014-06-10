@@ -58,6 +58,19 @@ describe('tm', function() {
         });
     });
 
+    it('compacts nofile', function(done) {
+        var dbpath = path.join(tmppath, 'doesnotexist.db');
+        assert.equal(false, fs.existsSync(dbpath));
+        tm.dbcompact(dbpath, function(err, db) {
+            assert.ifError(err);
+            db.set('test', 1);
+            db.on('drain', function() {
+                assert.equal(23, fs.statSync(dbpath).size);
+                done();
+            });
+        });
+    });
+
     it('sortkeys', function() {
         assert.deepEqual(['id', 'bar', 'foo'], Object.keys(tm.sortkeys({
             foo: 'foo',
