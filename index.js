@@ -91,7 +91,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
             style: req.style.data,
             history: req.history,
             basemap: req.basemap,
-            user: tm.db._docs.user,
+            user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
         });
@@ -294,8 +294,8 @@ app.get('/upload', middleware.auth, function(req, res, next) {
 
     style.upload({
         id: req.query.styleid,
-        oauth: tm.db._docs.oauth,
-        cache: tm._config.cache
+        oauth: tm.db.get('oauth'),
+        cache: tm.config().cache
     }, function(err){
         if (err) next(err);
         res.end();
@@ -368,7 +368,7 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
             source: req.source.data,
             history: req.history,
             basemap: req.basemap,
-            user: tm.db._docs.user,
+            user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
         });
