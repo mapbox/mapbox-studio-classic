@@ -142,9 +142,9 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
-app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}):filename((?:\/\\w{0,})?).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
 
-app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
+app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}):filename((?:\/\\w{0,})?).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -271,6 +271,8 @@ function printFromCenter(req, res, next){
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
 
+    var filename = req.params.filename.slice(1) || 'image';
+
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
         : req.style;
@@ -281,6 +283,7 @@ function printFromCenter(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
+        res.set({'Content-disposition': 'attachment; filename='+filename+'.'+params.format});
         return res.send(image);
     });
 };
@@ -295,6 +298,8 @@ function printFromBbox(req, res, next){
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
 
+    var filename = req.params.filename.slice(1) || 'image';
+
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
         : req.style;
@@ -305,7 +310,7 @@ function printFromBbox(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
-        res.set({'Content-disposition': 'attachment; filename=image.'+params.format});
+        res.set({'Content-disposition': 'attachment; filename='+filename+'.'+params.format});
         return res.send(image);
     });
 }
