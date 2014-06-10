@@ -87,7 +87,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click #docs .js-docs-nav': 'scrollto',
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
-        'submit #addlayer': 'addDatabase',
+        'click .js-adddb': 'addDatabase',
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'keydown': 'keys',
@@ -211,37 +211,25 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
     };
     Editor.prototype.addDatabase = function(ev) {
-        var values = _($('#addDatabase').serializeArray()).reduce(function(memo, field) {
-            memo[field.name] = field.value;
-            return memo;
-        }, {});
-        if (!values.id || !templates['layer' + values.type]) return false;
-        if (!layers[values.id]) {
-            var layer = {
-                tm: tm,
-                vt: {},
-                id: values.id,
-                properties: {
-                    'buffer-size': 8
-                },
-                Datasource: {
-                    type: values.type
-                }
-            };
-            //Add the new layer form and div
-            $('#editor').prepend(templates['layer' + values.type](layer));
-            $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+        var type = $(ev.currentTarget).attr('href').split('#add-db-').pop();
 
-            //Add layer
-            layers[values.id] = Layer(values.id, layer.Datasource);
-            
-            //Close modal
-            Modal.close();
-            window.location.hash = '#layers-' + values.id;
-            $('#layers .js-menu-content').sortable('destroy').sortable();
-        } else {
-            Modal.show('error', 'Layer name must be different from existing layer "' + values.id + '"');
-        }
+        // Pick the first data_n layername that is not already taken.
+        var i = 0;
+        var id = 'data';
+        while (layers[id]) { id = 'data_' + (++i); }
+
+        var layer = {
+            tm: tm,
+            id: id,
+            properties: { 'buffer-size': 8 },
+            Datasource: { type: type }
+        };
+        $('#editor').prepend(templates['layer' + type](layer));
+        $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+        layers[id] = Layer(id, layer.Datasource);
+        Modal.close();
+        window.location.hash = '#layers-' + id;
+        $('#layers .js-menu-content').sortable('destroy').sortable();
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
@@ -263,6 +251,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 //Setup layer object
                 var layer = {
                     tm: tm,
+                    vt: {},
                     id: current_layer.id,
                     properties: {
                         'buffer-size': 8
@@ -271,24 +260,22 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                         type: metadata.dstype,
                         file: filepath,
                         layer: layername
-                    },
-                    srs: metadata.projection
+                    }
                 };
-                
-                //Add the new layer form and div
                 $('#editor').prepend(templates['layer' + metadata.dstype](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-                
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
-
+                //set projection and readonly
+                var projTarget = $('#layers-' + layer.id + ' .js-metadata-projection');
+                projTarget.val(metadata.projection);
+                projTarget.attr('readonly', true);
                 //set maxzoom, if needed
                 var maxzoomTarget = $('.max');
                 if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
                 
-                Modal.close();
-                
                 //open proper modal, depending on if there are multiple layers
+                Modal.close();
                 if (layersArray.length > 1) {
                     window.location.hash = '#';
                     $('#layers .js-menu-content').sortable('destroy').sortable();
@@ -296,7 +283,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     window.location.hash = '#layers-' + layersArray[0].id;
                     $('#layers .js-menu-content').sortable('destroy').sortable();
                 }
-              //else layer already exists, show error  
+                //else layer already exists, show error  
             } else {
                 Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
             }
@@ -326,32 +313,54 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         var filepath = $(layerform + ' .filepath').val();
         
         //Retain current settings to copy over
-        var layer = layers[id].get();
+        var current_state = layers[id].get();
 
         //Get updated metadata from source
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata) {
-            //Transfer new maxzoom, if relevant
-            var maxzoomTarget = $('.max');
-            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+            //Setup new layer object
+            var layer = {
+              tm: tm,
+              vt: {},
+              id: id,   //id will carry from current state, just in case the layer has been renamed by user.
+              properties: {
+                'buffer-size': current_state.properties['buffer-size']
+              },
+              Datasource: {
+                type: metadata.dstype,
+                file: filepath
+              }
+            };
+
+            //Add new layer and replace old in the project's layers array
+            layers[layer.id] = Layer(layer.id, layer.Datasource);
+            
+            //Grab current settings in case they've been changed by user and apply them to refreshed modal
+            //Set buffer size from current modal
+            $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
+            
+            //Set description from current modal
+            $(layerform + ' input[name=description]').val(current_state.description);
             
             //Transfer current field descriptions to the new fields, if relevant
             var new_fields = metadata.json.vector_layers[0].fields;
-            var current_fields = layer.fields;
+            var current_fields = current_state.fields;
             for(var field in new_fields){
-              if(current_fields.field !== undefined) new_fields[field] = current_fields[field];
+              if(current_fields.TRADE_NAME !== undefined) new_fields[field] = current_fields[field];
             };
-            layer.fields = new_fields;
             
-            //Transfer new projection
-            layer.srs = metadata.projection;
-          
-            //Add new layer and replace old in the project's layers array
-            layers[layer.id] = Layer(layer.id, layer.Datasource);
+            //Refresh fields
+            $('div.fields', layerform).html(templates.layerfields(new_fields));
 
-            //Save
-            window.editor.save();
+            //set projection and readonly
+            var projTarget = $(layerform + ' .js-metadata-projection');
+            projTarget.val(metadata.projection);
+            projTarget.attr('readonly', true);
+            
+            //set maxzoom, if needed
+            var maxzoomTarget = $('.max');
+            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
           },
           error: function(jqXHR, textStatus, errorThrown) {
             Modal.show('error', 'Cannot refresh source. ' + jqXHR.responseText);
@@ -359,23 +368,96 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
         return false;
     };
-    //This only applies to single-layer sources and PostGIS/SQLite  
+    //This only applies to single-layer sources and PostGIS/SQLite at the moment 
     Editor.prototype.updateLayername = function(ev) {
       //Retain current settings to copy over
       var current_id = $('#current_id').val();
-      var layer = layers[current_id].get();
+      var current_state = layers[current_id].get();
       var new_id = $('#newLayername').val(); 
       var new_layerform = '#layers-' + new_id;
-      layer.id = new_id;
-
+      console.log(current_state);
+      
+      //Check if sqlite or postgis
+      if(current_state.Datasource.type === 'sqlite'){
+        var layer = {
+          tm: tm,
+          vt: {},
+          id: new_id,
+          name: current_state.name,
+          properties: {
+            'buffer-size': current_state.properties['buffer-size']
+          },
+          Datasource: {
+            type: current_state.Datasource.type,
+            extent: current_state.Datasource.extent,
+            file: current_state.Datasource.file,
+            geometry_table: current_state.Datasource.geometry_table,
+            key_field: current_state.Datasource.key_field,
+            table: current_state.Datasource.table
+          }
+        };
+      } else if(current_state.Datasource.type === 'postgis'){
+        var layer = {
+          tm: tm,
+          vt: {},
+          id: new_id,
+          properties: {
+            'buffer-size': current_state.properties['buffer-size']
+          },
+          Datasource: {
+            dbname: current_state.Datasource.dbname,
+            type: current_state.Datasource.type,
+            extent: current_state.Datasource.extent,
+            file: current_state.Datasource.file,
+            geometry_table: current_state.Datasource.geometry_table,
+            geometry_field: current_state.Datasource.geometry_field,
+            host: current_state.Datasource.host,
+            key_field: current_state.Datasource.key_field,
+            max_size: current_state.Datasource.max_size,
+            port: current_state.Datasource.port,
+            user: current_state.Datasource.user,
+            table: current_state.Datasource.table
+          }
+        };
+      //else type is shape or csv...for now
+      } else {
+        //Setup new layer object
+        var layer = {
+          tm: tm,
+          vt: {},
+          id: new_id,
+          properties: {
+            'buffer-size': current_state.properties['buffer-size']
+          },
+          Datasource: {
+            type: current_state.Datasource.type,
+            file: current_state.Datasource.file
+          }
+        };
+      }
       //Add the new layer form and div
       $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
       $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-
+      
       //Replace old layer with new in the project's layers array
       layers[layer.id] = Layer(layer.id, layer.Datasource);
       
-      //Delete old layer/form
+      //Grab current settings in case they've been changed by user and apply them to refreshed modal
+      //Set buffer size from current modal
+      $('#' + layer.id + '-buffer-size').val(current_state.properties['buffer-size']);
+      
+      //Set description from current modal
+      $(new_layerform + ' input[name=description]').val(current_state.description);
+            
+      //Transfer fields
+      $('div.fields', new_layerform).html(templates.layerfields(current_state.fields));
+
+      //Set projection and readonly
+      var projTarget = $(new_layerform + ' .js-metadata-projection');
+      projTarget.val(current_state.srs);
+      projTarget.attr('readonly', true);
+      
+      //Delete old layer
       layers[current_id].form.remove();
       layers[current_id].item.remove();
       delete layers[current_id];
@@ -384,7 +466,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       Modal.close();
       $('#layers .js-menu-content').sortable('destroy').sortable();
       window.location.href = '#layers-' + new_id;
-
+      
       return false;
       
     };
