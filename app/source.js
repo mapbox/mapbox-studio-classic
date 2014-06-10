@@ -247,12 +247,28 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
+            
             //checks that the layer doesn't already exist
             if (!layers[current_layer.id]) {
-                //Setup layer object
-                var layer = {
+              var layer;
+              //If DB layer
+              if(filetype === 'sqlite'){
+                //Get default layer id given by addDatabase() function
+                layer = layers[metadata.default_id].get();
+                layer.file = filepath;
+                layer.id = current_layer.id;
+                layer.name = current_layer.id;
+                //Delete old layer/form
+                layers[metadata.default_id].form.remove();
+                layers[metadata.default_id].item.remove();
+                delete layers[metadata.default_id];
+              } 
+                else {
+                  //Setup layer object
+                  layer = {
                     tm: tm,
                     id: current_layer.id,
+                    srs: metadata.projection,
                     properties: {
                         'buffer-size': 8
                     },
@@ -260,12 +276,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                         type: metadata.dstype,
                         file: filepath,
                         layer: layername
-                    },
-                    srs: metadata.projection
-                };
-                
+                    }
+                  };
+                }
                 //Add the new layer form and div
-                $('#editor').prepend(templates['layer' + metadata.dstype](layer));
+                $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
                 
                 //Add new layer to the project's layers array
@@ -376,18 +391,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
       return false;
       
-    };
-    Editor.prototype.error = function(model, resp) {
-        this.messageclear();
-        if (resp.responseText) {
-            var json;
-            try {
-                json = JSON.parse(resp.responseText);
-            } catch (err) {}
-            Modal.show('error', json ? json.message : resp.responseText);
-        } else {
-            Modal.show('error', 'Could not save source "' + model.id + '"');
-        }
     };
     Editor.prototype.error = function(model, resp) {
         this.messageclear();
@@ -527,12 +530,13 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                                 Modal.show('error', jqXHR.responseText);
                             }
                         });
-                        //else file is either postgis or sqlite...for now
-                    } else if (extension === 'sqlite' || extension === 'postgis') {
+                    //else file is sqlite
+                    } else if (extension === 'sqlite') {
                         var layername = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.lastIndexOf("."));
+                        var default_id = $(ev.currentTarget).attr('id').split('browse-').pop();
                         window.editor.addlayer(extension, [{
                             id: layername
-                        }], filepath, null);
+                        }], filepath, {'default_id':default_id});
                     } else {
                         Modal.show('error', 'File type "' + extension + '" unknown.');
                     }
