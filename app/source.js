@@ -87,7 +87,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click #docs .js-docs-nav': 'scrollto',
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
-        'submit #addlayer': 'addDatabase',
+        'click .js-adddb': 'addDatabase',
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'keydown': 'keys',
@@ -211,37 +211,25 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
     };
     Editor.prototype.addDatabase = function(ev) {
-        var values = _($('#addDatabase').serializeArray()).reduce(function(memo, field) {
-            memo[field.name] = field.value;
-            return memo;
-        }, {});
-        if (!values.id || !templates['layer' + values.type]) return false;
-        if (!layers[values.id]) {
-            var layer = {
-                tm: tm,
-                vt: {},
-                id: values.id,
-                properties: {
-                    'buffer-size': 8
-                },
-                Datasource: {
-                    type: values.type
-                }
-            };
-            //Add the new layer form and div
-            $('#editor').prepend(templates['layer' + values.type](layer));
-            $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+        var type = $(ev.currentTarget).attr('href').split('#add-db-').pop();
 
-            //Add layer
-            layers[values.id] = Layer(values.id, layer.Datasource);
-            
-            //Close modal
-            Modal.close();
-            window.location.hash = '#layers-' + values.id;
-            $('#layers .js-menu-content').sortable('destroy').sortable();
-        } else {
-            Modal.show('error', 'Layer name must be different from existing layer "' + values.id + '"');
-        }
+        // Pick the first data_n layername that is not already taken.
+        var i = 0;
+        var id = 'data';
+        while (layers[id]) { id = 'data_' + (++i); }
+
+        var layer = {
+            tm: tm,
+            id: id,
+            properties: { 'buffer-size': 8 },
+            Datasource: { type: type }
+        };
+        $('#editor').prepend(templates['layer' + type](layer));
+        $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+        layers[id] = Layer(id, layer.Datasource);
+        Modal.close();
+        window.location.hash = '#layers-' + id;
+        $('#layers .js-menu-content').sortable('destroy').sortable();
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
@@ -388,6 +376,18 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
       return false;
       
+    };
+    Editor.prototype.error = function(model, resp) {
+        this.messageclear();
+        if (resp.responseText) {
+            var json;
+            try {
+                json = JSON.parse(resp.responseText);
+            } catch (err) {}
+            Modal.show('error', json ? json.message : resp.responseText);
+        } else {
+            Modal.show('error', 'Could not save source "' + model.id + '"');
+        }
     };
     Editor.prototype.error = function(model, resp) {
         this.messageclear();
