@@ -206,7 +206,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     };
     Editor.prototype.updatenameModal = function(ev) {
         //send layer id to update modal
-        var id = $(ev.currentTarget).attr('id').split('-').pop();
+        var id = $(ev.currentTarget).attr('id').split('updatename-').pop();
         Modal.show('updatename', {'id':id});
         return false;
     };
@@ -252,6 +252,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             var layername;
             if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
             else layername = current_layer.id;
+
             //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
             //To avoid all geojson layers having the same name, replace id with the filename. 
             if (filetype === 'geojson') current_layer.id = metadata.filename;
@@ -303,7 +304,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
     Editor.prototype.deletelayer = function(ev) {
-        var id = $(ev.currentTarget).attr('id').split('-').pop();
+        var id = $(ev.currentTarget).attr('id').split('del-').pop();
         if (!layers[id]) return false;
         if (confirm('Remove layer "' + id + '"?')) {
             layers[id].form.remove();
@@ -320,7 +321,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // and var 'new_layer.id' will be the same thing in this function.
         // A source's 'id' is set in mapnik-omnivore here: https://github.com/mapbox/mapnik-omnivore/blob/master/lib/datasourceProcessor.js#L32
         // There's no way for the id to change as long as the filepath is the same.
-        var id = $(ev.currentTarget).attr('id').split('-').pop();
+        var id = $(ev.currentTarget).attr('id').split('refresh-').pop();
         if (!layers[id]) return false;
         var layerform = '#layers-' + id;
         var filepath = $(layerform + ' .filepath').val();
@@ -374,7 +375,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
       //Replace old layer with new in the project's layers array
       layers[layer.id] = Layer(layer.id, layer.Datasource);
-      
+
       //Delete old layer/form
       layers[current_id].form.remove();
       layers[current_id].item.remove();
@@ -548,7 +549,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.delstyle = delStyle;
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {
-        var id = $(ev.currentTarget).attr('id').split('-').pop();
+        var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
         var filepath = layers[id].get().Datasource.file;
         $.ajax({
             url: '/metadata?file=' + filepath,
