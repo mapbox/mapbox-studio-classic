@@ -180,6 +180,7 @@ revlayers.reverse();
       <div class='center pin-right col6 strong small'>
         <% if (!remote) { %>
         <span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span>
+        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Refresh</span>
         <% } %>
         <span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span>
         <% if (remote) { %>
@@ -216,7 +217,7 @@ revlayers.reverse();
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
-        vt: source.vector_layers.filter(function(v) { return v.id === l.id })[0]
+        fields: source.vector_layers.filter(function(v) { return v.id === l.id })[0].fields
     }).extend(l)));
   }.bind(this));
 } %>
@@ -228,16 +229,17 @@ templates.modalbrowser = <%= this.modalbrowser.source %>;
 templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
 templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
 templates.modaladdlayer = <%= this.modaladdlayer.source %>;
+templates.modalupdatename = <%= this.modalupdatename.source %>;
 templates.modalmessage = <%= this.modalmessage.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
 templates.layeritem = <%= this.layeritem.source %>;
-templates.layerconf = <%= this.layerconf.source %>;
 templates.layerfields = <%= this.layerfields.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layergeojson = <%= this.layergeojson.source %>;
 templates.layersqlite = <%= this.layersqlite.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
+templates.layerogr = <%= this.layerogr.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 

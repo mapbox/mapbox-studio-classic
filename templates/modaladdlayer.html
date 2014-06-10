@@ -1,41 +1,16 @@
-<form id='addlayer' class='modal round pad2 col6 margin3 pin-top top2 fill-dark'>
+<form id='addlayer' class='modal margin3 round col6 pin-top top2'>
   <a href='#' class="pad1 quiet icon x pin-topright close"></a>
-  <fieldset class='col8 margin2'>
-    <p class='center'>Add a layer to your source.</p>
-    <input class='col12 space-bottom1' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+'/>
-  </fieldset>
-  <fieldset class='col8 margin2'>
-    <div class="space-bottom1 small quiet">Select the format of the data you wish to convert into a vector source:</div>
-    <div class='col12 scroll-styled radio-buttons'>
-      <input name='type' type='radio' id='addlayer-postgis' value='postgis' checked >
-      <label class='contain icon check quiet short button col12' for='addlayer-postgis'>
-        PostGIS
-        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-shape' value='shape'>
-      <label class='contain icon check quiet short button col12' for='addlayer-shape'>
-        Shapefile
-        <span class='micro pin-right quiet pad0y pad1x'>.shp</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-geojson' value='geojson'>
-      <label class='contain icon check quiet short button col12' for='addlayer-geojson'>
-        GeoJSON
-        <span class='micro pin-right quiet pad0y pad1x'>.json &amp; .geojson</span>
-        </label>
-      <input name='type' type='radio' id='addlayer-sqlite' value='sqlite'>
-      <label class='contain icon check quiet short button col12' for='addlayer-sqlite'>
-        SQLite
-        <span class='micro pin-right quiet pad0y pad1x'>Database</span>
-      </label>
-      <input name='type' type='radio' id='addlayer-csv' value='csv'>
-      <label class='contain icon check quiet short button col12' for='addlayer-csv'>
-        CSV
-        <span class='micro pin-right quiet pad0y pad1x'>.csv</span>
-      </label>
-    </div>
-  </fieldset>
-  </div>
-  <div class='center'>
-  <input class='js-reset-mode margin2 col8' type='submit' value='New layer'/>
-  </div>
+    <fieldset class='col12 pad2 fill-dark'>
+        <p class='center col8 margin2'>Add a new datasource.</p>
+        <div class='input-pill clearfix space-bottom'>
+            <input type='hidden' name='Datasource-type' value='shape' />
+            <input class='col8' type='text' name='Datasource-file' title='No spaces allowed.' placeholder='.shp .kml .geojson .gpx .csv' pattern='[\w+\d+\.\/_-]+\.(shp|SHP|json|geojson|JSON|kml|KML|gpx|GPX|csv|CSV)'/>
+            <a class='quiet col4 button icon folder js-browsefile'>Browse</a>
+        </div>
+        <div class='small quiet center'>
+            Need to add data from a
+            <a href='#add-db-postgis' class='js-adddb'>PostGIS</a> or
+            <a href='#add-db-sqlite' class='js-adddb'>SQLite</a> database?
+        </div>
+    </fieldset>
 </form>

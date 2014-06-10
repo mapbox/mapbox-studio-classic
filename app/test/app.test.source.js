@@ -24,9 +24,8 @@ $(document).ajaxComplete(function() {
     setTimeout(function() { callback(); }, 1);
 });
 
-
 describe('Setting maxzoom', function() {
-    it('sets maxzoom to higher value than 6 (checks logic preference for higher maxzoom...see #addlayer-shape test)', function() {
+    it('sets maxzoom to higher value than 6 (tests logic preference for higher maxzoom...see #addlayer-shape test)', function() {
         var maxzoomTarget = $('#settings #maxzoom');
         maxzoomTarget.val(12);
         $('#settings .js-save').submit();
@@ -35,17 +34,11 @@ describe('Setting maxzoom', function() {
     });
 });
 
-
 describe('#addlayer-shape', function() {
     it('adds new shapefile and checks input values', function(done) {
-        //Create new shape layer
+        //Browse for file and add new shape layer
         $('.js-addlayer').click();
-        $('#addlayer-shape').click();
-        $('#addlayer .col12').val('Testing');
-        $('#addlayer .js-reset-mode').submit();
-
-        //Browse for shapefile
-        $('#layers-Testing .js-browsefile').click();
+        $('.js-browsefile').click();
         var cwd = $('div.cwd').text();
         //This RegEx can probably be cleaned up, but it works for now
         cwd = cwd.replace(/\s*$/,"");
@@ -65,7 +58,6 @@ describe('#addlayer-shape', function() {
     });
 });
 
-
 describe('Setting maxzoom', function() {
     it('sets maxzoom', function() {
         var maxzoomTarget = $('#settings #maxzoom');
@@ -76,8 +68,7 @@ describe('Setting maxzoom', function() {
     });
 });
 
-
-describe('#layer-10m-900913-bounding-box', function() {
+describe('Setting projection', function() {
 	it('tests the projection input field is populated with the expected projection', function() {
 		var projTarget = $('.js-metadata-projection');
 		var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
@@ -85,6 +76,25 @@ describe('#layer-10m-900913-bounding-box', function() {
 	});	
 });
 
+describe('#updatename-shape', function(){
+    it('updates the layer name and checks that input values and new layer modal are set', function() {
+        //Set description of old layer
+        $('.js-layer #10m-900913-bounding-box').click();
+        $('#10m-900913-bounding-box-buffer-size').val('24');
+        var expectedBuffer = $('#10m-900913-bounding-box-buffer-size').val();
+
+        //Update layer name
+        $('#updatename-10m-900913-bounding-box').click();
+        $('#newLayername').val('hey');
+        $('#updatename').submit();
+
+        var currentUrl = window.location.toString();
+        var newBufferTarget = $('#hey-buffer-size-val');
+
+        assert.equal(currentUrl.slice(-10),'layers-hey');
+        assert.equal(expectedBuffer, newBufferTarget.text());
+    });
+});
 
 mocha.ignoreLeaks();
 
