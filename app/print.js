@@ -12,10 +12,6 @@ var limit = 19008;
 
 statHandler('drawtime')();
 
-if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if (Printer && Printer.changed) return 'Save your changes?';
-};
-
 var Printer = Backbone.View.extend({});
 var Modal = new views.Modal({
   el: $('.modal-content'),
@@ -143,29 +139,28 @@ Printer.prototype.recache = function(ev) {
 
 Printer.prototype.bboxEnable = function(ev){
   if (!boundingBox._enabled) {
-      // Enable the location filter
-      boundingBox.enable();
-      boundingBox.fire('enableClick');
+    // Enable the location filter
+    boundingBox.enable();
+    boundingBox.fire('enableClick');
+
+    var bounds = map.getBounds(),
+      zoom =  map.getZoom(),
+      sm = new SphericalMercator(),
+      ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom),
+      sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom),
+      w = (ne[0] - sw[0]);
+
+    ne = sm.ll([ne[0] - (w * 0.05), ne[1]], zoom);
+    sw = sm.ll([sw[0] + (w * 0.05), sw[1]], zoom);
+
+    boundingBox.setBounds(L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0])));
+
+    $('#export').removeClass('disabled');
+    $('.attributes').removeClass('quiet');
+    $('#bboxInput').prop('disabled', false);
+    $('#centerInput').prop('disabled', false);
+    $('#bboxEnable').addClass('disabled');
   }
-
-  var bounds = map.getBounds();
-  var zoom =  map.getZoom();
-  var sm = new SphericalMercator();
-  var ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom);
-  var sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom);
-
-  var w = (ne[0] - sw[0]);
-
-  ne = sm.ll([ne[0] - (w * 0.05), ne[1]], zoom);
-  sw = sm.ll([sw[0] + (w * 0.05), sw[1]], zoom);
-
-  boundingBox.setBounds(L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0])));
-
-  $('#export').removeClass('disabled');
-  $('.attributes').removeClass('quiet');
-  $('#bboxInput').prop('disabled', false);
-  $('#centerInput').prop('disabled', false);
-  $('#bboxEnable').addClass('disabled');
 };
 
 Printer.prototype.calculateCoordinates = function(ev){
@@ -176,22 +171,22 @@ Printer.prototype.calculateCoordinates = function(ev){
   var format = $('input[name=format]:checked').prop('value');
 
   window.exporter.model.set({
-      coordinates: { 
-        zoom: zoom,
-        scale: $('input[name=resolution]:checked').prop('value'),
-        format: format,
-        quality: (format === 'png') ? 256 : 100,
-        bbox: [
-          parseFloat(bounds._southWest.lat.toFixed(decimals)), 
-          parseFloat(bounds._southWest.lng.toFixed(decimals)), 
-          parseFloat(bounds._northEast.lat.toFixed(decimals)), 
-          parseFloat(bounds._northEast.lng.toFixed(decimals))
-        ],
-        center: [
-          center[0].toFixed(decimals), 
-          center[1].toFixed(decimals)
-        ]
-      }
+    coordinates: {
+      zoom: zoom,
+      scale: $('input[name=resolution]:checked').prop('value'),
+      format: format,
+      quality: (format === 'png') ? 256 : 100,
+      bbox: [
+        parseFloat(bounds._southWest.lat.toFixed(decimals)),
+        parseFloat(bounds._southWest.lng.toFixed(decimals)),
+        parseFloat(bounds._northEast.lat.toFixed(decimals)),
+        parseFloat(bounds._northEast.lng.toFixed(decimals))
+      ],
+      center: [
+        center[0].toFixed(decimals),
+        center[1].toFixed(decimals)
+      ]
+    }
   });
   var coordinates = window.exporter.model.get('coordinates');
   if ($('#redraw').hasClass('disabled')) $('#redraw').removeClass('disabled');
@@ -215,12 +210,12 @@ Printer.prototype.calculateTotal = function(){
     h = (bottomLeft[1] - topRight[1]) * scale,
     percentage = ( w > h ) ? ((w / limit) * 100) | 0 : ((h / limit) * 100) | 0;
 
-    $('#dimX').html(w);
-    $('#dimY').html(h);
-    $('#sizePerc').html(percentage);
-    if (percentage > 100 ) $('#export').addClass('disabled');
-    if (percentage <= 100 ) $('#export').removeClass('disabled');
-    this.updateUrl();
+  $('#dimX').html(w);
+  $('#dimY').html(h);
+  $('#sizePerc').html(percentage);
+  if (percentage > 100 ) $('#export').addClass('disabled');
+  if (percentage <= 100 ) $('#export').removeClass('disabled');
+  this.updateUrl();
 };
 
 Printer.prototype.modifyCoordinates = function(ev){
