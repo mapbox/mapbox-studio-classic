@@ -1,24 +1,31 @@
 <%
 var inspector = obj._prefs && obj._prefs.inspector && obj._prefs.inspector === obj.id;
 var disabled = obj._prefs && obj._prefs.disabled && obj._prefs.disabled.indexOf(obj.id) >= 0;
-var isLocal = obj.Datasource && obj.Datasource.type;
+var local = obj.Datasource && obj.Datasource.type;
+var refreshable = (local === 'shape' || local === 'csv');
 %>
 <div id='<%=obj.id%>' class='contain keyline-bottom clearfix layer js-layer col12 small quiet'>
-  <% if (isLocal) { %>
+  <% if (local) { %>
   <span class='pad0 col0'>
     <a href='#' id='zoom-<%=obj.id%>' class='icon crosshair inline round js-zoomTo'></a>
   </span>
   <% } %>
   <a class='<%=(obj.Datasource && obj.Datasource.type) ? "js-reset-mode" : "js-tab" %> block col8 contain pad0y pad1x quiet' href='#layers-<%=obj.id%>'>
     <%=obj.id%>
-    <% if (isLocal) { %>
+    <% if (local) { %>
     <span><code><%= (obj.Datasource.type) %></code></span>
     <% } %>
   </a>
+
   <div class='center col6 pin-right small'>
-    <% if (isLocal) { %>
+    <% if (local) { %>
       <span class='pad0 col4 fr center layer-label'>
         <a href='#' id='del-<%=obj.id%>' class='inline round icon trash js-delete'></a>
+      </span>
+      <span class='pad0 col4 fr center layer-label'>
+        <% if (refreshable) { %>
+          <a href='#' id='refresh-<%=obj.id%>' class='icon refresh inline round js-refreshSource'></a>
+        <% } %>
       </span>
     <% } %>
     <span class='pad0 col4 fr center layer-label'>

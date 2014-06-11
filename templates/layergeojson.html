@@ -23,16 +23,23 @@
         <label>GeoJSON<label>
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='geojson' />
-          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".json" or ".geojson" extension.' placeholder='data.json' pattern='[\w+\d+\.\/_-]+\.(json|geojson|JSON)'/><!--
-          --><a class='col4 quiet button icon folder js-browsefile'>Browse</a>
+          <input class='col12 filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
         </div>
       </section>
-      <%= this.layerconf(obj) %>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label class='col3 inline'>Projection</label>
+        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' readonly='readonly'/>
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label class='col3 inline'>Buffer size</label>
+        <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='256' step='2' onchange='rangeHandler(this);'/>
+        <span class='small quiet code inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
+      </section>
       <section class='pad2'>
         <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
       </section>
     </fieldset>
   </div>
 
-  <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
+  <div class='fields'><%= this.layerfields(obj.fields) %></div>
 </form>

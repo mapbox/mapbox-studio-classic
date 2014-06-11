@@ -10,6 +10,7 @@
   <section class='pad2 pin-topleft'>
     <h3>
       <%= obj.id %>
+      <a href='#' id='updatename-<%=obj.id%>' class='icon pencil inline round js-updatename'></a>
     </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
   </section>
@@ -47,7 +48,15 @@
         <label class='pad1y col3 inline'>Extent </label>
         <input class='col9' type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
-      <%= this.layerconf(obj) %>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label class='col3 inline'>Projection</label>
+        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>'/>
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label class='col3 inline'>Buffer size</label>
+        <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='256' step='2' onchange='rangeHandler(this);'/>
+        <span class='small quiet code inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
+      </section>
       <% if (obj.properties['group-by']) { %>
       <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
       <% } %>
@@ -56,7 +65,7 @@
       </section>
     </fieldset>
   </div>
-  <div class='fields'><%= this.layerfields(obj.vt.fields) %></div>
+  <div class='fields'><%= this.layerfields(obj.fields) %></div>
 
   <div class='sql'>
     <section class='pad1'>
