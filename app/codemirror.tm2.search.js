@@ -116,10 +116,6 @@
         return cm.getSearchCursor(query, pos, queryCaseInsensitive(query));
     }
 
-    function dialog(cm, text, f) {
-        cm.openDialog(text, f);
-    }
-
     function parseQuery(query) {
         var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
         if (isRE) {
@@ -148,7 +144,7 @@
     function doSearch(cm, rev) {
         var state = getSearchState(cm);
         if (state.query) return findNext(cm, rev);
-        dialog(cm, queryDialog, function (query) {
+        cm.openDialog(queryDialog, function (query) {
             cm.operation(function () {
                 if (state.query && state.query !== query) state.query = query;
                 state.query = parseQuery(query);
