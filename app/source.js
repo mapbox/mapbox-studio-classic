@@ -87,7 +87,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click #docs .js-docs-nav': 'scrollto',
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
-        'click .js-adddb': 'addDatabase',
+        'click .js-addmanual': 'addManual',
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'keydown': 'keys',
@@ -210,8 +210,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         Modal.show('updatename', {'id':id});
         return false;
     };
-    Editor.prototype.addDatabase = function(ev) {
-        var type = $(ev.currentTarget).attr('href').split('#add-db-').pop();
+    Editor.prototype.addManual = function(ev) {
+        var type = $(ev.currentTarget).attr('href').split('#addmanual-').pop();
 
         // Pick the first data_n layername that is not already taken.
         var i = 0;
@@ -250,22 +250,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             
             //checks that the layer doesn't already exist
             if (!layers[current_layer.id]) {
-              var layer;
-              //If DB layer
-              if(filetype === 'sqlite'){
-                //Get default layer id given by addDatabase() function
-                layer = layers[metadata.default_id].get();
-                layer.file = filepath;
-                layer.id = current_layer.id;
-                layer.name = current_layer.id;
-                //Delete old layer/form
-                layers[metadata.default_id].form.remove();
-                layers[metadata.default_id].item.remove();
-                delete layers[metadata.default_id];
-              } 
-                else {
-                  //Setup layer object
-                  layer = {
+                //Setup layer object
+                var layer = {
                     tm: tm,
                     id: current_layer.id,
                     srs: metadata.projection,
@@ -277,8 +263,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                         file: filepath,
                         layer: layername
                     }
-                  };
-                }
+                };
                 //Add the new layer form and div
                 $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
@@ -519,27 +504,18 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     target.val(filepath);
                     var extension = filepath.split('.').pop().toLowerCase();
                     if (filepath.indexOf('.geo.json') !== -1) extension = 'geojson';
+                    // file browser is loading file for a manual source
+                    if (!mapnikOmnivore_digestable(extension)) return Modal.close();
                     //if file is compatible with mapnik omnivore, send to mapnik-omnivore for file's metadata
-                    if (mapnikOmnivore_digestable(extension)) {
-                        $.ajax({
-                            url: '/metadata?file=' + filepath,
-                            success: function(metadata) {
-                                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                Modal.show('error', jqXHR.responseText);
-                            }
-                        });
-                    //else file is sqlite
-                    } else if (extension === 'sqlite') {
-                        var layername = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.lastIndexOf("."));
-                        var default_id = $(ev.currentTarget).attr('id').split('browse-').pop();
-                        window.editor.addlayer(extension, [{
-                            id: layername
-                        }], filepath, {'default_id':default_id});
-                    } else {
-                        Modal.show('error', 'File type "' + extension + '" unknown.');
-                    }
+                    $.ajax({
+                        url: '/metadata?file=' + filepath,
+                        success: function(metadata) {
+                            window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Modal.show('error', jqXHR.responseText);
+                        }
+                    });
                 }
             }
         });
