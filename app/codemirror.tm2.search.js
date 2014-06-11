@@ -133,17 +133,17 @@
 
     var infoText = '<div id="search-info" class="clearfix keyline-top small fill-white search-info hidden">'+
         '<div class="pad1 col6">'+
-          '<span class="code inline"><kbd class="prefixed">F</kbd> Find</span><br/>'+
-          '<span class="code inline"><kbd class="prefixed">G</kbd> Next result</span><br />'+
-          '<span class="code inline"><kbd class="prefixed">Shift+G</kbd> Previous result</span>'+
+          '<div class="code"><kbd class="prefixed">F</kbd> Find</div>'+
+          '<div class="code"><kbd class="prefixed">G</kbd> Next result</div>'+
         '</div>' +
         '<div class="pad1 col6">'+
           '<div class="quiet">use /re/ syntax for regex search.</div>'+
+          '<div class="code"><kbd class="prefixed">Shift+G</kbd> Previous result</div>'+
         '</div>' +
     '</div>';
-    var infoAndClose = "<a href='#search-info' class='js-cm-dialog-info pin-left pad1 inline icon info quiet'></a><a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a></div>";
+    var infoAndClose = "<a href='#search-info' class='js-cm-dialog-info pin-topleft pad1 inline icon info quiet dialog-n'></a><a href='#' class='js-cm-dialog-info pin-topleft pad1 inline icon info fill-darken2 dark dialog-y'></a><a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a></div>";
     var queryButton = "<div class='pin-topright pad0y'><a href='#' class='js-cm-search-button button short icon small quiet search'>Find</a></div>"
-    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' placeholder='Search stylesheet' value='' class='js-search-input clean stretch'>" + queryButton + "</fieldset></div>" + infoAndClose + infoText;
+    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' placeholder='Search stylesheet' value='' class='js-search-input clean stretch'>" + queryButton + "</fieldset></div>" + infoText + infoAndClose;
 
     function doSearch(cm, rev) {
         var state = getSearchState(cm);

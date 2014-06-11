@@ -666,6 +666,9 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .CodeMirror .CodeMirror-dialog { top:-40px; }
 .CodeMirror .hidden:target { display:block; }
 
+.CodeMirror #search-info ~ .dialog-y,
+.CodeMirror #search-info:target ~ .dialog-n { display: none;}
+.CodeMirror #search-info:target ~ .dialog-y { display: block;}
 /* CodeMirror Addon: palette swatch */
 .CodeMirror .cm-palette-hint {
   display:inline-block;
