@@ -199,4 +199,14 @@ describe('tm', function() {
         assert.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
         assert.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
     });
+
+    it('absolute', function() {
+        assert.equal(tm.absolute('/absolute/path'), true);
+        assert.equal(tm.absolute('relative/path'), false);
+        assert.equal(tm.absolute('../relative/path'), false);
+        assert.equal(tm.absolute('c:/windows/path'), true);
+        assert.equal(tm.absolute('d:\\windows\\path'), true);
+        assert.equal(tm.absolute('Z:\\windows\\path'), true);
+        assert.equal(tm.absolute('windows\\path'), false);
+    });
 });
