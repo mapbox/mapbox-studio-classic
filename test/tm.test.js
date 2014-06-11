@@ -6,7 +6,7 @@ var dirty = require('dirty');
 
 describe('tm', function() {
 
-    var tmppath = '/tmp/tm2-test-' + +new Date;
+    var tmppath = path.join(require('os').tmpdir(), 'tm2-test-' + +new Date);
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
@@ -51,6 +51,19 @@ describe('tm', function() {
         assert.equal(276, fs.statSync(dbpath).size);
         tm.dbcompact(dbpath, function(err, db) {
             assert.ifError(err);
+            db.on('drain', function() {
+                assert.equal(23, fs.statSync(dbpath).size);
+                done();
+            });
+        });
+    });
+
+    it('compacts nofile', function(done) {
+        var dbpath = path.join(tmppath, 'doesnotexist.db');
+        assert.equal(false, fs.existsSync(dbpath));
+        tm.dbcompact(dbpath, function(err, db) {
+            assert.ifError(err);
+            db.set('test', 1);
             db.on('drain', function() {
                 assert.equal(23, fs.statSync(dbpath).size);
                 done();
@@ -185,5 +198,15 @@ describe('tm', function() {
         assert.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
         assert.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
         assert.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+    });
+
+    it('absolute', function() {
+        assert.equal(tm.absolute('/absolute/path'), true);
+        assert.equal(tm.absolute('relative/path'), false);
+        assert.equal(tm.absolute('../relative/path'), false);
+        assert.equal(tm.absolute('c:/windows/path'), true);
+        assert.equal(tm.absolute('d:\\windows\\path'), true);
+        assert.equal(tm.absolute('Z:\\windows\\path'), true);
+        assert.equal(tm.absolute('windows\\path'), false);
     });
 });
