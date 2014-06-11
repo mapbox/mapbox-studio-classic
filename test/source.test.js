@@ -10,12 +10,13 @@ var creds = {
     account: 'test',
     accesstoken: 'testaccesstoken'
 };
+var tmp = require('os').tmpdir();
 var UPDATE = !!process.env.UPDATE;
 
 describe('source', function() {
 
 var server;
-var tmppath = '/tmp/tm2-test-' + +new Date;
+var tmppath = path.join(tmp, 'tm2-test-' + +new Date);
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
@@ -144,8 +145,8 @@ describe('source remote', function() {
 });
 
 describe('source local', function() {
-    var tmpPerm = '/tmp/tm2-source-' + (+new Date);
-    var tmpSpace = '/tmp/tm2-source ' + (+new Date);
+    var tmpPerm = path.join(tmp, 'tm2-source-' + (+new Date));
+    var tmpSpace = path.join(tmp, 'tm2-source ' + (+new Date));
     var data = {
         name: 'Test source',
         attribution: '&copy; John Doe 2013.',

@@ -6,7 +6,7 @@ var dirty = require('dirty');
 
 describe('tm', function() {
 
-    var tmppath = '/tmp/tm2-test-' + +new Date;
+    var tmppath = path.join(require('os').tmpdir(), 'tm2-test-' + +new Date);
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
