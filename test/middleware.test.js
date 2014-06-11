@@ -157,6 +157,18 @@ describe('middleware', function() {
     });
     
     describe('loadStyle', function() {
+        before(function(done) {
+            tm.db.set('oauth', {
+                account: 'test',
+                accesstoken: 'testaccesstoken'
+            });
+            tm._config.mapboxtile = 'http://localhost:3001/v4';
+            server = mockOauth.listen(3001, done);
+        });
+        after(function(done) {
+            tm.db.set('oauth', null);
+            server.close(done);
+        });
         it('loads a tmp style', function(done) {
             var writeReq = { body: {} };
             middleware.writeStyle(writeReq, {}, function() {
