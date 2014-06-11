@@ -1,6 +1,5 @@
 styles: 
-sources: 
-  - .
+source: mapbox:///mapbox.mapbox-streets-v5
 name: Test style 
 mtime: 1364498787322
 center: 
