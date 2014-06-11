@@ -63,7 +63,7 @@ describe('style load', function() {
         }, 250);
     });
     it('loads default style from disk', function(done) {
-        style('tmstyle:///' + defpath, function(err, proj) {
+        style('tmstyle://' + defpath, function(err, proj) {
             assert.ifError(err);
             assert.ok('style.mss' in proj.data.styles, 'style load expands stylesheets');
             assert.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'style load determines map BG color');
