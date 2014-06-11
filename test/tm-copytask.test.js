@@ -14,6 +14,7 @@ describe('copytask', function() {
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
+            tmp: tmppath,
             cache: path.join(tmppath, 'cache')
         }, done);
     });
