@@ -185,13 +185,6 @@ describe('style.info', function() {
             done();
         });
     });
-    it('resolves self-alias', function(done) {
-        style.info('tmstyle://' + path.join(__dirname,'fixtures-localsource'), function(err, info) {
-            assert.ifError(err);
-            assert.equal('tmsource://' + path.join(__dirname,'fixtures-localsource'), info.source);
-            done();
-        });
-    });
 });
 
 describe('style.toXML', function() {
