@@ -72,12 +72,12 @@
                 if (options && options.onKeyDown) {
                     return;
                 }
-                if (e.keyCode == 13 || e.keyCode == 27) {
+                if (e.keyCode === 13 || e.keyCode === 27 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
                     inp.blur();
                     CodeMirror.e_stop(e);
                     me.focus();
-                    if (e.keyCode == 27) close();               // ESC
-                    if (e.keyCode == 13) callback(inp.value);   // ENTER
+                    if (e.keyCode === 27) close();  // ESC
+                    if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) callback(inp.value); // ENTER OR CMD+G
                 }
             });
             if (options && options.onKeyUp) {
