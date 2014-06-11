@@ -32,13 +32,12 @@
         return dialog;
     }
 
-    CodeMirror.defineExtension('openDialog', function (template, callback, options) {
+    CodeMirror.defineExtension('openDialog', function (template, callback) {
         var dialog = dialogDiv(this, template);
         var inp = document.getElementsByClassName('js-search-input')[0],
             info = document.getElementsByClassName('js-cm-dialog-info')[0],
             exit = document.getElementsByClassName('js-cm-dialog-close')[0],
             button = document.getElementsByClassName('js-cm-search-button')[0],
-            infoActive,
             me = this;
 
         function close() {
@@ -54,38 +53,25 @@
             if (e.keyCode === 27) close();
         });
 
-        if (inp) {
-            if (options && options.value) inp.value = options.value;
-            CodeMirror.on(inp, 'keydown', function(e) {
-                if (options && options.onKeyDown) {
-                    return;
-                }
-                if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
-                    inp.blur();
-                    CodeMirror.e_stop(e);
-                    me.focus();
-                    callback(inp.value);
-                }
-            });
-
-            if (options && options.onKeyUp) {
-                CodeMirror.on(inp, 'keyup', function(e) {
-                    options.onKeyUp(e, inp.value, close);
-                });
+        CodeMirror.on(inp, 'keydown', function(e) {
+            if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
+                inp.blur();
+                CodeMirror.e_stop(e);
+                me.focus();
+                callback(inp.value);
             }
-            if (options && options.value) inp.value = options.value;
-            inp.focus();
+        });
 
-            CodeMirror.on(button, 'click', function(e) {
-                // if a search is already underway, button finds next
-                if (me.state.search.query) {
-                    findNext(me);
-                } else {
-                    callback(inp.value);
-                }
-            });
+        CodeMirror.on(button, 'click', function(e) {
+            // if a search is already underway, button finds next
+            if (me.state.search.query === inp.value) {
+                findNext(me);
+            } else {
+                callback(inp.value);
+            }
+        });
 
-        }
+        inp.focus();
 
         return close;
     });
@@ -130,10 +116,8 @@
         return cm.getSearchCursor(query, pos, queryCaseInsensitive(query));
     }
 
-    function dialog(cm, text, shortText, deflt, f) {
-        cm.openDialog(text, f, {
-            value: deflt
-        });
+    function dialog(cm, text, f) {
+        cm.openDialog(text, f);
     }
 
     function parseQuery(query) {
@@ -159,14 +143,14 @@
     '</div>';
     var infoAndClose = "<a href='#search-info' class='js-cm-dialog-info pin-left pad1 inline icon info quiet'></a><a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a></div>";
     var queryButton = "<div class='pin-topright pad0y'><a href='#' class='js-cm-search-button button short icon small quiet search'>Find</a></div>"
-    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' value='' class='js-search-input clean stretch'>" + queryButton + "</fieldset></div>" + infoAndClose + infoText;
+    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' placeholder='Search stylesheet' value='' class='js-search-input clean stretch'>" + queryButton + "</fieldset></div>" + infoAndClose + infoText;
 
     function doSearch(cm, rev) {
         var state = getSearchState(cm);
         if (state.query) return findNext(cm, rev);
-        dialog(cm, queryDialog, 'Search for:', cm.getSelection(), function (query) {
+        dialog(cm, queryDialog, function (query) {
             cm.operation(function () {
-                if (!query || state.query) return;
+                if (state.query && state.query !== query) state.query = query;
                 state.query = parseQuery(query);
                 cm.removeOverlay(state.overlay, queryCaseInsensitive(state.query));
                 state.overlay = searchOverlay(state.query, queryCaseInsensitive(state.query));
