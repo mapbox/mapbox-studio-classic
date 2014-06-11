@@ -88,6 +88,8 @@ describe('tm', function() {
     });
 
     it('dirfiles', function(done) {
+        fs.symlinkSync('broken',path.join(__dirname,'fixtures-localsource','broken-symlink'));
+        assert.ok(fs.existsSync(__dirname,'fixtures-localsource','broken-symlink'));
         tm.dirfiles(__dirname + '/fixtures-localsource', function(err, files) {
             assert.ifError(err);
             assert.deepEqual([
@@ -99,6 +101,7 @@ describe('tm', function() {
                 'data.yml',
                 'project.yml'
             ], files.map(function(f) { return f.basename }));
+            fs.unlinkSync(path.join(__dirname,'fixtures-localsource','broken-symlink'));
             done();
         });
     });
