@@ -1,11 +1,13 @@
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
+var url = require('url');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var Vector = require('tilelive-vector');
 var UPDATE = !!process.env.UPDATE;
 var tmp = require('os').tmpdir();
 var creds = {
@@ -131,10 +133,9 @@ describe('style load', function() {
             assert.ok(fs.existsSync(tmpPerm + '.tm2z'));
             assert.ok(stat.isFile(), 'writes file');
             assert.ok(846, stat.size, 'with correct size');
-            require('child_process').exec('tar -ztf ' + tmpPerm + '.tm2z', function(err, stdout, stderr) {
-                assert.ifError(err, 'tar succeeds in reading tm2z');
-                assert.equal('', stderr, 'without errors');
-                assert.ok(/\/project.xml/.test(stdout), 'lists files');
+            Vector.tm2z(url.parse('tm2z://' + tmpPerm + '.tm2z'), function(err, source) {
+                assert.ifError(err, 'tilelive-vector succeeds in reading tm2z');
+                assert.ok(source);
                 done();
             });
         });
