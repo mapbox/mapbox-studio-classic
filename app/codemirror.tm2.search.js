@@ -12,7 +12,6 @@
 })(function (CodeMirror) {
     'use strict';
 
-    // Generic function for making dialogs
     function dialogDiv(cm, template) {
         var wrap = cm.getWrapperElement();
 
@@ -33,16 +32,9 @@
         return dialog;
     }
 
-    function closeNotification(cm, newVal) {
-        if (cm.state.currentNotificationClose)
-            cm.state.currentNotificationClose();
-        cm.state.currentNotificationClose = newVal;
-    }
-
     CodeMirror.defineExtension('openDialog', function (template, callback, options) {
-        closeNotification(this, null);
         var dialog = dialogDiv(this, template);
-        var inp = dialog.getElementsByTagName('input')[0],
+        var inp = document.getElementsByClassName('js-search-input')[0],
             info = document.getElementsByClassName('js-cm-dialog-info')[0],
             exit = document.getElementsByClassName('js-cm-dialog-close')[0],
             button = document.getElementsByClassName('js-cm-search-button')[0],
@@ -50,20 +42,16 @@
             me = this;
 
         function close() {
-            dialog.parentNode.removeChild(dialog);
+            if (dialog.parentNode) dialog.parentNode.removeChild(dialog);
             clearSearch(me);
         }
 
-        CodeMirror.on(exit, 'click', close);
+        CodeMirror.on(exit, 'click', function() {
+            close();
+        });
 
-        CodeMirror.on(info, 'click', function(e) {
-            if (infoActive) {
-                this.href = '#';
-                infoActive = false;
-            } else {
-                this.href = '#search-info';
-                infoActive = true;
-            }
+        CodeMirror.on(document, 'keydown', function(e) {
+            if (e.keyCode === 27) close();
         });
 
         if (inp) {
@@ -72,14 +60,14 @@
                 if (options && options.onKeyDown) {
                     return;
                 }
-                if (e.keyCode === 13 || e.keyCode === 27 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
+                if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
                     inp.blur();
                     CodeMirror.e_stop(e);
                     me.focus();
-                    if (e.keyCode === 27) close();  // ESC
-                    if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) callback(inp.value); // ENTER OR CMD+G
+                    callback(inp.value);
                 }
             });
+
             if (options && options.onKeyUp) {
                 CodeMirror.on(inp, 'keyup', function(e) {
                     options.onKeyUp(e, inp.value, close);
@@ -89,10 +77,12 @@
             inp.focus();
 
             CodeMirror.on(button, 'click', function(e) {
-                inp.blur();
-                CodeMirror.e_stop(e);
-                me.focus();
-                callback(inp.value);
+                // if a search is already underway, button finds next
+                if (me.state.search.query) {
+                    findNext(me);
+                } else {
+                    callback(inp.value);
+                }
             });
 
         }
@@ -169,7 +159,7 @@
     '</div>';
     var infoAndClose = "<a href='#search-info' class='js-cm-dialog-info pin-left pad1 inline icon info quiet'></a><a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a></div>";
     var queryButton = "<div class='pin-topright pad0y'><a href='#' class='js-cm-search-button button short icon small quiet search'>Find</a></div>"
-    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' value='' class='clean stretch'>" + queryButton + "</fieldset></div>" + infoAndClose + infoText;
+    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' value='' class='js-search-input clean stretch'>" + queryButton + "</fieldset></div>" + infoAndClose + infoText;
 
     function doSearch(cm, rev) {
         var state = getSearchState(cm);
