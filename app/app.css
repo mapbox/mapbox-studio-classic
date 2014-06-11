@@ -663,19 +663,8 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 .CodeMirror-dialog * {
   box-sizing:border-box;
   }
-.CodeMirror .CodeMirror-dialog {
-  background:white;
-  border-bottom:1px solid #eee;
-  position:absolute;
-  top:-40px;left:0;right:0;
-  z-index:100;
-  }
-.CodeMirror-dialog input {
-  background:transparent;
-  border:none;
-  outline:none;
-  }
-  .CodeMirror .hidden:target { display:block; }
+.CodeMirror .CodeMirror-dialog { top:-40px; }
+.CodeMirror .hidden:target { display:block; }
 
 /* CodeMirror Addon: palette swatch */
 .CodeMirror .cm-palette-hint {
