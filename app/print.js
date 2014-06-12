@@ -8,7 +8,7 @@ var gridc;
 var templateEditor;
 var boundingBox;
 var mtime = (+new Date).toString(36);
-var limit = 19008;
+var limit = 20000;
 var sm = new SphericalMercator();
 
 statHandler('drawtime')();
@@ -32,12 +32,13 @@ Printer.prototype.events = {
   'click .js-modalsources': 'modalsources',
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
+  'click .zoom-info': 'zoominfo',
   'click .enable': 'bboxEnable',
   'click .reselect': 'bboxReselect',
-  'click #redraw': 'modifyCoordinates',
-  'change #resolution': 'updateScale',
-  'change #format': 'updateFormat',
-  'change #filename': 'updateUrl'
+  'click #redraw': 'modifycoordinates',
+  'change #resolution': 'updatescale',
+  'change #format': 'updateformat',
+  'change #filename': 'updateurl'
 };
 
 Printer.prototype.keys = function(ev) {
@@ -150,17 +151,18 @@ Printer.prototype.toggleInfo = function(ev) {
 
 Printer.prototype.bboxEnable = function(ev){
   if (!boundingBox._enabled) {
+
+    this.calculateBounds();
+
     // Enable the location filter
     boundingBox.enable();
     boundingBox.fire('enableClick');
-
-    this.calculateBounds();
 
     $('#export').removeClass('disabled');
     $('.attributes').removeClass('quiet');
     $('#bboxInput').prop('disabled', false);
     $('#centerInput').prop('disabled', false);
-    $('#bboxEnable').html('Reselect within current view').addClass('reselect').removeClass('enable')
+    $('#bboxEnable').html('Reselect within current view').addClass('reselect').removeClass('enable');
   }
 };
 
@@ -229,17 +231,73 @@ Printer.prototype.calculateTotal = function(){
     bottomLeft = sm.px([bbox[1], bbox[0]], zoom),
     w = (topRight[0] - bottomLeft[0]) * scale,
     h = (bottomLeft[1] - topRight[1]) * scale,
-    percentage = ( w > h ) ? ((w / limit) * 100) | 0 : ((h / limit) * 100) | 0;
+    percentage = ( w > h ) ? ((w / limit) * 100) + 1 | 0 : ((h / limit) * 100) + 1 | 0;
 
   $('#dimX').html(w);
   $('#dimY').html(h);
+
+
+  if (w > limit) {
+    $('#dimX').addClass('warning');
+  } else {
+    $('#dimX').removeClass('warning');
+  }
+  if (h > limit) {
+    $('#dimY').addClass('warning');
+  } else {
+    $('#dimY').removeClass('warning');
+  }
+
   $('#sizePerc').html(percentage);
-  if (percentage > 100 ) $('#export').addClass('disabled');
-  if (percentage <= 100 ) $('#export').removeClass('disabled');
-  this.updateUrl();
+  if (percentage > 100 ) {
+    $('#export').addClass('disabled');
+    $('#sizePerc').addClass('warning');
+  }
+  if (percentage <= 100 ) {
+    $('#export').removeClass('disabled');
+    $('#sizePerc').removeClass('warning');
+  }
+  if (!$('#size-info').hasClass('hidden')) this.zoominfo();
+  this.updateurl();
 };
 
-Printer.prototype.modifyCoordinates = function(ev){
+Printer.prototype.zoominfo = function(ev){
+  if (!boundingBox.isEnabled()) return;
+  var minZoom = this.model.get('minzoom'),
+    maxZoom = this.model.get('maxzoom'),
+    w = $('#dimX').html() | 0,
+    h = $('#dimY').html() | 0,
+    zoom = map.getZoom(),
+    prevZoom = $('#zoom-info').html() | 0,
+    percentage = ( w > h ) ? ((w / limit) * 100) + 1 | 0 : ((h / limit) * 100) + 1 | 0,
+    newPercentage,
+    newZoom;
+
+  if (ev && ev.currentTarget.hash === '#up') {
+    newZoom = prevZoom + 1;
+    if (newZoom > maxZoom) return $('#zoom-info').html(maxZoom);
+  } else if (ev) {
+    newZoom = prevZoom - 1;
+    if (newZoom < minZoom) return $('#zoom-info').html(minZoom);
+  } else {
+    newZoom = prevZoom;
+  }
+  zoomDiff = Math.abs(newZoom - zoom);
+  if (zoomDiff === 1) {
+    if (newZoom > zoom) newPercentage = Math.floor(percentage  * (zoomDiff * 2));
+    if (newZoom < zoom) newPercentage = Math.floor(percentage  * (1/(zoomDiff * 2)));
+  } else {
+    if (newZoom > zoom) newPercentage = Math.floor(percentage  * (zoomDiff * zoomDiff));
+    if (newZoom < zoom) newPercentage = Math.floor(percentage  * (1/(zoomDiff * zoomDiff)));
+  }
+  if (newZoom === zoom ) newPercentage = percentage;
+
+  $('#zoom-info').html(newZoom);
+  newPercentage = (newPercentage < 1 ) ? '>1' : newPercentage;
+  $('#zoomPerc').html(newPercentage);
+};
+
+Printer.prototype.modifycoordinates = function(ev){
   var bounds = $('#bboxInput').prop('value').split(',').map(parseFloat);
   var center = $('#centerInput').prop('value').split(',').map(parseFloat);
   var bSum = bounds.reduce(function(a, b){ return a + b; });
@@ -262,7 +320,7 @@ Printer.prototype.modifyCoordinates = function(ev){
   }
 };
 
-Printer.prototype.updateScale = function(ev){
+Printer.prototype.updatescale = function(ev){
   var scale =  $('input[name=resolution]:checked').prop('value');
 
   if (!boundingBox.isEnabled()) return;
@@ -270,17 +328,17 @@ Printer.prototype.updateScale = function(ev){
   this.calculateTotal();
 };
 
-Printer.prototype.updateFormat = function(){
+Printer.prototype.updateformat = function(){
   var format = $('input[name=format]:checked').prop('value');
   $('#format').html('.'+format);
 
   if (!boundingBox.isEnabled()) return;
   window.exporter.model.get('coordinates').format = format;
   window.exporter.model.get('coordinates').quality = (format === 'png') ? 256 : 100;
-  this.updateUrl();
+  this.updateurl();
 };
 
-Printer.prototype.updateUrl = function(){
+Printer.prototype.updateurl = function(){
   if (!boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
   var filename = $('#filename').prop('value');

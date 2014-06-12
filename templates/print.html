@@ -127,7 +127,7 @@
     <strong class='small inline pad1y pad4x'>Export Settings for Static Maps</strong>
     <a href='#export-info' class='pin-right pad1 js-info inline icon info quiet'></a>
     <div id='export-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
-      <p>To export a static map, select an area to export using the button below. You can specify <code>jpeg</code> or <code>png</code> image formats, and resolution. High resolution is 288 dpi, low is 72 dpi. Large images may take up to a minute to process. If you have specific coordinates for image boundaries, enter it into Bounds or Center forms after initializing an area to export. </p>
+      <p>To export a static map, select an area to export using the button below. You can specify <code>jpeg</code> or <code>png</code> image formats, and resolution. High resolution is 288 dpi, low is 72 dpi. Large images may take up to a minute to process. If you have specific coordinates for image boundaries, enter it into Bounds or Center forms after initializing an area to export. The final image will be at the same zoom level as the viewport when the 'Download Static Map' is selected. </p>
     </div>
   </nav>
   <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
@@ -169,14 +169,25 @@
     </div>
 
     <div class='pad1y'>
-      <fieldset class='attributes quiet keyline-all pad1'>
-        <div class='space-bottom2'>
-          <span class='col4'>Dimensions: </span>
-          <span class='col8'>
+      <a href='#size-info' id='size-info-icon' class='pad1 js-info inline icon info quiet'></a>
+      <fieldset class='attributes keyline-all pad1'>
+        <div class='space-bottom2 quiet'>
+          <span class='col4 quiet'>Dimensions: </span>
+          <div class='col8'>
             <span id='dimX' class='code'>0</span> x <span id='dimY' class='code'>0</span> pixels
             <br>
-            <span class='warning quiet small'>Image is at <strong id='sizePerc'>0</strong class='code'>% of size limit</span>
-        </span>
+            <span class='quiet small'>Image is at <strong class='code' id='sizePerc'>0</strong>% of size limit at current zoom</span>
+            <div id='size-info' class='clearfix z10 pad1 small fill-white hidden'>
+              <p class='quiet small'>
+                Calculate size of export area at any zoom level:
+                <br>
+                <br>
+                <strong class='code' id='zoomPerc'>-</strong>% of size limit at zoom <a href='#down' class='zoom-info minus icon'></a><span id='zoom-info'>1</span> <a href='#up' class='zoom-info plus icon'></a>
+                <br>
+                <em> Size of export area, zoom level, and resolution all contribute to image size.</em>
+              </p>
+            </div>
+        </div>
         </div>
         <section class='space-bottom1'>
           <label class='inline'>Bounds</label>

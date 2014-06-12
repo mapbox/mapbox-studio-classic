@@ -270,6 +270,7 @@ function printFromCenter(req, res, next){
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
+    params.limit = 20000;
 
     var filename = req.params.filename.slice(1) || 'image';
 
@@ -297,6 +298,7 @@ function printFromBbox(req, res, next){
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
+    params.limit = 20000;
 
     var filename = req.params.filename.slice(1) || 'image';
 

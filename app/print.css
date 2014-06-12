@@ -19,3 +19,7 @@ pre:not(.hidden) ~ .empty-state { display: none;}
   min-width: 58.333%;
   right: 500px;
 }
+
+.warning { color: #ee8a65; }
+
+#size-info-icon { position:absolute; right: 10px; }
