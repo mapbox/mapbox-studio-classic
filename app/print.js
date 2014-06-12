@@ -151,7 +151,6 @@ Printer.prototype.toggleInfo = function(ev) {
 
 Printer.prototype.bboxEnable = function(ev){
   if (!boundingBox._enabled) {
-
     this.calculateBounds();
 
     // Enable the location filter
@@ -168,8 +167,8 @@ Printer.prototype.bboxEnable = function(ev){
 
 Printer.prototype.bboxReselect = function(){
   if (!boundingBox._enabled) return;
-  this.calculateBounds();
   map.zoomOut();
+  this.calculateBounds();
 };
 
 Printer.prototype.calculateBounds = function(){
@@ -231,11 +230,10 @@ Printer.prototype.calculateTotal = function(){
     bottomLeft = sm.px([bbox[1], bbox[0]], zoom),
     w = (topRight[0] - bottomLeft[0]) * scale,
     h = (bottomLeft[1] - topRight[1]) * scale,
-    percentage = ( w > h ) ? ((w / limit) * 100) + 1 | 0 : ((h / limit) * 100) + 1 | 0;
+    percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
 
   $('#dimX').html(w);
   $('#dimY').html(h);
-
 
   if (w > limit) {
     $('#dimX').addClass('warning');
@@ -269,7 +267,6 @@ Printer.prototype.zoominfo = function(ev){
     h = $('#dimY').html() | 0,
     zoom = map.getZoom(),
     prevZoom = $('#zoom-info').html() | 0,
-    percentage = ( w > h ) ? ((w / limit) * 100) + 1 | 0 : ((h / limit) * 100) + 1 | 0,
     newPercentage,
     newZoom;
 
@@ -283,14 +280,10 @@ Printer.prototype.zoominfo = function(ev){
     newZoom = prevZoom;
   }
   zoomDiff = Math.abs(newZoom - zoom);
-  if (zoomDiff === 1) {
-    if (newZoom > zoom) newPercentage = Math.floor(percentage  * (zoomDiff * 2));
-    if (newZoom < zoom) newPercentage = Math.floor(percentage  * (1/(zoomDiff * 2)));
-  } else {
-    if (newZoom > zoom) newPercentage = Math.floor(percentage  * (zoomDiff * zoomDiff));
-    if (newZoom < zoom) newPercentage = Math.floor(percentage  * (1/(zoomDiff * zoomDiff)));
-  }
-  if (newZoom === zoom ) newPercentage = percentage;
+  var greatest = ( w > h ) ? w : h;
+  if (newZoom > zoom) newPercentage = Math.ceil((greatest * 100 * Math.pow(2, zoomDiff)) / limit);
+  if (newZoom < zoom) newPercentage = Math.ceil((greatest  * 100 * (1/Math.pow(2, zoomDiff))) / limit);
+  if (newZoom === zoom ) newPercentage = Math.ceil((greatest / limit) * 100);
 
   $('#zoom-info').html(newZoom);
   newPercentage = (newPercentage < 1 ) ? '>1' : newPercentage;
