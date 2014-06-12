@@ -75,7 +75,7 @@
       --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
       --><strong class='unround icon printer project-name small js-name inline pad1 truncate'><%= style.name || 'Untitled' %></strong><!--
       --><span class='pad0x row1 inline'><!--
-      --><a href='/style?id=<%=style.id%>' class='round icon bear-left short button inline'>Return to Styling</a>
+      --><a href='/style?id=<%=style.id%>' class='round icon bear-left short button inline'>Return to styling</a>
     </span>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
@@ -119,73 +119,29 @@
 
 <div id='print-ui' class='animate z1 col5 export-menu pin-right fill-light'>
   <nav class='pad1x row1 col12 pin-top keyline-bottom fill-light z1'>
-    <div class='pin-topleft z1 row1'><!--
-      -->
-      <a title='Fullscreen' class='pad1 inline quiet docs-n icon l-r-arrow unround align-middle fill-darken0 keyline-right' href='#full'></a><!--
-      -->
-    </div>
-    <strong class='small inline pad1y pad4x'>Export Settings for Static Maps</strong>
+    <strong class='inline pad1'>Export image</strong>
     <a href='#export-info' class='pin-right pad1 js-info inline icon info quiet'></a>
     <div id='export-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
       <p>To export a static map, select an area to export using the button below. You can specify <code>jpeg</code> or <code>png</code> image formats, and resolution. High resolution is 288 dpi, low is 72 dpi. Large images may take up to a minute to process. If you have specific coordinates for image boundaries, enter it into Bounds or Center forms after initializing an area to export. The final image will be at the same zoom level as the viewport when the 'Download Static Map' is selected. </p>
     </div>
   </nav>
   <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
-    <div class='pad1'>
-      <fieldset class=' space-bottom1'>
-        <section>
-          <label>Filename</label>
-          <br>
-          <input id='filename' class='col10 short small' type='text' value='<%=style.name %>' /><span id='format' class='format small col2 pad1x'>.png</span>
-        </section>
-       <!--  <section class='space-bottom1'>
-          <br>
-          <label>Attribution</label>
-          <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
-        </section> -->
-      </fieldset>
-      <fieldset class='space-bottom1'>
-          <label class='inline col4 pad1y'>Image format</label>
-          <div id='format' class='rounded-toggle inline short'>
-            <input id='png' type='radio' name='format' value='png' checked='checked'>
-            <label for='png'>png</label>
-            <input id='jpeg' type='radio' name='format' value='jpeg'>
-            <label for='jpeg'>jpeg</label>
-          </div>
-      </fieldset>
-      <fieldset class='space-bottom0'>
-          <label class='inline col4 pad1y'>Resolution</label>
-          <div id='resolution' class='rounded-toggle inline short'>
-          <% _({
-            '1': 'low',
-            '2': 'med',
-            '4': 'high'
-          }).each(function(label, format) { %>
-          <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === 'high') { %> checked='true' <% } %>>
-          <label for='<%= label %>'><%= label %></label>
-          <% }); %>
-      </div>
-     </fieldset>
-    </div>
-
     <div class='pad1y'>
-      <a href='#size-info' id='size-info-icon' class='pad1 js-info inline icon info quiet'></a>
-      <fieldset class='attributes keyline-all pad1'>
-        <div class='space-bottom2 quiet'>
-          <span class='col4 quiet'>Dimensions: </span>
+      <fieldset class='attributes keyline-all pad1 quiet'>
+        <div class='space-bottom2'>
+          <span class='col4'>Dimensions </span>
           <div class='col8'>
             <span id='dimX' class='code'>0</span> x <span id='dimY' class='code'>0</span> pixels
+          </div>
+        </div>
+        <div class='space-bottom2'>
+          <span class='col4'>Zoom level</span>
+          <div class='col8'>
+            <span id='zoom' class='code'>0</span>
             <br>
-            <span class='quiet small'>Image is at <strong class='code' id='sizePerc'>0</strong>% of size limit at current zoom</span>
-            <div id='size-info' class='clearfix z10 pad1 small fill-white hidden'>
-              <p class='quiet small'>
-                Calculate size of export area at any zoom level:
-                <br>
-                <br>
-                <strong class='code' id='zoomPerc'>-</strong>% of size limit at zoom <a href='#down' class='zoom-info minus icon'></a><span id='zoom-info'>1</span> <a href='#up' class='zoom-info plus icon'></a>
-                <br>
-                <em> Size of export area, zoom level, and resolution all contribute to image size.</em>
-              </p>
+            <span class='quiet small'>Image is currently is at <strong class='code' id='sizePerc'>0</strong>% of size limit</span>
+            <div id='size-info' class='quiet small'>
+              At zoom level <a href='#down' class='zoom-info minus icon'></a><span id='zoom-info'>1</span> <a href='#up' class='zoom-info plus icon'></a> image is at <strong class='code' id='zoomPerc'>-</strong>% of size limit
             </div>
         </div>
         </div>
@@ -199,9 +155,41 @@
           <span class='small quiet code inline'>[Lng, Lat]</span>
           <input id='centerInput' class='stretch short small' disabled='true' type='text' value='' />
         </section>
-        <input id='redraw' class='button short center disabled' type='submit' value='Redraw' name='' />
       </fieldset>
     </div>
+
+    <div class='pad1'>
+      <!-- <fieldset class=' space-bottom1'>
+        <section class='space-bottom1'>
+          <br>
+          <label>Attribution</label>
+          <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
+        </section>
+      </fieldset>-->
+      <fieldset class='space-bottom1'>
+          <label class='inline col4 pad1y'>Image format</label>
+          <div id='format' class='rounded-toggle inline short'>
+            <input id='png' type='radio' name='format' value='png' checked='checked'>
+            <label for='png'>png</label>
+            <input id='jpeg' type='radio' name='format' value='jpeg'>
+            <label for='jpeg'>jpeg</label>
+          </div>
+      </fieldset>
+      <fieldset class='space-bottom0'>
+          <label class='inline col4 pad1y'>Resolution</label>
+          <div id='resolution' class='rounded-toggle inline short'>
+          <% _({
+            '1': '72dpi',
+            '2': '144dpi',
+            '4': '288dpi'
+          }).each(function(label, format) { %>
+          <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '288dpi') { %> checked='true' <% } %>>
+          <label for='<%= label %>'><%= label %></label>
+          <% }); %>
+      </div>
+     </fieldset>
+    </div>
+
     <div class='pad1'>
       <a href="#" type='button' class='round-left keyline-right enable col6 button icon polygon' id='bboxEnable'>Select Area to Export</a>
       <a id='export' href='#' type='button' class='round-right col6 button disabled icon floppy' value='' name='' >Download Static Map</a>

@@ -35,10 +35,11 @@ Printer.prototype.events = {
   'click .zoom-info': 'zoominfo',
   'click .enable': 'bboxEnable',
   'click .reselect': 'bboxReselect',
-  'click #redraw': 'modifycoordinates',
   'change #resolution': 'updatescale',
   'change #format': 'updateformat',
-  'change #filename': 'updateurl'
+  'change #filename': 'updateurl',
+  'change #bboxInput': 'modifycoordinates',
+  'change #centerInput': 'modifycoordinates'
 };
 
 Printer.prototype.keys = function(ev) {
@@ -187,11 +188,11 @@ Printer.prototype.calculateBounds = function(){
 };
 
 Printer.prototype.calculateCoordinates = function(ev){
-  var bounds = boundingBox.getBounds();
-  var center = [(bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng, (bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat];
-  var zoom = map.getZoom();
-  var decimals = 4;
-  var format = $('input[name=format]:checked').prop('value');
+  var bounds = boundingBox.getBounds(),
+    center = [(bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng, (bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat],
+    zoom = map.getZoom(),
+    decimals = 4,
+    format = $('input[name=format]:checked').prop('value');
 
   window.exporter.model.set({
     coordinates: {
@@ -286,7 +287,6 @@ Printer.prototype.zoominfo = function(ev){
   if (newZoom === zoom ) newPercentage = Math.ceil((greatest / limit) * 100);
 
   $('#zoom-info').html(newZoom);
-  newPercentage = (newPercentage < 1 ) ? '>1' : newPercentage;
   $('#zoomPerc').html(newPercentage);
 };
 
@@ -323,7 +323,6 @@ Printer.prototype.updatescale = function(ev){
 
 Printer.prototype.updateformat = function(){
   var format = $('input[name=format]:checked').prop('value');
-  $('#format').html('.'+format);
 
   if (!boundingBox.isEnabled()) return;
   window.exporter.model.get('coordinates').format = format;
@@ -350,6 +349,7 @@ Printer.prototype.refresh = function(ev) {
       $('#zoomedto').attr('class', 'contain z' + zoom);
       if (boundingBox.isEnabled()) {
         window.exporter.model.get('coordinates').zoom = zoom;
+        $('#zoom').html(zoom);
         calcTotal();
       }
     });
