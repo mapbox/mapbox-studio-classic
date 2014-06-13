@@ -37,7 +37,6 @@ Printer.prototype.events = {
   'click .reselect': 'bboxReselect',
   'change #resolution': 'updatescale',
   'change #format': 'updateformat',
-  'change #filename': 'updateurl',
   'change #bboxInput': 'modifycoordinates',
   'change #centerInput': 'modifycoordinates'
 };
@@ -333,8 +332,13 @@ Printer.prototype.updateformat = function(){
 Printer.prototype.updateurl = function(){
   if (!boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
-  var filename = $('#filename').prop('value');
-  var url = 'http://localhost:3000/static/'+coords.zoom+'/'+coords.bbox.toString()+'@'+coords.scale+'x'+'/'+filename+'.'+coords.format+'?id='+window.exporter.model.get('id');
+  var url = 'http://localhost:3000/static/'
+    + coords.zoom + '/'
+    + coords.bbox.toString()
+    + '@' + coords.scale + 'x'
+    + '.' + coords.format
+    + '?id='+window.exporter.model.get('id');
+
   $('#export').attr('href', url);
 };
 

@@ -142,9 +142,9 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
-app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}):filename((?:\/\\w{0,})?).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
 
-app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}):filename((?:\/\\w{0,})?).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
+app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -272,7 +272,10 @@ function printFromCenter(req, res, next){
     params.quality = req.params.quality | 0 || null;
     params.limit = 20000;
 
-    var filename = req.params.filename.slice(1) || 'image';
+    var filename = req.style.data.name + '-z' + params.zoom + '_'
+        + req.params.x + '_'
+        + req.params.y + '_'
+        + req.params.scale;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -284,7 +287,7 @@ function printFromCenter(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
-        res.set({'Content-disposition': 'attachment; filename='+filename+'.'+params.format});
+        res.set({'Content-disposition': 'attachment; filename=' + filename + '.'+params.format});
         return res.send(image);
     });
 };
@@ -300,7 +303,10 @@ function printFromBbox(req, res, next){
     params.quality = req.params.quality | 0 || null;
     params.limit = 20000;
 
-    var filename = req.params.filename.slice(1) || 'image';
+    var filename = req.style.data.name + '-z'
+        + params.zoom + '_' + req.params.w
+        + '_' + req.params.s + '_' + req.params.e
+        + '_' + req.params.n + '_' + req.params.scale;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -312,7 +318,7 @@ function printFromBbox(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
-        res.set({'Content-disposition': 'attachment; filename='+filename+'.'+params.format});
+        res.set({'Content-disposition': 'attachment; filename=' + filename+ '.' + params.format});
         return res.send(image);
     });
 }
