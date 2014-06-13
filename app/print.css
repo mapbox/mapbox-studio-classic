@@ -21,5 +21,3 @@ pre:not(.hidden) ~ .empty-state { display: none;}
 }
 
 .warning { color: #ee8a65; }
-
-#size-info-icon { position:absolute; right: 10px; }

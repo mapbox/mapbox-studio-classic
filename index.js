@@ -272,10 +272,10 @@ function printFromCenter(req, res, next){
     params.quality = req.params.quality | 0 || null;
     params.limit = 20000;
 
-    var filename = req.style.data.name + '-z' + params.zoom + '_'
-        + req.params.x + '_'
-        + req.params.y + '_'
-        + req.params.scale;
+    var filename = req.style.data.name + '-z' + params.zoom + '_' +
+        req.params.x + '_' +
+        req.params.y + '_' +
+        req.params.scale;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -290,23 +290,23 @@ function printFromCenter(req, res, next){
         res.set({'Content-disposition': 'attachment; filename=' + filename + '.'+params.format});
         return res.send(image);
     });
-};
+}
 
 function printFromBbox(req, res, next){
     // bbox is [w,s,e,n] boundaries for rectangle
     var params = {};
     params.zoom = req.params.z | 0;
-    params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n]
+    params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n];
     params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
     params.limit = 20000;
 
-    var filename = req.style.data.name + '-z'
-        + params.zoom + '_' + req.params.w
-        + '_' + req.params.s + '_' + req.params.e
-        + '_' + req.params.n + '_' + req.params.scale;
+    var filename = req.style.data.name + '-z' +
+        params.zoom + '_' + req.params.w +
+        '_' + req.params.s + '_' + req.params.e +
+        '_' + req.params.n + '_' + req.params.scale;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source

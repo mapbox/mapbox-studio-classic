@@ -11,7 +11,6 @@ var mtime = (+new Date).toString(36);
 var limit = 20000;
 var sm = new SphericalMercator();
 
-statHandler('drawtime')();
 
 var Printer = Backbone.View.extend({});
 var Modal = new views.Modal({
@@ -32,7 +31,6 @@ Printer.prototype.events = {
   'click .js-modalsources': 'modalsources',
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
-  'click .zoom-info': 'zoominfo',
   'click .enable': 'bboxEnable',
   'click .reselect': 'bboxReselect',
   'change #resolution': 'updatescale',
@@ -161,7 +159,7 @@ Printer.prototype.bboxEnable = function(ev){
     $('.attributes').removeClass('quiet');
     $('#bboxInput').prop('disabled', false);
     $('#centerInput').prop('disabled', false);
-    $('#bboxEnable').html('Reselect within current view').addClass('reselect').removeClass('enable');
+    $('#bboxEnable').html('Reselect within view').addClass('reselect').removeClass('enable');
   }
 };
 
@@ -245,48 +243,10 @@ Printer.prototype.calculateTotal = function(){
   } else {
     $('#dimY').removeClass('warning');
   }
-
-  $('#sizePerc').html(percentage);
-  if (percentage > 100 ) {
-    $('#export').addClass('disabled');
-    $('#sizePerc').addClass('warning');
-  }
-  if (percentage <= 100 ) {
-    $('#export').removeClass('disabled');
-    $('#sizePerc').removeClass('warning');
-  }
-  if (!$('#size-info').hasClass('hidden')) this.zoominfo();
+  if (percentage > 100 ) $('#export').addClass('disabled');
+  if (percentage <= 100 ) $('#export').removeClass('disabled');
+  this.imageSizeStats();
   this.updateurl();
-};
-
-Printer.prototype.zoominfo = function(ev){
-  if (!boundingBox.isEnabled()) return;
-  var minZoom = this.model.get('minzoom'),
-    maxZoom = this.model.get('maxzoom'),
-    w = $('#dimX').html() | 0,
-    h = $('#dimY').html() | 0,
-    zoom = map.getZoom(),
-    prevZoom = $('#zoom-info').html() | 0,
-    newPercentage,
-    newZoom;
-
-  if (ev && ev.currentTarget.hash === '#up') {
-    newZoom = prevZoom + 1;
-    if (newZoom > maxZoom) return $('#zoom-info').html(maxZoom);
-  } else if (ev) {
-    newZoom = prevZoom - 1;
-    if (newZoom < minZoom) return $('#zoom-info').html(minZoom);
-  } else {
-    newZoom = prevZoom;
-  }
-  zoomDiff = Math.abs(newZoom - zoom);
-  var greatest = ( w > h ) ? w : h;
-  if (newZoom > zoom) newPercentage = Math.ceil((greatest * 100 * Math.pow(2, zoomDiff)) / limit);
-  if (newZoom < zoom) newPercentage = Math.ceil((greatest  * 100 * (1/Math.pow(2, zoomDiff))) / limit);
-  if (newZoom === zoom ) newPercentage = Math.ceil((greatest / limit) * 100);
-
-  $('#zoom-info').html(newZoom);
-  $('#zoomPerc').html(newPercentage);
 };
 
 Printer.prototype.modifycoordinates = function(ev){
@@ -332,14 +292,44 @@ Printer.prototype.updateformat = function(){
 Printer.prototype.updateurl = function(){
   if (!boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
-  var url = 'http://localhost:3000/static/'
-    + coords.zoom + '/'
-    + coords.bbox.toString()
-    + '@' + coords.scale + 'x'
-    + '.' + coords.format
-    + '?id='+window.exporter.model.get('id');
+  var url = 'http://localhost:3000/static/' +
+    coords.zoom + '/' +
+    coords.bbox.toString() +
+    '@' + coords.scale + 'x' +
+    '.' + coords.format +
+    '?id='+window.exporter.model.get('id');
 
   $('#export').attr('href', url);
+};
+
+Printer.prototype.imageSizeStats = function(){
+  var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
+
+  var minZoom = window.exporter.model.get('minzoom'),
+    maxZoom = window.exporter.model.get('maxzoom'),
+    w = $('#dimX').html() | 0,
+    h = $('#dimY').html() | 0,
+    zoom = map.getZoom(),
+    perc;
+
+  for (var z = 0; z < 23; z++) {
+    if (z >= minZoom && z <= maxZoom && boundingBox.isEnabled()) {
+      var zoomDiff = Math.abs(z - zoom);
+      var greatest = ( w > h ) ? w : h;
+      if (z > zoom) perc = Math.ceil((greatest * 100 * Math.pow(2, zoomDiff)) / limit);
+      if (z < zoom) perc = Math.ceil((greatest  * 100 * (1/Math.pow(2, zoomDiff))) / limit);
+      if (z === zoom ) perc = Math.ceil((greatest / limit) * 100);
+    }
+    html += [
+      "<span class='clip strong micro col12 quiet z z",z,"'>",
+      "<a href='#zoomedto' class='col3 center strong quiet keyline-right'>z",z,"</a>",
+      perc ? "<span class='truncate col9 strong perc pad0x " : '',
+      perc > 100 ? "warning'" : '',
+      perc > 1000 ? "'> >1000%</span>" : perc ? "'>"+perc+"%</span>" : '',
+      "</span>"
+    ].join('');
+  }
+  $('#zoomedto').html(html);
 };
 
 Printer.prototype.refresh = function(ev) {
@@ -350,7 +340,7 @@ Printer.prototype.refresh = function(ev) {
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { 
       var zoom = map.getZoom()|0;
-      $('#zoomedto').attr('class', 'contain z' + zoom);
+      $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
       if (boundingBox.isEnabled()) {
         window.exporter.model.get('coordinates').zoom = zoom;
         $('#zoom').html(zoom);
@@ -394,7 +384,6 @@ Printer.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
-  .on('tileload', statHandler('drawtime'))
   .on('load', errorHandler);
   tiles.addTo(map);
 
@@ -424,6 +413,8 @@ Printer.prototype.refresh = function(ev) {
   if (this.model.get('background')) {
     $('#map').css({'background-color':this.model.get('background')});
   }
+  this.imageSizeStats();
+
 
   return false;
 };
