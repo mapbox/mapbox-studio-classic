@@ -103,13 +103,11 @@
         --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
       </div>
     </div>
-    <span class='base-toggle'>
-      <a href='#baselayer' title='Toggle baselayer' id='baselayer' class='baselayer-n inline icon mt fill-white quiet' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-      <a href='#home' title='Toggle baselayer' id='baselayer' class='baselayer-y inline icon mt dark fill-dark' <% if (!style._prefs.baselayer) { %>style='display:none;'<% }%>></a>
-    </span>
+
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
+   <a href='#' title='Reselect within view' id='reselect' class='reselect pad1x full-n inline fill-white quiet small strong'><span class='small'>reselect within view<span></a>
   <div class='demo-popup col4 pin-bottomleft pad2 bottom2 fill-blue dark'>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
@@ -193,8 +191,7 @@
     </div>
 
     <div class='pad1'>
-      <a href="#" type='button' class='round-left keyline-right enable col6 button icon check' id='bboxEnable'>Select export area</a>
-      <a id='export' href='#' type='button' class='round-right col6 button disabled icon floppy' value='' name='' >Download static map</a>
+      <a id='export' href='#' type='button' class='round col12 button disabled icon floppy' value='' name='' >Download static map</a>
     </div>
   </div>
 </div>

@@ -31,7 +31,6 @@ Printer.prototype.events = {
   'click .js-modalsources': 'modalsources',
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
-  'click .enable': 'bboxEnable',
   'click .reselect': 'bboxReselect',
   'change #resolution': 'updatescale',
   'change #format': 'updateformat',
@@ -159,7 +158,6 @@ Printer.prototype.bboxEnable = function(ev){
     $('.attributes').removeClass('quiet');
     $('#bboxInput').prop('disabled', false);
     $('#centerInput').prop('disabled', false);
-    $('#bboxEnable').html('Reselect within view').addClass('reselect').removeClass('enable');
   }
 };
 
@@ -303,7 +301,7 @@ Printer.prototype.updateurl = function(){
 };
 
 Printer.prototype.imageSizeStats = function(){
-  var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -329,6 +327,11 @@ Printer.prototype.imageSizeStats = function(){
       "</span>"
     ].join('');
   }
+  html += [
+      "<span class='clip strong micro col12 quiet z z23'>",
+      "<a  class='truncate col12 pad1x strong quiet'>% of image size limit</a>",
+      "</span>"
+    ].join('');
   $('#zoomedto').html(html);
 };
 
@@ -337,6 +340,11 @@ Printer.prototype.refresh = function(ev) {
 
   if (!map) {
     map = L.mapbox.map('map');
+
+    boundingBox = new L.LocationFilter().addTo(map);
+    boundingBox.on('enabled', this.calculateCoordinates.bind(this));
+    boundingBox.on('change', this.calculateCoordinates.bind(this));
+
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { 
       var zoom = map.getZoom()|0;
@@ -357,10 +365,6 @@ Printer.prototype.refresh = function(ev) {
       map: map,
       model: this.model
     });
-  
-    boundingBox = new L.LocationFilter().addTo(map);
-    boundingBox.on('enabled', this.calculateCoordinates.bind(this));
-    boundingBox.on('change', this.calculateCoordinates.bind(this));
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
@@ -384,6 +388,7 @@ Printer.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
+  .addOneTimeEventListener('load', this.bboxEnable.bind(this))
   .on('load', errorHandler);
   tiles.addTo(map);
 
@@ -414,7 +419,6 @@ Printer.prototype.refresh = function(ev) {
     $('#map').css({'background-color':this.model.get('background')});
   }
   this.imageSizeStats();
-
 
   return false;
 };

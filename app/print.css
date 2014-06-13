@@ -21,3 +21,9 @@ pre:not(.hidden) ~ .empty-state { display: none;}
 }
 
 .warning { color: #ee8a65; }
+
+#reselect {
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+}
