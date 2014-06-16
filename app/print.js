@@ -301,7 +301,7 @@ Printer.prototype.updateurl = function(){
 };
 
 Printer.prototype.imageSizeStats = function(){
-  var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),

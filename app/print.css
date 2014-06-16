@@ -28,3 +28,7 @@ pre:not(.hidden) ~ .empty-state { display: none;}
   position: absolute;
   padding-right: 5px;
 }
+
+.close {
+  z-index: 10;
+}
