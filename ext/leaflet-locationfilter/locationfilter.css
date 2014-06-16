@@ -1,7 +1,14 @@
 div.leaflet-marker-icon.location-filter.resize-marker {
     background: url( img/resize-handle-round-blue.png ) no-repeat;
-    cursor: move;
 }
+
+div.leaflet-marker-icon.location-filter.resize-marker.nesw {
+    cursor: nesw-resize;
+}
+div.leaflet-marker-icon.location-filter.resize-marker.nwse {
+    cursor: nwse-resize;
+}
+
 div.leaflet-marker-icon.location-filter.move-marker {
     background: url( img/move-handle.png ) no-repeat;  
     cursor: move;

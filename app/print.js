@@ -329,7 +329,7 @@ Printer.prototype.imageSizeStats = function(){
   }
   html += [
       "<span class='clip strong micro col12 quiet z z23'>",
-      "<a  class='truncate col12 pad1x strong quiet'>% of image size limit</a>",
+      "<p class='truncate col12 pad1x'>% of image size limit</p>",
       "</span>"
     ].join('');
   $('#zoomedto').html(html);

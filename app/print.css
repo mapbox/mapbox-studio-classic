@@ -26,4 +26,5 @@ pre:not(.hidden) ~ .empty-state { display: none;}
   bottom: 10px;
   right: 10px;
   position: absolute;
+  padding-right: 5px;
 }

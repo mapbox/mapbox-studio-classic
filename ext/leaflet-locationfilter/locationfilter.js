@@ -207,9 +207,9 @@ L.LocationFilter = L.Class.extend({
     },
 
     /* Draw a resize marker */
-    _drawResizeMarker: function(point, latFollower, lngFollower, otherPos) {
+    _drawResizeMarker: function(point, corner) {
         return this._drawImageMarker(point, {
-            "className": "location-filter resize-marker",
+            "className": "location-filter resize-marker " + corner,
             "anchor": [7, 6],
             "size": [13, 12] 
         });
@@ -244,6 +244,22 @@ L.LocationFilter = L.Class.extend({
             that._sw = corners[2];
             that._se = corners[3];
             that._draw({repositionResizeMarkers: false});
+
+            var markers = document.getElementsByClassName('resize-marker');
+            for (var i = 0; i < 4; i ++) {
+                markers[i].classList.remove('nesw', 'nwse');
+            }
+            if (that._nwMarker.getLatLng() == corners [0] || that._nwMarker.getLatLng() == corners [3]) {
+                that._nwMarker._icon.classList.add('nwse');
+                that._seMarker._icon.classList.add('nwse');
+                that._swMarker._icon.classList.add('nesw');
+                that._neMarker._icon.classList.add('nesw');
+            } else {
+                that._nwMarker._icon.classList.add('nesw');
+                that._seMarker._icon.classList.add('nesw');
+                that._swMarker._icon.classList.add('nwse');
+                that._neMarker._icon.classList.add('nwse');
+            }
         });
         this._setupDragendListener(marker);
     },
@@ -304,10 +320,10 @@ L.LocationFilter = L.Class.extend({
         });
 
         // Create resize markers
-        this._nwMarker = this._drawResizeMarker(this._nw);
-        this._neMarker = this._drawResizeMarker(this._ne);
-        this._swMarker = this._drawResizeMarker(this._sw);
-        this._seMarker = this._drawResizeMarker(this._se);
+        this._nwMarker = this._drawResizeMarker(this._nw, 'nwse');
+        this._neMarker = this._drawResizeMarker(this._ne, 'nesw');
+        this._swMarker = this._drawResizeMarker(this._sw, 'nesw');
+        this._seMarker = this._drawResizeMarker(this._se, 'nwse');
 
         // Setup tracking of resize markers. Each marker has pair of
         // follower markers that must be moved whenever the marker is
