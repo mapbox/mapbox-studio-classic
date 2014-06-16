@@ -208,7 +208,6 @@ Printer.prototype.calculateCoordinates = function(ev){
     }
   });
   var coordinates = window.exporter.model.get('coordinates');
-  if ($('#redraw').hasClass('disabled')) $('#redraw').removeClass('disabled');
   $('#bboxInput').prop('value', coordinates.bbox.toString());
   $('#centerInput').prop('value', coordinates.center[0]+','+coordinates.center[1]);
 
@@ -241,10 +240,12 @@ Printer.prototype.calculateTotal = function(){
   } else {
     $('#dimY').removeClass('warning');
   }
-  if (percentage > 100 ) $('#export').addClass('disabled');
-  if (percentage <= 100 ) $('#export').removeClass('disabled');
+  if (percentage > 100 ) $('#export').addClass('disabled').removeAttr('href');
+  if (percentage <= 100 ) {
+    $('#export').removeClass('disabled');
+    this.updateurl();
+  }
   this.imageSizeStats();
-  this.updateurl();
 };
 
 Printer.prototype.modifycoordinates = function(ev){
