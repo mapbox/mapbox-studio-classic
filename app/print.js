@@ -184,7 +184,7 @@ Printer.prototype.calculateBounds = function(){
 
 Printer.prototype.calculateCoordinates = function(ev){
   var bounds = boundingBox.getBounds(),
-    center = [(bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng, (bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat],
+    center = [(bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat, (bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng],
     zoom = map.getZoom(),
     decimals = 4,
     format = $('input[name=format]:checked').prop('value');
@@ -196,10 +196,10 @@ Printer.prototype.calculateCoordinates = function(ev){
       format: format,
       quality: (format === 'png') ? 256 : 100,
       bbox: [
-        parseFloat(bounds._southWest.lat.toFixed(decimals)),
         parseFloat(bounds._southWest.lng.toFixed(decimals)),
-        parseFloat(bounds._northEast.lat.toFixed(decimals)),
-        parseFloat(bounds._northEast.lng.toFixed(decimals))
+        parseFloat(bounds._southWest.lat.toFixed(decimals)),
+        parseFloat(bounds._northEast.lng.toFixed(decimals)),
+        parseFloat(bounds._northEast.lat.toFixed(decimals))
       ],
       center: [
         center[0].toFixed(decimals),
@@ -209,7 +209,7 @@ Printer.prototype.calculateCoordinates = function(ev){
   });
   var coordinates = window.exporter.model.get('coordinates');
   if ($('#redraw').hasClass('disabled')) $('#redraw').removeClass('disabled');
-  $('#bboxInput').prop('value', coordinates.bbox[0]+','+coordinates.bbox[1]+','+coordinates.bbox[2]+','+coordinates.bbox[3]);
+  $('#bboxInput').prop('value', coordinates.bbox.toString());
   $('#centerInput').prop('value', coordinates.center[0]+','+coordinates.center[1]);
 
   this.calculateTotal();
@@ -222,8 +222,8 @@ Printer.prototype.calculateTotal = function(){
     center;
   sm.size = scale * 256;
   
-  var topRight = sm.px([bbox[3], bbox[2]], zoom),
-    bottomLeft = sm.px([bbox[1], bbox[0]], zoom),
+  var topRight = sm.px([bbox[2], bbox[3]], zoom),
+    bottomLeft = sm.px([bbox[0], bbox[1]], zoom),
     w = (topRight[0] - bottomLeft[0]) * scale,
     h = (bottomLeft[1] - topRight[1]) * scale,
     percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
@@ -253,8 +253,8 @@ Printer.prototype.modifycoordinates = function(ev){
   var bSum = bounds.reduce(function(a, b){ return a + b; });
   var bboxSum = window.exporter.model.get('coordinates').bbox.reduce(function(a, b){ return a + b; });
   if (bSum != bboxSum) {
-    boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[0], bounds[1]), L.latLng(bounds[2], bounds[3])));
-    center = [(bounds[2] - bounds[0])/2 + bounds[0], (bounds[3] - bounds[1])/2 + bounds[1]];
+    boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2])));
+    center = [ (bounds[3] - bounds[1])/2 + bounds[1], (bounds[2] - bounds[0])/2 + bounds[0]];
     map.setView(center, window.exporter.model.get('coordinates').zoom);
     return;
   }
@@ -264,8 +264,8 @@ Printer.prototype.modifycoordinates = function(ev){
     var h = bounds[3] - bounds[1];
     var w = bounds[0] - bounds[2];
     bounds = [center[1] - (w/2), center[0] - (h/2), center[1] + (w/2), center[0] + (h/2)];
-    boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[0], bounds[1]), L.latLng(bounds[2], bounds[3])));
-    map.setView([center[1], center[0]], window.exporter.model.get('coordinates').zoom);
+    boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2])));
+    map.setView([center[0], center[1]], window.exporter.model.get('coordinates').zoom);
     return;
   }
 };

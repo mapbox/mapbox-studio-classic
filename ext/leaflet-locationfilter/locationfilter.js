@@ -211,7 +211,7 @@ L.LocationFilter = L.Class.extend({
         return this._drawImageMarker(point, {
             "className": "location-filter resize-marker " + corner,
             "anchor": [7, 6],
-            "size": [13, 12] 
+            "size": [23, 22],
         });
     },
 
