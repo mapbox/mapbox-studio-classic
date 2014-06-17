@@ -1,7 +1,10 @@
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
+  var same = ($('#' + context + ' a.active')[0] === ev.currentTarget);
   $('#' + context + ' .active').removeClass('active');
+  if (same) return false;
+
   $(ev.currentTarget).addClass('active');
   $('#' + target).addClass('active');
   return false;
