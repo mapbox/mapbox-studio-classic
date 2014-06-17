@@ -87,7 +87,7 @@ Follow the instructions below to install from source if you are interested in de
 
 ### Source install
 
-First install Node.js. You can do this with homebrew, via the easy installer at <http://nodejs.org/download>, or via tools like [nvm](https://github.com/creationix/nvm).
+First install Node.js. You can do this with [Homebrew](http://brew.sh), via the easy installer at <http://nodejs.org/download>, or via tools like [nvm](https://github.com/creationix/nvm).
 
 Then build:
 
