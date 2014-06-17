@@ -20,8 +20,6 @@ pre:not(.hidden) ~ .empty-state { display: none;}
   right: 500px;
 }
 
-.warning { color: #ee8a65; }
-
 #reselect {
   bottom: 10px;
   right: 10px;
@@ -29,6 +27,6 @@ pre:not(.hidden) ~ .empty-state { display: none;}
   padding-right: 5px;
 }
 
-.close {
-  z-index: 10;
-}
+.warning { color: #ee8a65; }
+.close { z-index: 10; }
+.icon.reselect:before { margin-left: 2px; }
