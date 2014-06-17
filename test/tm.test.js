@@ -6,7 +6,7 @@ var dirty = require('dirty');
 
 describe('tm', function() {
 
-    var tmppath = '/tmp/tm2-test-' + +new Date;
+    var tmppath = path.join(require('os').tmpdir(), 'tm2-test-' + +new Date);
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
@@ -58,6 +58,19 @@ describe('tm', function() {
         });
     });
 
+    it('compacts nofile', function(done) {
+        var dbpath = path.join(tmppath, 'doesnotexist.db');
+        assert.equal(false, fs.existsSync(dbpath));
+        tm.dbcompact(dbpath, function(err, db) {
+            assert.ifError(err);
+            db.set('test', 1);
+            db.on('drain', function() {
+                assert.equal(23, fs.statSync(dbpath).size);
+                done();
+            });
+        });
+    });
+
     it('sortkeys', function() {
         assert.deepEqual(['id', 'bar', 'foo'], Object.keys(tm.sortkeys({
             foo: 'foo',
@@ -75,6 +88,11 @@ describe('tm', function() {
     });
 
     it('dirfiles', function(done) {
+        var platform = require('os').platform();
+        if (platform === 'linux' || platform === 'darwin') {
+            fs.symlinkSync('broken',path.join(__dirname,'fixtures-localsource','broken-symlink'));
+            assert.ok(fs.existsSync(__dirname,'fixtures-localsource','broken-symlink'));
+        }
         tm.dirfiles(__dirname + '/fixtures-localsource', function(err, files) {
             assert.ifError(err);
             assert.deepEqual([
@@ -86,6 +104,9 @@ describe('tm', function() {
                 'data.yml',
                 'project.yml'
             ], files.map(function(f) { return f.basename }));
+            if (platform === 'linux' || platform === 'darwin') {
+                fs.unlinkSync(path.join(__dirname,'fixtures-localsource','broken-symlink'));
+            }
             done();
         });
     });
@@ -185,5 +206,15 @@ describe('tm', function() {
         assert.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
         assert.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
         assert.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+    });
+
+    it('absolute', function() {
+        assert.equal(tm.absolute('/absolute/path'), true);
+        assert.equal(tm.absolute('relative/path'), false);
+        assert.equal(tm.absolute('../relative/path'), false);
+        assert.equal(tm.absolute('c:/windows/path'), true);
+        assert.equal(tm.absolute('d:\\windows\\path'), true);
+        assert.equal(tm.absolute('Z:\\windows\\path'), true);
+        assert.equal(tm.absolute('windows\\path'), false);
     });
 });

@@ -124,7 +124,6 @@ var inspectFeature = function(options) {
       success: function(data) {
         if (!_(data).size()) return;
         popup = L.popup({
-          closeButton:false,
           minWidth:200,
           maxHeight:window.innerHeight-100,
           autoPanPaddingTopLeft:L.point(5,45),
@@ -204,6 +203,55 @@ views.Browser.prototype.browse = function(ev) {
     this.render();
   }
   return false;
+};
+// Shared helper for generating a browseSource event handler.
+views.Browser.sourceHandler = function(Modal, cwd) {
+  return function() {
+    Modal.show('browseropen', {
+      type: 'source',
+      cwd: cwd
+    });
+    new views.Browser({
+      el: $('.modal-content #browsesource'),
+      filter: function(file) {
+        return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename));
+      },
+      isFile: function(file) {
+        return (/\.tm2source$/.test(file) || /\.tm2$/.test(file.basename));
+      },
+      callback: function(err, filepath) {
+        if (err) return false; // @TODO
+        window.location = '/source?id=tmsource://' + filepath;
+        return false;
+      }
+    });
+    return false;
+  }
+};
+// Shared helper for generating a browseStyle event handler.
+views.Browser.styleHandler = function(Modal, cwd) {
+  return function() {
+    Modal.show('browseropen', {
+      type: 'style',
+      cwd: cwd
+    });
+    new views.Browser({
+      el: $('.modal-content #browsestyle'),
+      filter: function(file) {
+        return file.type === 'dir' || /\.tm2$/.test(file.basename);
+      },
+      isFile: function(file) {
+        return /\.tm2$/.test(file);
+      },
+      callback: function(err, filepath) {
+        if (err) return false; // @TODO
+        filepath = filepath.replace(/\.tm2/, '') + '.tm2';
+        window.location = '/style?id=tmstyle://' + filepath;
+        return false;
+      }
+    });
+    return false;
+  }
 };
 
 views.Modal = Backbone.View.extend({});

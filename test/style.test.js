@@ -1,21 +1,37 @@
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
+var url = require('url');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
 var defpath = path.dirname(require.resolve('tm2-default-style'));
+var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var Vector = require('tilelive-vector');
 var UPDATE = !!process.env.UPDATE;
 var tmp = require('os').tmpdir();
+var creds = {
+    account: 'test',
+    accesstoken: 'testaccesstoken'
+};
 
 describe('style', function() {
 
+var server;
 var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
 before(function(done) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache')
-    }, done());
+    }, done);
+});
+before(function(done) {
+    tm.db.set('oauth', creds);
+    tm._config.mapboxtile = 'http://localhost:3001/v4';
+    server = mockOauth.listen(3001, done);
+});
+after(function(done) {
+    server.close(done);
 });
 after(function(done) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
@@ -49,7 +65,7 @@ describe('style load', function() {
         }, 250);
     });
     it('loads default style from disk', function(done) {
-        style('tmstyle:///' + defpath, function(err, proj) {
+        style('tmstyle://' + defpath, function(err, proj) {
             assert.ifError(err);
             assert.ok('style.mss' in proj.data.styles, 'style load expands stylesheets');
             assert.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'style load determines map BG color');
@@ -117,10 +133,9 @@ describe('style load', function() {
             assert.ok(fs.existsSync(tmpPerm + '.tm2z'));
             assert.ok(stat.isFile(), 'writes file');
             assert.ok(846, stat.size, 'with correct size');
-            require('child_process').exec('tar -ztf ' + tmpPerm + '.tm2z', function(err, stdout, stderr) {
-                assert.ifError(err, 'tar succeeds in reading tm2z');
-                assert.equal('', stderr, 'without errors');
-                assert.ok(/\/project.xml/.test(stdout), 'lists files');
+            Vector.tm2z(url.parse('tm2z://' + tmpPerm + '.tm2z'), function(err, source) {
+                assert.ifError(err, 'tilelive-vector succeeds in reading tm2z');
+                assert.ok(source);
                 done();
             });
         });
@@ -168,13 +183,6 @@ describe('style.info', function() {
         style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-yaml'), function(err, source) {
             assert.ok(err);
             assert.ok(/^JS-YAML/.test(err.toString()));
-            done();
-        });
-    });
-    it('resolves self-alias', function(done) {
-        style.info('tmstyle://' + path.join(__dirname,'fixtures-localsource'), function(err, info) {
-            assert.ifError(err);
-            assert.equal('tmsource://' + path.join(__dirname,'fixtures-localsource'), info.source);
             done();
         });
     });

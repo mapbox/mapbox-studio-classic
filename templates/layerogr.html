@@ -3,17 +3,14 @@
     <span class='inline rounded-toggle'><!--
       --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
       --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
-      --><a href='#editor-sql' class='js-tab mode-sql'>SQL</a>
-    </span>
+ --></span>
     <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
   <section class='pad2 pin-topleft'>
     <h3>
       <%= obj.id %>
-      <a href='#' id='updatename-<%=obj.id%>' class='icon pencil inline round js-updatename'></a>
     </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
-    <input type='hidden' name='name' value='<%=obj.id%>' />
   </section>
 
   <div class='conf'>
@@ -23,20 +20,16 @@
         <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
-        <label>SQLite<label>
+        <label>OGR File<label>
         <div class='input-pill clearfix'>
-          <input type='hidden' name='Datasource-type' value='sqlite' />
-          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".sqlite" extension.' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/>
-          <a id='browse-<%=obj.id%>' class='quiet col4 button icon folder js-browsefile'>Browse</a>
+          <input type='hidden' name='Datasource-type' value='ogr' />
+          <input type='hidden' name='Datasource-layer' value='<%= obj.Datasource.layer %>' />
+          <input class='col12 filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
         </div>
-      </section>
-      <section class='pad2x pad1y clearfix keyline-bottom'>
-        <label class='pad1y col3 inline'>Extent </label>
-        <input type='text' class='col9' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label class='col3 inline'>Projection</label>
-        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' />
+        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' readonly='readonly'/>
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label class='col3 inline'>Buffer size</label>
@@ -50,20 +43,4 @@
   </div>
 
   <div class='fields'><%= this.layerfields(obj.fields) %></div>
-
-
-  <div class='sql'>
-    <section class='pad1'>
-      <div class='pad0x clearfix'>
-        <div class='pad0x col4 contain'>
-          <input name='Datasource-geometry_table' class='stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
-          <label class='micro ghost'>geom table</label>
-        </div>
-        <div class='pad0x col4 contain'>
-          <input name='Datasource-key_field' class='stretch last' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
-          <label class='micro ghost'>key</label>
-        </div>
-      </div>
-    </section>
-  </div>
 </form>

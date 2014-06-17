@@ -1,0 +1,11 @@
+<form id='updatename' class='modal margin3 round col6 pin-top top2 fill-dark'>
+  <a href='#layers-<%=obj.id%>' class="pad1 quiet icon x pin-topright close"></a>
+    <input type='hidden' id='current_id' value='<%=obj.id%>' />
+    <fieldset class='col12 pad2'>
+        <p class='center col8 margin2'>Update layer name.</p>
+        <div class='input-pill col12'>
+          <input class='col10 space-bottom1' id='newLayername' type='text' placeholder='Name' title='No spaces, punctuation marks, or special characters allowed.' size='20' name='id' pattern='\w+' value='<%=obj.id%>' />
+          <input class='js-reset-mode col2' type='submit' value='Update'/>
+        </div>
+    </fieldset>
+</form>

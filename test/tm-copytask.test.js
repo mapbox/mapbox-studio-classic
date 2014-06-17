@@ -3,16 +3,18 @@ var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var UPDATE = !!process.env.UPDATE;
+var tmp = require('os').tmpdir();
 
 describe('copytask', function() {
     this.timeout(20e3);
-    var tmppath = '/tmp/tm2-test-' + +new Date;
+    var tmppath = path.join(tmp, 'tm2-test-' + +new Date);
     var from = 'tmsource://' + __dirname + '/fixtures-export';
     var to = 'mbtiles://' + tmppath + '/export.mbtiles';
 
     before(function(done) {
         tm.config({
             db: path.join(tmppath, 'app.db'),
+            tmp: tmppath,
             cache: path.join(tmppath, 'cache')
         }, done);
     });
@@ -114,7 +116,7 @@ describe('copytask', function() {
 
 describe('cleartask', function() {
     this.timeout(20e3);
-    var tmppath = '/tmp/tm2-test-' + +new Date;
+    var tmppath = path.join(tmp, 'tm2-test-' + +new Date);
     var from = 'tmsource://' + __dirname + '/fixtures-export';
     var to = 'mbtiles://' + tmppath + '/cancel.mbtiles';
 
