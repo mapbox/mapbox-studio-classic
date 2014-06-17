@@ -238,6 +238,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //so this is just reversing that process in order to properly render the mapnikXML for TM2
             //This only applies to files that have gone through mapnik-omnivore
             var layername;
+            var layer;
             if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
             else layername = current_layer.id;
 
@@ -247,23 +248,39 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-            
             //checks that the layer doesn't already exist
             if (!layers[current_layer.id]) {
                 //Setup layer object
-                var layer = {
-                    tm: tm,
-                    id: current_layer.id,
-                    srs: metadata.projection,
-                    properties: {
-                        'buffer-size': 8
-                    },
-                    Datasource: {
-                        type: metadata.dstype,
-                        file: filepath,
-                        layer: layername
-                    }
-                };
+                if(metadata.dstype === 'gdal'){
+                    layer = {
+                        tm: tm,
+                        id: current_layer.id,
+                        srs: metadata.projection,
+                        nodata: metadata.raster.nodata,
+                        properties: {
+                            'buffer-size': 8
+                        },
+                        Datasource: {
+                            type: metadata.dstype,
+                            file: filepath,
+                            layer: layername
+                        }
+                    };
+                } else {
+                    layer = {
+                        tm: tm,
+                        id: current_layer.id,
+                        srs: metadata.projection,
+                        properties: {
+                            'buffer-size': 8
+                        },
+                        Datasource: {
+                            type: metadata.dstype,
+                            file: filepath,
+                            layer: layername
+                        }
+                    };
+                }
                 //Add the new layer form and div
                 $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
                 $('#layers .js-menu-content').prepend(templates.layeritem(layer));
@@ -510,7 +527,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     $.ajax({
                         url: '/metadata?file=' + filepath,
                         success: function(metadata) {
-                            window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                            if(extension === 'tif') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
+                            else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata)
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             Modal.show('error', jqXHR.responseText);
@@ -522,7 +540,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     };
 
     function mapnikOmnivore_digestable(ext) {
-        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv') return true;
+        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' || ext === 'tif') return true;
         else return false;
     };
     Editor.prototype.messageclear = messageClear;

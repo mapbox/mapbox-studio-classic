@@ -4,14 +4,13 @@
         <p class='center col8 margin2'>Add a new datasource.</p>
         <div class='input-pill clearfix space-bottom'>
             <input type='hidden' name='Datasource-type' value='shape' />
-            <input class='col8' type='text' name='Datasource-file' title='No spaces allowed.' placeholder='.shp .kml .geojson .gpx .csv' pattern='[\w+\d+\.\/_-]+\.(shp|SHP|json|geojson|JSON|kml|KML|gpx|GPX|csv|CSV)'/>
+            <input class='col8' type='text' name='Datasource-file' title='No spaces allowed.' placeholder='.shp .kml .geojson .gpx .csv .tif' pattern='[\w+\d+\.\/_-]+\.(shp|SHP|json|geojson|JSON|kml|KML|gpx|GPX|csv|CSV|tif|TIF)'/>
             <a class='quiet col4 button icon folder js-browsefile'>Browse</a>
         </div>
         <div class='small quiet center'>
             Need to add data from
-            <a href='#addmanual-postgis' class='js-addmanual'>PostGIS</a>,
-            <a href='#addmanual-sqlite' class='js-addmanual'>SQLite</a> or a
-            <a href='#addmanual-gdal' class='js-addmanual'>Raster</a> source?
+            <a href='#addmanual-postgis' class='js-addmanual'>PostGIS</a> or 
+            <a href='#addmanual-sqlite' class='js-addmanual'>SQLite</a>?
         </div>
     </fieldset>
 </form>
