@@ -79,7 +79,10 @@ Build status of modules:
 
 ### Binary
 
-Binary builds are available for OS X at <http://tilemill.s3.amazonaws.com/index.html?path=dev/>.
+Binary builds are available for OS X at <http://tilemill.s3.amazonaws.com/index.html?path=dev/>. Download, unpack, and double-click `start.command` to start TM2. 
+
+TM2 builds currently aren't [Developer ID](https://developer.apple.com/developer-id/)-signed, so you may see a warning dialog about an unidentified developer. In that case, right-click the `start.command` file and select *Open*. You will receive another warning dialog, then click the *Open* button to continue. 
+
 Follow the instructions below to install from source if you are interested in developing on TM2.
 
 ### Source install
