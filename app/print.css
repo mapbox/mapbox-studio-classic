@@ -1,0 +1,32 @@
+/* Code pane */
+#style-ui,
+#source-ui,
+#print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+
+/* Interactivity form */
+#interactivity .content     { max-height:80px; }
+#interactivity .content pre { padding:0; }
+#code-template.active ~ #interactivity  { display:block; }
+
+pre ~ .empty-state { display: block;}
+pre:not(.hidden) ~ .empty-state { display: none;}
+
+/* Export Settings */
+
+#print-ui { font: 12px 'Open Sans Bold'; }
+
+#full {
+  min-width: 58.333%;
+  right: 500px;
+}
+
+#reselect {
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+  padding-right: 5px;
+}
+
+.warning { color: #ee8a65; }
+.close { z-index: 10; }
+.icon.reselect:before { margin-left: 2px; }
