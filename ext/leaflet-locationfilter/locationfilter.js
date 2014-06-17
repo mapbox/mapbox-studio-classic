@@ -142,6 +142,10 @@ L.LocationFilter = L.Class.extend({
         this._ne = bounds.getNorthEast();
         this._sw = bounds.getSouthWest();
         this._se = bounds.getSouthEast();
+        this._north = new L.LatLng(this._nw.lat, (this._ne.lng - this._nw.lng)/2 + this._nw.lng);
+        this._south = new L.LatLng(this._sw.lat, (this._se.lng - this._sw.lng)/2 + this._sw.lng);
+        this._east = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._ne.lng);
+        this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
         if (this.isEnabled()) {
             this._draw();
             this.fire("change", {bounds: bounds});
@@ -153,14 +157,15 @@ L.LocationFilter = L.Class.extend({
     },
 
     /* Draw a rectangle */
-    _drawRectangle: function(bounds, options) {
+    _drawRectangle: function(bounds, divClass, options) {
         options = options || {};
         var defaultOptions = {
             stroke: false,
             fill: true,
             fillColor: "black",
             fillOpacity: 0.3,
-            clickable: false
+            clickable: false,
+            className: divClass
         };
         options = L.Util.extend(defaultOptions, options);
         var rect = new L.Rectangle(bounds, options);
@@ -200,6 +205,10 @@ L.LocationFilter = L.Class.extend({
             that._ne = new L.LatLng(that._ne.lat+latDelta, that._ne.lng+lngDelta, true);
             that._sw = new L.LatLng(that._sw.lat+latDelta, that._sw.lng+lngDelta, true);
             that._se = new L.LatLng(that._se.lat+latDelta, that._se.lng+lngDelta, true);
+            that._north = new L.LatLng(that._north.lat+latDelta, that._north.lng+lngDelta, true);
+            that._south = new L.LatLng(that._south.lat+latDelta, that._south.lng+lngDelta, true);
+            that._east = new L.LatLng(that._east.lat+latDelta, that._east.lng+lngDelta, true);
+            that._west = new L.LatLng(that._west.lat+latDelta, that._west.lng+lngDelta, true);
             that._draw();
         });
         this._setupDragendListener(this._moveMarker);
@@ -207,9 +216,9 @@ L.LocationFilter = L.Class.extend({
     },
 
     /* Draw a resize marker */
-    _drawResizeMarker: function(point, corner) {
+    _drawResizeMarker: function(point, className) {
         return this._drawImageMarker(point, {
-            "className": "location-filter resize-marker " + corner,
+            "className": "location-filter resize-marker " + className,
             "anchor": [7, 6],
             "size": [23, 22]
         });
@@ -223,45 +232,106 @@ L.LocationFilter = L.Class.extend({
         marker.on('drag', function(e) {
             var curPosition = marker.getLatLng(),
                 latMarker = options.moveAlong.lat,
-                lngMarker = options.moveAlong.lng;
+                lngMarker = options.moveAlong.lng,
+                midLatCloseMarker = options.moveAlong.midLatClose,
+                midLngCloseMarker = options.moveAlong.midLngClose,
+                midLatFarMarker = options.moveAlong.midLatFar,
+                midLngFarMarker = options.moveAlong.midLngFar;
+
             // Move follower markers when this marker is moved
             latMarker.setLatLng(new L.LatLng(curPosition.lat, latMarker.getLatLng().lng, true));
             lngMarker.setLatLng(new L.LatLng(lngMarker.getLatLng().lat, curPosition.lng, true));
-            // Sort marker positions in nw, ne, sw, se order
-            var corners = [that._nwMarker.getLatLng(), 
-                           that._neMarker.getLatLng(), 
-                           that._swMarker.getLatLng(), 
-                           that._seMarker.getLatLng()];
-            corners.sort(function(a, b) {
-                if (a.lat != b.lat)
-                    return b.lat-a.lat;
-                else
-                    return a.lng-b.lng;
-            });
-            // Update corner points and redraw everything except the resize markers
-            that._nw = corners[0];
-            that._ne = corners[1];
-            that._sw = corners[2];
-            that._se = corners[3];
-            that._draw({repositionResizeMarkers: false});
+            midLatCloseMarker.setLatLng(new L.LatLng(curPosition.lat, (curPosition.lng - latMarker.getLatLng().lng)/2 + latMarker.getLatLng().lng, true));
+            midLngCloseMarker.setLatLng(new L.LatLng(((lngMarker.getLatLng().lat - curPosition.lat)/2) + curPosition.lat, curPosition.lng, true));
+            midLatFarMarker.setLatLng(new L.LatLng(lngMarker.getLatLng().lat, (curPosition.lng - latMarker.getLatLng().lng)/2 + latMarker.getLatLng().lng, true));
+            midLngFarMarker.setLatLng(new L.LatLng(((lngMarker.getLatLng().lat - curPosition.lat)/2) + curPosition.lat, latMarker.getLatLng().lng, true));
 
-            var markers = document.getElementsByClassName('resize-marker');
-            for (var i = 0; i < 4; i ++) {
-                markers[i].classList.remove('nesw', 'nwse');
-            }
-            if (that._nwMarker.getLatLng() == corners [0] || that._nwMarker.getLatLng() == corners [3]) {
-                that._nwMarker._icon.classList.add('nwse');
-                that._seMarker._icon.classList.add('nwse');
-                that._swMarker._icon.classList.add('nesw');
-                that._neMarker._icon.classList.add('nesw');
-            } else {
-                that._nwMarker._icon.classList.add('nesw');
-                that._seMarker._icon.classList.add('nesw');
-                that._swMarker._icon.classList.add('nwse');
-                that._neMarker._icon.classList.add('nwse');
-            }
+            that._resizePositions();
+
         });
         this._setupDragendListener(marker);
+    },
+
+    _setupResizeMarkerTrackingMid: function(marker, options) {
+        var that = this;
+        marker.on('drag', function(e) {
+            var curPosition = marker.getLatLng(),
+                oneCornerMarker = options.moveAlong.cOne,
+                twoCornerMarker = options.moveAlong.cTwo,
+                oneSideMarker = options.moveAlong.sOne,
+                twoSideMarker = options.moveAlong.sTwo,
+                opposite = options.moveAlong.opposite.getLatLng();
+
+            // Move follower markers when this marker is moved
+            if (options.moveAlong.dir === 'lng') {
+                marker.setLatLng(new L.LatLng(opposite.lat, curPosition.lng, true));
+                oneCornerMarker.setLatLng(new L.LatLng(oneCornerMarker.getLatLng().lat, curPosition.lng, true));
+                twoCornerMarker.setLatLng(new L.LatLng(twoCornerMarker.getLatLng().lat, curPosition.lng, true));
+                oneSideMarker.setLatLng(new L.LatLng(oneSideMarker.getLatLng().lat, (curPosition.lng - opposite.lng)/2 + opposite.lng, true));
+                twoSideMarker.setLatLng(new L.LatLng(twoSideMarker.getLatLng().lat, (curPosition.lng - opposite.lng)/2 + opposite.lng, true));
+            } else {
+                marker.setLatLng(new L.LatLng(curPosition.lat, opposite.lng, true));
+                oneCornerMarker.setLatLng(new L.LatLng(curPosition.lat, oneCornerMarker.getLatLng().lng, true));
+                twoCornerMarker.setLatLng(new L.LatLng(curPosition.lat, twoCornerMarker.getLatLng().lng, true));
+                oneSideMarker.setLatLng(new L.LatLng((curPosition.lat - opposite.lat)/2 + opposite.lat, oneCornerMarker.getLatLng().lng, true));
+                twoSideMarker.setLatLng(new L.LatLng((curPosition.lat - opposite.lat)/2 + opposite.lat, twoCornerMarker.getLatLng().lng, true));
+            }
+            that._resizePositions();
+        });
+        this._setupDragendListener(marker);
+    },
+
+    _resizePositions: function(){
+        var that = this;
+        // Sort marker positions in nw, ne, sw, se order
+        var corners = [that._nwMarker.getLatLng(), 
+                       that._neMarker.getLatLng(), 
+                       that._swMarker.getLatLng(), 
+                       that._seMarker.getLatLng()];
+        corners.sort(function(a, b) {
+            if (a.lat != b.lat)
+                return b.lat-a.lat;
+            else
+                return a.lng-b.lng;
+        });
+
+        var middles = [that._westMarker.getLatLng(),
+                       that._southMarker.getLatLng(),
+                       that._eastMarker.getLatLng(),
+                       that._northMarker.getLatLng()];
+        middles.sort(function(a, b) {
+            if (a.lat != b.lat)
+                return b.lat-a.lat;
+            else
+                return a.lng-b.lng;
+        });
+
+        // Update corner points and redraw everything except the resize markers
+        that._nw = corners[0];
+        that._ne = corners[1];
+        that._sw = corners[2];
+        that._se = corners[3];
+        that._north = middles[0];
+        that._west = middles[1];
+        that._east = middles[2];
+        that._south = middles[3];
+        that._draw({repositionResizeMarkers: false});
+
+        var markers = document.getElementsByClassName('resize-marker');
+        for (var i = 0; i < 4; i ++) {
+            markers[i].classList.remove('nesw', 'nwse');
+        }
+        if (that._nwMarker.getLatLng() == corners [0] || that._nwMarker.getLatLng() == corners [3]) {
+            that._nwMarker._icon.classList.add('nwse');
+            that._seMarker._icon.classList.add('nwse');
+            that._swMarker._icon.classList.add('nesw');
+            that._neMarker._icon.classList.add('nesw');
+        } else {
+            that._nwMarker._icon.classList.add('nesw');
+            that._seMarker._icon.classList.add('nesw');
+            that._swMarker._icon.classList.add('nwse');
+            that._neMarker._icon.classList.add('nwse');
+        }
     },
 
     /* Emit a change event whenever dragend is triggered on the
@@ -307,11 +377,11 @@ L.LocationFilter = L.Class.extend({
         this._calculateBounds();
 
         // Create rectangles
-        this._northRect = this._drawRectangle(this._northBounds);
-        this._westRect = this._drawRectangle(this._westBounds);
-        this._eastRect = this._drawRectangle(this._eastBounds);
-        this._southRect = this._drawRectangle(this._southBounds);
-        this._innerRect = this._drawRectangle(this.getBounds(), {
+        this._northRect = this._drawRectangle(this._northBounds, 'northRect');
+        this._westRect = this._drawRectangle(this._westBounds, 'westRect');
+        this._eastRect = this._drawRectangle(this._eastBounds, 'eastRect');
+        this._southRect = this._drawRectangle(this._southBounds, 'southRect');
+        this._innerRect = this._drawRectangle(this.getBounds(), 'innerRect', {
             fillOpacity: 0,
             stroke: true,
             color: "white",
@@ -325,15 +395,24 @@ L.LocationFilter = L.Class.extend({
         this._swMarker = this._drawResizeMarker(this._sw, 'nesw');
         this._seMarker = this._drawResizeMarker(this._se, 'nwse');
 
+        this._northMarker = this._drawResizeMarker(this._north, 'ns');
+        this._southMarker = this._drawResizeMarker(this._south, 'ns');
+        this._eastMarker = this._drawResizeMarker(this._east, 'ew');
+        this._westMarker = this._drawResizeMarker(this._west, 'ew');
+
         // Setup tracking of resize markers. Each marker has pair of
         // follower markers that must be moved whenever the marker is
         // moved. For example, whenever the north west resize marker
         // moves, the south west marker must move along on the x-axis
         // and the north east marker must move on the y axis
-        this._setupResizeMarkerTracking(this._nwMarker, {moveAlong: {lat: this._neMarker, lng: this._swMarker}});
-        this._setupResizeMarkerTracking(this._neMarker, {moveAlong: {lat: this._nwMarker, lng: this._seMarker}});
-        this._setupResizeMarkerTracking(this._swMarker, {moveAlong: {lat: this._seMarker, lng: this._nwMarker}});
-        this._setupResizeMarkerTracking(this._seMarker, {moveAlong: {lat: this._swMarker, lng: this._neMarker}});
+        this._setupResizeMarkerTracking(this._nwMarker, {moveAlong: {lat: this._neMarker, lng: this._swMarker, midLatClose: this._northMarker, midLngClose: this._westMarker, midLatFar: this._southMarker, midLngFar: this._eastMarker}});
+        this._setupResizeMarkerTracking(this._neMarker, {moveAlong: {lat: this._nwMarker, lng: this._seMarker, midLatClose: this._northMarker, midLngClose: this._eastMarker, midLatFar: this._southMarker, midLngFar: this._westMarker}});
+        this._setupResizeMarkerTracking(this._swMarker, {moveAlong: {lat: this._seMarker, lng: this._nwMarker, midLatClose: this._southMarker, midLngClose: this._westMarker, midLatFar: this._northMarker, midLngFar: this._eastMarker}});
+        this._setupResizeMarkerTracking(this._seMarker, {moveAlong: {lat: this._swMarker, lng: this._neMarker, midLatClose: this._southMarker, midLngClose: this._eastMarker, midLatFar: this._northMarker, midLngFar: this._westMarker}});
+        this._setupResizeMarkerTrackingMid(this._northMarker, {moveAlong: {dir: 'lat', cOne: this._neMarker, cTwo: this._nwMarker, sOne: this._eastMarker, sTwo: this._westMarker, opposite: this._southMarker}});
+        this._setupResizeMarkerTrackingMid(this._southMarker, {moveAlong: {dir: 'lat', cOne: this._seMarker, cTwo: this._swMarker, sOne: this._eastMarker, sTwo: this._westMarker, opposite: this._northMarker}});
+        this._setupResizeMarkerTrackingMid(this._eastMarker, {moveAlong: {dir: 'lng', cOne: this._neMarker, cTwo: this._seMarker, sOne: this._northMarker, sTwo: this._southMarker, opposite: this._westMarker}});
+        this._setupResizeMarkerTrackingMid(this._westMarker, {moveAlong: {dir: 'lng', cOne: this._nwMarker, cTwo: this._swMarker, sOne: this._northMarker, sTwo: this._southMarker, opposite: this._eastMarker}});
 
         // Create move marker
         this._moveMarker = this._drawMoveMarker(this._nw);
@@ -361,6 +440,10 @@ L.LocationFilter = L.Class.extend({
             this._neMarker.setLatLng(this._ne);
             this._swMarker.setLatLng(this._sw);
             this._seMarker.setLatLng(this._se);
+            this._northMarker.setLatLng(this._north);
+            this._southMarker.setLatLng(this._south);
+            this._eastMarker.setLatLng(this._east);
+            this._westMarker.setLatLng(this._west);
         }
 
         // Reposition the move marker
@@ -393,7 +476,11 @@ L.LocationFilter = L.Class.extend({
         this._ne = bounds.getNorthEast();
         this._sw = bounds.getSouthWest();
         this._se = bounds.getSouthEast();
-            
+
+        this._north = new L.LatLng(this._nw.lat, (this._ne.lng - this._nw.lng)/2 + this._nw.lng);
+        this._south = new L.LatLng(this._sw.lat, (this._se.lng - this._sw.lng)/2 + this._sw.lng);
+        this._east = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._ne.lng);
+        this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
 
         // Update buttons
         if (this._buttonContainer) {
