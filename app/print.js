@@ -47,9 +47,6 @@ Printer.prototype.keys = function(ev) {
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
   var which = ev.which;
   switch (true) {
-  case (which === 83): // s
-    this.save();
-    break;
   case (which === 72): // h for help
     ev.preventDefault();
     this.togglePane('docs');
