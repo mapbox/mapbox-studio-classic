@@ -32,7 +32,7 @@ Printer.prototype.events = {
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
   'click .reselect': 'bboxReselect',
-  'change #resolution': 'updatescale',
+  'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
   'change #bboxInput': 'modifycoordinates',
   'change #centerInput': 'modifycoordinates'
@@ -215,30 +215,36 @@ Printer.prototype.calculateCoordinates = function(ev){
 };
 
 Printer.prototype.calculateTotal = function(){
+  if (!boundingBox.isEnabled()) return;
   var scale = $('input[name=resolution]:checked').prop('value'),
     zoom = map.getZoom(),
     bbox = window.exporter.model.get('coordinates').bbox,
     center;
   sm.size = scale * 256;
-  
+
+  this.model.get('coordinates').scale = scale;
+
   var topRight = sm.px([bbox[2], bbox[3]], zoom),
     bottomLeft = sm.px([bbox[0], bbox[1]], zoom),
     w = (topRight[0] - bottomLeft[0]) * scale,
     h = (bottomLeft[1] - topRight[1]) * scale,
     percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
 
-  $('#dimX').html(w);
-  $('#dimY').html(h);
+  $('#pixelX').html(w);
+  $('#pixelY').html(h);
+
+  $('#inchX').html((w / (scale * 72)).toFixed(2));
+  $('#inchY').html((h / (scale * 72)).toFixed(2));
 
   if (w > limit) {
-    $('#dimX').addClass('warning');
+    $('#pixelX').addClass('warning');
   } else {
-    $('#dimX').removeClass('warning');
+    $('#pixelX').removeClass('warning');
   }
   if (h > limit) {
-    $('#dimY').addClass('warning');
+    $('#pixelY').addClass('warning');
   } else {
-    $('#dimY').removeClass('warning');
+    $('#pixelY').removeClass('warning');
   }
   if (percentage > 100 ) $('#export').addClass('disabled').removeAttr('href');
   if (percentage <= 100 ) {
@@ -271,14 +277,6 @@ Printer.prototype.modifycoordinates = function(ev){
   }
 };
 
-Printer.prototype.updatescale = function(ev){
-  var scale =  $('input[name=resolution]:checked').prop('value');
-
-  if (!boundingBox.isEnabled()) return;
-  this.model.get('coordinates').scale = scale;
-  this.calculateTotal();
-};
-
 Printer.prototype.updateformat = function(){
   var format = $('input[name=format]:checked').prop('value');
 
@@ -306,8 +304,8 @@ Printer.prototype.imageSizeStats = function(){
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
-    w = $('#dimX').html() | 0,
-    h = $('#dimY').html() | 0,
+    w = $('#pixelX').html() | 0,
+    h = $('#pixelY').html() | 0,
     zoom = map.getZoom(),
     perc;
 
