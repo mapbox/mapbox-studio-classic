@@ -10,13 +10,18 @@ In order to design a TM2 style you will need to have a vector tile source to pul
 
 To change the source of a TM2 style, click on the __Data layers__ icon near the top-left of the code panel, then click on the blue __Change source__ button at the top of the layers panel. You will be shown a list of any vector tile sources you've uploaded to your Mapbox account.
 
+Mapbox also provides some ready-made sources that you use to design your own custom styles. Documentation is available explaining the data provided by these layers and tips for styling them:
+
+- [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/)
+- [Mapbox Terrain](https://www.mapbox.com/developers/vector-tiles/mapbox-terrain/)
+
 ### Compositing remote sources
 
 Multiple vector tile sources can be merged together into a single source if they are all hosted on Mapbox.com. For example, you can combine up-to-date OpenStreetMap data from Mapbox Streets with a custom overlay of your own data.
 
 To do this, click on the __Data layers__ icon, then __Change source__, then use the text box below the source list to enter up to 5 map IDs separated by commas. Eg:
 
-    mapbox.mapbox-streets-v4,your-account.abc123
+    mapbox.mapbox-streets-v5,your-account.abc123
 
 ### Local sources
 
