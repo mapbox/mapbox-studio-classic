@@ -5,9 +5,7 @@
 //
 // Define search commands. Depends on dialog.js or another
 // implementation of the openDialog method.
-// Replace works a little oddly -- it will do the replace on the next
-// Ctrl-G (or whatever is bound to findNext) press. You prevent a
-// replace by making sure the match is no longer selected when hitting
+
 // Ctrl-G.
 (function (mod) {
     mod(CodeMirror);
@@ -23,104 +21,59 @@
         var dialog;
         dialog = wrap.appendChild(document.createElement('div'));
         dialog.id = 'dialog';
-        dialog.className = 'CodeMirror-dialog';
+        dialog.className = 'CodeMirror-dialog fill-white keyline-bottom pin-top z100';
 
         if (typeof template == 'string') {
             dialog.innerHTML = template;
-        } else { // Assuming it"s a detached DOM element.
+        } else {
+            // Assuming it's a detached DOM element.
             dialog.appendChild(template);
         }
         return dialog;
     }
 
-    function closeNotification(cm, newVal) {
-        if (cm.state.currentNotificationClose)
-            cm.state.currentNotificationClose();
-        cm.state.currentNotificationClose = newVal;
-    }
-
-    CodeMirror.defineExtension('openDialog', function (template, callback, options) {
-        closeNotification(this, null);
+    CodeMirror.defineExtension('openDialog', function (template, callback) {
         var dialog = dialogDiv(this, template);
-        var inp = dialog.getElementsByTagName('input')[0],
-            info = document.getElementById('dialog-info'),
-            cl = document.getElementById('dialog-close'),
-            button,
-            infoActive,
+        var inp = document.getElementsByClassName('js-search-input')[0],
+            info = document.getElementsByClassName('js-cm-dialog-info')[0],
+            exit = document.getElementsByClassName('js-cm-dialog-close')[0],
+            button = document.getElementsByClassName('js-cm-search-button')[0],
             me = this;
 
         function close() {
-            dialog.parentNode.removeChild(dialog);
+            if (dialog.parentNode) dialog.parentNode.removeChild(dialog);
+            clearSearch(me);
         }
 
-        CodeMirror.on(cl, 'click', close);
-        CodeMirror.on(info, 'click', function(e) {
-            if (infoActive) {
-                this.href = '#';
-                infoActive = false;
-            } else {
-                this.href = '#search-info';
-                infoActive = true;
+        CodeMirror.on(exit, 'click', function() {
+            close();
+        });
+
+        CodeMirror.on(document, 'keydown', function(e) {
+            if (e.keyCode === 27) close();
+        });
+
+        CodeMirror.on(inp, 'keydown', function(e) {
+            if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
+                inp.blur();
+                CodeMirror.e_stop(e);
+                me.focus();
+                callback(inp.value);
             }
         });
 
-        if (inp) {
-            if (options && options.value) inp.value = options.value;
-            CodeMirror.on(inp, 'keydown', function(e) {
-                if (options && options.onKeyDown) {
-                    return;
-                }
-                if (e.keyCode == 13 || e.keyCode == 27) {
-                    inp.blur();
-                    CodeMirror.e_stop(e);
-                    me.focus();
-                    if (e.keyCode == 27) close();
-                    if (e.keyCode == 13) callback(inp.value);
-                }
-            });
-            if (options && options.onKeyUp) {
-                CodeMirror.on(inp, 'keyup', function(e) {
-                    options.onKeyUp(e, inp.value, close);
-                });
+        CodeMirror.on(button, 'click', function(e) {
+            // if a search is already underway, button finds next
+            if (me.state.search.query === inp.value) {
+                findNext(me);
+            } else {
+                callback(inp.value);
             }
-            if (options && options.value) inp.value = options.value;
-            inp.focus();
+        });
 
-        } else if (button = dialog.getElementsByTagName('button')[0]) {
-            CodeMirror.on(button, 'click', function() {
-                close();
-                me.focus();
-            });
-            button.focus();
-        }
+        inp.focus();
 
         return close;
-    });
-
-    CodeMirror.defineExtension('openConfirm', function (template, callbacks, options) {
-        closeNotification(this, null);
-        var dialog = dialogDiv(this, template);
-        var buttons = dialog.getElementsByTagName('button'),
-            info = document.getElementById('dialog-info'),
-            cl = document.getElementById('dialog-close'),
-            me = this;
-
-        function close() {
-            dialog.parentNode.removeChild(dialog);
-            me.focus();
-        }
-
-        CodeMirror.on(cl, 'click', close);
-        buttons[0].focus();
-        for (var i = 0; i < buttons.length; ++i) {
-            var b = buttons[i];
-            (function (callback) {
-                CodeMirror.on(b, 'click', function (e) {
-                    CodeMirror.e_preventDefault(e);
-                    if (callback) callback(me);
-                });
-            })(callbacks[i]);
-        }
     });
 
     function searchOverlay(query, caseInsensitive) {
@@ -163,17 +116,6 @@
         return cm.getSearchCursor(query, pos, queryCaseInsensitive(query));
     }
 
-    function dialog(cm, text, shortText, deflt, f) {
-        cm.openDialog(text, f, {
-            value: deflt
-        });
-    }
-
-    function confirmDialog(cm, text, shortText, fs) {
-        if (cm.openConfirm) cm.openConfirm(text, fs);
-        else if (confirm(shortText)) fs[0]();
-    }
-
     function parseQuery(query) {
         var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
         if (isRE) {
@@ -185,29 +127,26 @@
         return query;
     }
 
-    var infoText = '<div id="search-info" class="clearfix keyline-bottom keyline-top small fill-white search-info hidden">'+
-    '<div class="pad1x pad0y quiet">You can use /re/ syntax for regex search</div>'+
-    '<div class="clearfix col12">'+
-        '<label class="col12 pad1x pad0y keyline-bottom">Keyboard Commands</label>'+
-        '<div class="pad1 keyline-right col6">'+
-          '<span class="code inline"><kbd class="prefixed">F</kbd> Find</span><br/>'+
-          '<span class="code inline"><kbd class="prefixed">G</kbd> Next result</span><br />'+
-          '<span class="code inline"><kbd class="prefixed">Shift+G</kbd> Previous result</span>'+
+    var infoText = '<div id="search-info" class="clearfix keyline-top small fill-white search-info hidden">'+
+        '<div class="pad1 col6">'+
+          '<div class="code"><kbd class="prefixed">F</kbd> Find</div>'+
+          '<div class="code"><kbd class="prefixed">G</kbd> Next result</div>'+
         '</div>' +
         '<div class="pad1 col6">'+
-          '<span class="code inline"><kbd class="prefixed">Alt+F</kbd> Find & replace all</span>'+
+          '<div class="quiet">use /re/ syntax for regex search.</div>'+
+          '<div class="code"><kbd class="prefixed">Shift+G</kbd> Previous result</div>'+
         '</div>' +
-    '</div>' +
     '</div>';
-    var infoAndClose = "<div class='pin-right pad1'><a href='#search-info' id='dialog-info' class='inline icon info quiet'></a><a href='#' id='dialog-close' class='inline icon x quiet'></a></div>";
-    var queryDialog = "<fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch'></fieldset>" + infoAndClose + infoText;
+    var infoAndClose = "<a href='#search-info' class='js-cm-dialog-info pin-topleft pad1 inline icon info quiet dialog-n'></a><a href='#' class='js-cm-dialog-info pin-topleft pad1 inline icon info fill-darken2 dark dialog-y'></a><a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a></div>";
+    var queryButton = "<div class='pin-topright pad0y'><a href='#' class='js-cm-search-button button short icon small quiet search'>Find</a></div>"
+    var queryDialog = "<div class='fill-white z10 pad4x'><fieldset class='keyline-left contain'><input type='text' placeholder='Search stylesheet' value='' class='js-search-input clean stretch'>" + queryButton + "</fieldset></div>" + infoText + infoAndClose;
 
     function doSearch(cm, rev) {
         var state = getSearchState(cm);
         if (state.query) return findNext(cm, rev);
-        dialog(cm, queryDialog, 'Search for:', cm.getSelection(), function (query) {
+        cm.openDialog(queryDialog, function (query) {
             cm.operation(function () {
-                if (!query || state.query) return;
+                if (state.query && state.query !== query) state.query = query;
                 state.query = parseQuery(query);
                 cm.removeOverlay(state.overlay, queryCaseInsensitive(state.query));
                 state.overlay = searchOverlay(state.query, queryCaseInsensitive(state.query));
@@ -245,62 +184,6 @@
         });
     }
 
-    var replaceQueryDialog = "<fieldset><label class='pad1 block keyline-bottom'>Replace:</label><fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch' /></fieldset></fieldset>" + infoAndClose + infoText;
-    var replacementQueryDialog = "<fieldset><label class='pad1 block keyline-bottom'>With:</label><fieldset class='with-icon'><span class='icon search'></span><input type='text' value='' class='stretch' /></fieldset></fieldset>" + infoAndClose + infoText;
-    var doReplaceConfirm = "<fieldset class='pad1 space'><label class='inline'>Replace?</label><div class='inline pill'><button class='pad2x short'>Yes</button><button class='short pad2x'>No</button></div></fieldset>" + infoAndClose + infoText;
-
-    function replace(cm, all) {
-        dialog(cm, replaceQueryDialog, 'Replace:', cm.getSelection(), function (query) {
-            if (!query) return;
-            query = parseQuery(query);
-            dialog(cm, replacementQueryDialog, 'Replace with:', '', function (text) {
-                if (all) {
-                    cm.operation(function () {
-                        for (var cursor = getSearchCursor(cm, query); cursor.findNext();) {
-                            if (typeof query != 'string') {
-                                var match = cm.getRange(cursor.from(), cursor.to()).match(query);
-                                cursor.replace(text.replace(/\$(\d)/g, function (_, i) {
-                                    return match[i];
-                                }));
-                            } else cursor.replace(text);
-                        }
-                    });
-                } else {
-                    clearSearch(cm);
-                    var cursor = getSearchCursor(cm, query, cm.getCursor());
-                    var advance = function () {
-                        var start = cursor.from(),
-                            match;
-                        if (!(match = cursor.findNext())) {
-                            cursor = getSearchCursor(cm, query);
-                            if (!(match = cursor.findNext()) ||
-                                (start && cursor.from().line == start.line && cursor.from().ch == start.ch)) return;
-                        }
-                        cm.setSelection(cursor.from(), cursor.to());
-                        cm.scrollIntoView({
-                            from: cursor.from(),
-                            to: cursor.to()
-                        });
-                        confirmDialog(cm, doReplaceConfirm, 'Replace?', [
-                            function () {
-                                doReplace(match);
-                            },
-                            advance
-                        ]);
-                    };
-                    var doReplace = function (match) {
-                        cursor.replace(typeof query == 'string' ? text :
-                            text.replace(/\$(\d)/g, function (_, i) {
-                                return match[i];
-                            }));
-                        advance();
-                    };
-                    advance();
-                }
-            });
-        });
-    }
-
     CodeMirror.commands.find = function (cm) {
         clearSearch(cm);
         doSearch(cm);
@@ -310,8 +193,4 @@
         doSearch(cm, true);
     };
     CodeMirror.commands.clearSearch = clearSearch;
-    CodeMirror.commands.replace = replace;
-    CodeMirror.commands.replaceAll = function (cm) {
-        replace(cm, true);
-    };
 });

@@ -607,6 +607,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   top:40px; bottom:0;
   width:100%; height:auto;
   visibility:hidden;
+  overflow: visible;
   }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror .CodeMirror-vscrollbar { overflow-y: hidden;}
@@ -660,41 +661,14 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 /* CodeMirror Addon: Search Dialog */
 .CodeMirror-dialog,
 .CodeMirror-dialog * {
-  font:15px/20px 'Open Sans', sans-serif;
-  -webkit-box-sizing:border-box;
-     -moz-box-sizing:border-box;
-          box-sizing:border-box;
+  box-sizing:border-box;
   }
-  .CodeMirror-dialog {
-    box-shadow:inset 0 1px 1px rgba(0,0,0,0.1);
-    }
-  .CodeMirror-dialog .small,
-  .CodeMirror-dialog .small *,
-  .CodeMirror-dialog small,
-  .CodeMirror-dialog button,
-  .CodeMirror-dialog label {
-    font-size:12px;
-    line-height:20px;
-    }
-  .CodeMirror-dialog button,
-  .CodeMirror-dialog label {
-    font-family:'Open Sans Bold', sans-serif;
-    }
-.CodeMirror .CodeMirror-dialog {
-  background:white;
-  border-bottom:1px solid #eee;
-  position:absolute;
-  top:0;left:0;right:0;
-  z-index:100;
-  padding:0;
-  }
-.CodeMirror-dialog input {
-  background:transparent;
-  border:none;
-  outline:none;
-  }
-  .CodeMirror .hidden:target { display:block; }
+.CodeMirror .CodeMirror-dialog { top:-40px; }
+.CodeMirror .hidden:target { display:block; }
 
+.CodeMirror #search-info ~ .dialog-y,
+.CodeMirror #search-info:target ~ .dialog-n { display: none;}
+.CodeMirror #search-info:target ~ .dialog-y { display: block;}
 /* CodeMirror Addon: palette swatch */
 .CodeMirror .cm-palette-hint {
   display:inline-block;

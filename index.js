@@ -101,6 +101,37 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
     return res.send(page);
 });
 
+app.get('/print', middleware.style, middleware.history, function(req, res, next) {
+    res.set({'content-type':'text/html'});
+
+    // identify user's OS for styling docs shortcuts
+    var agent = function() {
+        var agent = req.headers['user-agent'];
+        if (agent.indexOf('Win') != -1) return 'windows';
+        if (agent.indexOf('Mac') != -1) return 'mac';
+        if (agent.indexOf('X11') != -1 || agent.indexOf('Linux') != -1) return 'linux';
+        return 'mac'; // default to Mac.
+    };
+
+    try {
+        var page = tm.templates.print({
+            cwd: process.env.HOME,
+            fontsRef: require('mapnik').fonts(),
+            cartoRef: require('carto').tree.Reference.data,
+            sources: [req.style._backend._source.data],
+            style: req.style.data,
+            history: req.history,
+            basemap: req.basemap,
+            user: tm.db._docs.user,
+            test: 'test' in req.query,
+            agent: agent()
+        });
+    } catch(err) {
+        return next(new Error('print template: ' + err.message));
+    }
+    return res.send(page);
+});
+
 app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.source, cors(), grid);
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style, cors(), grid);
@@ -113,9 +144,9 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
-app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
 
-app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
+app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -240,6 +271,13 @@ function printFromCenter(req, res, next){
     params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+    params.quality = req.params.quality | 0 || null;
+    params.limit = 20000;
+
+    var filename = req.style.data.name + '-z' + params.zoom + '_' +
+        req.params.x + '_' +
+        req.params.y + '_' +
+        req.params.scale;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -251,18 +289,26 @@ function printFromCenter(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
+        res.set({'Content-disposition': 'attachment; filename=' + filename + '.'+params.format});
         return res.send(image);
     });
-};
+}
 
 function printFromBbox(req, res, next){
     // bbox is [w,s,e,n] boundaries for rectangle
     var params = {};
     params.zoom = req.params.z | 0;
-    params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n]
+    params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n];
     params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
     params.scale = params.scale > 4 ? 4 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
+    params.quality = req.params.quality | 0 || null;
+    params.limit = 20000;
+
+    var filename = req.style.data.name + '-z' +
+        params.zoom + '_' + req.params.w +
+        '_' + req.params.s + '_' + req.params.e +
+        '_' + req.params.n + '_' + req.params.scale;
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -274,6 +320,7 @@ function printFromBbox(req, res, next){
         _(header).each(function(v, k) {
             res.set(k, v);
         });
+        res.set({'Content-disposition': 'attachment; filename=' + filename+ '.' + params.format});
         return res.send(image);
     });
 }
@@ -442,6 +489,10 @@ app.get('/new/style', middleware.exporting, middleware.writeStyle, function(req,
 app.get('/new/source', middleware.exporting, middleware.writeSource, function(req, res, next) {
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
+
+// app.get('/new/print', middleware.exporting, middleware.loadStyle, function(req, res, next) {
+//     res.redirect('/print?id=' + req.style.data.id);
+// });
 
 app.get('/', function(req, res, next) {
     res.redirect('/new/style');
