@@ -232,81 +232,102 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $('#layers .js-menu-content').sortable('destroy').sortable();
         return false;
     };
+    function consistentSourceType(metadata){
+        var sourceType = $('.js-layer .datasourceType').val();
+        if(sourceType === undefined) return true;
+        //if adding raster among vector sources
+        else if(sourceType !== 'gdal' && metadata.hasOwnProperty('raster')) return false;
+        //if adding vector among raster sources
+        else if(sourceType === 'gdal' && !metadata.hasOwnProperty('raster')) return false;
+        else return true;
+    };
+
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
-        layersArray.forEach(function(current_layer, index, array) {
-            //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
-            //so this is just reversing that process in order to properly render the mapnikXML for TM2
-            //This only applies to files that have gone through mapnik-omnivore
-            var layername;
-            var layer;
-            if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
-            else layername = current_layer.id;
+        var consistent = consistentSourceType(metadata);
+        if(consistent){
+            layersArray.forEach(function(current_layer, index, array) {
+                //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
+                //so this is just reversing that process in order to properly render the mapnikXML for TM2
+                //This only applies to files that have gone through mapnik-omnivore
+                var layername;
+                var layer;
+                if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
+                else layername = current_layer.id;
 
-            //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
-            //To avoid all geojson layers having the same name, replace id with the filename. 
-            if (filetype === 'geojson') current_layer.id = metadata.filename;
-            //All gpx files have the same three layer names (wayponts, routes, tracks)
-            //Append filename to differentiate
-            if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-            //checks that the layer doesn't already exist
-            if (!layers[current_layer.id]) {
-                //Setup layer object
-                if(metadata.dstype === 'gdal'){
-                    layer = {
-                        tm: tm,
-                        id: current_layer.id,
-                        srs: metadata.projection,
-                        nodata: metadata.raster.nodata,
-                        properties: {
-                            'buffer-size': 8
-                        },
-                        Datasource: {
-                            type: metadata.dstype,
-                            file: filepath,
-                            layer: layername
-                        }
-                    };
-                } else {
-                    layer = {
-                        tm: tm,
-                        id: current_layer.id,
-                        srs: metadata.projection,
-                        properties: {
-                            'buffer-size': 8
-                        },
-                        Datasource: {
-                            type: metadata.dstype,
-                            file: filepath,
-                            layer: layername
-                        }
-                    };
-                }
-                //Add the new layer form and div
-                $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-                $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+                //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
+                //To avoid all geojson layers having the same name, replace id with the filename. 
+                if (filetype === 'geojson') current_layer.id = metadata.filename;
+                //All gpx files have the same three layer names (wayponts, routes, tracks)
+                //Append filename to differentiate
+                if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
+                //checks that the layer doesn't already exist
+                if (!layers[current_layer.id]) {
+                    //Setup layer object
+                    if(metadata.dstype === 'gdal'){
+                        layer = {
+                            tm: tm,
+                            id: current_layer.id,
+                            srs: metadata.projection,
+                            nodata: metadata.raster.nodata,
+                            properties: {
+                                'buffer-size': 8
+                            },
+                            Datasource: {
+                                type: metadata.dstype,
+                                file: filepath,
+                                layer: layername,
+                                nodata: metadata.raster.nodata
+                            }
+                        };
+                    } else {
+                        layer = {
+                            tm: tm,
+                            id: current_layer.id,
+                            srs: metadata.projection,
+                            properties: {
+                                'buffer-size': 8
+                            },
+                            Datasource: {
+                                type: metadata.dstype,
+                                file: filepath,
+                                layer: layername
+                            }
+                        };
+                    }
+                    //Add the new layer form and div
+                    $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
+                    $('#layers .js-menu-content').prepend(templates.layeritem(layer));
                 
-                //Add new layer to the project's layers array
-                layers[layer.id] = Layer(layer.id, layer.Datasource);
+                    //Add new layer to the project's layers array
+                    layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-                //set maxzoom, if needed
-                var maxzoomTarget = $('.max');
-                if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+                    //set maxzoom, if needed
+                    var maxzoomTarget = $('.max');
+                    if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
                 
-                Modal.close();
+                    //show new layer
+                    var center = metadata.center;
+                    map.setView([center[1], center[0]], metadata.maxzoom);
                 
-                //open proper modal, depending on if there are multiple layers
-                if (layersArray.length > 1) {
-                    window.location.hash = '#';
-                    $('#layers .js-menu-content').sortable('destroy').sortable();
+                    //Save
+                    window.editor.save();
+                
+                    Modal.close();
+                
+                    //open proper modal, depending on if there are multiple layers
+                    if (layersArray.length > 1) {
+                        window.location.hash = '#';
+                        $('#layers .js-menu-content').sortable('destroy').sortable();
+                    } else {
+                        window.location.hash = '#layers-' + layersArray[0].id;
+                        $('#layers .js-menu-content').sortable('destroy').sortable();
+                    }
+                //else layer already exists, show error  
                 } else {
-                    window.location.hash = '#layers-' + layersArray[0].id;
-                    $('#layers .js-menu-content').sortable('destroy').sortable();
+                    Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
                 }
-              //else layer already exists, show error  
-            } else {
-                Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
-            }
-        });
+            });
+        } else Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
     };
     Editor.prototype.deletelayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('del-').pop();
@@ -540,7 +561,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     };
 
     function mapnikOmnivore_digestable(ext) {
-        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' || ext === 'tif') return true;
+        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' || ext === 'tif' || ext === 'tiff') return true;
         else return false;
     };
     Editor.prototype.messageclear = messageClear;
