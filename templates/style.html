@@ -130,20 +130,20 @@
       </fieldset>
 
     </div>
-    <div class='settings-footer pad2y fill-light keyline-top round-bottom pin-bottom'>
-      <section class='pad1x col12 clearfix'>
+    <div class='settings-footer pad1x pad2y fill-light keyline-top round-bottom pin-bottom'>
+      <section class='pad0x col12 clearfix'>
         <% if (style._tmp) { %>
         <div class='pad1x col12'>
           <a class='button col12 quiet icon floppy js-saveas'>Save as</a>
         </div>
         <% } else { %>
-        <div class='pad1x col4'>
+        <div class='pad0x col3'>
           <a class='button col12 quiet icon js-save floppy'>Save</a>
         </div>
-        <div class='pad1x pill col8'><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col4 <% if (!user.plan.tm2z) { %>col6<% } else { %>col4<%} %> submit icon package'>Package</a><!--
-        --><a href='#settings' class='js-upload button quiet submit icon up <% if (!user.plan.tm2z) { %>hidden<% } else { %>col4<%} %>'>Upload</a><!--
-        --><a href='/print?id=<%=style.id%>' id='print-style' class='<% if (!user.plan.tm2z) { %>col6<% } else { %>col4<%} %> button quiet col4 submit picture icon'>Image</a><!--
+        <div class='pad0x pill col9'><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col4 submit icon package'>Package</a><!--
+        --><a href='#settings' class='js-upload button quiet submit icon up col4'>Upload</a><!--
+        --><a href='/print?id=<%=style.id%>' id='print-style' class='button quiet col4 submit picture icon'>Image</a><!--
      --></div>
         <% } %>
       </section>
