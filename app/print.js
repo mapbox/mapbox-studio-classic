@@ -36,7 +36,8 @@ Printer.prototype.events = {
   'change #format': 'updateformat',
   'change #bboxInput': 'modifycoordinates',
   'change .dim': 'modifydimensions',
-  'change #centerInput': 'modifycoordinates'
+  'change #centerInput': 'modifycoordinates',
+  'change #lock': 'lockdimensions'
 };
 
 Printer.prototype.keys = function(ev) {
@@ -184,6 +185,9 @@ Printer.prototype.calculateCoordinates = function(ev){
     decimals = 4,
     format = $('input[name=format]:checked').prop('value');
 
+  var dimensions = window.exporter.model.get('coordinates') ?  window.exporter.model.get('coordinates').dimensions : [ 0, 0];
+  var locked = window.exporter.model.get('coordinates') ?  window.exporter.model.get('coordinates').locked : false;
+
   window.exporter.model.set({
     coordinates: {
       zoom: zoom,
@@ -200,7 +204,8 @@ Printer.prototype.calculateCoordinates = function(ev){
         center[0].toFixed(decimals),
         center[1].toFixed(decimals)
       ],
-      dimensions: [ 0, 0]
+      dimensions: dimensions,
+      locked: locked
     }
   });
   var coordinates = window.exporter.model.get('coordinates');
@@ -226,14 +231,6 @@ Printer.prototype.calculateTotal = function(){
     h = (bottomLeft[1] - topRight[1]) * scale,
     percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
 
-  this.model.get('coordinates').dimensions = [w, h];
-
-  $('#pixelX').prop('value', w + ' px');
-  $('#pixelY').prop('value', h + ' px');
-
-  $('#inchX').prop('value', (w / (scale * 72)).toFixed(2) + ' in');
-  $('#inchY').prop('value', (h / (scale * 72)).toFixed(2) + ' in');
-
   if (w > limit) {
     $('#pixelX').addClass('warning');
   } else {
@@ -249,6 +246,19 @@ Printer.prototype.calculateTotal = function(){
     $('#export').removeClass('disabled');
     this.updateurl();
   }
+
+  if (this.model.get('coordinates').locked) {
+    return;
+  }
+
+  this.model.get('coordinates').dimensions = [w, h];
+
+  $('#pixelX').prop('value', w + ' px');
+  $('#pixelY').prop('value', h + ' px');
+
+  $('#inchX').prop('value', (w / (scale * 72)).toFixed(2) + ' in');
+  $('#inchY').prop('value', (h / (scale * 72)).toFixed(2) + ' in');
+
   this.imageSizeStats();
 };
 
@@ -289,7 +299,7 @@ Printer.prototype.modifydimensions = function(ev){
   var center = $('#centerInput').prop('value').split(',').map(parseFloat);
   center = sm.px([center[1], center[0]], zoom);
 
-  if (pixelX != dimensions[0] || pixelY != dimensions[1]) {
+  if (pixelX != dimensions[0] || pixelY != dimensions[1] || window.exporter.model.get('coordinates').locked) {
     var ne = sm.ll([center[0] + (pixelX/scale)/2, center[1] - (pixelY/scale)/2], zoom);
     var sw = sm.ll([center[0] - (pixelX/scale)/2, center[1] + (pixelY/scale)/2], zoom);
   } else if (inchX != inchdim[0] || inchY != inchdim[1]) {
@@ -301,6 +311,25 @@ Printer.prototype.modifydimensions = function(ev){
 
   var bounds = L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0]));
   boundingBox.setBounds(bounds);
+};
+
+Printer.prototype.lockdimensions = function (){
+  var markers = ['_eastMarker', '_southMarker', '_westMarker', '_northMarker', '_neMarker', '_seMarker', '_swMarker', '_nwMarker'];
+  var locked = $('input[id=lock]:checked')[0] ? true : false;
+  if (locked) {
+    markers.forEach(function(marker){
+      boundingBox[marker].dragging.disable();
+    });
+    $('.dim').prop('disabled', true);
+    window.exporter.model.get('coordinates').locked = true;
+  } else {
+    markers.forEach(function(marker){
+      boundingBox[marker].dragging.enable();
+    });
+    $('.dim').prop('disabled', false);
+    window.exporter.model.get('coordinates').locked = false;
+    this.calculateTotal();
+  }
 };
 
 Printer.prototype.updateformat = function(){
@@ -362,6 +391,7 @@ Printer.prototype.imageSizeStats = function(){
 
 Printer.prototype.refresh = function(ev) {
   var calcTotal = this.calculateTotal.bind(this);
+  var modifydimensions = this.modifydimensions.bind(this);
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -378,6 +408,7 @@ Printer.prototype.refresh = function(ev) {
         window.exporter.model.get('coordinates').zoom = zoom;
         $('#zoom').html(zoom);
         calcTotal();
+        if (window.exporter.model.get('coordinates').locked) modifydimensions();
       }
     });
     map.on('click', inspectFeature({
