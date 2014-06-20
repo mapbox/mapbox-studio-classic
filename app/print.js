@@ -35,6 +35,7 @@ Printer.prototype.events = {
   'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
   'change #bboxInput': 'modifycoordinates',
+  'change .dim': 'modifydimensions',
   'change #centerInput': 'modifycoordinates'
 };
 
@@ -152,9 +153,6 @@ Printer.prototype.bboxEnable = function(ev){
     boundingBox.fire('enableClick');
 
     $('#export').removeClass('disabled');
-    $('.attributes').removeClass('quiet');
-    $('#bboxInput').prop('disabled', false);
-    $('#centerInput').prop('disabled', false);
   }
 };
 
@@ -201,7 +199,8 @@ Printer.prototype.calculateCoordinates = function(ev){
       center: [
         center[0].toFixed(decimals),
         center[1].toFixed(decimals)
-      ]
+      ],
+      dimensions: [ 0, 0]
     }
   });
   var coordinates = window.exporter.model.get('coordinates');
@@ -215,7 +214,7 @@ Printer.prototype.calculateTotal = function(){
   if (!boundingBox.isEnabled()) return;
   var scale = $('input[name=resolution]:checked').prop('value'),
     zoom = map.getZoom(),
-    bbox = window.exporter.model.get('coordinates').bbox,
+    bbox = this.model.get('coordinates').bbox,
     center;
   sm.size = scale * 256;
 
@@ -227,11 +226,13 @@ Printer.prototype.calculateTotal = function(){
     h = (bottomLeft[1] - topRight[1]) * scale,
     percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
 
-  $('#pixelX').html(w);
-  $('#pixelY').html(h);
+  this.model.get('coordinates').dimensions = [w, h];
 
-  $('#inchX').html((w / (scale * 72)).toFixed(2));
-  $('#inchY').html((h / (scale * 72)).toFixed(2));
+  $('#pixelX').prop('value', w + ' px');
+  $('#pixelY').prop('value', h + ' px');
+
+  $('#inchX').prop('value', (w / (scale * 72)).toFixed(2) + ' in');
+  $('#inchY').prop('value', (h / (scale * 72)).toFixed(2) + ' in');
 
   if (w > limit) {
     $('#pixelX').addClass('warning');
@@ -272,6 +273,34 @@ Printer.prototype.modifycoordinates = function(ev){
     map.setView([center[0], center[1]], window.exporter.model.get('coordinates').zoom);
     return;
   }
+};
+
+Printer.prototype.modifydimensions = function(ev){
+  var pixelX = /\d+/.exec($('#pixelX').prop('value'))[0] | 0,
+    pixelY = /\d+/.exec($('#pixelY').prop('value'))[0] | 0,
+    inchX = parseFloat(/\d+\.?\d*/.exec($('#inchX').prop('value'))[0]).toFixed(2),
+    inchY = parseFloat(/\d+\.?\d*/.exec($('#inchY').prop('value'))[0]).toFixed(2);
+
+  var scale = window.exporter.model.get('coordinates').scale,
+    zoom = map.getZoom(),
+    dimensions = window.exporter.model.get('coordinates').dimensions,
+    inchdim = [ (dimensions[0] / (scale * 72)).toFixed(2), (dimensions[1] / (scale * 72)).toFixed(2)];
+
+  var center = $('#centerInput').prop('value').split(',').map(parseFloat);
+  center = sm.px([center[1], center[0]], zoom);
+
+  if (pixelX != dimensions[0] || pixelY != dimensions[1]) {
+    var ne = sm.ll([center[0] + (pixelX/scale)/2, center[1] - (pixelY/scale)/2], zoom);
+    var sw = sm.ll([center[0] - (pixelX/scale)/2, center[1] + (pixelY/scale)/2], zoom);
+  } else if (inchX != inchdim[0] || inchY != inchdim[1]) {
+    inchX = inchX * 72;
+    inchY = inchY * 72;
+    var ne = sm.ll([center[0] + inchX/2, center[1] - inchY/2], zoom);
+    var sw = sm.ll([center[0] - inchX/2, center[1] + inchY/2], zoom);
+  }
+
+  var bounds = L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0]));
+  boundingBox.setBounds(bounds);
 };
 
 Printer.prototype.updateformat = function(){

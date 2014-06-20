@@ -131,12 +131,28 @@
   </nav>
   <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
     <div class='pad1y'>
-      <fieldset class='attributes keyline-all pad1 quiet'>
-        <div class='col12 space-bottom1'>
-          <span class='col4'>Dimensions </span>
-            <span id='pixelX' class='code'>0</span> x <span id='pixelY' class='code'>0</span> pixels
-            <em class='quiet'>(<span id='inchX'>0</span> x <span id='inchY'>0</span> inches)</em>
-        </div>
+      <fieldset class='attributes keyline-all pad1'>
+        <section class='space-bottom1'>
+          <label class='col4 inline'>Dimensions</label>
+          <br>
+          <div class='col12'>
+            <span class='small col4 quiet inline'>in pixels</span>
+            <span class='col8'>
+              <input id='pixelX' class='inline short small dim' type='text' value='' /> <span class='x'>x</span> <input id='pixelY' class='dim short small' type='text' value='' />
+            </span>
+          </div>
+          <div class='col12'>
+            <span class='small col4 quiet inline'>in inches</span>
+            <span class='col8'>
+              <input id='inchX' class='short small dim' type='text' value='' /> <span class='x'>x</span> <input id='inchY' class='dim short small' type='text' value='' />
+              <div class='pad1y checkbox'>
+                <input type='checkbox' id='lock'>
+                <label for='lock' class='small icon lock'>Check to lock dimensions</label>
+              </div>
+            </span>
+          </div>
+        </span>
+        </section>
         <div class='col12 space-bottom1'>
           <span class='col4'>Zoom level</span>
           <span id='zoom' class='code'><%=style.center[2]%></span>
@@ -144,24 +160,17 @@
         <section class='space-bottom1'>
           <label class='inline'>Bounds</label>
           <span class='small quiet code inline'>[W, S, E, N]</span>
-          <input id='bboxInput' class='stretch short small' disabled='true' type='text' value='' />
+          <input id='bboxInput' class='stretch short small' type='text' value='' />
         </section>
         <section class='space-bottom1'>
           <label class='inline'>Center</label>
           <span class='small quiet code inline'>[Lat, Lng]</span>
-          <input id='centerInput' class='stretch short small' disabled='true' type='text' value='' />
+          <input id='centerInput' class='stretch short small' type='text' value='' />
         </section>
       </fieldset>
     </div>
 
     <div class='pad1'>
-      <!-- <fieldset class=' space-bottom1'>
-        <section class='space-bottom1'>
-          <br>
-          <label>Attribution</label>
-          <input class='stretch short small' type='text' value= '<%=style.attribution %>'/>
-        </section>
-      </fieldset>-->
       <fieldset class='space-bottom1'>
           <label class='inline col4 pad1y'>Image format</label>
           <div id='format' class='rounded-toggle inline short'>

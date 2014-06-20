@@ -27,6 +27,15 @@ pre:not(.hidden) ~ .empty-state { display: none;}
   padding-right: 5px;
 }
 
-.warning { color: #ee8a65; }
+.warning, input.warning  { color: #ee8a65; }
 .close { z-index: 10; }
 .icon.reselect:before { margin-left: 2px; }
+
+.dim {
+  width: 90px;
+}
+
+.x {
+  top: 5px;
+  position: relative;
+}
