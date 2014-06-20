@@ -164,6 +164,9 @@ Printer.prototype.bboxReselect = function(){
 };
 
 Printer.prototype.calculateBounds = function(){
+  // when bounding box is reset to current viewport,
+  // calculate the new dimensions of the bbox to the
+  // visible viewport, not actual (covered by settings pane)
   var sidebar = $('#full').width();
   var bounds = map.getBounds(),
     zoom = map.getZoom(),
@@ -179,13 +182,15 @@ Printer.prototype.calculateBounds = function(){
 };
 
 Printer.prototype.calculateCoordinates = function(ev){
+  // calculate bounding box dimensions and center point in lat,lng.
+  // update model with new coordinates.
   var bounds = boundingBox.getBounds(),
     center = [(bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat, (bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng],
     zoom = map.getZoom(),
     decimals = 4,
     format = $('input[name=format]:checked').prop('value');
 
-  var dimensions = window.exporter.model.get('coordinates') ?  window.exporter.model.get('coordinates').dimensions : [ 0, 0];
+  var dimensions = window.exporter.model.get('coordinates') ?  window.exporter.model.get('coordinates').dimensions : [0, 0];
   var locked = window.exporter.model.get('coordinates') ?  window.exporter.model.get('coordinates').locked : false;
 
   window.exporter.model.set({
@@ -216,6 +221,8 @@ Printer.prototype.calculateCoordinates = function(ev){
 };
 
 Printer.prototype.calculateTotal = function(){
+  // Calculate bounding box dimensions in pixel and inch values and update field values.
+  // Calculate if dimensions are over limit.
   if (!boundingBox.isEnabled()) return;
   var scale = $('input[name=resolution]:checked').prop('value'),
     zoom = map.getZoom(),
@@ -247,6 +254,8 @@ Printer.prototype.calculateTotal = function(){
     this.updateurl();
   }
 
+  // if the dimensions are locked,
+  // don't update dimension values.
   if (this.model.get('coordinates').locked) {
     return;
   }
@@ -263,6 +272,8 @@ Printer.prototype.calculateTotal = function(){
 };
 
 Printer.prototype.modifycoordinates = function(ev){
+  // if the coordinates in 'bounds' or 'center' are modified,
+  // compare and recalculate bounding box values.
   var bounds = $('#bboxInput').prop('value').split(',').map(parseFloat);
   var center = $('#centerInput').prop('value').split(',').map(parseFloat);
   var bSum = bounds.reduce(function(a, b){ return a + b; });
@@ -286,13 +297,15 @@ Printer.prototype.modifycoordinates = function(ev){
 };
 
 Printer.prototype.modifydimensions = function(ev){
+  // if pixel or inch dimensions are modified,
+  // recalculate bounding box values in lat, lng for leaflet
   var pixelX = /\d+/.exec($('#pixelX').prop('value'))[0] | 0,
     pixelY = /\d+/.exec($('#pixelY').prop('value'))[0] | 0,
     inchX = parseFloat(/\d+\.?\d*/.exec($('#inchX').prop('value'))[0]).toFixed(2),
     inchY = parseFloat(/\d+\.?\d*/.exec($('#inchY').prop('value'))[0]).toFixed(2);
 
   var scale = window.exporter.model.get('coordinates').scale,
-    zoom = map.getZoom(),
+    zoom = window.exporter.model.get('coordinates').zoom,
     dimensions = window.exporter.model.get('coordinates').dimensions,
     inchdim = [ (dimensions[0] / (scale * 72)).toFixed(2), (dimensions[1] / (scale * 72)).toFixed(2)];
 
@@ -342,6 +355,8 @@ Printer.prototype.updateformat = function(){
 };
 
 Printer.prototype.updateurl = function(){
+  // update the link for 'download static map'
+  // to reflect current settings
   if (!boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
   var url = 'http://localhost:3000/static/' +
@@ -355,6 +370,8 @@ Printer.prototype.updateurl = function(){
 };
 
 Printer.prototype.imageSizeStats = function(){
+  // Add percentage of image size limit based on
+  // current dimensions to chart in bottom corner of map.
   var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
