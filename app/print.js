@@ -257,6 +257,7 @@ Printer.prototype.calculateTotal = function(){
   // if the dimensions are locked,
   // don't update dimension values.
   if (this.model.get('coordinates').locked) {
+    this.imageSizeStats();
     return;
   }
 
@@ -335,6 +336,7 @@ Printer.prototype.lockdimensions = function (){
     });
     $('.dim').prop('disabled', true);
     window.exporter.model.get('coordinates').locked = true;
+    this.imageSizeStats();
   } else {
     markers.forEach(function(marker){
       boundingBox[marker].dragging.enable();
@@ -376,8 +378,9 @@ Printer.prototype.imageSizeStats = function(){
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
-    w = $('#pixelX').html() | 0,
-    h = $('#pixelY').html() | 0,
+    dimensions = window.exporter.model.get('coordinates').dimensions,
+    w = dimensions[0],
+    h = dimensions[1],
     zoom = map.getZoom(),
     perc;
 
@@ -385,9 +388,13 @@ Printer.prototype.imageSizeStats = function(){
     if (z >= minZoom && z <= maxZoom && boundingBox.isEnabled()) {
       var zoomDiff = Math.abs(z - zoom);
       var greatest = ( w > h ) ? w : h;
-      if (z > zoom) perc = Math.ceil((greatest * 100 * Math.pow(2, zoomDiff)) / limit);
-      if (z < zoom) perc = Math.ceil((greatest  * 100 * (1/Math.pow(2, zoomDiff))) / limit);
-      if (z === zoom ) perc = Math.ceil((greatest / limit) * 100);
+      if (window.exporter.model.get('coordinates').locked) {
+        perc = Math.ceil((greatest / limit) * 100);
+      } else {
+        if (z > zoom) perc = Math.ceil((greatest * 100 * Math.pow(2, zoomDiff)) / limit);
+        if (z < zoom) perc = Math.ceil((greatest  * 100 * (1/Math.pow(2, zoomDiff))) / limit);
+        if (z === zoom ) perc = Math.ceil((greatest / limit) * 100);
+      }
     }
     html += [
       "<span class='clip strong micro col12 quiet z z",z,"'>",
@@ -491,7 +498,6 @@ Printer.prototype.refresh = function(ev) {
   if (this.model.get('background')) {
     $('#map').css({'background-color':this.model.get('background')});
   }
-  this.imageSizeStats();
 
   return false;
 };
