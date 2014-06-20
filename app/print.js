@@ -333,6 +333,7 @@ Printer.prototype.lockdimensions = function (){
   if (locked) {
     markers.forEach(function(marker){
       boundingBox[marker].dragging.disable();
+      L.DomUtil.addClass(boundingBox[marker]._icon, 'locked');
     });
     $('.dim').prop('disabled', true);
     $('.reselect').prop('disabled', true);
@@ -341,6 +342,7 @@ Printer.prototype.lockdimensions = function (){
   } else {
     markers.forEach(function(marker){
       boundingBox[marker].dragging.enable();
+      L.DomUtil.removeClass(boundingBox[marker]._icon, 'locked');
     });
     $('.dim').prop('disabled', false);
     $('.reselect').prop('disabled', false);

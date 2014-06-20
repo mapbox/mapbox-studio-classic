@@ -17,6 +17,10 @@ div.leaflet-marker-icon.location-filter.resize-marker.ew {
     cursor: ew-resize;
 }
 
+div.leaflet-marker-icon.location-filter.resize-marker.locked {
+    cursor: not-allowed;
+}
+
 div.leaflet-marker-icon.location-filter.move-marker {
     background: url( img/move-handle.png ) no-repeat;  
     cursor: move;
