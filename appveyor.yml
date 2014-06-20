@@ -1,17 +1,9 @@
 environment:
   matrix:
-#    - nodejs_version: 0.10
     - nodejs_version: 0.11
 
 platform:
   - x86
-
-matrix:
-  allow_failures:
-    - platform: x86
-      nodejs_version: 0.10
-    - platform: x86
-      nodejs_version: 0.11
 
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
@@ -23,9 +15,6 @@ install:
   - npm test
 
 build: OFF
-
 test: OFF
-
 test_script: OFF
-
 deploy: OFF
