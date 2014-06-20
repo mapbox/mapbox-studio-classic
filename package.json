@@ -39,7 +39,7 @@
     "request": "~2.36.0",
     "mapbox-upload": "0.0.2",
     "mapnik-omnivore": "https://github.com/mapbox/mapnik-omnivore/tarball/master",
-    "abaculus": "https://github.com/mapbox/abaculus/tarball/node-mapnik-blend"
+    "abaculus": "https://github.com/mapbox/abaculus/tarball/master"
   },
   "devDependencies": {
     "mocha": "1.17.x",
