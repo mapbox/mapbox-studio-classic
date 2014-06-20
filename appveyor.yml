@@ -1,9 +1,17 @@
 environment:
   matrix:
-    - nodejs_version: 0.10
+#    - nodejs_version: 0.10
+    - nodejs_version: 0.11
 
 platform:
   - x86
+
+matrix:
+  allow_failures:
+    - platform: x86
+      nodejs_version: 0.10
+    - platform: x86
+      nodejs_version: 0.11
 
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
@@ -11,9 +19,7 @@ install:
   - node -e "console.log(process.version)"
   - node -e "console.log(process.arch)"
   - npm --version
-  - SET PATH=c:\python27;%PATH%
-  - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin\;%PATH%
-  - npm install --msvs_version=2013
+  - npm install
   - npm test
 
 build: OFF
