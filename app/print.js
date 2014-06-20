@@ -234,8 +234,8 @@ Printer.prototype.calculateTotal = function(){
 
   var topRight = sm.px([bbox[2], bbox[3]], zoom),
     bottomLeft = sm.px([bbox[0], bbox[1]], zoom),
-    w = (topRight[0] - bottomLeft[0]) * scale,
-    h = (bottomLeft[1] - topRight[1]) * scale,
+    w = parseInt((topRight[0] - bottomLeft[0]) * scale),
+    h = parseInt((bottomLeft[1] - topRight[1]) * scale),
     percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
 
   if (w > limit) {
