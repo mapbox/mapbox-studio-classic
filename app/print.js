@@ -335,6 +335,7 @@ Printer.prototype.lockdimensions = function (){
       boundingBox[marker].dragging.disable();
     });
     $('.dim').prop('disabled', true);
+    $('.reselect').prop('disabled', true);
     window.exporter.model.get('coordinates').locked = true;
     this.imageSizeStats();
   } else {
@@ -342,6 +343,7 @@ Printer.prototype.lockdimensions = function (){
       boundingBox[marker].dragging.enable();
     });
     $('.dim').prop('disabled', false);
+    $('.reselect').prop('disabled', false);
     window.exporter.model.get('coordinates').locked = false;
     this.calculateTotal();
   }
