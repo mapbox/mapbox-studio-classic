@@ -316,13 +316,9 @@ describe('middleware', function() {
     });
 
     describe('auth', function() {
-        it('redirects unauthenticated requests', function(done) {
-            function redirectedTo(path) {
-                assert.equal('/authorize', path);
-                done();
-            }
-            middleware.auth({}, { redirect: redirectedTo }, function() {
-                assert.fail('did not redirect');
+        it('errors on unauthenticated requests', function(done) {
+            middleware.auth({}, {}, function(err) {
+                assert.equal('EOAUTH', err.code);
                 done();
             });
         });
@@ -331,11 +327,7 @@ describe('middleware', function() {
                 account: 'test',
                 accesstoken: '12345678'
             });
-            function redirectedTo(path) {
-                assert.fail('redirected authenticated request');
-                done();
-            }
-            middleware.auth({}, {redirect: redirectedTo}, function(err) {
+            middleware.auth({}, {}, function(err) {
                 assert(!err);
                 done();
             });
