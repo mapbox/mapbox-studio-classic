@@ -184,9 +184,9 @@
           <label class='inline col4 pad1y'>Resolution</label>
           <div id='resolution' class='rounded-toggle inline short'>
           <% _({
-            '2.08': '150ppi',
-            '4.16': '300ppi',
-            '8.33': '600ppi'
+            '2.078125': '150ppi',
+            '4.15625': '300ppi',
+            '8.3125': '600ppi'
           }).each(function(label, format) { %>
           <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '300ppi') { %> checked='true' <% } %>>
           <label for='<%= label %>'><%= label %></label>
