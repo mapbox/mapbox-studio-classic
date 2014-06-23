@@ -32,6 +32,7 @@ Printer.prototype.events = {
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
   'click .reselect': 'bboxReselect',
+  'click .recenter': 'bboxRecenter',
   'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
   'change #bboxInput': 'modifycoordinates',
@@ -163,6 +164,16 @@ Printer.prototype.bboxReselect = function(){
   this.calculateBounds();
 };
 
+Printer.prototype.bboxRecenter = function(){
+  if (!boundingBox._enabled) return;
+  var bounds = window.exporter.model.get('coordinates').bbox;
+    center = map.getCenter(),
+    h = bounds[3] - bounds[1],
+    w = bounds[0] - bounds[2];
+  bounds = [center.lng - (w/2), center.lat - (h/2), center.lng + (w/2), center.lat + (h/2)];
+  boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2])));
+};
+
 Printer.prototype.calculateBounds = function(){
   // when bounding box is reset to current viewport,
   // calculate the new dimensions of the bbox to the
@@ -172,8 +183,7 @@ Printer.prototype.calculateBounds = function(){
     zoom = map.getZoom(),
     ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom),
     sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom),
-    center = map.getCenter(),
-    center = sm.px([center.lng, center.lat], zoom);
+    center = [(ne[0] - sw[0])/2 + sw[0], (ne[1] - sw[1])/2 + sw[1]];
 
   ne = sm.ll([center[0] + sidebar/2, ne[1]], zoom);
   sw = sm.ll([center[0] - sidebar/2, sw[1]], zoom);
@@ -185,8 +195,8 @@ Printer.prototype.calculateCoordinates = function(ev){
   // calculate bounding box dimensions and center point in lat,lng.
   // update model with new coordinates.
   var bounds = boundingBox.getBounds(),
-    center = [(bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat, (bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng],
     zoom = map.getZoom(),
+    center = [(bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat, (bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng],
     decimals = 4,
     format = $('input[name=format]:checked').prop('value');
 
@@ -232,10 +242,10 @@ Printer.prototype.calculateTotal = function(){
 
   this.model.get('coordinates').scale = scale;
 
-  var topRight = sm.px([bbox[2], bbox[3]], zoom),
-    bottomLeft = sm.px([bbox[0], bbox[1]], zoom),
-    w = parseInt((topRight[0] - bottomLeft[0]) * scale),
-    h = parseInt((bottomLeft[1] - topRight[1]) * scale),
+  var ne = sm.px([bbox[2], bbox[3]], zoom),
+    sw = sm.px([bbox[0], bbox[1]], zoom),
+    w = parseInt((ne[0] - sw[0]) * scale),
+    h = parseInt((sw[1] - ne[1]) * scale),
     percentage = ( w > h ) ? Math.ceil((w / limit) * 100) : Math.ceil((h / limit) * 100);
 
   if (w > limit) {
@@ -432,7 +442,7 @@ Printer.prototype.refresh = function(ev) {
     map.on('zoomend', function() { 
       var zoom = map.getZoom()|0;
       $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
-      if (boundingBox.isEnabled()) {
+      if (window.exporter.model.get('coordinates')) {
         window.exporter.model.get('coordinates').zoom = zoom;
         $('#zoom').html(zoom);
         calcTotal();
