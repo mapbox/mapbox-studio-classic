@@ -81,7 +81,7 @@ describe('#style-ui', function() {
     });
 
     it('creates a new tab', function() {
-        $('#tabs .js-addtab:eq(0)').click();
+        $('.js-addtab:eq(0)').click();
         assert.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('foo');
