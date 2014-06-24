@@ -1,175 +1,155 @@
+var test = require('tape');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var UPDATE = !!process.env.UPDATE;
-var tmp = require('os').tmpdir();
+var tmppath = path.join(require('os').tmpdir(), 'tm2-copytask-' + (+new Date));
+var from = 'tmsource://' + __dirname + '/fixtures-export';
+var copy = 'mbtiles://' + tmppath + '/export.mbtiles';
+var clear = 'mbtiles://' + tmppath + '/cancel.mbtiles';
 
-describe('copytask', function() {
-    this.timeout(20e3);
-    var tmppath = path.join(tmp, 'tm2-test-' + +new Date);
-    var from = 'tmsource://' + __dirname + '/fixtures-export';
-    var to = 'mbtiles://' + tmppath + '/export.mbtiles';
+test('setup: config', function(t) {
+    tm.config({
+        db: path.join(tmppath, 'app.db'),
+        tmp: tmppath,
+        cache: path.join(tmppath, 'cache')
+    }, t.end);
+});
 
-    before(function(done) {
-        tm.config({
-            db: path.join(tmppath, 'app.db'),
-            tmp: tmppath,
-            cache: path.join(tmppath, 'cache')
-        }, done);
+test('copytask: start', function(t) {
+    tm.copytask(from, copy, function(err, job) {
+        t.ifError(err);
+        t.equal(from, job.id);
+        t.equal(null, job.file);
+        t.equal(null, job.stat);
+        t.ok(!!job.task);
+        t.ok(!!job.stats);
+        t.end();
     });
+});
 
-    before(function(done) {
-        tm.copytask(from, to, function(err, job) {
-            assert.ifError(err);
-            assert.equal(from, job.id);
-            assert.equal(null, job.file);
-            assert.equal(null, job.stat);
-            assert.ok(!!job.task);
-            assert.ok(!!job.stats);
-            done();
-        });
+test('copytask: blocks new jobs', function(t) {
+    tm.copytask('tmsource:///somewhere/else.tm2', copy, function(err, job) {
+        t.equal('Active task already in progress', err.message);
+        t.end();
     });
+});
 
-    after(function(done) {
-        var MBTiles = require('mbtiles');
-        new MBTiles(to, function(err, src) {
-            assert.ifError(err);
-            function check(queue) {
-                if (!queue.length) return src.getInfo(function(err, info) {
-                    assert.ifError(err);
-                    if (UPDATE) {
-                        fs.writeFileSync(__dirname + '/expected/copytask-info.json', JSON.stringify(info, null, 2));
-                    }
-                    assert.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/copytask-info.json')), info);
-                    done();
+test('copytask: retrieves active job', function(t) {
+    tm.copytask(null, null, function(err, job) {
+        t.ifError(err);
+        t.equal(from, job.id);
+        t.equal(null, job.file);
+        t.equal(null, job.stat);
+        t.ok(!!job.task);
+        t.ok(!!job.stats);
+        t.end();
+    });
+});
+
+test('copytask: retrieves finished state', function(t) {
+    tm.copytask(from, copy, function(err, job) {
+        t.ifError(err);
+        job.task.on('finished', function() {
+            t.ifError(err);
+            setTimeout(function() {
+                tm.copytask(from, copy, function(err, job) {
+                    t.ifError(err);
+                    t.equal(from, job.id);
+                    t.ok(!!job.file);
+                    t.ok(!!job.stat);
+                    t.equal(null, job.task);
+                    t.equal(null, job.stats);
+                    t.end();
                 });
-                var zxy = queue.shift();
-                src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
-                    assert.ifError(err);
-                    assert.ok(!!buffer);
-                    check(queue);
-                });
-            }
-            check([
-                [0,0,0],
-                [1,0,0],
-                [1,1,0],
-                [2,0,1],
-                [2,2,1]
-            ]);
-        });
-    });
-
-    after(function(done) {
-        try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-        try { fs.unlinkSync(path.join(tmppath, 'export.mbtiles')); } catch(err) {}
-        try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-        try { fs.rmdirSync(tmppath); } catch(err) {}
-        done();
-    });
-
-    it('blocks new jobs', function(done) {
-        tm.copytask('tmsource:///somewhere/else.tm2', to, function(err, job) {
-            assert.equal('Active task already in progress', err.message);
-            done();
-        });
-    });
-    it('retrieves active job', function(done) {
-        tm.copytask(null, null, function(err, job) {
-            assert.ifError(err);
-            assert.equal(from, job.id);
-            assert.equal(null, job.file);
-            assert.equal(null, job.stat);
-            assert.ok(!!job.task);
-            assert.ok(!!job.stats);
-            done();
-        });
-    });
-    it('retrieves finished state', function(done) {
-        tm.copytask(from, to, function(err, job) {
-            assert.ifError(err);
-            job.task.on('finished', function() {
-                assert.ifError(err);
-                setTimeout(function() {
-                    tm.copytask(from, to, function(err, job) {
-                        assert.ifError(err);
-                        assert.equal(from, job.id);
-                        assert.ok(!!job.file);
-                        assert.ok(!!job.stat);
-                        assert.equal(null, job.task);
-                        assert.equal(null, job.stats);
-                        done();
-                    });
-                }, 2e3);
-            });
-        });
-    });
-    it('no active state', function(done) {
-        tm.copytask(from, to, function(err, job) {
-            assert.ifError(err);
-            assert.ok(!!job);
-            done();
+            }, 2e3);
         });
     });
 });
 
-describe('cleartask', function() {
-    this.timeout(20e3);
-    var tmppath = path.join(tmp, 'tm2-test-' + +new Date);
-    var from = 'tmsource://' + __dirname + '/fixtures-export';
-    var to = 'mbtiles://' + tmppath + '/cancel.mbtiles';
-
-    before(function(done) {
-        tm.config({
-            db: path.join(tmppath, 'app.db'),
-            cache: path.join(tmppath, 'cache')
-        }, done);
+test('copytask: no active state', function(t) {
+    tm.copytask(from, copy, function(err, job) {
+        t.ifError(err);
+        t.ok(!!job);
+        t.end();
     });
+});
 
-    before(function(done) {
-        tm.copytask(from, to, function(err, job) {
-            assert.ifError(err);
-            assert.equal(from, job.id);
-            assert.equal(null, job.file);
-            assert.equal(null, job.stat);
-            assert.ok(!!job.task);
-            assert.ok(!!job.stats);
-            done();
-        });
+test('copytask: end', function(t) {
+    var MBTiles = require('mbtiles');
+    new MBTiles(copy, function(err, src) {
+        t.ifError(err);
+        function check(queue) {
+            if (!queue.length) return src.getInfo(function(err, info) {
+                t.ifError(err);
+                if (UPDATE) {
+                    fs.writeFileSync(__dirname + '/expected/copytask-info.json', JSON.stringify(info, null, 2));
+                }
+                t.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/copytask-info.json')), info);
+                t.end();
+            });
+            var zxy = queue.shift();
+            src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
+                t.ifError(err);
+                t.ok(!!buffer);
+                check(queue);
+            });
+        }
+        check([
+            [0,0,0],
+            [1,0,0],
+            [1,1,0],
+            [2,0,1],
+            [2,2,1]
+        ]);
     });
+});
 
-    after(function(done) {
-        try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-        try { fs.unlinkSync(path.join(tmppath, 'cancel.mbtiles')); } catch(err) {}
-        try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-        try { fs.rmdirSync(tmppath); } catch(err) {}
-        done();
+test('cleartask: start', function(t) {
+    tm.copytask(from, clear, function(err, job) {
+        t.ifError(err);
+        t.equal(from, job.id);
+        t.equal(null, job.file);
+        t.equal(null, job.stat);
+        t.ok(!!job.task);
+        t.ok(!!job.stats);
+        t.end();
     });
+});
 
-    it('cancels active job', function(done) {
-        tm.copytask(null, null, function(err, job) {
-            assert.ifError(err);
-            assert.equal(from, job.id);
-            assert.equal(null, job.file);
-            assert.equal(null, job.stat);
-            assert.ok(!!job.task);
-            assert.ok(!!job.stats);
-            job.task.on('started', function() {
-                tm.cleartask(function(err) {
-                    assert.ifError(err);
-                    assert.ok(!tm._copy);
-                    done();
-                });
+test('cancels active job', function(t) {
+    tm.copytask(null, null, function(err, job) {
+        t.ifError(err);
+        t.equal(from, job.id);
+        t.equal(null, job.file);
+        t.equal(null, job.stat);
+        t.ok(!!job.task);
+        t.ok(!!job.stats);
+        job.task.on('started', function() {
+            tm.cleartask(function(err) {
+                t.ifError(err);
+                t.ok(!tm._copy);
+                t.end();
             });
         });
     });
+});
 
-    it('no-op with no active job', function(done) {
-        tm.cleartask(function(err) {
-            assert.ifError(err);
-            assert.ok(!tm._copy);
-            done();
-        });
+test('no-op with no active job', function(t) {
+    tm.cleartask(function(err) {
+        t.ifError(err);
+        t.ok(!tm._copy);
+        t.end();
     });
 });
+
+test('cleanup', function(t) {
+    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'export.mbtiles')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'cancel.mbtiles')); } catch(err) {}
+    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
+    try { fs.rmdirSync(tmppath); } catch(err) {}
+    t.end();
+});
+
