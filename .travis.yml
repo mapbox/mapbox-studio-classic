@@ -12,7 +12,6 @@ before_install:
  - psql -c "CREATE EXTENSION postgis" template_postgis
 
 before_script:
- - npm install mocha
  - npm ls
 
 script:
