@@ -13,6 +13,7 @@ install:
   - npm --version
   - npm install
   - npm test
+  - node test/test-client.js
 
 build: OFF
 test: OFF

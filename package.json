@@ -47,6 +47,6 @@
   },
   "scripts": {
     "start": "./index.js",
-    "test": "tape test/*.js"
+    "test": "tape test/*.test.js"
   }
 }
