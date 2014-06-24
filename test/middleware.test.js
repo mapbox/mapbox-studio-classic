@@ -92,7 +92,7 @@ test('writeStyle: makes tmp styles', function(t) {
             delete defaultInfo.mtime;
 
             t.deepEqual(req.style.data, defaultInfo, 'mimics default style');
-            t.end(); 
+            t.end();
         });
     });
 });
@@ -149,6 +149,20 @@ test('loadStyle: loads a tmp style with source', function(t) {
         t.ifError(err);
         t.deepEqual({
             'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
+        }, req.style.data.styles, 'creates default styles');
+        t.equal(sourceId, req.style.data.source, 'sets source from input param');
+        t.ok(tm.tmpid(req.style.data.id));
+        t.end();
+    });
+});
+
+test('loadStyle: loads a tmp style with a raster source', function(t) {
+    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localraster'));
+    var req = { body: {}, query: { source:sourceId } };
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
+        t.deepEqual({
+            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#_image {\n  raster-opacity: 1;\n}\n\n'
         }, req.style.data.styles, 'creates default styles');
         t.equal(sourceId, req.style.data.source, 'sets source from input param');
         t.ok(tm.tmpid(req.style.data.id));
@@ -359,4 +373,3 @@ test('cleanup', function(t) {
         t.end();
     });
 });
-
