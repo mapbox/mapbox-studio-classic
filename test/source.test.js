@@ -217,17 +217,18 @@ test('local: saves source to disk', function(t) {
         // the c: drivename which leads to use of double quotes in yaml.
         // Normalize all this nonsense before following through with basepath
         // replacement for fixture comparison + creation.
-        var ymldirname = require('js-yaml').dump(__dirname).trim().replace(/"/g,'');
+        var yaml = require('js-yaml');
+        var ymldirname = yaml.dump(__dirname).trim().replace(/"/g,'');
 
-        var datayml = fs.readFileSync(tmpPerm + '/data.yml', 'utf8').replace(ymldirname,'[basepath]');
-        var dataxml = fs.readFileSync(tmpPerm + '/data.xml', 'utf8').replace(__dirname,'[basepath]');
+        var datayml = fs.readFileSync(tmpPerm + '/data.yml', 'utf8').replace(ymldirname,'BASEPATH');
+        var dataxml = fs.readFileSync(tmpPerm + '/data.xml', 'utf8').replace(__dirname,'BASEPATH');
 
         if (UPDATE) {
             fs.writeFileSync(__dirname + '/expected/source-save-data.yml', datayml);
             fs.writeFileSync(__dirname + '/expected/source-save-data.xml', dataxml);
         }
 
-        t.equal(datayml, fs.readFileSync(__dirname + '/expected/source-save-data.yml', 'utf8'));
+        t.deepEqual(yaml.load(datayml), yaml.load(fs.readFileSync(__dirname + '/expected/source-save-data.yml', 'utf8')));
         t.equal(dataxml, fs.readFileSync(__dirname + '/expected/source-save-data.xml', 'utf8'));
 
         // This setTimeout is here because thumbnail generation on save
