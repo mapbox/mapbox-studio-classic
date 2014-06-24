@@ -286,50 +286,15 @@
       --><a title='Data layers' class='pad1 inline quiet layers-n icon point-line align-middle keyline-right' href='#layers'></a><!--
       --><a title='Data layers' class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken2 keyline-right' href='#'></a>
     </div>
-    <nav id='tabs' class='keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'>
-      <a rel='template' href='#code-template' class='pin-topleft template-tab pad0 round tab js-tab quiet icon tooltip'></a>
-      <div class='center carto-tabs'><!--
+    <nav id='tabs' class='carto-tabs keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='center strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
-      --></div>
-      <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
-    </nav>
+    --></nav>
+    <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
   </div>
 
-  <form id='interactivity' class='hidden top1 contain'>
-    <div class='fill-white row1 pad1 keyline-bottom pin-top'>
-      <a href='#interaction-info' class='pin-right pad1 js-info inline icon info quiet'></a>
-      <div id='interaction-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
-        <p>Select a layer from the dropdown, and then place an attribute in brackets like <code>{{{attribute}}}</code>. You can combine tags with plain text. For example, <code>{{{featuretype}}} is {{{depth}}} meters deep</code> would result in a popup that read: "lake is 300 meters deep" when hovering over a feature with <span class='quiet'>featuretype:lake</span> and <span class='quiet'>depth:300.</span></p>
-      </div>
-
-      <label class='small strong'>Interaction layer</label>
-      <select name='interactivity_layer' class='js-layer-options'>
-        <option value=''>Choose:</option>
-        <% _(sources).each(function(source) { %>
-          <% _(source.vector_layers||{}).each(function(l) { %>
-            <option value='<%=l.id%>' <% if (style.interactivity_layer === l.id) { %>selected='selected'<% } %>><%=l.id%></option>
-          <% }); %>
-        <% }); %>
-      </select>
-    </div>
-    <div class='fill-grey pad1 keyline-top fixed-bottomright col6 row4 z10 small'>
-      <div class='space-bottom1'>
-        <label class='small'>Available properties:</label>
-      </div>
-
-      <div class='pad1 round fill-light content scroll-styled space-bottom1'>
-        <% _(sources).each(function(source) { %>
-          <% _(source.vector_layers||{}).each(function(l) { %>
-          <pre rel='<%= l.id %>' class='small space js-layer-option <% if (style.interactivity_layer !== l.id) { %>hidden<% } %>'><% _(l.fields||{}).each(function(desc, name) { %><span>{{{<%= name %>}}}</span><% }); %></pre>
-          <% }); %>
-        <% }); %>
-        <%= this.emptystate({message:'Select an interaction layer to see available properties.'}) %>
-      </div>
-      <p class='quiet'><a target='_blank' href='http://mustache.github.io/'>Mustache</a> tags are replaced by your data. You can also use the full <a target='_blank' href='http://mustache.github.io/mustache.5.html'>Mustache template language</a> to customize tooltips.</p>
-    </div>
-  </form>
+  <div id='stylesheets'></div>
   </div>
   <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
     <h3>Editing + saving</h3>

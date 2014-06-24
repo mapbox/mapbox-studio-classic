@@ -4,7 +4,6 @@ var map;
 var tiles;
 var grids;
 var gridc;
-var templateEditor;
 var boundingBox;
 var mtime = (+new Date).toString(36);
 var limit = 20000;
@@ -378,23 +377,6 @@ Printer.prototype.refresh = function(ev) {
   .addOneTimeEventListener('load', this.bboxEnable.bind(this))
   .on('load', errorHandler);
   tiles.addTo(map);
-
-  // Refresh gridcontrol template.
-  if (grids) map.removeLayer(grids);
-  if (gridc) map.removeControl(gridc);
-  if (this.model.get('template') && this.model.get('interactivity_layer')) {
-    grids = L.mapbox.gridLayer({
-      grids: ['/style/{z}/{x}/{y}.grid.json?id=' + this.model.id + '&' + mtime ],
-      minzoom: this.model.get('minzoom'),
-      maxzoom: 22
-    });
-    gridc = L.mapbox.gridControl(grids, {
-      follow: true,
-      template: this.model.get('template')
-    });
-    map.addLayer(grids);
-    map.addControl(gridc);
-  }
 
   // Refresh map title.tm.db.rm('user');
   $('title').text(this.model.get('name'));
