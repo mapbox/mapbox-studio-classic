@@ -272,6 +272,7 @@ Printer.prototype.calculateTotal = function(ev) {
     if (ev && ev.target.name === 'resolution') {
       $('#pixelX').prop('value', w + ' px');
       $('#pixelY').prop('value', h + ' px');
+      this.model.get('coordinates').dimensions = [w, h];
     }
     this.imageSizeStats();
     return;
