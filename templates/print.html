@@ -108,7 +108,7 @@
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
    <a href='#' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet '>reset bounds to view</a>
-  <a href='#' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>recenter</a>
+  <a href='#' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>center bounds</a>
   <div class='demo-popup col4 pin-bottomleft pad2 bottom2 fill-blue dark'>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
@@ -133,6 +133,10 @@
   <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
     <div class='pad1y'>
       <fieldset class='attributes keyline-all pad1'>
+        <div class='col12 space-bottom1'>
+          <span class='col4'>Zoom level</span>
+          <span id='zoom' class='code'><%=style.center[2]%></span>
+        </div>
         <section class='space-bottom1'>
           <label class='col4 inline'>Dimensions</label>
           <br>
@@ -154,10 +158,6 @@
           </div>
         </span>
         </section>
-        <div class='col12 space-bottom1'>
-          <span class='col4'>Zoom level</span>
-          <span id='zoom' class='code'><%=style.center[2]%></span>
-        </div>
         <section class='space-bottom1'>
           <label class='inline'>Bounds</label>
           <span class='small quiet code inline'>[W, S, E, N]</span>
