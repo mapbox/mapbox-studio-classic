@@ -746,12 +746,8 @@ a.data-y { display:none; }
 #full:target      a.full-n { display:none; }
 
 /* Map layer state */
-.base-toggle a.baselayer-y,
-.base-toggle.active a.baselayer-n,
 .xray-toggle a.xray-y,
 .xray-toggle.active a.xray-n { display:none; }
-.base-toggle a.baselayer-n,
-.base-toggle.active a.baselayer-y,
 .xray-toggle a.xray-n,
 .xray-toggle.active a.xray-y { display:inline-block; }
 

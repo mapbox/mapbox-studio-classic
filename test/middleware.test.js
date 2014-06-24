@@ -70,7 +70,7 @@ describe('middleware', function() {
                 var styleInfo = req.history.style[styleId];
                 assert.equal('Test source', sourceInfo.name, 'source info was loaded');
                 assert.equal('Test style', styleInfo.name, 'style info was loaded');
-                done();    
+                done();
             });
         });
         it('removes dead source/styles', function(done) {
@@ -126,9 +126,9 @@ describe('middleware', function() {
                     delete req.style.data.background;
                     delete defaultInfo.id;
                     delete defaultInfo.mtime;
-                    
+
                     assert.deepEqual(req.style.data, defaultInfo, 'mimics default style');
-                    done(); 
+                    done();
                 });
             });
         });
@@ -155,7 +155,7 @@ describe('middleware', function() {
         //     done();
         // });
     });
-    
+
     describe('loadStyle', function() {
         before(function(done) {
             tm.db.set('oauth', {
@@ -280,7 +280,7 @@ describe('middleware', function() {
             });
         });
     });
-    
+
     describe('loadSource', function() {
         it('loads a tmp source', function(done) {
             var writeReq = { body: {} };
@@ -329,34 +329,6 @@ describe('middleware', function() {
             });
             middleware.auth({}, {}, function(err) {
                 assert(!err);
-                done();
-            });
-        });
-    });
-
-    describe('basemap', function() {
-        var server;
-        before(function(done) {
-            tm.db.set('oauth', {
-                account: 'test',
-                accesstoken: '12345678'
-            });
-            server = mockOauth.listen(3001, done);
-        });
-        after(function(done) {
-            server.close(done);
-        });
-        it('appends a basemap to req', function(done) {
-            var req = {};
-            middleware.basemap(req, {}, function(err) {
-                assert(req.basemap);
-                done();
-            });
-        });
-        it('error when unauthenticated', function(done) {
-            tm.db.rm('oauth');
-            middleware.basemap({}, {}, function(err) {
-                assert(err);
                 done();
             });
         });

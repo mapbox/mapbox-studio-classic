@@ -1,7 +1,6 @@
 window.Print = function(templates, cwd, style) {
 
 var map;
-var baselayer;
 var tiles;
 var grids;
 var gridc;
@@ -342,7 +341,7 @@ Printer.prototype.refresh = function(ev) {
     boundingBox.on('change', this.calculateCoordinates.bind(this));
 
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { 
+    map.on('zoomend', function() {
       var zoom = map.getZoom()|0;
       $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
       if (boundingBox.isEnabled()) {
@@ -364,14 +363,6 @@ Printer.prototype.refresh = function(ev) {
   }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
-
-  // Refresh map baselayer.
-  if (baselayer) map.removeLayer(baselayer);
-  baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && window.location.hash === '#baselayer') {
-    $('.base-toggle').addClass('active');
-    baselayer.addTo(map);
-  }
 
   // Refresh map layer.
   if (exporter.model.get('_prefs').print) var scale = '@4x';
@@ -433,8 +424,6 @@ window.onhashchange = function(ev) {
     setTimeout(map.invalidateSize, 200);
     break;
   case 'home':
-  case 'baselayer':
-    window.exporter.refresh();
     break;
   }
 };

@@ -373,6 +373,10 @@ views.Maputils.prototype.focusBookmark = function(ev) {
   return;
 };
 views.Maputils.prototype.search = function(ev) {
+
+  // get access token here
+  'http://api.tiles.mapbox.com/v3/mapbox.mapbox-places-v1/geocode/{query}.json'
+
   ev.preventDefault();
   var query = $('#search input').get(0).value;
   // This query is empty or only whitespace.
