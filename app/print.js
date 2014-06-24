@@ -234,7 +234,7 @@ Printer.prototype.calculateCoordinates = function(ev) {
   this.calculateTotal();
 };
 
-Printer.prototype.calculateTotal = function() {
+Printer.prototype.calculateTotal = function(ev) {
   // Calculate bounding box dimensions in pixel and inch values and update field values.
   if (!boundingBox.isEnabled()) return;
   var scale = $('input[name=resolution]:checked').prop('value'),
@@ -269,6 +269,10 @@ Printer.prototype.calculateTotal = function() {
 
   // if the dimensions are locked, don't update dimension values.
   if (this.model.get('coordinates').locked) {
+    if (ev && ev.target.name === 'resolution') {
+      $('#pixelX').prop('value', w + ' px');
+      $('#pixelY').prop('value', h + ' px');
+    }
     this.imageSizeStats();
     return;
   }
