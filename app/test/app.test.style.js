@@ -115,7 +115,7 @@ describe('#style-ui', function() {
         $('#addtab-filename').val('baz');
         $('#addtab').submit();
 
-        $('#tabs .js-addtab:eq(0)').click();
+        $('.js-addtab:eq(0)').click();
         assert.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('baz');
