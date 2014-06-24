@@ -6,7 +6,6 @@ var tiles;
 var xray;
 var grids;
 var gridc;
-var templateEditor;
 var mtime = (+new Date).toString(36);
 
 statHandler('drawtime')();
@@ -31,8 +30,7 @@ CodeMirror.keyMap.tabSpace = {
 
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
-    document.getElementById('code')
-      .insertBefore(cm, document.getElementById('interactivity'));
+    document.getElementById('stylesheets').appendChild(cm);
   }, {
     value: value,
     lineNumbers: true,
@@ -69,7 +67,6 @@ var Tab = function(id, value) {
     Editor.changed = true;
   }
 
-  if (id === 'template') templateEditor = tab;
   tab.on('keydown', completer.onKeyEvent);
   tab.on('change', changed);
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
@@ -80,9 +77,6 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   memo[k] = Tab(k, value);
   return memo;
 }, {});
-
-// Add in interactivity template.
-code.template = Tab('template', style.template);
 
 _(code).toArray().shift().getWrapperElement().className += ' active';
 
@@ -108,11 +102,9 @@ Editor.prototype.events = {
   'click #history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
-  'click .js-info': 'toggleInfo',
   'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
   'click .js-baselayer': 'toggleBaselayer',
-  'change .js-layer-options': 'populateInteractiveVals',
   'keydown': 'keys'
 };
 
@@ -191,17 +183,6 @@ Editor.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 };
-Editor.prototype.toggleInfo = function(ev) {
-  var $el = $(ev.currentTarget);
-  if ($el.is('.fill-darken2')) {
-    $el.removeClass('fill-darken2 dark').addClass('quiet');
-    $($el.attr('href')).addClass('hidden');
-  } else {
-    $el.addClass('fill-darken2 dark').removeClass('quiet');
-    $($el.attr('href')).removeClass('hidden');
-  }
-  return false;
-};
 Editor.prototype.expandall = function(ev) {
   button = $(ev.currentTarget);
 
@@ -213,13 +194,6 @@ Editor.prototype.expandall = function(ev) {
     button.addClass('expanded');
   }
   return false;
-};
-Editor.prototype.populateInteractiveVals = function(ev) {
-  var layerName = $(ev.currentTarget).val();
-  $('.js-layer-option[rel=' + layerName + ']')
-    .removeClass('hidden')
-    .siblings('.js-layer-option')
-    .addClass('hidden');
 };
 Editor.prototype.messageclear = function() {
   messageClear();
@@ -284,7 +258,7 @@ Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
   var filename = field.val().replace(/.mss/,'') + '.mss';
   if (!code[filename]) {
-    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright round pad1'></span></a><!--");
+    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='center strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
     Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
@@ -343,20 +317,14 @@ Editor.prototype.save = function(ev, options) {
     }
     return memo;
   }, attr);
-  // Grab interactivity form values.
-  _($('#interactivity').serializeArray()).reduce(function(memo, field) {
-    memo[field.name] = field.value;
-    return memo;
-  }, attr);
   // Grab styles, sources.
   attr.styles = _(code).reduce(function(memo, cm, k) {
-    if (k !== 'template') memo[k] = cm.getValue();
+    memo[k] = cm.getValue();
     return memo;
   }, {});
   attr.source = $('#layers .js-source').map(function() {
     return $(this).attr('id').split('source-').pop();
   }).get().shift();
-  attr.template = code.template ? code.template.getValue() : '';
 
   if (this.model.get('_prefs').saveCenter) {
     var lon = map.getCenter().lng % 360;

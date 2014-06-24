@@ -3,64 +3,44 @@
 #source-ui,
 #print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
-/* Interactivity form */
-#interactivity .content     { max-height:80px; }
-#interactivity .content pre { padding:0; }
-#code-template.active ~ #interactivity  { display:block; }
-
-pre ~ .empty-state { display: block;}
-pre:not(.hidden) ~ .empty-state { display: none;}
-
 /* Editor tabs */
-#tabs {
-  padding-left: 115px;
+.carto-tabs {
+  padding-left: 90px;
   padding-right: 60px;
 }
-#tabs .template-tab {
-  left: 85px;
-  top: 5px;
-}
-#tabs .carto-tabs a.tab {
+
+.carto-tabs a.tab {
   height: 30px;
   display: inline-block;
   vertical-align: top;
+  width: 25%;
 }
 
-#tabs a.tab:hover { color: rgba(0,0,0,.75));}
-#tabs a.tab.active { background:white;}
+.carto-tabs a.tab:hover { color: rgba(0,0,0,.75));}
+.carto-tabs a.tab.active { background:white;}
 
-#tabs .addtab { right:30px;}
+.addtab { right:30px;}
 
-#tabs a.tab .trash {display:none;}
-#tabs a.tab.active .trash { display:block;}
-#tabs a.tab .trash:hover:before { opacity:1; }
+.carto-tabs a.tab .trash {display:none;}
+.carto-tabs a.tab.active .trash { display:block;}
+.carto-tabs a.tab .trash:hover:before { opacity:1; }
 
-#tabs .carto-tabs a.tab:first-child:nth-last-child(1) { width:100%; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(2),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(2) ~ a.tab  { width:50.00%; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(3),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(3) ~ a.tab  { width:33.33%; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(4),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(4) ~ a.tab  { width:25.00%; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(5),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(5) ~ a.tab  { width:20.00%; padding-left: 3px; padding-right: 3px; font-size:10px; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(6),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(6) ~ a.tab  { width:16.66%; padding-left: 3px; padding-right: 3px; font-size:10px;}
-#tabs .carto-tabs a.tab:first-child:nth-last-child(7),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(7) ~ a.tab  { width:14.28%; padding-left: 3px; padding-right: 3px; font-size:10px; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(8),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(8) ~ a.tab  { width:12.50%; padding-left: 3px; padding-right: 3px; font-size:10px; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(9),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(9) ~ a.tab  { width:11.11%; padding-left: 3px; padding-right: 3px; ont-size:10px; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(10),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(10) ~ a.tab { width:10.00%; padding-left: 3px; padding-right: 3px; font-size:10px; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(11),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(11) ~ a.tab { width:9.09%; padding-left: 3px; padding-right: 3px; font-size:10px; }
-#tabs .carto-tabs a.tab:first-child:nth-last-child(12),
-#tabs .carto-tabs a.tab:first-child:nth-last-child(12) ~ a.tab { width:8.33%; padding-left: 3px; padding-right: 3px; font-size:10px; }
-
-/* CodeMirror */
-.CodeMirror#code-template { top:80px; bottom:160px; }
+.carto-tabs a.tab:first-child:nth-last-child(5),
+.carto-tabs a.tab:first-child:nth-last-child(5) ~ a.tab  { width:20.00%; padding-left: 3px; padding-right: 3px; font-size:10px; }
+.carto-tabs a.tab:first-child:nth-last-child(6),
+.carto-tabs a.tab:first-child:nth-last-child(6) ~ a.tab  { width:16.66%; padding-left: 3px; padding-right: 3px; font-size:10px;}
+.carto-tabs a.tab:first-child:nth-last-child(7),
+.carto-tabs a.tab:first-child:nth-last-child(7) ~ a.tab  { width:14.28%; padding-left: 3px; padding-right: 3px; font-size:10px; }
+.carto-tabs a.tab:first-child:nth-last-child(8),
+.carto-tabs a.tab:first-child:nth-last-child(8) ~ a.tab  { width:12.50%; padding-left: 3px; padding-right: 3px; font-size:10px; }
+.carto-tabs a.tab:first-child:nth-last-child(9),
+.carto-tabs a.tab:first-child:nth-last-child(9) ~ a.tab  { width:11.11%; padding-left: 3px; padding-right: 3px; ont-size:10px; }
+.carto-tabs a.tab:first-child:nth-last-child(10),
+.carto-tabs a.tab:first-child:nth-last-child(10) ~ a.tab { width:10.00%; padding-left: 3px; padding-right: 3px; font-size:10px; }
+.carto-tabs a.tab:first-child:nth-last-child(11),
+.carto-tabs a.tab:first-child:nth-last-child(11) ~ a.tab { width:9.09%; padding-left: 3px; padding-right: 3px; font-size:10px; }
+.carto-tabs a.tab:first-child:nth-last-child(12),
+.carto-tabs a.tab:first-child:nth-last-child(12) ~ a.tab { width:8.33%; padding-left: 3px; padding-right: 3px; font-size:10px; }
 
 /* Search */
 .search-dialog { z-index: 11; }

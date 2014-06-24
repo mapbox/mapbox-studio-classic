@@ -189,7 +189,7 @@ views.Browser.prototype.submit = function(ev) {
   }, {});
   if (!values.basename) return false;
   if (!this.callback) return false;
-  this.callback(null, values.basename[0] === '/' ?
+  this.callback(null, (values.basename[0] === '/' || values.basename[1] === ':') ?
     values.basename :
     values.cwd + '/' + values.basename);
   return false;
