@@ -166,12 +166,23 @@ Printer.prototype.bboxReselect = function(){
 
 Printer.prototype.bboxRecenter = function(){
   if (!boundingBox._enabled) return;
-  var bounds = window.exporter.model.get('coordinates').bbox;
-    center = map.getCenter(),
-    h = bounds[3] - bounds[1],
-    w = bounds[0] - bounds[2];
-  bounds = [center.lng - (w/2), center.lat - (h/2), center.lng + (w/2), center.lat + (h/2)];
-  boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2])));
+  var coordinates = window.exporter.model.get('coordinates');
+  var center = map.getCenter(),
+    zoom = map.getZoom(),
+    scale = coordinates.scale;
+
+  if (coordinates.locked) {
+    center = sm.px([center.lng, center.lat], zoom);
+    var w = coordinates.dimensions[0],
+      h = coordinates.dimensions[1],
+      ne = sm.ll([center[0] + (w/scale)/2, center[1] - (h/scale)/2], zoom),
+      sw = sm.ll([center[0] - (w/scale)/2, center[1] + (h/scale)/2], zoom);
+    boundingBox.setBounds(L.latLngBounds(L.latLng(ne[1], ne[0]), L.latLng(sw[1], sw[0])));
+  } else {
+    var w = coordinates.bbox[3] - coordinates.bbox[1],
+      h = coordinates.bbox[0] - coordinates.bbox[2];
+    boundingBox.setBounds(L.latLngBounds(L.latLng(center.lat - (w/2), center.lng - (h/2)), L.latLng(center.lat + (w/2), center.lng + (h/2))));
+  }
 };
 
 Printer.prototype.calculateBounds = function(){
