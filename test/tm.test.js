@@ -4,7 +4,7 @@ var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var dirty = require('dirty');
-var tmppath = path.join(require('os').tmpdir(), 'tm2-test-' + +new Date);
+var tmppath = path.join(require('os').tmpdir(), 'tm2-lib-' + +new Date);
 
 test('setup: config', function(t) {
     tm.config({
