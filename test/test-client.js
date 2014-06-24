@@ -8,7 +8,7 @@ var styleId = 'tmstyle://'+basePath+'/node_modules/tm2-default-style';
 var sourceId = 'tmsource://'+basePath+'/test/fixtures-localsource';
 var testPath = path.resolve(path.join(__dirname, '..'));
 var tmpdb = path.join(require('os').tmpdir(), 'tm2-test-' + (+new Date) + '.db');
-var exec = require('child_process').exec;
+var fork = require('child_process').fork;
 
 // Make a working copy of the test database that is excluded in .gitignore
 fs.writeFileSync(tmpdb, fs.readFileSync(path.join(__dirname, 'fixtures-oauth', 'test.db')));
@@ -23,15 +23,13 @@ process.argv.push('--mapboxtile=http://localhost:3001/v4');
 require('../index.js');
 
 setTimeout(function() {
+    var mochabin = path.resolve(path.join(__dirname, '..', 'node_modules', 'mocha-phantomjs', 'bin', 'mocha-phantomjs'));
+    var phantombin = require('phantomjs').path;
     var exit = 0;
-    exec('./node_modules/.bin/mocha-phantomjs "http://localhost:3001/style?id='+styleId+'&test=true"', function(err, stdout, stderr) {
-        if (err) exit = err.code;
-        console.log(stdout);
-        console.warn(stderr);
-
+    var child = fork('./node_modules/.bin/mocha-phantomjs', ['http://localhost:3001/style?id='+styleId+'&test=true', '--path='+phantombin]);
+    child.on('exit', function(code) {
         fs.unlinkSync(tmpdb);
-
-        process.exit(exit);
+        process.exit(code);
     });
 }, 1000);
 
