@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "tape": "2.13.x",
-    "mocha": "1.17.x",
     "mocha-phantomjs": "~3.1.5",
     "phantomjs": "~1.9.2-2"
   },
