@@ -16,4 +16,4 @@ before_script:
 
 script:
  - npm test
- - ./test/test-client.sh
+ - ./test/test-client.js
