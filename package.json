@@ -26,7 +26,7 @@
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "0.1.x",
     "tar": "0.1.x",
-    "mapnik": "~1.4.6",
+    "mapnik": "~1.4.10",
     "mapnik-reference": "~5.0.8",
     "carto": "0.11.0",
     "tilelive": "4.5.x",
@@ -41,12 +41,13 @@
     "abaculus": "0.0.4"
   },
   "devDependencies": {
+    "tape": "2.13.x",
     "mocha": "1.17.x",
     "mocha-phantomjs": "~3.1.5",
     "phantomjs": "~1.9.2-2"
   },
   "scripts": {
     "start": "./index.js",
-    "test": "mocha -R spec"
+    "test": "tape test/*.js"
   }
 }
