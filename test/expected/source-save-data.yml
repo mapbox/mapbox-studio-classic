@@ -11,7 +11,7 @@ description: ''
 Layer: 
   - id: box
     Datasource: 
-      file: [basepath]/fixtures-localsource/10m-900913-bounding-box.shp
+      file: BASEPATH/fixtures-localsource/10m-900913-bounding-box.shp
       type: shape
     description: ''
     fields: {}
