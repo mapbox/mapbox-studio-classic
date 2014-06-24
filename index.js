@@ -437,8 +437,8 @@ app.get('/source.json', middleware.source, function(req, res, next) {
     res.send(req.source.data);
 });
 
-app.get('/browse*', function(req, res, next) {
-    tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
+app.get('/browse', function(req, res, next) {
+    tm.dirfiles(req.query.path, function(err, dirfiles) {
         if (err) return next(err);
         res.send(dirfiles);
     });
