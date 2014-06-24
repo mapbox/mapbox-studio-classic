@@ -212,7 +212,14 @@ test('local: saves source to disk', function(t) {
         t.ifError(err);
         t.ok(source);
 
-        var datayml = fs.readFileSync(tmpPerm + '/data.yml', 'utf8').replace(__dirname,'[basepath]');
+        // Windows filepaths can lead to dramatically different yaml fixtures
+        // than unix paths. This is not just because of backslashes but also
+        // the c: drivename which leads to use of double quotes in yaml.
+        // Normalize all this nonsense before following through with basepath
+        // replacement for fixture comparison + creation.
+        var ymldirname = require('js-yaml').dump(__dirname).trim().replace(/"/g,'');
+
+        var datayml = fs.readFileSync(tmpPerm + '/data.yml', 'utf8').replace(ymldirname,'[basepath]');
         var dataxml = fs.readFileSync(tmpPerm + '/data.xml', 'utf8').replace(__dirname,'[basepath]');
 
         if (UPDATE) {
