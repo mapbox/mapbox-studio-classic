@@ -156,7 +156,7 @@ views.Browser.prototype.initialize = function(options, initCallback) {
 views.Browser.prototype.render = function() {
   var view = this;
   $.ajax({
-    url: '/browse/' + view.cwd,
+    url: '/browse?path=' + (view.cwd.indexOf(':') === -1 ? '/' : '') + view.cwd,
     dataType: 'json',
     success: function(resp) {
       view.$('input[name=cwd]').val(view.cwd);
