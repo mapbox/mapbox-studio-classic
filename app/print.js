@@ -30,13 +30,12 @@ Printer.prototype.events = {
   'click .js-modalsources': 'modalsources',
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
-  'click .reselect': 'bboxReselect',
   'click .recenter': 'bboxRecenter',
   'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
-  'change #bboxInput': 'modifycoordinates',
-  'change .dim': 'modifydimensions',
-  'change #centerInput': 'modifycoordinates',
+  'change #bboxInput': 'modifyCoordinates',
+  'change .dim': 'modifyDimensions',
+  'change #centerInput': 'modifyCoordinates',
   'change #lock': 'lockdimensions'
 };
 
@@ -155,12 +154,6 @@ Printer.prototype.bboxEnable = function(ev) {
 
     $('#export').removeClass('disabled');
   }
-};
-
-Printer.prototype.bboxReselect = function() {
-  if (!boundingBox._enabled) return;
-  map.zoomOut();
-  this.calculateBounds();
 };
 
 Printer.prototype.bboxRecenter = function() {
@@ -289,7 +282,7 @@ Printer.prototype.calculateTotal = function(ev) {
   this.imageSizeStats();
 };
 
-Printer.prototype.modifycoordinates = function(ev) {
+Printer.prototype.modifyCoordinates = function(ev) {
   // if the coordinates in 'bounds' or 'center' are modified,
   // compare and recalculate bounding box values.
   var bounds = $('#bboxInput').prop('value').split(',').map(parseFloat),
@@ -312,7 +305,7 @@ Printer.prototype.modifycoordinates = function(ev) {
   }
 };
 
-Printer.prototype.modifydimensions = function(ev) {
+Printer.prototype.modifyDimensions = function(ev) {
   // if pixel or inch dimensions are modified,
   // recalculate bounding box values in lat, lng for leaflet
   var pixelX = /\d+/.exec($('#pixelX').prop('value'))[0] | 0,
@@ -451,7 +444,7 @@ Printer.prototype.imageSizeStats = function() {
 
 Printer.prototype.refresh = function(ev) {
   var calcTotal = this.calculateTotal.bind(this);
-  var modifydimensions = this.modifydimensions.bind(this);
+  var modifyDimensions = this.modifyDimensions.bind(this);
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -467,7 +460,7 @@ Printer.prototype.refresh = function(ev) {
       if (window.exporter.model.get('coordinates')) {
         $('#zoom').html(zoom);
         calcTotal();
-        if (window.exporter.model.get('coordinates').locked) modifydimensions();
+        if (window.exporter.model.get('coordinates').locked) modifyDimensions();
       }
     });
     map.on('click', inspectFeature({
