@@ -486,10 +486,7 @@ Printer.prototype.refresh = function(ev) {
   }
 
   // Refresh map layer.
-  var scale;
-  if (exporter.model.get('_prefs').print) scale = '@4x';
-  else if (window.devicePixelRatio > 1) scale = '@2x';
-  else scale = '';
+  var scale = (window.devicePixelRatio > 1) ? '@2x': '';
 
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
