@@ -13,7 +13,7 @@ var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var tmp = os.tmpdir();
-var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
+var tmppath = path.join(tmp, 'tm2-middleware-' + (+new Date));
 
 var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
 var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
