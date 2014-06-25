@@ -36,7 +36,7 @@ Printer.prototype.events = {
   'change #bboxInput': 'modifyCoordinates',
   'change .dim': 'modifyDimensions',
   'change #centerInput': 'modifyCoordinates',
-  'change #lock': 'lockdimensions'
+  'change #lock': 'lockDimensions'
 };
 
 Printer.prototype.keys = function(ev) {
@@ -349,7 +349,7 @@ Printer.prototype.calculateCornersLl = function(center, bounds) {
   return L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2]));
 };
 
-Printer.prototype.lockdimensions = function (){
+Printer.prototype.lockDimensions = function (){
   var markers = ['_eastMarker', '_southMarker', '_westMarker', '_northMarker', '_neMarker', '_seMarker', '_swMarker', '_nwMarker'];
   var locked = $('input[id=lock]:checked')[0] ? true : false;
   if (locked) {
@@ -387,12 +387,12 @@ Printer.prototype.updateformat = function() {
 Printer.prototype.updateurl = function() {
   // update the link for 'download static map'
   if (!boundingBox.isEnabled()) return;
-  var coords = window.exporter.model.get('coordinates');
+  var coordinates = window.exporter.model.get('coordinates');
   var url = 'http://localhost:3000/static/' +
     map.getZoom() + '/' +
-    coords.bbox.toString() +
-    '@' + coords.scale + 'x' +
-    '.' + coords.format +
+    coordinates.bbox.toString() +
+    '@' + coordinates.scale + 'x' +
+    '.' + coordinates.format +
     '?id='+window.exporter.model.get('id');
 
   $('#export').attr('href', url);
