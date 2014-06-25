@@ -261,6 +261,11 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 
 .dark #search { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
 
+#search .search-result {
+  height: 30px;
+  padding-right: 40px;
+}
+
 #search:target {
   pointer-events:all;
   opacity:1;

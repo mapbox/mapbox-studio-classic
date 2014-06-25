@@ -409,10 +409,10 @@ views.Maputils.prototype.search = function(ev) {
     $('#dosearch').data('query', query);
 
     results.forEach(function(result, idx) {
-      var coords = result.geometry.coordinates[1] + ',' + result.geometry.coordinates[0];
+      var coords = result.center[1] + ',' + result.center[0];
       var name = result.place_name.split(',');
       $('<li class="keyline-top contain">'+
-        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle'+(!idx ? 'active fill-darken0': '')+'" data-coords="'+coords+'" data-type="'+result.type+'" data-bounds="'+(result.bbox||false)+'" data-idx="'+idx+'">'+
+        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle search-result '+(!idx ? 'active fill-darken0': '')+'" data-coords="'+coords+'" data-type="'+result.type+'" data-bounds="'+(result.bbox||false)+'" data-idx="'+idx+'">'+
         '<span><strong>' + name.shift() + '</strong>' + name +'</span>'+
         '</a>'+
         '<a href="#bookmark" class="pad0 icon marker js-search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
