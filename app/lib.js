@@ -373,10 +373,6 @@ views.Maputils.prototype.focusBookmark = function(ev) {
   return;
 };
 views.Maputils.prototype.search = function(ev) {
-
-  // get access token here
-  'http://api.tiles.mapbox.com/v3/mapbox.mapbox-places-v1/geocode/{query}.json'
-
   ev.preventDefault();
   var query = $('#search input').get(0).value;
   // This query is empty or only whitespace.
@@ -405,17 +401,19 @@ views.Maputils.prototype.search = function(ev) {
   var view = this;
 
   $.ajax('/geocode?search=' + query).done(function(data) {
-    var results = (data && data.results) ? data.results : [];
-    if (!results.length) {
+    var results = data.features;
+    if (results.length === 0) {
       $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
     }
+
     $('#dosearch').data('query', query);
+
     results.forEach(function(result, idx) {
-      var coords = result[0].lat + ',' + result[0].lon;
-      var place = _(result.slice(1)).chain().filter(function(v) { return v.type !== 'zipcode'; }).pluck('name').value().join(', ');
+      var coords = result.geometry.coordinates[1] + ',' + result.geometry.coordinates[0];
+      var name = result.place_name.split(',');
       $('<li class="keyline-top contain">'+
-        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle'+(!idx ? 'active fill-darken0': '')+'" data-coords="'+coords+'" data-type="'+result[0].type+'" data-bounds="'+(result[0].bounds||false)+'" data-idx="'+idx+'">'+
-        '<strong>'+result[0].name+'</strong><span class="small pad1x">'+place+'</span>'+
+        '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle'+(!idx ? 'active fill-darken0': '')+'" data-coords="'+coords+'" data-type="'+result.type+'" data-bounds="'+(result.bbox||false)+'" data-idx="'+idx+'">'+
+        '<span><strong>' + name.shift() + '</strong>' + name +'</span>'+
         '</a>'+
         '<a href="#bookmark" class="pad0 icon marker js-search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
         '</li>').appendTo($results);
