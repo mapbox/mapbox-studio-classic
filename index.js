@@ -89,7 +89,6 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            basemap: req.basemap,
             user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
@@ -120,7 +119,6 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            basemap: req.basemap,
             user: tm.db._docs.user,
             test: 'test' in req.query,
             agent: agent()
@@ -413,7 +411,6 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
             history: req.history,
-            basemap: req.basemap,
             user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
