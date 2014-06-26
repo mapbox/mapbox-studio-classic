@@ -1,7 +1,6 @@
 window.Print = function(templates, cwd, style) {
 
 var map;
-var baselayer;
 var tiles;
 var grids;
 var gridc;
@@ -484,14 +483,6 @@ Printer.prototype.refresh = function(ev) {
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
 
-  // Refresh map baselayer.
-  if (baselayer) map.removeLayer(baselayer);
-  baselayer =  baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-  if (baselayer && window.location.hash === '#baselayer') {
-    $('.base-toggle').addClass('active');
-    baselayer.addTo(map);
-  }
-
   // Refresh map layer.
   var scale;
   if (exporter.model.get('_prefs').print) scale = '@4x';
@@ -535,8 +526,6 @@ window.onhashchange = function(ev) {
     setTimeout(map.invalidateSize, 200);
     break;
   case 'home':
-  case 'baselayer':
-    window.exporter.refresh();
     break;
   }
 };

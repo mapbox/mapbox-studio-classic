@@ -1,7 +1,6 @@
 window.Style = function(templates, cwd, style) {
 
 var map;
-var baselayer;
 var tiles;
 var xray;
 var grids;
@@ -104,7 +103,6 @@ Editor.prototype.events = {
   'click .js-adddata': 'adddata',
   'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
-  'click .js-baselayer': 'toggleBaselayer',
   'keydown': 'keys'
 };
 
@@ -304,14 +302,6 @@ Editor.prototype.save = function(ev, options) {
   _($('#settings').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
-    } else if (field.name === 'baselayer') {
-      if (field.value) {
-        editor.model.get('_prefs').baselayer = field.value;
-        $('.js-baselayer').removeClass('hidden');
-      } else {
-        editor.model.get('_prefs').baselayer = '';
-        $('.js-baselayer').addClass('hidden');
-      }
     } else if (field.name && field.value) {
       memo[field.name] = field.value;
     }
@@ -404,23 +394,6 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
-Editor.prototype.toggleBaselayer = function(ev) {
-  var $el = $(ev.currentTarget);
-
-  baselayer = baselayer && this.model.get('_prefs').baselayer && this.model.get('_prefs').baselayer === baselayer._tilejson.id ? baselayer : this.model.get('_prefs').baselayer ? L.mapbox.tileLayer(this.model.get('_prefs').baselayer) : false;
-
-  if ($el.hasClass('active')) {
-    $el.removeClass('active');
-    map.removeLayer(baselayer);
-  } else {
-    $el.addClass('active');
-    baselayer.addTo(map).bringToBack();
-  }
-
-  return false;
-
-};
-
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
 
@@ -443,20 +416,9 @@ Editor.prototype.refresh = function(ev) {
   map.options.maxZoom = this.model.get('maxzoom');
 
   // Refresh map layer.
-  if (window.devicePixelRatio > 1) {
-    var scale = '@2x';
-    $('#resolution_retina').show();
-    $('#resolution_standard').hide();
-  }
-  else {
-    var scale = '';
-    $('#resolution_standard').show();
-    $('#resolution_retina').hide();
-  }
-
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}'+scale+'.png?id=' + this.model.id + '&' + mtime ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })

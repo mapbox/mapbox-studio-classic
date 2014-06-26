@@ -48,7 +48,6 @@ app.use('/ext', express.static(__dirname + '/ext', { maxAge:3600e3 }));
 middleware.style = [
     middleware.auth,
     middleware.exporting,
-    middleware.basemap,
     middleware.loadStyle
 ];
 
@@ -90,7 +89,6 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            basemap: req.basemap,
             user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
@@ -121,7 +119,6 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
             sources: [req.style._backend._source.data],
             style: req.style.data,
             history: req.history,
-            basemap: req.basemap,
             user: tm.db._docs.user,
             test: 'test' in req.query,
             agent: agent()
@@ -416,7 +413,6 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
             remote: url.parse(req.query.id).protocol !== 'tmsource:',
             source: req.source.data,
             history: req.history,
-            basemap: req.basemap,
             user: tm.db.get('user'),
             test: 'test' in req.query,
             agent: agent()
@@ -530,8 +526,8 @@ app.use(function(err, req, res, next) {
     }
 });
 
-app.get('/geocode', middleware.auth, middleware.basemap, function(req, res, next) {
-    var query = 'http://api.tiles.mapbox.com/v3/'+req.basemap.id+'/geocode/{query}.json';
+app.get('/geocode', middleware.userTilesets, function(req, res, next) {
+    var query = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places-v1/{query}.json?access_token=' + req.accesstoken;
     res.redirect(query.replace('{query}', req.query.search));
 });
 

@@ -261,6 +261,11 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
 
 .dark #search { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
 
+#search .search-result {
+  height: 30px;
+  padding-right: 40px;
+}
+
 #search:target {
   pointer-events:all;
   opacity:1;
@@ -746,12 +751,8 @@ a.data-y { display:none; }
 #full:target      a.full-n { display:none; }
 
 /* Map layer state */
-.base-toggle a.baselayer-y,
-.base-toggle.active a.baselayer-n,
 .xray-toggle a.xray-y,
 .xray-toggle.active a.xray-n { display:none; }
-.base-toggle a.baselayer-n,
-.base-toggle.active a.baselayer-y,
 .xray-toggle a.xray-n,
 .xray-toggle.active a.xray-y { display:inline-block; }
 
