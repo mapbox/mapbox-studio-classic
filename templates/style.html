@@ -167,7 +167,7 @@
   <div id='title' class='contain inline pin-topleft z1'>
     <span class='inline clip fill-darken3 dark pad0 row1 round-bottomright'><!--
       --><a href='#user' class='short button quiet'><img class='avatar dot' src='<%= user.avatar %>' />Projects</a><!--
-      --><strong class='unround icon paint project-name small js-name inline pad0y pad1x truncate'><%= style.name || 'Untitled' %></strong><!--
+      --><strong class='icon paint project-name small js-name inline pad0y pad1x truncate'><%= style.name || 'Untitled' %></strong><!--
       --><span class='row1 inline pill'><!--
       --><a href='#settings' class='icon sprocket short button'>Settings</a><!--
       <% if (style._tmp) { %>
@@ -268,15 +268,15 @@
 </div>
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div class='fill-darken0 pin-topleft drawer-nav keyline-bottom z1 row1 pill pad0 col4'><!--
-  --><a title='Documentation' class='button col6 short docs-n icon help' href='#docs'>Help</a><!--
-  --><a title='Documentation' class='button col6 short docs-y icon help active' href='#'>Help</a><!--
-  --><a title='Data layers' class='button short col6 layers-n icon layers' href='#layers'>Layers</a><!--
-  --><a title='Data layers' class='button short col6 layers-y icon layers active' href='#'>Layers</a>
+  <div class='pin-topleft z1'><!--
+  --><a title='Documentation' class='quiet inline pad1 keyline-right docs-n icon help' href='#docs'></a><!--
+  --><a title='Documentation' class='fill-darken2 dark inline pad1 keyline-right docs-y icon help' href='#'></a><!--
+  --><a title='Data layers' class='quiet inline pad1 keyline-right layers-n icon layers' href='#layers'></a><!--
+  --><a title='Data layers' class='fill-darken2 dark inline pad1 keyline-right layers-y icon layers' href='#'></a>
   </div>
   <div id='code' class='pin-left col12'>
   <div class='row1 fill-light pin-top'>
-    <nav id='tabs' class='fr fill-darken0 col8 keyline-bottom carto-tabs row1 contain small'><!--
+    <nav id='tabs' class='fill-darken0 keyline-bottom carto-tabs row1 contain small'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>

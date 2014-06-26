@@ -27,14 +27,10 @@ var sections = {
 %>
 
 <% _(sections).each(function(symbolizers, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
+<article id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% if (name !== 'intro') { %>
   <div class='row dark fill-dark pad1 contain keyline-bottom section-name'>
     <span><%= name %></span>
-    <a href='#' class='js-expandall quiet pin-right small pad1 expand-link'>
-      <span class='expand-off'>Expand</span>
-      <span class='hidden expand-on'>Collapse</span>
-    </a>
   </div>
   <% } %>
   <% _(symbolizers).each(function(symbolizer) { %>
@@ -42,8 +38,8 @@ var sections = {
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
-    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+  <section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
+    <a href='#reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
     <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
     </a>

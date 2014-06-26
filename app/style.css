@@ -3,21 +3,18 @@
 #source-ui,
 #print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
-#style-ui .drawer-nav a.help { border-radius: 3px 0 0 3px; }
-#style-ui .drawer-nav a.layers { border-radius: 0 3px 3px 0;}
-
 /* Editor tabs */
 
 .carto-tabs {
   padding-right: 60px;
-  padding-top: 5px;
+  padding-left: 90px;
 }
 
 .carto-tabs a.tab {
   border-top: 1px solid #d3d3d3;
   border-left: 1px solid #d3d3d3;
-  height: 35px;
-  padding-top: 7px;
+  height: 30px;
+  margin-top: 10px;
   display: inline-block;
   width: 25%;
   text-align: center;

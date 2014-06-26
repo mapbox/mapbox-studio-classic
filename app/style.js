@@ -101,7 +101,6 @@ Editor.prototype.events = {
   'click #history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
-  'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
   'keydown': 'keys'
 };
@@ -187,19 +186,6 @@ Editor.prototype.helpToggle = function(ev) {
   $(button).addClass('active');
   slidecontainer.removeClass('active1 active2 active3').addClass(tab);
 
-  return false;
-};
-
-Editor.prototype.expandall = function(ev) {
-  button = $(ev.currentTarget);
-  context = button.parents('article');
-  if ( button.hasClass('expanded') ) {
-    $('.carto-ref', context).removeClass('active');
-    button.removeClass('expanded');
-  } else {
-    $('.carto-ref', context).addClass('active');
-    button.addClass('expanded');
-  }
   return false;
 };
 
