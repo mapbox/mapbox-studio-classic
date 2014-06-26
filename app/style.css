@@ -3,21 +3,40 @@
 #source-ui,
 #print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
+#style-ui .drawer-nav a.help { border-radius: 3px 0 0 3px; }
+#style-ui .drawer-nav a.layers { border-radius: 0 3px 3px 0;}
+
 /* Editor tabs */
+
 .carto-tabs {
-  padding-left: 130px;
   padding-right: 60px;
+  padding-top: 5px;
 }
 
 .carto-tabs a.tab {
-  height: 30px;
+  border-top: 1px solid #d3d3d3;
+  border-left: 1px solid #d3d3d3;
+  height: 35px;
+  padding-top: 7px;
   display: inline-block;
-  vertical-align: top;
   width: 25%;
+  text-align: center;
 }
 
+.carto-tabs a.tab:first-child {
+  border-top-left-radius: 3px;
+}
+
+.carto-tabs a.tab:last-child {
+  border-right: 1px solid rgba(0,0,0,.1);
+  border-top-right-radius: 3px;
+}
+
+
 .carto-tabs a.tab:hover { color: rgba(0,0,0,.75));}
-.carto-tabs a.tab.active { background:white;}
+.carto-tabs a.tab.active {
+  background:#f8f8f8;
+}
 
 .addtab { right:30px;}
 

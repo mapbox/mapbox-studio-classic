@@ -9,6 +9,8 @@
   margin-left: 15px;
 }
 
+.fill-red { background-color: #ee6565;}
+
 .tip-bottom:before {
   content:'';
   display:block;
@@ -76,7 +78,6 @@ kbd {
 
 /* END Base candidates */
 
-/* Scroll styled from base isn't working right */
 .scroll-styled::-webkit-scrollbar {
   width:8px;
   height:8px;
@@ -695,11 +696,15 @@ span.cm-carto-filter             { color:#66475B; }
   left: 115px;
 }
 
-#title .avatar { width: 40px; height: 40px; }
+#title .avatar {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+}
+
 .round-bottomright { border-radius:0px 0px 3px 0px; }
 
 #docs:target > .pin-left,
-#fonts:target > .pin-left,
 #layers:target > .pin-left {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
   -webkit-transform:translateX(-100%);
@@ -731,11 +736,9 @@ a.layers-y,
 a.menu-y,
 a.full-y,
 a.docs-y,
-a.fonts-y,
 a.bookmark-y,
 a.search-y,
 a.data-y { display:none; }
-#fonts:target     ~ * a.fonts-y,
 #docs:target      ~ * a.docs-y,
 #data:target      ~ * a.layers-y,
 #layers:target    ~ * a.layers-y,
@@ -758,10 +761,23 @@ a.data-y { display:none; }
 .xray-toggle.active a.xray-y { display:inline-block; }
 
 /* Carto ref docs */
-#docs .header-nav { padding-right: 40px;}
 
-#fonts:target ~ * a.fonts-n,
+#docs .sliding {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 40px;
+  overflow: hidden;
+}
+
+#docs .sliding > * { height: 100%; }
+
 #docs:target ~ * a.docs-n { display:none; }
+
+#docs header {
+  padding-right: 40px;
+}
 
 #docs .expand-link.expanded .expand-off { display: none;}
 #docs .expand-link.expanded .expand-on { display: block;}
@@ -772,18 +788,16 @@ a.data-y { display:none; }
 #docs-raster section .type   { color: #ee8a65; } /* fill orange */
 #docs-text section .type     { color: #ee6565; } /* fill red */
 
-a[href='#docs-points'],
-#docs-points section   { border-left-color: #8a8acb; } /* fill purple */
-a[href='#docs-lines'],
-#docs-lines section    { border-left-color: #3887be; } /* fill blue */
-a[href='#docs-polygons'],
-#docs-polygons section { border-left-color: #56b881; } /* fill green */
-a[href='#docs-raster'],
-#docs-raster section     { border-left-color: #ee8a65; } /* fill orange */
-a[href='#docs-text'],
-#docs-text section     { border-left-color: #ee6565; } /* fill red */
+#docs-points .section-name   { background-color: #8a8acb; } /* fill purple */
+#docs-lines .section-name    { background-color: #3887be; } /* fill blue */
+#docs-polygons .section-name { background-color: #56b881; } /* fill green */
+#docs-raster .section-name   { background-color: #ee8a65; } /* fill orange */
+#docs-text .section-name     { background-color: #ee6565; } /* fill red */
 
-#docs-intro { display: none;}
+#docs .section-name {
+  text-transform: capitalize;
+  border-bottom-color: rgba(0,0,0,.05);
+}
 
 #docs .code.value,
 #docs .code.options {
@@ -804,12 +818,6 @@ a[href='#docs-text'],
 }
 
 #docs section.carto-ref * { border-bottom-color: rgba(0,0,0,.05);}
-
-#docs a.docs-nav,
-#docs section.carto-ref {
-  border-left-width: 3px;
-  border-left-style: solid;
-}
 
 #docs section.carto-ref:not(.active):hover {
   background-color: rgba(0,0,0,.025)

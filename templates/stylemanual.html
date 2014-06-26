@@ -1,60 +1,3 @@
-<%
-var sections = {
-    intro: null,
-    points: {
-        markers: symbolizers.markers,
-        point: symbolizers.point
-    },
-    lines: {
-        line: symbolizers.line,
-        'line-pattern': symbolizers['line-pattern']
-    },
-    polygons: {
-        polygon: symbolizers.polygon,
-        'polygon-pattern': symbolizers['polygon-pattern'],
-        building: symbolizers['building']
-    },
-    raster: { raster: symbolizers.raster },
-    text: {
-        text: symbolizers.text,
-        shield: symbolizers.shield
-    },
-    misc: {
-        misc: symbolizers['*'],
-        debug: symbolizers.debug
-    }
-};
-%>
-<div class="row1 contain keyline-bottom">
-  <a class='pad1 quiet icon x pin-topright' href='#'></a>
-  <div class='pad0 header-nav col12 pill'><!--
-    --><a href='#demo' class='button col6 quiet icon tilemill short'>Intro</a>
-  </div>
-</div>
-
-<h3 class='pad1 contain keyline-bottom'>Carto Reference
-  <div class='pad0y pad1x pin-bottomright'>
-  <a href='#' class='js-expandall quiet button short expand-link'>
-    <span class='expand-off'>Expand</span>
-    <span class='hidden expand-on'>Collapse</span>
-  </a>
-  </div>
-</h3>
-<!--
-<nav class='fill-grey small clearfix contain z1 strong'>
-  <a href='#docs-points'   class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon marker'>Points</div></a>
-  <a href='#docs-lines'    class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polyline'>Lines</div></a>
-  <a href='#docs-polygons' class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polygon'>Polygons</div></a>
-  <a href='#docs-raster'   class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon raster'>Raster</div></a>
-  <a href='#docs-text'     class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon pencil'>Text</div></a>
-  <a href='#docs-misc'     class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon star'>Misc</div></a>
-</nav>
--->
-<article class='small' id='docs-intro'>
-
-<section class='keyline-bottom pad1'>
-  <p><strong>Just starting?</strong> Read the <a href='http://mapbox.com/tilemill/docs/manual'>manual</a> for a full guide on using TileMill.</p>
-</section>
 <section class='pad1x pad2y contain fill-darken0 keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='space-bottom1'>
@@ -211,38 +154,12 @@ fade(@color, 10%);
 // adjust the hue of a color by 10 degrees
 // (e.g. on a color wheel)
 spin(@color, 10);
-spin(@color, -10);</pre>
+spin(@color, -10);
 
 // mix @color1 into @color2 by 10%
 mix(@color1,@color2, 10%);
 
 // desaturate by 10%
 greyscale(@color1, 10%);
-
+</pre>
 </section>
-</article>
-
-<% _(sections).each(function(symbolizers, name) { %>
-<article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
-  <% _(symbolizers).each(function(symbolizer) { %>
-  <% _(symbolizer).chain()
-      .filter(function(p) { return p.css; })
-      .each(function(p, name) {
-  %>
-  <section id='docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
-    <a href='#docs-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
-    <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
-    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
-    </a>
-    <div class='pad1 details'>
-    <% if (p['default-value'] && p['default-value']!=='none') { %>
-    <span class='space-bottom1 code quiet inline value'><%=p['default-value']%></span><br/>
-    <% } %>
-    <% if (_(p.type).isArray()) { %><span class='space-bottom1 inline code options'><%= p.type.join(' ') %></span><br/><% } %>
-    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
-    </div>
-  </section>
-  <% }); %>
-  <% }); %>
-</article>
-<% }); %>
