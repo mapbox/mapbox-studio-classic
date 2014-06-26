@@ -304,8 +304,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     //set maxzoom, if needed
                     var maxzoomTarget = $('.max');
                     if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-                    console.log(maxzoomTarget);
-                    console.log(metadata.maxzoom);
+
                     //show new layer
                     var center = metadata.center;
                     map.setView([center[1], center[0]], metadata.maxzoom);
@@ -550,7 +549,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     $.ajax({
                         url: '/metadata?file=' + filepath,
                         success: function(metadata) {
-                            if(extension === 'tif') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
+                            if(extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
                             else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata)
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -563,7 +562,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     };
 
     function mapnikOmnivore_digestable(ext) {
-        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' || ext === 'tif' || ext === 'tiff') return true;
+        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' || ext === 'tif' || ext === 'tiff' || ext === 'vrt') return true;
         else return false;
     };
     Editor.prototype.messageclear = messageClear;
@@ -575,7 +574,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
-                console.log(metadata);
                 var center = metadata.center;
                 map.setView([center[1], center[0]], metadata.maxzoom);
             }
