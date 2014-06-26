@@ -87,6 +87,30 @@ test('source.normalize', function(t) {
         source.normalize({ Layer: [{ Datasource: { type: 'shape' } }] });
     }, /Missing required field/);
 
+
+    // Test a raster source with multiple layers
+    n = source.normalize({
+        id: 'tmsource://' + __dirname + '/fixtures-localraster',
+        Layer: [{
+            id: 'raster2',
+            fields: {},
+            Datasource: {
+                type: 'gdal',
+                file: __dirname + '/fixtures-localraster/raster2.tif'
+            }
+        }, {
+            id: 'raster1',
+            fields: {},
+            Datasource: {
+                type: 'gdal',
+                file: __dirname + '/fixtures-localraster/raster1.tif'
+            }
+        }]
+    });
+    t.deepEqual(n.Layer.length, 2, 'raster source contains two layers');
+    t.deepEqual(n.vector_layers.length, 1, 'raster source contains one vector_layers');
+    t.deepEqual(n.vector_layers[0].id, '_image', 'raster source vector_layer is called _image');
+
     // @TODO check postgis auto srs extent generation ... without postgis.
 
     t.end();
@@ -297,4 +321,3 @@ test('cleanup', function(t) {
         t.end();
     });
 });
-

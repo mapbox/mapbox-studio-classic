@@ -215,9 +215,10 @@ revlayers.reverse();
 <% if (!remote) {
   _(revlayers).each(function(l) {
     var type = (l.Datasource && l.Datasource.type);
+    var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
-        fields: source.vector_layers.filter(function(v) { return v.id === l.id })[0].fields
+        fields: vlayer ? vlayer.fields : null
     }).extend(l)));
   }.bind(this));
 } %>
