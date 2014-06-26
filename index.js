@@ -144,9 +144,9 @@ app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
-app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+):scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
+app.get('/static/:z,:x,:y/:px(\\d+)x:py(\\d+)@:scale(\\d+\.?\\d{0,})x:quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromCenter);
 
-app.get('/static/:z/:w,:s,:e,:n:scale(@\\d+x):quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
+app.get('/static/:z/:w,:s,:e,:n@:scale(\\d+\.?\\d{0,})x:quality(\\d{0,}).:format([\\w\\.]+)', middleware.style, cors(), printFromBbox);
 
 app.get('/source/:z,:lon,:lat.json', middleware.source, cors(), inspect);
 
@@ -268,8 +268,8 @@ function printFromCenter(req, res, next){
         h: req.params.py | 0
     };
 
-    params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
-    params.scale = params.scale > 4 ? 4 : params.scale;
+    params.scale = (req.params.scale) ? parseFloat(req.params.scale) : undefined;
+    params.scale = params.scale > 9 ? 8 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
     params.limit = 20000;
@@ -277,7 +277,7 @@ function printFromCenter(req, res, next){
     var filename = req.style.data.name + '-z' + params.zoom + '_' +
         req.params.x + '_' +
         req.params.y + '_' +
-        req.params.scale;
+        (req.params.scale | 0);
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -299,8 +299,8 @@ function printFromBbox(req, res, next){
     var params = {};
     params.zoom = req.params.z | 0;
     params.bbox = [req.params.w, req.params.s, req.params.e, req.params.n];
-    params.scale = (req.params.scale) ? req.params.scale[1] | 0 : undefined;
-    params.scale = params.scale > 4 ? 4 : params.scale;
+    params.scale = (req.params.scale) ? parseFloat(req.params.scale) : undefined;
+    params.scale = params.scale > 9 ? 8 : params.scale;
     params.format = (req.params.format !== 'png') ? req.params.format : 'png';
     params.quality = req.params.quality | 0 || null;
     params.limit = 20000;
@@ -308,7 +308,7 @@ function printFromBbox(req, res, next){
     var filename = req.style.data.name + '-z' +
         params.zoom + '_' + req.params.w +
         '_' + req.params.s + '_' + req.params.e +
-        '_' + req.params.n + '_' + req.params.scale;
+        '_' + req.params.n + '_' + (req.params.scale | 0);
 
     var source = req.params.format === 'vector.pbf'
         ? req.style._backend._source
@@ -439,8 +439,8 @@ app.get('/source.json', middleware.source, function(req, res, next) {
     res.send(req.source.data);
 });
 
-app.get('/browse*', function(req, res, next) {
-    tm.dirfiles('/' + req.params[0], function(err, dirfiles) {
+app.get('/browse', function(req, res, next) {
+    tm.dirfiles(req.query.path, function(err, dirfiles) {
         if (err) return next(err);
         res.send(dirfiles);
     });
@@ -511,6 +511,7 @@ app.del('/history/:type(style|source)', function(req, res, next) {
 app.use(function(err, req, res, next) {
     // Error on loading a tile, send 404.
     if (err && req.params && 'z' in req.params) return res.send(err.toString(), 404);
+    if (err && err.code === 'EOAUTH') return res.redirect('/authorize');
     if (err && err.status === 401) return res.redirect('/unauthorize');
 
     console.error(err.stack);

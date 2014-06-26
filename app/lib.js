@@ -156,7 +156,7 @@ views.Browser.prototype.initialize = function(options, initCallback) {
 views.Browser.prototype.render = function() {
   var view = this;
   $.ajax({
-    url: '/browse/' + view.cwd,
+    url: '/browse?path=' + (view.cwd.indexOf(':') === -1 ? '/' : '') + view.cwd,
     dataType: 'json',
     success: function(resp) {
       view.$('input[name=cwd]').val(view.cwd);
@@ -189,7 +189,7 @@ views.Browser.prototype.submit = function(ev) {
   }, {});
   if (!values.basename) return false;
   if (!this.callback) return false;
-  this.callback(null, values.basename[0] === '/' ?
+  this.callback(null, (values.basename[0] === '/' || values.basename[1] === ':') ?
     values.basename :
     values.cwd + '/' + values.basename);
   return false;

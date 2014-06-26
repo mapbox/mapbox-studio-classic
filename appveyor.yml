@@ -1,6 +1,6 @@
 environment:
   matrix:
-    - nodejs_version: 0.11
+    - nodejs_version: 0.10
 
 platform:
   - x86
@@ -13,6 +13,7 @@ install:
   - npm --version
   - npm install
   - npm test
+  - node test/test-client.js
 
 build: OFF
 test: OFF

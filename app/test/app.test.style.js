@@ -81,7 +81,7 @@ describe('#style-ui', function() {
     });
 
     it('creates a new tab', function() {
-        $('#tabs .js-addtab:eq(0)').click();
+        $('.js-addtab:eq(0)').click();
         assert.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('foo');
@@ -95,7 +95,7 @@ describe('#style-ui', function() {
     });
 
     it('prevents duplicate extensions in filename', function() {
-        $('#tabs .js-addtab:eq(0)').click();
+        $('.js-addtab:eq(0)').click();
         assert.ok(hasModal('#addtab'));
 
         $('#addtab-filename').val('bar.mss');
@@ -109,13 +109,13 @@ describe('#style-ui', function() {
     });
 
     it('requires unique stylesheet name', function() {
-        $('#tabs .js-addtab:eq(0)').click();
+        $('.js-addtab:eq(0)').click();
         assert.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('baz');
         $('#addtab').submit();
 
-        $('#tabs .js-addtab:eq(0)').click();
+        $('.js-addtab:eq(0)').click();
         assert.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('baz');

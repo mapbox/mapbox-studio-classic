@@ -304,13 +304,15 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     //set maxzoom, if needed
                     var maxzoomTarget = $('.max');
                     if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-                
+                    console.log(maxzoomTarget);
+                    console.log(metadata.maxzoom);
                     //show new layer
                     var center = metadata.center;
                     map.setView([center[1], center[0]], metadata.maxzoom);
-                
+                    
+                    //This save command seems to freeze TM2 when adding a (raster) layer.
                     //Save
-                    window.editor.save();
+                    //window.editor.save();
                 
                     Modal.close();
                 
@@ -573,6 +575,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
+                console.log(metadata);
                 var center = metadata.center;
                 map.setView([center[1], center[0]], metadata.maxzoom);
             }
