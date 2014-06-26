@@ -1,53 +1,61 @@
-<section class='pad1x pad2y contain fill-darken0 keyline-bottom'>
+
+
+<section class='small pad1x pad2y contain keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='space-bottom1'>
-    <li><kbd class='code prefixed'>s</kbd> Save style or source.</li>
+    <li><kbd class='code prefixed'>s</kbd> Save.</li>
     <li><kbd class='code prefixed'>.</kbd> View map.</li>
     <li><kbd class='code prefixed'>\</kbd> View settings.</li>
     <li><kbd class='code prefixed'>h</kbd> View help.</li>
     <li><kbd class='code prefixed'>b</kbd> View bookmarks.</li>
     <li><kbd class='code'>Esc</kbd> Close popup or window.</li>
-  </ul>
-  <ul class='space-bottom1'>
-    <li><h4>Style only:</h4></li>
     <li><kbd class='code prefixed'>i</kbd> View data.</li>
     <li><kbd class='code prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
     <li><kbd class='code prefixed'>f</kbd> Search current stylesheet.</li>
   </ul>
-  <ul class='space-bottom1'>
-    <li><h4>While interacting with map:</h4></li>
-    <li><kbd class='code prefixed'>+</kbd> &amp; <kbd class='code prefixed'>-</kbd> Zoom in and out.</li>
-  </ul>
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
-<section class='pad1x pad2y keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Selectors</h3>
-  <p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
-  <p>A simple carto style looks like</p>
+  <p>TileMill 2 relies on the <a target='_blank' href="https://github.com/mapbox/carto">CartoCSS</a> styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style (annotations are in gray):</p>
 <pre class='carto-snippet'>
-#world {
-  polygon-fill: #eee;
-  line-color: #ccc;
+// Select the layer "world"
+#water {
+  // Make all water polygons blue.
+  polygon-fill: blue;
+  // Add a green stroke.
+  line-color: green;
+  // Set stroke to 0.5 pixels wide.
   line-width: 0.5;
 }</pre>
-  <p>Which is the <em>selector</em> <code>#world</code> - which makes this affect the layer with the id <code>world</code>, and then three <em>declarations</em> which color the countries the color <code>#eee</code> and give them a grey line <code>0.5</code> units wide.</p></p>
-  <p>There are other selectors you can use to affect different parts of a map:</p>
+
+<p>Tell the map what you want to style by defining a "selector". Here are some basic selectors:
+
 <pre class='carto-snippet'>
-// all layers
-* {}
-// layers with class "red"
-.red {}
-// layers with class blue beyond zoom 8
-.blue[zoom > 8] {}
-// features in #countries with NAME 'USA'
-#countries[NAME='USA']</pre>
-  <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
+// Select all layers.
+* {
+  polygon-fill: blue;
+}
+// Select the 'countries' layer.
+#countries {
+  polygon-fill: blue;
+}
+// In layer '#country_label',
+// select features with name
+// 'United States'.
+#country_label[name='United States'] {
+  marker-fill: red;
+}
+</pre>
+
+<p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
+
 <pre class='carto-snippet'>
 #world [NAME='USA'] .red [zoom &gt; 10]
 [zoom &gt; 10].red#world[NAME='USA']
 [NAME='USA'] [zoom &gt; 10] #world.red</pre>
 </section>
-<section class='pad2y pad1x keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Nested styles</h3>
   <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
 <pre class='carto-snippet'>
@@ -66,7 +74,7 @@
   #lakes { polygon-fill: #144; }
 }</pre>
 </section>
-<section class='pad2y pad1x keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Attachments</h3>
   <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
 <pre class='carto-snippet'>
@@ -87,7 +95,7 @@
   }
 }</pre>
 </section>
-<section class='pad2y pad1x keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Values</h3>
   <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
   <h4>Colors</h4>
@@ -112,7 +120,7 @@ line-width: 5;</pre>
 <pre class='carto-snippet'>
 raster-mode: normal;</pre>
 </section>
-<section class='pad2y pad1x keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Variables</h3>
   <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
 <pre class='carto-snippet'>
@@ -120,7 +128,7 @@ raster-mode: normal;</pre>
 Map { background-color: @green; }
 #world { polygon-fill: @green; }</pre>
 </section>
-<section class='pad2y pad1x keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Operations</h3>
   <p>Any number, color or variable can be operated on using mathematical expressions.</p>
 <pre class='carto-snippet'>
@@ -132,7 +140,7 @@ Map { background-color: @green; }
   line-color: @gray / 2;
 }</pre>
 </section>
-<section class='pad2y pad1x keyline-bottom'>
+<section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Color functions</h3>
   <p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
 <pre class='carto-snippet'>

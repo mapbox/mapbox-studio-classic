@@ -29,7 +29,6 @@
   border-top-right-radius: 3px;
 }
 
-
 .carto-tabs a.tab:hover { color: rgba(0,0,0,.75));}
 .carto-tabs a.tab.active {
   background:#f8f8f8;
