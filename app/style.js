@@ -192,12 +192,12 @@ Editor.prototype.helpToggle = function(ev) {
 
 Editor.prototype.expandall = function(ev) {
   button = $(ev.currentTarget);
-
+  context = button.parents('article');
   if ( button.hasClass('expanded') ) {
-    $('.carto-ref').removeClass('active');
+    $('.carto-ref', context).removeClass('active');
     button.removeClass('expanded');
   } else {
-    $('.carto-ref').addClass('active');
+    $('.carto-ref', context).addClass('active');
     button.addClass('expanded');
   }
   return false;

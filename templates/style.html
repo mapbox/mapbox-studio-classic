@@ -220,16 +220,16 @@
     <header class="row1 pad0y pad1x contain keyline-bottom">
       <a class='pad1 quiet icon x pin-topright' href='#'></a>
       <div class='col12 pill js-help-toggle'>
-        <a href='#active1' class='col4 button quiet short active'>Manual</a>
+        <a href='#active1' class='small col4 button quiet short active'>Manual</a>
         <a href='#active2' class='col4 button quiet short'>Reference</a>
         <a href='#active3' class='col4 button quiet short'>Fonts</a>
       </div>
     </header>
 
     <div class='js-help-tabgroup sliding h active1'>
-      <section id='manual' class='col12 block animate'><%= this['stylemanual']() %></section>
-      <section id='reference' class='col12 block animate'><%= this['stylereference'](cartoRef) %></section>
-      <section id='fonts' class='col12 block animate'><%= this['stylefonts'](fontsRef) %></section>
+      <section id='manual' class='scroll-styled col12 block animate'><%= this['stylemanual']() %></section>
+      <section id='reference' class='scroll-styled col12 block animate'><%= this['stylereference'](cartoRef) %></section>
+      <section id='fonts' class='scroll-styled col12 block animate'><%= this['stylefonts'](fontsRef) %></section>
     </div>
   </div>
 
