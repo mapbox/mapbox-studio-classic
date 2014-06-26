@@ -25,25 +25,31 @@ var sections = {
     }
 };
 %>
-<div class="row2 pad1 contain keyline-bottom">
-  <h3 class='space-bottom1'>Style editor help</h3>
+<div class="row1 contain keyline-bottom">
   <a class='pad1 quiet icon x pin-topright' href='#'></a>
-  <div class='center'><div class='pill'><!--
-    --><a href='#fonts' class='button quiet icon font short'>Fonts</a><!--
-    --><a href='#demo' class='button quiet icon tilemill short'>Walkthrough</a>
-  </div></div>
+  <div class='pad0 header-nav col12 pill'><!--
+    --><a href='#demo' class='button col6 quiet icon tilemill short'>Intro</a>
+  </div>
 </div>
 
-<nav class='fill-grey small contain z1 strong'>
-  <a href='#docs-intro'    class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon home'>Overview</div></a>
-  <a href='#docs-points'   class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon marker'>Points</div></a>
-  <a href='#docs-lines'    class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polyline'>Lines</div></a>
-  <a href='#docs-polygons' class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polygon'>Polygons</div></a>
-  <a href='#docs-raster'   class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon satellite'>Raster</div></a>
-  <a href='#docs-text'     class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon pencil'>Text</div></a>
-  <a href='#docs-misc'     class='js-docs-nav docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon star'>Misc</div></a>
+<h3 class='pad1 contain keyline-bottom'>Carto Reference
+  <div class='pad0y pad1x pin-bottomright'>
+  <a href='#' class='js-expandall quiet button short expand-link'>
+    <span class='expand-off'>Expand</span>
+    <span class='hidden expand-on'>Collapse</span>
+  </a>
+  </div>
+</h3>
+<!--
+<nav class='fill-grey small clearfix contain z1 strong'>
+  <a href='#docs-points'   class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon marker'>Points</div></a>
+  <a href='#docs-lines'    class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polyline'>Lines</div></a>
+  <a href='#docs-polygons' class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon polygon'>Polygons</div></a>
+  <a href='#docs-raster'   class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon raster'>Raster</div></a>
+  <a href='#docs-text'     class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon pencil'>Text</div></a>
+  <a href='#docs-misc'     class='js-docs-nav col6 docs-nav row1 block quiet'><div class='pad1 keyline-bottom icon star'>Misc</div></a>
 </nav>
-
+-->
 <article class='small' id='docs-intro'>
 
 <section class='keyline-bottom pad1'>
@@ -216,14 +222,6 @@ greyscale(@color1, 10%);
 </section>
 </article>
 
-<h3 class='pad1 contain keyline-bottom'>Carto Reference
-  <div class='pad0 pin-bottomright'>
-  <a href='#' class='js-expandall quiet button short expand-link'>
-    <span class='expand-off'>Expand</span>
-    <span class='hidden expand-on'>Collapse</span>
-  </a>
-  </div>
-</h3>
 <% _(sections).each(function(symbolizers, name) { %>
 <article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% _(symbolizers).each(function(symbolizer) { %>

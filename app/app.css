@@ -731,10 +731,11 @@ a.layers-y,
 a.menu-y,
 a.full-y,
 a.docs-y,
+a.fonts-y,
 a.bookmark-y,
 a.search-y,
 a.data-y { display:none; }
-#fonts:target     ~ * a.docs-y,
+#fonts:target     ~ * a.fonts-y,
 #docs:target      ~ * a.docs-y,
 #data:target      ~ * a.layers-y,
 #layers:target    ~ * a.layers-y,
@@ -757,7 +758,9 @@ a.data-y { display:none; }
 .xray-toggle.active a.xray-y { display:inline-block; }
 
 /* Carto ref docs */
-#fonts:target ~ * a.docs-n,
+#docs .header-nav { padding-right: 40px;}
+
+#fonts:target ~ * a.fonts-n,
 #docs:target ~ * a.docs-n { display:none; }
 
 #docs .expand-link.expanded .expand-off { display: none;}
@@ -779,6 +782,8 @@ a[href='#docs-raster'],
 #docs-raster section     { border-left-color: #ee8a65; } /* fill orange */
 a[href='#docs-text'],
 #docs-text section     { border-left-color: #ee6565; } /* fill red */
+
+#docs-intro { display: none;}
 
 #docs .code.value,
 #docs .code.options {
