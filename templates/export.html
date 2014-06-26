@@ -11,6 +11,11 @@
 
 <body id='view' class='fill-denim pad4y <%= job.stats ? 'task' : 'stat' %>'>
 
+<div id='modal'>
+  <div class='modal-mask fill-darken2 animate'></div>
+  <div id='modal-content' class='limiter contain modal-content animate'></div>
+</div>
+
 <div class='clearfix limiter'>
   <div class='dark center target round col6 margin3 contain'>
     <div class='pad2 fill-darken0'>
@@ -28,9 +33,12 @@
       <div class='pad0 fill-darken1 round col8 margin2 progress space-bottom2'>
         <div class='pad0 fill-white fill' style='width:<%= pct %>%'></div>
       </div>
-
       <a href='/source?id=<%=source.id%>' class='button big submit icon x task js-cancel'> Cancel export</a>
-      <a href='/source.mbtiles?id=<%=source.id%>' class='button big submit icon folder stat'> Vector MBTiles</a>
+      <div class='stat col12 pad1'>
+        <h2>Vector MBTiles:</h2>
+          <a href='/source.mbtiles?id=<%=source.id%>' class='button big margin2 col4 pad2 submit icon folder stat round-left'> Download</a>
+          <a href='#' class='button submit col4 big round-right keyline-left pad2 icon up stat js-upload'> Upload</a>
+      </div>
       <div class='stat col12 pad1'>
         <a href='#recache' class='js-recache quiet strong small icon refresh'> Redo export</a>
       </div>
@@ -47,14 +55,21 @@
 <script>
 var templates = {};
 templates.exportsize = <%= this.exportsize.source %>;
+templates.modalmessage = <%= this.modalmessage.source %>;
 
 var Job = Backbone.Model.extend({});
 Job.prototype.url = function() { return '/mbtiles.json?id=<%=source.id%>'; };
 
+var Modal = new views.Modal({
+  el: $('.modal-content'),
+  templates: templates
+});
+
 var Exporter = Backbone.View.extend({});
 Exporter.prototype.events = {
   'click .js-cancel': 'cancel',
-  'click .js-recache': 'recache'
+  'click .js-recache': 'recache',
+  'click .js-upload': 'upload'
 };
 Exporter.prototype.poll = function() {
   var model = this.model;
@@ -105,6 +120,20 @@ Exporter.prototype.recache = function() {
     success: function() { view.poll() }
   });
   return false;
+};
+Exporter.prototype.upload = function() {
+  var id = this.model.get('id');
+  $('body').addClass('loading');
+  $.ajax('/upload?id=' + id)
+    .done(function() {
+      Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your data source is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      $('body').removeClass('loading');
+      return true;
+    })
+    .error(function(resp) {
+      $('body').removeClass('loading');
+      return Modal.show('error', resp.responseText);
+    });
 };
 Exporter.prototype.cancel = function(ev) {
   var href = $(ev.currentTarget).attr('href');

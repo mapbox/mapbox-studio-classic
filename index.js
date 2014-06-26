@@ -336,17 +336,28 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 });
 
 app.get('/upload', middleware.auth, function(req, res, next) {
-    if (style.tmpid(req.query.styleid))
-        return next(new Error('Style must be saved first'));
+    if (req.query.id) {
+        source.upload({
+            id: req.query.id,
+            oauth: tm.db.get('oauth'),
+            cache: tm.config().cache
+        }, function(err){
+            if (err) next(err);
+            res.end();
+        });
+    } else {
+        if (style.tmpid(req.query.styleid))
+            return next(new Error('Style must be saved first'));
 
-    style.upload({
-        id: req.query.styleid,
-        oauth: tm.db.get('oauth'),
-        cache: tm.config().cache
-    }, function(err){
-        if (err) next(err);
-        res.end();
-    });
+        style.upload({
+            id: req.query.styleid,
+            oauth: tm.db.get('oauth'),
+            cache: tm.config().cache
+        }, function(err){
+            if (err) next(err);
+            res.end();
+        });
+    }
 });
 
 app.get('/source.xml', middleware.source, function(req, res, next) {

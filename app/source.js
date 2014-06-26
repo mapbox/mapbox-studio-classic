@@ -436,6 +436,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         this.model.save(attr, options);
         return ev && !! $(ev.currentTarget).is('a');
     };
+
     Editor.prototype.refresh = function(ev) {
         this.messageclear();
         if (!map) {
