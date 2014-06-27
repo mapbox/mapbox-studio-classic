@@ -21,7 +21,7 @@ $(document).ajaxComplete(function() {
     var callback = _onajax.shift();
     // This setTimeout prevents the onajax callback from being called
     // before the actual ajax call's success/error handlers are called.
-    setTimeout(function() { callback(); }, 1);
+    setTimeout(function() { callback(); }, 10);
 });
 
 describe('Setting maxzoom', function() {
@@ -88,13 +88,11 @@ describe('#updatename-shape', function(){
         $('#newLayername').val('hey');
         $('#updatename').submit();
 
-        setTimeout(function() {
-            var currentUrl = window.location.toString();
-            var newBufferTarget = $('#hey-buffer-size-val');
+        var currentUrl = window.location.toString();
+        var newBufferTarget = $('#hey-buffer-size-val');
 
-            assert.equal(currentUrl.slice(-10),'layers-hey');
-            assert.equal(expectedBuffer, newBufferTarget.text());
-        }, 10);
+        assert.equal(currentUrl.slice(-10),'layers-hey');
+        assert.equal(expectedBuffer, newBufferTarget.text());
     });
 });
 
