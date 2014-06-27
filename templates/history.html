@@ -2,12 +2,12 @@
 
 <div id='history'>
 
-  <header class='row1 pad1 keyline-bottom'>
+  <header class='row1 pad1y pad2x keyline-bottom'>
     <h3 class='inline'><%= obj.user.name||obj.user.id %></h3>
     <a class='small inline' href='/unauthorize'>Logout</a>
   </header>
 
-  <nav class='pin-topright pad1x'>
+  <nav class='pin-topright pad2x'>
     <div class='rounded-toggle'><!--
     --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#history-style'>Styles</a><!--
     --><a class='js-tab <%= obj.source ? 'active' : '' %>' href='#history-source'>Sources</a>
@@ -17,10 +17,10 @@
 <div id='history-style' <% if (obj.style) { %>class='active'<% } %>>
   <div class='pin-bottom keyline-top row2 pad1'>
     <div class='col6 pad1'>
-      <a class='button quiet col12 icon plus' href='/new/style'>New style</a>
+      <a class='button col12 icon plus' href='/new/style'>New style</a>
     </div>
     <div class='col6 pad1'>
-      <a class='js-browsestyle button quiet col12 icon folder'>Browse</a>
+      <a class='js-browsestyle button col12 icon folder'>Browse</a>
     </div>
   </div>
   <div class='clearfix pad1 col12 pin-top scroll-styled top1 bottom2'>

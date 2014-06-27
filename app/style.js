@@ -92,7 +92,6 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
-  'click .js-help-toggle a': 'helpToggle',
   'submit #settings': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
@@ -176,19 +175,6 @@ Editor.prototype.togglePane = function(name) {
   }
 };
 
-Editor.prototype.helpToggle = function(ev) {
-  button = $(ev.currentTarget);
-  var tabgroup = button.parent();
-  var slidecontainer = $('.js-help-tabgroup');
-  var tab = button.attr('href').split('#')[1];
-
-  $('a', tabgroup).removeClass('active');
-  $(button).addClass('active');
-  slidecontainer.removeClass('active1 active2 active3').addClass(tab);
-
-  return false;
-};
-
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
@@ -252,7 +238,7 @@ Editor.prototype.addtab = function(ev) {
   var field = $('#addtab-filename');
   var filename = field.val().replace(/.mss/,'') + '.mss';
   if (!code[filename]) {
-    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab pad0 truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--");
+    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='strong quiet tab js-tab pad0 truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad0'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
     Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');

@@ -40,7 +40,7 @@
 
 <div id='user' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='megamenu caret1 fill-light col5 pin-topleft'>
+  <div class='megamenu caret1 fill-light col6'>
     <%= this.history(obj) %>
     <div class='demo-popup col8 pin-bottomright offcanvas-right pad2 bottom2 fill-blue dark'>
       <h3>Switching projects</h3>
@@ -57,9 +57,8 @@
 
 <form id='settings' class='z10 col12 pin-top'>
   <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='megamenu caret2 fill-light col5 pin-topleft'>
-  <a class="pad1 quiet icon x pin-topright" href="#"></a>
-    <header class='pad1 keyline-bottom'>
+  <div class='megamenu caret2 fill-light col6'>
+    <header class='pad1y pad2x keyline-bottom'>
       <h3>Settings</h3>
     </header>
     <div class='pin-left col12 scroll-styled pad2 top1 bottom2'>
@@ -127,9 +126,9 @@
           <a class='button col12 quiet icon js-save floppy'>Save</a>
         </div>
         <div class='pad0x pill col9'><!--
-        --><a href='/style.tm2z?id=<%=style.id%>' class='button quiet col4 submit icon package'>Package</a><!--
-        --><a href='#settings' class='js-upload button quiet submit icon up col4'>Upload</a><!--
-        --><a href='/print?id=<%=style.id%>' id='print-style' class='button quiet col4 submit picture icon'>Image</a><!--
+        --><a href='/style.tm2z?id=<%=style.id%>' class='button col4 submit icon package'>Package</a><!--
+        --><a href='#settings' class='js-upload button submit icon up col4'>Upload</a><!--
+        --><a href='/print?id=<%=style.id%>' id='print-style' class='button col4 submit picture icon'>Image</a><!--
      --></div>
         <% } %>
       </section>
@@ -164,19 +163,6 @@
 </form>
 
 <div id='full' class='z1 clip animate pin-left'>
-  <div id='title' class='contain inline pin-topleft z1'>
-    <span class='inline clip fill-darken3 dark pad0 row1 round-bottomright'><!--
-      --><a href='#user' class='short button quiet'><img class='avatar dot' src='<%= user.avatar %>' />Projects</a><!--
-      --><strong class='icon paint project-name small js-name inline pad0y pad1x truncate'><%= style.name || 'Untitled' %></strong><!--
-      --><span class='row1 inline pill'><!--
-      --><a href='#settings' class='icon sprocket short button'>Settings</a><!--
-      <% if (style._tmp) { %>
-        --><a class='js-saveas short button icon floppy'>Save as</a>
-      <% } else { %>
-        --><a class='js-save short button icon floppy' href='#'>Save</a>
-      <% } %>
-    </span>
-  </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
@@ -215,25 +201,10 @@
   </div>
 </div>
 
-<div id='docs' class='pin-right col6 z1'>
-  <div class='col6 pin-left clip fill-gray animate pane'>
-    <header class="row1 pad0y pad1x contain keyline-bottom">
-      <a class='pad1 quiet icon x pin-topright' href='#'></a>
-      <div class='pill col12 js-help-toggle help-toggle'>
-        <a href='#active1' class='col4 button quiet short active'>Manual</a><!--
-        --><a href='#active2' class='col4 button quiet short'>Reference</a><!--
-        --><a href='#active3' class='col4 button quiet short'>Fonts</a>
-      </div>
-    </header>
+<div id='docs' class='col3 dark fill-dark offcanvas-right animate pin-right z10 scroll-styled'>
+  <%= this['stylereference'](cartoRef) %>
 
-    <div class='js-help-tabgroup sliding h active1'>
-      <section id='manual' class='scroll-styled col12 block animate'><%= this['stylemanual']() %></section>
-      <section id='reference' class='scroll-styled col12 block animate'><%= this['stylereference'](cartoRef) %></section>
-      <section id='fonts' class='scroll-styled col12 block animate'><%= this['stylefonts'](fontsRef) %></section>
-    </div>
-  </div>
-
-  <div class='demo-popup col6 pin-topleft pad2 top1 fill-blue dark'>
+  <div class='demo-popup hidden col6 pin-topleft pad2 top1 fill-blue dark'>
     <h3>CartoCSS</h3>
     <small class='space-bottom4'>
     View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
@@ -245,8 +216,7 @@
   </div>
 </div>
 
-<div id='layers' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled menu dark fill-dark animate pane'>
+<div id='layers' class='col3 fill-dark dark offcanvas-right animate pin-right z10 scroll-styled'>
     <nav class='pad0y pad1x row1 keyline-bottom fill-darken1'>
       <a href='#layers' class='js-modalsources button short icon point-line'>Change source</a>
       <a class='pad1 quiet icon x pin-topright' href='#'></a>
@@ -254,7 +224,6 @@
     <div class='js-menu-content'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
-  </div>
   <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
     <h3>Vector sources</h3>
     <small class='space-bottom4'>
@@ -267,21 +236,19 @@
   </div>
 </div>
 
+<div id='fonts' class='fill-gray col3 offcanvas-right animate pin-right z10 scroll-styled'>
+  <%= this['stylefonts'](fontsRef) %>
+</div>
+
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div class='pin-topleft z1'><!--
-  --><a title='Documentation' class='quiet inline pad1 keyline-right docs-n icon help' href='#docs'></a><!--
-  --><a title='Documentation' class='fill-darken2 dark inline pad1 keyline-right docs-y icon help' href='#'></a><!--
-  --><a title='Data layers' class='quiet inline pad1 keyline-right layers-n icon layers' href='#layers'></a><!--
-  --><a title='Data layers' class='fill-darken2 dark inline pad1 keyline-right layers-y icon layers' href='#'></a>
-  </div>
   <div id='code' class='pin-left col12'>
   <div class='row1 fill-light pin-top'>
     <nav id='tabs' class='fill-darken0 keyline-bottom carto-tabs row1 contain small'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad0'></span></a><!--
       <% }); %>
     --></nav>
-    <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
+    <a href='#' class='js-addtab addtab quiet icon plus pad0 z1 pin-bottomright'></a>
   </div>
 
   <div id='stylesheets'></div>
@@ -305,6 +272,28 @@
   </small>
   <div class='pin-bottom clearfix center'><!--
   --><a href='#home' class='small fill-darken0 pad1 col12 icon next quiet'>Next</a>
+  </div>
+</div>
+
+<div id='toolbar' class='center pad1 fill-dark dark z10'>
+  <% if (style._tmp) { %>
+  <a class='toolbar-button strong icon save js-saveas floppy'>Save as</a>
+  <% } else { %>
+  <a class='toolbar-button strong icon save js-save floppy fill-lighten1' href='#'>Save</a>
+  <% } %>
+  <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
+  <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
+
+  <a class='toolbar-button strong icon layers-n layers' layer-count='10' href='#layers'>Layers</a>
+  <a class='toolbar-button strong icon layers-y layers active fill-lighten1' layer-count='10' href='#'>Layers</a>
+  <a class='toolbar-button strong icon fonts-n font' href='#fonts'>Fonts</a>
+  <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
+  <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
+  <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
+
+  <div class='user-icon pad1 pin-bottom'>
+    <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+    <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
   </div>
 </div>
 

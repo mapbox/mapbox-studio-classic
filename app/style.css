@@ -1,4 +1,9 @@
+#app { margin-right: 80px;}
+
 /* Code pane */
+#fonts,
+#docs,
+#layers,
 #style-ui,
 #source-ui,
 #print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
@@ -6,11 +11,12 @@
 /* Editor tabs */
 
 .carto-tabs {
-  padding-right: 60px;
-  padding-left: 90px;
+  padding-right: 30px;
+  padding-left: 10px;
 }
 
 .carto-tabs a.tab {
+  position: relative;
   border-top: 1px solid #d3d3d3;
   border-left: 1px solid #d3d3d3;
   height: 30px;
@@ -33,8 +39,6 @@
 .carto-tabs a.tab.active {
   background:#f8f8f8;
 }
-
-.addtab { right:30px;}
 
 .carto-tabs a.tab .trash {display:none;}
 .carto-tabs a.tab.active .trash { display:block;}
