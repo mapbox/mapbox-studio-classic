@@ -182,12 +182,6 @@ Editor.prototype.helpToggle = function(ev) {
   var slidecontainer = $('.js-help-tabgroup');
   var tab = button.attr('href').split('#')[1];
 
-  if (tab === 'active1') {
-    $('#docs .pane').addClass('col12');
-  } else {
-    $('#docs .pane').removeClass('col12');
-  }
-
   $('a', tabgroup).removeClass('active');
   $(button).addClass('active');
   slidecontainer.removeClass('active1 active2 active3').addClass(tab);

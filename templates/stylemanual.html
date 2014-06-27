@@ -1,6 +1,6 @@
 
 
-<section class='small pad1x pad2y contain keyline-bottom'>
+<section class='small pad2 contain keyline-bottom'>
   <h3 class='space-bottom1'>Keyboard shortcuts</h3>
   <ul class='space-bottom1'>
     <li><kbd class='code prefixed'>s</kbd> Save.</li>
@@ -8,7 +8,6 @@
     <li><kbd class='code prefixed'>\</kbd> View settings.</li>
     <li><kbd class='code prefixed'>h</kbd> View help.</li>
     <li><kbd class='code prefixed'>b</kbd> View bookmarks.</li>
-    <li><kbd class='code'>Esc</kbd> Close popup or window.</li>
     <li><kbd class='code prefixed'>i</kbd> View data.</li>
     <li><kbd class='code prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
     <li><kbd class='code prefixed'>f</kbd> Search current stylesheet.</li>
@@ -16,62 +15,68 @@
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
 <section class='pad2 keyline-bottom prose'>
-  <h3 class='space-bottom1'>Selectors</h3>
-  <p>TileMill 2 relies on the <a target='_blank' href="https://github.com/mapbox/carto">CartoCSS</a> styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style (annotations are in gray):</p>
+
+<h3 class='space-bottom1'>Selectors</h3>
+
+<p>TileMill 2 relies on the <a target='_blank' href="https://github.com/mapbox/carto">CartoCSS</a> styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style:</p>
+
 <pre class='carto-snippet'>
-// Select the layer "world"
+// Select the layer
+// with ID "water"
 #water {
-  // Make all water polygons blue.
+  // Make all polygons blue.
   polygon-fill: blue;
-  // Add a green stroke.
+  // Add a green border.
   line-color: green;
-  // Set stroke to 0.5 pixels wide.
-  line-width: 0.5;
-}</pre>
+}
+</pre>
 
-<p>Tell the map what you want to style by defining a "selector". Here are some basic selectors:
-
+<p>The first step to styling a map is to instruct the map <em>what</em> piece of your data to style by declaring a selector:</p>
+<p> Select the 'water' layer:</p>
 <pre class='carto-snippet'>
-// Select all layers.
-* {
-  polygon-fill: blue;
-}
-// Select the 'countries' layer.
-#countries {
-  polygon-fill: blue;
-}
-// In layer '#country_label',
-// select features with name
-// 'United States'.
-#country_label[name='United States'] {
-  marker-fill: red;
-}
+#water {...}
+</pre>
+<p> In layer '#country_label', select features with class 'name', and in that class select countries with the value 'United States':</p>
+<pre class='carto-snippet'>
+#country_label[name='United States'] {...}
+</pre>
+<p> Use the wildcard selector to select all layers:</p>
+<pre class='carto-snippet'>
+* {...}
 </pre>
 
 <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
 
 <pre class='carto-snippet'>
-#world [NAME='USA'] .red [zoom &gt; 10]
-[zoom &gt; 10].red#world[NAME='USA']
-[NAME='USA'] [zoom &gt; 10] #world.red</pre>
+#world [NAME='USA'] .red [zoom &gt; 10] {...}
+
+[zoom &gt; 10].red#world[NAME='USA'] {...}
+
+[NAME='USA'] [zoom &gt; 10] #world.red {...}</pre>
 </section>
 <section class='pad2 keyline-bottom prose'>
   <h3 class='space-bottom1'>Nested styles</h3>
-  <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
+  <p>TileMill 2 allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance:</p>
 <pre class='carto-snippet'>
-// Applies to all layers with .land class
-.land {
-  polygon-fill: #eee;
-  // Applies to #lakes.land
-  #lakes { polygon-fill: #000; }
+// Applies to all layers
+// with 'name' class
+.name {
+  text-name: ['name'];
+  text-face-name: 'Lato Light';
+  // Applies to class 'name'
+  // in layer #country_names
+  #counry_names { font-size: 15px; }
 }</pre>
   <p>This can be a convenient way to group style changes by zoom level:</p>
 <pre class='carto-snippet'>
-// Applies to all layers at zoom &gt; 1
+// Select both landuse and water
+// layers at zoom &gt; 1
 [zoom &gt; 1] {
+  // polygon-gamma applies
+  // to both landuse and water
   polygon-gamma: 0.3;
-  #world { polygon-fill: #323; }
-  #lakes { polygon-fill: #144; }
+  #landuse { polygon-fill: #323; }
+  #water { polygon-fill: #144; }
 }</pre>
 </section>
 <section class='pad2 keyline-bottom prose'>
@@ -144,27 +149,27 @@ Map { background-color: @green; }
   <h3 class='space-bottom1'>Color functions</h3>
   <p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
 <pre class='carto-snippet'>
-// lighten or darken a color by 10%
+// lighten or darken a color
 lighten(@color, 10%);
 darken(@color, 10%);
 
-// de/saturate a color by 10%
+// de/saturate a color
 saturate(@color, 10%);
 desaturate(@color, 10%);
 
-// adjust opacity of a color by 10%
+// adjust opacity of a color
 fadein(@color, 10%);
 fadeout(@color, 10%);
 
-// set opacity of a color to 10%
+// set opacity of a color
 fade(@color, 10%);
 
-// adjust the hue of a color by 10 degrees
+// adjust the hue of a color
 // (e.g. on a color wheel)
 spin(@color, 10);
 spin(@color, -10);
 
-// mix @color1 into @color2 by 10%
+// mix @color1 into @color2
 mix(@color1,@color2, 10%);
 
 // desaturate by 10%

@@ -793,6 +793,8 @@ a.data-y { display:none; }
   border-bottom-color: rgba(0,0,0,.05);
 }
 
+p + .carto-snippet { margin-top: -10px}
+
 #reference .code.value,
 #reference .code.options {
   color:rgba(0,0,0,.75);
