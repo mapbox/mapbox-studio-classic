@@ -466,8 +466,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             maxzoom: 22
         }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map);
         // Refresh map title.
-        $('title').text(this.model.get('name'));
-        $('.js-name').text(this.model.get('name') || 'Untitled');
+        $('title, .js-name').text(this.model.get('name') || 'Untitled');
         // Clear save notice.
         if (window.location.hash === '#refresh') {
             window.location.hash = '#';

@@ -460,8 +460,7 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map title.tm.db.rm('user');
-  $('title').text(this.model.get('name'));
-  $('.js-name').text(this.model.get('name') || 'Untitled');
+  $('title, .js-name').text(this.model.get('name') || 'Untitled');
   $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
