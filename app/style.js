@@ -113,6 +113,7 @@ Editor.prototype.keys = function(ev) {
     window.location.href = '#';
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
+
   var which = ev.which;
   switch (true) {
   case (which === 83): // s
@@ -140,7 +141,7 @@ Editor.prototype.keys = function(ev) {
     break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
     var tab = $('#tabs a.tab')[(which-48)-1];
-    if (tab) tab.click();
+    if (tab) $(tab).click();
     break;
   default:
     return true;
