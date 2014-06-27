@@ -139,7 +139,7 @@ Editor.prototype.keys = function(ev) {
     this.togglePane('bookmark');
     break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
-    var tab = $('#tabs a.tab')[which-48];
+    var tab = $('#tabs a.tab')[(which-48)-1];
     if (tab) tab.click();
     break;
   default:
