@@ -1315,8 +1315,8 @@ h2 .dark > a[href^='#'] {
   height:20px;
   vertical-align:top;
   opacity:0.75;
-  -webkit-background-size:4240px 60px;
-          background-size:4240px 60px;
+  -webkit-background-size:4320px 60px;
+          background-size:4320px 60px;
   }
 
 .rcon.big:after,
@@ -1356,8 +1356,8 @@ a.rcon:after,
 a > .icon:before,
 a > .rcon:after {
   background-image:url(icon-3887be@2x.png);
-  -webkit-background-size:4240px 60px;
-          background-size:4240px 60px;
+  -webkit-background-size:4320px 60px;
+          background-size:4320px 60px;
   opacity:1;
 }
 
@@ -1379,8 +1379,8 @@ a > .rcon:after {
 .button.icon:before {
   background-image:url(icon-ffffff@2x.png);
   opacity:1;
-  -webkit-background-size:4240px 60px;
-          background-size:4240px 60px;
+  -webkit-background-size:4320px 60px;
+          background-size:4320px 60px;
   }
 
 .dark .quiet.rcon:after,
@@ -1406,8 +1406,8 @@ a.icon.quiet:not(.button):hover:after {
 .quiet .icon:before {
   background-image:url(icon-000000@2x.png);
   opacity:0.5;
-  -webkit-background-size:4240px 60px;
-          background-size:4240px 60px;
+  -webkit-background-size:4320px 60px;
+          background-size:4320px 60px;
   }
 
 /* 40x40 icons */
@@ -1483,8 +1483,8 @@ a.icon.quiet:not(.button):hover:after {
 .big.icon.eye:before              { background-position:-2640px -20px; }
 .big.icon.noeye:before            { background-position:-2680px -20px; }
 .big.icon.heart:before            { background-position:-2720px -20px; }
-.big.icon.document-lock:before    { background-position:-2760px -20px; }
-.big.icon.document-cloud:before   { background-position:-2800px -20px; }
+.big.icon.bookmark:before         { background-position:-2760px -20px; }
+.big.icon.layers:before           { background-position:-2800px -20px; }
 .big.icon.data:before             { background-position:-2840px -20px; }
 .big.icon.linkedin:before         { background-position:-2880px -20px; }
 .big.icon.polyline:before         { background-position:-2920px -20px; }
@@ -1521,6 +1521,9 @@ a.icon.quiet:not(.button):hover:after {
 .big.icon.android:before          { background-position:-4160px -20px; }
 .big.icon.lifebuoy:before,
 .big.icon.foundations:before      { background-position:-4200px -20px; }
+.big.icon.gl:before               { background-position:-4240px -20px; }
+.big.icon.raster:before           { background-position:-4280px -20px; }
+
 
 /* 20x20 icons */
 .rcon.pencil:after, .icon.pencil:before                    { background-position:0 0; }
@@ -1595,8 +1598,8 @@ a.icon.quiet:not(.button):hover:after {
 .rcon.eye:after, .icon.eye:before                          { background-position:-2640px 0; }
 .rcon.noeye:after, .icon.noeye:before                      { background-position:-2680px 0; }
 .rcon.heart:after, .icon.heart:before                      { background-position:-2720px 0; }
-.rcon.document-lock:after, .icon.document-lock:before      { background-position:-2760px 0; }
-.rcon.document-cloud:after, .icon.document-cloud:before    { background-position:-2800px 0; }
+.rcon.bookmark:after, .icon.bookmark:before                { background-position:-2760px 0; }
+.rcon.layers:after, .icon.layers:before                    { background-position:-2800px 0; }
 .rcon.data:after, .icon.data:before                        { background-position:-2840px 0; }
 .rcon.linkedin:after, .icon.linkedin:before                { background-position:-2880px 0; }
 .rcon.polyline:after, .icon.polyline:before                { background-position:-2920px 0; }
@@ -1633,6 +1636,8 @@ a.icon.quiet:not(.button):hover:after {
 .icon.android:after,.icon.android:before                   { background-position:-4160px 0; }
 .icon.lifebuoy:after,.icon.lifebuoy:before,
 .icon.foundations:after,.icon.foundations:before           { background-position:-4200px 0; }
+.icon.gl:after,.icon.gl:before                             { background-position:-4240px 0; }
+.icon.raster:after,.icon.raster:before                     { background-position:-4280px 0; }
 
 /* Multicolored icons */
 .icon.checkmark:before     {
