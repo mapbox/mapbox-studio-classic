@@ -4,7 +4,7 @@
     <Rule>
       <TextSymbolizer
         size='13'
-        fill='#666'
+        fill='#fff'
         clip='false'
         face-name='<%=obj%>'
         horizontal-alignment='right'

@@ -1,16 +1,21 @@
-#app { margin-right: 80px;}
+#app { margin-left: 80px;}
 
 /* Code pane */
+#style-ui,
+#source-ui,
+#print-ui {
+  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+}
+
+#user:target,
 #fonts:target,
 #docs:target,
 #layers:target,
-#settings:target,
-#style-ui,
-#source-ui,
-#print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+#settings:target {
+  box-shadow: rgba(0,0,0,0.1) 2px 0px 0px;
+}
 
 /* Editor tabs */
-
 .carto-tabs {
   padding-right: 30px;
   padding-left: 10px;

@@ -132,7 +132,7 @@ kbd {
   }
 .dark.scroll-styled::-webkit-scrollbar-thumb,
 .dark .scroll-styled::-webkit-scrollbar-thumb {
-  background:#303030;
+  background:#1d272c;
   }
 
 /* general app styles */
@@ -530,7 +530,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   border-radius: 3px;
   color: #343434;
   }
-#layers .layer.active { background: rgba(0,0,0,.25);}
+#layers .layer.active { background: rgba(0,0,0,.15);}
 #layers .layer.active a { display: none;}
 #layers .description { display:none;}
 #layers .active .description { display:block; }
@@ -672,12 +672,12 @@ span.cm-carto-filter             { color:#66475B; }
 
 #toolbar {
   position: fixed;
-  right: 0;
+  left: 0;
   top: 0;
   bottom: 0;
   width: 80px;
-  background-color: #333;
-  box-shadow: inset 2px 0px 0px 0px rgba(0,0,0,0.1);
+  background: #333;
+  box-shadow: inset -2px 0 0 0 rgba(0,0,0,0.1);
 }
 
 a.toolbar-button.save  {
@@ -819,7 +819,7 @@ a.data-y { display:none; }
 
 #docs section.active a,
 #docs .details { display: none;}
-#docs section.active { background-color: rgba(0,0,0,.25);}
+#docs section.active { background-color: rgba(0,0,0,.15);}
 #docs section.active .details { display: block;}
 
 /* Font book */

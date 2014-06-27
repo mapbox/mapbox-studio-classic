@@ -93,7 +93,7 @@
   </div>
 </div>
 
-<div id='user' class='animate fill-dark dark col3 offcanvas-right animate pin-right z10 scroll-styled'>
+<div id='user' class='animate fill-dark dark col4 offcanvas-left animate pin-left z10 scroll-styled'>
   <%= this.history(obj) %>
   <div class='demo-popup col8 pin-bottomright offcanvas-right pad2 bottom2 fill-blue dark'>
     <h3>Switching projects</h3>
@@ -107,7 +107,7 @@
   </div>
 </div>
 
-<form id='settings' class='pad2 animate fill-dark dark col3 offcanvas-right animate pin-right z10 scroll-styled'>
+<form id='settings' class='pad2 animate fill-dark dark col4 offcanvas-left animate pin-left z10 scroll-styled'>
   <section class='space-bottom2 col12 pill clearfix'>
     <% if (style._tmp) { %>
       <div class='z10 pad1 fill-darken2 center pin-top col12'>
@@ -181,7 +181,7 @@
   </div>
 </form>
 
-<div id='docs' class='col3 dark fill-dark offcanvas-right animate pin-right z10 scroll-styled'>
+<div id='docs' class='col3 dark fill-dark offcanvas-left animate pin-left z10 scroll-styled'>
   <%= this['stylereference'](cartoRef) %>
 
   <div class='demo-popup hidden col6 pin-topleft pad2 top1 fill-blue dark'>
@@ -196,7 +196,7 @@
   </div>
 </div>
 
-<div id='layers' class='col3 fill-dark dark offcanvas-right animate pin-right z10 scroll-styled'>
+<div id='layers' class='col3 fill-dark dark offcanvas-left animate pin-left z10 scroll-styled'>
     <div class='pad2'><a href='#layers' class='js-modalsources button short icon point-line'>Change source</a></div>
     <div class='js-menu-content'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
@@ -213,14 +213,14 @@
   </div>
 </div>
 
-<div id='fonts' class='fill-dark dark col3 offcanvas-right animate pin-right z10 scroll-styled'>
+<div id='fonts' class='fill-dark dark col3 offcanvas-left animate pin-left z10 scroll-styled'>
   <%= this['stylefonts'](fontsRef) %>
 </div>
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='code' class='pin-left col12'>
-  <div class='row1 fill-light pin-top'>
-    <nav id='tabs' class='fill-darken0 keyline-bottom carto-tabs row1 contain small'><!--
+  <div id='code' class='animate pin-left col12'>
+  <div class='row1 fill-gray pin-top'>
+    <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
       --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad0'></span></a><!--
       <% }); %>
@@ -260,8 +260,8 @@
   <% } %>
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
-  <a class='toolbar-button strong layers-n' href='#layers'><span class='js-layer-count'><%= sources[0].vector_layers.length %></span><span class='icon layers'></span>Layers</a>
-  <a class='toolbar-button strong layers-y active fill-lighten1' href='#'><span class='js-layer-count'><%= sources[0].vector_layers.length %></span><span class='icon layers'></span>Layers</a>
+  <a class='toolbar-button strong icon layers layers-n' href='#layers'>Layers</a>
+  <a class='toolbar-button strong layers-y icon layers active fill-lighten1' href='#'>Layers</a>
   <a class='toolbar-button strong icon fonts-n font' href='#fonts'>Fonts</a>
   <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
