@@ -21,7 +21,7 @@ $(document).ajaxComplete(function() {
     var callback = _onajax.shift();
     // This setTimeout prevents the onajax callback from being called
     // before the actual ajax call's success/error handlers are called.
-    setTimeout(function() { callback(); }, 1);
+    setTimeout(function() { callback(); }, 10);
 });
 
 describe('Setting maxzoom', function() {
