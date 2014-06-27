@@ -88,13 +88,11 @@ describe('#updatename-shape', function(){
         $('#newLayername').val('hey');
         $('#updatename').submit();
 
-        setTimeout(function() {
-            var currentUrl = window.location.toString();
-            var newBufferTarget = $('#hey-buffer-size-val');
+        var currentUrl = window.location.toString();
+        var newBufferTarget = $('#hey-buffer-size-val');
 
-            assert.equal(currentUrl.slice(-10),'layers-hey');
-            assert.equal(expectedBuffer, newBufferTarget.text());
-        }, 10);
+        assert.equal(currentUrl.slice(-10),'layers-hey');
+        assert.equal(expectedBuffer, newBufferTarget.text());
     });
 });
 
