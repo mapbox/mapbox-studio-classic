@@ -35,23 +35,6 @@
   <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
-<div id='user' class='z10 col12 pin-top'>
-  <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='megamenu caret1 fill-light col5 pin-topleft'>
-    <%= this.history(obj) %>
-    <div class='demo-popup col8 pin-bottomright offcanvas-right pad2 bottom2 fill-blue dark'>
-      <h3>Switching projects</h3>
-      <small class='space-bottom4'>
-      Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
-      </small>
-      <div class='pin-bottom clearfix center'><!--
-      --><a href='#settings' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-      --><a href='#start' class='small fill-darken0 pad1 col6 icon check quiet'>Done</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <form id='bookmark' class='tip-bottom z10 contain fill-white round animate'>
   <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
   <div class='pin-topright pad0'>
@@ -69,7 +52,7 @@
 </form>
 
 <div id='full' class='z1 clip animate pin-left'>
-  <div id='title' class='contain pad0 fill-darken3 inline pin-topleft z1 round-bottomright'>
+  <div id='title' class='pad1 fill-dark inline pin-topleft z1 round-bottomright'>
     <a href='/style?id=<%=style.id%>' class='round icon bear-left short button inline'>Return to styling</a></span>
   </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>

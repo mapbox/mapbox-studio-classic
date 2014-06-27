@@ -93,9 +93,9 @@
   </div>
 </div>
 
-<div id='user' class='animate fill-dark dark col4 offcanvas-left animate pin-left z10 scroll-styled'>
+<div id='user' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 scroll-styled'>
   <%= this.history(obj) %>
-  <div class='demo-popup col8 pin-bottomright offcanvas-right pad2 bottom2 fill-blue dark'>
+  <div class='demo-popup col8 pin-bottomright pad2 bottom2 fill-blue dark'>
     <h3>Switching projects</h3>
     <small class='space-bottom4'>
     Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
@@ -107,11 +107,11 @@
   </div>
 </div>
 
-<form id='settings' class='pad2 animate fill-dark dark col4 offcanvas-left animate pin-left z10 scroll-styled'>
+<form id='settings' class='pad1 animate fill-dark dark col3 offcanvas-left animate pin-left z10 scroll-styled'>
   <section class='space-bottom2 col12 pill clearfix'>
     <% if (style._tmp) { %>
-      <div class='z10 pad1 fill-darken2 center pin-top col12'>
-        <div class='pad1 block small strong center'>Save your project first.</div>
+      <div class='z10 pad1 fill-darken3 center pin-top col12'>
+        <div class='pad0 block small strong center'>Save your project first.</div>
       </div>
     <% } %>
     <a href='/style.tm2z?id=<%=style.id%>' class='short button col4 submit icon package'>Package</a><!--
@@ -169,7 +169,7 @@
     </section>
     <% } %>
   </fieldset>
-  <div class='demo-popup col8 pin-topright offcanvas-right pad2 top2 fill-blue dark'>
+  <div class='demo-popup col8 pin-bottomright pad2 fill-blue dark'>
     <h3>Publishing</h3>
     <small class='space-bottom4'>
     Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
@@ -184,7 +184,7 @@
 <div id='docs' class='col3 dark fill-dark offcanvas-left animate pin-left z10 scroll-styled'>
   <%= this['stylereference'](cartoRef) %>
 
-  <div class='demo-popup hidden col6 pin-topleft pad2 top1 fill-blue dark'>
+  <div class='demo-popup hidden col6 pin-topleft pad2 top2 fill-blue dark'>
     <h3>CartoCSS</h3>
     <small class='space-bottom4'>
     View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
@@ -197,7 +197,7 @@
 </div>
 
 <div id='layers' class='col3 fill-dark dark offcanvas-left animate pin-left z10 scroll-styled'>
-    <div class='pad2'><a href='#layers' class='js-modalsources button short icon point-line'>Change source</a></div>
+    <div class='pad1'><a href='#layers' class='js-modalsources button short icon point-line'>Change source</a></div>
     <div class='js-menu-content'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
@@ -252,9 +252,9 @@
   </div>
 </div>
 
-<div id='toolbar' class='center pad1x pad2y dark z100'>
+<div id='toolbar' class='center pad1 dark z100'>
   <% if (style._tmp) { %>
-  <a class='toolbar-button strong icon save js-saveas floppy'>Save as</a>
+  <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
   <% } else { %>
   <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
   <% } %>
@@ -267,7 +267,7 @@
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
 
-  <div class='user-icon pad2y pad1x pin-bottom'>
+  <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
     <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
   </div>

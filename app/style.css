@@ -7,11 +7,20 @@
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
+#user,
+#fonts,
+#docs,
+#layers,
+#settings {
+  visibility: hidden;
+}
+
 #user:target,
 #fonts:target,
 #docs:target,
 #layers:target,
 #settings:target {
+  visibility: visible;
   box-shadow: rgba(0,0,0,0.1) 2px 0px 0px;
 }
 

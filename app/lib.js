@@ -45,7 +45,7 @@ var statHandler = function(key) {
       memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10); });
       return memo;
     }, {});
-    var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
+    var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
 
     function round(v) { return Math.round(v * 0.001); }
 
