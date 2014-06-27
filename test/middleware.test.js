@@ -92,7 +92,7 @@ test('writeStyle: makes tmp styles', function(t) {
             delete defaultInfo.mtime;
 
             t.deepEqual(req.style.data, defaultInfo, 'mimics default style');
-            t.end(); 
+            t.end();
         });
     });
 });
@@ -287,22 +287,6 @@ test('auth: passes through authenticated requests', function(t) {
     });
     middleware.auth({}, {}, function(err) {
         t.ok(!err);
-        t.end();
-    });
-});
-
-test('basemap: appends a basemap to req', function(t) {
-    var req = {};
-    middleware.basemap(req, {}, function(err) {
-        t.ok(req.basemap);
-        t.end();
-    });
-});
-
-test('basemap: error when unauthenticated', function(t) {
-    tm.db.rm('oauth');
-    middleware.basemap({}, {}, function(err) {
-        t.ok(err);
         t.end();
     });
 });

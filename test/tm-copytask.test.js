@@ -80,6 +80,18 @@ test('copytask: end', function(t) {
     var MBTiles = require('mbtiles');
     new MBTiles(copy, function(err, src) {
         t.ifError(err);
+        src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
+            t.ifError(err);
+            t.equal(row.count, 341);
+            t.equal(row.size, 22245);
+            check([
+                [0,0,0],
+                [1,0,0],
+                [1,1,0],
+                [2,0,1],
+                [2,2,1]
+            ]);
+        });
         function check(queue) {
             if (!queue.length) return src.getInfo(function(err, info) {
                 t.ifError(err);
@@ -96,13 +108,6 @@ test('copytask: end', function(t) {
                 check(queue);
             });
         }
-        check([
-            [0,0,0],
-            [1,0,0],
-            [1,1,0],
-            [2,0,1],
-            [2,2,1]
-        ]);
     });
 });
 
@@ -126,12 +131,10 @@ test('cancels active job', function(t) {
         t.equal(null, job.stat);
         t.ok(!!job.task);
         t.ok(!!job.stats);
-        job.task.on('started', function() {
-            tm.cleartask(function(err) {
-                t.ifError(err);
-                t.ok(!tm._copy);
-                t.end();
-            });
+        tm.cleartask(function(err) {
+            t.ifError(err);
+            t.ok(!tm._copy);
+            t.end();
         });
     });
 });
@@ -145,11 +148,13 @@ test('no-op with no active job', function(t) {
 });
 
 test('cleanup', function(t) {
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'export.mbtiles')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'cancel.mbtiles')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
-    t.end();
+    setTimeout(function() {
+        try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
+        try { fs.unlinkSync(path.join(tmppath, 'export.mbtiles')); } catch(err) {}
+        try { fs.unlinkSync(path.join(tmppath, 'cancel.mbtiles')); } catch(err) {}
+        try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
+        try { fs.rmdirSync(tmppath); } catch(err) {}
+        t.end();
+    }, 100);
 });
 
