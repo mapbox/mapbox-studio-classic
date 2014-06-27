@@ -222,10 +222,10 @@
   <div class='row1 fill-gray pin-top'>
     <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad0'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x'></span></a><!--
       <% }); %>
     --></nav>
-    <a href='#' class='js-addtab addtab quiet icon plus pad0 z1 pin-bottomright'></a>
+    <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-bottomright'></a>
   </div>
 
   <div id='stylesheets'></div>
@@ -252,7 +252,7 @@
   </div>
 </div>
 
-<div id='toolbar' class='center pad1 dark z100'>
+<div id='toolbar' class='center pad1 dark z10'>
   <% if (style._tmp) { %>
   <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
   <% } else { %>

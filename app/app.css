@@ -132,7 +132,7 @@ kbd {
   }
 .dark.scroll-styled::-webkit-scrollbar-thumb,
 .dark .scroll-styled::-webkit-scrollbar-thumb {
-  background:#1d272c;
+  background:#222;
   }
 
 /* general app styles */
