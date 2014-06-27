@@ -136,14 +136,6 @@ describe('#layers', function() {
         $('#layers .js-modalsources:eq(0)').click();
         onajax(function() {
             assert.ok(hasModal('#modalsources'));
-            done();
-        });
-    });
-
-    it('shows sources modal', function(done) {
-        $('#layers .js-modalsources:eq(0)').click();
-        onajax(function() {
-            assert.ok(hasModal('#modalsources'));
             $('#modalsources-remote .js-adddata:eq(0)').click();
             onajax(function() {
                 assert.ok(!hasModal('#modalsources'));
