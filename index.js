@@ -364,6 +364,11 @@ app.all('/mbtiles', function(req, res, next) {
         if (err) return next(err);
         source.mbtiles(req.query.id, false, function(err, job) {
             if (err) return next(err);
+
+            // Clone job object and make it JSON-able.
+            job = _(job).clone();
+            job.task = !!job.task;
+
             if (/application\/json/.test(req.headers.accept||'')) {
                 res.send(job);
             } else {
@@ -387,6 +392,11 @@ app.all('/mbtiles.json', function(req, res, next) {
         if (err) return next(err);
         source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
             if (err) return next(err);
+
+            // Clone job object and make it JSON-able.
+            job = _(job).clone();
+            job.task = !!job.task;
+
             res.send(job);
         });
     });
