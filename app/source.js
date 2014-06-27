@@ -420,9 +420,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // Save center, disabled layers.
         attr._prefs = attr._prefs || {};
         if (this.model.get('_prefs').saveCenter) {
+            var zoom = Math.min(Math.max(map.getZoom(),attr.minzoom),attr.maxzoom);
             var lon = map.getCenter().lng % 360;
             lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-            attr.center = [lon, map.getCenter().lat, map.getZoom()];
+            attr.center = [lon, map.getCenter().lat, zoom];
         }
         attr._prefs.disabled = _($('#layers .layer').map(function(v) {
             return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
