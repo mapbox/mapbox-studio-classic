@@ -22,27 +22,27 @@ process.argv.push('--port=3001');
 process.argv.push('--mapboxauth=http://localhost:3001');
 process.argv.push('--mapboxtile=http://localhost:3001/v4');
 
-require('../index.js');
+require('../index.js').on('listening', function() {
+    var exit = 0;
+    var tests = [
+        'http://localhost:3001/style?id='+styleId+'&test=true',
+        'http://localhost:3001/source?id='+sourceId+'&test=true'
+    ];
 
-var exit = 0;
-var tests = [
-    'http://localhost:3001/style?id='+styleId+'&test=true',
-    'http://localhost:3001/source?id='+sourceId+'&test=true'
-];
-
-function runTest() {
-    if (!tests.length) {
-        fs.unlinkSync(tmpdb);
-        process.exit(exit);
-        return;
+    function runTest() {
+        if (!tests.length) {
+            fs.unlinkSync(tmpdb);
+            process.exit(exit);
+            return;
+        }
+        var url = tests.shift();
+        var child = fork(mochabin, [url, '--path='+phantombin]);
+        child.on('exit', function(code) {
+            exit = exit || code;
+            runTest();
+        });
     }
-    var url = tests.shift();
-    var child = fork(mochabin, [url, '--path='+phantombin]);
-    child.on('exit', function(code) {
-        exit = exit || code;
-        runTest();
-    });
-}
 
-setTimeout(runTest, 1000);
+    runTest();
+});
 

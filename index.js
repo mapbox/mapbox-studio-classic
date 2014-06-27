@@ -551,5 +551,10 @@ app.get('/metadata', function(req, res, next) {
 // Include mock mapbox API routes if in test mode.
 if (config.test) require('./lib/mapbox-mock')(app);
 
-app.listen(config.port);
-console.log('TM2 @ http://localhost:'+config.port+'/');
+module.exports = app;
+app.listen(config.port, function(err) {
+    if (err) throw err;
+    app.emit('listening');
+    console.log('TM2 @ http://localhost:'+config.port+'/');
+});
+
