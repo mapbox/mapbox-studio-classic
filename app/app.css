@@ -556,7 +556,7 @@ fieldset section.keyline-bottom { border-bottom-color:rgba(0,0,0,.2) !important;
   color: #343434;
   }
 #layers .layer.active { background: rgba(0,0,0,.2);}
-#layers .layer.active a { display: none;}
+#layers .layer.active a { height: 31px; }
 #layers .description { display:none;}
 #layers .active .description { display:block; }
 
