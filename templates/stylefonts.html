@@ -1,0 +1,14 @@
+<% obj.forEach(function(font) { %>
+<div class='keyline-bottom'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div>
+<% }); %>
+
+<div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark'>
+  <h3>Fonts</h3>
+  <small class='space-bottom4'>
+  The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#docs' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+  --><a href='#layers' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+  </div>
+</div>

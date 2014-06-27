@@ -4,20 +4,35 @@
 #print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
 /* Editor tabs */
+
 .carto-tabs {
-  padding-left: 90px;
   padding-right: 60px;
+  padding-left: 90px;
 }
 
 .carto-tabs a.tab {
+  border-top: 1px solid #d3d3d3;
+  border-left: 1px solid #d3d3d3;
   height: 30px;
+  margin-top: 10px;
   display: inline-block;
-  vertical-align: top;
   width: 25%;
+  text-align: center;
+}
+
+.carto-tabs a.tab:first-child {
+  border-top-left-radius: 3px;
+}
+
+.carto-tabs a.tab:last-child {
+  border-right: 1px solid rgba(0,0,0,.1);
+  border-top-right-radius: 3px;
 }
 
 .carto-tabs a.tab:hover { color: rgba(0,0,0,.75));}
-.carto-tabs a.tab.active { background:white;}
+.carto-tabs a.tab.active {
+  background:#f8f8f8;
+}
 
 .addtab { right:30px;}
 

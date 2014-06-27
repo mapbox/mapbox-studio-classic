@@ -165,15 +165,15 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='title' class='contain inline pin-topleft z1'>
-    <span class='inline clip fill-darken3 dark row1 round-bottomright'><!--
-      --><a href='#user' class='inline avatar align-middle'><img src='<%= user.avatar %>' /></a><!--
-      --><strong class='unround icon paint project-name small js-name inline pad1 truncate'><%= style.name || 'Untitled' %></strong><!--
-      --><span class='pad0x row1 inline'><!--
-      --><a href='#settings' class='round-left icon sprocket short button inline keyline-right'>Settings</a><!--
+    <span class='inline clip fill-darken3 dark pad0 row1 round-bottomright'><!--
+      --><a href='#user' class='short button quiet'><img class='avatar dot' src='<%= user.avatar %>' />Projects</a><!--
+      --><strong class='icon paint project-name small js-name inline pad0y pad1x truncate'><%= style.name || 'Untitled' %></strong><!--
+      --><span class='row1 inline pill'><!--
+      --><a href='#settings' class='icon sprocket short button'>Settings</a><!--
       <% if (style._tmp) { %>
-        --><a class='js-saveas round-right short button icon inline floppy'>Save as</a>
+        --><a class='js-saveas short button icon floppy'>Save as</a>
       <% } else { %>
-        --><a class='round-right js-save short button icon inline floppy' href='#'>Save</a>
+        --><a class='js-save short button icon floppy' href='#'>Save</a>
       <% } %>
     </span>
   </div>
@@ -216,9 +216,23 @@
 </div>
 
 <div id='docs' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
-    <%= this['styledocs'](cartoRef) %>
+  <div class='col6 pin-left clip fill-gray animate pane'>
+    <header class="row1 pad0y pad1x contain keyline-bottom">
+      <a class='pad1 quiet icon x pin-topright' href='#'></a>
+      <div class='pill col12 js-help-toggle help-toggle'>
+        <a href='#active1' class='col4 button quiet short active'>Manual</a><!--
+        --><a href='#active2' class='col4 button quiet short'>Reference</a><!--
+        --><a href='#active3' class='col4 button quiet short'>Fonts</a>
+      </div>
+    </header>
+
+    <div class='js-help-tabgroup sliding h active1'>
+      <section id='manual' class='scroll-styled col12 block animate'><%= this['stylemanual']() %></section>
+      <section id='reference' class='scroll-styled col12 block animate'><%= this['stylereference'](cartoRef) %></section>
+      <section id='fonts' class='scroll-styled col12 block animate'><%= this['stylefonts'](fontsRef) %></section>
+    </div>
   </div>
+
   <div class='demo-popup col6 pin-topleft pad2 top1 fill-blue dark'>
     <h3>CartoCSS</h3>
     <small class='space-bottom4'>
@@ -227,30 +241,6 @@
     <div class='pin-bottom clearfix center'><!--
     --><a href='#xray' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
     --><a href='#fonts' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-    </div>
-  </div>
-</div>
-
-<div id='fonts' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled fill-gray animate pane'>
-    <header class='pad1x pad0y keyline-bottom'>
-      <h3 class='pad0y'>Fonts</h3>
-      <nav class='pin-topright'>
-        <a class='inline pad1 strong small icon quiet x' href='#docs'></a>
-      </nav>
-    </header>
-    <% fontsRef.forEach(function(font) { %>
-    <div class='keyline-bottom'><span class='pad0 single-font' style='background-image:url("/font.png?id=<%=font%>")'><%=font%></span></div>
-    <% }); %>
-  </div>
-  <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark'>
-    <h3>Fonts</h3>
-    <small class='space-bottom4'>
-    The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
-    </small>
-    <div class='pin-bottom clearfix center'><!--
-    --><a href='#docs' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-    --><a href='#layers' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
     </div>
   </div>
 </div>
@@ -278,17 +268,17 @@
 </div>
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='code' class='z1 pin-left col12'>
+  <div class='pin-topleft z1'><!--
+  --><a title='Documentation' class='quiet inline pad1 keyline-right docs-n icon help' href='#docs'></a><!--
+  --><a title='Documentation' class='fill-darken2 dark inline pad1 keyline-right docs-y icon help' href='#'></a><!--
+  --><a title='Data layers' class='quiet inline pad1 keyline-right layers-n icon layers' href='#layers'></a><!--
+  --><a title='Data layers' class='fill-darken2 dark inline pad1 keyline-right layers-y icon layers' href='#'></a>
+  </div>
+  <div id='code' class='pin-left col12'>
   <div class='row1 fill-light pin-top'>
-    <div class='pin-topleft z1 row1'><!--
-    --><a title='Documentation' class='pad1 inline quiet docs-n icon help unround align-middle keyline-right' href='#docs'></a><!--
-      --><a title='Documentation' class='pad1 inline dark docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
-      --><a title='Data layers' class='pad1 inline quiet layers-n icon point-line align-middle keyline-right' href='#layers'></a><!--
-      --><a title='Data layers' class='pad1 inline dark layers-y icon point-line unround align-middle fill-darken2 keyline-right' href='#'></a>
-    </div>
-    <nav id='tabs' class='carto-tabs keyline-left row1 keyline-bottom pad0y pin-top fill-darken0 contain small'><!--
+    <nav id='tabs' class='fill-darken0 keyline-bottom carto-tabs row1 contain small'><!--
       <% _(style.styles).keys().forEach(function(k,i) { %>
-      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='center strong quiet tab js-tab round pad0y pad1x truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
+      --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--
       <% }); %>
     --></nav>
     <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-topright'></a>
