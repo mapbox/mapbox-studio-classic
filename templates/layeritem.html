@@ -5,7 +5,7 @@ var local = obj.Datasource && obj.Datasource.type;
 var refreshable = (local === 'shape' || local === 'csv');
 %>
 <div id='<%=obj.id%>' class='contain keyline-bottom clearfix layer js-layer col12 small quiet'>
-  <input type='hidden' class='datasourceType' value='<%=obj.Datasource.type%>' />
+  <input type='hidden' class='datasourceType' value='<%=obj.Datasource && obj.Datasource.type%>' />
   <% if (local) { %>
   <span class='pad0 col0'>
     <a href='#' id='zoom-<%=obj.id%>' class='icon crosshair inline round js-zoomTo'></a>
