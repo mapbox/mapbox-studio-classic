@@ -2,7 +2,7 @@
   "scheme": "tms",
   "basename": "export.mbtiles",
   "id": "export",
-  "filesize": 44032,
+  "filesize": 51200,
   "attribution": "&copy; John Doe 2013.",
   "center": [
     0,
@@ -13,12 +13,6 @@
   "maxzoom": 4,
   "minzoom": 0,
   "name": "Test source",
-  "bounds": [
-    -180,
-    -85.0511,
-    180,
-    85.0511
-  ],
   "vector_layers": [
     {
       "id": "box",
@@ -38,5 +32,11 @@
         "Id": "Number"
       }
     }
+  ],
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.0511287798066
   ]
 }

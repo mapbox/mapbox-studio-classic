@@ -111,6 +111,7 @@ Editor.prototype.keys = function(ev) {
     window.location.href = '#';
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
+
   var which = ev.which;
   switch (true) {
   case (which === 83): // s
@@ -137,8 +138,8 @@ Editor.prototype.keys = function(ev) {
     this.togglePane('bookmark');
     break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
-    var tab = $('#tabs a.tab')[which-48];
-    if (tab) tab.click();
+    var tab = $('#tabs a.tab')[(which-48)-1];
+    if (tab) $(tab).click();
     break;
   default:
     return true;
@@ -299,9 +300,10 @@ Editor.prototype.save = function(ev, options) {
   }).get().shift();
 
   if (this.model.get('_prefs').saveCenter) {
+    var zoom = Math.min(Math.max(map.getZoom(),attr.minzoom),attr.maxzoom);
     var lon = map.getCenter().lng % 360;
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
+    attr.center = [lon , map.getCenter().lat, zoom];
   }
 
   // New mtime querystring
@@ -441,8 +443,7 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map title.tm.db.rm('user');
-  $('title').text(this.model.get('name'));
-  $('.js-name').text(this.model.get('name') || 'Untitled');
+  $('title, .js-name').text(this.model.get('name') || 'Untitled');
   $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.

@@ -16,7 +16,7 @@
     <div class='pad2 fill-darken0'>
       <h2><%= source.name || 'Untitled' %></h2>
 
-      <% var pct = job.stats ? (100 * job.stats.processed / job.stats.total).toFixed(1) : '100.0'; %>
+      <% var pct = job.stats ? (100 * job.stats.done / (job.stats.total||1)).toFixed(1) : '100.0'; %>
       <small class='quiet'>
         <span class='stat'><span class='size'><%= job.stat ? this.exportsize(job.stat.size) : 0 %></span> &mdash;</span>
         <span class='task'><span class='speed'><%= job.stats ? job.stats.speed : 0 %></span> tiles/sec &mdash;</span>
@@ -82,7 +82,7 @@ Exporter.prototype.refresh = function() {
     this.$('.size').text(templates.exportsize(this.model.get('stat').size));
     $('body').removeClass('task').addClass('stat');
   } else {
-    var pct = (100 * this.model.get('stats').processed / this.model.get('stats').total).toFixed(1);
+    var pct = (100 * this.model.get('stats').done / this.model.get('stats').total).toFixed(1);
     var spd = this.model.get('stats').speed;
     $('body').removeClass('stat').addClass('task');
   }
