@@ -5,22 +5,46 @@
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
-#user,
-#fonts,
-#docs,
-#layers,
-#settings {
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
   visibility: hidden;
   padding-top: 60px;
 }
 
-#user:target,
-#fonts:target,
-#docs:target,
-#layers:target,
-#settings:target {
-  visibility: visible;
+#drawers {
   box-shadow: rgba(0,0,0,0.1) 2px 0px 0px;
+  visibility: hidden;
+}
+
+#user-target:target ~ #drawers,
+#fonts-target:target ~ #drawers,
+#docs-target:target ~ #drawers,
+#layers-target:target ~ #drawers,
+#settings-target:target ~ #drawers,
+#user-target:target ~ #drawers #user,
+#fonts-target:target ~ #drawers #fonts,
+#docs-target:target ~ #drawers #docs,
+#layers-target:target ~ #drawers #layers,
+#settings-target:target ~ #drawers #settings {
+  -webkit-transform:translateX(0%);
+     -moz-transform:translateX(0%);
+      -ms-transform:translateX(0%);
+          transform:translateX(0%);
+  visibility: visible;
+}
+
+#user-target:target ~ #drawers #user ~ .drawer,
+#fonts-target:target ~ #drawers #fonts ~ .drawer,
+#docs-target:target ~ #drawers #docs ~ .drawer,
+#layers-target:target ~ #drawers #layers ~ .drawer,
+#settings-target:target ~ #drawers #settings ~ .drawer {
+  -webkit-transform:translateX(100%);
+     -moz-transform:translateX(100%);
+      -ms-transform:translateX(100%);
+          transform:translateX(100%);
 }
 
 /* Code pane

@@ -53,7 +53,7 @@ var sections = {
 <article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% if (name !== 'intro') { %>
   <div class='row pad1 contain keyline-bottom section-name'>
-    <span class='<%= symbolizers.icon %> icon strong'><%= name %></span>
+    <span class='<%= symbolizers.icon %> icon quiet strong'><%= name %></span>
   </div>
   <% } %>
   <% _(symbolizers).each(function(symbolizer) { %>
