@@ -221,10 +221,11 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #bookmark {
   pointer-events:none;
   position:absolute;
-  left:47px;
-  width:280px;
+  right:115px;
+  width:200px;
   bottom:45px;
   opacity:0;
+  visibility: none;
   box-shadow:0 0 0 2px rgba(0,0,0,.08);
   -webkit-transform:translateY(10px);
      -moz-transform:translateY(10px);
@@ -234,9 +235,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 .dark #bookmark { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
 
-#bookmark > input { padding-right:90px }
+#bookmark > input { padding-right:50px }
 
 #bookmark:target {
+  visibility: visible;
   pointer-events:all;
   opacity:1;
   -webkit-transform:translateY(0);
@@ -256,8 +258,9 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #search {
   pointer-events:none;
   position:absolute;
-  left:26px;
-  width:280px;
+  visibility: none;
+  right:135px;
+  width:200px;
   bottom:45px;
   opacity:0;
   box-shadow:0 0 0 2px rgba(0,0,0,.1);
@@ -275,6 +278,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 }
 
 #search:target {
+  visibility: visible;
   pointer-events:all;
   opacity:1;
   -webkit-transform:translateY(0);
@@ -312,7 +316,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #map-controls {
   position: absolute;
   bottom: 10px;
-  left: 115px;
+  right: 10px;
 }
 
 .leaflet-control-zoom { display: none; }
@@ -320,12 +324,12 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 .leaflet-control {
   z-index:0;
   }
+
 #zoomedto {
-  position:absolute;
-  left: 0;
-  bottom: 0;
-  margin:10px;
-  }
+  display: inline-block;
+  vertical-align: top;
+}
+
 #zoomedto .z {
   display:none;
   width:100px; height:20px;
