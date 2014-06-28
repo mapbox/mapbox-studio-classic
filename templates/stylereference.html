@@ -34,7 +34,7 @@ var sections = {
 };
 %>
 
-<section class='small pad1 contain'>
+<section class='small pad1x pad2y contain keyline-bottom'>
   <a class='icon space-bottom2 tilemill button short' href='#demo'>walkthrough</a>
   <ul class='space-bottom1'>
     <li><kbd class='code prefixed'>s</kbd> Save.</li>
@@ -52,7 +52,7 @@ var sections = {
 <% _(sections).each(function(symbolizers, name) { %>
 <article id='docs-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <% if (name !== 'intro') { %>
-  <div class='row dark fill-darken1 pad1 contain section-name'>
+  <div class='row pad1 contain keyline-bottom section-name'>
     <span class='<%= symbolizers.icon %> icon strong'><%= name %></span>
   </div>
   <% } %>

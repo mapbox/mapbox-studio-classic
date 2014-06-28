@@ -94,6 +94,10 @@
 </div>
 
 <div id='user' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 scroll-styled'>
+  <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <h3>Projects</h3>
+    <a href='#' class='icon x pin-right pad1 quiet'></a>
+  </div>
   <%= this.history(obj) %>
   <div class='demo-popup col8 pin-bottomright pad2 bottom2 fill-blue dark'>
     <h3>Switching projects</h3>
@@ -108,16 +112,22 @@
 </div>
 
 <form id='settings' class='pad1 animate fill-dark dark col3 offcanvas-left animate pin-left z10 scroll-styled'>
-  <section class='space-bottom2 col12 pill clearfix'>
+  <div class='pin-top pad1 keyline-bottom'>
+    <h3>Settings</h3>
+    <a href='#' class='icon x pin-right pad1 quiet'></a>
+  </div>
+  <section class='space-bottom2 clearfix'>
     <% if (style._tmp) { %>
       <div class='z10 pad1 fill-darken3 center pin-top col12'>
         <div class='pad0 block small strong center'>Save your project first.</div>
       </div>
     <% } %>
-    <a href='/style.tm2z?id=<%=style.id%>' class='short button col4 submit icon package'>Package</a><!--
-    --><a href='#settings' class='js-upload short button submit icon up col4'>Upload</a><!--
-    --><a href='/print?id=<%=style.id%>' id='print-style' class='short button col4 submit picture icon'>Image</a>
+    <div class='col12 pill clearfix'>
+      <a href='#settings' class='js-upload short button submit icon up col6'>Upload</a><!--
+      --><a href='/print?id=<%=style.id%>' id='print-style' class='short button col6 submit picture icon'>Image</a>
+    </div>
   </section>
+
   <fieldset>
     <section class='space-bottom1'>
       <label>Name</label>
@@ -179,10 +189,18 @@
     --><a href='#user' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
     </div>
   </div>
+  <a href='/style.tm2z?id=<%=style.id%>' class='block small quiet submit icon package'>Download package</a>
 </form>
 
 <div id='docs' class='col3 dark fill-dark offcanvas-left animate pin-left z10 scroll-styled'>
+  <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <h3>Documentation</h3>
+    <a href='#' class='icon x pin-right pad1 quiet'></a>
+  </div>
+
+  <div class='col12 pin-left top1 scroll-styled'>
   <%= this['stylereference'](cartoRef) %>
+  </div>
 
   <div class='demo-popup hidden col6 pin-topleft pad2 top2 fill-blue dark'>
     <h3>CartoCSS</h3>
@@ -197,24 +215,36 @@
 </div>
 
 <div id='layers' class='col3 fill-dark dark offcanvas-left animate pin-left z10 scroll-styled'>
-    <div class='pad1'><a href='#layers' class='js-modalsources button short icon point-line'>Change source</a></div>
+  <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <h3>Layers</h3>
+    <a href='#' class='icon x pin-right pad1 quiet'></a>
+  </div>
+  <div class='pin-left top1 scroll-styled'>
+    <div class='pad2y pad1x'><a href='#layers' class='js-modalsources button short icon point-line'>Change source</a></div>
     <div class='js-menu-content'>
       <%= _(sources).map(this.sourcelayers).join('\n') %>
     </div>
-  <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
-    <h3>Vector sources</h3>
-    <small class='space-bottom4'>
-    Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
-    </small>
-    <div class='pin-bottom clearfix center'><!--
-    --><a href='#fonts' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-    --><a href='#settings' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+    <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+      <h3>Vector sources</h3>
+      <small class='space-bottom4'>
+      Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
+      </small>
+      <div class='pin-bottom clearfix center'><!--
+      --><a href='#fonts' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+      --><a href='#settings' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+      </div>
     </div>
   </div>
 </div>
 
 <div id='fonts' class='fill-dark dark col3 offcanvas-left animate pin-left z10 scroll-styled'>
+  <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <h3>Fonts</h3>
+    <a href='#' class='icon x pin-right pad1 quiet'></a>
+  </div>
+  <div class='pin-left top1 scroll-styled'>
   <%= this['stylefonts'](fontsRef) %>
+  </div>
 </div>
 
 <div id='style-ui' class='animate z1 col6 pin-right fill-light'>

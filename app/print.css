@@ -1,16 +1,17 @@
-/* Code pane */
-#style-ui,
-#source-ui,
-#print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
-
-/* Export Settings */
-
-#print-ui { font: 12px 'Open Sans Bold'; }
+/* Layout
+------------------------------------------------------- */
+#print-ui {
+  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+}
 
 #full {
   min-width: 58.333%;
   right: 500px;
 }
+
+/* Export pane
+------------------------------------------------------- */
+#print-ui { font: 12px 'Open Sans Bold'; }
 
 #reselect {
   bottom: 10px;
@@ -28,7 +29,6 @@
 .warning, input.warning  { color: #ee8a65; }
 .close { z-index: 10; }
 .icon.reselect:before, .icon.recenter:before { margin-left: 2px; }
-
 
 .dim {
   width: 90px;

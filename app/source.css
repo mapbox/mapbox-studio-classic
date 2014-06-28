@@ -1,31 +1,64 @@
+/* Layout
+------------------------------------------------------- */
+#source-ui,
+.source-menu {
+  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+}
+
 #docs .keyline-bottom,
 #docs .keyline-top {
   border-top-color: rgba(0,0,0,.2);
   border-bottom-color: rgba(0,0,0,.2);
 }
 
-.source-menu { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+#data:target ~ #layers.pane > *,
+#data:target ~ #layers { display:block; }
+#data:target ~ #layers a.delete { display:block; }
 
+/* Editor pane
+------------------------------------------------------- */
 .editor .field-key {
   padding:0 5px;
   border-radius: 3px;
   color: rgba(0,0,0,.75);
   vertical-align: top;
   font-family:'Open Sans', sans-serif;
-  }
+}
 
-/* Conf pane */
+/* Menu (off-canvas) */
+.menu .sortable-dragging,
+.menu .sortable-placeholder {
+  display:block;
+  padding:10px 20px 9px;
+  min-height:40px;
+  position:relative;
+  }
+.menu nav a.button.title:active { background-color:#333; }
+
+/* Sortable states */
+.menu .sortable-placeholder { background:rgba(0,0,0,0.1); }
+.menu .sortable-dragging {
+  background:#444;
+  padding:9px 19px;
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:4px;
+}
+
+/* Conf pane
+------------------------------------------------------- */
 .editor > div.conf { display:block; }
 .sql .editor > div.conf,
 .fields .editor > div.conf { display:none; }
 
-/* Fields pane */
+/* Fields pane
+------------------------------------------------------- */
 .editor > div.fields { display:none; }
 .fields .editor > div.fields { display:block; }
 
 section:not(.field) + .empty-state { margin: 20px;display: block;}
 
-/* SQL pane */
+/* SQL pane
+------------------------------------------------------- */
 .editor > div.sql {
   position:absolute;
   top:60px; bottom:0px; width:100%;
@@ -37,7 +70,8 @@ section:not(.field) + .empty-state { margin: 20px;display: block;}
 .sql .editor > div.sql { visibility:visible; }
 .sql .editor .CodeMirror { visibility:visible; }
 
-/* XRay tools */
+/* XRay toggle
+------------------------------------------------------- */
 .xrayswatch,
 .xrayinspector {
   box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
@@ -49,3 +83,11 @@ section:not(.field) + .empty-state { margin: 20px;display: block;}
 .xrayinspector::before { visibility:hidden; }
 .xrayinspector:hover::before { visibility:visible; }
 .xrayinspector.active::before { visibility:visible; }
+
+/* Miscellaneous
+------------------------------------------------------- */
+
+/* Refresh alerts */
+#refresh        { opacity:0; z-index:-1;}
+#refresh:target { opacity:1; z-index:100;}
+

@@ -1,19 +1,20 @@
-<div id='<%= obj.id %>' class='contain js-source source'>
+<div id='<%= obj.id %>' class='js-source source'>
 
-<div class='pad1'>
+<div class='pad1x'>
   <h3><%= obj.name || 'Untitled' %></h3>
-  <div class='clearfix small'>
-    <div class='col6'>
+  <div class='clearfix small pad1y'>
+    <div class='pad0y col6'>
     <% if (obj.id.indexOf('tmsource://') === 0) { %>
     <span class='quiet icon harddrive'>Local</span>
     <% } else {%>
     <span class='quiet icon cloud'>Remote</span>
     <% } %>
     </div>
-    <div class='col6 text-right'>
-      <a href='#source-<%=obj.id%>' class='js-recache icon refresh'>Refresh</a>
+    <div class='fr col6 text-right'>
+      <a href='#source-<%=obj.id%>' class='button short quiet js-recache icon refresh'>Refresh</a>
     </div>
   </div>
+
 </div>
 
 <div class='keyline-top'>
