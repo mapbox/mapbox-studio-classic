@@ -19,16 +19,16 @@
   visibility: hidden;
 }
 
-#user-target:target ~ #drawers,
-#fonts-target:target ~ #drawers,
-#docs-target:target ~ #drawers,
-#layers-target:target ~ #drawers,
-#settings-target:target ~ #drawers,
-#user-target:target ~ #drawers #user,
-#fonts-target:target ~ #drawers #fonts,
-#docs-target:target ~ #drawers #docs,
-#layers-target:target ~ #drawers #layers,
-#settings-target:target ~ #drawers #settings {
+#user:target ~ #drawers,
+#fonts:target ~ #drawers,
+#docs:target ~ #drawers,
+#layers:target ~ #drawers,
+#settings:target ~ #drawers,
+#user:target ~ #drawers #user-drawer,
+#fonts:target ~ #drawers #fonts-drawer,
+#docs:target ~ #drawers #docs-drawer,
+#layers:target ~ #drawers #layers-drawer,
+#settings:target ~ #drawers #settings-drawer {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -36,11 +36,11 @@
   visibility: visible;
 }
 
-#user-target:target ~ #drawers #user ~ .drawer,
-#fonts-target:target ~ #drawers #fonts ~ .drawer,
-#docs-target:target ~ #drawers #docs ~ .drawer,
-#layers-target:target ~ #drawers #layers ~ .drawer,
-#settings-target:target ~ #drawers #settings ~ .drawer {
+#user:target ~ #drawers #user-drawer ~ .drawer,
+#fonts:target ~ #drawers #fonts-drawer ~ .drawer,
+#docs:target ~ #drawers #docs-drawer ~ .drawer,
+#layers:target ~ #drawers #layers-drawer ~ .drawer,
+#settings:target ~ #drawers #settings-drawer ~ .drawer {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -107,42 +107,42 @@
 #docs-raster .section-name   { border-right-color: #ee8a65; } /* fill orange */
 #docs-text .section-name     { border-right-color: #ee6565; } /* fill red */
 
-#docs .section-name {
+#docs-drawer .section-name {
   border-right-width: 5px;
   border-right-style: solid;
   text-transform: capitalize;
 }
 
-#docs .code.value,
-#docs .code.options {
+#docs-drawer .code.value,
+#docs-drawer .code.options {
   color:rgba(0,0,0,.75);
   padding:2px 5px;
   border-radius: 3px;
   background: rgba(241, 240, 117, 1);
 }
 
-#docs .code.value:before {
+#docs-drawer .code.value:before {
   content:'default: ';
   color: rgba(0,0,0,.5);
   }
 
-#docs .code.options:before {
+#docs-drawer .code.options:before {
   content:'options: ';
   color: rgba(0,0,0,.5);
 }
 
-#docs section.carto-ref:not(.active):hover {
+#docs-drawer section.carto-ref:not(.active):hover {
   background: rgba(0,0,0,.05);
 }
 
-#docs section.active a,
-#docs .details { display: none;}
-#docs section.active { background-color: rgba(0,0,0,.15);}
-#docs section.active .details { display: block;}
+#docs-drawer section.active a,
+#docs-drawer .details { display: none;}
+#docs-drawer section.active { background-color: rgba(0,0,0,.15);}
+#docs-drawer section.active .details { display: block;}
 
 /* Font pane
 ------------------------------------------------------- */
-#fonts .single-font {
+#fonts-drawer .single-font {
   height:30px;
   display:block;
   background-position:10px 50%;
@@ -151,25 +151,25 @@
   color: transparent;
 }
 
-#fonts .single-font:hover {
+#fonts-drawer .single-font:hover {
   background-color: rgba(0,0,0,.05);
 }
 
 /* Data pane
 ------------------------------------------------------- */
-#layers .layer:hover { background: rgba(0,0,0,.05);}
+#layers-drawer .layer:hover { background: rgba(0,0,0,.05);}
 
-#layers .field-key {
+#layers-drawer .field-key {
   padding:0 5px;
   border-radius: 3px;
   color: #343434;
   }
-#layers .layer.active { background: rgba(0,0,0,.15);}
-#layers .layer.active a { display: none;}
-#layers .description { display:none;}
-#layers .active .description { display:block; }
+#layers-drawer .layer.active { background: rgba(0,0,0,.15);}
+#layers-drawer .layer.active a { display: none;}
+#layers-drawer .description { display:none;}
+#layers-drawer .active .description { display:block; }
 
-#layers .menu-content .empty-state:only-child {
+#layers-drawer .menu-content .empty-state:only-child {
   margin: 20px;
   display: block;
 }
@@ -191,17 +191,21 @@ body.demo #demo { display:block; }
 .demo-popup { display:none; }
 body.demo .CodeMirror { overflow: hidden;}
 
+/* Display active popup */
 body.demo .demo-fallback,
 body.demo #home:target ~ #style-ui .demo-popup,
 body.demo #full:target ~ #style-ui .demo-popup,
 body.demo #search:target ~ #style-ui .demo-popup,
 body.demo #bookmark:target ~ #style-ui .demo-popup,
 body.demo #xray:target ~ #full .demo-popup,
-body.demo #docs:target .demo-popup,
-body.demo #fonts:target .demo-popup,
-body.demo #layers:target .demo-popup,
-body.demo #settings:target .demo-popup,
-body.demo #user:target .demo-popup { display:block; }
+body.demo #docs:target ~ #docs-popup.demo-popup,
+body.demo #fonts:target ~ #fonts-popup.demo-popup,
+body.demo #layers:target ~ #layers-popup.demo-popup,
+body.demo #settings:target ~ #settings-popup.demo-popup,
+body.demo #user:target ~ #user-popup.demo-popup {
+  display:block;
+  z-index: 102;
+}
 
 #xray:target ~ .demo-fallback,
 #full:target ~ .demo-fallback,
@@ -214,6 +218,7 @@ body.demo #user:target .demo-popup { display:block; }
 #settings:target ~ .demo-fallback,
 #user:target ~ .demo-fallback { display:none; }
 
+/* Walkthrough nav active state */
 #demo:target     a.demo-demo,
 #xray:target ~ * a.demo-xray,
 #full:target ~ * a.demo-full,
@@ -226,22 +231,24 @@ body.demo #user:target .demo-popup { display:block; }
 #settings:target ~ * a.demo-settings,
 #user:target ~ * a.demo-user { color:#fff; }
 
+/* Bring active element to top */
 body.demo #xray:target ~ #full,
-body.demo #docs:target,
-body.demo #fonts:target,
-body.demo #layers:target,
+body.demo #docs:target ~ #drawers,
+body.demo #fonts:target ~ #drawers,
+body.demo #layers:target ~ #drawers,
 body.demo #home:target ~ #style-ui { z-index:101; }
 
+/* Highlight active element */
 body.demo #xray:target ~ #full,
 body.demo #home:target ~ #style-ui,
 body.demo #full:target ~ #style-ui,
 body.demo #search:target ~ #style-ui,
 body.demo #bookmark:target ~ #style-ui,
-body.demo #docs:target,
-body.demo #fonts:target,
-body.demo #layers:target,
-body.demo #settings:target,
-body.demo #user:target {
+body.demo #docs:target ~ #drawers,
+body.demo #fonts:target ~ #drawers,
+body.demo #layers:target ~ #drawers,
+body.demo #settings:target ~ #drawers,
+body.demo #user:target ~ #drawers {
   box-shadow: 0px 0px 0px 5px #3887be, 0px 0px 5px 10px rgba(0,0,0,0.2);
   -webkit-transition:none;
   }

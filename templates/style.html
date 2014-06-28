@@ -30,11 +30,11 @@
 
 <body id='view' class='<%= agent %> clip'><div id='app' class='pin-top pin-bottom animate'>
 
-<a id='settings-target'></a>
-<a id='layers-target'></a>
-<a id='fonts-target'></a>
-<a id='docs-target'></a>
-<a id='user-target'></a>
+<a id='settings'></a>
+<a id='layers'></a>
+<a id='fonts'></a>
+<a id='docs'></a>
+<a id='user'></a>
 
 <a id='home'></a>
 <a id='xray'></a>
@@ -89,7 +89,7 @@
   </div>
 
   <!-- DEMO -->
-  <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+  <div id='inspect-popup' class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
     TM2 styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
@@ -99,12 +99,11 @@
     --><a href='#docs' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
     </div>
   </div>
-  <!-- END DEMO -->
 </div>
 
 <div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
 
-  <form id='settings' class='drawer col12 animate offcanvas-left'>
+  <form id='settings-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
       <h3>Settings</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
@@ -175,22 +174,9 @@
       </fieldset>
       <a href='/style.tm2z?id=<%=style.id%>' class='block small quiet submit icon package'>Download package</a>
     </div>
-
-    <!-- DEMO -->
-    <div class='demo-popup col8 pin-bottomright pad2 fill-blue dark'>
-      <h3>Publishing</h3>
-      <small class='space-bottom4'>
-      Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
-      </small>
-      <div class='pin-bottom clearfix center'><!--
-      --><a href='#layers' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-      --><a href='#user' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-      </div>
-    </div>
-    <!-- END DEMO -->
   </form>
 
-  <div id='layers' class='drawer col12 animate offcanvas-left'>
+  <div id='layers-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
       <h3>Layers</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
@@ -202,21 +188,9 @@
       </div>
     </div>
 
-    <!-- DEMO -->
-    <div class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
-      <h3>Vector sources</h3>
-      <small class='space-bottom4'>
-      Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
-      </small>
-      <div class='pin-bottom clearfix center'><!--
-      --><a href='#fonts' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-      --><a href='#settings' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-      </div>
-    </div>
-    <!-- END DEMO -->
   </div>
 
-  <div id='fonts' class='drawer col12 animate offcanvas-left'>
+  <div id='fonts-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
       <h3>Fonts</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
@@ -226,7 +200,7 @@
     </div>
   </div>
 
-  <div id='docs' class='drawer col12 animate offcanvas-left'>
+  <div id='docs-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
       <h3>Documentation</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
@@ -234,38 +208,14 @@
     <div class='col12 pin-left top1 scroll-styled'>
       <%= this['stylereference'](cartoRef) %>
     </div>
-
-    <!-- DEMO -->
-    <div class='demo-popup hidden col6 pin-topleft pad2 top2 fill-blue dark'>
-      <h3>CartoCSS</h3>
-      <small class='space-bottom4'>
-      View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
-      </small>
-      <div class='pin-bottom clearfix center'><!--
-      --><a href='#xray' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-      --><a href='#fonts' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
-      </div>
-    </div>
-    <!-- END DEMO -->
-
   </div>
 
-  <div id='user' class='drawer col12 animate offcanvas-left'>
+  <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
       <h3>Projects</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <%= this.history(obj) %>
-    <div class='demo-popup col8 pin-bottomright pad2 bottom2 fill-blue dark'>
-      <h3>Switching projects</h3>
-      <small class='space-bottom4'>
-      Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
-      </small>
-      <div class='pin-bottom clearfix center'><!--
-      --><a href='#settings' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-      --><a href='#start' class='small fill-darken0 pad1 col6 icon check quiet'>Done</a>
-      </div>
-    </div>
   </div>
 
 </div>
@@ -284,7 +234,7 @@
   </div>
 
   <!-- DEMO -->
-  <div class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
+  <div id='style-popup' class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
     <h3>Editing + saving</h3>
     <small class='space-bottom4'>
     Change the Map <code>background-color</code> property to a hex code (<code>#f88</code>) or html color (<code>pink</code>). Hit <kbd class='prefixed'>s</kbd> to save and update your style. The map preview on the left updates as you work.
@@ -297,8 +247,29 @@
   <!-- END DEMO -->
 </div>
 
-<!-- DEMO -->
-<div class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark z1'>
+<div id='toolbar' class='center pad1 dark z10'>
+  <% if (style._tmp) { %>
+  <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
+  <% } else { %>
+  <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
+  <% } %>
+  <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
+  <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
+  <a class='toolbar-button strong icon layers layers-n' href='#layers'>Layers</a>
+  <a class='toolbar-button strong layers-y icon layers active fill-lighten1' href='#'>Layers</a>
+  <a class='toolbar-button strong icon fonts-n font' href='#fonts'>Fonts</a>
+  <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
+  <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
+  <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
+
+  <div class='user-icon pad1 pin-bottom'>
+    <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+    <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+  </div>
+</div>
+
+<!-- DEMO POPUPS -->
+<div id='style-popup' class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark z1'>
   <h3>Style editor</h3>
   <small class='space-bottom4'>
   In the TM2 style editor you can design map styles using data from OpenStreetMap, Mapbox, and other custom sources. Then publish them to be used with the Mapbox API.
@@ -307,28 +278,62 @@
   --><a href='#home' class='small fill-darken0 pad1 col12 icon next quiet'>Next</a>
   </div>
 </div>
-<!-- END DEMO -->
 
-<div id='toolbar' class='center pad1 dark z10'>
-  <% if (style._tmp) { %>
-  <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
-  <% } else { %>
-  <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
-  <% } %>
-  <a class='toolbar-button strong icon settings-n sprocket' href='#settings-target'>Settings</a>
-  <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
-  <a class='toolbar-button strong icon layers layers-n' href='#layers-target'>Layers</a>
-  <a class='toolbar-button strong layers-y icon layers active fill-lighten1' href='#'>Layers</a>
-  <a class='toolbar-button strong icon fonts-n font' href='#fonts-target'>Fonts</a>
-  <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
-  <a class='toolbar-button strong icon docs-n info' href='#docs-target'>Docs</a>
-  <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
-
-  <div class='user-icon pad1 pin-bottom'>
-    <a class='toolbar-button strong user-n' href='#user-target'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
-    <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+<div id='settings-popup' class='demo-popup col4 margin3 pin-topleft pad2 fill-blue dark'>
+  <h3>Publishing</h3>
+  <small class='space-bottom4'>
+  Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#layers' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+  --><a href='#user' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
   </div>
 </div>
+
+<div id='layers-popup' class='demo-popup col4 margin3 pin-topleft pad2 top1 fill-blue dark'>
+  <h3>Vector sources</h3>
+  <small class='space-bottom4'>
+  Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#fonts' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+  --><a href='#settings' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+  </div>
+</div>
+
+<div id='fonts-popup' class='demo-popup col4 margin3 pin-topleft pad2 top2 fill-blue dark'>
+  <h3>Fonts</h3>
+  <small class='space-bottom4'>
+  The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#docs' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+  --><a href='#layers' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+  </div>
+</div>
+
+<div id='docs-popup' class='demo-popup hidden col4 margin3 pin-bottomleft pad2 bottom2 fill-blue dark'>
+  <h3>CartoCSS</h3>
+  <small class='space-bottom4'>
+  View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#xray' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+  --><a href='#fonts' class='small fill-darken0 pad1 col6 rcon next quiet'>Next</a>
+  </div>
+</div>
+
+<div id='user-popup' class='demo-popup col4 margin3 pin-bottomleft pad2 bottom1 fill-blue dark'>
+  <h3>Switching projects</h3>
+  <small class='space-bottom4'>
+  Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
+  </small>
+  <div class='pin-bottom clearfix center'><!--
+  --><a href='#settings' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
+  --><a href='#start' class='small fill-darken0 pad1 col6 icon check quiet'>Done</a>
+  </div>
+</div>
+<!-- END DEMO POPUPS -->
 
 <%= this.styledemo() %>
 
