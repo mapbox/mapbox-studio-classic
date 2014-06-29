@@ -221,11 +221,11 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #bookmark {
   pointer-events:none;
   position:absolute;
-  right:115px;
+  right:145px;
   width:200px;
   bottom:45px;
   opacity:0;
-  visibility: none;
+  visibility: hidden;
   box-shadow:0 0 0 2px rgba(0,0,0,.08);
   -webkit-transform:translateY(10px);
      -moz-transform:translateY(10px);
@@ -258,8 +258,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #search {
   pointer-events:none;
   position:absolute;
-  visibility: none;
-  right:135px;
+  visibility: hidden;
+  right:165px;
   width:200px;
   bottom:45px;
   opacity:0;
