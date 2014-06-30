@@ -24,7 +24,9 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> clip dark'>
+<body id='view' class='<%= agent %> clip dark'><div id='app' class='pin-top pin-bottom'>
+
+<a id='user'></a>
 
 <div id='perf'></div>
 
@@ -33,11 +35,16 @@
   <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
-<div id='user' class='z10 col12 pin-top'>
-  <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='megamenu caret1 fill-dark col5 pin-topleft'>
+<div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
+
+  <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
+    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+      <h3>Projects</h3>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
+    </div>
     <%= this.history(obj) %>
   </div>
+
 </div>
 
 <form id='settings' class='z10 col12 pin-top'>
@@ -78,24 +85,11 @@
       </fieldset>
     </div>
     <div class='keyline-top pad2y settings-footer pin-bottom'>
-    <% if (!remote && source._tmp) { %>
-      <section class='col12 pad2x clearfix'>
-        <a href='#' class='quiet button col12 icon js-saveas floppy'>Save as</a>
-      </section>
-    <% } else if (!remote) { %>
       <section class='col12 pad1x clearfix'>
-        <div class='pad1x col6'>
-          <a href='#' class='quiet button col12 icon js-save floppy'>Save</a>
-        </div>
         <div class='pad1x col6'>
           <a href='/mbtiles?id=<%= source.id %>' class='quiet button col12 icon share'>Export</a>
         </div>
       </section>
-    <% } else { %>
-      <section class='pad2x clearfix'>
-        <a href='#' class='col12 quiet button icon js-save floppy'>Save</a>
-      </section>
-    <% } %>
     </div>
   </div>
 </form>
@@ -159,12 +153,6 @@
   </div>
 </div>
 
-<div id='docs' class='pin-right col6 z1'>
-  <div class='col6 pin-left scroll-styled fill-dark animate pane'>
-  <%= this['sourcedocs']() %>
-  </div>
-</div>
-
 <%
 var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
 revlayers.reverse();
@@ -221,6 +209,23 @@ revlayers.reverse();
     }).extend(l)));
   }.bind(this));
 } %>
+</div>
+
+<div id='toolbar' class='center pad1 dark z10'>
+  <% if (source._tmp) { %>
+  <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
+  <% } else { %>
+  <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
+  <% } %>
+  <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
+  <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
+
+  <div class='user-icon pad1 pin-bottom'>
+    <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+    <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+  </div>
+</div>
+
 </div>
 
 <script>
