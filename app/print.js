@@ -286,7 +286,10 @@ Printer.prototype.modifydimensions = function(ev) {
     dimensions = window.exporter.model.get('coordinates').dimensions,
     inchdim = [ (dimensions[0] / (scale * 72)).toFixed(2), (dimensions[1] / (scale * 72)).toFixed(2)];
 
-  var center = [$('#centerInputLat').prop('value'),$('#centerInputLng').prop('value')],
+  var center = [
+    parseFloat($('#centerInputLat').prop('value')),
+    parseFloat($('#centerInputLng').prop('value'))
+  ],
   center = sm.px([center[1], center[0]], zoom);
 
   if (pixelX != dimensions[0] || pixelY != dimensions[1] || window.exporter.model.get('coordinates').locked) {
