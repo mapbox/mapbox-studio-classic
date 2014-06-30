@@ -7,6 +7,7 @@
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
+  <link href='/app/print.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/jquery-2.0.3.min.js'></script>
   <script src='/ext/jquery.sortable.js'></script>
@@ -17,7 +18,6 @@
   <script src='/app/style.js?_=<%= +new Date %>'></script>
   <script src='/app/print.js?_=<%= +new Date %>'></script>
   <script src='/ext/sexagesimal.js'></script>
-  <link href='/app/print.css' rel='stylesheet' />
   <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
   <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
   <script src='/ext/sphericalmercator.js'></script>
@@ -52,19 +52,10 @@
 </form>
 
 <div id='full' class='z1 clip animate pin-left'>
-  <div id='title' class='pad1 fill-dark inline pin-topleft z1 round-bottomright'>
-    <a href='/style?id=<%=style.id%>' class='round icon bear-left short button inline'>Return to styling</a></span>
-  </div>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
   <div id='zoomedto' class='z<%=style.center[2]%>'></div>
-  <!-- <div id='zoomedto' class='fill-white z<%=style.center[2]%>'>
-    <span class='clip strong micro col12 quiet z z13'>
-      <span class='col3 center strong quiet keyline-right'>z<span class='zoom'></span></span>
-      <span class='strong pad0x'><span class='size'>0</span>% of size limit</span>
-    </span>
-  </div> -->
   <div id='map-controls'>
     <div class='inline'>
       <div class='z1 fill-white'>
@@ -167,6 +158,10 @@
       <a id='export' href='#' type='button' class='round col12 button disabled icon floppy' value='Download static Map' name='Export' >Download static map</a>
     </div>
   </div>
+</div>
+
+<div id='toolbar' class='center pad1 dark z10'>
+  <a href='/style?id=<%=style.id%>' class='toolbar-button strong icon undo'>Back</a>
 </div>
 
 <script>

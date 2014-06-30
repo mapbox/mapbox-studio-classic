@@ -9,6 +9,11 @@
   margin-left: 15px;
 }
 
+.fill-disable {
+  background: rgba(0,0,0,.5) url(disabled.png) 0 0 repeat;
+  background-size: 4px 4px;
+}
+
 .fill-red { background-color: #ee6565;}
 
 .round-bottomright { border-radius:0px 0px 3px 0px; }
@@ -662,6 +667,13 @@ span.cm-carto-filter             { color:#66475B; }
 .dark span.cm-carto-string             { color:#d7f; }
 .dark span.cm-atom,
 .dark span.cm-carto-value              { color:#d6e; }
+
+/* Settings pane
+------------------------------------------------------- */
+
+.disable-mask {
+  height: 150px;
+}
 
 /* Toolbar
 ------------------------------------------------------- */

@@ -104,9 +104,13 @@
       <h3>Settings</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
-    <div class='pin-left pad2y pad1x top1 scroll-styled'>
-      <fieldset class='space-bottom2 clearfix'>
-        <% if (!style._tmp) { %>
+    <div class='pin-left top1 scroll-styled'>
+      <fieldset class='keyline-bottom clearfix pad2y pad1x'>
+        <% if (style._tmp) { %>
+        <div class='z10 pin-topleft col12 pad2x pad4y fill-disable disable-mask'>
+          <a class='col12 button short strong icon save js-saveas floppy' href='#'>Save as</a>
+        </div>
+        <% } %>
         <section class='space-bottom1'>
           <a href='#settings' class='js-upload col12 short button submit icon up'>Upload to Mapbox</a>
         </section>
@@ -116,10 +120,9 @@
         <section>
           <a href='/style.tm2z?id=<%=style.id%>' class='col12 short button submit icon package'>Download package</a>
         </section>
-        <% } %>
       </fieldset>
 
-      <fieldset>
+      <fieldset class='pad1x'>
         <section class='space-bottom1'>
           <label>Name</label>
           <input class='short small stretch' name='name' type='text' value='<%= _(style.name).escape() %>'/>
@@ -133,43 +136,45 @@
           <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></input>
         </section>
       </fieldset>
-      <fieldset class='pad1 space-bottom2 keyline-all round'>
-        <section class='space-bottom1 clearfix'>
-          <label class='inline col4'>Image format</label>
-          <select name='format'>
-            <% _({
-              'png24': 'png (24-bit)',
-              'png8:m=h': 'png (256 colors)',
-              'png8:m=h:c=192': 'png (192 colors)',
-              'png8:m=h:c=128': 'png (128 colors)',
-              'png8:m=h:c=64': 'png (64 colors)',
-              'png8:m=h:c=32': 'png (32 colors)',
-              'jpeg95': 'jpeg (95%)',
-              'jpeg90': 'jpeg (90%)',
-              'jpeg85': 'jpeg (85%)',
-              'jpeg80': 'jpeg (80%)'
-            }).each(function(label, format) { %>
-            <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
-            <% }); %>
-          </select>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Minzoom</label>
-          <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-          <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Maxzoom</label>
-          <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-          <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
-        </section>
-        <% if (style._prefs.mapid) { %>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4 pad0y' for='map_id'>Map ID</label>
-          <input id='map_id' class='code clean short small col8 readonly' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map ID' readonly disabled></input>
-        </section>
-        <% } %>
-      </fieldset>
+      <div class='pad1x'>
+        <fieldset class='pad1 space-bottom2 keyline-all round'>
+          <section class='space-bottom1 clearfix'>
+            <label class='inline col4'>Image format</label>
+            <select name='format'>
+              <% _({
+                'png24': 'png (24-bit)',
+                'png8:m=h': 'png (256 colors)',
+                'png8:m=h:c=192': 'png (192 colors)',
+                'png8:m=h:c=128': 'png (128 colors)',
+                'png8:m=h:c=64': 'png (64 colors)',
+                'png8:m=h:c=32': 'png (32 colors)',
+                'jpeg95': 'jpeg (95%)',
+                'jpeg90': 'jpeg (90%)',
+                'jpeg85': 'jpeg (85%)',
+                'jpeg80': 'jpeg (80%)'
+              }).each(function(label, format) { %>
+              <option value='<%= format %>' <% if (style.format === format) { %> selected='selected' <% } %>><%= label %></option>
+              <% }); %>
+            </select>
+          </section>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Minzoom</label>
+            <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+            <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
+          </section>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Maxzoom</label>
+            <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+            <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
+          </section>
+          <% if (style._prefs.mapid) { %>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4 pad0y' for='map_id'>Map ID</label>
+            <input id='map_id' class='code clean short small col8 readonly' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map ID' readonly disabled></input>
+          </section>
+          <% } %>
+        </fieldset>
+      </div>
     </div>
   </form>
 
