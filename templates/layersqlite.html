@@ -27,7 +27,7 @@
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='sqlite' />
           <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".sqlite" extension.' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/>
-          <a id='browse-<%=obj.id%>' class='quiet col4 button icon folder js-browsefile'>Browse</a>
+          <a id='browse-<%=obj.id%>' class='col4 button icon folder js-browsefile'>Browse</a>
         </div>
       </section>
       <section class='pad2x pad1y clearfix keyline-bottom'>
@@ -44,7 +44,7 @@
         <span class='small quiet code inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
       </section>
       <section class='pad2'>
-        <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
+        <a href='#' class='js-save quiet button short margin6 col6'>Done</a>
       </section>
     </fieldset>
   </div>

@@ -69,6 +69,11 @@
 .carto-tabs a.tab:first-child:nth-last-child(12),
 .carto-tabs a.tab:first-child:nth-last-child(12) ~ a.tab { width:8.33%; padding-left: 3px; padding-right: 3px; font-size:10px; }
 
+/* Settings pane
+------------------------------------------------------- */
+.disable-mask { height: 150px; }
+
+
 /* Reference/docs pane
 ------------------------------------------------------- */
 #reference-points section .type   { color: #8a8acb; } /* fill purple */

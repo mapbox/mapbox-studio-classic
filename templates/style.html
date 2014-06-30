@@ -107,17 +107,16 @@
     <div class='pin-left top1 scroll-styled'>
       <fieldset class='keyline-bottom clearfix pad2y pad1x'>
         <% if (style._tmp) { %>
-        <div class='z10 pin-topleft col12 pad1x pad2y fill-disable disable-mask'>
-        </div>
+        <div class='z10 pin-topleft col12 pad1x pad2y fill-disable disable-mask'></div>
         <% } %>
         <section class='space-bottom1'>
-          <a href='#settings' class='js-upload col12 short button submit icon up'>Upload to Mapbox</a>
+          <a href='#settings' class='js-upload col12 short button icon up'>Upload to Mapbox</a>
         </section>
         <section class='space-bottom1'>
-          <a href='/print?id=<%=style.id%>' id='print-style' class='col12 short button submit picture icon'>Export image</a>
+          <a href='/print?id=<%=style.id%>' id='print-style' class='col12 short button picture icon'>Export image</a>
         </section>
         <section>
-          <a href='/style.tm2z?id=<%=style.id%>' class='col12 short button submit icon package'>Download package</a>
+          <a href='/style.tm2z?id=<%=style.id%>' class='col12 short button icon package'>Download package</a>
         </section>
       </fieldset>
 
@@ -183,8 +182,8 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled col12'>
-      <div class='pad2y pad1x'><a href='#layers' class='js-modalsources col12 button short icon point-line'>Change source</a></div>
-      <div id='sources' class='js-menu-content'>
+      <div class='pad2y pad1x'><a href='#' class='js-modalsources col12 button short icon point-line'>Change source</a></div>
+      <div id='sources' class='js-layer-content'>
         <%= _(sources).map(this.sourcelayers).join('\n') %>
       </div>
     </div>

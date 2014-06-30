@@ -26,6 +26,7 @@
 
 <body id='view' class='<%= agent %> clip dark'><div id='app' class='pin-top pin-bottom'>
 
+<a id='settings'></a>
 <a id='user'></a>
 
 <div id='perf'></div>
@@ -37,6 +38,49 @@
 
 <div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
 
+  <form id='settings-drawer' class='js-settings-form drawer col12 animate offcanvas-left'>
+    <div class='pin-top pad1 keyline-bottom'>
+      <h3>Settings</h3>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
+    </div>
+    <div class='pin-left top1 scroll-styled'>
+      <% if (source._tmp) { %>
+        <div class='z10 pin-topleft col12 pad1x pad2y fill-disable disable-mask'></div>
+      <% } %>
+      <fieldset class='clearfix pad1x pad2y keyline-bottom'>
+          <a href='/mbtiles?id=<%= source.id %>' class='col12 short button icon package'>Export vector tiles</a>
+      </fieldset>
+      <fieldset class='pad1x'>
+        <section class='space-bottom1'>
+          <label>Name</label>
+          <input class='stretch short small' name='name' type='text' value='<%= _(source.name).escape() %>'/>
+        </section>
+        <section class='space-bottom1'>
+          <label>Description</label>
+          <textarea class='stretch short small' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
+        </section>
+        <section>
+          <label>Attribution</label>
+          <input class='stretch short small' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
+        </section>
+      </fieldset>
+      <fieldset class='pad1x'>
+        <div class='pad1 keyline-all round'>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Minzoom</label>
+            <input id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+            <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
+          </section>
+          <section class='space-bottom0 clearfix'>
+            <label class='inline col4'>Maxzoom</label>
+            <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+            <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
+          </section>
+        </div>
+      </fieldset>
+    </div>
+  </form>
+
   <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
       <h3>Projects</h3>
@@ -46,53 +90,6 @@
   </div>
 
 </div>
-
-<form id='settings' class='z10 col12 pin-top'>
-  <a href='#' class='fill-darken1 col12 pin-left pin-bottom'></a>
-  <div class='pin-topleft megamenu caret2 dark fill-dark col4'>
-    <% var disabled = remote ? "disabled='disabled'" : ''; %>
-    <a class="pad1 quiet icon x pin-topright" href="#"></a>
-    <header class='pad1 keyline-bottom'>
-      <h3>Settings</h3>
-    </header>
-
-    <div class='pin-left col12 scroll-styled pad2 top1 bottom2'>
-      <fieldset>
-        <section class='space-bottom1'>
-          <label>Name</label>
-          <input <%= disabled %> class='stretch short small' name='name' type='text' value='<%= _(source.name).escape() %>'/>
-        </section>
-        <section class='space-bottom1'>
-          <label>Description</label>
-          <textarea <%= disabled %> class='stretch short small' name='description' type='text' cols='60' rows='8'><%= source.description %></textarea>
-        </section>
-        <section class='space-bottom1'>
-          <label>Attribution</label>
-          <input <%= disabled %> class='stretch short small' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
-        </section>
-      </fieldset>
-      <fieldset class='pad1 space-bottom2 keyline-all round'>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Minzoom</label>
-          <input <%= disabled %> id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-          <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
-        </section>
-        <section class='space-bottom0 clearfix'>
-          <label class='inline col4'>Maxzoom</label>
-          <input <%= disabled %> id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-          <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
-        </section>
-      </fieldset>
-    </div>
-    <div class='keyline-top pad2y settings-footer pin-bottom'>
-      <section class='col12 pad1x clearfix'>
-        <div class='pad1x col6'>
-          <a href='/mbtiles?id=<%= source.id %>' class='quiet button col12 icon share'>Export</a>
-        </div>
-      </section>
-    </div>
-  </div>
-</form>
 
 <form id='bookmark' class='tip-bottom z1 contain fill-dark round animate'>
   <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
@@ -111,19 +108,6 @@
 </form>
 
 <div id='full' class='clip animate pin-left'>
-  <div id='title' class='contain inline pin-topleft z1'>
-    <span class='inline clip fill-darken3 dark pad0 row1 round-bottomright'><!--
-      --><a href='#user' class='short button quiet'><img class='avatar dot' src='<%= user.avatar %>' />Projects</a><!--
-      --><strong class='icon point-line project-name small js-name inline pad0y pad1x truncate'><%= source.name || 'Untitled' %></strong><!--
-      --><span class='row1 inline pill'><!--
-      --><a href='#settings' class='icon sprocket short button'>Settings</a><!--
-      <% if (source._tmp) { %>
-        --><a class='js-saveas short button icon floppy'>Save as</a>
-      <% } else { %>
-        --><a class='js-save short button icon floppy' href='#'>Save</a>
-      <% } %>
-    </span>
-  </div>
   <div id='map' class='animate dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
@@ -154,53 +138,40 @@
 </div>
 
 <%
-var revlayers = remote ? source.vector_layers.slice(0) : source.Layer.slice(0);
-revlayers.reverse();
+  var revlayers = source.Layer.slice(0);
+  revlayers.reverse();
 %>
-<div id='source-ui' class='z1 animate menu source-menu fill-dark dark col6 pin-right'>
+<div id='source-ui' class='z1 animate fill-dark dark col6 pin-right'>
   <div id='layers'>
-    <nav class='pad1x row1 col12 pin-top keyline-bottom fill-dark z1'>
-      <div class='pin-topleft z1 row1'><!--
-        --><a title='Documentation' class='pad1 inline docs-n icon help unround align-middle fill-darken0 keyline-right' href='#docs'></a><!--
-        --><a title='Documentation' class='pad1 inline docs-y icon help unround align-middle fill-darken2 keyline-right' href='#'></a><!--
-      --></div>
-      <strong class='small inline pad1y pad4x'>Layers</strong>
-      <div class='center pin-right col6 strong small'>
-        <% if (!remote) { %>
-        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Delete</span>
-        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Refresh</span>
-        <% } %>
-        <span class='pad0x pad1y col4 keyline-left fr layer-label'>Visibility</span>
-        <% if (remote) { %>
-        <span class='pad0x pad1y keyline-left col4 fr layer-label'>Zoom</span>
+    <div class='fill-darken1 clearfix'>
+      <div class='col6 pad1'>
+        <a href='#' class='js-addlayer short button col12 icon plus'>New layer</a>
+      </div>
+      <div class='col6 pad1 text-right'>
+        <% if (!source._tmp) { %>
+        <a href='/new/style?source=<%=source.id%>' class='quiet inline pad0 small col12 rcon next'>Create style from this source</a>
         <% } %>
       </div>
+    </div>
+    <nav class='clip row1 col12 keyline-top keyline-bottom fill-dark contain z1'>
+      <strong class='col6 pad1'>Layers</strong>
+      <div class='pin-right center col6 strong small'>
+        <span class='pad0x pad1y keyline-left col4 source-label'>Visibility</span>
+        <span class='pad0x pad1y keyline-left col4 source-label'>Refresh</span>
+        <span class='pad0x pad1y keyline-left col4 source-label'>Delete</span>
+      </div>
     </nav>
-    <div class='js-menu-content menu-content fill-dark pin-left col12 top1 bottom2 scroll-styled'>
+    <div class='js-source-content source-content pin-left col12 scroll-styled'>
       <% _(revlayers).each(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %>
-      <% if (!remote) { %>
-        <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
-      <% } %>
-    </div>
-    <div class='pin-bottom row2 keyline-top pad1 clearfix'>
-      <div class='col6 pad1'>
-        <% if (!remote) { %>
-        <a href='#' class='js-addlayer button col12 quiet icon plus'>New layer</a>
-        <% } %>
-      </div>
-      <div class='col6 pad1'>
-        <% if (!source._tmp) { %>
-        <a href='/new/style?source=<%=source.id%>' class='button col12 quiet icon paint'>Create style</a>
-        <% } %>
-      </div>
+      <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
     </div>
   </div>
 </div>
 
 <div class='z10' id='editor'>
-<% if (!remote) {
+<%
   _(revlayers).each(function(l) {
     var type = (l.Datasource && l.Datasource.type);
     if (this['layer' + type]) print(this['layer' + type](_({
@@ -208,7 +179,7 @@ revlayers.reverse();
         fields: source.vector_layers.filter(function(v) { return v.id === l.id })[0].fields
     }).extend(l)));
   }.bind(this));
-} %>
+%>
 </div>
 
 <div id='toolbar' class='center pad1 dark z10'>

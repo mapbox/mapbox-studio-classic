@@ -38,10 +38,6 @@ a.toolbar-button:hover { background: rgba(0,0,0,.75);}
 
 /* Export pane
 ------------------------------------------------------- */
-.menu-content {
-  bottom: 50px;
-}
-
 .col-input input { border-right-width: 0;}
 .col-input:last-of-type input { border-right-width: 1px;}
 

@@ -1,19 +1,48 @@
 /* Layout
 ------------------------------------------------------- */
-#source-ui,
-.source-menu {
+#source-ui {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
-#docs .keyline-bottom,
-#docs .keyline-top {
-  border-top-color: rgba(0,0,0,.2);
-  border-bottom-color: rgba(0,0,0,.2);
+#sources:target ~ #sources.pane > *,
+#sources:target ~ #sources { display:block; }
+#sources:target ~ #sources a.delete { display:block; }
+
+/* Data list pane
+------------------------------------------------------- */
+.source-content {
+  top: 90px;
 }
 
-#data:target ~ #layers.pane > *,
-#data:target ~ #layers { display:block; }
-#data:target ~ #layers a.delete { display:block; }
+nav a.button.title:active { background-color:#333; }
+
+[draggable='true'] {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+
+/* Sortable states */
+.sortable-dragging {
+  display:block;
+  position:relative;
+  background:#444;
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:4px;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+
+.sortable-placeholder {
+  background: rgba(0,0,0,.25);
+  padding: 15px;
+  border-radius: 0;
+}
+
+/* Settings pane
+------------------------------------------------------- */
+.disable-mask { height: 70px; }
 
 /* Editor pane
 ------------------------------------------------------- */
@@ -22,26 +51,6 @@
   border-radius: 3px;
   color: rgba(0,0,0,.75);
   vertical-align: top;
-  font-family:'Open Sans', sans-serif;
-}
-
-/* Menu (off-canvas) */
-.menu .sortable-dragging,
-.menu .sortable-placeholder {
-  display:block;
-  padding:10px 20px 9px;
-  min-height:40px;
-  position:relative;
-  }
-.menu nav a.button.title:active { background-color:#333; }
-
-/* Sortable states */
-.menu .sortable-placeholder { background:rgba(0,0,0,0.1); }
-.menu .sortable-dragging {
-  background:#444;
-  padding:9px 19px;
-  border:1px solid rgba(0,0,0,0.1);
-  border-radius:4px;
 }
 
 /* Conf pane

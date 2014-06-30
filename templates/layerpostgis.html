@@ -25,19 +25,19 @@
         <label class='pad1x'>PostGIS</label>
         <div class='pad0x contain clearfix'>
           <div class='pad0x col3 contain'>
-            <input type='text' class='stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
+            <input type='text' class='short stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
             <label class='micro ghost'>user</label>
           </div>
           <div class='pad0x col3 contain'>
-            <input type='text' class='stretch' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' />
+            <input type='text' class='short stretch' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' />
             <label class='micro ghost'>db</label>
           </div>
           <div class='pad0x col3 contain'>
-            <input type='text' class='stretch' name='Datasource-host' value='<%= obj.Datasource.host %>' />
+            <input type='text' class='short stretch' name='Datasource-host' value='<%= obj.Datasource.host %>' />
             <label class='micro ghost'>host</label>
           </div>
           <div class='pad0x col3 contain'>
-            <input type='text' class='stretch' name='Datasource-port' value='<%= obj.Datasource.port %>' />
+            <input type='text' class='short stretch' name='Datasource-port' value='<%= obj.Datasource.port %>' />
             <label class='micro ghost'>port</label>
           </div>
         </div>
@@ -46,11 +46,11 @@
       </section>
       <section class='clearfix pad2x pad1y keyline-bottom'>
         <label class='pad1y col3 inline'>Extent </label>
-        <input class='col9' type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
+        <input class='short col9' type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label class='col3 inline'>Projection</label>
-        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>'/>
+        <input class='js-metadata-projection short stretch' name='srs' type='text' value='<%= obj.srs %>'/>
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label class='col3 inline'>Buffer size</label>
@@ -61,7 +61,7 @@
       <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
       <% } %>
       <section class='pad2'>
-        <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
+        <a href='#' class='js-save quiet button short margin6 col6'>Done</a>
       </section>
     </fieldset>
   </div>
@@ -71,15 +71,15 @@
     <section class='pad1'>
       <div class='pad0x clearfix'>
         <div class='pad0x col4 contain'>
-          <input name='Datasource-geometry_field' class='stretch' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/>
+          <input name='Datasource-geometry_field' class='short stretch' type='text' value='<%= obj.Datasource['geometry_field'] || '' %>'/>
           <label class='micro ghost'>geom field</label>
         </div>
         <div class='pad0x col4 contain'>
-          <input name='Datasource-geometry_table' class='stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
+          <input name='Datasource-geometry_table' class='short stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
           <label class='micro ghost'>geom table</label>
         </div>
         <div class='pad0x col4 contain'>
-          <input name='Datasource-key_field' class='stretch last' size='20' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
+          <input name='Datasource-key_field' class='short stretch' size='20' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
           <label class='micro ghost'>key</label>
         </div>
       </div>

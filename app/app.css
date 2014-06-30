@@ -94,7 +94,7 @@ kbd {
 .dark .fill-light.modal { background:#444; }
 
 #modal > div {
-  position:absolute;
+  position:fixed;
   left:0px;
   right:0px;
   top:0px;
@@ -548,6 +548,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 .leaflet-container.dark .leaflet-popup-content-wrapper { background:#333; }
 .leaflet-container.dark .leaflet-popup-tip { border-top-color: #333;}
+
 #map-overlay {
   position:absolute;
   top:0px; bottom:0px; width:100%;
@@ -725,7 +726,6 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* Settings pane
 ------------------------------------------------------- */
-.disable-mask { height: 150px; }
 
 /* Toolbar
 ------------------------------------------------------- */

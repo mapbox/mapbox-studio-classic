@@ -1,4 +1,4 @@
-<div id='<%= obj.id %>' class='js-source source'>
+<div id='<%= obj.id %>' class='js-layer'>
 
 <div class='pad1x'>
   <h3><%= obj.name || 'Untitled' %></h3>
@@ -11,7 +11,7 @@
     <% } %>
     </div>
     <div class='fr col6 text-right'>
-      <a href='#source-<%=obj.id%>' class='button col12 short quiet js-recache icon refresh'>Refresh</a>
+      <a href='#sources-<%=obj.id%>' class='button col12 short quiet js-recache icon refresh'>Refresh</a>
     </div>
   </div>
 
@@ -19,7 +19,7 @@
 
 <div class='keyline-top'>
   <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
-  <div class='small layer col12 contain clip' id='sources-<%=l.id%>'>
+  <div class='small col12 contain clip layer' id='sources-<%=l.id%>'>
     <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
     <div class='pad1x pad0y keyline-bottom <%=l.geometry + 'icon'||''%>'><%=l.id%></div>
 

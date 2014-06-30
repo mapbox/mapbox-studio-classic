@@ -207,7 +207,7 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-menu-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
       Modal.close();
     }).bind(this),
@@ -223,7 +223,7 @@ Editor.prototype.addmapbox = function(ev) {
   var id = 'mapbox:///' + attr.id;
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-menu-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
       Modal.close();
     }).bind(this),
@@ -295,8 +295,8 @@ Editor.prototype.save = function(ev, options) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.source = $('.js-layers .js-source').map(function() {
-    return $(this).attr('id').split('source-').pop();
+  attr.source = $('.js-layers .js-layer').map(function() {
+    return $(this).attr('id').split('layer-').pop();
   }).get().shift();
 
   if (this.model.get('_prefs').saveCenter) {
