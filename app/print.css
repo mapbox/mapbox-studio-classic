@@ -1,16 +1,28 @@
 /* Layout
 ------------------------------------------------------- */
+
 #print-ui {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
 #full {
-  min-width: 66.6666%;
+  min-width: calc(66.6666% + 80px);
   right: 400px;
+  /* no left sidebar */
+  left: -80px;
 }
 
 /* Map overlay
 ------------------------------------------------------- */
+
+a.toolbar-button {
+  top: 10px;
+  left: 10px;
+  margin-left: -80px;
+}
+
+a.toolbar-button:hover { background: rgba(0,0,0,.75);}
+
 #reselect {
   top: 10px;
   right: 10px;
