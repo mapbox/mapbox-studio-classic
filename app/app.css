@@ -691,10 +691,7 @@ span.cm-carto-filter             { color:#66475B; }
 
 /* Settings pane
 ------------------------------------------------------- */
-
-.disable-mask {
-  height: 150px;
-}
+.disable-mask { height: 150px; }
 
 /* Toolbar
 ------------------------------------------------------- */

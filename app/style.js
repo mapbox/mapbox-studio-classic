@@ -92,12 +92,12 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
-  'submit #settings': 'save',
+  'submit js-settings-form': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
   'click #tabs .js-deltab': 'deltab',
-  'click #history .js-ref-delete': 'delstyle',
+  'click .js-history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
@@ -207,7 +207,7 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-menu-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
       Modal.close();
     }).bind(this),
@@ -223,7 +223,7 @@ Editor.prototype.addmapbox = function(ev) {
   var id = 'mapbox:///' + attr.id;
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-menu-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
       Modal.close();
     }).bind(this),
@@ -236,7 +236,7 @@ Editor.prototype.addtabModal = function() {
   return false;
 };
 Editor.prototype.addtab = function(ev) {
-  var field = $('#addtab-filename');
+  var field = $('.js-addtab-filename');
   var filename = field.val().replace(/.mss/,'') + '.mss';
   if (!code[filename]) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='keyline-right strong quiet tab js-tab pad1y pad0x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad0'></span></a><!--");
@@ -282,7 +282,7 @@ Editor.prototype.save = function(ev, options) {
 
   var attr = {};
   // Grab settings form values.
-  _($('#settings').serializeArray()).reduce(function(memo, field) {
+  _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
     } else if (field.name && field.value) {
@@ -295,7 +295,7 @@ Editor.prototype.save = function(ev, options) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.source = $('#layers .js-source').map(function() {
+  attr.source = $('.js-layers .js-source').map(function() {
     return $(this).attr('id').split('source-').pop();
   }).get().shift();
 
@@ -365,15 +365,15 @@ Editor.prototype.cartoError = function(ln, e) {
 
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
-  $('.settings-body').addClass('loading');
+  $('.js-settings-form').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
       Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-      $('.settings-body').removeClass('loading');
+      $('.js-settings-form').removeClass('loading');
       return true;
     })
     .error(function(resp) {
-      $('.settings-body').removeClass('loading');
+      $('.js-settings-form').removeClass('loading');
       return Modal.show('error', resp.responseText);
     });
 };

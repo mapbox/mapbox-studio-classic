@@ -99,7 +99,7 @@
 
 <div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
 
-  <form id='settings-drawer' class='drawer col12 animate offcanvas-left'>
+  <form id='settings-drawer' class='js-settings-form drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
       <h3>Settings</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
@@ -107,8 +107,7 @@
     <div class='pin-left top1 scroll-styled'>
       <fieldset class='keyline-bottom clearfix pad2y pad1x'>
         <% if (style._tmp) { %>
-        <div class='z10 pin-topleft col12 pad2x pad4y fill-disable disable-mask'>
-          <a class='col12 button short strong icon save js-saveas floppy' href='#'>Save as</a>
+        <div class='z10 pin-topleft col12 pad1x pad2y fill-disable disable-mask'>
         </div>
         <% } %>
         <section class='space-bottom1'>
@@ -178,7 +177,7 @@
     </div>
   </form>
 
-  <div id='layers-drawer' class='drawer col12 animate offcanvas-left'>
+  <div id='layers-drawer' class='js-layers drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
       <h3>Layers</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
