@@ -91,7 +91,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'keydown': 'keys',
-        'click .js-zoomTo': 'zoomToLayer'
+        'click .js-zoom-to': 'zoomToLayer'
     };
     Editor.prototype.keys = function(ev) {
         // Escape. Collapses windows, dialogs, modals, etc.
@@ -225,11 +225,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             Datasource: { type: type }
         };
         $('#editor').prepend(templates['layer' + type](layer));
-        $('#layers .js-source-content').prepend(templates.layeritem(layer));
+        $('#layers .js-layer-content').prepend(templates.layeritem(layer));
         layers[id] = Layer(id, layer.Datasource);
         Modal.close();
         window.location.hash = '#layers-' + id;
-        $('#layers .js-source-content').sortable('destroy').sortable();
+        $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
@@ -281,7 +281,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 }
                 //Add the new layer form and div
                 $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-                $('#layers .js-source-content').prepend(templates.layeritem(layer));
+                $('#layers .js-layer-content').prepend(templates.layeritem(layer));
 
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
@@ -295,10 +295,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 //open proper modal, depending on if there are multiple layers
                 if (layersArray.length > 1) {
                     window.location.hash = '#';
-                    $('#layers .js-source-content').sortable('destroy').sortable();
+                    $('#layers .js-layer-content').sortable('destroy').sortable();
                 } else {
                     window.location.hash = '#layers-' + layersArray[0].id;
-                    $('#layers .js-source-content').sortable('destroy').sortable();
+                    $('#layers .js-layer-content').sortable('destroy').sortable();
                 }
               //else layer already exists, show error
             } else {
@@ -312,7 +312,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         if (confirm('Remove layer "' + id + '"?')) {
             layers[id].form.remove();
             layers[id].item.remove();
-            $('#layers .js-source-content').sortable('destroy').sortable();
+            $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
         }
         window.location.href = '#';
@@ -374,7 +374,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
       //Add the new layer form and div
       $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-      $('#layers .js-source-content').prepend(templates.layeritem(layer));
+      $('#layers .js-layer-content').prepend(templates.layeritem(layer));
 
       //Replace old layer with new in the project's layers array
       layers[layer.id] = Layer(layer.id, layer.Datasource);
@@ -386,7 +386,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
       //Close
       Modal.close();
-      $('#layers .js-source-content').sortable('destroy').sortable();
+      $('#layers .js-layer-content').sortable('destroy').sortable();
       window.location.href = '#layers-' + new_id;
 
       return false;
@@ -570,9 +570,9 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     window.editor.refresh();
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
-        $('#layers .js-source-content').sortable();
-        $('#layers .js-source-content').bind('sortupdate', function(ev, ui) {
-            var ids = $('#layers .js-source-content .js-layer').map(function() {
+        $('#layers .js-layer-content').sortable();
+        $('#layers .js-layer-content').bind('sortupdate', function(ev, ui) {
+            var ids = $('#layers .js-layer-content .js-layer').map(function() {
                 return $(this).attr('id');
             }).get();
             layers = _(ids).reduce(function(memo, id) {

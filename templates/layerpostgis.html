@@ -19,7 +19,7 @@
     <fieldset>
       <section class='pad2x pad1y keyline-bottom'>
         <label>Description</label>
-        <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+        <input class='stretch short' type='text' name='description' value='<%= _(obj.description).escape() %>' />
       </section>
       <section class='pad1 keyline-bottom'>
         <label class='pad1x'>PostGIS</label>
@@ -45,11 +45,11 @@
         <input type='hidden' name='Datasource-max_size' value='512' />
       </section>
       <section class='clearfix pad2x pad1y keyline-bottom'>
-        <label class='pad1y col3 inline'>Extent </label>
+        <label class='pad0y col3 inline'>Extent </label>
         <input class='short col9' type='text' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
-        <label class='col3 inline'>Projection</label>
+        <label>Projection</label>
         <input class='js-metadata-projection short stretch' name='srs' type='text' value='<%= obj.srs %>'/>
       </section>
       <section class='pad2x pad1y keyline-bottom'>

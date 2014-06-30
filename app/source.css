@@ -10,7 +10,7 @@
 
 /* Data list pane
 ------------------------------------------------------- */
-.source-content {
+.layer-content {
   top: 90px;
 }
 
@@ -38,6 +38,13 @@ nav a.button.title:active { background-color:#333; }
   background: rgba(0,0,0,.25);
   padding: 15px;
   border-radius: 0;
+}
+
+.layer-content:empty ~ .empty-state {
+  cursor: default;
+  display: block;
+  padding: 10px;
+  position: relative;
 }
 
 /* Settings pane
@@ -70,11 +77,11 @@ section:not(.field) + .empty-state { margin: 20px;display: block;}
 ------------------------------------------------------- */
 .editor > div.sql {
   position:absolute;
-  top:60px; bottom:0px; width:100%;
+  top:62px; bottom:0px; width:100%;
   display: block;
   visibility: hidden;
   }
-.editor .CodeMirror { top:60px; }
+.editor .CodeMirror { top: 50px; }
 
 .sql .editor > div.sql { visibility:visible; }
 .sql .editor .CodeMirror { visibility:visible; }
