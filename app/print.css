@@ -5,34 +5,39 @@
 }
 
 #full {
-  min-width: 58.333%;
-  right: 500px;
+  min-width: 66.6666%;
+  right: 400px;
 }
 
-/* Export pane
+/* Map overlay
 ------------------------------------------------------- */
-#print-ui { font: 12px 'Open Sans Bold'; }
-
 #reselect {
-  bottom: 10px;
+  top: 10px;
   right: 10px;
   position: absolute;
   padding-right: 5px;
 }
 
 #recenter {
-  bottom: 10px;
+  top: 10px;
   right: 148px;
   position: absolute;
   padding-right: 5px;
 }
-.warning, input.warning  { color: #ee8a65; }
+
+/* Export pane
+------------------------------------------------------- */
+.menu-content {
+  bottom: 50px;
+}
+
+.col-input input { border-right-width: 0;}
+.col-input:last-of-type input { border-right-width: 1px;}
+
+.warning, input.warning  { color: #ee8a65 !important; }
+
 .close { z-index: 10; }
 .icon.reselect:before, .icon.recenter:before { margin-left: 2px; }
-
-.dim {
-  width: 90px;
-}
 
 .x {
   top: 5px;

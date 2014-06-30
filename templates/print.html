@@ -75,93 +75,125 @@
     <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
   </div>
-   <a href='#' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet '>reset bounds to view</a>
-  <a href='#' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>center bounds</a>
+  <a href='#' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
+  <a href='#' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
 </div>
 
 
-<div id='print-ui' class='animate z1 col5 export-menu pin-right fill-light'>
-  <nav class='pad1x row1 col12 pin-top keyline-bottom fill-light z1'>
+<div id='print-ui' class='animate z1 col4 export-menu pin-right dark fill-dark'>
+
+  <nav class='row1 col12 pin-top keyline-bottom z1'>
     <h3 class='inline pad1'>Export image</h3>
     <a href='#export-info' class='pin-right pad1 js-info inline icon info quiet'></a>
-    <div id='export-info' class='clearfix pin-top top1 z10 pad1 keyline-bottom small fill-white hidden'>
+    <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
       <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
     </div>
   </nav>
-  <div class='js-menu-content menu-content pin-left col12 top1 bottom2 scroll-styled pad1'>
-    <div class='pad1y'>
-      <fieldset class='attributes keyline-all pad1'>
-        <div class='col12 space-bottom1'>
-          <span class='col4'>Zoom level</span>
-          <span id='zoom' class='code'><%=style.center[2]%></span>
+
+  <form class='js-menu-content menu-content pin-left col12 top1 scroll-styled pad1x pad2y'>
+    <h3 class='space-bottom1'>Zoom level  <span id='zoom'><%=style.center[2]%></span></h3>
+
+    <fieldset class='space-bottom1'>
+      <label>Crop size</label>
+      <div class='space-bottom1 clearfix col12'>
+        <div class='col6 col-input with-icon'>
+          <input id='pixelX' class='js-dimensions col12 short small dim' type='text' value='' />
+          <span class='icon quiet l-r-arrow'></span>
+          <label class='ghost'>Pixels</label>
         </div>
-        <section class='space-bottom1'>
-          <label class='col4 inline'>Dimensions</label>
-          <br>
-          <div class='col12'>
-            <span class='small col4 quiet inline'>in pixels</span>
-            <span class='col8'>
-              <input id='pixelX' class='inline short small dim' type='text' value='' /> <span class='x'>x</span> <input id='pixelY' class='dim short small' type='text' value='' />
-            </span>
-          </div>
-          <div class='col12'>
-            <span class='small col4 quiet inline'>in inches</span>
-            <span class='col8'>
-              <input id='inchX' class='short small dim' type='text' value='' /> <span class='x'>x</span> <input id='inchY' class='dim short small' type='text' value='' />
-              <div class='pad1y checkbox'>
-                <input type='checkbox' id='lock'>
-                <label for='lock' class='small icon lock'>Check to lock dimensions</label>
-              </div>
-            </span>
-          </div>
-        </span>
-        </section>
-        <section class='space-bottom1'>
-          <label class='inline'>Bounds</label>
-          <span class='small quiet code inline'>[W, S, E, N]</span>
-          <input id='bboxInput' class='stretch short small' type='text' value='' />
-        </section>
-        <section class='space-bottom1'>
-          <label class='inline'>Center</label>
-          <span class='small quiet code inline'>[Lat, Lng]</span>
-          <input id='centerInput' class='stretch short small' type='text' value='' />
-        </section>
-      </fieldset>
-    </div>
-
-    <div class='pad1'>
-      <fieldset class='space-bottom1'>
-          <label class='inline col4 pad1y'>Image format</label>
-          <div id='format' class='rounded-toggle inline short'>
-            <input id='png' type='radio' name='format' value='png' checked='checked'>
-            <label for='png'>png</label>
-            <input id='jpeg' type='radio' name='format' value='jpeg'>
-            <label for='jpeg'>jpeg</label>
-          </div>
-      </fieldset>
-      <fieldset class='space-bottom0'>
-          <label class='inline col4 pad1y'>Resolution</label>
-          <div id='resolution' class='rounded-toggle inline short'>
-          <% _({
-            '2.078125': '150ppi',
-            '4.15625': '300ppi',
-            '8.3125': '600ppi'
-          }).each(function(label, format) { %>
-          <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '300ppi') { %> checked='true' <% } %>>
-          <label for='<%= label %>'><%= label %></label>
-          <% }); %>
+        <div class='col6 col-input with-icon'>
+          <input id='pixelY' class='js-dimensions col12 dim short small' type='text' value='' />
+          <span class='icon quiet u-d-arrow'></span>
+          <label class='ghost'>Pixels</label>
+        </div>
       </div>
-     </fieldset>
-    </div>
+      <div class='clearfix col12'>
+        <div class='col6 col-input with-icon'>
+          <input id='inchX' class='js-dimensions col12 short small dim' type='text' value='' />
+          <span class='icon quiet l-r-arrow'></span>
+          <label class='ghost'>Inches</label>
+        </div>
+        <div class='col6 col-input with-icon'>
+          <input id='inchY' class='js-dimensions col12 dim short small' type='text' value='' />
+          <span class='icon quiet u-d-arrow'></span>
+          <label class='ghost'>Inches</label>
+        </div>
+      </div>
+      <div class='pad1y checkbox inline short'>
+        <input type='checkbox' id='lock'>
+        <label for='lock' class='round keyline-all small icon lock'>Lock dimensions</label>
+      </div>
+    </fieldset>
 
-    <div class='pad1'>
-      <a id='export' href='#' type='button' class='round col12 button disabled icon floppy' value='Download static Map' name='Export' >Download static map</a>
-    </div>
+    <fieldset>
+      <div class='space-bottom1 clearfix'>
+        <label>Crop bounds</label>
+          <!-- [W, S, E, N] -->
+        <div class='col3 col-input contain'>
+          <input id='bboxInputW' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='ghost'>W</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputS' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='ghost'>S</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputE' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='ghost'>E</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputN' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='ghost'>N</label>
+        </div>
+      </div>
+      <div class='space-bottom1'>
+        <label>Center point</label>
+        <div class='col6 col-input contain'>
+          <input id='centerInputLat' class='js-coordinates col12 short small' type='text' value='' />
+          <label class='ghost'>Lat</label>
+        </div>
+        <div class='col6 col-input contain'>
+          <input id='centerInputLng' class='js-coordinates col12 short small' type='text' value='' />
+          <label class='ghost'>Lng</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class='pad1 keyline-all round clearfix'>
+      <div class='space-bottom1'>
+        <label>Image format</label>
+        <div id='format' class='col12 clearfix center inline rounded-toggle short'>
+          <input id='png' type='radio' name='format' value='png' checked='checked'>
+          <label for='png' class='col6'>png</label>
+          <input id='jpeg' type='radio' name='format' value='jpeg'>
+          <label for='jpeg' class='col6'>jpeg</label>
+        </div>
+      </div>
+      <div>
+        <label>Resolution</label>
+        <div id='resolution' class='col12 clearfix center rounded-toggle short'>
+        <% _({
+          '2.078125': '150ppi',
+          '4.15625': '300ppi',
+          '8.3125': '600ppi'
+        }).each(function(label, format) { %>
+        <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '300ppi') { %> checked='true' <% } %>>
+        <label class='col4' for='<%= label %>'><%= label %></label>
+        <% }); %>
+        </div>
+     </div>
+    </fieldset>
+
+  </form>
+
+  <div class='fill-dark pin-bottom keyline-top pad1'>
+    <a id='export' href='#' type='button' class='round short col12 button disabled icon floppy' value='Download image' name='Export' >Download</a>
   </div>
+
 </div>
 
 <div id='toolbar' class='center pad1 dark z10'>
-  <a href='/style?id=<%=style.id%>' class='toolbar-button strong icon undo'>Back</a>
+  <a href='/style?id=<%=style.id%>' class='toolbar-button strong icon close'>Back</a>
 </div>
 
 <script>
