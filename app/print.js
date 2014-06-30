@@ -245,14 +245,14 @@ Printer.prototype.modifycoordinates = function(ev) {
   // if the coordinates in 'bounds' or 'center' are modified,
   // compare and recalculate bounding box values.
   var bounds = [
-      $('#bboxInputW').prop('value'),
-      $('#bboxInputS').prop('value'),
-      $('#bboxInputE').prop('value'),
-      $('#bboxInputN').prop('value')
+      parseFloat($('#bboxInputW').prop('value')),
+      parseFloat($('#bboxInputS').prop('value')),
+      parseFloat($('#bboxInputE').prop('value')),
+      parseFloat($('#bboxInputN').prop('value'))
     ],
     center = [
-      $('#centerInputLat').prop('value'),
-      $('#centerInputLng').prop('value')
+      parseFloat($('#centerInputLat').prop('value')),
+      parseFloat($('#centerInputLng').prop('value'))
     ],
     bSum = bounds.reduce(function(a, b){ return a + b; }),
     bboxSum = window.exporter.model.get('coordinates').bbox.reduce(function(a, b){ return a + b; });
@@ -474,6 +474,17 @@ window.exporter = new Printer({
 });
 window.exporter.refresh();
 
+// A few :target events need supplemental JS action. Handled here.
+window.onhashchange = function(ev) {
+  switch (ev.newURL.split('#').pop()) {
+  case 'start':
+    window.exporter.refresh();
+    setTimeout(map.invalidateSize, 200);
+    break;
+  case 'home':
+    break;
+  }
+};
 window.onhashchange({
   oldURL:window.location.toString(),
   newURL:window.location.toString()
