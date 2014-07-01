@@ -159,23 +159,23 @@
     <fieldset class='pad1 keyline-all round clearfix'>
       <div class='space-bottom1'>
         <label>Image format</label>
-        <div id='format' class='col12 clearfix center inline rounded-toggle short'>
+        <div id='format' class='clearfix center inline rounded-toggle short'>
           <input id='png' type='radio' name='format' value='png' checked='checked'>
-          <label for='png' class='col6'>png</label>
+          <label for='png'>png</label>
           <input id='jpeg' type='radio' name='format' value='jpeg'>
-          <label for='jpeg' class='col6'>jpeg</label>
+          <label for='jpeg'>jpeg</label>
         </div>
       </div>
       <div>
         <label>Resolution</label>
-        <div id='resolution' class='col12 clearfix center rounded-toggle short'>
+        <div id='resolution' class='clearfix inline rounded-toggle short'>
         <% _({
           '2.078125': '150ppi',
           '4.15625': '300ppi',
           '8.3125': '600ppi'
         }).each(function(label, format) { %>
         <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '300ppi') { %> checked='true' <% } %>>
-        <label class='col4' for='<%= label %>'><%= label %></label>
+        <label for='<%= label %>'><%= label %></label>
         <% }); %>
         </div>
      </div>
