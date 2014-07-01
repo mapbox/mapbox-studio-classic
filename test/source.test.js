@@ -357,6 +357,7 @@ test('source.mbtilesExport: verify export', function(t) {
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
+    try { fs.rmdirSync(path.join(tmppath, 'tmp')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}
     server.close(function() {
         t.end();

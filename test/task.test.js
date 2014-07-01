@@ -16,7 +16,12 @@ test('task', function(t) {
     testTask.progress.emit('error', err);
     t.deepEqual(task.get().err, err);
 
+    testTask.progress.pipe(process.stdout);
+    var unpiped = false;
+    process.stdout.on('unpipe', function() { unpiped = true });
     t.equal(task.del(), undefined);
+    t.equal(unpiped, true);
+
     t.equal(task.get(), undefined);
     t.end();
 });
