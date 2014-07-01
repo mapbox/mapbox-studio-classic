@@ -219,6 +219,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   padding-top: 60px;
 }
 
+.drawer > * { display:none; }
+
 #drawers {
   box-shadow: rgba(0,0,0,0.1) 2px 0px 0px;
   visibility: hidden;
@@ -242,6 +244,11 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
       -ms-transform:translateX(100%);
           transform:translateX(100%);
 }
+
+#user:target ~ #drawers > *,
+#settings:target ~ #drawers > *,
+#user:target ~ #drawers #user-drawer > *,
+#settings:target ~ #drawers #settings-drawer > * { display:block; }
 
 /* Project history
 ------------------------------------------------------- */

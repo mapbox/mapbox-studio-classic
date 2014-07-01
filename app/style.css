@@ -27,6 +27,13 @@
           transform:translateX(100%);
 }
 
+#fonts:target ~ #drawers > *,
+#docs:target ~ #drawers > *,
+#layers:target ~ #drawers > *,
+#fonts:target ~ #drawers #fonts-drawer > *,
+#docs:target ~ #drawers #docs-drawer > *,
+#layers:target ~ #drawers #layers-drawer > * { display:block; }
+
 /* Code pane
 ------------------------------------------------------- */
 .carto-tabs {
