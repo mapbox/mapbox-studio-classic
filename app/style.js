@@ -220,7 +220,10 @@ Editor.prototype.addmapbox = function(ev) {
     memo[field.name] = field.value;
     return memo;
   }, {});
-  var id = 'mapbox:///' + attr.id;
+  var id = attr.id;
+  if (!(/^(https?:\/\/)|(mapbox:\/\/)/).test(id)) {
+    id = 'mapbox:///' + id;
+  }
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
       $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
