@@ -1,0 +1,82 @@
+<%
+var sections = {
+    intro: null,
+    points: {
+        icon: 'marker',
+        markers: symbolizers.markers,
+        point: symbolizers.point
+    },
+    lines: {
+        icon: 'polyline',
+        line: symbolizers.line,
+        'line-pattern': symbolizers['line-pattern']
+    },
+    polygons: {
+        icon: 'polygon',
+        polygon: symbolizers.polygon,
+        'polygon-pattern': symbolizers['polygon-pattern'],
+        building: symbolizers['building']
+    },
+    raster: {
+      icon: 'raster',
+      raster: symbolizers.raster,
+       },
+    text: {
+        icon: 'font',
+        text: symbolizers.text,
+        shield: symbolizers.shield
+    },
+    misc: {
+        icon: 'star',
+        misc: symbolizers['*'],
+        debug: symbolizers.debug
+    }
+};
+%>
+
+<section class='small pad1x pad2y contain keyline-bottom'>
+  <a class='icon space-bottom2 tilemill button col12 short' href='#demo'>walkthrough</a>
+  <ul class='space-bottom1'>
+    <li><kbd class='code prefixed'>s</kbd> Save.</li>
+    <li><kbd class='code prefixed'>.</kbd> View map.</li>
+    <li><kbd class='code prefixed'>\</kbd> View settings.</li>
+    <li><kbd class='code prefixed'>h</kbd> View help.</li>
+    <li><kbd class='code prefixed'>b</kbd> View bookmarks.</li>
+    <li><kbd class='code prefixed'>i</kbd> View data.</li>
+    <li><kbd class='code prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
+    <li><kbd class='code prefixed'>f</kbd> Search current stylesheet.</li>
+  </ul>
+  <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
+</section>
+
+<div id='reference'>
+<% _(sections).each(function(symbolizers, name) { %>
+<article id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
+  <% if (name !== 'intro') { %>
+  <div class='row pad1 contain section-name'>
+    <span class='<%= symbolizers.icon %> icon quiet strong'><%= name %></span>
+  </div>
+  <% } %>
+  <% _(symbolizers).each(function(symbolizer) { %>
+  <% _(symbolizer).chain()
+      .filter(function(p) { return p.css; })
+      .each(function(p, name) {
+  %>
+  <section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
+    <a href='#reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+    <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
+    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
+    </a>
+    <div class='pad1 details'>
+    <% if (p['default-value'] && p['default-value']!=='none') { %>
+    <span class='space-bottom1 code quiet inline value'><%=p['default-value']%></span><br/>
+    <% } %>
+    <% if (_(p.type).isArray()) { %><span class='space-bottom1 inline code options'><%= p.type.join(' ') %></span><br/><% } %>
+    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
+    </div>
+  </section>
+  <% }); %>
+  <% }); %>
+</article>
+<% }); %>
+</div>

@@ -78,12 +78,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-reset-mode': 'resetmode',
         'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
-        'click .layer .js-refreshSource': 'refreshSource',
+        'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
         'click .js-browsefile': 'browsefile',
         'click #history .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
-        'click #settings .js-tab': 'tabbed',
+        'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
@@ -91,7 +91,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'keydown': 'keys',
-        'click .js-zoomTo': 'zoomToLayer'
+        'click .js-zoom-to': 'zoomToLayer'
     };
     Editor.prototype.keys = function(ev) {
         // Escape. Collapses windows, dialogs, modals, etc.
@@ -225,11 +225,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             Datasource: { type: type }
         };
         $('#editor').prepend(templates['layer' + type](layer));
-        $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+        $('#layers .js-layer-content').prepend(templates.layeritem(layer));
         layers[id] = Layer(id, layer.Datasource);
         Modal.close();
         window.location.hash = '#layers-' + id;
-        $('#layers .js-menu-content').sortable('destroy').sortable();
+        $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
@@ -242,12 +242,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             else layername = current_layer.id;
 
             //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
-            //To avoid all geojson layers having the same name, replace id with the filename. 
+            //To avoid all geojson layers having the same name, replace id with the filename.
             if (filetype === 'geojson') current_layer.id = metadata.filename;
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-            
+
             //checks that the layer doesn't already exist
             if (!layers[current_layer.id]) {
               var layer;
@@ -262,7 +262,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 layers[metadata.default_id].form.remove();
                 layers[metadata.default_id].item.remove();
                 delete layers[metadata.default_id];
-              } 
+              }
                 else {
                   //Setup layer object
                   layer = {
@@ -281,26 +281,26 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 }
                 //Add the new layer form and div
                 $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-                $('#layers .js-menu-content').prepend(templates.layeritem(layer));
-                
+                $('#layers .js-layer-content').prepend(templates.layeritem(layer));
+
                 //Add new layer to the project's layers array
                 layers[layer.id] = Layer(layer.id, layer.Datasource);
 
                 //set maxzoom, if needed
                 var maxzoomTarget = $('.max');
                 if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-                
+
                 Modal.close();
-                
+
                 //open proper modal, depending on if there are multiple layers
                 if (layersArray.length > 1) {
                     window.location.hash = '#';
-                    $('#layers .js-menu-content').sortable('destroy').sortable();
+                    $('#layers .js-layer-content').sortable('destroy').sortable();
                 } else {
                     window.location.hash = '#layers-' + layersArray[0].id;
-                    $('#layers .js-menu-content').sortable('destroy').sortable();
+                    $('#layers .js-layer-content').sortable('destroy').sortable();
                 }
-              //else layer already exists, show error  
+              //else layer already exists, show error
             } else {
                 Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
             }
@@ -312,7 +312,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         if (confirm('Remove layer "' + id + '"?')) {
             layers[id].form.remove();
             layers[id].item.remove();
-            $('#layers .js-menu-content').sortable('destroy').sortable();
+            $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
         }
         window.location.href = '#';
@@ -328,7 +328,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         if (!layers[id]) return false;
         var layerform = '#layers-' + id;
         var filepath = $(layerform + ' .filepath').val();
-        
+
         //Retain current settings to copy over
         var layer = layers[id].get();
 
@@ -339,7 +339,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //Transfer new maxzoom, if relevant
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
-            
+
             //Transfer current field descriptions to the new fields, if relevant
             var new_fields = metadata.json.vector_layers[0].fields;
             var current_fields = layer.fields;
@@ -347,10 +347,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
               if(current_fields.field !== undefined) new_fields[field] = current_fields[field];
             };
             layer.fields = new_fields;
-            
+
             //Transfer new projection
             layer.srs = metadata.projection;
-          
+
             //Add new layer and replace old in the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
 
@@ -363,18 +363,18 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
         return false;
     };
-    //This only applies to single-layer sources and PostGIS/SQLite  
+    //This only applies to single-layer sources and PostGIS/SQLite
     Editor.prototype.updateLayername = function(ev) {
       //Retain current settings to copy over
       var current_id = $('#current_id').val();
       var layer = layers[current_id].get();
-      var new_id = $('#newLayername').val(); 
+      var new_id = $('#newLayername').val();
       var new_layerform = '#layers-' + new_id;
       layer.id = new_id;
 
       //Add the new layer form and div
       $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-      $('#layers .js-menu-content').prepend(templates.layeritem(layer));
+      $('#layers .js-layer-content').prepend(templates.layeritem(layer));
 
       //Replace old layer with new in the project's layers array
       layers[layer.id] = Layer(layer.id, layer.Datasource);
@@ -383,14 +383,14 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       layers[current_id].form.remove();
       layers[current_id].item.remove();
       delete layers[current_id];
-      
+
       //Close
       Modal.close();
-      $('#layers .js-menu-content').sortable('destroy').sortable();
+      $('#layers .js-layer-content').sortable('destroy').sortable();
       window.location.href = '#layers-' + new_id;
 
       return false;
-      
+
     };
     Editor.prototype.error = function(model, resp) {
         this.messageclear();
@@ -408,7 +408,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // Set map in loading state.
         $('#full').addClass('loading');
         // Grab settings form values.
-        var attr = _($('#settings').serializeArray()).reduce(function(memo, field) {
+        var attr = _($('.js-settings-drawer').serializeArray()).reduce(function(memo, field) {
             memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
             return memo;
         }, this.model.attributes);
@@ -570,9 +570,9 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     window.editor.refresh();
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
-        $('#layers .js-menu-content').sortable();
-        $('#layers .js-menu-content').bind('sortupdate', function(ev, ui) {
-            var ids = $('#layers .js-menu-content .js-layer').map(function() {
+        $('#layers .js-layer-content').sortable();
+        $('#layers .js-layer-content').bind('sortupdate', function(ev, ui) {
+            var ids = $('#layers .js-layer-content .js-layer').map(function() {
                 return $(this).attr('id');
             }).get();
             layers = _(ids).reduce(function(memo, id) {

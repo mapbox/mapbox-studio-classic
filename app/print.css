@@ -1,38 +1,50 @@
-/* Code pane */
-#style-ui,
-#source-ui,
-#print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
+/* Layout
+------------------------------------------------------- */
 
-/* Export Settings */
-
-#print-ui { font: 12px 'Open Sans Bold'; }
-
-#full {
-  min-width: 58.333%;
-  right: 500px;
+#print-ui {
+  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
+#full {
+  min-width: calc(66.6666% + 80px);
+  right: 400px;
+  /* no left sidebar */
+  left: -80px;
+}
+
+/* Map overlay
+------------------------------------------------------- */
+a.toolbar-button {
+  top: 10px;
+  left: 10px;
+  margin-left: -80px;
+}
+
+a.toolbar-button:hover { background: rgba(0,0,0,.75);}
+
 #reselect {
-  bottom: 10px;
+  top: 10px;
   right: 10px;
   position: absolute;
   padding-right: 5px;
 }
 
 #recenter {
-  bottom: 10px;
+  top: 10px;
   right: 148px;
   position: absolute;
   padding-right: 5px;
 }
-.warning, input.warning  { color: #ee8a65; }
+
+/* Export pane
+------------------------------------------------------- */
+.col-input input { border-right-width: 0;}
+.col-input:last-of-type input { border-right-width: 1px;}
+
+.warning, input.warning  { color: #ee8a65 !important; }
+
 .close { z-index: 10; }
 .icon.reselect:before, .icon.recenter:before { margin-left: 2px; }
-
-
-.dim {
-  width: 90px;
-}
 
 .x {
   top: 5px;

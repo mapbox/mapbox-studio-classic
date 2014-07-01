@@ -1,31 +1,27 @@
 <% var rand = Math.random().toString(16).split('.')[1]; %>
 
-<div id='history'>
+<div id='history' class='js-history'>
 
-  <header class='row1 pad1 keyline-bottom'>
+  <div class='pin-bottom row1 pad1y pad2x keyline-top'>
     <h3 class='inline'><%= obj.user.name||obj.user.id %></h3>
     <a class='small inline' href='/unauthorize'>Logout</a>
-  </header>
+  </div>
 
-  <nav class='pin-topright pad1x'>
-    <div class='rounded-toggle'><!--
-    --><a class='js-tab <%= obj.style  ? 'active' : '' %>' href='#history-style'>Styles</a><!--
-    --><a class='js-tab <%= obj.source ? 'active' : '' %>' href='#history-source'>Sources</a>
-    <div>
-  </nav>
+  <div class='col12 pin-left top1 bottom1 scroll-styled'>
 
-<div id='history-style' <% if (obj.style) { %>class='active'<% } %>>
-  <div class='pin-bottom keyline-top row2 pad1'>
-    <div class='col6 pad1'>
-      <a class='button quiet col12 icon plus' href='/new/style'>New style</a>
-    </div>
-    <div class='col6 pad1'>
-      <a class='js-browsestyle button quiet col12 icon folder'>Browse</a>
+  <div class='pad1x pad2y center'>
+    <div class='inline col12 rounded-toggle'><!--
+    --><a class='js-tab strong col6 <%= obj.style  ? 'active' : '' %>' href='#history-style'>Styles</a><!--
+    --><a class='js-tab strong col6 <%= obj.source ? 'active' : '' %>' href='#history-source'>Sources</a>
     </div>
   </div>
-  <div class='clearfix pad1 col12 pin-top scroll-styled top1 bottom2'>
 
-    <div class='col12 fl clearfix pad1x'>
+  <div id='history-style' class='pad1x <% if (obj.style) { %>active<% } %>'>
+    <div class='pill clearfix space-bottom1 col12'>
+        <a class='short button col6 icon plus' href='/new/style'>New style</a>
+        <a class='short js-browsestyle button col6 icon folder'>Browse</a>
+    </div>
+    <div class='clearfix col12'>
       <% _(obj.history.style).chain()
         .sortBy(function(item) { return item.id })
         .each(function(item) {
@@ -36,12 +32,12 @@
         %>
 
         <div class='space-bottom1 contain'>
-          <a class='<%=isactive%> project col12 round small fill-darken0 strong contain' href='/style?id=<%=item.id%>'>
-            <div class='round-left inline contain small-graphic z1 fl' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
-            <div class='pin-left small-graphic fallback-graphic fill-lighten1 pad1 round-left style'><div class='icon big paint'></div></div>
+          <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
+            <div class='pin-left fill-dark round-left small-graphic z1' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
+            <div class='pin-left small-graphic fallback-graphic fill-lighten1 round-left style'><div class='icon big paint'></div></div>
             <div class='pad1 truncate'>
               <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
-              <code><%= item.id.split('/').pop().replace('.tm2', '') %></code>
+              <code class='quiet'><%= item.id.split('/').pop().replace('.tm2', '') %></code>
             </div>
             <div class='z10 pad1x pad2y proj-status hidden pin-right fill-green round-right'><span class='inline strong dot dark icon check'></span></div>
           </a>
@@ -56,20 +52,13 @@
 
     </div>
   </div>
-</div>
 
-<div id='history-source' <% if (obj.source) { %>class='active'<% } %>>
-  <div class='pin-bottom keyline-top row2 pad1'>
-    <div class='col6 pad1'>
-      <a class='col12 button quiet icon plus' href='/new/source'>New source</a>
+  <div id='history-source' class='pad1x <% if (obj.source) { %>active<% } %>'>
+    <div class='pill clearfix space-bottom1 col12'>
+        <a class='short button col6 icon plus' href='/new/source'>New source</a>
+        <a class='short js-browsesource button col6 icon folder'>Browse</a>
     </div>
-    <div class='col6 pad1'>
-      <a class='js-browsesource col12 button quiet col6 icon folder'>Browse</a>
-    </div>
-  </div>
-  <div class='clearfix pad1 col12 pin-top scroll-styled top1 bottom2'>
-
-    <div class='clearfix pad1x'>
+    <div class='clearfix col12'>
       <%
       var sourceitem = this.sourceitem;
       _(obj.history.source).chain()
@@ -91,6 +80,7 @@
 
     </div>
   </div>
+
 </div>
 
 </div>

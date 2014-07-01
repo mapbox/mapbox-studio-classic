@@ -1,46 +1,49 @@
-<div id='<%= obj.id %>' class='contain js-source source'>
+<div id='<%= obj.id %>' class='js-layer'>
 
-<div class='pad1 keyline-bottom'>
+<div class='pad1x'>
   <h3><%= obj.name || 'Untitled' %></h3>
-  <div class='clearfix small'>
-    <div class='col6'>
+  <div class='clearfix small pad1y'>
+    <div class='pad0y col6'>
     <% if (obj.id.indexOf('tmsource://') === 0) { %>
     <span class='quiet icon harddrive'>Local</span>
     <% } else {%>
     <span class='quiet icon cloud'>Remote</span>
     <% } %>
     </div>
-    <div class='col6 text-right'>
-      <a href='#source-<%=obj.id%>' class='js-recache icon refresh'>Refresh</a>
+    <div class='fr col6 text-right'>
+      <a href='#sources-<%=obj.id%>' class='button col12 short quiet js-recache icon refresh'>Refresh</a>
     </div>
   </div>
+
 </div>
 
-<% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
-<div class='small layer col12 contain clip' id='layers-<%=l.id%>'>
-  <a href='#layers-<%=l.id%>' class='pin-left pin-right js-tab'></a>
-  <div class='pad1x pad0y keyline-bottom quiet <%=l.geometry + 'icon'||''%>'><%=l.id%></div>
+<div class='keyline-top'>
+  <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
+  <div class='small col12 contain clip layer' id='sources-<%=l.id%>'>
+    <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
+    <div class='pad1x pad0y keyline-bottom <%=l.geometry + 'icon'||''%>'><%=l.id%></div>
 
-  <div class='center pin-right'>
-    <span class='inline zooms pad0 micro'>
-      <% if (!l.maxzoom) { %>
-      z<%= l.minzoom||0 %>+
-      <% } else { %>
-      z<%= l.minzoom||0 %>-<%= l.maxzoom||22 %>
-      <% } %>
-    </span>
-  </div>
-  <div class='description'>
-    <div class='truncate keyline-bottom col12 pad1'><%=l.description||'No description.'%></div>
-    <div class='pad1y'>
-      <% _(l.fields||{}).each(function(desc,name) { %>
-      <div class='field pad1x pad0y clearfix'>
-        <span class='fill-lighten2 field-key break-word col4'><%=name%> </span>
-        <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
+    <div class='center pin-right'>
+      <span class='inline zooms pad0 micro'>
+        <% if (!l.maxzoom) { %>
+        z<%= l.minzoom||0 %>+
+        <% } else { %>
+        z<%= l.minzoom||0 %>-<%= l.maxzoom||22 %>
+        <% } %>
+      </span>
+    </div>
+    <div class='description'>
+      <div class='truncate keyline-bottom quiet col12 pad1'><%=l.description||'No description.'%></div>
+      <div class='pad1y'>
+        <% _(l.fields||{}).each(function(desc,name) { %>
+        <div class='field pad1x pad0y clearfix'>
+          <span class='fill-lighten2 field-key break-word col4'><%=name%> </span>
+          <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
+        </div>
+        <% }); %>
       </div>
-      <% }); %>
     </div>
   </div>
-</div>
-<% }); %>
+  <% }); %>
+  </div>
 </div>
