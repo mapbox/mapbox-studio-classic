@@ -281,7 +281,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #bookmark {
   pointer-events:none;
   position:absolute;
-  right:145px;
+  right:120px;
   width:200px;
   bottom:45px;
   opacity:0;
@@ -319,7 +319,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
   pointer-events:none;
   position:absolute;
   visibility: hidden;
-  right:165px;
+  right:140px;
   width:200px;
   bottom:45px;
   opacity:0;
