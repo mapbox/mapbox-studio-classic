@@ -5,6 +5,8 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var dirty = require('dirty');
 var tmppath = path.join(require('os').tmpdir(), 'tm2-lib-' + +new Date);
+var stream = require('stream');
+var progress = require('progress-stream');
 
 test('setup: config', function(t) {
     tm.config({

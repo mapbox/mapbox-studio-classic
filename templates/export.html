@@ -21,10 +21,10 @@
     <div class='pad2 fill-darken0'>
       <h2><%= source.name || 'Untitled' %></h2>
 
-      <% var pct = job.stats ? (100 * job.stats.done / (job.stats.total||1)).toFixed(1) : '100.0'; %>
+      <% var pct = job.progress ? (job.progress.percentage).toFixed(1) : '100.0'; %>
       <small class='quiet'>
-        <span class='stat'><span class='size'><%= job.stat ? this.exportsize(job.stat.size) : 0 %></span> &mdash;</span>
-        <span class='task'><span class='speed'><%= job.stats ? job.stats.speed : 0 %></span> tiles/sec &mdash;</span>
+        <span class='stat'><span class='size'><%= job.size ? this.exportsize(job.size) : 0 %></span> &mdash;</span>
+        <span class='task'><span class='speed'><%= job.progress ? job.progress.speed : 0 %></span> tiles/sec &mdash;</span>
         z<%= source.minzoom %>-<%= source.maxzoom %>
       </small>
     </div>
@@ -76,7 +76,7 @@ Exporter.prototype.poll = function() {
   var view = this;
   model.fetch({
     success:function() {
-      if (!model.get('task')) {
+      if (!model.get('progress')) {
         view.refresh();
       } else {
         view.timeout = setTimeout(view.poll, 100);
@@ -91,15 +91,15 @@ Exporter.prototype.initialize = function() {
   this.poll();
 };
 Exporter.prototype.refresh = function() {
-  if (!this.model.get('stats')) {
+  if (!this.model.get('progress')) {
     console.log('nothing')
     var pct = '100.0';
     var spd = 0;
-    this.$('.size').text(templates.exportsize(this.model.get('stat').size));
+    this.$('.size').text(templates.exportsize(this.model.get('size')));
     $('body').removeClass('task').addClass('stat');
   } else {
-    var pct = this.model.get('stats').percentage || 0;
-    var spd = this.model.get('stats').delta || 0;
+    var pct = this.model.get('progress').percentage || 0;
+    var spd = this.model.get('progress').delta || 0;
     $('body').removeClass('stat').addClass('task');
   }
   var pctel = this.$('.percent');

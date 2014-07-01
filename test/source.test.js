@@ -1,3 +1,4 @@
+var stream = require('stream');
 var test = require('tape');
 var _ = require('underscore');
 var fs = require('fs');
@@ -42,6 +43,7 @@ var data = {
 test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
+        tmp: path.join(tmppath, 'tmp'),
         cache: path.join(tmppath, 'cache')
     }, t.end);
 });
@@ -286,6 +288,67 @@ test('source.info: reads source YML', function(t) {
         }
         t.deepEqual(info, require(filepath));
         t.end();
+    });
+});
+
+test('source.mbtilesExport: exports mbtiles file', function(t) {
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.toHash(id, function(err, hash) {
+        t.ifError(err);
+        t.equal(false, fs.existsSync(hash), 'export does not exist yet');
+        source(id, function(err, s) {
+            t.ifError(err);
+            var task = source.mbtilesExport(s);
+            t.strictEqual(task.id, id, 'sets task.id');
+            t.ok(task.read instanceof stream.Readable, 'sets task.read');
+            t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
+            task.progress.once('finished', function() {
+                t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
+                t.equal(task.progress.progress().transferred, 342, 'progress.transferred');
+                t.equal(task.progress.progress().eta, 0, 'progress.eta');
+                t.equal(true, fs.existsSync(hash), 'export moved into place');
+                t.end();
+            });
+        });
+    });
+});
+
+test('source.mbtilesExport: verify export', function(t) {
+    var MBTiles = require('mbtiles');
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.toHash(id, function(err, hash) {
+        t.ifError(err);
+        new MBTiles(hash, function(err, src) {
+            t.ifError(err);
+            src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
+                t.ifError(err);
+                t.equal(row.count, 341);
+                t.equal(row.size, 22245);
+                check([
+                    [0,0,0],
+                    [1,0,0],
+                    [1,1,0],
+                    [2,0,1],
+                    [2,2,1]
+                ]);
+            });
+            function check(queue) {
+                if (!queue.length) return src.getInfo(function(err, info) {
+                    t.ifError(err);
+                    if (UPDATE) {
+                        fs.writeFileSync(__dirname + '/expected/source-export-info.json', JSON.stringify(info, null, 2));
+                    }
+                    t.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/source-export-info.json')), info);
+                    t.end();
+                });
+                var zxy = queue.shift();
+                src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
+                    t.ifError(err);
+                    t.ok(!!buffer);
+                    check(queue);
+                });
+            }
+        });
     });
 });
 
