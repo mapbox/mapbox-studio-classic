@@ -143,9 +143,12 @@
   color: transparent;
 }
 
-#fonts-drawer .single-font:hover {
-  background-color: rgba(0,0,0,.05);
-}
+#fonts-drawer .font-family.active { background-color: rgba(0,0,0,.15); }
+
+#fonts-drawer .font-family .single-font { opacity:0.5; }
+#fonts-drawer .font-family.active span.single-font { opacity:1; }
+#fonts-drawer .font-family span.single-font { display:none; }
+#fonts-drawer .font-family.active span.single-font { display:block; }
 
 /* History pane
 ------------------------------------------------------- */
