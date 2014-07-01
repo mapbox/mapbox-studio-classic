@@ -60,7 +60,7 @@ describe('#addlayer-shape', function() {
 
 describe('Setting maxzoom', function() {
     it('sets maxzoom', function() {
-        var maxzoomTarget = $('#settings #maxzoom');
+        var maxzoomTarget = $('.js-settings-form #maxzoom');
         maxzoomTarget.val(6);
         $('.js-save').submit();
         var maxzoom = maxzoomTarget.val();
