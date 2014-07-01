@@ -335,6 +335,12 @@ test('source.mbtilesExport: verify export', function(t) {
             function check(queue) {
                 if (!queue.length) return src.getInfo(function(err, info) {
                     t.ifError(err);
+
+                    // Omit id, basename, filesize from fixture check.
+                    delete info.id;
+                    delete info.basename;
+                    delete info.filesize;
+
                     if (UPDATE) {
                         fs.writeFileSync(__dirname + '/expected/source-export-info.json', JSON.stringify(info, null, 2));
                     }
