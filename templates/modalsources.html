@@ -5,7 +5,7 @@ var active = _(history.source).find(function(item) {
 var activeType = 'remote';
 if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
 %>
-<div id='modalsources' class='modal round col6 margin3 pin-top top2 bottom2 dark fill-dark'>
+<div id='modalsources' class='modal round col8 margin2 pin-top top2 bottom2 dark fill-dark'>
   <a class='pad1 quiet icon close pin-topright js-close'></a>
   <div class='row1 keyline-bottom pad1x space'>
     <h3 class='inline'>Sources</h3>
@@ -29,7 +29,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
   %>
   </div>
   <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
-    <div class='pin-top pin-bottom pad1 scroll-styled bottom2'>
+    <div class='pin-top pin-bottom pad1 scroll-styled bottom3'>
     <%
       print(_(history.source).chain()
         .filter(function(item) { return item.id.indexOf('tmsource://') === -1 })
@@ -43,12 +43,14 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
         .value().join(''));
     %>
     </div>
-    <form id='addmapbox' class='pin-bottom pad1 keyline-top row2'>
-      <div class='input-pill space-bottom0 col8 margin2'><!--
-        --><input class='col8' type='text' placeholder='Mapbox map ID' title='Use "username.project" syntax for map IDs. No spaces between map IDs.' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
-        --><input class='col4' type='submit' value='Add source'/>
+    <form id='addmapbox' class='pin-bottom pad2 keyline-top row3'>
+      <div class='input-pill clearfix'><!--
+        --><input class='col9' type='text' placeholder='Mapbox map ID' title='Use "username.project" syntax for map IDs. No spaces between map IDs.' size='20' name='id' pattern='(([\w+-]+\.[\w+-]+,?)+|(https?:\/\/.*))' value='<%= style.source.replace('mapbox:///','') %>'/><!--
+        --><input class='col3' type='submit' value='Update'/>
       </div>
-      <p class='small quiet col8 margin2 center'>Add another source by its Mapbox map ID.</p>
+      <p class='small quiet center pad1y'>
+        <strong>Mapbox map IDs</strong> (comma separated) or a <strong>TileJSON URL</strong> for other sources
+      </p>
     </form>
   </div>
 </div>
