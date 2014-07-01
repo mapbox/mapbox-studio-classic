@@ -28,6 +28,7 @@ var request = require('request');
 var crypto = require('crypto');
 var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
+var task = require('./lib/task');
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -376,17 +377,13 @@ app.all('/mbtiles', function(req, res, next) {
         source.mbtiles(req.query.id, false, function(err, job) {
             if (err) return next(err);
 
-            // Clone job object and make it JSON-able.
-            job = _(job).clone();
-            job.task = !!job.task;
-
             if (/application\/json/.test(req.headers.accept||'')) {
                 res.send(job);
             } else {
                 res.set({'content-type':'text/html'});
                 res.send(tm.templates.export({
                     tm: tm,
-                    job: job,
+                    job: job.toJSON(),
                     source: info
                 }));
             }
@@ -395,19 +392,15 @@ app.all('/mbtiles', function(req, res, next) {
 });
 
 app.all('/mbtiles.json', function(req, res, next) {
-    if (req.method === 'DELETE') return tm.cleartask(function(err) {
-        if (err) return next(err);
+    if (req.method === 'DELETE') {
+        task.del();
         res.send({});
-    });
+        return;
+    }
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
         source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
             if (err) return next(err);
-
-            // Clone job object and make it JSON-able.
-            job = _(job).clone();
-            job.task = !!job.task;
-
             res.send(job);
         });
     });

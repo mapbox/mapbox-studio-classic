@@ -1,8 +1,5 @@
 {
   "scheme": "tms",
-  "basename": "export.mbtiles",
-  "id": "export",
-  "filesize": 51200,
   "attribution": "&copy; John Doe 2013.",
   "center": [
     0,
