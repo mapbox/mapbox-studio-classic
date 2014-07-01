@@ -468,7 +468,7 @@ app.get('/thumb.png', function(req, res, next) {
 
 app.get('/font.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.font(req.query.id, function(err, buffer) {
+    tm.font(req.query.id, req.query.text||'', function(err, buffer) {
         if (err) return next(err);
         var headers = {};
         headers['cache-control'] = 'max-age=3600';

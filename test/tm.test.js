@@ -157,14 +157,14 @@ test('tm history', function(t) {
 });
 
 test('tm font (invalid)', function(t) {
-    tm.font('doesnotexist', function(err) {
+    tm.font('doesnotexist', '', function(err) {
         t.equal('Invalid font doesnotexist', err.message);
         t.end();
     });
 });
 
 test('tm font (valid)', function(t) {
-    tm.font('Source Sans Pro Bold', function(err, buffer) {
+    tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
         setTimeout(function() {
@@ -176,7 +176,7 @@ test('tm font (valid)', function(t) {
 
 test('tm font (cache hit)', function(t) {
     var start = +new Date;
-    tm.font('Source Sans Pro Bold', function(err, buffer) {
+    tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
         t.ok((+new Date - start) < 50);
