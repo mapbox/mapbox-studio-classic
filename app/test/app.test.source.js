@@ -26,9 +26,9 @@ $(document).ajaxComplete(function() {
 
 describe('Setting maxzoom', function() {
     it('sets maxzoom to higher value than 6 (tests logic preference for higher maxzoom...see #addlayer-shape test)', function() {
-        var maxzoomTarget = $('#settings #maxzoom');
+        var maxzoomTarget = $('.js-settings-form #maxzoom');
         maxzoomTarget.val(12);
-        $('#settings .js-save').submit();
+        $('.js-save').submit();
         var maxzoom = maxzoomTarget.val();
         assert.equal(maxzoom, 12);
     });
@@ -47,13 +47,13 @@ describe('#addlayer-shape', function() {
         $('#browsefile .col8').val(shpFile);
         $('#browsefile .col4').submit();
         onajax(function() {
-        	var maxzoomTarget = $('#settings #maxzoom');
+        	var maxzoomTarget = $('.js-settings-form #maxzoom');
         	var maxzoom = maxzoomTarget.val();
         	var projTarget = $('.js-metadata-projection');
    			var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
 			assert.equal(expectedValue, projTarget.val());
         	assert.equal(maxzoom, 12);
-        	done();	
+        	done();
         });
     });
 });
@@ -62,7 +62,7 @@ describe('Setting maxzoom', function() {
     it('sets maxzoom', function() {
         var maxzoomTarget = $('#settings #maxzoom');
         maxzoomTarget.val(6);
-        $('#settings .js-save').submit();
+        $('.js-save').submit();
         var maxzoom = maxzoomTarget.val();
         assert.equal(maxzoom, 6);
     });
@@ -73,7 +73,7 @@ describe('Setting projection', function() {
 		var projTarget = $('.js-metadata-projection');
 		var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
 		assert.deepEqual(expectedValue, projTarget.val());
-	});	
+	});
 });
 
 describe('#updatename-shape', function(){
