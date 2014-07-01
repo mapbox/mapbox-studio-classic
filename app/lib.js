@@ -256,7 +256,7 @@ views.Browser.styleHandler = function(Modal, cwd) {
 
 views.Modal = Backbone.View.extend({});
 views.Modal.prototype.events = {
-  'click a.close': 'close'
+  'click a.js-close': 'close'
 };
 views.Modal.prototype.active = false;
 views.Modal.prototype.modals = {};
@@ -268,6 +268,7 @@ views.Modal.prototype.close = function() {
     this.$el.parent().removeClass('active');
     this.active.callback();
     this.active = false;
+    return false;
 };
 views.Modal.prototype.show = function(id, options, callback) {
     options = options || {};

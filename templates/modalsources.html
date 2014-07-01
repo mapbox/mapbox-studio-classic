@@ -5,8 +5,8 @@ var active = _(history.source).find(function(item) {
 var activeType = 'remote';
 if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
 %>
-<div id='modalsources' class='modal round col6 margin3 pin-top top2 bottom2 fill-light'>
-  <a class='pad1 quiet icon close submit pin-topright x dot'></a>
+<div id='modalsources' class='modal round col6 margin3 pin-top top2 bottom2 dark fill-dark'>
+  <a class='pad1 quiet icon close pin-topright js-close'></a>
   <div class='row1 keyline-bottom pad1x space'>
     <h3 class='inline'>Sources</h3>
     <span class='rounded-toggle inline'>
@@ -14,7 +14,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       <a href='#modalsources-remote' class='js-tab <%= activeType === 'remote' ? 'active' : ''%>'>Remote</a>
     </span>
   </div>
-  <div id='modalsources-local' class='pin-top pin-bottom pad1y pad2x scroll-styled top1 <%= activeType === 'local' ? 'active' : ''%>'>
+  <div id='modalsources-local' class='pin-top pin-bottom pad1 scroll-styled top1 <%= activeType === 'local' ? 'active' : ''%>'>
   <%
     print(_(history.source).chain()
       .filter(function(item) { return item.id.indexOf('tmsource://') === 0 })
@@ -29,7 +29,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
   %>
   </div>
   <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
-    <div class='pin-top pin-bottom pad1y pad2x scroll-styled bottom2'>
+    <div class='pin-top pin-bottom pad1 scroll-styled bottom2'>
     <%
       print(_(history.source).chain()
         .filter(function(item) { return item.id.indexOf('tmsource://') === -1 })
@@ -44,7 +44,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
     %>
     </div>
     <form id='addmapbox' class='pin-bottom pad1 keyline-top row2'>
-      <div class='input-pill col8 margin2'><!--
+      <div class='input-pill space-bottom0 col8 margin2'><!--
         --><input class='col8' type='text' placeholder='Mapbox map ID' title='Use "username.project" syntax for map IDs. No spaces between map IDs.' size='20' name='id' pattern='([\w+-]+\.[\w+-]+,?)+'/><!--
         --><input class='col4' type='submit' value='Add source'/>
       </div>

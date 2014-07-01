@@ -368,7 +368,7 @@ Editor.prototype.upload = function(ev) {
   $('.js-settings-form').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
-      Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      Modal.show('message', '<span class="dark fill-green inline dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
       $('.js-settings-form').removeClass('loading');
       return true;
     })

@@ -5,12 +5,19 @@
 .bottom1 { bottom:40px; }
 .bottom2 { bottom:80px; }
 
+
+/* FIX IN BASE - inputs in dark pills lose their border */
+.dark.fill-dark .pill > input {
+  border-color: rgba(0,0,0,0.25);
+}
+
 .prose ul.small {
   margin-left: 15px;
 }
 
+
+/* FIX IN BASE - to offset weird fieldset form label style */
 .rounded-toggle input[type=radio] + label {
-  /* too offset weird fieldset form label style */
   margin: 0;
 }
 
@@ -265,23 +272,26 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #history-source .empty-state:only-child,
 #history-style .empty-state:only-child { display: block;}
 
-.project:hover { background: rgba(0,0,0,.075);}
-
-.dark .project { background-color: rgba(255,255,255,.05);}
-.dark .project:hover { background: rgba(255,255,255,.075);}
-
-/* Flag active project */
-.project.proj-active,
-.project.proj-active:hover {
-  background-color: rgba(0,0,0,.075);
+a.project {
+  padding-left: 60px;
+  color: white;
+}
+a.project:hover {
+  color: white;
+  background: rgba(255,255,255,.075);
 }
 
-.dark .project.proj-active,
-.dark .project.proj-active:hover {
+a.project .small-graphic {
+  height: auto;
+}
+
+/* Flag active project */
+a.project.proj-active,
+a.project.proj-active:hover {
   background-color: rgba(255,255,255,.075);
 }
 
-.project.proj-active .proj-status { display: block;}
+a.project.proj-active .proj-status { display: block;}
 
 /* Map bookmarks
 ------------------------------------------------------- */
