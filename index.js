@@ -84,7 +84,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
     try {
         var page = tm.templates.style({
             cwd: config.cwd,
-            fontsRef: require('mapnik').fonts(),
+            fontsRef: tm.fontfamilies(),
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
             style: req.style.data,
@@ -114,7 +114,7 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
     try {
         var page = tm.templates.print({
             cwd: process.env.HOME,
-            fontsRef: require('mapnik').fonts(),
+            fontsRef: tm.fontfamilies(),
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
             style: req.style.data,
