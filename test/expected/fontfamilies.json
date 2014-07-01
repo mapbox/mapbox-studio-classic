@@ -1,0 +1,986 @@
+{
+  "Arial Unicode MS": [
+    "Arial Unicode MS Regular",
+    "Arial Unicode MS Bold"
+  ],
+  "Avenir": [
+    "Avenir Medium",
+    "Avenir Book",
+    "Avenir Roman",
+    "Avenir Black",
+    "Avenir Heavy",
+    "Avenir Light",
+    "Avenir Medium Oblique",
+    "Avenir Oblique",
+    "Avenir Book Oblique",
+    "Avenir Black Oblique",
+    "Avenir Heavy Oblique",
+    "Avenir Light Oblique"
+  ],
+  "Avenir Next": [
+    "Avenir Next Medium",
+    "Avenir Next Regular",
+    "Avenir Next Bold",
+    "Avenir Next Condensed Medium",
+    "Avenir Next Condensed Regular",
+    "Avenir Next Demi Bold",
+    "Avenir Next Heavy",
+    "Avenir Next Condensed Bold",
+    "Avenir Next Italic",
+    "Avenir Next Medium Italic",
+    "Avenir Next Condensed Demi Bold",
+    "Avenir Next Condensed Heavy",
+    "Avenir Next Bold Italic",
+    "Avenir Next Ultra Light",
+    "Avenir Next Condensed Italic",
+    "Avenir Next Condensed Medium Italic",
+    "Avenir Next Demi Bold Italic",
+    "Avenir Next Heavy Italic",
+    "Avenir Next Condensed Bold Italic",
+    "Avenir Next Condensed Ultra Light",
+    "Avenir Next Condensed Demi Bold Italic",
+    "Avenir Next Condensed Heavy Italic",
+    "Avenir Next Ultra Light Italic",
+    "Avenir Next Condensed Ultra Light Italic"
+  ],
+  "BentonGraphicsSansCond": [
+    "BentonGraphicsSansCond BlackIt",
+    "BentonGraphicsSansCond BoldIta",
+    "BentonGraphicsSansCond BookIta",
+    "BentonGraphicsSansCond Med",
+    "BentonGraphicsSansCond MedItal",
+    "BentonGraphicsSansCond Reg",
+    "BentonGraphicsSansCond RegItal"
+  ],
+  "Brokenscript OT": [
+    "Brokenscript OT Bold",
+    "Brokenscript OT Cond Bold"
+  ],
+  "Brokenscript Rough OT": [
+    "Brokenscript Rough OT Bold",
+    "Brokenscript Rough OT Cond Bold"
+  ],
+  "Call Eight Negative OT": [
+    "Call Eight Negative OT Regular"
+  ],
+  "Call Eight OT": [
+    "Call Eight OT Regular",
+    "Call Eight OT Italic"
+  ],
+  "Call Five L Negative OT": [
+    "Call Five L Negative OT Regular"
+  ],
+  "Call Five L OT": [
+    "Call Five L OT Regular",
+    "Call Five L OT Italic"
+  ],
+  "Call Five S Negative OT": [
+    "Call Five S Negative OT Regular"
+  ],
+  "Call Five S OT": [
+    "Call Five S OT Regular",
+    "Call Five S OT Italic"
+  ],
+  "Call Four L Negative OT": [
+    "Call Four L Negative OT Regular"
+  ],
+  "Call Four L OT": [
+    "Call Four L OT Regular",
+    "Call Four L OT Italic"
+  ],
+  "Call Four S Negative OT": [
+    "Call Four S Negative OT Regular"
+  ],
+  "Call Four S OT": [
+    "Call Four S OT Regular",
+    "Call Four S OT Italic"
+  ],
+  "Call Nine L Negative OT": [
+    "Call Nine L Negative OT Regular"
+  ],
+  "Call Nine L OT": [
+    "Call Nine L OT Regular",
+    "Call Nine L OT Italic"
+  ],
+  "Call Nine S Negative OT": [
+    "Call Nine S Negative OT Regular"
+  ],
+  "Call Nine S OT": [
+    "Call Nine S OT Regular",
+    "Call Nine S OT Italic"
+  ],
+  "Call One Negative OT": [
+    "Call One Negative OT Regular"
+  ],
+  "Call One OT": [
+    "Call One OT Regular",
+    "Call One OT Italic"
+  ],
+  "Call Seven Negative OT": [
+    "Call Seven Negative OT Regular"
+  ],
+  "Call Seven OT": [
+    "Call Seven OT Regular",
+    "Call Seven OT Italic"
+  ],
+  "Call Six Negative OT": [
+    "Call Six Negative OT Regular"
+  ],
+  "Call Six OT": [
+    "Call Six OT Regular",
+    "Call Six OT Italic"
+  ],
+  "Call Three Negative OT": [
+    "Call Three Negative OT Regular"
+  ],
+  "Call Three OT": [
+    "Call Three OT Regular",
+    "Call Three OT Italic"
+  ],
+  "Call Two Negative OT": [
+    "Call Two Negative OT Regular"
+  ],
+  "Call Two OT": [
+    "Call Two OT Regular",
+    "Call Two OT Italic"
+  ],
+  "Chennai": [
+    "Chennai Medium"
+  ],
+  "Clan Offc Pro": [
+    "Clan Offc Pro Medium",
+    "Clan Offc Pro Book",
+    "Clan Offc Pro Bold",
+    "Clan Offc Pro Narrow Medium",
+    "Clan Offc Pro Narrow Book",
+    "Clan Offc Pro Medium Italic",
+    "Clan Offc Pro Narrow Bold",
+    "Clan Offc Pro Book Italic",
+    "Clan Offc Pro Bold Italic",
+    "Clan Offc Pro Narrow Medium Italic",
+    "Clan Offc Pro Narrow Book Italic",
+    "Clan Offc Pro Narrow Bold Italic"
+  ],
+  "Clan Offc Pro Extd": [
+    "Clan Offc Pro Extd Medium",
+    "Clan Offc Pro Extd Book",
+    "Clan Offc Pro Extd Bold",
+    "Clan Offc Pro Extd Medium Italic",
+    "Clan Offc Pro Extd Book Italic",
+    "Clan Offc Pro Extd Bold Italic"
+  ],
+  "Clan Offc Pro Extd News": [
+    "Clan Offc Pro Extd News",
+    "Clan Offc Pro Extd News Italic"
+  ],
+  "Clan Offc Pro Narrow News": [
+    "Clan Offc Pro Narrow News",
+    "Clan Offc Pro Narrow News Italic"
+  ],
+  "Clan Offc Pro News": [
+    "Clan Offc Pro News",
+    "Clan Offc Pro News Italic"
+  ],
+  "Clan SC Offc Pro": [
+    "Clan SC Offc Pro Medium",
+    "Clan SC Offc Pro Book",
+    "Clan SC Offc Pro Bold",
+    "Clan SC Offc Pro Narrow Medium",
+    "Clan SC Offc Pro Narrow Book",
+    "Clan SC Offc Pro Medium Italic",
+    "Clan SC Offc Pro Narrow Bold",
+    "Clan SC Offc Pro Book Italic",
+    "Clan SC Offc Pro Bold Italic",
+    "Clan SC Offc Pro Narrow Medium Italic",
+    "Clan SC Offc Pro Narrow Book Italic",
+    "Clan SC Offc Pro Narrow Bold Italic"
+  ],
+  "Clan SC Offc Pro Extd": [
+    "Clan SC Offc Pro Extd Medium",
+    "Clan SC Offc Pro Extd Book",
+    "Clan SC Offc Pro Extd Bold",
+    "Clan SC Offc Pro Extd Medium Italic",
+    "Clan SC Offc Pro Extd Book Italic",
+    "Clan SC Offc Pro Extd Bold Italic"
+  ],
+  "Clan SC Offc Pro Extd News": [
+    "Clan SC Offc Pro Extd News",
+    "Clan SC Offc Pro Extd News Italic"
+  ],
+  "Clan SC Offc Pro Narrow News": [
+    "Clan SC Offc Pro Narrow News",
+    "Clan SC Offc Pro Narrow News Italic"
+  ],
+  "Clan SC Offc Pro News": [
+    "Clan SC Offc Pro News",
+    "Clan SC Offc Pro News Italic"
+  ],
+  "Coming Soon": [
+    "Coming Soon Regular"
+  ],
+  "Crimson": [
+    "Crimson Roman",
+    "Crimson Semibold",
+    "Crimson Bold",
+    "Crimson Italic",
+    "Crimson Semibold Italic",
+    "Crimson Bold Italic"
+  ],
+  "DIN Offc Pro": [
+    "DIN Offc Pro Medium",
+    "DIN Offc Pro Regular",
+    "DIN Offc Pro Bold",
+    "DIN Offc Pro Cond",
+    "DIN Offc Pro Cond Medium",
+    "DIN Offc Pro Black",
+    "DIN Offc Pro Light",
+    "DIN Offc Pro Cond Bold",
+    "DIN Offc Pro Medium Italic",
+    "DIN Offc Pro Italic",
+    "DIN Offc Pro Cond Black",
+    "DIN Offc Pro Cond Light",
+    "DIN Offc Pro Bold Italic",
+    "DIN Offc Pro Cond Italic",
+    "DIN Offc Pro Cond Medium Italic",
+    "DIN Offc Pro Black Italic",
+    "DIN Offc Pro Light Italic",
+    "DIN Offc Pro Cond Bold Italic",
+    "DIN Offc Pro Cond Black Italic",
+    "DIN Offc Pro Cond Light Italic"
+  ],
+  "DINPro": [
+    "DINPro Regular",
+    "DINPro Light"
+  ],
+  "DJ5Exchange": [
+    "DJ5Exchange Medium Italic"
+  ],
+  "DJ5RetinaCd": [
+    "DJ5RetinaCd Medium",
+    "DJ5RetinaCd Semibold",
+    "DJ5RetinaCd Light"
+  ],
+  "Droid Serif": [
+    "Droid Serif Regular",
+    "Droid Serif Bold",
+    "Droid Serif Italic",
+    "Droid Serif Bold Italic"
+  ],
+  "Elementa Pro": [
+    "Elementa Pro Regular",
+    "Elementa Pro Bold",
+    "Elementa Pro Italic",
+    "Elementa Pro Bold Italic"
+  ],
+  "Elementa Rough Pro": [
+    "Elementa Rough Pro Regular",
+    "Elementa Rough Pro Bold"
+  ],
+  "Freehand521 BT": [
+    "Freehand521 BT Regular"
+  ],
+  "Frutiger LT 45": [
+    "Frutiger LT 45 Light Regular"
+  ],
+  "Futura Today Screen": [
+    "Futura Today Screen Normal",
+    "Futura Today Screen Bold",
+    "Futura Today Screen Light"
+  ],
+  "GE Inspira": [
+    "GE Inspira Medium Regular",
+    "GE Inspira Regular",
+    "GE Inspira Bold",
+    "GE Inspira Medium Bold",
+    "GE Inspira Italic",
+    "GE Inspira Medium Italic",
+    "GE Inspira Bold Italic"
+  ],
+  "GE Inspira Medium SC": [
+    "GE Inspira Medium SC Regular"
+  ],
+  "GE Inspira Pitch": [
+    "GE Inspira Pitch Regular",
+    "GE Inspira Pitch Bold",
+    "GE Inspira Pitch Cond Regular",
+    "GE Inspira Pitch Italic",
+    "GE Inspira Pitch Cond Italic"
+  ],
+  "GE Inspira Pitch SC": [
+    "GE Inspira Pitch SC Regular"
+  ],
+  "GE Inspira Small Caps": [
+    "GE Inspira Small Caps Regular"
+  ],
+  "GE Inspira Symbol": [
+    "GE Inspira Symbol Regular"
+  ],
+  "Gotham": [
+    "Gotham Medium",
+    "Gotham Book",
+    "Gotham Bold",
+    "Gotham Light",
+    "Gotham Medium Italic",
+    "Gotham Book Italic",
+    "Gotham Bold Italic",
+    "Gotham Light Italic"
+  ],
+  "Gothic Ultra OT": [
+    "Gothic Ultra OT Regular"
+  ],
+  "Helvetica LT Std": [
+    "Helvetica LT Std Roman",
+    "Helvetica LT Std Bold",
+    "Helvetica LT Std Light",
+    "Helvetica LT Std Oblique",
+    "Helvetica LT Std Bold Oblique",
+    "Helvetica LT Std Light Oblique"
+  ],
+  "Helvetica Neue LT Std 107 Extra": [
+    "Helvetica Neue LT Std 107 Extra Black Condensed",
+    "Helvetica Neue LT Std 107 Extra Black Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 23": [
+    "Helvetica Neue LT Std 23 Ultra Light Extended",
+    "Helvetica Neue LT Std 23 Ultra Light Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 27": [
+    "Helvetica Neue LT Std 27 Ultra Light Condensed",
+    "Helvetica Neue LT Std 27 Ultra Light Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 33": [
+    "Helvetica Neue LT Std 33 Thin Extended",
+    "Helvetica Neue LT Std 33 Thin Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 37": [
+    "Helvetica Neue LT Std 37 Thin Condensed",
+    "Helvetica Neue LT Std 37 Thin Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 43": [
+    "Helvetica Neue LT Std 43 Light Extended",
+    "Helvetica Neue LT Std 43 Light Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 47": [
+    "Helvetica Neue LT Std 47 Light Condensed",
+    "Helvetica Neue LT Std 47 Light Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 53": [
+    "Helvetica Neue LT Std 53 Extended",
+    "Helvetica Neue LT Std 53 Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 57": [
+    "Helvetica Neue LT Std 57 Condensed",
+    "Helvetica Neue LT Std 57 Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 63": [
+    "Helvetica Neue LT Std 63 Medium Extended",
+    "Helvetica Neue LT Std 63 Medium Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 67": [
+    "Helvetica Neue LT Std 67 Medium Condensed",
+    "Helvetica Neue LT Std 67 Medium Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 73": [
+    "Helvetica Neue LT Std 73 Bold Extended",
+    "Helvetica Neue LT Std 73 Bold Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 75 Bold Outline": [
+    "Helvetica Neue LT Std 75 Bold Outline"
+  ],
+  "Helvetica Neue LT Std 77": [
+    "Helvetica Neue LT Std 77 Bold Condensed",
+    "Helvetica Neue LT Std 77 Bold Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 83": [
+    "Helvetica Neue LT Std 83 Heavy Extended",
+    "Helvetica Neue LT Std 83 Heavy Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 87": [
+    "Helvetica Neue LT Std 87 Heavy Condensed",
+    "Helvetica Neue LT Std 87 Heavy Condensed Oblique"
+  ],
+  "Helvetica Neue LT Std 93": [
+    "Helvetica Neue LT Std 93 Black Extended",
+    "Helvetica Neue LT Std 93 Black Extended Oblique"
+  ],
+  "Helvetica Neue LT Std 97": [
+    "Helvetica Neue LT Std 97 Black Condensed",
+    "Helvetica Neue LT Std 97 Black Condensed Oblique"
+  ],
+  "HolmenHeadlineOT": [
+    "HolmenHeadlineOT Regular"
+  ],
+  "HolmenOT": [
+    "HolmenOT BoldItalic",
+    "HolmenOT RegularItalic"
+  ],
+  "Kievit Offc Pro": [
+    "Kievit Offc Pro Medium",
+    "Kievit Offc Pro Regular",
+    "Kievit Offc Pro Book",
+    "Kievit Offc Pro Bold",
+    "Kievit Offc Pro Extrabold",
+    "Kievit Offc Pro Black",
+    "Kievit Offc Pro Light",
+    "Kievit Offc Pro Thin",
+    "Kievit Offc Pro Italic",
+    "Kievit Offc Pro Medium Italic",
+    "Kievit Offc Pro Book Italic",
+    "Kievit Offc Pro Bold Italic",
+    "Kievit Offc Pro Extrabold Italic",
+    "Kievit Offc Pro Black Italic",
+    "Kievit Offc Pro Light Italic",
+    "Kievit Offc Pro Thin Italic"
+  ],
+  "Kievit Offc Pro Extralight": [
+    "Kievit Offc Pro Extralight",
+    "Kievit Offc Pro Extralight Italic"
+  ],
+  "Kievit SC Offc Pro": [
+    "Kievit SC Offc Pro Medium",
+    "Kievit SC Offc Pro Regular",
+    "Kievit SC Offc Pro Book",
+    "Kievit SC Offc Pro Bold",
+    "Kievit SC Offc Pro Extrabold",
+    "Kievit SC Offc Pro Black",
+    "Kievit SC Offc Pro Light",
+    "Kievit SC Offc Pro Thin",
+    "Kievit SC Offc Pro Italic",
+    "Kievit SC Offc Pro Medium Italic",
+    "Kievit SC Offc Pro Book Italic",
+    "Kievit SC Offc Pro Bold Italic",
+    "Kievit SC Offc Pro Extrabold Italic",
+    "Kievit SC Offc Pro Black Italic",
+    "Kievit SC Offc Pro Light Italic",
+    "Kievit SC Offc Pro Thin Italic"
+  ],
+  "Kievit SC Offc Pro Extralight": [
+    "Kievit SC Offc Pro Extralight",
+    "Kievit SC Offc Pro Extralight Italic"
+  ],
+  "Komika Hand": [
+    "Komika Hand Regular",
+    "Komika Hand Bold",
+    "Komika Hand Italic",
+    "Komika Hand Bold Italic"
+  ],
+  "Lato": [
+    "Lato Regular",
+    "Lato Bold",
+    "Lato Black",
+    "Lato Light",
+    "Lato Hairline",
+    "Lato Italic",
+    "Lato Bold Italic",
+    "Lato Black Italic",
+    "Lato Light Italic",
+    "Lato Hairline Italic"
+  ],
+  "League Gothic": [
+    "League Gothic Regular",
+    "League Gothic Condensed Regular",
+    "League Gothic Italic",
+    "League Gothic Condensed Italic"
+  ],
+  "Magda Clean Mono Offc Pro": [
+    "Magda Clean Mono Offc Pro Regular",
+    "Magda Clean Mono Offc Pro Bold",
+    "Magda Clean Mono Offc Pro Black"
+  ],
+  "Magda Clean Offc Pro": [
+    "Magda Clean Offc Pro Regular",
+    "Magda Clean Offc Pro Bold",
+    "Magda Clean Offc Pro Black"
+  ],
+  "Magda Offc Pro": [
+    "Magda Offc Pro Regular",
+    "Magda Offc Pro Book",
+    "Magda Offc Pro Bold",
+    "Magda Offc Pro Black",
+    "Magda Offc Pro Light",
+    "Magda Offc Pro Thin"
+  ],
+  "Mark Offc Pro": [
+    "Mark Offc Pro Medium",
+    "Mark Offc Pro Regular",
+    "Mark Offc Pro Book",
+    "Mark Offc Pro Bold",
+    "Mark Offc Pro Black",
+    "Mark Offc Pro Heavy",
+    "Mark Offc Pro Light",
+    "Mark Offc Pro Thin",
+    "Mark Offc Pro Hairline",
+    "Mark Offc Pro Italic",
+    "Mark Offc Pro Medium Italic",
+    "Mark Offc Pro Book Italic",
+    "Mark Offc Pro Bold Italic",
+    "Mark Offc Pro Black Italic",
+    "Mark Offc Pro Heavy Italic",
+    "Mark Offc Pro Light Italic",
+    "Mark Offc Pro Thin Italic",
+    "Mark Offc Pro Hairline Italic"
+  ],
+  "Mark Offc Pro Extra": [
+    "Mark Offc Pro Extra Light",
+    "Mark Offc Pro Extra Light Italic"
+  ],
+  "Mark SC Offc Pro": [
+    "Mark SC Offc Pro Medium",
+    "Mark SC Offc Pro Regular",
+    "Mark SC Offc Pro Book",
+    "Mark SC Offc Pro Bold",
+    "Mark SC Offc Pro Black",
+    "Mark SC Offc Pro Heavy",
+    "Mark SC Offc Pro Light",
+    "Mark SC Offc Pro Thin",
+    "Mark SC Offc Pro Hairline",
+    "Mark SC Offc Pro Italic",
+    "Mark SC Offc Pro Medium Italic",
+    "Mark SC Offc Pro Book Italic",
+    "Mark SC Offc Pro Bold Italic",
+    "Mark SC Offc Pro Black Italic",
+    "Mark SC Offc Pro Heavy Italic",
+    "Mark SC Offc Pro Light Italic",
+    "Mark SC Offc Pro Thin Italic",
+    "Mark SC Offc Pro Hairline Italic"
+  ],
+  "Mark SC Offc Pro Extra": [
+    "Mark SC Offc Pro Extra Light",
+    "Mark SC Offc Pro Extra Light Italic"
+  ],
+  "Market Offc Pro": [
+    "Market Offc Pro Regular",
+    "Market Offc Pro Bold",
+    "Market Offc Pro Cond Medium"
+  ],
+  "Marselis Slab Offc Pro": [
+    "Marselis Slab Offc Pro Regular",
+    "Marselis Slab Offc Pro Bold",
+    "Marselis Slab Offc Pro Black",
+    "Marselis Slab Offc Pro Light",
+    "Marselis Slab Offc Pro Italic",
+    "Marselis Slab Offc Pro Bold Italic",
+    "Marselis Slab Offc Pro Black Italic",
+    "Marselis Slab Offc Pro Light Italic"
+  ],
+  "Merriweather": [
+    "Merriweather Regular",
+    "Merriweather Bold",
+    "Merriweather Heavy",
+    "Merriweather Light",
+    "Merriweather Italic"
+  ],
+  "Meta Offc Pro": [
+    "Meta Offc Pro Medium",
+    "Meta Offc Pro Normal",
+    "Meta Offc Pro Book",
+    "Meta Offc Pro Bold",
+    "Meta Offc Pro Cond Medium",
+    "Meta Offc Pro Cond Normal",
+    "Meta Offc Pro Cond Book",
+    "Meta Offc Pro Black",
+    "Meta Offc Pro Cond Bold",
+    "Meta Offc Pro Light",
+    "Meta Offc Pro Thin",
+    "Meta Offc Pro Hairline",
+    "Meta Offc Pro Medium Italic",
+    "Meta Offc Pro Cond Extrabold",
+    "Meta Offc Pro Normal Italic",
+    "Meta Offc Pro Cond Black",
+    "Meta Offc Pro Book Italic",
+    "Meta Offc Pro Bold Italic",
+    "Meta Offc Pro Cond Medium Italic",
+    "Meta Offc Pro Cond Normal Italic",
+    "Meta Offc Pro Cond Book Italic",
+    "Meta Offc Pro Black Italic",
+    "Meta Offc Pro Light Italic",
+    "Meta Offc Pro Cond Bold Italic",
+    "Meta Offc Pro Thin Italic",
+    "Meta Offc Pro Hairline Italic",
+    "Meta Offc Pro Cond Extrabold Italic",
+    "Meta Offc Pro Cond Black Italic"
+  ],
+  "Meta SC Offc Pro": [
+    "Meta SC Offc Pro Medium",
+    "Meta SC Offc Pro Normal",
+    "Meta SC Offc Pro Book",
+    "Meta SC Offc Pro Bold",
+    "Meta SC Offc Pro Black",
+    "Meta SC Offc Pro Medium Italic",
+    "Meta SC Offc Pro Normal Italic",
+    "Meta SC Offc Pro Book Italic",
+    "Meta SC Offc Pro Bold Italic",
+    "Meta SC Offc Pro Black Italic"
+  ],
+  "Meta Serif OT": [
+    "Meta Serif OT Medium"
+  ],
+  "Meta Serif Offc Pro": [
+    "Meta Serif Offc Pro Medium",
+    "Meta Serif Offc Pro Regular",
+    "Meta Serif Offc Pro Bold",
+    "Meta Serif Offc Pro Extrabold",
+    "Meta Serif Offc Pro Black",
+    "Meta Serif Offc Pro Light",
+    "Meta Serif Offc Pro Medium Italic",
+    "Meta Serif Offc Pro Italic",
+    "Meta Serif Offc Pro Bold Italic",
+    "Meta Serif Offc Pro Extrabold Italic",
+    "Meta Serif Offc Pro Black Italic",
+    "Meta Serif Offc Pro Light Italic"
+  ],
+  "Meta Serif SC Offc Pro": [
+    "Meta Serif SC Offc Pro Medium",
+    "Meta Serif SC Offc Pro Regular",
+    "Meta Serif SC Offc Pro Bold",
+    "Meta Serif SC Offc Pro Extrabold",
+    "Meta Serif SC Offc Pro Black",
+    "Meta Serif SC Offc Pro Light",
+    "Meta Serif SC Offc Pro Medium Italic",
+    "Meta Serif SC Offc Pro Italic",
+    "Meta Serif SC Offc Pro Bold Italic",
+    "Meta Serif SC Offc Pro Extrabold Italic",
+    "Meta Serif SC Offc Pro Black Italic",
+    "Meta Serif SC Offc Pro Light Italic"
+  ],
+  "Mister K Crossout Pro": [
+    "Mister K Crossout Pro Regular"
+  ],
+  "Mister K Onstage Pro": [
+    "Mister K Onstage Pro Regular"
+  ],
+  "Mister K Pro": [
+    "Mister K Pro Regular"
+  ],
+  "Mutlu  Ornamental": [
+    "Mutlu  Ornamental"
+  ],
+  "NGS Holdstock TitleItalic": [
+    "NGS Holdstock TitleItalic Regular"
+  ],
+  "Netto Offc Pro": [
+    "Netto Offc Pro Regular",
+    "Netto Offc Pro Bold",
+    "Netto Offc Pro Black",
+    "Netto Offc Pro Light",
+    "Netto Offc Pro Thin",
+    "Netto Offc Pro Italic",
+    "Netto Offc Pro Bold Italic",
+    "Netto Offc Pro Black Italic",
+    "Netto Offc Pro Light Italic",
+    "Netto Offc Pro Thin Italic"
+  ],
+  "Olsen Offc Pro": [
+    "Olsen Offc Pro Regular",
+    "Olsen Offc Pro Bold",
+    "Olsen Offc Pro Light",
+    "Olsen Offc Pro Italic",
+    "Olsen Offc Pro Bold Italic",
+    "Olsen Offc Pro Light Italic"
+  ],
+  "Olsen SC Offc Pro": [
+    "Olsen SC Offc Pro Regular",
+    "Olsen SC Offc Pro Bold",
+    "Olsen SC Offc Pro Light",
+    "Olsen SC Offc Pro Italic",
+    "Olsen SC Offc Pro Bold Italic",
+    "Olsen SC Offc Pro Light Italic"
+  ],
+  "Open Sans": [
+    "Open Sans Regular",
+    "Open Sans Semibold",
+    "Open Sans Bold",
+    "Open Sans Extrabold",
+    "Open Sans Light",
+    "Open Sans Condensed Bold",
+    "Open Sans Italic",
+    "Open Sans Semibold Italic",
+    "Open Sans Condensed Light",
+    "Open Sans Bold Italic",
+    "Open Sans Extrabold Italic",
+    "Open Sans Light Italic",
+    "Open Sans Condensed Light Italic"
+  ],
+  "PT Sans": [
+    "PT Sans Regular",
+    "PT Sans Bold",
+    "PT Sans Caption Regular",
+    "PT Sans Caption Bold",
+    "PT Sans Narrow Regular",
+    "PT Sans Italic",
+    "PT Sans Narrow Bold",
+    "PT Sans Bold Italic"
+  ],
+  "Pompiere ": [
+    "Pompiere  Regular"
+  ],
+  "Prater Block Backgrnd Offc Pro": [
+    "Prater Block Backgrnd Offc Pro Regular"
+  ],
+  "Prater Block Fill Offc Pro": [
+    "Prater Block Fill Offc Pro Regular"
+  ],
+  "Prater Block Offc Pro": [
+    "Prater Block Offc Pro Regular"
+  ],
+  "Prater Sans Offc Pro": [
+    "Prater Sans Offc Pro Regular",
+    "Prater Sans Offc Pro Bold"
+  ],
+  "Prater Script Offc Pro": [
+    "Prater Script Offc Pro Regular"
+  ],
+  "Prater Serif Offc Pro": [
+    "Prater Serif Offc Pro Regular",
+    "Prater Serif Offc Pro Bold"
+  ],
+  "Providence Offc Pro": [
+    "Providence Offc Pro Regular",
+    "Providence Offc Pro Bold",
+    "Providence Offc Pro Italic",
+    "Providence Offc Pro Bold Italic"
+  ],
+  "Providence SC Offc Pro": [
+    "Providence SC Offc Pro Regular"
+  ],
+  "Providence Sans Offc Pro": [
+    "Providence Sans Offc Pro Regular",
+    "Providence Sans Offc Pro Bold"
+  ],
+  "Proxima Nova": [
+    "Proxima Nova Regular",
+    "Proxima Nova Semibold",
+    "Proxima Nova Bold",
+    "Proxima Nova Light",
+    "Proxima Nova Thin",
+    "Proxima Nova Regular Italic",
+    "Proxima Nova Light Italic"
+  ],
+  "Purista": [
+    "Purista Regular",
+    "Purista Bold",
+    "Purista SemiBold Regular",
+    "Purista Light Regular",
+    "Purista Italic",
+    "Purista SemiBold Italic",
+    "Purista Bold Italic",
+    "Purista Light Italic"
+  ],
+  "QType Offc Pro": [
+    "QType Offc Pro Cond",
+    "QType Offc Pro Cond Medium",
+    "QType Offc Pro Cond Bold",
+    "QType Offc Pro Cond Light",
+    "QType Offc Pro Cond Extlight"
+  ],
+  "QType Offc Pro Extd": [
+    "QType Offc Pro Extd",
+    "QType Offc Pro Extd Medium",
+    "QType Offc Pro Extd Bold",
+    "QType Offc Pro Extd Light",
+    "QType Offc Pro Extd Extlight"
+  ],
+  "Quicksand": [
+    "Quicksand Regular",
+    "Quicksand Bold",
+    "Quicksand Light",
+    "Quicksand Italic",
+    "Quicksand Dash",
+    "Quicksand Bold Italic",
+    "Quicksand Light Italic"
+  ],
+  "Quintessential": [
+    "Quintessential Regular"
+  ],
+  "Roboto": [
+    "Roboto Medium",
+    "Roboto Regular",
+    "Roboto Bold",
+    "Roboto Condensed",
+    "Roboto Black",
+    "Roboto Light",
+    "Roboto Bold Condensed",
+    "Roboto Thin",
+    "Roboto Italic",
+    "Roboto Medium Italic",
+    "Roboto Bold Italic",
+    "Roboto Condensed Italic",
+    "Roboto Black Italic",
+    "Roboto Light Italic",
+    "Roboto Bold Condensed Italic",
+    "Roboto Thin Italic"
+  ],
+  "SQ Market": [
+    "SQ Market Medium",
+    "SQ Market Regular",
+    "SQ Market Bold",
+    "SQ Market Light",
+    "SQ Market Medium Italic",
+    "SQ Market Regular Italic",
+    "SQ Market Bold Italic",
+    "SQ Market Light Italic"
+  ],
+  "Source Sans Pro": [
+    "Source Sans Pro Regular",
+    "Source Sans Pro Semibold",
+    "Source Sans Pro Bold",
+    "Source Sans Pro Black",
+    "Source Sans Pro Light",
+    "Source Sans Pro Italic",
+    "Source Sans Pro Semibold Italic",
+    "Source Sans Pro Bold Italic",
+    "Source Sans Pro Black Italic",
+    "Source Sans Pro Light Italic"
+  ],
+  "Source Sans Pro ExtraLight": [
+    "Source Sans Pro ExtraLight",
+    "Source Sans Pro ExtraLight Italic"
+  ],
+  "Super Grotesk Offc Pro": [
+    "Super Grotesk Offc Pro Medium",
+    "Super Grotesk Offc Pro Regular",
+    "Super Grotesk Offc Pro Bold",
+    "Super Grotesk Offc Pro Cond",
+    "Super Grotesk Offc Pro Cond Medium",
+    "Super Grotesk Offc Pro Cond Bold"
+  ],
+  "Tartine Script Offc Pro": [
+    "Tartine Script Offc Pro Regular",
+    "Tartine Script Offc Pro Bold",
+    "Tartine Script Offc Pro Black"
+  ],
+  "TeX Gyre Heros": [
+    "TeX Gyre Heros Regular",
+    "TeX Gyre Heros Bold",
+    "TeX Gyre Heros Cn Regular",
+    "TeX Gyre Heros Cn Bold",
+    "TeX Gyre Heros Italic",
+    "TeX Gyre Heros Bold Italic",
+    "TeX Gyre Heros Cn Italic",
+    "TeX Gyre Heros Cn Bold Italic"
+  ],
+  "Tisa Offc Pro": [
+    "Tisa Offc Pro Medium",
+    "Tisa Offc Pro Regular",
+    "Tisa Offc Pro Bold",
+    "Tisa Offc Pro Extrabold",
+    "Tisa Offc Pro Black",
+    "Tisa Offc Pro Light",
+    "Tisa Offc Pro Thin",
+    "Tisa Offc Pro Italic",
+    "Tisa Offc Pro Medium Italic",
+    "Tisa Offc Pro Bold Italic",
+    "Tisa Offc Pro Extrabold Italic",
+    "Tisa Offc Pro Black Italic",
+    "Tisa Offc Pro Light Italic",
+    "Tisa Offc Pro Thin Italic"
+  ],
+  "Tisa SC Offc Pro": [
+    "Tisa SC Offc Pro Medium",
+    "Tisa SC Offc Pro Regular",
+    "Tisa SC Offc Pro Bold",
+    "Tisa SC Offc Pro Extrabold",
+    "Tisa SC Offc Pro Black",
+    "Tisa SC Offc Pro Light",
+    "Tisa SC Offc Pro Thin",
+    "Tisa SC Offc Pro Italic",
+    "Tisa SC Offc Pro Medium Italic",
+    "Tisa SC Offc Pro Bold Italic",
+    "Tisa SC Offc Pro Extrabold Italic",
+    "Tisa SC Offc Pro Black Italic",
+    "Tisa SC Offc Pro Light Italic",
+    "Tisa SC Offc Pro Thin Italic"
+  ],
+  "Trade Gothic LT Std": [
+    "Trade Gothic LT Std Bold"
+  ],
+  "URWGroteskEOTLigCon": [
+    "URWGroteskEOTLigCon Regular"
+  ],
+  "Ubuntu": [
+    "Ubuntu Medium",
+    "Ubuntu Regular",
+    "Ubuntu Bold",
+    "Ubuntu Condensed Regular",
+    "Ubuntu Light",
+    "Ubuntu Italic",
+    "Ubuntu Medium Italic",
+    "Ubuntu Bold Italic",
+    "Ubuntu Light Italic"
+  ],
+  "Ubuntu Mono": [
+    "Ubuntu Mono Regular",
+    "Ubuntu Mono Bold",
+    "Ubuntu Mono Italic",
+    "Ubuntu Mono Bold Italic"
+  ],
+  "VAG Rounded LT CYR": [
+    "VAG Rounded LT CYR Light",
+    "VAG Rounded LT CYR Thin"
+  ],
+  "VTC-FreehandTattooOne": [
+    "VTC-FreehandTattooOne Regular"
+  ],
+  "Visitor TT1 BRK": [
+    "Visitor TT1 BRK Regular"
+  ],
+  "Visitor TT2 BRK": [
+    "Visitor TT2 BRK Regular"
+  ],
+  "Frutiger LT Std": [
+    "Frutiger LT Std 55 Roman",
+    "Frutiger LT Std 65 Bold",
+    "Frutiger LT Std 75 Black",
+    "Frutiger LT Std 45 Light",
+    "Frutiger LT Std 56 Italic",
+    "Frutiger LT Std 66 Bold Italic",
+    "Frutiger LT Std 95 Ultra Black",
+    "Frutiger LT Std 76 Black Italic",
+    "Frutiger LT Std 46 Light Italic"
+  ],
+  "Helvetica Neue LT Std": [
+    "Helvetica Neue LT Std 65 Medium",
+    "Helvetica Neue LT Std 55 Roman",
+    "Helvetica Neue LT Std 75 Bold",
+    "Helvetica Neue LT Std 95 Black",
+    "Helvetica Neue LT Std 85 Heavy",
+    "Helvetica Neue LT Std 45 Light",
+    "Helvetica Neue LT Std 35 Thin",
+    "Helvetica Neue LT Std 56 Italic",
+    "Helvetica Neue LT Std 66 Medium Italic",
+    "Helvetica Neue LT Std 76 Bold Italic",
+    "Helvetica Neue LT Std 25 Ultra Light",
+    "Helvetica Neue LT Std 96 Black Italic",
+    "Helvetica Neue LT Std 86 Heavy Italic",
+    "Helvetica Neue LT Std 46 Light Italic",
+    "Helvetica Neue LT Std 36 Thin Italic",
+    "Helvetica Neue LT Std 26 Ultra Light Italic"
+  ],
+  "KG Second Chances": [
+    "KG Second Chances Sketch Regular",
+    "KG Second Chances Solid Regular"
+  ],
+  "Komika": [
+    "Komika Parch Regular",
+    "Komika Title Regular"
+  ],
+  "Komika Title -": [
+    "Komika Title - Axis Regular",
+    "Komika Title - Kaps Regular",
+    "Komika Title - Paint Regular",
+    "Komika Title - Wide Regular"
+  ],
+  "NGS": [
+    "NGS Grazzini Regular",
+    "NGS Bumstead Regular",
+    "NGS DarleyExtraHeavy Regular",
+    "NGS DarleyHeavy Regular",
+    "NGS DarleyLight Regular",
+    "NGS Darley Regular",
+    "NGS Ludwig Regular",
+    "NGS Riddiford Regular",
+    "NGS RiddifordExtraHeavy Regular",
+    "NGS RiddifordHeavy Regular",
+    "NGS Symbol Regular"
+  ]
+}

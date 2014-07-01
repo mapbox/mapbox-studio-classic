@@ -5,6 +5,7 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var dirty = require('dirty');
 var tmppath = path.join(require('os').tmpdir(), 'tm2-lib-' + +new Date);
+var UPDATE = process.env.UPDATE;
 
 test('setup: config', function(t) {
     tm.config({
@@ -212,6 +213,14 @@ test('tm absolute', function(t) {
     t.equal(tm.absolute('d:\\windows\\path'), true);
     t.equal(tm.absolute('Z:\\windows\\path'), true);
     t.equal(tm.absolute('windows\\path'), false);
+    t.end();
+});
+
+test('tm fontfamilies', function(t) {
+    var families = tm.fontfamilies();
+    var expectedPath = path.join(__dirname, 'expected', 'fontfamilies.json');
+    if (UPDATE) fs.writeFileSync(expectedPath, JSON.stringify(families, null, 2));
+    t.deepEqual(families, JSON.parse(fs.readFileSync(expectedPath)));
     t.end();
 });
 
