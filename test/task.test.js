@@ -7,7 +7,7 @@ test('task', function(t) {
     t.equal(task.get(), undefined);
     t.throws(function() { task.set('asdf'); }, /Invalid task object/);
 
-    var testTask = new task.Task('asdf', 'export', new stream.Readable, progress());
+    var testTask = new task.Task('asdf', 'export', progress());
     t.equal(task.set(testTask), undefined);
     t.throws(function() { task.set(testTask); }, /Active task in progress/);
     t.deepEqual(task.get(), testTask);
@@ -25,11 +25,10 @@ test('task.Task', function(t) {
     t.throws(function() { new task.Task(); }, /Task id must be a string/);
     t.throws(function() { new task.Task('id'); }, /Task type must be one of \[export, upload\]/);
     t.throws(function() { new task.Task('id','foo'); }, /Task type must be one of \[export, upload\]/);
-    t.throws(function() { new task.Task('id','export'); }, /Task read must be a readable stream/);
-    t.throws(function() { new task.Task('id','export',new stream.Readable); }, /Task progress must be a progress stream/);
-    t.doesNotThrow(function() { new task.Task('id','export',new stream.Readable,progress()); });
+    t.throws(function() { new task.Task('id','export'); }, /Task progress must be a progress stream/);
+    t.doesNotThrow(function() { new task.Task('id','export',progress()); });
 
-    var testTask = new task.Task('id','export',new stream.Readable,progress());
+    var testTask = new task.Task('id','export',progress());
     t.deepEqual(JSON.stringify(testTask), '{"id":"id","type":"export","progress":{"percentage":0,"transferred":0,"length":0,"remaining":0,"eta":null,"runtime":0,"speed":0},"size":null,"url":null}');
 
     t.end();

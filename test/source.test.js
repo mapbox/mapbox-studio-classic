@@ -296,19 +296,15 @@ test('source.mbtilesExport: exports mbtiles file', function(t) {
     source.toHash(id, function(err, hash) {
         t.ifError(err);
         t.equal(false, fs.existsSync(hash), 'export does not exist yet');
-        source(id, function(err, s) {
-            t.ifError(err);
-            var task = source.mbtilesExport(s);
-            t.strictEqual(task.id, id, 'sets task.id');
-            t.ok(task.read instanceof stream.Readable, 'sets task.read');
-            t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
-            task.progress.once('finished', function() {
-                t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
-                t.equal(task.progress.progress().transferred, 342, 'progress.transferred');
-                t.equal(task.progress.progress().eta, 0, 'progress.eta');
-                t.equal(true, fs.existsSync(hash), 'export moved into place');
-                t.end();
-            });
+        var task = source.mbtilesExport(id);
+        t.strictEqual(task.id, id, 'sets task.id');
+        t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
+        task.progress.once('finished', function() {
+            t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
+            t.equal(task.progress.progress().transferred, 342, 'progress.transferred');
+            t.equal(task.progress.progress().eta, 0, 'progress.eta');
+            t.equal(true, fs.existsSync(hash), 'export moved into place');
+            t.end();
         });
     });
 });
