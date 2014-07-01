@@ -3,55 +3,6 @@
     "Arial Unicode MS Regular",
     "Arial Unicode MS Bold"
   ],
-  "Avenir": [
-    "Avenir Medium",
-    "Avenir Book",
-    "Avenir Roman",
-    "Avenir Black",
-    "Avenir Heavy",
-    "Avenir Light",
-    "Avenir Medium Oblique",
-    "Avenir Oblique",
-    "Avenir Book Oblique",
-    "Avenir Black Oblique",
-    "Avenir Heavy Oblique",
-    "Avenir Light Oblique"
-  ],
-  "Avenir Next": [
-    "Avenir Next Medium",
-    "Avenir Next Regular",
-    "Avenir Next Bold",
-    "Avenir Next Condensed Medium",
-    "Avenir Next Condensed Regular",
-    "Avenir Next Demi Bold",
-    "Avenir Next Heavy",
-    "Avenir Next Condensed Bold",
-    "Avenir Next Italic",
-    "Avenir Next Medium Italic",
-    "Avenir Next Condensed Demi Bold",
-    "Avenir Next Condensed Heavy",
-    "Avenir Next Bold Italic",
-    "Avenir Next Ultra Light",
-    "Avenir Next Condensed Italic",
-    "Avenir Next Condensed Medium Italic",
-    "Avenir Next Demi Bold Italic",
-    "Avenir Next Heavy Italic",
-    "Avenir Next Condensed Bold Italic",
-    "Avenir Next Condensed Ultra Light",
-    "Avenir Next Condensed Demi Bold Italic",
-    "Avenir Next Condensed Heavy Italic",
-    "Avenir Next Ultra Light Italic",
-    "Avenir Next Condensed Ultra Light Italic"
-  ],
-  "BentonGraphicsSansCond": [
-    "BentonGraphicsSansCond BlackIt",
-    "BentonGraphicsSansCond BoldIta",
-    "BentonGraphicsSansCond BookIta",
-    "BentonGraphicsSansCond Med",
-    "BentonGraphicsSansCond MedItal",
-    "BentonGraphicsSansCond Reg",
-    "BentonGraphicsSansCond RegItal"
-  ],
   "Brokenscript OT": [
     "Brokenscript OT Bold",
     "Brokenscript OT Cond Bold"
@@ -144,9 +95,6 @@
     "Call Two OT Regular",
     "Call Two OT Italic"
   ],
-  "Chennai": [
-    "Chennai Medium"
-  ],
   "Clan Offc Pro": [
     "Clan Offc Pro Medium",
     "Clan Offc Pro Book",
@@ -215,9 +163,6 @@
     "Clan SC Offc Pro News",
     "Clan SC Offc Pro News Italic"
   ],
-  "Coming Soon": [
-    "Coming Soon Regular"
-  ],
   "Crimson": [
     "Crimson Roman",
     "Crimson Semibold",
@@ -248,18 +193,6 @@
     "DIN Offc Pro Cond Black Italic",
     "DIN Offc Pro Cond Light Italic"
   ],
-  "DINPro": [
-    "DINPro Regular",
-    "DINPro Light"
-  ],
-  "DJ5Exchange": [
-    "DJ5Exchange Medium Italic"
-  ],
-  "DJ5RetinaCd": [
-    "DJ5RetinaCd Medium",
-    "DJ5RetinaCd Semibold",
-    "DJ5RetinaCd Light"
-  ],
   "Droid Serif": [
     "Droid Serif Regular",
     "Droid Serif Bold",
@@ -275,137 +208,6 @@
   "Elementa Rough Pro": [
     "Elementa Rough Pro Regular",
     "Elementa Rough Pro Bold"
-  ],
-  "Freehand521 BT": [
-    "Freehand521 BT Regular"
-  ],
-  "Frutiger LT 45": [
-    "Frutiger LT 45 Light Regular"
-  ],
-  "Futura Today Screen": [
-    "Futura Today Screen Normal",
-    "Futura Today Screen Bold",
-    "Futura Today Screen Light"
-  ],
-  "GE Inspira": [
-    "GE Inspira Medium Regular",
-    "GE Inspira Regular",
-    "GE Inspira Bold",
-    "GE Inspira Medium Bold",
-    "GE Inspira Italic",
-    "GE Inspira Medium Italic",
-    "GE Inspira Bold Italic"
-  ],
-  "GE Inspira Medium SC": [
-    "GE Inspira Medium SC Regular"
-  ],
-  "GE Inspira Pitch": [
-    "GE Inspira Pitch Regular",
-    "GE Inspira Pitch Bold",
-    "GE Inspira Pitch Cond Regular",
-    "GE Inspira Pitch Italic",
-    "GE Inspira Pitch Cond Italic"
-  ],
-  "GE Inspira Pitch SC": [
-    "GE Inspira Pitch SC Regular"
-  ],
-  "GE Inspira Small Caps": [
-    "GE Inspira Small Caps Regular"
-  ],
-  "GE Inspira Symbol": [
-    "GE Inspira Symbol Regular"
-  ],
-  "Gotham": [
-    "Gotham Medium",
-    "Gotham Book",
-    "Gotham Bold",
-    "Gotham Light",
-    "Gotham Medium Italic",
-    "Gotham Book Italic",
-    "Gotham Bold Italic",
-    "Gotham Light Italic"
-  ],
-  "Gothic Ultra OT": [
-    "Gothic Ultra OT Regular"
-  ],
-  "Helvetica LT Std": [
-    "Helvetica LT Std Roman",
-    "Helvetica LT Std Bold",
-    "Helvetica LT Std Light",
-    "Helvetica LT Std Oblique",
-    "Helvetica LT Std Bold Oblique",
-    "Helvetica LT Std Light Oblique"
-  ],
-  "Helvetica Neue LT Std 107 Extra": [
-    "Helvetica Neue LT Std 107 Extra Black Condensed",
-    "Helvetica Neue LT Std 107 Extra Black Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 23": [
-    "Helvetica Neue LT Std 23 Ultra Light Extended",
-    "Helvetica Neue LT Std 23 Ultra Light Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 27": [
-    "Helvetica Neue LT Std 27 Ultra Light Condensed",
-    "Helvetica Neue LT Std 27 Ultra Light Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 33": [
-    "Helvetica Neue LT Std 33 Thin Extended",
-    "Helvetica Neue LT Std 33 Thin Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 37": [
-    "Helvetica Neue LT Std 37 Thin Condensed",
-    "Helvetica Neue LT Std 37 Thin Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 43": [
-    "Helvetica Neue LT Std 43 Light Extended",
-    "Helvetica Neue LT Std 43 Light Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 47": [
-    "Helvetica Neue LT Std 47 Light Condensed",
-    "Helvetica Neue LT Std 47 Light Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 53": [
-    "Helvetica Neue LT Std 53 Extended",
-    "Helvetica Neue LT Std 53 Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 57": [
-    "Helvetica Neue LT Std 57 Condensed",
-    "Helvetica Neue LT Std 57 Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 63": [
-    "Helvetica Neue LT Std 63 Medium Extended",
-    "Helvetica Neue LT Std 63 Medium Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 67": [
-    "Helvetica Neue LT Std 67 Medium Condensed",
-    "Helvetica Neue LT Std 67 Medium Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 73": [
-    "Helvetica Neue LT Std 73 Bold Extended",
-    "Helvetica Neue LT Std 73 Bold Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 75 Bold Outline": [
-    "Helvetica Neue LT Std 75 Bold Outline"
-  ],
-  "Helvetica Neue LT Std 77": [
-    "Helvetica Neue LT Std 77 Bold Condensed",
-    "Helvetica Neue LT Std 77 Bold Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 83": [
-    "Helvetica Neue LT Std 83 Heavy Extended",
-    "Helvetica Neue LT Std 83 Heavy Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 87": [
-    "Helvetica Neue LT Std 87 Heavy Condensed",
-    "Helvetica Neue LT Std 87 Heavy Condensed Oblique"
-  ],
-  "Helvetica Neue LT Std 93": [
-    "Helvetica Neue LT Std 93 Black Extended",
-    "Helvetica Neue LT Std 93 Black Extended Oblique"
-  ],
-  "Helvetica Neue LT Std 97": [
-    "Helvetica Neue LT Std 97 Black Condensed",
-    "Helvetica Neue LT Std 97 Black Condensed Oblique"
   ],
   "HolmenHeadlineOT": [
     "HolmenHeadlineOT Regular"
@@ -457,12 +259,6 @@
   "Kievit SC Offc Pro Extralight": [
     "Kievit SC Offc Pro Extralight",
     "Kievit SC Offc Pro Extralight Italic"
-  ],
-  "Komika Hand": [
-    "Komika Hand Regular",
-    "Komika Hand Bold",
-    "Komika Hand Italic",
-    "Komika Hand Bold Italic"
   ],
   "Lato": [
     "Lato Regular",
@@ -612,9 +408,6 @@
     "Meta SC Offc Pro Bold Italic",
     "Meta SC Offc Pro Black Italic"
   ],
-  "Meta Serif OT": [
-    "Meta Serif OT Medium"
-  ],
   "Meta Serif Offc Pro": [
     "Meta Serif Offc Pro Medium",
     "Meta Serif Offc Pro Regular",
@@ -651,12 +444,6 @@
   ],
   "Mister K Pro": [
     "Mister K Pro Regular"
-  ],
-  "Mutlu  Ornamental": [
-    "Mutlu  Ornamental"
-  ],
-  "NGS Holdstock TitleItalic": [
-    "NGS Holdstock TitleItalic Regular"
   ],
   "Netto Offc Pro": [
     "Netto Offc Pro Regular",
@@ -711,9 +498,6 @@
     "PT Sans Narrow Bold",
     "PT Sans Bold Italic"
   ],
-  "Pompiere ": [
-    "Pompiere  Regular"
-  ],
   "Prater Block Backgrnd Offc Pro": [
     "Prater Block Backgrnd Offc Pro Regular"
   ],
@@ -747,25 +531,6 @@
     "Providence Sans Offc Pro Regular",
     "Providence Sans Offc Pro Bold"
   ],
-  "Proxima Nova": [
-    "Proxima Nova Regular",
-    "Proxima Nova Semibold",
-    "Proxima Nova Bold",
-    "Proxima Nova Light",
-    "Proxima Nova Thin",
-    "Proxima Nova Regular Italic",
-    "Proxima Nova Light Italic"
-  ],
-  "Purista": [
-    "Purista Regular",
-    "Purista Bold",
-    "Purista SemiBold Regular",
-    "Purista Light Regular",
-    "Purista Italic",
-    "Purista SemiBold Italic",
-    "Purista Bold Italic",
-    "Purista Light Italic"
-  ],
   "QType Offc Pro": [
     "QType Offc Pro Cond",
     "QType Offc Pro Cond Medium",
@@ -779,18 +544,6 @@
     "QType Offc Pro Extd Bold",
     "QType Offc Pro Extd Light",
     "QType Offc Pro Extd Extlight"
-  ],
-  "Quicksand": [
-    "Quicksand Regular",
-    "Quicksand Bold",
-    "Quicksand Light",
-    "Quicksand Italic",
-    "Quicksand Dash",
-    "Quicksand Bold Italic",
-    "Quicksand Light Italic"
-  ],
-  "Quintessential": [
-    "Quintessential Regular"
   ],
   "Roboto": [
     "Roboto Medium",
@@ -809,16 +562,6 @@
     "Roboto Light Italic",
     "Roboto Bold Condensed Italic",
     "Roboto Thin Italic"
-  ],
-  "SQ Market": [
-    "SQ Market Medium",
-    "SQ Market Regular",
-    "SQ Market Bold",
-    "SQ Market Light",
-    "SQ Market Medium Italic",
-    "SQ Market Regular Italic",
-    "SQ Market Bold Italic",
-    "SQ Market Light Italic"
   ],
   "Source Sans Pro": [
     "Source Sans Pro Regular",
@@ -848,16 +591,6 @@
     "Tartine Script Offc Pro Regular",
     "Tartine Script Offc Pro Bold",
     "Tartine Script Offc Pro Black"
-  ],
-  "TeX Gyre Heros": [
-    "TeX Gyre Heros Regular",
-    "TeX Gyre Heros Bold",
-    "TeX Gyre Heros Cn Regular",
-    "TeX Gyre Heros Cn Bold",
-    "TeX Gyre Heros Italic",
-    "TeX Gyre Heros Bold Italic",
-    "TeX Gyre Heros Cn Italic",
-    "TeX Gyre Heros Cn Bold Italic"
   ],
   "Tisa Offc Pro": [
     "Tisa Offc Pro Medium",
@@ -890,97 +623,5 @@
     "Tisa SC Offc Pro Black Italic",
     "Tisa SC Offc Pro Light Italic",
     "Tisa SC Offc Pro Thin Italic"
-  ],
-  "Trade Gothic LT Std": [
-    "Trade Gothic LT Std Bold"
-  ],
-  "URWGroteskEOTLigCon": [
-    "URWGroteskEOTLigCon Regular"
-  ],
-  "Ubuntu": [
-    "Ubuntu Medium",
-    "Ubuntu Regular",
-    "Ubuntu Bold",
-    "Ubuntu Condensed Regular",
-    "Ubuntu Light",
-    "Ubuntu Italic",
-    "Ubuntu Medium Italic",
-    "Ubuntu Bold Italic",
-    "Ubuntu Light Italic"
-  ],
-  "Ubuntu Mono": [
-    "Ubuntu Mono Regular",
-    "Ubuntu Mono Bold",
-    "Ubuntu Mono Italic",
-    "Ubuntu Mono Bold Italic"
-  ],
-  "VAG Rounded LT CYR": [
-    "VAG Rounded LT CYR Light",
-    "VAG Rounded LT CYR Thin"
-  ],
-  "VTC-FreehandTattooOne": [
-    "VTC-FreehandTattooOne Regular"
-  ],
-  "Visitor TT1 BRK": [
-    "Visitor TT1 BRK Regular"
-  ],
-  "Visitor TT2 BRK": [
-    "Visitor TT2 BRK Regular"
-  ],
-  "Frutiger LT Std": [
-    "Frutiger LT Std 55 Roman",
-    "Frutiger LT Std 65 Bold",
-    "Frutiger LT Std 75 Black",
-    "Frutiger LT Std 45 Light",
-    "Frutiger LT Std 56 Italic",
-    "Frutiger LT Std 66 Bold Italic",
-    "Frutiger LT Std 95 Ultra Black",
-    "Frutiger LT Std 76 Black Italic",
-    "Frutiger LT Std 46 Light Italic"
-  ],
-  "Helvetica Neue LT Std": [
-    "Helvetica Neue LT Std 65 Medium",
-    "Helvetica Neue LT Std 55 Roman",
-    "Helvetica Neue LT Std 75 Bold",
-    "Helvetica Neue LT Std 95 Black",
-    "Helvetica Neue LT Std 85 Heavy",
-    "Helvetica Neue LT Std 45 Light",
-    "Helvetica Neue LT Std 35 Thin",
-    "Helvetica Neue LT Std 56 Italic",
-    "Helvetica Neue LT Std 66 Medium Italic",
-    "Helvetica Neue LT Std 76 Bold Italic",
-    "Helvetica Neue LT Std 25 Ultra Light",
-    "Helvetica Neue LT Std 96 Black Italic",
-    "Helvetica Neue LT Std 86 Heavy Italic",
-    "Helvetica Neue LT Std 46 Light Italic",
-    "Helvetica Neue LT Std 36 Thin Italic",
-    "Helvetica Neue LT Std 26 Ultra Light Italic"
-  ],
-  "KG Second Chances": [
-    "KG Second Chances Sketch Regular",
-    "KG Second Chances Solid Regular"
-  ],
-  "Komika": [
-    "Komika Parch Regular",
-    "Komika Title Regular"
-  ],
-  "Komika Title -": [
-    "Komika Title - Axis Regular",
-    "Komika Title - Kaps Regular",
-    "Komika Title - Paint Regular",
-    "Komika Title - Wide Regular"
-  ],
-  "NGS": [
-    "NGS Grazzini Regular",
-    "NGS Bumstead Regular",
-    "NGS DarleyExtraHeavy Regular",
-    "NGS DarleyHeavy Regular",
-    "NGS DarleyLight Regular",
-    "NGS Darley Regular",
-    "NGS Ludwig Regular",
-    "NGS Riddiford Regular",
-    "NGS RiddifordExtraHeavy Regular",
-    "NGS RiddifordHeavy Regular",
-    "NGS Symbol Regular"
   ]
 }
