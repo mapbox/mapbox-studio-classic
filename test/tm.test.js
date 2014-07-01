@@ -167,7 +167,7 @@ test('tm font (valid)', function(t) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
         setTimeout(function() {
-            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-dbad83a6.png')));
+            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-bd95f62a.png')));
             t.end();
         }, 1000);
     });
