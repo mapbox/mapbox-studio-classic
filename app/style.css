@@ -158,15 +158,14 @@
 ------------------------------------------------------- */
 #layers-drawer .layer:hover { background: rgba(0,0,0,.05);}
 
-#layers-drawer .field-key {
-  padding:0 5px;
-  border-radius: 3px;
-  color: #343434;
-  }
 #layers-drawer .layer.active { background: rgba(0,0,0,.15);}
 #layers-drawer .layer.active a { display: none;}
 #layers-drawer .description { display:none;}
 #layers-drawer .active .description { display:block; }
+
+#layers-drawer .field {
+  font-size: 11px;
+}
 
 #layers-drawer .menu-content .empty-state:only-child {
   margin: 20px;
