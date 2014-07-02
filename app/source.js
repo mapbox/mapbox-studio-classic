@@ -200,7 +200,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.togglelayer = function(ev) {
         $(ev.currentTarget).toggleClass('disabled');
     };
-    Editor.prototype.addlayerModal = function() {
+    Editor.prototype.addlayerModal = function(ev) {
         Modal.show('addlayer');
         return false;
     };
