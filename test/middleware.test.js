@@ -162,7 +162,7 @@ test('loadStyle: loads a tmp style with a raster source', function(t) {
     middleware.writeStyle(req, {}, function(err) {
         t.ifError(err);
         t.deepEqual({
-            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#_image {\n  raster-opacity: 1;\n}\n\n'
+            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#raster_local {\n  raster-opacity: 1;\n}\n\n'
         }, req.style.data.styles, 'creates default styles');
         t.equal(sourceId, req.style.data.source, 'sets source from input param');
         t.ok(tm.tmpid(req.style.data.id));

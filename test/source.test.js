@@ -109,7 +109,7 @@ test('source.normalize', function(t) {
     });
     t.deepEqual(n.Layer.length, 2, 'raster source contains two layers');
     t.deepEqual(n.vector_layers.length, 1, 'raster source contains one vector_layers');
-    t.deepEqual(n.vector_layers[0].id, '_image', 'raster source vector_layer is called _image');
+    t.deepEqual(n.vector_layers[0].id, 'raster_local', 'raster source vector_layer is called raster_local');
 
     // @TODO check postgis auto srs extent generation ... without postgis.
 
