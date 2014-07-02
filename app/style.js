@@ -323,7 +323,6 @@ Editor.prototype.save = function(ev, options) {
 };
 Editor.prototype.error = function(model, resp) {
   this.messageclear();
-
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
 
@@ -347,6 +346,12 @@ Editor.prototype.error = function(model, resp) {
 Editor.prototype.cartoError = function(ln, e) {
     var error = document.createElement('div');
     error.className = 'error';
+
+    var alert = document.createElement('div');
+    alert.className = 'js-error-alert error-alert pin-top col12 pad1 fill-yellow';
+    alert.innerHTML = 'Unable to save. Check error on line ' + ln;
+    console.log(ln);
+    document.getElementById('style-ui').appendChild(alert);
 
     var link = document.createElement('a');
     link.id = 'error-' + ln;
@@ -383,6 +388,8 @@ Editor.prototype.upload = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
+
+  $('.js-error-alert').remove();
 
   if (!map) {
     map = L.mapbox.map('map');
