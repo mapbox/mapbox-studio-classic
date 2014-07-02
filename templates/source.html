@@ -159,7 +159,8 @@
       </div>
     </nav>
     <div class='js-layer-content layer-content pin-left col12 scroll-styled'><!--
-      --><% _(revlayers).each(function(l) {
+      --><%
+       _(revlayers).each(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
       }.bind(this)); %><!--
     --></div>

@@ -19,12 +19,15 @@
 
 <div class='keyline-top'>
   <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
-  <div class='small col12 contain clip layer' id='sources-<%=l.id%>'>
+  <div class='col12 contain clip layer' id='sources-<%=l.id%>'>
     <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
-    <div class='pad1x pad0y keyline-bottom <%=l.geometry + 'icon'||''%>'><%=l.id%></div>
+    <div class='space small pad1x pad0y keyline-bottom <%=l.geometry + 'icon'||''%>'>
+      <span class='icon round' style='background-color:<%=this.xraycolor(l.id)%>'></span>
+      <span><%=l.id%></span>
+    </div>
 
-    <div class='center pin-right'>
-      <span class='inline zooms pad0 micro'>
+    <div class='small center pin-right'>
+      <span class='inline zooms pad0'>
         <% if (!l.maxzoom) { %>
         z<%= l.minzoom||0 %>+
         <% } else { %>
@@ -32,18 +35,18 @@
         <% } %>
       </span>
     </div>
-    <div class='description'>
-      <div class='truncate keyline-bottom quiet col12 pad1'><%=l.description||'No description.'%></div>
-      <div class='pad1y'>
+    <div class='description pad1'>
+      <div class='small truncate col12'><%=l.description||'No description.'%></div>
+      <div class='clearfix pad1y'>
         <% _(l.fields||{}).each(function(desc,name) { %>
-        <div class='field pad1x pad0y clearfix'>
-          <span class='fill-lighten2 field-key break-word col4'><%=name%> </span>
-          <span class='quiet col8 pad1x'><%=desc||'No description.'%></span>
+        <div class='field'>
+          <span class='col3 break-word'><%=name%> </span>
+          <span class='col9 quiet'><%=desc||'No description.'%></span>
         </div>
         <% }); %>
       </div>
     </div>
   </div>
-  <% }); %>
+  <% }.bind(this)); %>
   </div>
 </div>
