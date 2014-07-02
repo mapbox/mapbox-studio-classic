@@ -599,6 +599,7 @@ a.project.proj-active .proj-status { display: block;}
 /* Inspector popup */
 .leaflet-popup .leaflet-popup-content-wrapper {
   background-color: #363636;
+  color: white;
   padding: 10px;
 }
 .leaflet-popup .leaflet-popup-content {
@@ -622,8 +623,7 @@ a.project.proj-active .proj-status { display: block;}
   background-color: transparent;
 }
 
-/* Override to leaflet, fix upstream */
-.dark .leaflet-popup-close-button {
+.leaflet-popup-close-button {
   background-image:url(../ext/images/icons-ffffff@2x.png);
 }
 

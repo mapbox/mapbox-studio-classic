@@ -39,8 +39,8 @@
       <div class='small truncate col12'><%=l.description||'No description.'%></div>
       <div class='clearfix pad1y'>
         <% _(l.fields||{}).each(function(desc,name) { %>
-        <div class='field'>
-          <span class='col3 break-word'><%=name%> </span>
+        <div class='clearfix field'>
+          <span class='col3 truncate'><%=name%> </span>
           <span class='col9 quiet'><%=desc||'No description.'%></span>
         </div>
         <% }); %>
