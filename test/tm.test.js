@@ -5,6 +5,7 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var dirty = require('dirty');
 var tmppath = path.join(require('os').tmpdir(), 'tm2-lib-' + +new Date);
+var UPDATE = process.env.UPDATE;
 
 test('setup: config', function(t) {
     tm.config({
@@ -156,14 +157,14 @@ test('tm history', function(t) {
 });
 
 test('tm font (invalid)', function(t) {
-    tm.font('doesnotexist', function(err) {
+    tm.font('doesnotexist', '', function(err) {
         t.equal('Invalid font doesnotexist', err.message);
         t.end();
     });
 });
 
 test('tm font (valid)', function(t) {
-    tm.font('Source Sans Pro Bold', function(err, buffer) {
+    tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
         setTimeout(function() {
@@ -175,7 +176,7 @@ test('tm font (valid)', function(t) {
 
 test('tm font (cache hit)', function(t) {
     var start = +new Date;
-    tm.font('Source Sans Pro Bold', function(err, buffer) {
+    tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
         t.ok((+new Date - start) < 50);
@@ -212,6 +213,14 @@ test('tm absolute', function(t) {
     t.equal(tm.absolute('d:\\windows\\path'), true);
     t.equal(tm.absolute('Z:\\windows\\path'), true);
     t.equal(tm.absolute('windows\\path'), false);
+    t.end();
+});
+
+test('tm fontfamilies', function(t) {
+    var families = tm.fontfamilies();
+    var expectedPath = path.join(__dirname, 'expected', 'fontfamilies.json');
+    if (UPDATE) fs.writeFileSync(expectedPath, JSON.stringify(families, null, 2));
+    t.deepEqual(families, JSON.parse(fs.readFileSync(expectedPath)));
     t.end();
 });
 

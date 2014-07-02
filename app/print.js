@@ -448,14 +448,9 @@ Printer.prototype.refresh = function(ev) {
   map.options.maxZoom = this.model.get('maxzoom');
 
   // Refresh map layer.
-  var scale;
-  if (exporter.model.get('_prefs').print) scale = '@4x';
-  else if (window.devicePixelRatio > 1) scale = '@2x';
-  else scale = '';
-
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}'+scale+'.png?id=' + this.model.id + '&' + mtime ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
