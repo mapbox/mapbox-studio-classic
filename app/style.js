@@ -92,16 +92,14 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
-  'submit #settings': 'save',
+  'submit js-settings-form': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
   'click #tabs .js-deltab': 'deltab',
-  'click #docs .js-docs-nav': 'scrollto',
-  'click #history .js-ref-delete': 'delstyle',
+  'click .js-history .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
-  'click .js-expandall': 'expandall',
   'click .js-upload': 'upload',
   'keydown': 'keys'
 };
@@ -113,6 +111,7 @@ Editor.prototype.keys = function(ev) {
     window.location.href = '#';
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
+
   var which = ev.which;
   switch (true) {
   case (which === 83): // s
@@ -139,8 +138,8 @@ Editor.prototype.keys = function(ev) {
     this.togglePane('bookmark');
     break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
-    var tab = $('#tabs a.tab')[which-48];
-    if (tab) tab.click();
+    var tab = $('#tabs a.tab')[(which-48)-1];
+    if (tab) $(tab).click();
     break;
   default:
     return true;
@@ -168,11 +167,6 @@ Editor.prototype.saveModal = function() {
 };
 Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
 Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
-Editor.prototype.scrollto = function(ev) {
-    id = $(ev.currentTarget).attr('href').split('#').pop();
-    document.getElementById(id).scrollIntoView();
-    return false;
-};
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;
   if (loc.indexOf('#'+name) === -1) {
@@ -181,18 +175,7 @@ Editor.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 };
-Editor.prototype.expandall = function(ev) {
-  button = $(ev.currentTarget);
 
-  if ( button.hasClass('expanded') ) {
-    $('.carto-ref').removeClass('active');
-    button.removeClass('expanded');
-  } else {
-    $('.carto-ref').addClass('active');
-    button.addClass('expanded');
-  }
-  return false;
-};
 Editor.prototype.messageclear = function() {
   messageClear();
   _(code).each(function(cm) {
@@ -224,7 +207,7 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
       Modal.close();
     }).bind(this),
@@ -237,10 +220,13 @@ Editor.prototype.addmapbox = function(ev) {
     memo[field.name] = field.value;
     return memo;
   }, {});
-  var id = 'mapbox:///' + attr.id;
+  var id = attr.id;
+  if (!(/^(https?:\/\/)|(mapbox:\/\/)/).test(id)) {
+    id = 'mapbox:///' + id;
+  }
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('#layers .js-menu-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
       Modal.close();
     }).bind(this),
@@ -253,10 +239,10 @@ Editor.prototype.addtabModal = function() {
   return false;
 };
 Editor.prototype.addtab = function(ev) {
-  var field = $('#addtab-filename');
+  var field = $('.js-addtab-filename');
   var filename = field.val().replace(/.mss/,'') + '.mss';
   if (!code[filename]) {
-    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='center strong quiet tab js-tab round pad0y pad1x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad1y pad0x round'></span></a><!--");
+    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='keyline-right strong quiet tab js-tab pad1y pad0x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad0'></span></a><!--");
     code[filename] = Tab(filename, '');
   } else {
     Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
@@ -299,7 +285,7 @@ Editor.prototype.save = function(ev, options) {
 
   var attr = {};
   // Grab settings form values.
-  _($('#settings').serializeArray()).reduce(function(memo, field) {
+  _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
     } else if (field.name && field.value) {
@@ -312,14 +298,15 @@ Editor.prototype.save = function(ev, options) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.source = $('#layers .js-source').map(function() {
-    return $(this).attr('id').split('source-').pop();
+  attr.source = $('.js-layers .js-layer').map(function() {
+    return $(this).attr('id').split('layer-').pop();
   }).get().shift();
 
   if (this.model.get('_prefs').saveCenter) {
+    var zoom = Math.min(Math.max(map.getZoom(),attr.minzoom),attr.maxzoom);
     var lon = map.getCenter().lng % 360;
     lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr.center = [lon , map.getCenter().lat, map.getZoom() ];
+    attr.center = [lon , map.getCenter().lat, zoom];
   }
 
   // New mtime querystring
@@ -381,15 +368,15 @@ Editor.prototype.cartoError = function(ln, e) {
 
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
-  $('.settings-body').addClass('loading');
+  $('.js-settings-form').addClass('loading');
   $.ajax('/upload?styleid=' + style)
     .done(function() {
-      Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-      $('.settings-body').removeClass('loading');
+      Modal.show('message', '<span class="dark fill-green inline dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+      $('.js-settings-form').removeClass('loading');
       return true;
     })
     .error(function(resp) {
-      $('.settings-body').removeClass('loading');
+      $('.js-settings-form').removeClass('loading');
       return Modal.show('error', resp.responseText);
     });
 };
@@ -459,8 +446,7 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh map title.tm.db.rm('user');
-  $('title').text(this.model.get('name'));
-  $('.js-name').text(this.model.get('name') || 'Untitled');
+  $('title, .js-name').text(this.model.get('name') || 'Untitled');
   $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
