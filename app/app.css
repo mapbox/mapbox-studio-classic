@@ -603,6 +603,7 @@ a.project.proj-active .proj-status { display: block;}
   padding: 0px;
   overflow-x: hidden;
   overflow-y: auto;
+  max-height: 300px;
 }
 .leaflet-popup .leaflet-popup-content .xray-listing {
   width:240px;
