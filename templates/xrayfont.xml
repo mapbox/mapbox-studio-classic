@@ -4,9 +4,9 @@
     <Rule>
       <TextSymbolizer
         size='13'
-        fill='#666'
+        fill='#fff'
         clip='false'
-        face-name='<%=obj%>'
+        face-name='<%=obj.name%>'
         horizontal-alignment='right'
         placement='point'><![CDATA[[name]]]></TextSymbolizer>
       <PointSymbolizer></PointSymbolizer>
@@ -18,7 +18,7 @@
       <Parameter name='type'>csv</Parameter>
       <Parameter name='inline'>
         x|y|name
-        -180.0|0|<%=obj%>
+        -180.0|0|<%=obj.text%>
       </Parameter>
     </Datasource>
   </Layer>

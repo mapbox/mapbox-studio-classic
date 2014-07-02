@@ -6,6 +6,17 @@ Experimental version of TileMill powered by vector tiles. There are currently no
 [![Build status](https://ci.appveyor.com/api/projects/status/bfb4jhunuaqg48q5)](https://ci.appveyor.com/project/Mapbox/tm2)
 [![Dependencies](https://david-dm.org/mapbox/tm2.png)](https://david-dm.org/mapbox/tm2)
 
+### Install
+
+Install [node v0.10.x](http://nodejs.org/download/). Then
+
+    git clone https://github.com/mapbox/tm2.git
+    cd tm2
+    npm install
+    npm start
+
+*Note: the binary dependencies of TM2 are now prebuilt for common platforms (64 bit Linux and OS X). This means that you do not need to install these dependencies externally. However if packages fail to install from a binary then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source.*
+
 ### What are vector tiles?
 
 Vector tiles are the vector data equivalent of image tiles for web mapping. They apply the strengths of tiling -- developed for caching, scaling and serving map imagery rapidly -- to vector data. Consider an image tile at the zxy coordinate 14/4823/6160. This image is a PNG that depicts the corner of lower Manhattan with roads, building footprints, and parks:
@@ -53,16 +64,7 @@ Unlike TileMill, TM2 makes a hard split between two types of packages:
 - **[Styles](./HOWTO-styles.md)** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a datasource.
 - **[Sources](./HOWTO-sources.md)** describe a source for vector tiles, for example a URL endpoint from which to download tiles. We also have an API for generating vector tiles on the fly from traditional Mapnik datasources (shapefiles, postgis, etc) -- see [tilelive-bridge](http://github.com/mapbox/tilelive-bridge) for more info.
 
-Building TM2
-------------
-
-Dependencies are:
-
- - Node.js v0.10.x (should also work with v0.8.x)
- - Protobuf compiler and libprotobuf-lite
- - Mapnik
-
-Note: Mapnik is now bundled inside node-mapnik for common platforms (64 bit Linux and OS X). This means that you do not need to install Mapnik externally. However if node-mapnik fails to install from a binary then you are likely running a platform for which no node-mapnik binaries are available. In this case you will need to build node-mapnik from source.
+------
 
 Build status of modules:
 
@@ -72,41 +74,4 @@ Build status of modules:
  - tilelive.js - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive.js.png)](http://travis-ci.org/mapbox/tilelive.js)
  - tilelive-vector - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-vector.png)](http://travis-ci.org/mapbox/tilelive-vector)
  - tilelive-bridge - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-bridge.png)](http://travis-ci.org/mapbox/tilelive-bridge)
-
-### Mac OS X
-
-### Binary
-
-Binary builds are available for OS X at <http://tilemill.s3.amazonaws.com/index.html?path=dev/>. Download, unpack, and double-click `start.command` to start TM2. 
-
-TM2 builds currently aren't [Developer ID](https://developer.apple.com/developer-id/)-signed, so you may see a warning dialog about an unidentified developer. In that case, right-click the `start.command` file and select *Open*. You will receive another warning dialog, then click the *Open* button to continue. 
-
-Follow the instructions below to install from source if you are interested in developing on TM2.
-
-### Source install
-
-First install Node.js. You can do this with [Homebrew](http://brew.sh), via the easy installer at <http://nodejs.org/download>, or via tools like [nvm](https://github.com/creationix/nvm).
-
-Then build:
-
-    git clone https://github.com/mapbox/tm2.git
-    cd tm2
-    npm install
-    node index.js
-
-### Ubuntu Linux
-
-First install the latest Node.js v0.10.x version:
-
-    sudo apt-get install python-software-properties
-    echo 'Yes' | sudo apt-add-repository ppa:chris-lea/node.js
-    sudo apt-get update -y
-    sudo apt-get install -y nodejs build-essential
-
-Then build:
-
-    git clone https://github.com/mapbox/tm2.git
-    cd tm2
-    npm install
-    node index.js
 

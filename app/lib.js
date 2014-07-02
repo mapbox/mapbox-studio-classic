@@ -45,7 +45,7 @@ var statHandler = function(key) {
       memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10); });
       return memo;
     }, {});
-    var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
+    var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
 
     function round(v) { return Math.round(v * 0.001); }
 
@@ -58,14 +58,14 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
       html += [
-        "<span class='clip strong micro col12 quiet z z",z,"'>",
-        "<a href='#zoomedto' class='col3 center strong quiet keyline-right'>z",z,"</a>",
+        "<a href='#zoomedto' class='clip contain strong micro col12 quiet z z",z,"'>",
+        "<span class='col3 center strong keyline-right'>z",z,"</span>",
         s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
         s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
         s ? "</span>" : '',
-        "</span>"
+        "</a>"
       ].join('');
     }
     $('#zoomedto').html(html);
@@ -125,6 +125,7 @@ var inspectFeature = function(options) {
         if (!_(data).size()) return;
         popup = L.popup({
           minWidth:200,
+          className: 'dark',
           maxHeight:window.innerHeight-100,
           autoPanPaddingTopLeft:L.point(5,45),
           autoPanPaddingBottomRight:L.point(5,15)
@@ -256,7 +257,7 @@ views.Browser.styleHandler = function(Modal, cwd) {
 
 views.Modal = Backbone.View.extend({});
 views.Modal.prototype.events = {
-  'click a.close': 'close'
+  'click a.js-close': 'close'
 };
 views.Modal.prototype.active = false;
 views.Modal.prototype.modals = {};
@@ -268,6 +269,7 @@ views.Modal.prototype.close = function() {
     this.$el.parent().removeClass('active');
     this.active.callback();
     this.active = false;
+    return false;
 };
 views.Modal.prototype.show = function(id, options, callback) {
     options = options || {};

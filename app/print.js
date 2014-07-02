@@ -23,19 +23,15 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Printer.prototype.events = {
-  'click .js-browsestyle': 'browseStyle',
   'click .js-recache': 'recache',
-  'click #history .js-ref-delete': 'delstyle',
-  'click .js-modalsources': 'modalsources',
   'keydown': 'keys',
   'click .js-info': 'toggleInfo',
   'click .reselect': 'bboxReselect',
   'click .recenter': 'bboxRecenter',
   'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
-  'change #bboxInput': 'modifycoordinates',
-  'change .dim': 'modifydimensions',
-  'change #centerInput': 'modifycoordinates',
+  'change .js-dimensions': 'modifydimensions',
+  'change .js-coordinates': 'modifycoordinates',
   'change #lock': 'lockdimensions'
 };
 
@@ -70,26 +66,6 @@ Printer.prototype.keys = function(ev) {
   return false;
 };
 
-Printer.prototype.browseStyle = function() {
-  Modal.show('browseropen', {type:'style', cwd:cwd});
-  new views.Browser({
-    el: $('.modal-content #browsestyle'),
-    filter: function(file) { return file.type === 'dir' || /\.tm2$/.test(file.basename); },
-    isFile: function(file) { return /\.tm2$/.test(file); },
-    callback: function(err, filepath) {
-      if (err) return false; // @TODO
-      filepath = filepath.replace(/\.tm2/, '') + '.tm2';
-      window.location = '/style?id=tmstyle://' + filepath;
-      return false;
-    }
-  });
-  return false;
-};
-Printer.prototype.scrollto = function(ev) {
-    id = $(ev.currentTarget).attr('href').split('#').pop();
-    document.getElementById(id).scrollIntoView();
-    return false;
-};
 Printer.prototype.togglePane = function(name) {
   var loc = location.href;
   if (loc.indexOf('#'+name) === -1) {
@@ -98,6 +74,7 @@ Printer.prototype.togglePane = function(name) {
     location.href = loc.replace('#'+name, '#');
   }
 };
+
 Printer.prototype.toggleInfo = function(ev) {
   var $el = $(ev.currentTarget);
   if ($el.is('.fill-darken2')) {
@@ -107,40 +84,12 @@ Printer.prototype.toggleInfo = function(ev) {
     $el.addClass('fill-darken2 dark').removeClass('quiet');
     $($el.attr('href')).removeClass('hidden');
   }
-  return false;
-};
-
-Printer.prototype.delstyle = delStyle;
-
-Printer.prototype.modalsources = function(ev) {
-  var style = this.model.attributes;
-  $.ajax({
-    url: '/history.json',
-    success: function(history) {
-      Modal.show('sources', {
-        style: style,
-        history: history
-      });
-    }
-  });
   return false;
 };
 
 Printer.prototype.recache = function(ev) {
   this.model.set({_recache:true});
   this.save(ev);
-  return false;
-};
-
-Printer.prototype.toggleInfo = function(ev) {
-  var $el = $(ev.currentTarget);
-  if ($el.is('.fill-darken2')) {
-    $el.removeClass('fill-darken2 dark').addClass('quiet');
-    $($el.attr('href')).addClass('hidden');
-  } else {
-    $el.addClass('fill-darken2 dark').removeClass('quiet');
-    $($el.attr('href')).removeClass('hidden');
-  }
   return false;
 };
 
@@ -227,9 +176,13 @@ Printer.prototype.calculateCoordinates = function(ev) {
     }
   });
   var coordinates = window.exporter.model.get('coordinates');
-  $('#bboxInput').prop('value', coordinates.bbox.toString());
-  $('#centerInput').prop('value', coordinates.center[0]+','+coordinates.center[1]);
 
+  $('#bboxInputW').prop('value', coordinates.bbox[0]);
+  $('#bboxInputS').prop('value', coordinates.bbox[1]);
+  $('#bboxInputE').prop('value', coordinates.bbox[2]);
+  $('#bboxInputN').prop('value', coordinates.bbox[3]);
+  $('#centerInputLat').prop('value', coordinates.center[0]);
+  $('#centerInputLng').prop('value', coordinates.center[1]);
   this.calculateTotal();
 };
 
@@ -269,8 +222,8 @@ Printer.prototype.calculateTotal = function(ev) {
   // if the dimensions are locked, don't update dimension values.
   if (this.model.get('coordinates').locked) {
     if (ev && ev.target.name === 'resolution') {
-      $('#pixelX').prop('value', w + ' px');
-      $('#pixelY').prop('value', h + ' px');
+      $('#pixelX').prop('value', w);
+      $('#pixelY').prop('value', h);
       this.model.get('coordinates').dimensions = [w, h];
     }
     this.imageSizeStats();
@@ -279,11 +232,11 @@ Printer.prototype.calculateTotal = function(ev) {
 
   this.model.get('coordinates').dimensions = [w, h];
 
-  $('#pixelX').prop('value', w + ' px');
-  $('#pixelY').prop('value', h + ' px');
+  $('#pixelX').prop('value', w);
+  $('#pixelY').prop('value', h);
 
-  $('#inchX').prop('value', (w / (scale * 72)).toFixed(2) + ' in');
-  $('#inchY').prop('value', (h / (scale * 72)).toFixed(2) + ' in');
+  $('#inchX').prop('value', (w / (scale * 72)).toFixed(2));
+  $('#inchY').prop('value', (h / (scale * 72)).toFixed(2));
 
   this.imageSizeStats();
 };
@@ -291,8 +244,16 @@ Printer.prototype.calculateTotal = function(ev) {
 Printer.prototype.modifycoordinates = function(ev) {
   // if the coordinates in 'bounds' or 'center' are modified,
   // compare and recalculate bounding box values.
-  var bounds = $('#bboxInput').prop('value').split(',').map(parseFloat),
-    center = $('#centerInput').prop('value').split(',').map(parseFloat),
+  var bounds = [
+      parseFloat($('#bboxInputW').prop('value')),
+      parseFloat($('#bboxInputS').prop('value')),
+      parseFloat($('#bboxInputE').prop('value')),
+      parseFloat($('#bboxInputN').prop('value'))
+    ],
+    center = [
+      parseFloat($('#centerInputLat').prop('value')),
+      parseFloat($('#centerInputLng').prop('value'))
+    ],
     bSum = bounds.reduce(function(a, b){ return a + b; }),
     bboxSum = window.exporter.model.get('coordinates').bbox.reduce(function(a, b){ return a + b; });
 
@@ -325,7 +286,10 @@ Printer.prototype.modifydimensions = function(ev) {
     dimensions = window.exporter.model.get('coordinates').dimensions,
     inchdim = [ (dimensions[0] / (scale * 72)).toFixed(2), (dimensions[1] / (scale * 72)).toFixed(2)];
 
-  var center = $('#centerInput').prop('value').split(',').map(parseFloat);
+  var center = [
+    parseFloat($('#centerInputLat').prop('value')),
+    parseFloat($('#centerInputLng').prop('value'))
+  ],
   center = sm.px([center[1], center[0]], zoom);
 
   if (pixelX != dimensions[0] || pixelY != dimensions[1] || window.exporter.model.get('coordinates').locked) {
@@ -363,8 +327,8 @@ Printer.prototype.lockdimensions = function (){
       boundingBox[marker].dragging.disable();
       L.DomUtil.addClass(boundingBox[marker]._icon, 'locked');
     });
-    $('.dim').prop('disabled', true);
-    $('#bboxInput').prop('disabled', true);
+    $('.js-dimensions').prop('disabled', true);
+    $('.js-coordinates').prop('disabled', true);
     $('.reselect').prop('disabled', true);
     window.exporter.model.get('coordinates').locked = true;
     this.imageSizeStats();
@@ -373,8 +337,8 @@ Printer.prototype.lockdimensions = function (){
       boundingBox[marker].dragging.enable();
       L.DomUtil.removeClass(boundingBox[marker]._icon, 'locked');
     });
-    $('.dim').prop('disabled', false);
-    $('#bboxInput').prop('disabled', false);
+    $('.js-dimensions').prop('disabled', false);
+    $('.js-coordinates').prop('disabled', false);
     $('.reselect').prop('disabled', false);
     window.exporter.model.get('coordinates').locked = false;
     this.calculateTotal();
@@ -409,7 +373,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#' class='inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -432,12 +396,12 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<span class='clip strong micro col12 quiet z z",z,"'>",
-      "<a href='#zoomedto' class='col3 center strong quiet keyline-right'>z",z,"</a>",
+      "<a href='#zoomedto' class='clip strong micro col12 quiet z z",z,"'>",
+      "<span class='col3 center strong keyline-right'>z",z,"</span>",
       perc ? "<span class='truncate col9 strong perc pad0x " : '',
       perc > 100 ? "warning'" : '',
       perc > 1000 ? "'> >1000%</span>" : perc ? "'>"+perc+"%</span>" : '',
-      "</span>"
+      "</a>"
     ].join('');
   }
   html += [
@@ -484,25 +448,15 @@ Printer.prototype.refresh = function(ev) {
   map.options.maxZoom = this.model.get('maxzoom');
 
   // Refresh map layer.
-  var scale;
-  if (exporter.model.get('_prefs').print) scale = '@4x';
-  else if (window.devicePixelRatio > 1) scale = '@2x';
-  else scale = '';
-
   if (tiles) map.removeLayer(tiles);
   tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}'+scale+'.png?id=' + this.model.id + '&' + mtime ],
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
   .addOneTimeEventListener('load', this.bboxEnable.bind(this))
   .on('load', errorHandler);
   tiles.addTo(map);
-
-  // Refresh map title.tm.db.rm('user');
-  $('title').text(this.model.get('name'));
-  $('.js-name').text(this.model.get('name') || 'Untitled');
-  $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (this.model.get('background')) {
@@ -529,7 +483,6 @@ window.onhashchange = function(ev) {
     break;
   }
 };
-
 window.onhashchange({
   oldURL:window.location.toString(),
   newURL:window.location.toString()

@@ -20,23 +20,23 @@
     <fieldset>
       <section class='pad2x pad1y keyline-bottom'>
         <label>Description</label>
-        <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+        <input class='short stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
-        <label>SQLite<label>
+        <label>SQLite</label>
         <div class='input-pill clearfix'>
           <input type='hidden' name='Datasource-type' value='sqlite' />
-          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".sqlite" extension.' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/>
-          <a id='browse-<%=obj.id%>' class='quiet col4 button icon folder js-browsefile'>Browse</a>
+          <input class='short col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".sqlite" extension.' placeholder='data.sqlite' pattern='[\w+\d+\.\/_-]+\.(sqlite|SQLITE)'/>
+          <a id='browse-<%=obj.id%>' class='col4 button icon short folder js-browsefile'>Browse</a>
         </div>
       </section>
       <section class='pad2x pad1y clearfix keyline-bottom'>
-        <label class='pad1y col3 inline'>Extent </label>
-        <input type='text' class='col9' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
+        <label class='pad0y col3 inline'>Extent </label>
+        <input type='text' class='short col9' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
-        <label class='col3 inline'>Projection</label>
-        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' />
+        <label>Projection</label>
+        <input class='js-metadata-projection short stretch' name='srs' type='text' value='<%= obj.srs %>' />
       </section>
       <section class='pad2x pad1y keyline-bottom'>
         <label class='col3 inline'>Buffer size</label>
@@ -44,7 +44,7 @@
         <span class='small quiet code inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
       </section>
       <section class='pad2'>
-        <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
+        <a href='#' class='js-save quiet button short margin6 col6'>Done</a>
       </section>
     </fieldset>
   </div>
@@ -56,11 +56,11 @@
     <section class='pad1'>
       <div class='pad0x clearfix'>
         <div class='pad0x col4 contain'>
-          <input name='Datasource-geometry_table' class='stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
+          <input name='Datasource-geometry_table' class='short stretch' type='text' value='<%= obj.Datasource['geometry_table'] || '' %>'/>
           <label class='micro ghost'>geom table</label>
         </div>
         <div class='pad0x col4 contain'>
-          <input name='Datasource-key_field' class='stretch last' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
+          <input name='Datasource-key_field' class='short stretch' type='text' value='<%= obj.Datasource['key_field'] || '' %>' />
           <label class='micro ghost'>key</label>
         </div>
       </div>

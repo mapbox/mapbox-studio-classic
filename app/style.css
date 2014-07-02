@@ -1,25 +1,59 @@
-/* Code pane */
-#style-ui,
-#source-ui,
-#print-ui { box-shadow: rgba(0,0,0,0.1) -2px 0px 0px; }
 
-/* Editor tabs */
+/* Layout
+------------------------------------------------------- */
+#style-ui {
+  box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+}
+
+#fonts:target ~ #drawers,
+#docs:target ~ #drawers,
+#layers:target ~ #drawers,
+#fonts:target ~ #drawers #fonts-drawer,
+#docs:target ~ #drawers #docs-drawer,
+#layers:target ~ #drawers #layers-drawer {
+  -webkit-transform:translateX(0%);
+     -moz-transform:translateX(0%);
+      -ms-transform:translateX(0%);
+          transform:translateX(0%);
+  visibility: visible;
+}
+
+#fonts:target ~ #drawers #fonts-drawer ~ .drawer,
+#docs:target ~ #drawers #docs-drawer ~ .drawer,
+#layers:target ~ #drawers #layers-drawer ~ .drawer {
+  -webkit-transform:translateX(100%);
+     -moz-transform:translateX(100%);
+      -ms-transform:translateX(100%);
+          transform:translateX(100%);
+}
+
+#fonts:target ~ #drawers > *,
+#docs:target ~ #drawers > *,
+#layers:target ~ #drawers > *,
+#fonts:target ~ #drawers #fonts-drawer > *,
+#docs:target ~ #drawers #docs-drawer > *,
+#layers:target ~ #drawers #layers-drawer > * { display:block; }
+
+/* Code pane
+------------------------------------------------------- */
 .carto-tabs {
-  padding-left: 90px;
-  padding-right: 60px;
+  padding-right:30px;
 }
 
 .carto-tabs a.tab {
-  height: 30px;
+  position: relative;
+  border-right: 1px solid #d3d3d3;
+  height: 40px;
   display: inline-block;
-  vertical-align: top;
   width: 25%;
+  padding: 10px;
+  text-align: center;
 }
 
 .carto-tabs a.tab:hover { color: rgba(0,0,0,.75));}
-.carto-tabs a.tab.active { background:white;}
-
-.addtab { right:30px;}
+.carto-tabs a.tab.active {
+  background:#f8f8f8;
+}
 
 .carto-tabs a.tab .trash {display:none;}
 .carto-tabs a.tab.active .trash { display:block;}
@@ -42,5 +76,191 @@
 .carto-tabs a.tab:first-child:nth-last-child(12),
 .carto-tabs a.tab:first-child:nth-last-child(12) ~ a.tab { width:8.33%; padding-left: 3px; padding-right: 3px; font-size:10px; }
 
-/* Search */
-.search-dialog { z-index: 11; }
+/* Settings pane
+------------------------------------------------------- */
+.disable-mask { height: 150px; }
+
+
+/* Reference/docs pane
+------------------------------------------------------- */
+#reference-points section .type   { color: #8a8acb; } /* fill purple */
+#reference-lines section .type    { color: #3887be; } /* fill blue */
+#reference-polygons section .type { color: #56b881; } /* fill green */
+#reference-raster section .type   { color: #ee8a65; } /* fill orange */
+#reference-text section .type     { color: #ee6565; } /* fill red */
+
+#reference-points .section-name   { border-right-color: #8a8acb; } /* fill purple */
+#reference-lines .section-name    { border-right-color: #3887be; } /* fill blue */
+#reference-polygons .section-name { border-right-color: #56b881; } /* fill green */
+#reference-raster .section-name   { border-right-color: #ee8a65; } /* fill orange */
+#reference-text .section-name     { border-right-color: #ee6565; } /* fill red */
+
+#reference .section-name {
+  border-right-width: 5px;
+  border-right-style: solid;
+  text-transform: capitalize;
+}
+
+#reference .section-name + section {
+  border-top: 1px solid rgba(0,0,0,0.25);
+}
+
+#reference .code.value,
+#reference .code.options {
+  color:rgba(0,0,0,.75);
+  padding:2px 5px;
+  border-radius: 3px;
+  background: rgba(241, 240, 117, 1);
+}
+
+#reference .code.value:before {
+  content:'default: ';
+  color: rgba(0,0,0,.5);
+  }
+
+#reference .code.options:before {
+  content:'options: ';
+  color: rgba(0,0,0,.5);
+}
+
+#reference section.carto-ref:not(.active):hover {
+  background: rgba(0,0,0,.05);
+}
+
+#reference section.active a,
+#reference .details { display: none;}
+#reference section.active { background-color: rgba(0,0,0,.15);}
+#reference section.active .details { display: block;}
+
+/* Font pane
+------------------------------------------------------- */
+#fonts-drawer .single-font {
+  height:30px;
+  display:block;
+  background-position:10px 50%;
+  background-repeat:no-repeat;
+  /* render but hide text for copying */
+  color: transparent;
+}
+
+#fonts-drawer .font-family.active { background-color: rgba(0,0,0,.15); }
+
+#fonts-drawer .font-family .single-font { opacity:0.5; }
+#fonts-drawer .font-family.active span.single-font { opacity:1; }
+#fonts-drawer .font-family span.single-font { display:none; }
+#fonts-drawer .font-family.active span.single-font { display:block; }
+
+/* History pane
+------------------------------------------------------- */
+#history .rounded-toggle { margin: 0;}
+
+/* Layers pane
+------------------------------------------------------- */
+#layers-drawer .layer:hover { background: rgba(0,0,0,.05);}
+
+#layers-drawer .layer.active { background: rgba(0,0,0,.15);}
+#layers-drawer .layer.active a { display: none;}
+#layers-drawer .description { display:none;}
+#layers-drawer .active .description { display:block; }
+
+#layers-drawer .field {
+  font-size: 11px;
+}
+
+#layers-drawer .menu-content .empty-state:only-child {
+  margin: 20px;
+  display: block;
+}
+
+/* Button toggles
+------------------------------------------------------- */
+a.layers-y,
+a.fonts-y,
+a.docs-y { display:none; }
+
+#docs:target      ~ * a.docs-y,
+#layers:target    ~ * a.layers-y,
+#fonts:target     ~ * a.fonts-y { display:inline-block; }
+
+#docs:target      ~ * a.docs-n,
+#fonts:target     ~ * a.fonts-n,
+#layers:target    ~ * a.layers-n { display:none; }
+
+/* Demo
+------------------------------------------------------- */
+body.demo #app {
+  margin-left: 0;
+  top:20px;
+  left:100px;
+  right:20px;
+  bottom:180px;
+  box-shadow:0px 0px 0px 2px rgba(0,0,0,0.1);
+}
+
+#demo { display:none; }
+body.demo #demo { display:block; }
+.demo-popup { display:none; }
+body.demo .CodeMirror { overflow: hidden;}
+
+/* Display active popup */
+body.demo .demo-fallback,
+body.demo #home:target ~ #style-ui .demo-popup,
+body.demo #full:target ~ #style-ui .demo-popup,
+body.demo #search:target ~ #style-ui .demo-popup,
+body.demo #bookmark:target ~ #style-ui .demo-popup,
+body.demo #xray:target ~ #full .demo-popup,
+body.demo #docs:target ~ #docs-popup.demo-popup,
+body.demo #fonts:target ~ #fonts-popup.demo-popup,
+body.demo #layers:target ~ #layers-popup.demo-popup,
+body.demo #settings:target ~ #settings-popup.demo-popup,
+body.demo #user:target ~ #user-popup.demo-popup {
+  display:block;
+  z-index: 102;
+}
+
+#xray:target ~ .demo-fallback,
+#full:target ~ .demo-fallback,
+#home:target ~ .demo-fallback,
+#search:target ~ .demo-fallback,
+#bookmark:target ~ .demo-fallback,
+#docs:target ~ .demo-fallback,
+#fonts:target ~ .demo-fallback,
+#layers:target ~ .demo-fallback,
+#settings:target ~ .demo-fallback,
+#user:target ~ .demo-fallback { display:none; }
+
+/* Walkthrough nav active state */
+#demo:target     a.demo-demo,
+#xray:target ~ * a.demo-xray,
+#full:target ~ * a.demo-full,
+#home:target ~ * a.demo-home,
+#search:target ~ * a.demo-search,
+#bookmark:target ~ * a.demo-bookmark,
+#docs:target ~ * a.demo-docs,
+#fonts:target ~ * a.demo-fonts,
+#layers:target ~ * a.demo-layers,
+#settings:target ~ * a.demo-settings,
+#user:target ~ * a.demo-user { color:#fff; }
+
+/* Bring active element to top */
+body.demo #xray:target ~ #full,
+body.demo #docs:target ~ #drawers,
+body.demo #fonts:target ~ #drawers,
+body.demo #layers:target ~ #drawers,
+body.demo #home:target ~ #style-ui { z-index:101; }
+
+/* Highlight active element */
+body.demo #xray:target ~ #full,
+body.demo #home:target ~ #style-ui,
+body.demo #full:target ~ #style-ui,
+body.demo #search:target ~ #style-ui,
+body.demo #bookmark:target ~ #style-ui,
+body.demo #docs:target ~ #drawers,
+body.demo #fonts:target ~ #drawers,
+body.demo #layers:target ~ #drawers,
+body.demo #settings:target ~ #drawers,
+body.demo #user:target ~ #drawers {
+  box-shadow: 0px 0px 0px 5px #3887be, 0px 0px 5px 10px rgba(0,0,0,0.2);
+  -webkit-transition:none;
+  }
+
