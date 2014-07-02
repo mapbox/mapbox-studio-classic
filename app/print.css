@@ -36,6 +36,32 @@ a.toolbar-button:hover { background: rgba(0,0,0,.75);}
   padding-right: 5px;
 }
 
+/* locationfilter default overrides */
+div.leaflet-marker-icon.location-filter.resize-marker {
+  background: #3887be;
+  border: 2px solid white;
+  border-radius: 50%;
+  height: 14px !important;
+  width: 14px !important;
+}
+
+div.leaflet-marker-icon.location-filter.resize-marker:hover,
+div.leaflet-marker-icon.location-filter.resize-marker.leaflet-drag-target {
+  background: #3bb2d0;
+}
+
+div.leaflet-marker-icon.location-filter.move-marker {
+  background: url(../app/move-handle.png) 0 0;
+  background-size: 34px 17px;
+  height: 17px !important;
+  width: 17px !important;
+}
+
+div.leaflet-marker-icon.location-filter.move-marker:hover,
+div.leaflet-marker-icon.location-filter.move-marker.leaflet-drag-target {
+  background-position: 17px 0;
+}
+
 /* Export pane
 ------------------------------------------------------- */
 .col-input input { border-right-width: 0;}
