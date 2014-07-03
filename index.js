@@ -335,14 +335,20 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 
 app.get('/upload', middleware.auth, function(req, res, next) {
     if (req.query.id) {
-        source.upload({
-            id: req.query.id,
-            oauth: tm.db.get('oauth'),
-            cache: tm.config().cache
-        }, function(err){
-            if (err) next(err);
-            res.end();
-        });
+            source.upload({
+                id: req.query.id,
+                oauth: tm.db.get('oauth'),
+                cache: tm.config().cache
+            }, function(err, job){
+                if (err) next(err);
+                if (job) {
+                    job.on('progress', function(p){
+                        // console.log(p)
+                    })
+                } else {
+                    res.end();
+                }
+            });
     } else {
         if (style.tmpid(req.query.styleid))
             return next(new Error('Style must be saved first'));
@@ -356,6 +362,21 @@ app.get('/upload', middleware.auth, function(req, res, next) {
             res.end();
         });
     }
+});
+
+app.all('/upload.json', function(req, res, next) {
+    if (req.method === 'DELETE') {
+        task.del();
+        res.send({});
+        return;
+    }
+    source.info(req.query.id, function(err, info) {
+        if (err) return next(err);
+        source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
+            if (err) return next(err);
+            res.send(job);
+        });
+    });
 });
 
 app.get('/source.xml', middleware.source, function(req, res, next) {

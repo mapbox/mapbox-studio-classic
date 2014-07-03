@@ -60,6 +60,9 @@ templates.modalmessage = <%= this.modalmessage.source %>;
 var Job = Backbone.Model.extend({});
 Job.prototype.url = function() { return '/mbtiles.json?id=<%=source.id%>'; };
 
+var Upload = Backbone.Model.extend({});
+Job.prototype.url = function() { return '/upload.json?id=<%=source.id%>'; };
+
 var Modal = new views.Modal({
   el: $('.modal-content'),
   templates: templates
