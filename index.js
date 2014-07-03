@@ -340,8 +340,13 @@ app.get('/upload', middleware.auth, function(req, res, next) {
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
     }, function(err, info) {
-        if (err) next(err);
-        res.send(info);
+        if (err && err.code) {
+            res.send(err.code, err.message);
+        } else if (err) {
+            next(err);
+        } else {
+            res.send(info);
+        }
     });
 });
 
