@@ -335,16 +335,18 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 });
 
 app.get('/upload', middleware.auth, function(req, res, next) {
-    if (style.tmpid(req.query.styleid))
-        return next(new Error('Style must be saved first'));
-
     style.upload({
         id: req.query.styleid,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
-    }, function(err){
-        if (err) next(err);
-        res.end();
+    }, function(err, info) {
+        if (err && err.code) {
+            res.send(err.code, err.message);
+        } else if (err) {
+            next(err);
+        } else {
+            res.send(info);
+        }
     });
 });
 

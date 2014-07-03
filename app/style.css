@@ -78,8 +78,27 @@
 
 /* Settings pane
 ------------------------------------------------------- */
-.disable-mask { height: 150px; }
+.disable-mask { height: 180px; }
 
+#mapstatus { height:30px; }
+#mapstatus-uploaded {
+  -webkit-transform:translateY(100%);
+     -moz-transform:translateY(100%);
+      -ms-transform:translateY(100%);
+          transform:translateY(100%);
+}
+.uploaded #mapstatus-mapid {
+  -webkit-transform:translateY(-100%);
+     -moz-transform:translateY(-100%);
+      -ms-transform:translateY(-100%);
+          transform:translateY(-100%);
+}
+.uploaded #mapstatus-uploaded {
+  -webkit-transform:translateY(0%);
+     -moz-transform:translateY(0%);
+      -ms-transform:translateY(0%);
+          transform:translateY(0%);
+}
 
 /* Reference/docs pane
 ------------------------------------------------------- */
