@@ -408,7 +408,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // Set map in loading state.
         $('#full').addClass('loading');
         // Grab settings form values.
-        var attr = _($('.js-settings-drawer').serializeArray()).reduce(function(memo, field) {
+        var attr = _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
             memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
             return memo;
         }, this.model.attributes);
