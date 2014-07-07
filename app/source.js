@@ -233,24 +233,32 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
+        // layersArray.forEach(function(current_layer, index, array) {
+        //     //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
+        //     //so this is just reversing that process in order to properly render the mapnikXML for TM2
+        //     //This only applies to files that have gone through mapnik-omnivore
+        //     var layername;
+        //     if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
+        //     else layername = current_layer.id;
         layersArray.forEach(function(current_layer, index, array) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
             //so this is just reversing that process in order to properly render the mapnikXML for TM2
             //This only applies to files that have gone through mapnik-omnivore
-            var layername;
-            if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
-            else layername = current_layer.id;
+            var layername = metadata ? (current_layer.id).split('_').join(' ') : current_layer.id;
 
             //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
             //To avoid all geojson layers having the same name, replace id with the filename.
             if (filetype === 'geojson') current_layer.id = metadata.filename;
+
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-
+            
             //checks that the layer doesn't already exist
-            if (!layers[current_layer.id]) {
-              var layer;
+            if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
+
+            //Setup layer object
+            var layer;
               //If DB layer
               if(filetype === 'sqlite'){
                 //Get default layer id given by addDatabase() function
@@ -300,10 +308,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     window.location.hash = '#layers-' + layersArray[0].id;
                     $('#layers .js-layer-content').sortable('destroy').sortable();
                 }
-              //else layer already exists, show error
-            } else {
-                Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
-            }
         });
     };
     Editor.prototype.deletelayer = function(ev) {
