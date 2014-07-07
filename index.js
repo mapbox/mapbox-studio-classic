@@ -85,7 +85,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
     try {
         var page = tm.templates.style({
             cwd: config.cwd,
-            fontsRef: require('mapnik').fonts(),
+            fontsRef: tm.fontfamilies(),
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
             style: req.style.data,
@@ -115,7 +115,7 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
     try {
         var page = tm.templates.print({
             cwd: process.env.HOME,
-            fontsRef: require('mapnik').fonts(),
+            fontsRef: tm.fontfamilies(),
             cartoRef: require('carto').tree.Reference.data,
             sources: [req.style._backend._source.data],
             style: req.style.data,
@@ -135,6 +135,8 @@ app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.source, cors(
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style, cors(), grid);
 
 app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.source, cors(), tile);
+
+app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+):scale(@\\d+x).:format([\\w\\.]+)', middleware.source, cors(), tile);
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).:format([\\w\\.]+)', middleware.style, cors(), tile);
 
@@ -334,34 +336,34 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 });
 
 app.get('/upload', middleware.auth, function(req, res, next) {
-    if (req.query.id) {
-            source.upload({
-                id: req.query.id,
-                oauth: tm.db.get('oauth'),
-                cache: tm.config().cache
-            }, function(err, job){
-                if (err) next(err);
-                if (job) {
-                    job.on('progress', function(p){
-                        // console.log(p)
-                    })
-                } else {
-                    res.end();
-                }
-            });
-    } else {
-        if (style.tmpid(req.query.styleid))
-            return next(new Error('Style must be saved first'));
-
-        style.upload({
-            id: req.query.styleid,
-            oauth: tm.db.get('oauth'),
-            cache: tm.config().cache
-        }, function(err){
-            if (err) next(err);
+    if (req.query.id) return source.upload({
+        id: req.query.id,
+        oauth: tm.db.get('oauth'),
+        cache: tm.config().cache
+    }, function(err){
+        if (err) next(err);
+        if (job) {
+            job.on('progress', function(p){
+                // console.log(p)
+            })
+        } else {
             res.end();
-        });
-    }
+        }
+    });
+
+    style.upload({
+        id: req.query.styleid,
+        oauth: tm.db.get('oauth'),
+        cache: tm.config().cache
+    }, function(err, info) {
+        if (err && err.code) {
+            res.send(err.code, err.message);
+        } else if (err) {
+            next(err);
+        } else {
+            res.send(info);
+        }
+    });
 });
 
 app.all('/upload.json', function(req, res, next) {
@@ -493,7 +495,7 @@ app.get('/thumb.png', function(req, res, next) {
 
 app.get('/font.png', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.font(req.query.id, function(err, buffer) {
+    tm.font(req.query.id, req.query.text||'', function(err, buffer) {
         if (err) return next(err);
         var headers = {};
         headers['cache-control'] = 'max-age=3600';

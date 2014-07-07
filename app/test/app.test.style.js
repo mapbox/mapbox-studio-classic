@@ -47,20 +47,20 @@ it('saves a project', function() {
 });
 */
 
-describe('#user', function() {
+describe('.js-history', function() {
     it('browses sources', function() {
-        $('#user .js-browsesource').click();
+        $('.js-history .js-browsesource').click();
         assert.ok(hasModal('#browsesource'));
     });
 
     it('browses styles', function() {
-        $('#user .js-browsestyle').click();
+        $('.js-history .js-browsestyle').click();
         assert.ok(hasModal('#browsestyle'));
     });
 
     it('removes history style', function(done) {
         var count = $('#history-style .project').size();
-        $('#history-style .js-ref-delete:eq(0)').click();
+        $('.js-history .js-ref-delete:eq(0)').click();
         onajax(function() {
             assert.equal(count - 1, $('#history-style .project').size());
             done();
@@ -152,14 +152,14 @@ describe('#style-ui', function() {
     });
 });
 
-describe('#layers', function() {
+describe('.js-layers', function() {
     it('opens layer description', function() {
-        $('#layers .js-tab:eq(0)').click();
-        assert.ok($('#layers .js-tab:eq(0)').hasClass('active'));
+        $('.js-layers .js-tab:eq(0)').click();
+        assert.ok($('.js-layers .js-tab:eq(0)').hasClass('active'));
     });
 
     it('shows sources modal', function(done) {
-        $('#layers .js-modalsources:eq(0)').click();
+        $('.js-layers .js-modalsources:eq(0)').click();
         onajax(function() {
             assert.ok(hasModal('#modalsources'));
             $('#modalsources-remote .js-adddata:eq(0)').click();
@@ -171,11 +171,11 @@ describe('#layers', function() {
     });
 });
 
-describe('#docs', function() {
-    it('tabs through help topics', function() {
-        $('#docs .js-tab:last').click();
-        var target = $('#' + $('#docs .js-tab:last').attr('href').split('#').pop());
-        assert.ok($('#docs .js-tab:last').hasClass('active'));
+describe('#reference', function() {
+    it('tabs through CartoCSS reference', function() {
+        $('#reference .js-tab:last').click();
+        var target = $('#' + $('#reference .js-tab:last').attr('href').split('#').pop());
+        assert.ok($('#reference .js-tab:last').hasClass('active'));
         assert.ok(target.hasClass('active'));
     });
 });
