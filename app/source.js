@@ -233,13 +233,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
-        // layersArray.forEach(function(current_layer, index, array) {
-        //     //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
-        //     //so this is just reversing that process in order to properly render the mapnikXML for TM2
-        //     //This only applies to files that have gone through mapnik-omnivore
-        //     var layername;
-        //     if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
-        //     else layername = current_layer.id;
+        console.log("in addlayer");
+        console.log(metadata);
         layersArray.forEach(function(current_layer, index, array) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
             //so this is just reversing that process in order to properly render the mapnikXML for TM2
@@ -258,56 +253,41 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
 
             //Setup layer object
-            var layer;
-              //If DB layer
-              if(filetype === 'sqlite'){
-                //Get default layer id given by addDatabase() function
-                layer = layers[metadata.default_id].get();
-                layer.file = filepath;
-                layer.id = current_layer.id;
-                layer.name = current_layer.id;
-                //Delete old layer/form
-                layers[metadata.default_id].form.remove();
-                layers[metadata.default_id].item.remove();
-                delete layers[metadata.default_id];
-              }
-                else {
-                  //Setup layer object
-                  layer = {
-                    tm: tm,
-                    id: current_layer.id,
-                    srs: metadata.projection,
-                    properties: {
-                        'buffer-size': 8
-                    },
-                    Datasource: {
-                        type: metadata.dstype,
-                        file: filepath,
-                        layer: layername
-                    }
-                  };
+            var layer = {
+                tm: tm,
+                id: current_layer.id,
+                srs: metadata.projection,
+                properties: {
+                    'buffer-size': 8
+                },
+                Datasource: {
+                    type: metadata.dstype,
+                    file: filepath,
+                    layer: layername
                 }
-                //Add the new layer form and div
-                $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-                $('#layers .js-layer-content').prepend(templates.layeritem(layer));
+            };
+        
+            //Add the new layer form and div
+            $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
+            $('#layers .js-layer-content').prepend(templates.layeritem(layer));
 
-                //Add new layer to the project's layers array
-                layers[layer.id] = Layer(layer.id, layer.Datasource);
+            //Add new layer to the project's layers array
+            layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-                //set maxzoom, if needed
-                var maxzoomTarget = $('.max');
-                if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+            //set maxzoom, if needed
+            var maxzoomTarget = $('.max');
+            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
-                Modal.close();
+            Modal.close();
 
-                //open proper modal, depending on if there are multiple layers
-                if (layersArray.length > 1) {
-                    window.location.hash = '#';
-                    $('#layers .js-layer-content').sortable('destroy').sortable();
-                } else {
-                    window.location.hash = '#layers-' + layersArray[0].id;
-                    $('#layers .js-layer-content').sortable('destroy').sortable();
-                }
+            //open proper modal, depending on if there are multiple layers
+            if (layersArray.length > 1) {
+                window.location.hash = '#';
+                $('#layers .js-layer-content').sortable('destroy').sortable();
+            } else {
+                window.location.hash = '#layers-' + layersArray[0].id;
+                $('#layers .js-layer-content').sortable('destroy').sortable();
+            }
         });
     };
     Editor.prototype.deletelayer = function(ev) {
@@ -558,10 +538,13 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
+        console.log(id);
         var filepath = layers[id].get().Datasource.file;
+        console.log(filepath);
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
+                console.log(metadata);
                 var center = metadata.center;
                 map.setView([center[1], center[0]], metadata.maxzoom);
             }
