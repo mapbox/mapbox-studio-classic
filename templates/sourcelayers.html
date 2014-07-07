@@ -18,7 +18,7 @@
 </div>
 
 <div class='keyline-top'>
-  <% _(obj.vector_layers).chain().clone().reverse().each(function(l) { %>
+  <% _(obj.vector_layers).chain().clone().reverse().each(_(function(l) { %>
   <div class='col12 contain clip layer' id='sources-<%=l.id%>'>
     <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
     <div class='space small pad1x pad0y keyline-bottom <%=l.geometry + 'icon'||''%>'>
@@ -47,6 +47,6 @@
       </div>
     </div>
   </div>
-  <% }.bind(this)); %>
+  <% }).bind(this)); %>
   </div>
 </div>
