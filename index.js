@@ -340,15 +340,9 @@ app.get('/upload', middleware.auth, function(req, res, next) {
         id: req.query.id,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
-    }, function(err){
+    }, false, function(err, job){
         if (err) next(err);
-        if (job) {
-            job.on('progress', function(p){
-                // console.log(p)
-            })
-        } else {
-            res.end();
-        }
+        res.send(job);
     });
 
     style.upload({
@@ -374,8 +368,13 @@ app.all('/upload.json', function(req, res, next) {
     }
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
-        source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
-            if (err) return next(err);
+        source.upload({
+            id: req.query.id,
+            oauth: tm.db.get('oauth'),
+            cache: tm.config().cache
+        }, req.method === 'PUT',
+        function(err, job){
+            if (err) next(err);
             res.send(job);
         });
     });
@@ -520,10 +519,6 @@ app.get('/new/style', middleware.exporting, middleware.writeStyle, function(req,
 app.get('/new/source', middleware.exporting, middleware.writeSource, function(req, res, next) {
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
-
-// app.get('/new/print', middleware.exporting, middleware.loadStyle, function(req, res, next) {
-//     res.redirect('/print?id=' + req.style.data.id);
-// });
 
 app.get('/', function(req, res, next) {
     res.redirect('/new/style');
