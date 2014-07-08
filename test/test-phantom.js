@@ -25,5 +25,5 @@ page.open(url, function(status) {
 
 setTimeout(function() {
     phantom.exit(1);
-}, 5000);
+}, 60000);
 
