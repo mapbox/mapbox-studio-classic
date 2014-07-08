@@ -130,7 +130,7 @@ var datatests = {
             'description': '',
             'id': 'DCGIS_BusLineLn',
             'properties-buffer-size': '8',
-            'srs': '+proj=lcc +lat_1=38.3 +lat_2=39.45 +lat_0=37.66666666666666 +lon_0=-77 +x_0=400000 +y_0=0 +datum=NAD83 +units=m +no_defs'
+            'srs': /datum=NAD83/
         }
     },
     'shp/chi_bike_routes': {
@@ -141,7 +141,7 @@ var datatests = {
             'description': '',
             'id': 'chi_bike_routes',
             'properties-buffer-size': '8',
-            'srs': '+proj=tmerc +lat_0=36.66666666666666 +lon_0=-88.33333333333333 +k=0.9999749999999999 +x_0=300000 +y_0=0 +ellps=GRS80 +units=us-ft +no_defs'
+            'srs': /ellps=GRS80/
         }
     },
 };
@@ -158,10 +158,17 @@ for (var name in datatests) (function(name, info) {
         $('#addlayer').submit();
         onajax(function() {
             t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
-            t.deepEqual(_($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
+            var values = _($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
                 memo[field.name] = field.value;
                 return memo;
-            }, {}), info.expected, 'sets form values for ' + info.expected.id);
+            }, {});
+            for (var k in info.expected) {
+                if (info.expected[k] instanceof RegExp) {
+                    t.ok(info.expected[k].test(values[k]), 'sets form value for ' + k);
+                } else {
+                    t.equal(values[k], info.expected[k], 'sets form value for ' + k);
+                }
+            }
             $('#del-' + info.expected.id).click();
             t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
             t.end();
