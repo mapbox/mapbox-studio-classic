@@ -40,7 +40,7 @@ require('../index.js').on('listening', function() {
         execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
             if (err && err.code) exit = err.code;
             console.log(stdout);
-            console.warn(stderr);
+            // console.warn(stderr);
             runTest();
         });
     }
