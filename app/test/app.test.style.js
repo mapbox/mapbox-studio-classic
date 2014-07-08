@@ -1,9 +1,5 @@
 'use strict';
 
-var assert = chai.assert;
-
-mocha.setup('bdd');
-
 // Override window methods for the test runner.
 window.confirm = function(message) { return true; };
 
@@ -34,7 +30,7 @@ beforeEach(function() {
     event = document.createEvent('HTMLEvents');
 });
 
-it('saves a project', function() {
+tape('saves a project', function() {
     el = document.getElementById('title').getElementsByClassName('js-save')[0];
     event.initEvent('click', true, false);
     el.dispatchEvent(event);
@@ -47,53 +43,56 @@ it('saves a project', function() {
 });
 */
 
-describe('.js-history', function() {
-    it('browses sources', function() {
+    tape('.js-history browses sources', function(t) {
         $('.js-history .js-browsesource').click();
-        assert.ok(hasModal('#browsesource'));
+        t.ok(hasModal('#browsesource'));
+        t.end();
     });
 
-    it('browses styles', function() {
+    tape('.js-history browses styles', function(t) {
         $('.js-history .js-browsestyle').click();
-        assert.ok(hasModal('#browsestyle'));
+        t.ok(hasModal('#browsestyle'));
+        t.end();
     });
 
-    it('removes history style', function(done) {
+    tape('.js-history removes history style', function(t) {
         var count = $('#history-style .project').size();
         $('.js-history .js-ref-delete:eq(0)').click();
         onajax(function() {
-            assert.equal(count - 1, $('#history-style .project').size());
-            done();
+            t.equal(count - 1, $('#history-style .project').size());
+            t.end();
         });
     });
-});
 
-describe('#style-ui', function() {
-    it('creates a new tab', function() {
+    tape('#style-ui creates a new tab', function(t) {
         $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('form#addtab'));
+        t.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('foo');
         $('#addtab').submit();
 
         // Submit removes modal.
-        assert.equal(0, $('#addtab-filename').size());
+        t.equal(0, $('#addtab-filename').size());
 
         // Automatically adds .mss extension.
-        assert.equal('foo.mss', $('#tabs .js-tab:last').attr('rel'));
+        t.equal('foo.mss', $('#tabs .js-tab:last').attr('rel'));
+
+        t.end();
     });
 
-    it('clicks set tabs as active', function() {
+    tape('#style-ui clicks set tabs as active', function(t) {
         $('#tabs .js-tab:eq(1)').click();
-        assert.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
+        t.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
+        t.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
 
         $('#tabs .js-tab:eq(0)').click();
-        assert.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
+        t.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
+        t.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
+
+        t.end();
     });
 
-    it('keys set tabs as active', function() {
+    tape('#style-ui keys set tabs as active', function(t) {
         var e;
         // ctrl+alt+1
         e = $.Event('keydown');
@@ -101,8 +100,8 @@ describe('#style-ui', function() {
         e.altKey = true;
         e.ctrlKey = true;
         $('body').trigger(e);
-        assert.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
+        t.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
+        t.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
 
         // ctrl+alt+2
         e = $.Event('keydown');
@@ -110,80 +109,77 @@ describe('#style-ui', function() {
         e.altKey = true;
         e.ctrlKey = true;
         $('body').trigger(e);
-        assert.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
+        t.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
+        t.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
+
+        t.end();
     });
 
-    it('deletes a tab', function() {
+    tape('#style-ui deletes a tab', function(t) {
         var count = $('#tabs .js-tab').size();
         $('#tabs .js-deltab:eq(0)').click();
-        assert.equal(count - 1, $('#tabs .js-tab').size());
+        t.equal(count - 1, $('#tabs .js-tab').size());
+        t.end();
     });
 
-    it('prevents duplicate extensions in filename', function() {
+    tape('#style-ui prevents duplicate extensions in filename', function(t) {
         $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('#addtab'));
+        t.ok(hasModal('#addtab'));
 
         $('#addtab-filename').val('bar.mss');
         $('#addtab').submit();
 
         // Submit removes modal.
-        assert.ok(!hasModal('#addtab'));
+        t.ok(!hasModal('#addtab'));
 
         // Prevents duplicate .mss extension.
-        assert.equal('bar.mss', $('#tabs .js-tab:last').attr('rel'));
+        t.equal('bar.mss', $('#tabs .js-tab:last').attr('rel'));
+
+        t.end();
     });
 
-    it('requires unique stylesheet name', function() {
+    tape('#style-ui requires unique stylesheet name', function(t) {
         $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('form#addtab'));
+        t.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('baz');
         $('#addtab').submit();
 
         $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('form#addtab'));
+        t.ok(hasModal('form#addtab'));
 
         $('#addtab-filename').val('baz');
         $('#addtab').submit();
 
-        assert.ok(hasModal('#error'));
-        assert.equal('Tab name must be different than existing tab "baz"', $('#error > pre').text());
-    });
-});
+        t.ok(hasModal('#error'));
+        t.equal('Tab name must be different than existing tab "baz"', $('#error > pre').text());
 
-describe('.js-layers', function() {
-    it('opens layer description', function() {
+        t.end();
+    });
+
+    tape('.js-layers opens layer description', function(t) {
         $('.js-layers .js-tab:eq(0)').click();
-        assert.ok($('.js-layers .js-tab:eq(0)').hasClass('active'));
+        t.ok($('.js-layers .js-tab:eq(0)').hasClass('active'));
+        t.end();
     });
 
-    it('shows sources modal', function(done) {
+    tape('.js-layers shows sources modal', function(t) {
         $('.js-layers .js-modalsources:eq(0)').click();
         onajax(function() {
-            assert.ok(hasModal('#modalsources'));
+            t.ok(hasModal('#modalsources'));
             $('#modalsources-remote .js-adddata:eq(0)').click();
             onajax(function() {
-                assert.ok(!hasModal('#modalsources'));
-                done();
+                t.ok(!hasModal('#modalsources'));
+                t.end();
             });
         });
     });
-});
 
-describe('#reference', function() {
-    it('tabs through CartoCSS reference', function() {
+    tape('#reference tabs through CartoCSS reference', function(t) {
         $('#reference .js-tab:last').click();
         var target = $('#' + $('#reference .js-tab:last').attr('href').split('#').pop());
-        assert.ok($('#reference .js-tab:last').hasClass('active'));
-        assert.ok(target.hasClass('active'));
+        t.ok($('#reference .js-tab:last').hasClass('active'));
+        t.ok(target.hasClass('active'));
+        t.end();
     });
-});
 
-mocha.ignoreLeaks();
-
-if (window.mochaPhantomJS) {
-    mochaPhantomJS.run();
-} else {
-    mocha.run();
-}
