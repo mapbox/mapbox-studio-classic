@@ -1,4 +1,4 @@
-window.Export = function(templates, source) {
+window.Export = function(templates, source, job) {
   var Job = Backbone.Model.extend({});
   Job.prototype.url = function() { return '/mbtiles.json?id='+ source.id; };
 
@@ -22,22 +22,24 @@ window.Export = function(templates, source) {
     model.fetch({
       success:function() {
         if (!model.get('progress')) {
+          console.log(model.get('type'), model.get('progress'))
           view.refresh();
         } else {
-          view.timeout = setTimeout(view.poll, 100);
+          view.timeout = setTimeout(view.poll, 200);
         }
       },
       error:function() {}
     });
   };
   Exporter.prototype.initialize = function() {
-    console.log(this)
     _(this).bindAll('poll', 'refresh');
     this.model.on('change', this.refresh);
     this.poll();
   };
   Exporter.prototype.refresh = function() {
+    console.log(this.model.get('type'), this.model.get('progress'));
     if (!this.model.get('progress')) {
+      console.log('no progress, resetting');
       var pct = '100.0';
       var spd = 0;
       this.$('.size').text(templates.exportsize(this.model.get('size')));
@@ -62,29 +64,32 @@ window.Export = function(templates, source) {
   };
   Exporter.prototype.recache = function() {
     var view = this;
+    if (this.model.get('type') != 'export') {
+      job.type = 'export';
+      this.model = new Job(job);
+    }
+
+    _(this).bindAll('poll', 'refresh');
+    this.model.on('change', this.refresh);
+
     this.model.save({}, {
-      success: function() { view.poll() }
+      success: function() { view.poll(); }
     });
     return false;
   };
   Exporter.prototype.upload = function() {
     var view = this;
+    job.type = 'upload';
+    job.progress = null;
+    this.model = new Upload(job);
+
+    _(this).bindAll('poll', 'refresh');
+    this.model.on('change', this.refresh);
+
     this.model.save({}, {
-      success: function() { view.poll() }
+      success: function() { view.poll(); }
     });
     return false;
-    // var id = this.model.get('id');
-    // $('body').addClass('loading');
-    // $.ajax('/upload?id=' + id)
-    //   .done(function() {
-    //     Modal.show('message', '<span class="dark fill-green inline round dot"><span class="icon dark check"></span></span> Uploaded! Your data source is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-    //     $('body').removeClass('loading');
-    //     return true;
-    //   })
-    //   .error(function(resp) {
-    //     $('body').removeClass('loading');
-    //     return Modal.show('error', resp.responseText);
-    //   });
   };
   Exporter.prototype.cancel = function(ev) {
     var href = $(ev.currentTarget).attr('href');
@@ -97,6 +102,6 @@ window.Export = function(templates, source) {
 
   var exporter = new Exporter({
     el: document.body,
-    model: new Job(JSON.stringify(job))
+    model: new Job(job)
   });
 };
