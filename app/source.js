@@ -233,8 +233,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
     };
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
-        console.log("in addlayer");
-        console.log(metadata);
         layersArray.forEach(function(current_layer, index, array) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
             //so this is just reversing that process in order to properly render the mapnikXML for TM2
@@ -503,27 +501,18 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     target.val(filepath);
                     var extension = filepath.split('.').pop().toLowerCase();
                     if (filepath.indexOf('.geo.json') !== -1) extension = 'geojson';
+                    // file browser is loading file for a manual source
+                    if (!mapnikOmnivore_digestable(extension)) return Modal.close();
                     //if file is compatible with mapnik omnivore, send to mapnik-omnivore for file's metadata
-                    if (mapnikOmnivore_digestable(extension)) {
-                        $.ajax({
-                            url: '/metadata?file=' + filepath,
-                            success: function(metadata) {
-                                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                Modal.show('error', jqXHR.responseText);
-                            }
-                        });
-                    //else file is sqlite
-                    } else if (extension === 'sqlite') {
-                        var layername = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.lastIndexOf("."));
-                        var default_id = $(ev.currentTarget).attr('id').split('browse-').pop();
-                        window.editor.addlayer(extension, [{
-                            id: layername
-                        }], filepath, {'default_id':default_id});
-                    } else {
-                        Modal.show('error', 'File type "' + extension + '" unknown.');
-                    }
+                    $.ajax({
+                        url: '/metadata?file=' + filepath,
+                        success: function(metadata) {
+                            window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Modal.show('error', jqXHR.responseText);
+                        }
+                    });
                 }
             }
         });
@@ -538,13 +527,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
-        console.log(id);
         var filepath = layers[id].get().Datasource.file;
-        console.log(filepath);
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
-                console.log(metadata);
                 var center = metadata.center;
                 map.setView([center[1], center[0]], metadata.maxzoom);
             }
