@@ -83,7 +83,6 @@ $(document).ajaxComplete(function() {
 
         t.equal(currentUrl.slice(-10),'layers-hey');
         t.equal(expectedBuffer, newBufferTarget.text());
-        t.equal('a', 'b');
         t.end();
     });
 
