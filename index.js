@@ -90,7 +90,7 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
             style: req.style.data,
             history: req.history,
             user: tm.db.get('user'),
-            test: 'test' in req.query,
+            test: req.query.test,
             agent: agent()
         });
     } catch(err) {
@@ -120,7 +120,7 @@ app.get('/print', middleware.style, middleware.history, function(req, res, next)
             style: req.style.data,
             history: req.history,
             user: tm.db._docs.user,
-            test: 'test' in req.query,
+            test: req.query.test,
             agent: agent()
         });
     } catch(err) {
@@ -426,7 +426,7 @@ app.get('/source', middleware.source, middleware.history, function(req, res, nex
             source: req.source.data,
             history: req.history,
             user: tm.db.get('user'),
-            test: 'test' in req.query,
+            test: req.query.test,
             agent: agent()
         });
     } catch(err) {

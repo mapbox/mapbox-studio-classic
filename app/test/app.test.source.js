@@ -86,3 +86,86 @@ tape('#updatename-shape: updates the layer name and checks that input values and
     t.end();
 });
 
+var datatests = {
+    'csv/bbl_current_csv': {
+        filepath: '/csv/bbl_current_csv.csv',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/csv/bbl_current_csv.csv',
+            'Datasource-type': 'csv',
+            'description': '',
+            'id': 'bbl_current_csv',
+            'properties-buffer-size': '8',
+            'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+        }
+    },
+    'geojson/DC_polygon.geo.json': {
+        filepath: '/geojson/DC_polygon.geo.json',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
+            'Datasource-layer': 'OGRGeoJSON',
+            'Datasource-type': 'ogr',
+            'description': '',
+            'id': 'OGRGeoJSON',
+            'properties-buffer-size': '8',
+            'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+        }
+    },
+    'geojson/places.geo.json': {
+        filepath: '/geojson/places.geo.json',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
+            'Datasource-layer': 'OGRGeoJSON',
+            'Datasource-type': 'ogr',
+            'description': '',
+            'id': 'OGRGeoJSON',
+            'properties-buffer-size': '8',
+            'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+        }
+    },
+    'shp/dc_bus_lines': {
+        filepath: '/shp/dc_bus_lines/DCGIS_BusLineLn.shp',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/shp/dc_bus_lines/DCGIS_BusLineLn.shp',
+            'Datasource-type': 'shape',
+            'description': '',
+            'id': 'DCGIS_BusLineLn',
+            'properties-buffer-size': '8',
+            'srs': '+proj=lcc +lat_1=38.3 +lat_2=39.45 +lat_0=37.66666666666666 +lon_0=-77 +x_0=400000 +y_0=0 +datum=NAD83 +units=m +no_defs'
+        }
+    },
+    'shp/chi_bike_routes': {
+        filepath: '/shp/chi_bike_routes/chi_bike_routes.shp',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/shp/chi_bike_routes/chi_bike_routes.shp',
+            'Datasource-type': 'shape',
+            'description': '',
+            'id': 'chi_bike_routes',
+            'properties-buffer-size': '8',
+            'srs': '+proj=tmerc +lat_0=36.66666666666666 +lon_0=-88.33333333333333 +k=0.9999749999999999 +x_0=300000 +y_0=0 +ellps=GRS80 +units=us-ft +no_defs'
+        }
+    },
+};
+
+for (var name in datatests) (function(name, info) {
+    tape('data test: ' + name, function(t) {
+        if (!window.testParams || !window.testParams.dataPath) {
+            console.warn('WARNING: skipping test, window.testParams.dataPath required');
+            return t.end();
+        }
+        $('.js-addlayer').click();
+        t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
+        $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + info.filepath);
+        $('#addlayer').submit();
+        onajax(function() {
+            t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
+            t.deepEqual(_($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
+                memo[field.name] = field.value;
+                return memo;
+            }, {}), info.expected, 'sets form values for ' + info.expected.id);
+            $('#del-' + info.expected.id).click();
+            t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
+            t.end();
+        });
+    });
+})(name, datatests[name]);
+

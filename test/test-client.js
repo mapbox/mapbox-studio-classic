@@ -21,11 +21,14 @@ process.argv.push('--port=3001');
 process.argv.push('--mapboxauth=http://localhost:3001');
 process.argv.push('--mapboxtile=http://localhost:3001/v4');
 
+// Test params
+var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data');
+
 require('../index.js').on('listening', function() {
     var exit = 0;
     var tests = [
         'http://localhost:3001/style?id='+styleId+'&test=true',
-        'http://localhost:3001/source?id='+sourceId+'&test=true'
+        'http://localhost:3001/source?id='+sourceId+'&test[dataPath]='+dataPath
     ];
     function runTest() {
         if (!tests.length) {
