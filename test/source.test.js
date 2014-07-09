@@ -15,8 +15,8 @@ var creds = {
 var tmp = require('os').tmpdir();
 var UPDATE = !!process.env.UPDATE;
 var server;
-var tmppath = path.join(tmp, 'tm2-test-' + +new Date);
-var tmpPerm = path.join(tmp, 'tm2-source-' + (+new Date));
+var tmppath = path.join(tmp, 'tm2-sourceTest-' + +new Date);
+var tmpPerm = path.join(tmp, 'tm2-sourcePerm-' + (+new Date));
 var tmpSpace = path.join(tmp, 'tm2-source ' + (+new Date));
 var data = {
     name: 'Test source',

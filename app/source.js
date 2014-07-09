@@ -90,6 +90,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-adddb': 'addDatabase',
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
+        'submit #addlayer': 'addlayerSubmit',
         'keydown': 'keys',
         'click .js-zoom-to': 'zoomToLayer'
     };
@@ -204,6 +205,20 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         Modal.show('addlayer');
         return false;
     };
+    Editor.prototype.addlayerSubmit = function(ev, filepath) {
+        var filepath = filepath || $('#addlayer input[name=Datasource-file]').val();
+        var extension = filepath.split('.').pop().toLowerCase();
+        $.ajax({
+            url: '/metadata?file=' + filepath,
+            success: function(metadata) {
+                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                Modal.show('error', jqXHR.responseText);
+            }
+        });
+        return false;
+    };
     Editor.prototype.updatenameModal = function(ev) {
         //send layer id to update modal
         var id = $(ev.currentTarget).attr('id').split('updatename-').pop();
@@ -237,72 +252,54 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
             //so this is just reversing that process in order to properly render the mapnikXML for TM2
             //This only applies to files that have gone through mapnik-omnivore
-            var layername;
-            if (metadata !== null) layername = (current_layer.id).split('_').join(' ');
-            else layername = current_layer.id;
+            var layername = metadata ? (current_layer.id).split('_').join(' ') : current_layer.id;
 
             //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
             //To avoid all geojson layers having the same name, replace id with the filename.
             if (filetype === 'geojson') current_layer.id = metadata.filename;
+
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-
+            
             //checks that the layer doesn't already exist
-            if (!layers[current_layer.id]) {
-              var layer;
-              //If DB layer
-              if(filetype === 'sqlite'){
-                //Get default layer id given by addDatabase() function
-                layer = layers[metadata.default_id].get();
-                layer.file = filepath;
-                layer.id = current_layer.id;
-                layer.name = current_layer.id;
-                //Delete old layer/form
-                layers[metadata.default_id].form.remove();
-                layers[metadata.default_id].item.remove();
-                delete layers[metadata.default_id];
-              }
-                else {
-                  //Setup layer object
-                  layer = {
-                    tm: tm,
-                    id: current_layer.id,
-                    srs: metadata.projection,
-                    properties: {
-                        'buffer-size': 8
-                    },
-                    Datasource: {
-                        type: metadata.dstype,
-                        file: filepath,
-                        layer: layername
-                    }
-                  };
+            if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
+
+            //Setup layer object
+            var layer = {
+                tm: tm,
+                id: current_layer.id,
+                srs: metadata.projection,
+                properties: {
+                    'buffer-size': 8
+                },
+                Datasource: {
+                    type: metadata.dstype,
+                    file: filepath,
+                    layer: layername
                 }
-                //Add the new layer form and div
-                $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-                $('#layers .js-layer-content').prepend(templates.layeritem(layer));
+            };
+        
+            //Add the new layer form and div
+            $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
+            $('#layers .js-layer-content').prepend(templates.layeritem(layer));
 
-                //Add new layer to the project's layers array
-                layers[layer.id] = Layer(layer.id, layer.Datasource);
+            //Add new layer to the project's layers array
+            layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-                //set maxzoom, if needed
-                var maxzoomTarget = $('.max');
-                if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+            //set maxzoom, if needed
+            var maxzoomTarget = $('.max');
+            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
-                Modal.close();
+            Modal.close();
 
-                //open proper modal, depending on if there are multiple layers
-                if (layersArray.length > 1) {
-                    window.location.hash = '#';
-                    $('#layers .js-layer-content').sortable('destroy').sortable();
-                } else {
-                    window.location.hash = '#layers-' + layersArray[0].id;
-                    $('#layers .js-layer-content').sortable('destroy').sortable();
-                }
-              //else layer already exists, show error
+            //open proper modal, depending on if there are multiple layers
+            if (layersArray.length > 1) {
+                window.location.hash = '#';
+                $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
+                window.location.hash = '#layers-' + layersArray[0].id;
+                $('#layers .js-layer-content').sortable('destroy').sortable();
             }
         });
     };
@@ -408,7 +405,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // Set map in loading state.
         $('#full').addClass('loading');
         // Grab settings form values.
-        var attr = _($('.js-settings-drawer').serializeArray()).reduce(function(memo, field) {
+        var attr = _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
             memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
             return memo;
         }, this.model.attributes);
@@ -518,38 +515,17 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     window.location.href = '#';
                 } else {
                     target.val(filepath);
-                    var extension = filepath.split('.').pop().toLowerCase();
-                    if (filepath.indexOf('.geo.json') !== -1) extension = 'geojson';
-                    //if file is compatible with mapnik omnivore, send to mapnik-omnivore for file's metadata
-                    if (mapnikOmnivore_digestable(extension)) {
-                        $.ajax({
-                            url: '/metadata?file=' + filepath,
-                            success: function(metadata) {
-                                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                Modal.show('error', jqXHR.responseText);
-                            }
-                        });
-                    //else file is sqlite
-                    } else if (extension === 'sqlite') {
-                        var layername = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.lastIndexOf("."));
-                        var default_id = $(ev.currentTarget).attr('id').split('browse-').pop();
-                        window.editor.addlayer(extension, [{
-                            id: layername
-                        }], filepath, {'default_id':default_id});
+                    var form = $(target).parents('form');
+                    if (form.is('#addlayer')) {
+                        window.editor.addlayerSubmit(null, filepath);
                     } else {
-                        Modal.show('error', 'File type "' + extension + '" unknown.');
+                        Modal.close();
                     }
                 }
             }
         });
     };
 
-    function mapnikOmnivore_digestable(ext) {
-        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv') return true;
-        else return false;
-    };
     Editor.prototype.messageclear = messageClear;
     Editor.prototype.delstyle = delStyle;
     Editor.prototype.tabbed = tabbedHandler;

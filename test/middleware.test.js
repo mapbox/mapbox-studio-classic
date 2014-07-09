@@ -15,7 +15,7 @@ var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var tmp = os.tmpdir();
 var tmppath = path.join(tmp, 'tm2-middleware-' + (+new Date));
 
-var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
+var tmpId = path.join(tmp, 'tm2-middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
 var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
 var server;
