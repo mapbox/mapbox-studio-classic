@@ -227,6 +227,7 @@ Source(templates, cwd, tm, source, revlayers);
 </script>
 
 <% if (test) { %>
+  <script>window.testParams = <%= JSON.stringify(test) %>;</script>
   <script src='/app/test/tape.js'></script>
   <script src='/app/test/app.test.source.js'></script>
 <% } %>
