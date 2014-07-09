@@ -37,7 +37,8 @@ var data = {
             file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
             type: 'shape'
         }
-    } ]
+    } ],
+    mapid: null
 };
 
 test('setup: config', function(t) {
