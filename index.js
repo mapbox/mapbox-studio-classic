@@ -406,7 +406,8 @@ app.all('/mbtiles', function(req, res, next) {
                 res.send(tm.templates.export({
                     tm: tm,
                     job: job.toJSON(),
-                    source: info
+                    source: info,
+                    test: req.query.test
                 }));
             }
         });
