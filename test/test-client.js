@@ -25,8 +25,6 @@ process.argv.push('--mapboxtile=http://localhost:3001/v4');
 var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data');
 
 require('../index.js').on('listening', function() {
-    var stdout = '';
-    var stderr = '';
     var exit = 0;
     var tests = [
         'http://localhost:3001/style?id='+styleId+'&test=true',
@@ -34,17 +32,17 @@ require('../index.js').on('listening', function() {
     ];
     function runTest() {
         if (!tests.length) {
-            console.log(stdout);
-            console.warn(stderr);
             fs.unlinkSync(tmpdb);
-            process.exit(exit);
+            setTimeout(function() {
+                process.exit(exit);
+            }, 1000);
             return;
         }
         var testURL = tests.shift();
-        execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, sout, serr) {
+        execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
             if (err && err.code) exit = err.code;
-            stdout += sout;
-            stderr += serr;
+            console.log(stdout);
+            console.warn(stderr);
             runTest();
         });
     }
