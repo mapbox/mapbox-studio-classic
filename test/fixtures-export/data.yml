@@ -1,7 +1,7 @@
 name: Test source
 attribution: "&copy; John Doe 2013."
 minzoom: 0
-maxzoom: 4
+maxzoom: 6
 Layer: 
   - Datasource: 
       file: "10m_lakes_historic.shp"

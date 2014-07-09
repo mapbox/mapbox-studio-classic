@@ -30,7 +30,7 @@
     "mapnik-reference": "~5.0.8",
     "carto": "0.11.0",
     "speedometer": "0.1.2",
-    "tilelive": "https://github.com/mapbox/tilelive.js/tarball/progress-stream",
+    "tilelive": "5.0.2",
     "tilelive-bridge": "0.4.0",
     "tilelive-vector": "2.0.1",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
@@ -39,14 +39,14 @@
     "cors": "~2.3.1",
     "request": "~2.36.0",
     "mapbox-upload": "0.0.3",
-    "mapnik-omnivore": "1.1.1",
+    "mapnik-omnivore": "1.1.2",
     "abaculus": "0.0.4",
     "progress-stream": "0.5.0"
   },
   "devDependencies": {
     "tape": "2.13.x",
-    "mocha-phantomjs": "~3.1.5",
-    "phantomjs": "~1.9.2-2"
+    "phantomjs": "1.9.x",
+    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-0.0.1-e0ce09b79f92b1ae96fa2062199966510a0b3461.tgz"
   },
   "scripts": {
     "start": "./index.js",

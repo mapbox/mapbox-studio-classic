@@ -9,7 +9,7 @@
   <title><%= source.name || 'Untitled' %></title>
 </head>
 
-<body id='view' class='fill-denim pad4y <%= job.stats ? 'task' : 'stat' %>'>
+<body id='view' class='fill-denim pad4y <%= job.progress ? 'task' : 'stat' %>'>
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
@@ -64,6 +64,13 @@ var job = <%= JSON.stringify(job) %>;
 Export(templates, source , job);
 
 </script>
+
+<% if (test) { %>
+<script>window.testParams = <%= JSON.stringify(test) %>;</script>
+<script src='/app/test/tape.js'></script>
+<script src='/app/test/app.test.export.js'></script>
+<% } %>
+
 </body>
 
 </html>
