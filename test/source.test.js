@@ -357,7 +357,34 @@ test('source.mbtilesExport: verify export', function(t) {
 });
 
 test('source.mbtilesUpload: uploads map', function(t) {
-    // NOT YET TESTING ANYTHING
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    var complete = false;
+    source.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        mapbox: 'http://localhost:3001'
+    }, false,
+    function(err, task){
+        t.ifError(err);
+        t.strictEqual(task.id, id, 'sets task.id');
+        // returns a task object with active progress
+        task.progress.on('error', function(err){
+            t.ifError(err);
+        });
+        task.progress.on('progress', function(p){
+            if (p.percentage === 100) complete = true;
+        });
+        task.progress.on('mapid saved', function(){
+            t.assert(complete, 'transfer reached 100%')
+            t.end()
+        });
+    });
+});
+
+test('source.mbtilesUpload: does not allow redundant upload', function(t) {
     var id = 'tmsource://' + __dirname + '/fixtures-export';
     source.upload({
         id: id,
@@ -367,21 +394,39 @@ test('source.mbtilesUpload: uploads map', function(t) {
         },
         mapbox: 'http://localhost:3001'
     }, false,
-    function(err, job){
-        if (err) console.log(err)
+    function(err, task){
+        t.ifError(err);
+        t.equal(task.progress, null, 'progress obj not created');
 
-        job.progress.on('error', function(err){
-            console.log(err)
-        });
-        job.progress.on('progress', function(p){
-            // test something
-        });
-        job.progress.on('finished', function(){
-            t.end()
+        source.info(id, function(err, info){
+            t.ifError(err);
+            t.assert(/test\..{8}/.test(info.mapid), 'mapid is correct');
+            // reset mapid to null
+            info.mapid = null;
+            source.save(info, function(){
+                t.end();
+            })
         });
     });
 });
 
+test('source.checkMapid', function(t){
+    source.checkMapid('test.upload', function(err, mapExists){
+        t.ifError(err);
+        t.strictEquals(mapExists, true, 'test mapid');
+
+        source.checkMapid('something.random', function(err, mapExists){
+            t.ifError(err);
+            t.strictEquals(mapExists, false, 'mapid is not on mapbox.com');
+
+            source.checkMapid('examples.map-i86nkdio', function(err, mapExists){
+                t.ifError(err);
+                t.strictEquals(mapExists, true, 'mapid is on mapbox.com');
+                t.end();
+            });
+        });
+    });
+});
 
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
