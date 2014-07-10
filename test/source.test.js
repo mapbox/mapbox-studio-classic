@@ -4,6 +4,7 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
+var upload = require('mapbox-upload');
 var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
@@ -354,6 +355,33 @@ test('source.mbtilesExport: verify export', function(t) {
         });
     });
 });
+
+test('source.mbtilesUpload: uploads map', function(t) {
+    // NOT YET TESTING ANYTHING
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        mapbox: 'http://localhost:3001'
+    }, false,
+    function(err, job){
+        if (err) console.log(err)
+
+        job.progress.on('error', function(err){
+            console.log(err)
+        });
+        job.progress.on('progress', function(p){
+            // test something
+        });
+        job.progress.on('finished', function(){
+            t.end()
+        });
+    });
+});
+
 
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
