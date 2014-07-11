@@ -21,7 +21,7 @@ var tmpPerm = path.join(tmp, 'tm2-sourcePerm-' + (+new Date));
 var tmpSpace = path.join(tmp, 'tm2-source ' + (+new Date));
 var data = {
     name: 'Test source',
-    attribution: '&copy; John Doe 2013.',
+    attribution: 'John Doe 2013.',
     minzoom: 0,
     maxzoom: 6,
     Layer: [ {
@@ -400,7 +400,7 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
 
         source.info(id, function(err, info){
             t.ifError(err);
-            t.assert(/test\..{8}/.test(info.mapid), 'mapid is correct');
+            t.assert(/test\..{8}/.test(info.mapid), 'mapid correctly generated');
             // reset mapid to null
             info.mapid = null;
             source.save(info, function(){
