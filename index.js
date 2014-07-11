@@ -370,7 +370,7 @@ app.all('/upload.json', function(req, res, next) {
         source.upload({
             id: req.query.id,
             oauth: tm.db.get('oauth')
-        }, req.method === 'PUT',
+        }, false,
         function(err, job){
             if (err) next(err);
             res.send(job);
