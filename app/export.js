@@ -36,12 +36,8 @@ window.Export = function(templates, source, job) {
     this.poll();
   };
   Exporter.prototype.refresh = function() {
-    if (source.mapid) {
-      if (!this.model.get('update')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source.mapid);
-      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source.mapid);
-    } else {
-      $('.js-upload').html('Upload').prop('title', null);
-    }
+    if (source.mapid) $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source.mapid);
+    else $('.js-upload').html('Upload').prop('title', null);
     if (!this.model.get('progress')) {
       var pct = '100.0';
       var spd = 0;
@@ -51,7 +47,6 @@ window.Export = function(templates, source, job) {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
-      if (this.model.get('type') === 'export') this.model.set({update: true});
       $('body').removeClass('stat').addClass('task');
     }
     var pctel = this.$('.percent');
