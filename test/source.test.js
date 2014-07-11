@@ -358,7 +358,6 @@ test('source.mbtilesExport: verify export', function(t) {
 
 test('source.mbtilesUpload: uploads map', function(t) {
     var id = 'tmsource://' + __dirname + '/fixtures-export';
-    var complete = false;
     source.upload({
         id: id,
         oauth: {
@@ -370,15 +369,17 @@ test('source.mbtilesUpload: uploads map', function(t) {
     function(err, task){
         t.ifError(err);
         t.strictEqual(task.id, id, 'sets task.id');
+        t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
         // returns a task object with active progress
         task.progress.on('error', function(err){
             t.ifError(err);
         });
-        task.progress.on('progress', function(p){
-            if (p.percentage === 100) complete = true;
+        task.progress.on('finished', function(p){
+            t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
+            t.equal(task.progress.progress().eta, 0, 'progress.eta');
         });
+
         task.progress.on('mapid saved', function(){
-            t.assert(complete, 'transfer reached 100%')
             t.end()
         });
     });
