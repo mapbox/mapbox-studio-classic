@@ -387,7 +387,9 @@ app.all('/upload.json', function(req, res, next) {
         }, false,
         function(err, job){
             if (err) next(err);
-            res.send(job);
+            job.progress.on('finished', function(){
+                res.end();
+            })
         });
     });
 });
