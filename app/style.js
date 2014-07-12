@@ -85,6 +85,9 @@ Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
 var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
+var Upload = Backbone.Model.extend({});
+Upload.prototype.url = function() {return '/upload.json?styleid=' + style.id; };
+
 Editor.prototype.events = {
   'click .js-browsestyle': 'browseStyle',
   'click .js-browsesource': 'browseSource',
@@ -366,21 +369,51 @@ Editor.prototype.cartoError = function(ln, e) {
     return error;
 };
 
+Editor.prototype.poll = function() {
+  var progress = this.progress;
+  var view = this;
+  progress.fetch({
+    success:function() {
+      if (!progress.get('progress')) {
+        view.uploadProgress();
+      } else {
+        view.timeout = setTimeout(view.poll, 200);
+      }
+    },
+    error:function() {}
+  });
+};
+
 Editor.prototype.upload = function(ev) {
-  var style = this.model.get('id');
-  $('.js-settings-form').addClass('loading');
-  $.ajax('/upload?styleid=' + style)
-    .done(function(info) {
-      $('.js-mapid').text(info._prefs.mapid);
-      $('.js-settings-form').removeClass('loading');
-      $('#mapstatus').addClass('uploaded');
-      setTimeout(function() { $('#mapstatus').removeClass('uploaded'); }, 3000);
-      return true;
-    })
-    .error(function(resp) {
-      $('.js-settings-form').removeClass('loading');
-      return Modal.show((resp.status === 422 ? 'upgrade' : 'error'), resp.responseText);
-    });
+  var view = this;
+  this.progress = new Upload();
+  _(this).bindAll('poll', 'uploadProgress');
+  this.progress.on('change', this.uploadProgress);
+  $('#uploadstatus').removeClass('hidden');
+  this.progress.save({}, {
+      success: function() { view.poll(); }
+  });
+  return false;
+};
+
+Editor.prototype.uploadProgress = function(){
+  if (!this.progress.get('progress')) {
+    var pct = '100.0';
+    setTimeout(function() { $('#uploadstatus').addClass('hidden'); }, 3000);
+  } else {
+    var pct = this.progress.get('progress').percentage || 0;
+  }
+  var pctel = $('.percent');
+  var target = parseFloat(pct);
+  var tweenpct = function() {
+    var current = parseFloat(pctel.text());
+    if (target === 0) return pctel.text('0.0');
+    if (current >= target) return;
+    pctel.text((current + 0.1).toFixed(1));
+    setTimeout(tweenpct,50/(target-current)|0);
+  };
+  tweenpct();
+  $('.progress .fill').css({width:pct+'%'});
 };
 
 Editor.prototype.refresh = function(ev) {

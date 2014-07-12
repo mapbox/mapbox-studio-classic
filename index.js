@@ -348,13 +348,13 @@ app.get('/upload', middleware.auth, function(req, res, next) {
         id: req.query.styleid,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
-    }, function(err, info) {
+    }, function(err, job) {
         if (err && err.code) {
             res.send(err.code, err.message);
         } else if (err) {
             next(err);
         } else {
-            res.send(info);
+            res.send(job);
         }
     });
 });
@@ -365,6 +365,20 @@ app.all('/upload.json', function(req, res, next) {
         res.send({});
         return;
     }
+    if (req.query.styleid) return style.upload({
+        id: req.query.styleid,
+        oauth: tm.db.get('oauth'),
+        cache: tm.config().cache
+    }, function(err, job) {
+        if (err && err.code) {
+            res.send(err.code, err.message);
+        } else if (err) {
+            next(err);
+        } else {
+            res.send(job);
+        }
+    });
+
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
         source.upload({
