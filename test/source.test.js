@@ -46,6 +46,7 @@ test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
         tmp: path.join(tmppath, 'tmp'),
+        fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
     }, t.end);
 });

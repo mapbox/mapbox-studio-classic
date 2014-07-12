@@ -24,7 +24,7 @@ test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
-        // fonts: path.join(tmppath, 'fonts'), maybe?
+        fonts: path.join(tmppath, 'fonts'),
         mapboxauth: 'http://localhost:3001'
     }, t.end);
 });
