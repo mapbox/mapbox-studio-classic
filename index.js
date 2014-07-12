@@ -369,13 +369,13 @@ app.all('/upload.json', function(req, res, next) {
         id: req.query.styleid,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
-    }, function(err, job) {
+    }, function(err, info) {
         if (err && err.code) {
             res.send(err.code, err.message);
         } else if (err) {
             next(err);
         } else {
-            res.send(job);
+           res.send(info);
         }
     });
 
@@ -387,9 +387,7 @@ app.all('/upload.json', function(req, res, next) {
         }, false,
         function(err, job){
             if (err) next(err);
-            job.progress.on('finished', function(){
-                res.end();
-            })
+            res.send(job);
         });
     });
 });
