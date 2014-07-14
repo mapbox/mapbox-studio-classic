@@ -45,7 +45,7 @@
   "devDependencies": {
     "tape": "2.13.x",
     "phantomjs": "1.9.x",
-    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-0.0.1-e0ce09b79f92b1ae96fa2062199966510a0b3461.tgz"
+    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-0.0.1-b72eb13e28fdced104dbeed7510f55928733ba30.tgz"
   },
   "scripts": {
     "start": "./index.js",
