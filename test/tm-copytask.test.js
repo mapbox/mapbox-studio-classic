@@ -95,6 +95,13 @@ test('copytask: end', function(t) {
         function check(queue) {
             if (!queue.length) return src.getInfo(function(err, info) {
                 t.ifError(err);
+
+                // This filesize varies depending on the order of tile export.
+                // Unaffected by SQLITE vacuum it seems? Making assertion loose
+                // and then overwriting with a canonical value for now.
+                t.ok(info.filesize >= 50000 && info.filesize <= 55000, 'filesize ~ 52000 bytes');
+                info.filesize = 51200;
+
                 if (UPDATE) {
                     fs.writeFileSync(__dirname + '/expected/copytask-info.json', JSON.stringify(info, null, 2));
                 }
