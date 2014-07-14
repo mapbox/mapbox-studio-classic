@@ -211,7 +211,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
-                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
+                else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 Modal.show('error', jqXHR.responseText);
