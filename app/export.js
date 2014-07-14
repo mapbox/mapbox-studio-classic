@@ -60,7 +60,7 @@ window.Export = function(templates, source, job) {
     };
     tweenpct();
     this.$('.progress .fill').css({width:pct+'%'});
-    this.$('.speed').text(spd);
+    this.model.get('type') === 'export' ? this.$('.speed').text(spd + ' tiles/sec') : this.$('.speed').text(templates.exportsize(spd * 10) + '/sec');
   };
   Exporter.prototype.recache = function() {
     var view = this;

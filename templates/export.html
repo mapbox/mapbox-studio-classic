@@ -24,7 +24,7 @@
       <% var pct = job.progress ? (job.progress.percentage).toFixed(1) : '100.0'; %>
       <small class='quiet'>
         <span class='stat'><span class='size'><%= job.size ? this.exportsize(job.size) : 0 %></span> &mdash;</span>
-        <span class='task'><span class='speed'><%= job.progress ? job.progress.speed : 0 %></span> tiles/sec &mdash;</span>
+        <span class='task'><span class='speed'><%= job.progress ? job.progress.speed : 0 %> tiles/sec </span> &mdash;</span>
         z<%= source.minzoom %>-<%= source.maxzoom %>
       </small>
     </div>
