@@ -335,30 +335,6 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
     });
 });
 
-app.get('/upload', middleware.auth, function(req, res, next) {
-    if (req.query.id) return source.upload({
-        id: req.query.id,
-        oauth: tm.db.get('oauth')
-    }, false, function(err, job){
-        if (err) next(err);
-        res.send(job);
-    });
-
-    style.upload({
-        id: req.query.styleid,
-        oauth: tm.db.get('oauth'),
-        cache: tm.config().cache
-    }, function(err, job) {
-        if (err && err.code) {
-            res.send(err.code, err.message);
-        } else if (err) {
-            next(err);
-        } else {
-            res.send(job);
-        }
-    });
-});
-
 app.all('/upload.json', function(req, res, next) {
     if (req.method === 'DELETE') {
         task.del();
@@ -369,13 +345,13 @@ app.all('/upload.json', function(req, res, next) {
         id: req.query.styleid,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
-    }, function(err, info) {
+    }, function(err, job) {
         if (err && err.code) {
             res.send(err.code, err.message);
         } else if (err) {
             next(err);
         } else {
-           res.send(info);
+           res.send(job);
         }
     });
 
@@ -384,10 +360,14 @@ app.all('/upload.json', function(req, res, next) {
         source.upload({
             id: req.query.id,
             oauth: tm.db.get('oauth')
-        }, false,
-        function(err, job){
-            if (err) next(err);
-            res.send(job);
+        }, false, function(err, job){
+            if (err && err.code) {
+                res.send(err.code, err.message);
+            } else if (err) {
+                next(err);
+            } else {
+               res.send(job);
+            }
         });
     });
 });
