@@ -268,6 +268,27 @@ test('style.toXML: compiles data params', function(t) {
 
 test('style.upload: uploads stylesheet', function(t) {
     var id = 'tmstyle://' + __dirname + '/fixtures-upload';
+    var cache = path.join(tmppath, 'cache');
+    style.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        cache: cache,
+        mapbox: 'http://localhost:3001'
+    },
+    function(err, info){
+        t.ifError(err);
+        t.assert(!fs.existsSync(path.join(cache, 'package-' + info._prefs.mapid + '.tm2z')), 'file unlinked');
+        t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
+        t.assert(true, 'uploads stylesheet');
+        t.end();
+    });
+});
+
+test('style.upload: errors on unsaved id', function(t) {
+    var id = 'tmstyle:///tmp-00000000';
     style.upload({
         id: id,
         oauth: {
@@ -278,8 +299,7 @@ test('style.upload: uploads stylesheet', function(t) {
         mapbox: 'http://localhost:3001'
     },
     function(err, info){
-        t.ifError(err);
-        t.assert(true, 'uploads stylesheet')
+        t.equal(err.message, "Style must be saved first");
         t.end();
     });
 });
