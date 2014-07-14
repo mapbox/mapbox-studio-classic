@@ -78,8 +78,27 @@
 
 /* Settings pane
 ------------------------------------------------------- */
-.disable-mask { height: 150px; }
+.disable-mask { height: 180px; }
 
+#mapstatus { height:30px; }
+#mapstatus-uploaded {
+  -webkit-transform:translateY(100%);
+     -moz-transform:translateY(100%);
+      -ms-transform:translateY(100%);
+          transform:translateY(100%);
+}
+.uploaded #mapstatus-mapid {
+  -webkit-transform:translateY(-100%);
+     -moz-transform:translateY(-100%);
+      -ms-transform:translateY(-100%);
+          transform:translateY(-100%);
+}
+.uploaded #mapstatus-uploaded {
+  -webkit-transform:translateY(0%);
+     -moz-transform:translateY(0%);
+      -ms-transform:translateY(0%);
+          transform:translateY(0%);
+}
 
 /* Reference/docs pane
 ------------------------------------------------------- */
@@ -158,15 +177,14 @@
 ------------------------------------------------------- */
 #layers-drawer .layer:hover { background: rgba(0,0,0,.05);}
 
-#layers-drawer .field-key {
-  padding:0 5px;
-  border-radius: 3px;
-  color: #343434;
-  }
 #layers-drawer .layer.active { background: rgba(0,0,0,.15);}
 #layers-drawer .layer.active a { display: none;}
 #layers-drawer .description { display:none;}
 #layers-drawer .active .description { display:block; }
+
+#layers-drawer .field {
+  font-size: 11px;
+}
 
 #layers-drawer .menu-content .empty-state:only-child {
   margin: 20px;

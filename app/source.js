@@ -90,6 +90,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-addmanual': 'addManual',
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
+        'submit #addlayer': 'addlayerSubmit',
         'keydown': 'keys',
         'click .js-zoom-to': 'zoomToLayer'
     };
@@ -200,8 +201,22 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.togglelayer = function(ev) {
         $(ev.currentTarget).toggleClass('disabled');
     };
-    Editor.prototype.addlayerModal = function() {
+    Editor.prototype.addlayerModal = function(ev) {
         Modal.show('addlayer');
+        return false;
+    };
+    Editor.prototype.addlayerSubmit = function(ev, filepath) {
+        var filepath = filepath || $('#addlayer input[name=Datasource-file]').val();
+        var extension = filepath.split('.').pop().toLowerCase();
+        $.ajax({
+            url: '/metadata?file=' + filepath,
+            success: function(metadata) {
+                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                Modal.show('error', jqXHR.responseText);
+            }
+        });
         return false;
     };
     Editor.prototype.updatenameModal = function(ev) {
@@ -260,7 +275,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-
+            
             //checks that the layer doesn't already exist
             if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
 
@@ -483,7 +498,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // Get existing bookamarks
         this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
         for (var b in this.bookmarks) {
-            // this.appendBookmark(b);
+            this.appendBookmark(b);
         }
         return false;
     };
@@ -522,30 +537,17 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     window.location.href = '#';
                 } else {
                     target.val(filepath);
-                    var extension = filepath.split('.').pop().toLowerCase();
-                    if (filepath.indexOf('.geo.json') !== -1) extension = 'geojson';
-                    // file browser is loading file for a manual source
-                    if (!mapnikOmnivore_digestable(extension)) return Modal.close();
-                    //if file is compatible with mapnik omnivore, send to mapnik-omnivore for file's metadata
-                    $.ajax({
-                        url: '/metadata?file=' + filepath,
-                        success: function(metadata) {
-                            if(extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
-                            else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata)
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            Modal.show('error', jqXHR.responseText);
-                        }
-                    });
+                    var form = $(target).parents('form');
+                    if (form.is('#addlayer')) {
+                        window.editor.addlayerSubmit(null, filepath);
+                    } else {
+                        Modal.close();
+                    }
                 }
             }
         });
     };
 
-    function mapnikOmnivore_digestable(ext) {
-        if (ext === 'gpx' || ext === 'geojson' || ext === 'kml' || ext === 'shp' || ext === 'csv' || ext === 'tif' || ext === 'tiff' || ext === 'vrt') return true;
-        else return false;
-    };
     Editor.prototype.messageclear = messageClear;
     Editor.prototype.delstyle = delStyle;
     Editor.prototype.tabbed = tabbedHandler;

@@ -597,12 +597,17 @@ a.project.proj-active .proj-status { display: block;}
   }
 
 /* Inspector popup */
-.leaflet-popup .leaflet-popup-content-wrapper { padding: 10px; }
+.leaflet-popup .leaflet-popup-content-wrapper {
+  background-color: #363636;
+  color: white;
+  padding: 10px;
+}
 .leaflet-popup .leaflet-popup-content {
   border: none;
   padding: 0px;
   overflow-x: hidden;
   overflow-y: auto;
+  max-height: 300px;
 }
 .leaflet-popup .leaflet-popup-content .xray-listing {
   width:240px;
@@ -617,6 +622,14 @@ a.project.proj-active .proj-status { display: block;}
   opacity: 1;
   /* mapbox.js override */
   background-color: transparent;
+}
+
+.leaflet-popup-close-button {
+  background-image:url(../ext/images/icons-ffffff@2x.png);
+}
+
+.leaflet-popup-tip {
+  border-top-color: #363636;
 }
 
 /* CodeMirror

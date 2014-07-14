@@ -370,14 +370,16 @@ Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   $('.js-settings-form').addClass('loading');
   $.ajax('/upload?styleid=' + style)
-    .done(function() {
-      Modal.show('message', '<span class="dark fill-green inline dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
+    .done(function(info) {
+      $('.js-mapid').text(info._prefs.mapid);
       $('.js-settings-form').removeClass('loading');
+      $('#mapstatus').addClass('uploaded');
+      setTimeout(function() { $('#mapstatus').removeClass('uploaded'); }, 3000);
       return true;
     })
     .error(function(resp) {
       $('.js-settings-form').removeClass('loading');
-      return Modal.show('error', resp.responseText);
+      return Modal.show((resp.status === 422 ? 'upgrade' : 'error'), resp.responseText);
     });
 };
 

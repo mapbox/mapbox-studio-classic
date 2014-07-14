@@ -15,7 +15,7 @@ var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var tmp = os.tmpdir();
 var tmppath = path.join(tmp, 'tm2-middleware-' + (+new Date));
 
-var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
+var tmpId = path.join(tmp, 'tm2-middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
 var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
 var server;
@@ -24,7 +24,7 @@ test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
-        // fonts: path.join(tmppath, 'fonts'), maybe?
+        fonts: path.join(tmppath, 'fonts'),
         mapboxauth: 'http://localhost:3001'
     }, t.end);
 });

@@ -17,13 +17,14 @@ var creds = {
 };
 
 var server;
-var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
-var tmpPerm = path.join(tmp, 'tm2-perm-' + (+new Date));
-var tmpSpace = path.join(tmp, 'tm2-space ' + (+new Date));
+var tmppath = path.join(tmp, 'tm2-styleTest-' + (+new Date));
+var tmpPerm = path.join(tmp, 'tm2-stylePerm-' + (+new Date));
+var tmpSpace = path.join(tmp, 'tm2-style ' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
+        fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
     }, t.end);
 });
