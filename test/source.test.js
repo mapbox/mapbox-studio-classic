@@ -405,55 +405,13 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
         source.info(id, function(err, info){
             t.ifError(err);
             t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
-            t.end();
+            // reset mapid to null
+            info._prefs.mapid = null;
+            source.save(info, function(){
+                t.end();
+            })
         });
     });
-});
-
-test('source.mbtilesUpload: dirty tag for updating re-exported tiles', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
-    source.info(id, function(err, info){
-        info._prefs.dirty = true;
-        source.save(info, function(){
-            upload(id);
-        });
-    });
-
-    function upload(id){
-        source.upload({
-            id: id,
-            oauth: {
-                account: 'test',
-                accesstoken: 'validtoken'
-            },
-            mapbox: 'http://localhost:3001'
-        }, false,
-        function(err, task){
-            t.ifError(err);
-            t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
-
-            // returns a task object with active progress
-            task.progress.on('error', function(err){
-                t.ifError(err);
-            });
-            task.progress.on('finished', function(p){
-                t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
-                t.equal(task.progress.progress().eta, 0, 'progress.eta');
-            });
-
-            task.progress.on('mapid saved', function(){
-                source.info(id, function(err, info){
-                    t.ifError(err);
-                    t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
-                    // reset mapid to null
-                    info._prefs.mapid = null;
-                    source.save(info, function(){
-                        t.end();
-                    })
-                });
-            });
-        });
-    }
 });
 
 test('source.checkMapid', function(t){

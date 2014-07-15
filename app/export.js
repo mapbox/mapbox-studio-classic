@@ -45,6 +45,7 @@ window.Export = function(templates, source, job) {
     } else {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
+      if (this.model.get('type') === 'export' && !this.model.get('dirty')) this.model.set({dirty: true});
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
       $('body').removeClass('stat').addClass('task');
     }
