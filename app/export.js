@@ -33,6 +33,7 @@ window.Export = function(templates, source, job) {
   Exporter.prototype.initialize = function() {
     _(this).bindAll('poll', 'refresh');
     this.model.on('change', this.refresh);
+    if (source._prefs.dirty) this.model.set({dirty: true});
     this.poll();
   };
   Exporter.prototype.refresh = function() {
@@ -45,7 +46,6 @@ window.Export = function(templates, source, job) {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
-      if (this.model.get('type') === 'export') this.model.set({dirty: true});
       $('body').removeClass('stat').addClass('task');
     }
     var pctel = this.$('.percent');
@@ -63,12 +63,11 @@ window.Export = function(templates, source, job) {
       this.$('.speed').text(spd + ' tiles/sec') :
       this.$('.speed').text(templates.exportsize(spd * 10) + '/sec');
 
-    source.mapid = this.model.get('mapid') || source.mapid;
-    if (source.mapid) {
-      $('.js-mapid').html(source.mapid);
-      console.log(this.model.get('dirty'))
-      if (!this.model.get('dirty')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source.mapid);
-      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source.mapid);
+    source._prefs.mapid = this.model.get('mapid') || source._prefs.mapid;
+    if (source._prefs.mapid) {
+      $('.js-mapid').html(source._prefs.mapid);
+      if (!this.model.get('dirty')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source._prefs.mapid);
+      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source._prefs.mapid);
     } else {
       $('.js-upload').html('Upload').prop('title', null);
     }
@@ -79,11 +78,16 @@ window.Export = function(templates, source, job) {
       job.type = 'export';
       this.model = new Job(job);
     }
+
+    // bind the poll and refresh functions only
+    // if an upload has completed inbetween exports
+    // this keeps refresh from being called twice
+    if (!this.model.get('dirty')) {
+      _(this).bindAll('poll', 'refresh');
+      this.model.on('change', this.refresh);
+    }
+
     this.model.set({dirty: true});
-
-    _(this).bindAll('poll', 'refresh');
-    this.model.on('change', this.refresh);
-
     this.model.save({}, {
       success: function() { view.poll(); }
     });
