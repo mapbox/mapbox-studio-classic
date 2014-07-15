@@ -36,12 +36,6 @@ window.Export = function(templates, source, job) {
     this.poll();
   };
   Exporter.prototype.refresh = function() {
-   if (source.mapid) {
-      if (!this.model.get('update')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source.mapid);
-      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source.mapid);
-    } else {
-      $('.js-upload').html('Upload').prop('title', null);
-    }
     if (!this.model.get('progress')) {
       var pct = '100.0';
       var spd = 0;
@@ -51,7 +45,7 @@ window.Export = function(templates, source, job) {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
-      if (this.model.get('type') === 'export') this.model.set({update: true});
+      if (this.model.get('type') === 'export') this.model.set({dirty: true});
       $('body').removeClass('stat').addClass('task');
     }
     var pctel = this.$('.percent');
@@ -68,6 +62,16 @@ window.Export = function(templates, source, job) {
     this.model.get('type') === 'export' ?
       this.$('.speed').text(spd + ' tiles/sec') :
       this.$('.speed').text(templates.exportsize(spd * 10) + '/sec');
+
+    source.mapid = this.model.get('mapid') || source.mapid;
+    if (source.mapid) {
+      $('.js-mapid').html(source.mapid);
+      console.log(this.model.get('dirty'))
+      if (!this.model.get('dirty')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source.mapid);
+      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source.mapid);
+    } else {
+      $('.js-upload').html('Upload').prop('title', null);
+    }
   };
   Exporter.prototype.recache = function() {
     var view = this;
@@ -75,6 +79,7 @@ window.Export = function(templates, source, job) {
       job.type = 'export';
       this.model = new Job(job);
     }
+    this.model.set({dirty: true});
 
     _(this).bindAll('poll', 'refresh');
     this.model.on('change', this.refresh);
@@ -89,6 +94,7 @@ window.Export = function(templates, source, job) {
     job.type = 'upload';
     job.progress = null;
     this.model = new Upload(job);
+    this.model.set({dirty: false});
 
     _(this).bindAll('poll', 'refresh');
     this.model.on('change', this.refresh);

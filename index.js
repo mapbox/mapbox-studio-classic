@@ -355,21 +355,19 @@ app.all('/upload.json', function(req, res, next) {
         }
     });
 
-    source.info(req.query.id, function(err, info) {
-        if (err) return next(err);
-        source.upload({
-            id: req.query.id,
-            oauth: tm.db.get('oauth')
-        }, false, function(err, job){
-            if (err && err.code) {
-                res.send(err.code, err.message);
-            } else if (err) {
-                next(err);
-            } else {
-               res.send(job);
-            }
-        });
+    source.upload({
+        id: req.query.id,
+        oauth: tm.db.get('oauth')
+    }, false, function(err, job){
+        if (err && err.code) {
+            res.send(err.code, err.message);
+        } else if (err) {
+            next(err);
+        } else {
+           res.send(job);
+        }
     });
+
 });
 
 app.get('/source.xml', middleware.source, function(req, res, next) {
