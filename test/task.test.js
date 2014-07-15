@@ -34,7 +34,7 @@ test('task.Task', function(t) {
     t.doesNotThrow(function() { new task.Task('id','export',progress()); });
 
     var testTask = new task.Task('id','export',progress());
-    t.deepEqual(JSON.stringify(testTask), '{"id":"id","type":"export","progress":{"percentage":0,"transferred":0,"length":0,"remaining":0,"eta":null,"runtime":0,"speed":0},"size":null,"url":null}');
+    t.deepEqual(JSON.stringify(testTask), '{"id":"id","type":"export","progress":{"percentage":0,"transferred":0,"length":0,"remaining":0,"eta":null,"runtime":0,"speed":0},"size":null,"url":null,"mapid":null}');
 
     t.end();
 });
@@ -48,7 +48,7 @@ test('task.Done', function(t) {
     t.doesNotThrow(function() { new task.Done('id','export','http://example.com',5); });
 
     var testDone = new task.Done('id','export','http://example.com',5);
-    t.deepEqual(JSON.stringify(testDone), '{"id":"id","type":"export","progress":null,"size":5,"url":"http://example.com"}');
+    t.deepEqual(JSON.stringify(testDone), '{"id":"id","type":"export","progress":null,"size":5,"url":"http://example.com","mapid":null}');
 
     t.end();
 });
