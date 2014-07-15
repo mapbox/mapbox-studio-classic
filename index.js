@@ -410,12 +410,9 @@ app.all('/mbtiles.json', function(req, res, next) {
         res.send({});
         return;
     }
-    source.info(req.query.id, function(err, info) {
+    source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
         if (err) return next(err);
-        source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
-            if (err) return next(err);
-            res.send(job);
-        });
+        res.send(job);
     });
 });
 
