@@ -369,7 +369,7 @@ Editor.prototype.cartoError = function(ln, e) {
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   $('#mapstatus').addClass('loading');
-  $.ajax('/upload?styleid=' + style)
+  $.ajax('/upload.json?styleid=' + style)
     .done(function(info) {
       $('.js-mapid').text(info._prefs.mapid);
       $('#mapstatus').removeClass('loading');
