@@ -34,14 +34,7 @@
         <div class='pad0 fill-white fill' style='width:<%= pct %>%'></div>
       </div>
       <a href='/source?id=<%=source.id%>' class='button big submit icon x task js-cancel'> Cancel export</a>
-      <!-- <div class='stat col12 pad1'>
-        <h2>Vector MBTiles:</h2>
-          <a href='/source.mbtiles?id=<%=source.id%>' class='button big margin2 col4 pad2 submit icon folder stat round-left'> Download</a>
-          <a href='#' class='button submit col4 big round-right keyline-left pad2 icon up stat js-upload'> Upload</a>
-      </div> -->
       <div class='stat col8 margin2 pad1'>
-        <h2>Vector MBTiles:</h2>
-        <section>
             <div id='mapstatus' class='col12'>
               <div id='mapstatus-mapid' class='pad0y pad1x center round-left space small animate fill-darken1'>
                 <strong>Map ID</strong>
@@ -50,7 +43,6 @@
             </div>
             <a href='#' class='col12 js-upload button short round-bottom space-bottom1 icon stat up'>Upload</a>
             <a href='/source.mbtiles?id=<%=source.id%>' class='col12 short button icon folder stat'>Download</a>
-          </section>
         </fieldset>
       </div>
 
