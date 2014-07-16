@@ -13,7 +13,7 @@ if (item.id.indexOf('mapbox://') === 0) {
     <div class='truncate pad1 '>
       <strong><%= item.name || 'Untitled' %></strong>
       <div class='block truncate'>
-        <% if (item.id.indexOf('mapbox://')) { %>
+        <% if (item.id.indexOf('tmsource://') === 0) { %>
         <span class='inline quiet icon harddrive'>Local</span>
         <% } else {%>
         <span class='inline quiet icon cloud'>Remote</span>
@@ -27,4 +27,3 @@ if (item.id.indexOf('mapbox://') === 0) {
   <a href='source?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
   <% } %>
 </div>
-
