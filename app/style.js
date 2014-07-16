@@ -368,13 +368,13 @@ Editor.prototype.cartoError = function(ln, e) {
 
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
-  $('.js-settings-form').addClass('loading');
-  $.ajax('/upload?styleid=' + style)
+  $('#mapstatus').addClass('loading');
+  $.ajax('/upload.json?styleid=' + style)
     .done(function(info) {
       $('.js-mapid').text(info._prefs.mapid);
-      $('.js-settings-form').removeClass('loading');
+      $('#mapstatus').removeClass('loading');
       $('#mapstatus').addClass('uploaded');
-      setTimeout(function() { $('#mapstatus').removeClass('uploaded'); }, 3000);
+      setTimeout(function() { $('#mapstatus').removeClass('uploaded'); }, 1000);
       return true;
     })
     .error(function(resp) {

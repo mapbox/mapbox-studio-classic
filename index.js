@@ -28,6 +28,7 @@ var request = require('request');
 var crypto = require('crypto');
 var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
+var task = require('./lib/task');
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -334,20 +335,39 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
     });
 });
 
-app.get('/upload', middleware.auth, function(req, res, next) {
-    style.upload({
+app.all('/upload.json', function(req, res, next) {
+    if (req.method === 'DELETE') {
+        task.del();
+        res.send({});
+        return;
+    }
+    if (req.query.styleid) return style.upload({
         id: req.query.styleid,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
-    }, function(err, info) {
+    }, function(err, job) {
         if (err && err.code) {
             res.send(err.code, err.message);
         } else if (err) {
             next(err);
         } else {
-            res.send(info);
+           res.send(job);
         }
     });
+
+    source.upload({
+        id: req.query.id,
+        oauth: tm.db.get('oauth')
+    }, false, function(err, job){
+        if (err && err.code) {
+            res.send(err.code, err.message);
+        } else if (err) {
+            next(err);
+        } else {
+           res.send(job);
+        }
+    });
+
 });
 
 app.get('/source.xml', middleware.source, function(req, res, next) {
@@ -369,18 +389,15 @@ app.all('/mbtiles', function(req, res, next) {
         source.mbtiles(req.query.id, false, function(err, job) {
             if (err) return next(err);
 
-            // Clone job object and make it JSON-able.
-            job = _(job).clone();
-            job.task = !!job.task;
-
             if (/application\/json/.test(req.headers.accept||'')) {
                 res.send(job);
             } else {
                 res.set({'content-type':'text/html'});
                 res.send(tm.templates.export({
                     tm: tm,
-                    job: job,
-                    source: info
+                    job: job.toJSON(),
+                    source: info,
+                    test: req.query.test
                 }));
             }
         });
@@ -388,21 +405,14 @@ app.all('/mbtiles', function(req, res, next) {
 });
 
 app.all('/mbtiles.json', function(req, res, next) {
-    if (req.method === 'DELETE') return tm.cleartask(function(err) {
-        if (err) return next(err);
+    if (req.method === 'DELETE') {
+        task.del();
         res.send({});
-    });
-    source.info(req.query.id, function(err, info) {
+        return;
+    }
+    source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
         if (err) return next(err);
-        source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
-            if (err) return next(err);
-
-            // Clone job object and make it JSON-able.
-            job = _(job).clone();
-            job.task = !!job.task;
-
-            res.send(job);
-        });
+        res.send(job);
     });
 });
 
@@ -497,10 +507,6 @@ app.get('/new/style', middleware.exporting, middleware.writeStyle, function(req,
 app.get('/new/source', middleware.exporting, middleware.writeSource, function(req, res, next) {
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
-
-// app.get('/new/print', middleware.exporting, middleware.loadStyle, function(req, res, next) {
-//     res.redirect('/print?id=' + req.style.data.id);
-// });
 
 app.get('/', function(req, res, next) {
     res.redirect('/new/style');

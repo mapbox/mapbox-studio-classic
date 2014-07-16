@@ -1,4 +1,5 @@
 var test = require('tape');
+var stream = require('stream');
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
@@ -261,6 +262,44 @@ test('style.toXML: compiles data params', function(t) {
         t.ok(/<Parameter name="maxzoom">22/.test(xml));
         t.ok(/<Parameter name="source"><\!\[CDATA\[mapbox:\/\/\/mapbox.mapbox-streets-v2\]\]>/.test(xml));
         t.ok(!/<Parameter name="custom/.test(xml));
+        t.end();
+    });
+});
+
+test('style.upload: uploads stylesheet', function(t) {
+    var id = 'tmstyle://' + __dirname + '/fixtures-upload';
+    var cache = path.join(tmppath, 'cache');
+    style.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        cache: cache,
+        mapbox: 'http://localhost:3001'
+    },
+    function(err, info){
+        t.ifError(err);
+        t.assert(!fs.existsSync(path.join(cache, 'package-' + info._prefs.mapid + '.tm2z')), 'file unlinked');
+        t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
+        t.assert(true, 'uploads stylesheet');
+        t.end();
+    });
+});
+
+test('style.upload: errors on unsaved id', function(t) {
+    var id = 'tmstyle:///tmp-00000000';
+    style.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        cache: path.join(tmppath, 'cache'),
+        mapbox: 'http://localhost:3001'
+    },
+    function(err, info){
+        t.equal(err.message, "Style must be saved first");
         t.end();
     });
 });
