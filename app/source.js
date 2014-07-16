@@ -541,10 +541,9 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             }
         });
     };
-
     Editor.prototype.newStyle = function(){
         if (!source._prefs.mapid) Modal.show('newstylelocal');
-        else window.location.href = '/new/style?source='+source.id;
+        else window.location.href = '/new/style?source=mapbox:///' + source._prefs.mapid;
     };
     window.editor = new Editor({
         el: document.body,
