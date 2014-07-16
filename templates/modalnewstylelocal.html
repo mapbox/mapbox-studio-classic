@@ -1,0 +1,13 @@
+<form id='newstylelocal' class='modal margin3 round col6 pin-top top2 dark fill-dark'>
+  <a href='#' class="pad1 quiet icon x pin-topright close js-close"></a>
+    <fieldset class='col12 pad2'>
+        <p class='center col8 margin2'>
+           <strong> Your souce has not been uploaded to Mapbox.com. </strong><br>
+            Would you like to proceed with a local source?
+        </p>
+        <div class='clearfix space-bottom margin2'>
+            <a href='/new/style?source=<%=source.id%>' class='col5 round-left button keyline-right icon folder js-browsefile'>Yes, use local</a>
+            <a href='/mbtiles?id=<%=source.id%>' class='col5 round-right button icon up'>No, upload</a>
+        </div>
+    </fieldset>
+</form>

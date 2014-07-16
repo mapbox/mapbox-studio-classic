@@ -92,7 +92,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'submit #updatename': 'updateLayername',
         'submit #addlayer': 'addlayerSubmit',
         'keydown': 'keys',
-        'click .js-zoom-to': 'zoomToLayer'
+        'click .js-zoom-to': 'zoomToLayer',
+        'click .js-newstyle': 'newStyle'
     };
     Editor.prototype.keys = function(ev) {
         // Escape. Collapses windows, dialogs, modals, etc.
@@ -539,6 +540,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 map.setView([center[1], center[0]], metadata.maxzoom);
             }
         });
+    };
+
+    Editor.prototype.newStyle = function(){
+        if (!source._prefs.mapid) Modal.show('newstylelocal');
+        else window.location.href = '/new/style?source='+source.id;
     };
     window.editor = new Editor({
         el: document.body,
