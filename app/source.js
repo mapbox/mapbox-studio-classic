@@ -542,7 +542,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
     Editor.prototype.newStyle = function(){
-        if (!source._prefs.mapid) Modal.show('newstylelocal');
+        if (!source._prefs.mapid) Modal.show('newstylecheck');
         else window.location.href = '/new/style?source=mapbox:///' + source._prefs.mapid;
     };
     window.editor = new Editor({
