@@ -386,21 +386,22 @@ app.get('/source.mbtiles', middleware.source, function(req, res, next) {
 app.all('/mbtiles', function(req, res, next) {
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
-        source.mbtiles(req.query.id, false, function(err, job) {
-            if (err) return next(err);
+        // source.mbtiles(req.query.id, false, false, function(err, job) {
+        //     if (err) return next(err);
 
-            if (/application\/json/.test(req.headers.accept||'')) {
-                res.send(job);
-            } else {
+        //     if (/application\/json/.test(req.headers.accept||'')) {
+        //         res.send(job);
+        //     } else {
                 res.set({'content-type':'text/html'});
                 res.send(tm.templates.export({
                     tm: tm,
-                    job: job.toJSON(),
+                    job: {},
+                    // job: job.toJSON(),
                     source: info,
                     test: req.query.test
                 }));
-            }
-        });
+        //     }
+        // });
     });
 });
 
@@ -410,7 +411,7 @@ app.all('/mbtiles.json', function(req, res, next) {
         res.send({});
         return;
     }
-    source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
+    source.mbtiles(req.query.id, true, req.method === 'PUT', function(err, job) {
         if (err) return next(err);
         res.send(job);
     });

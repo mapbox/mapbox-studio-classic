@@ -5,6 +5,9 @@ window.Export = function(templates, source, job) {
   var Upload = Backbone.Model.extend({});
   Upload.prototype.url = function() { return '/upload.json?id='+ source.id; };
 
+  var exportUpload = Backbone.Model.extend({});
+  exportUpload.prototype.url = function() { return '/mbtiles.json?id=' + source.id + '&upload=true'; };
+
   var Modal = new views.Modal({
     el: $('.modal-content'),
     templates: templates
@@ -14,7 +17,8 @@ window.Export = function(templates, source, job) {
   Exporter.prototype.events = {
     'click .js-cancel': 'cancel',
     'click .js-recache': 'recache',
-    'click .js-upload': 'upload'
+    'click .js-upload': 'upload',
+    'click .js-exup': 'exportUpload'
   };
   Exporter.prototype.poll = function() {
     var model = this.model;
@@ -99,6 +103,22 @@ window.Export = function(templates, source, job) {
     job.type = 'upload';
     job.progress = null;
     this.model = new Upload(job);
+    this.model.set({dirty: false});
+
+    _(this).bindAll('poll', 'refresh');
+    this.model.on('change', this.refresh);
+
+    this.model.save({}, {
+      success: function() { view.poll(); }
+    });
+    return false;
+  };
+  Exporter.prototype.exportUpload = function() {
+    console.log('here');
+    var view = this;
+    job.type = 'exportUpload';
+    job.progress = null;
+    this.model = new exportUpload(job);
     this.model.set({dirty: false});
 
     _(this).bindAll('poll', 'refresh');
