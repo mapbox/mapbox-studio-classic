@@ -292,6 +292,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
+            //show new layer
+            var center = metadata.center;
+            map.setView([center[1], center[0]], metadata.maxzoom);
+            
             Modal.close();
 
             //open proper modal, depending on if there are multiple layers
