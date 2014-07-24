@@ -32,7 +32,6 @@ window.Export = function(templates, source, job) {
   };
   Exporter.prototype.initialize = function() {
     // _(this).bindAll('poll', 'refresh');
-    if (source._prefs.dirty) this.model.set({dirty: true});
     // this.model.on('change', this.refresh);
     // this.poll();
   };
@@ -46,7 +45,6 @@ window.Export = function(templates, source, job) {
     } else {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
-      if (this.model.get('type') === 'export' && !this.model.get('dirty')) this.model.set({dirty: true});
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
       $('body').removeClass('stat').addClass('task');
     }
@@ -61,15 +59,12 @@ window.Export = function(templates, source, job) {
     };
     tweenpct();
     this.$('.progress .fill').css({width:pct+'%'});
-    this.model.get('type') === 'export' ?
-      this.$('.speed').text(spd + ' tiles/sec') :
-      this.$('.speed').text(templates.exportsize(spd * 10) + '/sec');
+    this.$('.speed').text(spd + ' tiles/sec');
 
     source._prefs.mapid = this.model.get('mapid') || source._prefs.mapid;
     if (source._prefs.mapid) {
       $('.js-mapid').html(source._prefs.mapid);
-      if (!this.model.get('dirty')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source._prefs.mapid);
-      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source._prefs.mapid);
+      $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source._prefs.mapid);
     } else {
       $('.js-upload').html('Upload').prop('title', null);
     }
@@ -84,13 +79,8 @@ window.Export = function(templates, source, job) {
         this.model = new Job(job);
       }
 
-      // bind the poll and refresh functions only
-      // if an upload has completed inbetween exports
-      // this keeps refresh from being called twice
-      // if (!this.model.get('dirty')) {
-        _(view).bindAll('poll', 'refresh');
-        view.model.on('change', view.refresh);
-      // }
+      _(view).bindAll('poll', 'refresh');
+      view.model.on('change', view.refresh);
 
       view.model.save({}, {
         success: function() { view.poll(); }
@@ -115,7 +105,6 @@ window.Export = function(templates, source, job) {
     job.type = 'upload';
     job.progress = null;
     this.model = new Upload(job);
-    this.model.set({dirty: false});
 
     _(this).bindAll('poll', 'refresh');
     this.model.on('change', this.refresh);

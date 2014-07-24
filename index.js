@@ -355,7 +355,7 @@ app.all('/upload.json', function(req, res, next) {
         }
     });
 
-    source.mbtilesStream({
+    source.upload({
         id: req.query.id,
         oauth: tm.db.get('oauth')
     }, false, function(err, job){
