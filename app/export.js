@@ -5,9 +5,6 @@ window.Export = function(templates, source, job) {
   var Upload = Backbone.Model.extend({});
   Upload.prototype.url = function() { return '/upload.json?id='+ source.id; };
 
-  var exportUpload = Backbone.Model.extend({});
-  exportUpload.prototype.url = function() { return '/mbtiles.json?id=' + source.id + '&upload=true'; };
-
   var Modal = new views.Modal({
     el: $('.modal-content'),
     templates: templates
@@ -17,8 +14,7 @@ window.Export = function(templates, source, job) {
   Exporter.prototype.events = {
     'click .js-cancel': 'cancel',
     'click .js-recache': 'recache',
-    'click .js-upload': 'upload',
-    'click .js-exup': 'exportUpload'
+    'click .js-upload': 'upload'
   };
   Exporter.prototype.poll = function() {
     var model = this.model;
@@ -35,10 +31,10 @@ window.Export = function(templates, source, job) {
     });
   };
   Exporter.prototype.initialize = function() {
-    _(this).bindAll('poll', 'refresh');
-    this.model.on('change', this.refresh);
+    // _(this).bindAll('poll', 'refresh');
     if (source._prefs.dirty) this.model.set({dirty: true});
-    this.poll();
+    // this.model.on('change', this.refresh);
+    // this.poll();
   };
   Exporter.prototype.refresh = function() {
     if (!this.model.get('progress')) {
@@ -46,6 +42,7 @@ window.Export = function(templates, source, job) {
       var spd = 0;
       this.$('.size').text(templates.exportsize(this.model.get('size')));
       $('body').removeClass('task').addClass('stat');
+      if (this.model.get('type') === 'export') this.mbtilesVerify();
     } else {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
@@ -79,46 +76,45 @@ window.Export = function(templates, source, job) {
   };
   Exporter.prototype.recache = function() {
     var view = this;
-    if (this.model.get('type') != 'export') {
-      job.type = 'export';
-      this.model = new Job(job);
-    }
+    if (view.mbtilesVerify(recache)) return;
 
-    // bind the poll and refresh functions only
-    // if an upload has completed inbetween exports
-    // this keeps refresh from being called twice
-    if (!this.model.get('dirty')) {
-      _(this).bindAll('poll', 'refresh');
-      this.model.on('change', this.refresh);
-    }
+    function recache(){
+      if (view.model.get('type') != 'export') {
+        job.type = 'export';
+        this.model = new Job(job);
+      }
 
-    this.model.set({dirty: true});
-    this.model.save({}, {
-      success: function() { view.poll(); }
-    });
-    return false;
+      // bind the poll and refresh functions only
+      // if an upload has completed inbetween exports
+      // this keeps refresh from being called twice
+      // if (!this.model.get('dirty')) {
+        _(view).bindAll('poll', 'refresh');
+        view.model.on('change', view.refresh);
+      // }
+
+      view.model.save({}, {
+        success: function() { view.poll(); }
+      });
+      return false;
+    }
+  };
+  Exporter.prototype.mbtilesVerify = function(callback){
+    callback = callback || function(){};
+    $.ajax('/mbtilesVerify?id=' + source.id +'&hash=' + job.hash)
+      .done(function(res) {
+        if (res){
+          window.location.href = window.location.origin + '/source.mbtiles' + window.location.search;
+          return false;
+        } else {
+          return callback();
+        }
+    })
   };
   Exporter.prototype.upload = function() {
     var view = this;
     job.type = 'upload';
     job.progress = null;
     this.model = new Upload(job);
-    this.model.set({dirty: false});
-
-    _(this).bindAll('poll', 'refresh');
-    this.model.on('change', this.refresh);
-
-    this.model.save({}, {
-      success: function() { view.poll(); }
-    });
-    return false;
-  };
-  Exporter.prototype.exportUpload = function() {
-    console.log('here');
-    var view = this;
-    job.type = 'exportUpload';
-    job.progress = null;
-    this.model = new exportUpload(job);
     this.model.set({dirty: false});
 
     _(this).bindAll('poll', 'refresh');

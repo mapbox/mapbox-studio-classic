@@ -355,7 +355,7 @@ app.all('/upload.json', function(req, res, next) {
         }
     });
 
-    source.upload({
+    source.mbtilesStream({
         id: req.query.id,
         oauth: tm.db.get('oauth')
     }, false, function(err, job){
@@ -367,7 +367,6 @@ app.all('/upload.json', function(req, res, next) {
            res.send(job);
         }
     });
-
 });
 
 app.get('/source.xml', middleware.source, function(req, res, next) {
@@ -386,22 +385,13 @@ app.get('/source.mbtiles', middleware.source, function(req, res, next) {
 app.all('/mbtiles', function(req, res, next) {
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
-        // source.mbtiles(req.query.id, false, false, function(err, job) {
-        //     if (err) return next(err);
-
-        //     if (/application\/json/.test(req.headers.accept||'')) {
-        //         res.send(job);
-        //     } else {
-                res.set({'content-type':'text/html'});
-                res.send(tm.templates.export({
-                    tm: tm,
-                    job: {},
-                    // job: job.toJSON(),
-                    source: info,
-                    test: req.query.test
-                }));
-        //     }
-        // });
+        res.set({'content-type':'text/html'});
+        res.send(tm.templates.export({
+            tm: tm,
+            job: {},
+            source: info,
+            test: req.query.test
+        }));
     });
 });
 
@@ -411,9 +401,20 @@ app.all('/mbtiles.json', function(req, res, next) {
         res.send({});
         return;
     }
-    source.mbtiles(req.query.id, true, req.method === 'PUT', function(err, job) {
+
+    source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
         if (err) return next(err);
         res.send(job);
+    });
+});
+
+app.all('/mbtilesVerify', function(req, res, next) {
+    source.toHash(req.query.id, function(err, hash){
+        if (err) return next(err);
+        fs.stat(hash, function(err, stat){
+            if (err) res.end();
+            if (stat) res.end('true');
+        });
     });
 });
 
