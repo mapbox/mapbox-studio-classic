@@ -87,12 +87,13 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click #docs .js-docs-nav': 'scrollto',
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
-        'click .js-addmanual': 'addManual',
+        'click .js-adddb': 'addDatabase',
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'submit #addlayer': 'addlayerSubmit',
         'keydown': 'keys',
-        'click .js-zoom-to': 'zoomToLayer'
+        'click .js-zoom-to': 'zoomToLayer',
+        'click .js-newstyle': 'newStyle'
     };
     Editor.prototype.keys = function(ev) {
         // Escape. Collapses windows, dialogs, modals, etc.
@@ -226,8 +227,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         Modal.show('updatename', {'id':id});
         return false;
     };
-    Editor.prototype.addManual = function(ev) {
-        var type = $(ev.currentTarget).attr('href').split('#addmanual-').pop();
+    Editor.prototype.addDatabase = function(ev) {
+        var type = $(ev.currentTarget).attr('href').split('#add-db-').pop();
 
         // Pick the first data_n layername that is not already taken.
         var i = 0;
@@ -458,6 +459,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         this.model.save(attr, options);
         return ev && !! $(ev.currentTarget).is('a');
     };
+
     Editor.prototype.refresh = function(ev) {
         this.messageclear();
         if (!map) {
@@ -562,6 +564,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 map.setView([center[1], center[0]], metadata.maxzoom);
             }
         });
+    };
+    Editor.prototype.newStyle = function(){
+        if (!source._prefs.mapid) Modal.show('newstylecheck');
+        else window.location.href = '/new/style?source=mapbox:///' + source._prefs.mapid;
     };
     window.editor = new Editor({
         el: document.body,

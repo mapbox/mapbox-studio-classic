@@ -1,8 +1,10 @@
+var stream = require('stream');
 var test = require('tape');
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
+var upload = require('mapbox-upload');
 var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
@@ -19,7 +21,7 @@ var tmpPerm = path.join(tmp, 'tm2-sourcePerm-' + (+new Date));
 var tmpSpace = path.join(tmp, 'tm2-source ' + (+new Date));
 var data = {
     name: 'Test source',
-    attribution: '&copy; John Doe 2013.',
+    attribution: 'John Doe 2013.',
     minzoom: 0,
     maxzoom: 6,
     Layer: [ {
@@ -36,12 +38,16 @@ var data = {
             file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
             type: 'shape'
         }
-    } ]
+    } ],
+    _prefs: {
+        mapid: ''
+    }
 };
 
 test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
+        tmp: path.join(tmppath, 'tmp'),
         fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
     }, t.end);
@@ -49,6 +55,7 @@ test('setup: config', function(t) {
 
 test('setup: mockserver', function(t) {
     tm.db.set('oauth', creds);
+    tm._config.mapboxauth = 'https://api.mapbox.com',
     tm._config.mapboxtile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, t.end);
 });
@@ -314,9 +321,146 @@ test('source.info: reads source YML', function(t) {
     });
 });
 
+test('source.mbtilesExport: exports mbtiles file', function(t) {
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.toHash(id, function(err, hash) {
+        t.ifError(err);
+        t.equal(false, fs.existsSync(hash), 'export does not exist yet');
+        var task = source.mbtilesExport(id);
+        t.strictEqual(task.id, id, 'sets task.id');
+        t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
+        task.progress.once('finished', function() {
+            t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
+            t.equal(task.progress.progress().transferred, 5462, 'progress.transferred');
+            t.equal(task.progress.progress().eta, 0, 'progress.eta');
+            t.equal(true, fs.existsSync(hash), 'export moved into place');
+            t.end();
+        });
+    });
+});
+
+test('source.mbtilesExport: verify export', function(t) {
+    var MBTiles = require('mbtiles');
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.toHash(id, function(err, hash) {
+        t.ifError(err);
+        new MBTiles(hash, function(err, src) {
+            t.ifError(err);
+            src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
+                t.ifError(err);
+                t.equal(row.count, 5461);
+                t.equal(row.size, 311475);
+                check([
+                    [0,0,0],
+                    [1,0,0],
+                    [1,1,0],
+                    [2,0,1],
+                    [2,2,1]
+                ]);
+            });
+            function check(queue) {
+                if (!queue.length) return src.getInfo(function(err, info) {
+                    t.ifError(err);
+
+                    // Omit id, basename, filesize from fixture check.
+                    delete info.id;
+                    delete info.basename;
+                    delete info.filesize;
+
+                    if (UPDATE) {
+                        fs.writeFileSync(__dirname + '/expected/source-export-info.json', JSON.stringify(info, null, 2));
+                    }
+                    t.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/source-export-info.json')), info);
+                    t.end();
+                });
+                var zxy = queue.shift();
+                src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
+                    t.ifError(err);
+                    t.ok(!!buffer);
+                    check(queue);
+                });
+            }
+        });
+    });
+});
+
+test('source.mbtilesUpload: uploads map', function(t) {
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        mapbox: 'http://localhost:3001'
+    }, false,
+    function(err, task){
+        t.ifError(err);
+        t.strictEqual(task.id, id, 'sets task.id');
+        t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
+        // returns a task object with active progress
+        task.progress.on('error', function(err){
+            t.ifError(err);
+        });
+        task.progress.on('finished', function(p){
+            t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
+            t.equal(task.progress.progress().eta, 0, 'progress.eta');
+        });
+
+        task.progress.on('mapid saved', function(){
+            t.end()
+        });
+    });
+});
+
+test('source.mbtilesUpload: does not allow redundant upload', function(t) {
+    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    source.upload({
+        id: id,
+        oauth: {
+            account: 'test',
+            accesstoken: 'validtoken'
+        },
+        mapbox: 'http://localhost:3001'
+    }, false,
+    function(err, task){
+        t.ifError(err);
+        t.equal(task.progress, null, 'progress obj not created');
+
+        source.info(id, function(err, info){
+            t.ifError(err);
+            t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
+            // reset mapid to null
+            info._prefs.mapid = null;
+            source.save(info, function(){
+                t.end();
+            })
+        });
+    });
+});
+
+test('source.checkMapid', function(t){
+    source.checkMapid('test.upload', function(err, mapExists){
+        t.ifError(err);
+        t.strictEquals(mapExists, true, 'test mapid');
+
+        source.checkMapid('something.random', function(err, mapExists){
+            t.ifError(err);
+            t.strictEquals(mapExists, false, 'mapid is not on mapbox.com');
+
+            source.checkMapid('examples.map-i86nkdio', function(err, mapExists){
+                t.ifError(err);
+                t.strictEquals(mapExists, true, 'mapid is on mapbox.com');
+                t.end();
+            });
+        });
+    });
+});
+
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
+    try { fs.rmdirSync(path.join(tmppath, 'tmp')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}
     server.close(function() {
         t.end();

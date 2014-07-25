@@ -2,6 +2,7 @@ _prefs:
   disabled: []
   inspector: false
   saveCenter: true
+  mapid: ''
 attribution: &copy; John Doe 2013.
 center: 
   - 0
