@@ -262,7 +262,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //All gpx files have the same three layer names (wayponts, routes, tracks)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
-            
+
             //checks that the layer doesn't already exist
             if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
 
@@ -280,7 +280,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                     layer: layername
                 }
             };
-        
+
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -295,7 +295,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             //show new layer
             var center = metadata.center;
             map.setView([center[1], center[0]], metadata.maxzoom);
-            
+
             Modal.close();
 
             //open proper modal, depending on if there are multiple layers
@@ -453,7 +453,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 type: 'source',
                 map: map
             }));
-            new views.Maputils({
+            this.utils = new views.Maputils({
                 el: $('#view'),
                 map: map,
                 model: this.model
@@ -481,7 +481,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         // Get existing bookamarks
         this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
         for (var b in this.bookmarks) {
-            this.appendBookmark(b);
+            this.utils.appendBookmark(b);
         }
         return false;
     };
