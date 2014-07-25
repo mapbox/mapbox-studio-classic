@@ -346,7 +346,7 @@ test('source.mbtilesExport: verify export', function(t) {
                     if (UPDATE) {
                         fs.writeFileSync(__dirname + '/expected/source-export-info.json', JSON.stringify(info, null, 2));
                     }
-                    t.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/source-export-info.json')), info);
+                    t.deepEqual(info, JSON.parse(fs.readFileSync(__dirname + '/expected/source-export-info.json')));
                     t.end();
                 });
                 var zxy = queue.shift();
