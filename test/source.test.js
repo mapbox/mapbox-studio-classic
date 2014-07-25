@@ -383,7 +383,7 @@ test('source.mbtilesUpload: uploads map', function(t) {
             t.equal(task.progress.progress().eta, 0, 'progress.eta');
         });
 
-        task.progress.on('mapid saved', function(){
+        task.progress.on('finished', function(){
             t.end()
         });
     });
