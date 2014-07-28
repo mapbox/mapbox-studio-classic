@@ -111,50 +111,32 @@ test('tm dirfiles', function(t) {
 // @TODO tm.writefiles
 
 test('tm history', function(t) {
-    t.deepEqual({style:[], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    var defaultSources = [
+        'mapbox:///mapbox.mapbox-streets-v5',
+        'mapbox:///mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5',
+        'mapbox:///mapbox.satellite,mapbox.mapbox-streets-v5'
+    ];
+    t.deepEqual({style:[], source:defaultSources}, tm.history(),
         'Inits with defaults');
-    t.deepEqual({style:[], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('insufficient args'),
+    t.deepEqual({style:[], source:defaultSources}, tm.history('insufficient args'),
         'Does not attempt set without enough args');
     t.throws(function() { tm.history('badtype', 'foo') }, /requires valid type/,
         'Throws error on bad type');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('style', 'foo'),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('style', 'foo'),
         'Sets style');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar'),
+    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history('source', 'bar'),
         'Sets source');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar'),
+    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history('source', 'bar'),
         'Ignores duplicates');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar', true),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('source', 'bar', true),
         'Invalidates source');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history(),
         'Confirm invalidation');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'mapbox:///mapbox.mapbox-streets-v4', true),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('source', 'mapbox:///mapbox.mapbox-streets-v5', true),
         'Cannot invalidate default source');
     t.end();
 });
