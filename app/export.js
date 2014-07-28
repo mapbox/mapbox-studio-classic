@@ -13,8 +13,7 @@ window.Export = function(templates, source, job) {
   var Exporter = Backbone.View.extend({});
   Exporter.prototype.events = {
     'click .js-cancel': 'cancel',
-    'click .js-recache': 'recache',
-    'click .js-upload': 'upload'
+    'click .js-recache': 'recache'
   };
   Exporter.prototype.poll = function() {
     var model = this.model;
