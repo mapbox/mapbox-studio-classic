@@ -45,7 +45,7 @@
     </div>
     <div class='pin-left top1 scroll-styled'>
       <% if (source._tmp) { %>
-        <div class='z10 pin-topleft col12 pad1x pad8y fill-disable disable-mask'></div>
+        <div class='z10 pin-topleft col12 pad1x fill-disable disable-mask'></div>
       <% } %>
       <fieldset class='clearfix pad1x pad2y keyline-bottom'>
         <section class='space-bottom1'>
@@ -154,9 +154,10 @@
         <a href='#' class='js-addlayer short button col12 icon plus'>New layer</a>
       </div>
       <div class='col6 pad1 text-right'>
-        <% if (!source._tmp) { %>
-        <a href='#' class='js-newstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
+        <% if (source._tmp) { %>
+          <div class='z10 pin-right col6 inline fill-disable disable-mask'></div>
         <% } %>
+        <a href='#' class='js-newstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
       </div>
     </div>
     <nav class='clip row1 col12 keyline-top keyline-bottom fill-dark contain z1'>
