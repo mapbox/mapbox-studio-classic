@@ -214,8 +214,8 @@ test('local: saves source to disk', function(t) {
         var ymldirname = yaml.dump(__dirname).trim().replace(/"/g,'');
 
         var projectdir = tm.parse(tmpid).dirname;
-        var datayml = fs.readFileSync(projectdir + '/data.yml', 'utf8').replace(ymldirname,'BASEPATH');
-        var dataxml = fs.readFileSync(projectdir + '/data.xml', 'utf8').replace(__dirname,'BASEPATH');
+        var datayml = fs.readFileSync(projectdir + '/data.yml', 'utf8').replace(new RegExp(ymldirname,'g'),'BASEPATH');
+        var dataxml = fs.readFileSync(projectdir + '/data.xml', 'utf8').replace(new RegExp(__dirname,'g'),'BASEPATH');
 
         if (UPDATE) {
             fs.writeFileSync(__dirname + '/expected/source-save-data.yml', datayml);
