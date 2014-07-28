@@ -98,6 +98,11 @@ test('tm dirfiles', function(t) {
             '10m-900913-bounding-box.prj',
             '10m-900913-bounding-box.shp',
             '10m-900913-bounding-box.shx',
+            '10m_lakes_historic.dbf',
+            '10m_lakes_historic.index',
+            '10m_lakes_historic.prj',
+            '10m_lakes_historic.shp',
+            '10m_lakes_historic.shx',
             'data.yml',
             'project.yml'
         ], files.map(function(f) { return f.basename }));

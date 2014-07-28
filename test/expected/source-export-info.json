@@ -12,6 +12,13 @@
   "name": "Test source",
   "vector_layers": [
     {
+      "id": "solid",
+      "description": "",
+      "fields": {
+        "Id": "Number"
+      }
+    },
+    {
       "id": "box",
       "description": "",
       "fields": {
@@ -20,13 +27,6 @@
         "Name1": "String",
         "Name2": "String",
         "Date": "String"
-      }
-    },
-    {
-      "id": "solid",
-      "description": "",
-      "fields": {
-        "Id": "Number"
       }
     }
   ],

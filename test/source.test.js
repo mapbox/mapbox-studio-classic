@@ -19,23 +19,31 @@ var server;
 var tmppath = path.join(tmp, 'tm2-sourceTest-' + +new Date);
 var tmpPerm = path.join(tmp, 'tm2-sourcePerm-' + (+new Date));
 var tmpSpace = path.join(tmp, 'tm2-source ' + (+new Date));
+var tmpExport = path.join(tmp, 'tm2-souceExport-' + (+new Date));
+
 var data = {
     name: 'Test source',
     attribution: 'John Doe 2013.',
     minzoom: 0,
     maxzoom: 6,
     Layer: [ {
+        id: 'solid',
+        name: 'solid',
+        description: '',
+        srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
+        properties: { 'buffer-size': 0 },
+        Datasource: {
+            file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+            type: 'shape'
+        }
+    }, {
         id: 'box',
         name: 'box',
         description: '',
         srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
-        properties: {
-            'buffer-size': 0,
-            minzoom: 0,
-            maxzoom: 6
-        },
+        properties: { 'buffer-size': 0 },
         Datasource: {
-            file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+            file: __dirname + '/fixtures-localsource/10m_lakes_historic.shp',
             type: 'shape'
         }
     } ],
@@ -297,8 +305,18 @@ test('source.info: reads source YML', function(t) {
     });
 });
 
+test('source export: setup', function(t) {
+    source.save(_({id:'tmsource://' + tmpExport}).defaults(data), function(err, source) {
+        t.ifError(err);
+        fs.stat(tmpExport, function(err, stat) {
+            t.ifError(err);
+            t.end();
+        });
+    });
+});
+
 test('source.mbtilesExport: exports mbtiles file', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    var id = 'tmsource://' + tmpExport;
     source.toHash(id, function(err, hash) {
         t.ifError(err);
         t.equal(false, fs.existsSync(hash), 'export does not exist yet');
@@ -317,7 +335,7 @@ test('source.mbtilesExport: exports mbtiles file', function(t) {
 
 test('source.mbtilesExport: verify export', function(t) {
     var MBTiles = require('mbtiles');
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    var id = 'tmsource://' + tmpExport;
     source.toHash(id, function(err, hash) {
         t.ifError(err);
         new MBTiles(hash, function(err, src) {
@@ -325,7 +343,7 @@ test('source.mbtilesExport: verify export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 5461);
-                t.equal(row.size, 311475);
+                t.equal(row.size, 311473);
                 check([
                     [0,0,0],
                     [1,0,0],
@@ -361,7 +379,7 @@ test('source.mbtilesExport: verify export', function(t) {
 });
 
 test('source.mbtilesUpload: uploads map', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    var id = 'tmsource://' + tmpExport;
     source.upload({
         id: id,
         oauth: {
@@ -390,7 +408,7 @@ test('source.mbtilesUpload: uploads map', function(t) {
 });
 
 test('source.mbtilesUpload: does not allow redundant upload', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    var id = 'tmsource://' + tmpExport;
     source.upload({
         id: id,
         oauth: {
@@ -431,6 +449,17 @@ test('source.checkMapid', function(t){
             });
         });
     });
+});
+
+test('source export: cleanup', function(t) {
+    setTimeout(function() {
+        ['data.xml','data.yml'].forEach(function(file) {
+            try { fs.unlinkSync(tmpExport + '/' + file) } catch(err) {};
+            try { fs.unlinkSync(tmpExport + '/' + file) } catch(err) {};
+        });
+        try { fs.rmdirSync(tmpExport) } catch(err) {};
+        t.end();
+    }, 250);
 });
 
 test('cleanup', function(t) {
