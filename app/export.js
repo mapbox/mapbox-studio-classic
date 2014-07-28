@@ -13,8 +13,7 @@ window.Export = function(templates, source, job) {
   var Exporter = Backbone.View.extend({});
   Exporter.prototype.events = {
     'click .js-cancel': 'cancel',
-    'click .js-recache': 'recache',
-    'click .js-upload': 'upload'
+    'click .js-recache': 'recache'
   };
   Exporter.prototype.poll = function() {
     var model = this.model;
@@ -33,20 +32,20 @@ window.Export = function(templates, source, job) {
   Exporter.prototype.initialize = function() {
     _(this).bindAll('poll', 'refresh');
     this.model.on('change', this.refresh);
-    if (source._prefs.dirty) this.model.set({dirty: true});
     this.poll();
   };
   Exporter.prototype.refresh = function() {
     if (!this.model.get('progress')) {
       var pct = '100.0';
       var spd = 0;
+      if (job.type === 'upload') this.$('.dash').removeClass('stat').addClass('task');
       this.$('.size').text(templates.exportsize(this.model.get('size')));
       $('body').removeClass('task').addClass('stat');
     } else {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
-      if (this.model.get('type') === 'export' && !this.model.get('dirty')) this.model.set({dirty: true});
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
+      if (job.type === 'upload') this.$('.dash').removeClass('task').addClass('stat');
       $('body').removeClass('stat').addClass('task');
     }
     var pctel = this.$('.percent');
@@ -60,51 +59,24 @@ window.Export = function(templates, source, job) {
     };
     tweenpct();
     this.$('.progress .fill').css({width:pct+'%'});
-    this.model.get('type') === 'export' ?
-      this.$('.speed').text(spd + ' tiles/sec') :
-      this.$('.speed').text(templates.exportsize(spd * 10) + '/sec');
+    this.$('.speed').text(spd + ' tiles/sec');
 
     source._prefs.mapid = this.model.get('mapid') || source._prefs.mapid;
     if (source._prefs.mapid) {
       $('.js-mapid').html(source._prefs.mapid);
-      if (!this.model.get('dirty')) $('.js-upload').html('Already Uploaded').addClass('disabled').prop('title', source._prefs.mapid);
-      else $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source._prefs.mapid);
+      $('.js-upload').html('Upload Update').removeClass('disabled').prop('title', source._prefs.mapid);
     } else {
       $('.js-upload').html('Upload').prop('title', null);
     }
   };
   Exporter.prototype.recache = function() {
     var view = this;
-    if (this.model.get('type') != 'export') {
-      job.type = 'export';
-      this.model = new Job(job);
-    }
 
-    // bind the poll and refresh functions only
-    // if an upload has completed inbetween exports
-    // this keeps refresh from being called twice
-    if (!this.model.get('dirty')) {
-      _(this).bindAll('poll', 'refresh');
-      this.model.on('change', this.refresh);
-    }
+    view.model = job.type === 'export' ? new Job(job) : new Upload(job);
 
-    this.model.set({dirty: true});
-    this.model.save({}, {
-      success: function() { view.poll(); }
-    });
-    return false;
-  };
-  Exporter.prototype.upload = function() {
-    var view = this;
-    job.type = 'upload';
-    job.progress = null;
-    this.model = new Upload(job);
-    this.model.set({dirty: false});
-
-    _(this).bindAll('poll', 'refresh');
-    this.model.on('change', this.refresh);
-
-    this.model.save({}, {
+    _(view).bindAll('poll', 'refresh');
+    view.model.on('change', view.refresh);
+    view.model.save({}, {
       success: function() { view.poll(); }
     });
     return false;
@@ -120,6 +92,6 @@ window.Export = function(templates, source, job) {
 
   var exporter = new Exporter({
     el: document.body,
-    model: new Job(job)
+    model: job.type === 'export' ? new Job(job) : new Upload(job)
   });
 };

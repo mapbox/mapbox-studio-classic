@@ -43,7 +43,7 @@ test('history: loads', function(t) {
     middleware.history(req, {}, function() {
         t.ok(req.history, 'has history');
         t.ok(req.history.source, 'history object includes a source');
-        t.ok(req.history.source['mapbox:///mapbox.mapbox-streets-v4'], 'default source is listed');
+        t.ok(req.history.source['mapbox:///mapbox.mapbox-streets-v5'], 'default source is listed');
         t.end();
     });
 });
@@ -148,7 +148,7 @@ test('loadStyle: loads a tmp style with source', function(t) {
     middleware.writeStyle(req, {}, function(err) {
         t.ifError(err);
         t.deepEqual({
-            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
+            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#solid {\n  line-width: 1;\n  line-color: rgba(153,204,68,0.5);\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
         }, req.style.data.styles, 'creates default styles');
         t.equal(sourceId, req.style.data.source, 'sets source from input param');
         t.ok(tm.tmpid(req.style.data.id));

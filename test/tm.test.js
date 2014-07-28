@@ -98,6 +98,11 @@ test('tm dirfiles', function(t) {
             '10m-900913-bounding-box.prj',
             '10m-900913-bounding-box.shp',
             '10m-900913-bounding-box.shx',
+            '10m_lakes_historic.dbf',
+            '10m_lakes_historic.index',
+            '10m_lakes_historic.prj',
+            '10m_lakes_historic.shp',
+            '10m_lakes_historic.shx',
             'data.yml',
             'project.yml'
         ], files.map(function(f) { return f.basename }));
@@ -111,50 +116,32 @@ test('tm dirfiles', function(t) {
 // @TODO tm.writefiles
 
 test('tm history', function(t) {
-    t.deepEqual({style:[], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    var defaultSources = [
+        'mapbox:///mapbox.mapbox-streets-v5',
+        'mapbox:///mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5',
+        'mapbox:///mapbox.satellite,mapbox.mapbox-streets-v5'
+    ];
+    t.deepEqual({style:[], source:defaultSources}, tm.history(),
         'Inits with defaults');
-    t.deepEqual({style:[], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('insufficient args'),
+    t.deepEqual({style:[], source:defaultSources}, tm.history('insufficient args'),
         'Does not attempt set without enough args');
     t.throws(function() { tm.history('badtype', 'foo') }, /requires valid type/,
         'Throws error on bad type');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('style', 'foo'),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('style', 'foo'),
         'Sets style');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar'),
+    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history('source', 'bar'),
         'Sets source');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar'),
+    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history('source', 'bar'),
         'Ignores duplicates');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar', true),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('source', 'bar', true),
         'Invalidates source');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history(),
         'Confirm invalidation');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'mapbox:///mapbox.mapbox-streets-v4', true),
+    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('source', 'mapbox:///mapbox.mapbox-streets-v5', true),
         'Cannot invalidate default source');
     t.end();
 });
@@ -198,6 +185,20 @@ test('tm tmpid', function(t) {
         t.ok(!tm.tmpid(protocol, 'mapbox:///tmp-1234'));
         t.ok(tm.tmpid(protocol, protocol + '///tmp-12345678'));
     });
+    t.end();
+});
+
+test('tm mapid', function(t) {
+    var oauth = tm.db.get('oauth');
+
+    tm.db.set('oauth', null);
+    t.throws(function() { tm.mapid(); }, /No active OAuth account/, 'throws without oauth info');
+
+    tm.db.set('oauth', { account:'test' });
+    t.ok(/test\.[0-9a-f]{8}/.test(tm.mapid()), 'generates mapid');
+
+    tm.db.set('oauth', oauth);
+
     t.end();
 });
 

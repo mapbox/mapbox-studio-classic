@@ -20,8 +20,8 @@ $(document).ajaxComplete(function() {
     setTimeout(function() { callback(); }, 100);
 });
 
-tape('export', function(t) {
-    t.ok($('body').is('.task'), 'body classed for export mode');
+tape('upload', function(t) {
+    t.ok($('body').is('.task'), 'body classed for task mode');
 
     whileExporting();
     function whileExporting() {
@@ -33,8 +33,8 @@ tape('export', function(t) {
             onajax(whileExporting);
         } else if ($('body').is('.stat')) {
             var size = $('.stat .size').text();
-            t.ok(/[0-9\.]+ kB/.test(size), 'export complete, filesize shown: ' + size);
-            t.ok($('a.button.stat.folder').is(':visible'), 'download button is visible');
+            t.ok(/[0-9\.]+ kB/.test(size), 'upload complete, filesize shown: ' + size);
+            t.ok($('a.button.stat.cloud').is(':visible'), 'data button is visible');
             t.ok($('a.refresh').is(':visible'), 'redo button is visible');
             t.end();
         }
