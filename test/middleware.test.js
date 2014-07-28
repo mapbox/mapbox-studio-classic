@@ -43,7 +43,7 @@ test('history: loads', function(t) {
     middleware.history(req, {}, function() {
         t.ok(req.history, 'has history');
         t.ok(req.history.source, 'history object includes a source');
-        t.ok(req.history.source['mapbox:///mapbox.mapbox-streets-v4'], 'default source is listed');
+        t.ok(req.history.source['mapbox:///mapbox.mapbox-streets-v5'], 'default source is listed');
         t.end();
     });
 });
