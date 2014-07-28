@@ -335,14 +335,9 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
     });
 });
 
-app.all('/upload.json', function(req, res, next) {
-    if (req.method === 'DELETE') {
-        task.del();
-        res.send({});
-        return;
-    }
-    if (req.query.styleid) return style.upload({
-        id: req.query.styleid,
+app.put('/style.upload.json', function(req, res, next) {
+    return style.upload({
+        id: req.query.id,
         oauth: tm.db.get('oauth'),
         cache: tm.config().cache
     }, function(err, job) {
@@ -351,14 +346,41 @@ app.all('/upload.json', function(req, res, next) {
         } else if (err) {
             next(err);
         } else {
-           res.send(job);
+            res.send(job);
         }
     });
+});
 
+app.get('/upload', function(req, res, next) {
+    source.info(req.query.id, function(err, info) {
+        if (err) return next(err);
+        source.upload({
+            id: req.query.id,
+            oauth: tm.db.get('oauth')
+        }, false, function(err, job) {
+            if (err) return next(err);
+
+            res.set({'content-type':'text/html'});
+            res.send(tm.templates.export({
+                tm: tm,
+                job: job.toJSON(),
+                source: info,
+                test: req.query.test
+            }));
+        });
+    });
+});
+
+app.all('/upload.json', function(req, res, next) {
+    if (req.method === 'DELETE') {
+        task.del();
+        res.send({});
+        return;
+    }
     source.upload({
         id: req.query.id,
         oauth: tm.db.get('oauth')
-    }, false, function(err, job){
+    }, req.method === 'PUT', function(err, job){
         if (err && err.code) {
             res.send(err.code, err.message);
         } else if (err) {
@@ -382,16 +404,24 @@ app.get('/source.mbtiles', middleware.source, function(req, res, next) {
     });
 });
 
-app.all('/mbtiles', function(req, res, next) {
+app.get('/mbtiles', function(req, res, next) {
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
-        res.set({'content-type':'text/html'});
-        res.send(tm.templates.export({
-            tm: tm,
-            job: {},
-            source: info,
-            test: req.query.test
-        }));
+        source.mbtiles(req.query.id, false, function(err, job) {
+            if (err) return next(err);
+
+            if (/application\/json/.test(req.headers.accept||'')) {
+                res.send(job);
+            } else {
+                res.set({'content-type':'text/html'});
+                res.send(tm.templates.export({
+                    tm: tm,
+                    job: job.toJSON(),
+                    source: info,
+                    test: req.query.test
+                }));
+            }
+        });
     });
 });
 
@@ -405,16 +435,6 @@ app.all('/mbtiles.json', function(req, res, next) {
     source.mbtiles(req.query.id, req.method === 'PUT', function(err, job) {
         if (err) return next(err);
         res.send(job);
-    });
-});
-
-app.all('/mbtilesVerify', function(req, res, next) {
-    source.toHash(req.query.id, function(err, hash){
-        if (err) return next(err);
-        fs.stat(hash, function(err, stat){
-            if (err) res.end();
-            if (stat) res.end('true');
-        });
     });
 });
 

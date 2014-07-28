@@ -31,9 +31,9 @@ window.Export = function(templates, source, job) {
     });
   };
   Exporter.prototype.initialize = function() {
-    // _(this).bindAll('poll', 'refresh');
-    // this.model.on('change', this.refresh);
-    // this.poll();
+    _(this).bindAll('poll', 'refresh');
+    this.model.on('change', this.refresh);
+    this.poll();
   };
   Exporter.prototype.refresh = function() {
     if (!this.model.get('progress')) {
@@ -41,7 +41,6 @@ window.Export = function(templates, source, job) {
       var spd = 0;
       this.$('.size').text(templates.exportsize(this.model.get('size')));
       $('body').removeClass('task').addClass('stat');
-      if (this.model.get('type') === 'export') this.mbtilesVerify();
     } else {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
@@ -71,45 +70,12 @@ window.Export = function(templates, source, job) {
   };
   Exporter.prototype.recache = function() {
     var view = this;
-    if (view.mbtilesVerify(recache)) return;
 
-    function recache(){
-      if (view.model.get('type') != 'export') {
-        job.type = 'export';
-        this.model = new Job(job);
-      }
+    view.model = job.type === 'export' ? new Job(job) : new Upload(job);
 
-      _(view).bindAll('poll', 'refresh');
-      view.model.on('change', view.refresh);
-
-      view.model.save({}, {
-        success: function() { view.poll(); }
-      });
-      return false;
-    }
-  };
-  Exporter.prototype.mbtilesVerify = function(callback){
-    callback = callback || function(){};
-    $.ajax('/mbtilesVerify?id=' + source.id +'&hash=' + job.hash)
-      .done(function(res) {
-        if (res){
-          window.location.href = window.location.origin + '/source.mbtiles' + window.location.search;
-          return false;
-        } else {
-          return callback();
-        }
-    })
-  };
-  Exporter.prototype.upload = function() {
-    var view = this;
-    job.type = 'upload';
-    job.progress = null;
-    this.model = new Upload(job);
-
-    _(this).bindAll('poll', 'refresh');
-    this.model.on('change', this.refresh);
-
-    this.model.save({}, {
+    _(view).bindAll('poll', 'refresh');
+    view.model.on('change', view.refresh);
+    view.model.save({}, {
       success: function() { view.poll(); }
     });
     return false;
@@ -125,6 +91,6 @@ window.Export = function(templates, source, job) {
 
   var exporter = new Exporter({
     el: document.body,
-    model: new Job(job)
+    model: job.type === 'export' ? new Job(job) : new Upload(job)
   });
 };

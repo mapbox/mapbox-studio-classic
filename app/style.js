@@ -369,7 +369,10 @@ Editor.prototype.cartoError = function(ln, e) {
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
   $('#mapstatus').addClass('loading');
-  $.ajax('/upload.json?styleid=' + style)
+  $.ajax({
+    url: '/style.upload.json?id=' + style,
+    method: 'PUT'
+  })
     .done(function(info) {
       $('.js-mapid').text(info._prefs.mapid);
       $('#mapstatus').removeClass('loading');
@@ -378,7 +381,7 @@ Editor.prototype.upload = function(ev) {
       return true;
     })
     .error(function(resp) {
-      $('.js-settings-form').removeClass('loading');
+      $('#mapstatus').removeClass('loading');
       return Modal.show((resp.status === 422 ? 'upgrade' : 'error'), resp.responseText);
     });
 };
