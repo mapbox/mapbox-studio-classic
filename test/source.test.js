@@ -8,6 +8,7 @@ var upload = require('mapbox-upload');
 var tm = require('../lib/tm');
 var source = require('../lib/source');
 var tilelive = require('tilelive');
+var testutil = require('./util');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var creds = {
     account: 'test',
@@ -16,33 +17,9 @@ var creds = {
 var tmp = require('os').tmpdir();
 var UPDATE = !!process.env.UPDATE;
 var server;
+
+var localsource = 'tmsource://' + path.join(__dirname,'fixtures-localsource');
 var tmppath = path.join(tmp, 'tm2-sourceTest-' + +new Date);
-var tmpPerm = path.join(tmp, 'tm2-sourcePerm-' + (+new Date));
-var tmpSpace = path.join(tmp, 'tm2-source ' + (+new Date));
-var data = {
-    name: 'Test source',
-    attribution: 'John Doe 2013.',
-    minzoom: 0,
-    maxzoom: 6,
-    Layer: [ {
-        id: 'box',
-        name: 'box',
-        description: '',
-        srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
-        properties: {
-            'buffer-size': 0,
-            minzoom: 0,
-            maxzoom: 6
-        },
-        Datasource: {
-            file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
-            type: 'shape'
-        }
-    } ],
-    _prefs: {
-        mapid: ''
-    }
-};
 
 test('setup: config', function(t) {
     tm.config({
@@ -208,15 +185,23 @@ test('local: loads via tilelive', function(t) {
 });
 
 test('local: saves source in memory', function(t) {
-    source.save(_({id:'tmsource:///tmp-12345678'}).defaults(data), function(err, source) {
+    testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
+    assert.ifError(err);
+
+    source.save(_({id:'tmsource:///tmp-12345678'}).defaults(info), function(err, source) {
         t.ifError(err);
         t.ok(source);
         t.end();
     });
+
+    });
 });
 
 test('local: saves source to disk', function(t) {
-    source.save(_({id:'tmsource://' + tmpPerm}).defaults(data), function(err, source) {
+    testutil.createTmpProject('source-save', localsource, function(err, tmpid, data) {
+    assert.ifError(err);
+
+    source.save(data, function(err, source) {
         t.ifError(err);
         t.ok(source);
 
@@ -228,8 +213,9 @@ test('local: saves source to disk', function(t) {
         var yaml = require('js-yaml');
         var ymldirname = yaml.dump(__dirname).trim().replace(/"/g,'');
 
-        var datayml = fs.readFileSync(tmpPerm + '/data.yml', 'utf8').replace(ymldirname,'BASEPATH');
-        var dataxml = fs.readFileSync(tmpPerm + '/data.xml', 'utf8').replace(__dirname,'BASEPATH');
+        var projectdir = tm.parse(tmpid).dirname;
+        var datayml = fs.readFileSync(projectdir + '/data.yml', 'utf8').replace(new RegExp(ymldirname,'g'),'BASEPATH');
+        var dataxml = fs.readFileSync(projectdir + '/data.xml', 'utf8').replace(new RegExp(__dirname,'g'),'BASEPATH');
 
         if (UPDATE) {
             fs.writeFileSync(__dirname + '/expected/source-save-data.yml', datayml);
@@ -243,34 +229,20 @@ test('local: saves source to disk', function(t) {
         // is an optimistic operation (e.g. callback does not wait for it
         // to complete).
         setTimeout(function() {
-            t.ok(fs.existsSync(tmpPerm + '/.thumb.png'), 'saves thumb');
+            t.ok(fs.existsSync(projectdir + '/.thumb.png'), 'saves thumb');
             t.end();
         }, 1000);
+    });
+
     });
 });
 
 test('local: saves source with space', function(t) {
-    source.save(_({id:'tmsource://' + tmpSpace}).defaults(data), function(err, source) {
-        t.ifError(err);
-        fs.stat(tmpSpace, function(err, stat) {
-            t.ifError(err);
-            t.end();
-        });
-    });
-});
-
-test('local: cleanup', function(t) {
-    setTimeout(function() {
-        ['data.xml','data.yml'].forEach(function(file) {
-            try { fs.unlinkSync(tmpPerm + '/' + file) } catch(err) {};
-            try { fs.unlinkSync(tmpSpace + '/' + file) } catch(err) {};
-        });
-        try { fs.rmdirSync(tmpPerm) } catch(err) {};
-        try { fs.rmdirSync(tmpSpace) } catch(err) {};
-        try { fs.unlinkSync(tmpPerm + '.tm2z') } catch(err) {};
-        try { fs.unlinkSync(tmpSpace + '.tm2z') } catch(err) {};
+    // proxy assertion via createTmpProject stat check of project saves.
+    testutil.createTmpProject('source-save space', localsource, function(err, tmpid, data) {
+        assert.ifError(err);
         t.end();
-    }, 250);
+    });
 });
 
 test('source.info: fails on bad path', function(t) {
@@ -297,8 +269,17 @@ test('source.info: reads source YML', function(t) {
     });
 });
 
+test('source export: setup', function(t) {
+    testutil.createTmpProject('source-export', localsource, function(err, tmpid) {
+        assert.ifError(err);
+        t.end();
+    });
+});
+
 test('source.mbtilesExport: exports mbtiles file', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    testutil.createTmpProject('source-export', localsource, function(err, id) {
+    assert.ifError(err);
+
     source.toHash(id, function(err, hash) {
         t.ifError(err);
         t.equal(false, fs.existsSync(hash), 'export does not exist yet');
@@ -313,11 +294,15 @@ test('source.mbtilesExport: exports mbtiles file', function(t) {
             t.end();
         });
     });
+
+    });
 });
 
 test('source.mbtilesExport: verify export', function(t) {
+    testutil.createTmpProject('source-export', localsource, function(err, id) {
+    assert.ifError(err);
+
     var MBTiles = require('mbtiles');
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
     source.toHash(id, function(err, hash) {
         t.ifError(err);
         new MBTiles(hash, function(err, src) {
@@ -325,7 +310,7 @@ test('source.mbtilesExport: verify export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 5461);
-                t.equal(row.size, 311475);
+                t.equal(row.size, 311473);
                 check([
                     [0,0,0],
                     [1,0,0],
@@ -346,7 +331,7 @@ test('source.mbtilesExport: verify export', function(t) {
                     if (UPDATE) {
                         fs.writeFileSync(__dirname + '/expected/source-export-info.json', JSON.stringify(info, null, 2));
                     }
-                    t.deepEqual(JSON.parse(fs.readFileSync(__dirname + '/expected/source-export-info.json')), info);
+                    t.deepEqual(info, JSON.parse(fs.readFileSync(__dirname + '/expected/source-export-info.json')));
                     t.end();
                 });
                 var zxy = queue.shift();
@@ -358,15 +343,19 @@ test('source.mbtilesExport: verify export', function(t) {
             }
         });
     });
+
+    });
 });
 
 test('source.mbtilesUpload: uploads map', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    testutil.createTmpProject('source-export', localsource, function(err, id) {
+    assert.ifError(err);
+
     source.upload({
         id: id,
         oauth: {
             account: 'test',
-            accesstoken: 'validtoken'
+            accesstoken: 'testaccesstoken'
         },
         mapbox: 'http://localhost:3001'
     }, false,
@@ -383,19 +372,23 @@ test('source.mbtilesUpload: uploads map', function(t) {
             t.equal(task.progress.progress().eta, 0, 'progress.eta');
         });
 
-        task.progress.on('mapid saved', function(){
+        task.progress.on('finished', function(){
             t.end()
         });
+    });
+
     });
 });
 
 test('source.mbtilesUpload: does not allow redundant upload', function(t) {
-    var id = 'tmsource://' + __dirname + '/fixtures-export';
+    testutil.createTmpProject('source-export', localsource, function(err, id) {
+    assert.ifError(err);
+
     source.upload({
         id: id,
         oauth: {
             account: 'test',
-            accesstoken: 'validtoken'
+            accesstoken: 'testaccesstoken'
         },
         mapbox: 'http://localhost:3001'
     }, false,
@@ -412,6 +405,8 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
                 t.end();
             })
         });
+    });
+
     });
 });
 
@@ -434,6 +429,7 @@ test('source.checkMapid', function(t){
 });
 
 test('cleanup', function(t) {
+    testutil.cleanup();
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'tmp')); } catch(err) {}

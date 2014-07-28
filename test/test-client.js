@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var testutil = require('./util');
 
 var basePath = path.resolve(path.join(__dirname, '..'));
 var styleId = 'tmstyle://'+basePath+'/node_modules/tm2-default-style';
@@ -33,12 +34,30 @@ var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data
 require('../index.js').on('listening', function() {
     var exit = 0;
     var tests = [
-        'http://localhost:3001/style?id='+styleId+'&test=true',
-        'http://localhost:3001/source?id='+sourceId+'&test[dataPath]='+dataPath,
-        'http://localhost:3001/mbtiles?id='+exportId+'&test=true'
+        {
+            name: 'style-client',
+            url: 'http://localhost:3001/style?id={id}&test=true',
+            src: 'tmstyle://'+basePath+'/node_modules/tm2-default-style'
+        },
+        {
+            name: 'source-client',
+            url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
+            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+        },
+        {
+            name: 'source-client-export',
+            url: 'http://localhost:3001/mbtiles?id={id}&test=true',
+            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+        },
+        {
+            name: 'source-client-upload',
+            url: 'http://localhost:3001/upload?id={id}&test=true',
+            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+        }
     ];
     function runTest() {
         if (!tests.length) {
+            testutil.cleanup();
             try { fs.unlinkSync(path.join(tmp, 'app.db')); } catch(err) {}
             try { fs.rmdirSync(path.join(tmp, 'tmp')); } catch(err) {}
             try { fs.rmdirSync(path.join(tmp, 'cache')); } catch(err) {}
@@ -48,12 +67,16 @@ require('../index.js').on('listening', function() {
             }, 1000);
             return;
         }
-        var testURL = tests.shift();
-        execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
-            if (err && err.code) exit = err.code;
-            console.log(stdout);
-            console.warn(stderr);
-            runTest();
+        var test = tests.shift();
+        testutil.createTmpProject(test.name, test.src, function(err, tmpid) {
+            if (err) throw err;
+            var testURL = test.url.replace('{id}', tmpid);
+            execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
+                if (err && err.code) exit = err.code;
+                console.log(stdout);
+                console.warn(stderr);
+                runTest();
+            });
         });
     }
     runTest();

@@ -98,6 +98,11 @@ test('tm dirfiles', function(t) {
             '10m-900913-bounding-box.prj',
             '10m-900913-bounding-box.shp',
             '10m-900913-bounding-box.shx',
+            '10m_lakes_historic.dbf',
+            '10m_lakes_historic.index',
+            '10m_lakes_historic.prj',
+            '10m_lakes_historic.shp',
+            '10m_lakes_historic.shx',
             'data.yml',
             'project.yml'
         ], files.map(function(f) { return f.basename }));
@@ -180,6 +185,20 @@ test('tm tmpid', function(t) {
         t.ok(!tm.tmpid(protocol, 'mapbox:///tmp-1234'));
         t.ok(tm.tmpid(protocol, protocol + '///tmp-12345678'));
     });
+    t.end();
+});
+
+test('tm mapid', function(t) {
+    var oauth = tm.db.get('oauth');
+
+    tm.db.set('oauth', null);
+    t.throws(function() { tm.mapid(); }, /No active OAuth account/, 'throws without oauth info');
+
+    tm.db.set('oauth', { account:'test' });
+    t.ok(/test\.[0-9a-f]{8}/.test(tm.mapid()), 'generates mapid');
+
+    tm.db.set('oauth', oauth);
+
     t.end();
 });
 
