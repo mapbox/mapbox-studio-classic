@@ -86,6 +86,38 @@ tape('#updatename-shape: updates the layer name and checks that input values and
     t.end();
 });
 
+tape('bookmarks: saves', function(t) {
+    // Ensure nothing in localstorage
+    var bookmarkId = editor.model.get('id') + '.bookmarks';
+    localStorage.removeItem(bookmarkId);
+
+    // Add a bookmark
+    $('#bookmark input[type=submit]').click();
+
+    // Check that it is in localstorage
+    var bookmarks = localStorage.getItem(bookmarkId);
+    try { bookmarks = JSON.parse(bookmarks); }
+    catch(err) { t.ifError(err); }
+    t.equal(Object.keys(bookmarks).length, 1, 'bookmark was saved');
+
+    // Check that the UI is populated correctly
+    t.equal($('#bookmark-list').children().length, 1, 'bookmark appears in list');
+    t.end();
+});
+
+tape('bookmarks: removes', function(t) {
+    // Delete a bookmark
+    $('.js-del-bookmark').click();
+
+    // Is removed from localStorage
+    var bookmarkId = editor.model.get('id') + '.bookmarks';
+    t.equal(localStorage.getItem(bookmarkId), '{}', 'bookmark was removed');
+
+    // Is removed from UI
+    t.equal($('#bookmark-list').children().length, 0, 'bookmark not in list');
+    t.end();
+});
+
 var datatests = {
     'csv/bbl_current_csv': {
         filepath: '/csv/bbl_current_csv.csv',
@@ -175,4 +207,3 @@ for (var name in datatests) (function(name, info) {
         });
     });
 })(name, datatests[name]);
-
