@@ -58,6 +58,16 @@ test('saves style in memory', function(t) {
     });
 });
 
+test('saves style (invalid)', function(t) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+        t.ifError(err);
+        style.save(_({id:'tmstyle:///tmp-12345678',minzoom:-1}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.save() errors on invalid style');
+            t.end();
+        });
+    });
+});
+
 test('saves style to disk', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
