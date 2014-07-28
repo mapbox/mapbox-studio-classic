@@ -13,8 +13,7 @@ window.Export = function(templates, source, job) {
   var Exporter = Backbone.View.extend({});
   Exporter.prototype.events = {
     'click .js-cancel': 'cancel',
-    'click .js-recache': 'recache',
-    'click .js-upload': 'upload'
+    'click .js-recache': 'recache'
   };
   Exporter.prototype.poll = function() {
     var model = this.model;
@@ -39,12 +38,14 @@ window.Export = function(templates, source, job) {
     if (!this.model.get('progress')) {
       var pct = '100.0';
       var spd = 0;
+      if (job.type === 'upload') this.$('.dash').removeClass('stat').addClass('task');
       this.$('.size').text(templates.exportsize(this.model.get('size')));
       $('body').removeClass('task').addClass('stat');
     } else {
       var pct = this.model.get('progress').percentage || 0;
       var spd = this.model.get('progress').delta || 0;
       $('.js-cancel').html('Cancel ' + this.model.get('type'));
+      if (job.type === 'upload') this.$('.dash').removeClass('task').addClass('stat');
       $('body').removeClass('stat').addClass('task');
     }
     var pctel = this.$('.percent');

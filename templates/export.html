@@ -23,7 +23,7 @@
 
       <% var pct = job.progress ? (job.progress.percentage).toFixed(1) : '100.0'; %>
       <small class='quiet'>
-        <span class='stat'><span class='size'><%= job.size ? this.exportsize(job.size) : 0 %></span> &mdash;</span>
+        <span class='stat dash'><span class='size'><%= job.size ? this.exportsize(job.size) : 0 %></span> &mdash;</span>
         <span class='task'><span class='speed'><%= job.progress ? job.progress.speed : 0 %> tiles/sec </span> &mdash;</span>
         z<%= source.minzoom %>-<%= source.maxzoom %>
       </small>
@@ -36,7 +36,7 @@
       <a href='/source?id=<%=source.id%>' class='button big submit icon x task js-cancel'> Cancel export</a>
       <div class='stat col8 margin2 pad1'>
         <% if (job.type === 'upload') { %>
-        <a href='https://www.mapbox.com/data/' _target='blank' class='col12 short button icon stat cloud'>View data</a>
+        <a href='https://www.mapbox.com/data/' target='_blank' class='col12 short button icon stat cloud'>View data</a>
         <% } else if (job.type === 'export') { %>
         <a href='/source.mbtiles?id=<%= job.id %>' class='col12 short button icon folder stat'>Download</a>
         <% } %>
