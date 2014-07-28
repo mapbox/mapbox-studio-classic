@@ -1,9 +1,10 @@
 _prefs: 
   disabled: []
   inspector: false
-  saveCenter: true
   mapid: ''
-attribution: &copy; John Doe 2013.
+  rev: ''
+  saveCenter: true
+attribution: John Doe 2013.
 center: 
   - 0
   - 0
