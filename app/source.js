@@ -453,7 +453,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 type: 'source',
                 map: map
             }));
-            this.utils = new views.Maputils({
+            new views.Maputils({
                 el: $('#view'),
                 map: map,
                 model: this.model
@@ -478,11 +478,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         _(layers).each(function(l) {
             l.refresh();
         });
-        // Get existing bookamarks
-        this.bookmarks = localStorage.getItem('tm2.bookmarks') ? JSON.parse(localStorage.getItem('tm2.bookmarks')) : {};
-        for (var b in this.bookmarks) {
-            this.utils.appendBookmark(b);
-        }
+
         return false;
     };
     Editor.prototype.browsefile = function(ev) {
