@@ -270,7 +270,7 @@ test('style.upload: uploads stylesheet', function(t) {
         id: id,
         oauth: {
             account: 'test',
-            accesstoken: 'validtoken'
+            accesstoken: 'testaccesstoken'
         },
         cache: cache,
         mapbox: 'http://localhost:3001'
@@ -290,7 +290,7 @@ test('style.upload: errors on unsaved id', function(t) {
         id: id,
         oauth: {
             account: 'test',
-            accesstoken: 'validtoken'
+            accesstoken: 'testaccesstoken'
         },
         cache: path.join(tmppath, 'cache'),
         mapbox: 'http://localhost:3001'

@@ -355,7 +355,7 @@ test('source.mbtilesUpload: uploads map', function(t) {
         id: id,
         oauth: {
             account: 'test',
-            accesstoken: 'validtoken'
+            accesstoken: 'testaccesstoken'
         },
         mapbox: 'http://localhost:3001'
     }, false,
@@ -388,7 +388,7 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
         id: id,
         oauth: {
             account: 'test',
-            accesstoken: 'validtoken'
+            accesstoken: 'testaccesstoken'
         },
         mapbox: 'http://localhost:3001'
     }, false,
