@@ -746,6 +746,7 @@ span.cm-carto-filter             { color:#66475B; }
 .dark .CodeMirror-selected,
 .dark .CodeMirror-focused .CodeMirror-selected { background:#303030; }
 
+.dark .CodeMirror pre                  { color:#ccc; }
 .dark span.cm-keyword,
 .dark span.cm-carto-variable           { color:#d6e; }
 .dark span.cm-number,
