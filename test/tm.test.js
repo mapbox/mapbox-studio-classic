@@ -206,6 +206,20 @@ test('tm tmpid', function(t) {
     t.end();
 });
 
+test('tm mapid', function(t) {
+    var oauth = tm.db.get('oauth');
+
+    tm.db.set('oauth', null);
+    t.throws(function() { tm.mapid(); }, /No active OAuth account/, 'throws without oauth info');
+
+    tm.db.set('oauth', { account:'test' });
+    t.ok(/test\.[0-9a-f]{8}/.test(tm.mapid()), 'generates mapid');
+
+    tm.db.set('oauth', oauth);
+
+    t.end();
+});
+
 test('tm parse', function(t) {
     t.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
     t.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
