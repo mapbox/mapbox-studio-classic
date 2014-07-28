@@ -71,7 +71,7 @@ Export(templates, source , job);
 <% if (test) { %>
 <script>window.testParams = <%= JSON.stringify(test) %>;</script>
 <script src='/app/test/tape.js'></script>
-<script src='/app/test/app.test.export.js'></script>
+<script src='/app/test/app.test.<%= job.type %>.js'></script>
 <% } %>
 
 </body>

@@ -48,6 +48,11 @@ require('../index.js').on('listening', function() {
             name: 'source-client-export',
             url: 'http://localhost:3001/mbtiles?id={id}&test=true',
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+        },
+        {
+            name: 'source-client-upload',
+            url: 'http://localhost:3001/upload?id={id}&test=true',
+            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
         }
     ];
     function runTest() {
