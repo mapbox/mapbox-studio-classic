@@ -35,7 +35,7 @@ tape('export', function(t) {
             var size = $('.stat .size').text();
             t.ok(/[0-9\.]+ kB/.test(size), 'export complete, filesize shown: ' + size);
             t.ok($('a.button.stat.folder').is(':visible'), 'download button is visible');
-            t.ok($('a.button.stat.js-upload').is(':visible'), 'upload button is visible');
+            t.ok($('a.refresh').is(':visible'), 'redo button is visible');
             t.end();
         }
     }
