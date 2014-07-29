@@ -415,15 +415,15 @@ Printer.prototype.imageSizeStats = function() {
 };
 
 Printer.prototype.refresh = function(ev) {
-  var calcTotal = this.calculateTotal.bind(this);
-  var modifydimensions = this.modifydimensions.bind(this);
+  var calcTotal = _(this.calculateTotal).bind(this);
+  var modifydimensions = _(this.modifydimensions).bind(this);
 
   if (!map) {
     map = L.mapbox.map('map');
 
     boundingBox = new L.LocationFilter().addTo(map);
-    boundingBox.on('enabled', this.calculateCoordinates.bind(this));
-    boundingBox.on('change', this.calculateCoordinates.bind(this));
+    boundingBox.on('enabled', _(this.calculateCoordinates).bind(this));
+    boundingBox.on('change', _(this.calculateCoordinates).bind(this));
 
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() {
@@ -456,8 +456,8 @@ Printer.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
-  .addOneTimeEventListener('load', this.bboxEnable.bind(this))
-  .on('load', errorHandler);
+    .addOneTimeEventListener('load', _(this.bboxEnable).bind(this))
+    .on('load', errorHandler);
   tiles.addTo(map);
 
   // Set canvas background color.
