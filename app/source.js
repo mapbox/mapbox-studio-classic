@@ -220,6 +220,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             success: function(metadata) {
                 if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
                 else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                window.editor.changed();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 Modal.show('error', jqXHR.responseText);
