@@ -421,24 +421,6 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
     });
 });
 
-test('source.checkMapid', function(t){
-    source.checkMapid('test.upload', function(err, mapExists){
-        t.ifError(err);
-        t.strictEquals(mapExists, true, 'test mapid');
-
-        source.checkMapid('something.random', function(err, mapExists){
-            t.ifError(err);
-            t.strictEquals(mapExists, false, 'mapid is not on mapbox.com');
-
-            source.checkMapid('examples.map-i86nkdio', function(err, mapExists){
-                t.ifError(err);
-                t.strictEquals(mapExists, true, 'mapid is on mapbox.com');
-                t.end();
-            });
-        });
-    });
-});
-
 test('cleanup', function(t) {
     testutil.cleanup();
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
