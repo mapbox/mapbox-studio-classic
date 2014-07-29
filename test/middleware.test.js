@@ -336,7 +336,7 @@ test('latest: finds latest local project entry', function(t) {
     var req = {};
     middleware.latest(req, {}, function(err) {
         t.ifError(err);
-        t.equal(req.latest, 'tmsource:///home/mapbox/tm2/test/fixtures-localsource', 'finds latest source');
+        t.equal(req.latest, sourceId, 'finds latest source');
         t.end();
     });
 });
