@@ -21,7 +21,7 @@ $(document).ajaxComplete(function() {
 });
 
 tape('Setting maxzoom: sets maxzoom to higher value than 6 (tests logic preference for higher maxzoom...see #addlayer-shape test)', function(t) {
-    var maxzoomTarget = $('.js-settings-form #maxzoom');
+    var maxzoomTarget = $('#settings-drawer #maxzoom');
     maxzoomTarget.val(12);
     $('.js-save').submit();
     var maxzoom = maxzoomTarget.val();
@@ -41,7 +41,7 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
     $('#browsefile .col8').val(shpFile);
     $('#browsefile .col4').submit();
     onajax(function() {
-    	var maxzoomTarget = $('.js-settings-form #maxzoom');
+    	var maxzoomTarget = $('#settings-drawer #maxzoom');
     	var maxzoom = maxzoomTarget.val();
     	var projTarget = $('.js-metadata-projection');
 		var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
@@ -52,7 +52,7 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
 });
 
 tape('sets maxzoom', function(t) {
-    var maxzoomTarget = $('.js-settings-form #maxzoom');
+    var maxzoomTarget = $('#settings-drawer #maxzoom');
     maxzoomTarget.val(6);
     $('.js-save').submit();
     var maxzoom = maxzoomTarget.val();
