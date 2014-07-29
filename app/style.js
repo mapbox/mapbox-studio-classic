@@ -97,7 +97,7 @@ Editor.prototype.events = {
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
   'click #tabs .js-deltab': 'deltab',
-  'click .js-history .js-ref-delete': 'delstyle',
+  'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
