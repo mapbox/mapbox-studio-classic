@@ -365,11 +365,35 @@ L.LocationFilter = L.Class.extend({
         this._southBounds = new L.LatLngBounds(this._osw, new L.LatLng(this._sw.lat, this._one.lng, true));
     },
 
+    _calculatePixelCorners: function(){
+        // this._sm.size = window.exporter.model.get('coordinates').scale * 256;
+
+        // why does this need +2? otherwise it scales the bbox to 4.15x
+        var zoom = this._map.getZoom() + 2,
+            center = [(this._ne.lat - this._sw.lat)/2 + this._sw.lat, (this._ne.lng - this._sw.lng)/2 + this._sw.lng];
+        var center = this._sm.px([center[1], center[0]], zoom),
+            w = window.exporter.model.get('coordinates').dimensions[0],
+            h = window.exporter.model.get('coordinates').dimensions[1],
+            ne = this._sm.ll([center[0] + w/2, center[1] - h/2], zoom),
+            sw = this._sm.ll([center[0] - w/2, center[1] + h/2], zoom);
+
+        this._nw = L.latLng(ne[1], sw[0]);
+        this._ne = L.latLng(ne[1], ne[0]);
+        this._sw = L.latLng(sw[1], sw[0]);
+        this._se = L.latLng(sw[0], ne[0]);
+        this._north = new L.LatLng(this._nw.lat, (this._ne.lng - this._nw.lng)/2 + this._nw.lng);
+        this._south = new L.LatLng(this._sw.lat, (this._se.lng - this._sw.lng)/2 + this._sw.lng);
+        this._east = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._ne.lng);
+        this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
+    },
+
     /* Initializes rectangles and markers */
     _initialDraw: function() {
         if (this._initialDrawCalled) {
             return;
         }
+        // for geo -> pixel conversion
+        this._sm = new SphericalMercator();
 
         this._layer = new L.LayerGroup();
 
@@ -425,6 +449,10 @@ L.LocationFilter = L.Class.extend({
         options = L.Util.extend({repositionResizeMarkers: true}, options);
 
         // Calculate filter bounds
+        if (window.exporter.model.get('coordinates') && window.exporter.model.get('coordinates').locked){
+            this._calculatePixelCorners();
+        }
+
         this._calculateBounds();
 
         // Reposition rectangles
