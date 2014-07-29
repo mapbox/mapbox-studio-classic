@@ -532,9 +532,9 @@ app.get('/new/source', middleware.exporting, middleware.writeSource, function(re
 
 app.get('/', middleware.latest, function(req, res, next) {
     if (req.latest && req.latest.indexOf('tmstyle:') === 0) {
-        res.redirect('/style?id=' + id);
+        res.redirect('/style?id=' + req.latest);
     } else if (req.latest && req.latest.indexOf('tmsource:') === 0) {
-        res.redirect('/source?id=' + id);
+        res.redirect('/source?id=' + req.latest);
     } else {
         res.redirect('/new/style');
     }
