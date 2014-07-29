@@ -20,6 +20,13 @@ $(document).ajaxComplete(function() {
     setTimeout(function() { callback(); }, 100);
 });
 
+tape('#settings-form', function(t) {
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('#settings-drawer').change();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.end();
+});
+
 tape('Setting maxzoom: sets maxzoom to higher value than 6 (tests logic preference for higher maxzoom...see #addlayer-shape test)', function(t) {
     var maxzoomTarget = $('#settings-drawer #maxzoom');
     maxzoomTarget.val(12);

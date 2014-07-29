@@ -24,6 +24,13 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
+tape('#settings-form', function(t) {
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('#settings-drawer').change();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.end();
+});
+
 tape('.js-history browses sources', function(t) {
     $('.js-history .js-browsesource').click();
     t.ok(hasModal('#browsesource'));
