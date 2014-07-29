@@ -101,6 +101,7 @@ Editor.prototype.events = {
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
+  'click .js-selectall': 'selectall',
   'keydown': 'keys'
 };
 
@@ -384,6 +385,11 @@ Editor.prototype.upload = function(ev) {
       $('#mapstatus').removeClass('loading');
       return Modal.show((resp.status === 422 ? 'upgrade' : 'error'), resp.responseText);
     });
+};
+
+Editor.prototype.selectall = function(ev) {
+  $(ev.currentTarget).select();
+  return false;
 };
 
 Editor.prototype.refresh = function(ev) {
