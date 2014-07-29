@@ -49,12 +49,22 @@ test('saves style in memory', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
 
-    style.save(_({id:'tmstyle:///tmp-12345678'}).defaults(data), function(err, source) {
+    style.save(_({id:style.tmpid()}).defaults(data), function(err, source) {
         t.ifError(err);
         t.ok(source);
         t.end();
     });
 
+    });
+});
+
+test('saves style (invalid)', function(t) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+        t.ifError(err);
+        style.save(_({id:style.tmpid(),minzoom:-1}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.save() errors on invalid style');
+            t.end();
+        });
     });
 });
 
@@ -136,7 +146,7 @@ test('fails to package tmp style', function(t) {
     t.ifError(err);
 
     var tmptm2z = tm.parse(tmpid).dirname + '.tm2z';
-    style.toPackage('tmstyle:///tmp-e31db7cd.tm2z', tmptm2z, function(err) {
+    style.toPackage(style.tmpid(), tmptm2z, function(err) {
         t.ok(err);
         t.equal('Error: temporary style must be saved first', err.toString());
         t.end();
@@ -285,9 +295,8 @@ test('style.upload: uploads stylesheet', function(t) {
 });
 
 test('style.upload: errors on unsaved id', function(t) {
-    var id = 'tmstyle:///tmp-00000000';
     style.upload({
-        id: id,
+        id: style.tmpid(),
         oauth: {
             account: 'test',
             accesstoken: 'testaccesstoken'

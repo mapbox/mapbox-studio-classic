@@ -78,8 +78,6 @@
 
 /* Settings pane
 ------------------------------------------------------- */
-.disable-mask { height: 180px; }
-
 #mapstatus { height:30px; }
 #mapstatus-uploaded {
   -webkit-transform:translateY(100%);
@@ -156,18 +154,24 @@
 #fonts-drawer .single-font {
   height:30px;
   display:block;
+  background-color:transparent;
   background-position:10px 50%;
   background-repeat:no-repeat;
   /* render but hide text for copying */
   color: transparent;
 }
 
+#fonts-drawer .single-font:focus {
+  background-image:none !important;
+  color:#fff;
+}
+
 #fonts-drawer .font-family.active { background-color: rgba(0,0,0,.15); }
 
 #fonts-drawer .font-family .single-font { opacity:0.5; }
-#fonts-drawer .font-family.active span.single-font { opacity:1; }
-#fonts-drawer .font-family span.single-font { display:none; }
-#fonts-drawer .font-family.active span.single-font { display:block; }
+#fonts-drawer .font-family.active input.single-font { opacity:1; }
+#fonts-drawer .font-family input.single-font { display:none; }
+#fonts-drawer .font-family.active input.single-font { display:block; }
 
 /* History pane
 ------------------------------------------------------- */

@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
+// Usage:
+//   node test/test-client.js [test name]
+//
+// Examples:
+//   node test/test-client.js
+//   node test/test-client.js style
+
 var fs = require('fs');
 var path = require('path');
 var testutil = require('./util');
@@ -12,6 +19,7 @@ var testPath = path.resolve(path.join(__dirname, '..'));
 var tmp = path.join(require('os').tmpdir(), 'tm2-client-' + (+new Date));
 var execFile = require('child_process').execFile;
 var phantombin = require('phantomjs').path;
+var only = process.argv[2];
 
 // Set up tmp dir.
 fs.mkdirSync(tmp);
@@ -35,26 +43,28 @@ require('../index.js').on('listening', function() {
     var exit = 0;
     var tests = [
         {
-            name: 'style-client',
+            name: 'style',
             url: 'http://localhost:3001/style?id={id}&test=true',
             src: 'tmstyle://'+basePath+'/node_modules/tm2-default-style'
         },
         {
-            name: 'source-client',
+            name: 'source',
             url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
         },
         {
-            name: 'source-client-export',
+            name: 'source-export',
             url: 'http://localhost:3001/mbtiles?id={id}&test=true',
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
         },
         {
-            name: 'source-client-upload',
+            name: 'source-upload',
             url: 'http://localhost:3001/upload?id={id}&test=true',
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
         }
-    ];
+    ].filter(function(t) {
+        return !only || t.name === only;
+    });
     function runTest() {
         if (!tests.length) {
             testutil.cleanup();

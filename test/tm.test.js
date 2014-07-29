@@ -174,20 +174,6 @@ test('tm font (cache hit)', function(t) {
     });
 });
 
-test('tm tmpid', function(t) {
-    ['tmsource:', 'tmstyle:'].forEach(function(protocol) {
-        t.ok(tm.tmpid(protocol, tm.tmpid(protocol)));
-        t.ok(tm.tmpid(protocol) !== tm.tmpid(protocol));
-        t.ok(tm.tmpid(protocol, 'hello', true) === tm.tmpid(protocol, 'hello', true));
-        t.ok(tm.tmpid(protocol, tm.tmpid(protocol, 'hello world', true)));
-        t.ok(!tm.tmpid(protocol, protocol + '///real/ish/path'));
-        t.ok(!tm.tmpid(protocol, protocol + '///tmp-1234'));
-        t.ok(!tm.tmpid(protocol, 'mapbox:///tmp-1234'));
-        t.ok(tm.tmpid(protocol, protocol + '///tmp-12345678'));
-    });
-    t.end();
-});
-
 test('tm mapid', function(t) {
     var oauth = tm.db.get('oauth');
 

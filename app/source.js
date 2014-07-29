@@ -91,9 +91,15 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-updatename': 'updatenameModal',
         'submit #updatename': 'updateLayername',
         'submit #addlayer': 'addlayerSubmit',
+        'change #editor form': 'changed',
+        'change #settings-drawer': 'changed',
+        'submit #settings-drawer': 'save',
         'keydown': 'keys',
         'click .js-zoom-to': 'zoomToLayer',
         'click .js-newstyle': 'newStyle'
+    };
+    Editor.prototype.changed = function() {
+        $('body').addClass('changed');
     };
     Editor.prototype.keys = function(ev) {
         // Escape. Collapses windows, dialogs, modals, etc.
@@ -214,6 +220,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             success: function(metadata) {
                 if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
                 else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                window.editor.changed();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 Modal.show('error', jqXHR.responseText);
@@ -394,6 +401,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       var new_layerform = '#layers-' + new_id;
       layer.id = new_id;
 
+      // No-op.
+      if (current_id === new_id) {
+        Modal.close();
+        return false;
+      }
+
       //Add the new layer form and div
       $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
       $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -429,8 +442,10 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.save = function(ev, options) {
         // Set map in loading state.
         $('#full').addClass('loading');
+        // Clear focus from any fields.
+        $('#settings-drawer input, #settings-drawer textarea').blur();
         // Grab settings form values.
-        var attr = _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
+        var attr = _($('#settings-drawer').serializeArray()).reduce(function(memo, field) {
             memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
             return memo;
         }, this.model.attributes);
@@ -462,6 +477,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
     Editor.prototype.refresh = function(ev) {
         this.messageclear();
+        $('body').removeClass('changed');
         if (!map) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);

@@ -77,7 +77,7 @@ test('writeStyle: makes tmp styles', function(t) {
     var req = { body: {} };
     middleware.writeStyle(req, {}, function() {
         t.ok(req.style, 'appends style to req');
-        t.ok(tm.tmpid('tmstyle:', req.style.data.id), 'creates a valid tmp id');
+        t.ok(style.tmpid(req.style.data.id), 'creates a valid tmp id');
         var history = tm.history();
         if (history.style) {
             t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
@@ -107,7 +107,7 @@ test('writeStyle: makes persistent styles', function(t) {
     var req = { body: data };
     middleware.writeStyle(req, {}, function() {
         t.ok(req.style, 'appends style to req');
-        t.ok(!tm.tmpid('tmstyle:', req.style.data.id), 'does not create a tmp id');
+        t.ok(!style.tmpid(req.style.data.id), 'does not create a tmp id');
         t.ok(tm.history().style.indexOf(req.style.data.id) !== -1, 'writes to history');
         t.equal(req.style.data.name, data.name, 'has correct info');
         t.ok(/maxzoom: 22/.test(fs.readFileSync(tmpId + '/project.yml', 'utf8')), 'saves project.yml');
@@ -151,7 +151,7 @@ test('loadStyle: loads a tmp style with source', function(t) {
             'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#solid {\n  line-width: 1;\n  line-color: rgba(153,204,68,0.5);\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
         }, req.style.data.styles, 'creates default styles');
         t.equal(sourceId, req.style.data.source, 'sets source from input param');
-        t.ok(tm.tmpid(req.style.data.id));
+        t.ok(style.tmpid(req.style.data.id));
         t.end();
     });
 });

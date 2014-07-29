@@ -258,6 +258,13 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #user:target ~ #drawers #user-drawer > *,
 #settings:target ~ #drawers #settings-drawer > * { display:block; }
 
+/* Project state
+------------------------------------------------------- */
+.on-tmp { display:none; }
+.on-changed { display:none; }
+body.tmp .on-tmp { display:block; }
+body.changed .on-changed { display:block; }
+
 /* Project history
 ------------------------------------------------------- */
 #modalsources-local,
@@ -284,6 +291,7 @@ a.project:hover {
 
 a.project .small-graphic {
   height: auto;
+  background-size: cover;
 }
 
 /* Flag active project */
