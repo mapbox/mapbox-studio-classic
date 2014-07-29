@@ -206,7 +206,7 @@ tape('keybindings', function(t) {
     t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
     onajax(function() {
         t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
-        t.equal(window.editor.changed, false, 'ctrl+s => saved style');
+        t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
         t.end();
     });
 });

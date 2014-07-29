@@ -10,7 +10,7 @@ var mtime = (+new Date).toString(36);
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if (window.editor && window.editor.changed) return 'Save your changes?';
+  if ($('body').hasClass('changed')) return 'Save your changes?';
 };
 
 var Editor = Backbone.View.extend({});
@@ -62,12 +62,8 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
-  function changed() {
-    window.editor.changed = true;
-  }
-
   tab.on('keydown', completer.onKeyEvent);
-  tab.on('change', changed);
+  tab.on('change', function() { return window.editor && window.editor.changed(); });
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
@@ -92,7 +88,8 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
-  'submit js-settings-form': 'save',
+  'change #settings-drawer': 'changed',
+  'submit #settings-drawer': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
@@ -103,6 +100,10 @@ Editor.prototype.events = {
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'keydown': 'keys'
+};
+
+Editor.prototype.changed = function() {
+  $('body').addClass('changed');
 };
 
 Editor.prototype.keys = function(ev) {
@@ -210,6 +211,7 @@ Editor.prototype.adddata = function(ev) {
     success: _(function(model, resp) {
       $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
+      this.changed();
       Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
@@ -229,6 +231,7 @@ Editor.prototype.addmapbox = function(ev) {
     success: _(function(model, resp) {
       $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
+      this.changed();
       Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
@@ -245,6 +248,7 @@ Editor.prototype.addtab = function(ev) {
   if (!code[filename]) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='keyline-right strong quiet tab js-tab pad1y pad0x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad0'></span></a><!--");
     code[filename] = Tab(filename, '');
+    this.changed();
   } else {
     Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
     field.val('');
@@ -264,6 +268,7 @@ Editor.prototype.deltab = function(ev) {
     delete styles[target];
     delete code[target];
     this.model.set({styles:styles});
+    this.changed();
   }
 
   // Set first tab to active.
@@ -286,7 +291,7 @@ Editor.prototype.save = function(ev, options) {
 
   var attr = {};
   // Grab settings form values.
-  _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
+  _($('#settings-drawer').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
     } else if (field.name && field.value) {
@@ -313,7 +318,6 @@ Editor.prototype.save = function(ev, options) {
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
-  editor.changed = false;
   options = options || {
     success:_(this.refresh).bind(this),
     error: _(this.error).bind(this)
@@ -394,6 +398,7 @@ Editor.prototype.selectall = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
+  $('body').removeClass('changed');
 
   if (!map) {
     map = L.mapbox.map('map');
