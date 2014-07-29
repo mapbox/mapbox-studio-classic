@@ -49,8 +49,8 @@ test('history: loads', function(t) {
 });
 
 test('history: gets style/source info', function(t) {
-    tm.history('source', sourceId);
-    tm.history('style', styleId);
+    tm.history(sourceId);
+    tm.history(styleId);
 
     var req = {};
     middleware.history(req, {}, function() {
@@ -63,8 +63,8 @@ test('history: gets style/source info', function(t) {
 });
 
 test('history: removes dead source/styles', function(t) {
-    tm.history('source', 'foo');
-    tm.history('style', 'bar');
+    tm.history('tmstyle:///foo');
+    tm.history('tmsource:///bar');
     var req = {};
     middleware.history(req, {}, function() {
         t.ok(!req.history.source.foo, 'source `foo` was removed');
@@ -108,7 +108,7 @@ test('writeStyle: makes persistent styles', function(t) {
     middleware.writeStyle(req, {}, function() {
         t.ok(req.style, 'appends style to req');
         t.ok(!style.tmpid(req.style.data.id), 'does not create a tmp id');
-        t.ok(tm.history().style.indexOf(req.style.data.id) !== -1, 'writes to history');
+        t.ok(tm.history().indexOf(req.style.data.id) !== -1, 'writes to history');
         t.equal(req.style.data.name, data.name, 'has correct info');
         t.ok(/maxzoom: 22/.test(fs.readFileSync(tmpId + '/project.yml', 'utf8')), 'saves project.yml');
         t.equal(data.styles['a.mss'], fs.readFileSync(tmpId + '/a.mss', 'utf8'), 'saves a.mss');
@@ -173,7 +173,7 @@ test('loadStyle: loads a persistent style', function(t) {
     middleware.loadStyle(req, {}, function() {
         t.ok(req.style, 'appends style to req');
         t.equal(req.style.data.id, styleId, 'has the correct id');
-        t.ok(tm.history().style.indexOf(req.style.data.id) !== -1, 'writes to history');
+        t.ok(tm.history().indexOf(req.style.data.id) !== -1, 'writes to history');
         t.equal(req.style.data.mtime, styleDoc.mtime, 'style info was loaded');
         t.end();
     });
@@ -262,7 +262,7 @@ test('loadSource: loads a persistent source', function(t) {
     middleware.loadSource(req, {}, function() {
         t.ok(req.source, 'appends source to req');
         t.equal(req.source.data.id, sourceId, 'has the correct id');
-        t.ok(tm.history().source.indexOf(req.source.data.id) !== -1, 'writes to history');
+        t.ok(tm.history().indexOf(req.source.data.id) !== -1, 'writes to history');
         t.equal(req.source.data.name, sourceDoc.name, 'has the correct name');
         t.equal(req.source.data.attribution, sourceDoc.attribution, 'has the correct attribution');
         t.equal(req.source.data.minzoom, sourceDoc.minzoom, 'has the correct minzoom');
@@ -326,16 +326,16 @@ test('userTilesets: adds history entries for tilesets', function(t) {
     });
     middleware.userTilesets({}, {}, function(err) {
         t.ifError(err);
-        t.ok(tm.history().source.indexOf('mapbox:///test.vector-source') !== -1);
-        t.ok(tm.history().source.indexOf('mapbox:///test.raster-source') === -1);
+        t.ok(tm.history().indexOf('mapbox:///test.vector-source') !== -1);
+        t.ok(tm.history().indexOf('mapbox:///test.raster-source') === -1);
         t.end();
     });
 });
 
 test('cleanup', function(t) {
     tm.db.rm('oauth');
-    tm.history('source', sourceId, true);
-    tm.history('style', styleId, true);
+    tm.history(sourceId, true);
+    tm.history(styleId, true);
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}

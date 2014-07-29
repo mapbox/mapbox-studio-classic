@@ -540,7 +540,7 @@ app.get('/history.json', middleware.userTilesets, middleware.history, function(r
 
 app.del('/history/:type(style|source)', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.history(req.params.type,req.query.id, true);
+    tm.history(req.query.id, true);
     res.send(200);
 });
 
