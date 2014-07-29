@@ -207,3 +207,35 @@ for (var name in datatests) (function(name, info) {
         });
     });
 })(name, datatests[name]);
+
+tape('keybindings', function(t) {
+    window.location.hash = '#';
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 190; // .
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#full', 'ctrl+. => #fullscreen');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 72; // h
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#docs', 'ctrl+h => #help');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 220; // backslash
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#settings', 'ctrl+\\ => #settings');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 66; // backslash
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
+
+    t.end();
+});
+
