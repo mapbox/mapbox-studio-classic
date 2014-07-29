@@ -289,6 +289,9 @@ Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
   $('#full').addClass('loading');
 
+  // Clear focus from any fields.
+  $('#settings-drawer input, #settings-drawer textarea').blur();
+
   var attr = {};
   // Grab settings form values.
   _($('#settings-drawer').serializeArray()).reduce(function(memo, field) {

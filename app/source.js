@@ -421,6 +421,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.save = function(ev, options) {
         // Set map in loading state.
         $('#full').addClass('loading');
+        // Clear focus from any fields.
+        $('#settings-drawer input, #settings-drawer textarea').blur();
         // Grab settings form values.
         var attr = _($('#settings-drawer').serializeArray()).reduce(function(memo, field) {
             memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
