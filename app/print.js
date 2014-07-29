@@ -296,6 +296,8 @@ Printer.prototype.modifydimensions = function(ev) {
     bounds = this.calculateCornersPx(center, pixelX/scale, pixelY/scale);
   } else if (inchX != inchdim[0] || inchY != inchdim[1]) {
     bounds = this.calculateCornersPx(center, inchX * 72, inchY * 72);
+  } else {
+    return;
   }
 
   boundingBox.setBounds(bounds);
