@@ -188,7 +188,7 @@ test('local: saves source in memory', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
     assert.ifError(err);
 
-    source.save(_({id:'tmsource:///tmp-12345678'}).defaults(info), function(err, source) {
+    source.save(_({id:source.tmpid()}).defaults(info), function(err, source) {
         t.ifError(err);
         t.ok(source);
         t.end();
@@ -200,7 +200,7 @@ test('local: saves source in memory', function(t) {
 test('local: saves source (invalid)', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
         assert.ifError(err);
-        source.save(_({id:'tmsource:///tmp-12345678', minzoom:-1}).defaults(info), function(err, source) {
+        source.save(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
             assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.save() errors on invalid style');
             t.end();
         });
