@@ -366,14 +366,11 @@ L.LocationFilter = L.Class.extend({
     },
 
     _calculatePixelCorners: function(){
-        // this._sm.size = window.exporter.model.get('coordinates').scale * 256;
-
-        // why does this need +2? otherwise it scales the bbox to 4.15x
-        var zoom = this._map.getZoom() + 2,
+        var zoom = this._map.getZoom(),
             center = [(this._ne.lat - this._sw.lat)/2 + this._sw.lat, (this._ne.lng - this._sw.lng)/2 + this._sw.lng];
         var center = this._sm.px([center[1], center[0]], zoom),
-            w = window.exporter.model.get('coordinates').dimensions[0],
-            h = window.exporter.model.get('coordinates').dimensions[1],
+            w = window.exporter.model.get('coordinates').dimensions[0] / window.exporter.model.get('coordinates').scale,
+            h = window.exporter.model.get('coordinates').dimensions[1] / window.exporter.model.get('coordinates').scale,
             ne = this._sm.ll([center[0] + w/2, center[1] - h/2], zoom),
             sw = this._sm.ll([center[0] - w/2, center[1] + h/2], zoom);
 
