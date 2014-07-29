@@ -291,6 +291,7 @@ a.project:hover {
 
 a.project .small-graphic {
   height: auto;
+  background-size: cover;
 }
 
 /* Flag active project */

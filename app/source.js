@@ -83,6 +83,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'click .js-browsefile': 'browsefile',
         'click #history .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
+        'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
         'click .layer .js-tab': 'tabbedFields',
         'click .js-addlayer': 'addlayerModal',
