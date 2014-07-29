@@ -258,6 +258,11 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #user:target ~ #drawers #user-drawer > *,
 #settings:target ~ #drawers #settings-drawer > * { display:block; }
 
+/* Project state
+------------------------------------------------------- */
+.on-tmp { display:none; }
+body.tmp .on-tmp { display:block; }
+
 /* Project history
 ------------------------------------------------------- */
 #modalsources-local,

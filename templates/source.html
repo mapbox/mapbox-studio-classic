@@ -24,7 +24,7 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> clip dark'><div id='app' class='pin-top pin-bottom'>
+<body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> clip dark'><div id='app' class='pin-top pin-bottom'>
 
 <a id='settings'></a>
 <a id='user'></a>
@@ -46,7 +46,7 @@
     <div class='pin-left top1 scroll-styled'>
       <fieldset class='clearfix pad1x pad2y keyline-bottom contain'>
         <% if (source._tmp) { %>
-        <div class='z10 pin-top pin-bottom col12 pad1x fill-disable disable-mask'></div>
+        <div class='z10 pin-top pin-bottom col12 pad1x fill-disable on-tmp'></div>
         <% } %>
         <section class='space-bottom1'>
           <div id='mapstatus-mapid' class='pad0y pad1x center truncate round-top space small animate fill-darken1'>
@@ -153,10 +153,8 @@
       <div class='col6 pad1'>
         <a href='#' class='js-addlayer short button col12 icon plus'>New layer</a>
       </div>
-      <div class='col6 pad1 text-right'>
-        <% if (source._tmp) { %>
-          <div class='z10 pin-right col6 inline fill-disable disable-mask'></div>
-        <% } %>
+      <div class='col6 pad1 text-right contain'>
+        <div class='z10 pin-top pin-bottom inline fill-disable on-tmp'></div>
         <a href='#' class='js-newstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
       </div>
     </div>
