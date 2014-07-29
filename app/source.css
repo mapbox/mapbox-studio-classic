@@ -47,10 +47,6 @@ nav a.button.title:active { background-color:#333; }
   position: relative;
 }
 
-/* Settings pane
-------------------------------------------------------- */
-.disable-mask { height: 70px; }
-
 /* Editor pane
 ------------------------------------------------------- */
 .editor .field-key {
@@ -59,6 +55,8 @@ nav a.button.title:active { background-color:#333; }
   color: rgba(0,0,0,.75);
   vertical-align: top;
 }
+
+#layers .disable-mask { height: 50px; }
 
 /* Conf pane
 ------------------------------------------------------- */

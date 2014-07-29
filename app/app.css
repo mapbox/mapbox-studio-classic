@@ -258,6 +258,13 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 #user:target ~ #drawers #user-drawer > *,
 #settings:target ~ #drawers #settings-drawer > * { display:block; }
 
+/* Project state
+------------------------------------------------------- */
+.on-tmp { display:none; }
+.on-changed { display:none; }
+body.tmp .on-tmp { display:block; }
+body.changed .on-changed { display:block; }
+
 /* Project history
 ------------------------------------------------------- */
 #modalsources-local,
@@ -284,6 +291,7 @@ a.project:hover {
 
 a.project .small-graphic {
   height: auto;
+  background-size: cover;
 }
 
 /* Flag active project */
@@ -746,6 +754,7 @@ span.cm-carto-filter             { color:#66475B; }
 .dark .CodeMirror-selected,
 .dark .CodeMirror-focused .CodeMirror-selected { background:#303030; }
 
+.dark .CodeMirror pre                  { color:#ccc; }
 .dark span.cm-keyword,
 .dark span.cm-carto-variable           { color:#d6e; }
 .dark span.cm-number,

@@ -3,6 +3,11 @@ language: node_js
 node_js:
   - "0.10"
 
+env:
+  global:
+  - secure: "VaWSqPRCVqp+7bP7zYrrASXPO9Po5hX1+YaCkaGHdET9ybwejWUUPpAZ/Yfd8PrjRuzkXOWDKGL3GDbr7GbLCvD6GxXmo9WqrJMQpdzru0Gqa7p67dbA3swBA+E3QaBvcRThdPHBP7xu11+0P2K8sI7XZLGix8ebfMZZPRDfjbY="
+  - secure: "ZpfehiS1S06Z9FZ1KtGOp4mdLxWj1+Kyr4kdC+525+HnVe1eMHGDyLeCK5z6vUt2G1tZ/FxGNLVQDIlwsXSbb0mOIqt/HPr1K9r3jKuPkqnrH01xiXnnrp09+NJO0E3qQlmoeyEk5mSuM5UQN1uSh7FiJC46etflhtOUs/oEjfo="
+
 # http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
 addons:
   postgresql: "9.3"
