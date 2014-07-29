@@ -245,14 +245,14 @@ Printer.prototype.modifycoordinates = function(ev) {
   // if the coordinates in 'bounds' or 'center' are modified,
   // compare and recalculate bounding box values.
   var bounds = [
-      parseFloat($('#bboxInputW').prop('value')),
-      parseFloat($('#bboxInputS').prop('value')),
-      parseFloat($('#bboxInputE').prop('value')),
-      parseFloat($('#bboxInputN').prop('value'))
+      parseFloat($('#bboxInputW').prop('value')) || 0,
+      parseFloat($('#bboxInputS').prop('value')) || 0,
+      parseFloat($('#bboxInputE').prop('value')) || 0,
+      parseFloat($('#bboxInputN').prop('value')) || 0
     ],
     center = [
-      parseFloat($('#centerInputLat').prop('value')),
-      parseFloat($('#centerInputLng').prop('value'))
+      parseFloat($('#centerInputLat').prop('value')) || 0,
+      parseFloat($('#centerInputLng').prop('value')) || 0
     ],
     bSum = bounds.reduce(function(a, b){ return a + b; }),
     bboxSum = window.exporter.model.get('coordinates').bbox.reduce(function(a, b){ return a + b; });
