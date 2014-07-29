@@ -530,8 +530,14 @@ app.get('/new/source', middleware.exporting, middleware.writeSource, function(re
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
-app.get('/', function(req, res, next) {
-    res.redirect('/new/style');
+app.get('/', middleware.latest, function(req, res, next) {
+    if (req.latest && req.latest.indexOf('tmstyle:') === 0) {
+        res.redirect('/style?id=' + id);
+    } else if (req.latest && req.latest.indexOf('tmsource:') === 0) {
+        res.redirect('/source?id=' + id);
+    } else {
+        res.redirect('/new/style');
+    }
 });
 
 app.get('/history.json', middleware.userTilesets, middleware.history, function(req, res, next) {
