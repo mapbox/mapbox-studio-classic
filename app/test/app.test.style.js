@@ -24,25 +24,6 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
-/*
-TODO - https://github.com/mapbox/tm2/issues/203
-beforeEach(function() {
-    event = document.createEvent('HTMLEvents');
-});
-
-tape('saves a project', function() {
-    el = document.getElementById('title').getElementsByClassName('js-save')[0];
-    event.initEvent('click', true, false);
-    el.dispatchEvent(event);
-
-    var form = document.getElementById('saveas');
-    form.getElementsByTagName('input')[1].value = 'foo.tm2';
-    var submit = document.createEvent('HTMLEvents');
-    submit.initEvent('submit', true, false);
-    form.dispatchEvent(submit);
-});
-*/
-
 tape('.js-history browses sources', function(t) {
     $('.js-history .js-browsesource').click();
     t.ok(hasModal('#browsesource'));
@@ -217,6 +198,16 @@ tape('keybindings', function(t) {
     $('body').trigger(e);
     t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
 
-    t.end();
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal(window.editor.changed, false, 'ctrl+s => saved style');
+        t.end();
+    });
 });
 

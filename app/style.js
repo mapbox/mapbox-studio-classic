@@ -10,7 +10,7 @@ var mtime = (+new Date).toString(36);
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if (Editor && Editor.changed) return 'Save your changes?';
+  if (window.editor && window.editor.changed) return 'Save your changes?';
 };
 
 var Editor = Backbone.View.extend({});
@@ -63,7 +63,7 @@ var Tab = function(id, value) {
   */
 
   function changed() {
-    Editor.changed = true;
+    window.editor.changed = true;
   }
 
   tab.on('keydown', completer.onKeyEvent);
@@ -313,7 +313,7 @@ Editor.prototype.save = function(ev, options) {
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
-  Editor.changed = false;
+  editor.changed = false;
   options = options || {
     success:_(this.refresh).bind(this),
     error: _(this.error).bind(this)
