@@ -195,6 +195,17 @@ test('tm parse', function(t) {
     t.end();
 });
 
+test('tm join', function(t) {
+    // Simulate windows if we're not.
+    var sep = path.sep;
+    path.sep = '\\';
+    t.equal(tm.join('/home/villeda', 'somewhere'), '/home/villeda/somewhere');
+    t.equal(tm.join('c:\\home\\villeda', 'somewhere'), 'c:/home/villeda/somewhere');
+    t.equal(tm.join('c:\\home\\villeda'), 'c:/home/villeda');
+    path.sep = sep;
+    t.end();
+});
+
 test('tm absolute', function(t) {
     t.equal(tm.absolute('/absolute/path'), true);
     t.equal(tm.absolute('relative/path'), false);
