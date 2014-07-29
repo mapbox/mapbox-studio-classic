@@ -44,10 +44,10 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled'>
-      <% if (source._tmp) { %>
-        <div class='z10 pin-topleft col12 pad1x fill-disable disable-mask'></div>
-      <% } %>
-      <fieldset class='clearfix pad1x pad2y keyline-bottom'>
+      <fieldset class='clearfix pad1x pad2y keyline-bottom contain'>
+        <% if (source._tmp) { %>
+        <div class='z10 pin-top pin-bottom col12 pad1x fill-disable disable-mask'></div>
+        <% } %>
         <section class='space-bottom1'>
           <div id='mapstatus-mapid' class='pad0y pad1x center truncate round-top space small animate fill-darken1'>
             <strong>Map ID</strong>

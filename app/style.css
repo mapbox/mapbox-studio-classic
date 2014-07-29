@@ -78,8 +78,6 @@
 
 /* Settings pane
 ------------------------------------------------------- */
-.disable-mask { height: 180px; }
-
 #mapstatus { height:30px; }
 #mapstatus-uploaded {
   -webkit-transform:translateY(100%);
