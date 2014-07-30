@@ -22,10 +22,11 @@ $(document).ajaxComplete(function() {
 
 
 tape('initializes', function(t) {
-    var loadcheck = setTimeout(check, 100);
+    var loadcheck = setInterval(check, 100);
     function check(){
         if (window.exporter.model.attributes && window.exporter.model.attributes.coordinates) {
-            clearTimeout(loadcheck);
+            clearInterval(loadcheck);
+            t.ok(true, 'initializes');
             t.end();
         }
     }
