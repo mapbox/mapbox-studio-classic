@@ -27,6 +27,11 @@ function createTmpProject(testname, id, callback) {
     lib.info(id, function(err, info) {
         if (err) return callback(err);
 
+        // no source applies a local source
+        if (!info.source){
+            info.source = 'tmsource://' + path.join(__dirname, 'fixtures-localsource');
+        }
+
         // Make relative paths absolute.
         if (info.Layer) info.Layer = info.Layer.map(function(l) {
             if (!l.Datasource) return l;

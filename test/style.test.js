@@ -141,6 +141,19 @@ test('packages style to tm2z', function(t) {
     });
 });
 
+test('style.toPackage errors on local source', function(t) {
+    var localsourcestyle = 'tmstyle://' + path.join(__dirname, 'fixtures-localstyle-localsource');
+    testutil.createTmpProject('style-save', localsourcestyle, function(err, tmpid, data) {
+        t.ifError(err);
+
+        var tmptm2z = tm.parse(tmpid).dirname + '.tm2z';
+        style.toPackage(tmpid, tmptm2z, function(err) {
+            t.equal('Error: Cannot package a local source with a style.', err.toString());
+            t.end();
+        });
+    });
+});
+
 test('fails to package tmp style', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
@@ -305,7 +318,7 @@ test('style.upload: errors on unsaved id', function(t) {
         mapbox: 'http://localhost:3001'
     },
     function(err, info){
-        t.equal(err.message, "Style must be saved first");
+        t.equal(err.message, 'Style must be saved first');
         t.end();
     });
 });
