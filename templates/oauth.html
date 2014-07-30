@@ -13,12 +13,24 @@
 
 <div class='fill-blue'><div class='dark pad8 clearfix fill-darken0 gradient'>
     <div class='col6 margin3 pad8y center'>
+        <% if (obj.user) { %>
+        <div class='space-bottom'>
+            <div class='inline small-graphic avatar dot' style='background-image:url(<%= obj.user.avatar %>)' /></div>
+        </div>
+        <h2><%- obj.user.name || obj.user.id %></h2>
+        <div class='space-bottom4 quiet small space'>
+            <a href='https://www.mapbox.com/projects/' target='_blank'>My account</a>
+            <a href='/unauthorize'>Sign out</a>
+        </div>
+        <a href='/' class='button rcon next col8 margin2'>Skip intro</a>
+        <% } else { %>
         <div class='mb-logo white row1 space-bottom'></div>
         <h2 class='space-bottom4'>
         Connect&nbsp;to&nbsp;your&nbsp;Mapbox<br/>
         account&nbsp;to&nbsp;get&nbsp;started.
         </h2>
         <a href='/oauth/mapbox' class='button icon lock col8 margin2'>Connect</a>
+        <% } %>
     </div>
 </div></div>
 
@@ -157,7 +169,11 @@
         Start&nbsp;designing&nbsp;your&nbsp;first<br/>
         custom&nbsp;map&nbsp;now.
         </h2>
+        <% if (obj.user) { %>
+        <a href='/' class='button loud rcon next col8 margin2'>Get started</a>
+        <% } else { %>
         <a href='/oauth/mapbox' class='button loud icon lock col8 margin2'>Connect</a>
+        <% } %>
     </div>
 </div></div>
 
