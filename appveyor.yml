@@ -1,4 +1,5 @@
 environment:
+  HOME: "c:\\projects\\tm2"
   AWS_ACCESS_KEY_ID:
     secure: "0J8mscGMiIN0z/vdkISIUKY29S00YSLZChKHHCLLY/o="
   AWS_SECRET_ACCESS_KEY:
@@ -13,7 +14,7 @@ install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   - node --version
   - node -e "console.log(process.arch)"
-  - node -e "console.log(process.arch)"
+  - node -e "console.log(process.env.HOME)"
   - npm --version
   - npm install
   - npm test
