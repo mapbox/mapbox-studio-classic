@@ -365,11 +365,36 @@ L.LocationFilter = L.Class.extend({
         this._southBounds = new L.LatLngBounds(this._osw, new L.LatLng(this._sw.lat, this._one.lng, true));
     },
 
+    _calculatePixelCorners: function(){
+        // calculate the new geographic dimensions of the bounding by desired dimensions in pixels
+        // uses node-sphericalmercator to calculate between pixel values and lat,lng
+        var zoom = this._map.getZoom(),
+            ne = this._sm.px([this._ne.lng, this._ne.lat], zoom),
+            sw = this._sm.px([this._sw.lng, this._sw.lat], zoom),
+            center = [(ne[0] - sw[0])/2 + sw[0], (ne[1] - sw[1])/2 + sw[1]],
+            w = Math.ceil(window.exporter.model.get('coordinates').dimensions[0] / window.exporter.model.get('coordinates').scale),
+            h = Math.ceil(window.exporter.model.get('coordinates').dimensions[1] / window.exporter.model.get('coordinates').scale);
+
+        ne = this._sm.ll([center[0] + w/2, center[1] - h/2], zoom);
+        sw = this._sm.ll([center[0] - w/2, center[1] + h/2], zoom);
+
+        this._nw = L.latLng(ne[1], sw[0]);
+        this._ne = L.latLng(ne[1], ne[0]);
+        this._sw = L.latLng(sw[1], sw[0]);
+        this._se = L.latLng(sw[1], ne[0]);
+        this._north = new L.LatLng(this._nw.lat, (this._ne.lng - this._nw.lng)/2 + this._nw.lng);
+        this._south = new L.LatLng(this._sw.lat, (this._se.lng - this._sw.lng)/2 + this._sw.lng);
+        this._east = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._ne.lng);
+        this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
+    },
+
     /* Initializes rectangles and markers */
     _initialDraw: function() {
         if (this._initialDrawCalled) {
             return;
         }
+        // for geo -> pixel conversion
+        this._sm = new SphericalMercator();
 
         this._layer = new L.LayerGroup();
 
@@ -423,6 +448,17 @@ L.LocationFilter = L.Class.extend({
     /* Reposition all rectangles and markers to the current filter bounds. */    
     _draw: function(options) {
         options = L.Util.extend({repositionResizeMarkers: true}, options);
+
+        /*  In order to combat skewing of the bounding box
+        *   and divergence from desired pixel dimensions due
+        *   to the projection of the map (especially near the poles),
+        *   if the dimensions of the bounding box are locked
+        *   recalculate bounding box coordinates by saved
+        *   pixel dimensions.
+        */ 
+        if (window.exporter.model.get('coordinates') && window.exporter.model.get('coordinates').locked){
+            this._calculatePixelCorners();
+        }
 
         // Calculate filter bounds
         this._calculateBounds();

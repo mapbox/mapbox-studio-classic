@@ -208,13 +208,9 @@ Print(templates, cwd, style);
 </script>
 
 <% if (test) { %>
-  <link href='/app/test/mocha.css' rel='stylesheet' />
-  <style>body{padding:0;line-height:1;}/*Bad Mocha*/</style>
-  <script src='/app/test/chai.js'></script>
-  <script src='/app/test/mocha.js'></script>
-  <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
-  <a href='#' id='mask' class='fill-darken2 animate'></a>
-  <script src='/app/test/app.test.js'></script>
+  <script>window.testParams = <%= JSON.stringify(test) %>;</script>
+  <script src='/app/test/tape.js'></script>
+  <script src='/app/test/app.test.print.js'></script>
 <% } %>
 
 </body>

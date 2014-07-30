@@ -20,10 +20,11 @@ test('setup: config', function(t) {
 test('setup: db', function(t) {
     fs.writeFileSync(path.join(tmppath, 'noncompact.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'noncompact.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v1.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v1.db')));
+    fs.writeFileSync(path.join(tmppath, 'schema-v2.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v2.db')));
     t.end();
 });
 
-test('tm migrates', function(t) {
+test('tm migrate v1', function(t) {
     var dbpath = path.join(tmppath, 'schema-v1.db');
     var db = dirty(dbpath);
     db.once('load', function() {
@@ -31,11 +32,29 @@ test('tm migrates', function(t) {
         tm.dbmigrate(db);
         db.forEach(function(k,v) { docs[k] = v });
         t.deepEqual({
-            version: 2,
-            history: {
-                style: [ 'tmstyle:///no-protocol/path/style.tm2' ],
-                source: [ 'mapbox:///mapbox.mapbox-streets-v2' ]
-            }
+            version: 3,
+            history: [
+                'tmstyle:///no-protocol/path/style.tm2',
+                'mapbox:///mapbox.mapbox-streets-v2'
+            ]
+        }, docs);
+        t.end();
+    });
+});
+
+test('tm migrate v2', function(t) {
+    var dbpath = path.join(tmppath, 'schema-v2.db');
+    var db = dirty(dbpath);
+    db.once('load', function() {
+        var docs = {};
+        tm.dbmigrate(db);
+        db.forEach(function(k,v) { docs[k] = v });
+        t.deepEqual({
+            version: 3,
+            history: [
+                'tmstyle:///no-protocol/path/style.tm2',
+                'mapbox:///mapbox.mapbox-streets-v2'
+            ]
         }, docs);
         t.end();
     });
@@ -121,27 +140,26 @@ test('tm history', function(t) {
         'mapbox:///mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5',
         'mapbox:///mapbox.satellite,mapbox.mapbox-streets-v5'
     ];
-    t.deepEqual({style:[], source:defaultSources}, tm.history(),
+    t.throws(function() {
+        tm.history('badprotocol://xyz')
+    });
+    t.deepEqual(defaultSources, tm.history(),
         'Inits with defaults');
-    t.deepEqual({style:[], source:defaultSources}, tm.history('insufficient args'),
-        'Does not attempt set without enough args');
-    t.throws(function() { tm.history('badtype', 'foo') }, /requires valid type/,
-        'Throws error on bad type');
-    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('style', 'foo'),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('tmstyle:///foo'),
         'Sets style');
-    t.deepEqual({style:['foo'], source:defaultSources}, tm.history(),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history('source', 'bar'),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmsource:///bar']), tm.history('tmsource:///bar'),
         'Sets source');
-    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history(),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmsource:///bar']), tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:['bar'].concat(defaultSources)}, tm.history('source', 'bar'),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmsource:///bar']), tm.history('tmsource:///bar'),
         'Ignores duplicates');
-    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('source', 'bar', true),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('tmsource:///bar', true),
         'Invalidates source');
-    t.deepEqual({style:['foo'], source:defaultSources}, tm.history(),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history(),
         'Confirm invalidation');
-    t.deepEqual({style:['foo'], source:defaultSources}, tm.history('source', 'mapbox:///mapbox.mapbox-streets-v5', true),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('mapbox:///mapbox.mapbox-streets-v5', true),
         'Cannot invalidate default source');
     t.end();
 });
@@ -192,6 +210,17 @@ test('tm parse', function(t) {
     t.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
     t.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
     t.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+    t.end();
+});
+
+test('tm join', function(t) {
+    // Simulate windows if we're not.
+    var sep = path.sep;
+    path.sep = '\\';
+    t.equal(tm.join('/home/villeda', 'somewhere'), '/home/villeda/somewhere');
+    t.equal(tm.join('c:\\home\\villeda', 'somewhere'), 'c:/home/villeda/somewhere');
+    t.equal(tm.join('c:\\home\\villeda'), 'c:/home/villeda');
+    path.sep = sep;
     t.end();
 });
 

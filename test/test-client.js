@@ -48,6 +48,11 @@ require('../index.js').on('listening', function() {
             src: 'tmstyle://'+basePath+'/node_modules/tm2-default-style'
         },
         {
+            name: 'print',
+            url: 'http://localhost:3001/print?id={id}&test=true',
+            src: 'tmstyle://'+basePath+'/node_modules/tm2-default-style'
+        },
+        {
             name: 'source',
             url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'

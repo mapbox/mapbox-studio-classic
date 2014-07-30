@@ -32,7 +32,7 @@ function createTmpProject(testname, id, callback) {
             if (!l.Datasource) return l;
             if (!l.Datasource.file) return l;
             if (tm.absolute(l.Datasource.file)) return l;
-            l.Datasource.file = path.join(tm.parse(id).pathname, l.Datasource.file);
+            l.Datasource.file = tm.join(tm.parse(id).dirname, l.Datasource.file);
             return l;
         });
 
