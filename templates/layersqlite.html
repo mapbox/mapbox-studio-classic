@@ -34,9 +34,14 @@
         <label class='pad0y col3 inline'>Extent </label>
         <input type='text' class='short col9' name='Datasource-extent' value='<%= obj.Datasource.extent %>' placeholder='autodetect' />
       </section>
-      <section class='pad2x pad1y keyline-bottom'>
-        <label>Projection</label>
-        <input class='js-metadata-projection short stretch' name='srs' type='text' value='<%= obj.srs %>' />
+      <section class='clearfix pad2x pad1y keyline-bottom'>
+        <label class='pad0y col3 inline'>Projection</label>
+        <div class='col9 pad0y'>
+          <select name='srs'>
+            <option value='<%=tm.srs['900913']%>' <% if (tm.srs['900913'] === obj.srs) { %>selected='selected'<% }%>>900913</option>
+            <option value='<%=tm.srs['WGS84']%>' <% if (tm.srs['WGS84'] === obj.srs) { %>selected='selected'<% }%>>WGS84</option>
+          </select>
+        </div>
       </section>
       <section class='clearfix pad2x pad1y keyline-bottom'>
         <label class='pad0y col3 inline'>Buffer size</label>
