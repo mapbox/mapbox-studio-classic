@@ -39,7 +39,7 @@ process.argv.push('--mapboxtile=http://localhost:3001/v4');
 // Test params
 var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data');
 
-require('../index.js').on('listening', function() {
+require('../index.js').on('ready', function() {
     var exit = 0;
     var tests = [
         {
