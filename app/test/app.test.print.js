@@ -23,13 +23,12 @@ $(document).ajaxComplete(function() {
 
 tape('initializes', function(t) {
     var loadcheck = setTimeout(check, 100);
-
     function check(){
         if (window.exporter.model.attributes && window.exporter.model.attributes.coordinates) {
             clearTimeout(loadcheck);
             t.end();
         }
-    };
+    }
 });
 
 tape('.js-coordinates recalculates center', function(t) {
@@ -39,10 +38,8 @@ tape('.js-coordinates recalculates center', function(t) {
     $('#bboxInputN').prop('value', 1.5);
     $('.js-coordinates').change();
 
-    console.log($('#zoomedto .z2 .perc').html())
-
-    t.equal("-0.5000", $('#centerInputLat').val());
-    t.equal("-0.5000", $('#centerInputLng').val());
+    t.equal('-0.5000', $('#centerInputLat').val());
+    t.equal('-0.5000', $('#centerInputLng').val());
 
     t.end();
 });
@@ -52,15 +49,15 @@ tape('.js-dimensions updates #export url', function(t) {
     $('#pixelY').prop('value', 324);
     $('.js-dimensions').change();
 
-    t.equal("1.08", $('#inchX').val());
-    t.equal("1.08", $('#inchY').val());
+    t.equal('1.08', $('#inchX').val());
+    t.equal('1.08', $('#inchY').val());
 
     $('#centerInputLat').prop('value', 0);
     $('#centerInputLng').prop('value', 0);
     $('.js-coordinates').change();
 
     var href = document.getElementById('export').pathname;
-    t.equal("/static/2/-13.703,-13.5739,13.703,13.5739@4.15625x.png", href);
+    t.equal('/static/2/-13.703,-13.5739,13.703,13.5739@4.15625x.png', href);
 
     t.end();
 });
@@ -103,7 +100,6 @@ tape('.js-dimensions over limit triggers warning', function(t) {
     $('#pixelX').prop('value', 24000);
     $('.js-dimensions').change();
 
-    console.log(zoom)
     t.ok($('#pixelX').hasClass('warning'));
     t.ok($('#zoomedto .z8 .perc').hasClass('warning'));
 
