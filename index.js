@@ -29,6 +29,8 @@ var crypto = require('crypto');
 var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
 var task = require('./lib/task');
+var app = express();
+var startup = 0;
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -37,9 +39,11 @@ config.port = config.port || '3000';
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
 
-tm.config(config);
+tm.config(config, function(err) {
+    if (err) throw err;
+    if (++startup === 2) app.emit('ready');
+});
 
-var app = express();
 app.use(express.bodyParser());
 app.use(require('./lib/oauth'));
 app.use(app.router);
@@ -530,8 +534,14 @@ app.get('/new/source', middleware.exporting, middleware.writeSource, function(re
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
-app.get('/', function(req, res, next) {
-    res.redirect('/new/style');
+app.get('/', middleware.latest, function(req, res, next) {
+    if (req.latest && req.latest.indexOf('tmstyle:') === 0) {
+        res.redirect('/style?id=' + req.latest);
+    } else if (req.latest && req.latest.indexOf('tmsource:') === 0) {
+        res.redirect('/source?id=' + req.latest);
+    } else {
+        res.redirect('/new/style');
+    }
 });
 
 app.get('/history.json', middleware.userTilesets, middleware.history, function(req, res, next) {
@@ -540,7 +550,7 @@ app.get('/history.json', middleware.userTilesets, middleware.history, function(r
 
 app.del('/history/:type(style|source)', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.history(req.params.type,req.query.id, true);
+    tm.history(req.query.id, true);
     res.send(200);
 });
 
@@ -586,7 +596,7 @@ if (config.test) require('./lib/mapbox-mock')(app);
 module.exports = app;
 app.listen(config.port, function(err) {
     if (err) throw err;
-    app.emit('listening');
+    if (++startup === 2) app.emit('ready');
     console.log('TM2 @ http://localhost:'+config.port+'/');
 });
 

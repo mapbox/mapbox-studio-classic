@@ -1,0 +1,32 @@
+.fill-blue.gradient {
+    background-color: transparent;
+    background-image: linear-gradient( to bottom, #3887be, #8a8acb);
+}
+.fill-darken0.gradient {
+    background-color: transparent;
+    background-image: linear-gradient( to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.10));
+}
+.fill-darken1.gradient {
+    background-color: transparent;
+    background-image: linear-gradient( to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.25));
+}
+.fill-darken2.gradient {
+    background-color: transparent;
+    background-image: linear-gradient( to bottom, rgba(0,0,0,0.30), rgba(0,0,0,0.50));
+}
+.fill-darken3.gradient {
+    background-color: transparent;
+    background-image: linear-gradient( to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.65));
+}
+.fill-darken0.gradient.reverse {
+    background-image: linear-gradient( to top, rgba(0,0,0,0.05), rgba(0,0,0,0.10));
+}
+.fill-darken1.gradient.reverse {
+    background-image: linear-gradient( to top, rgba(0,0,0,0.15), rgba(0,0,0,0.25));
+}
+.fill-darken2.gradient.reverse {
+    background-image: linear-gradient( to top, rgba(0,0,0,0.30), rgba(0,0,0,0.50));
+}
+.fill-darken3.gradient.reverse {
+    background-image: linear-gradient( to top, rgba(0,0,0,0.55), rgba(0,0,0,0.70));
+}

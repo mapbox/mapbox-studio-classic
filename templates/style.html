@@ -85,7 +85,7 @@
   </div>
   <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
   <!-- DEMO -->
-  <div id='inspect-popup' class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+  <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
     TM2 styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
@@ -234,7 +234,7 @@
   </div>
 
   <!-- DEMO -->
-  <div id='style-popup' class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
+  <div id='style-popup' class='demo-popup col7 pin-topleft pad4 top2 fill-blue dark offcanvas-left round-left'>
     <h3>Editing + saving</h3>
     <small class='space-bottom4'>
     Change the Map <code>background-color</code> property to a hex code (<code>#f88</code>) or html color (<code>pink</code>). Hit <kbd class='prefixed'>s</kbd> to save and update your style. The map preview on the left updates as you work.
@@ -269,7 +269,7 @@
 </div>
 
 <!-- DEMO POPUPS -->
-<div id='style-popup' class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark z1'>
+<div id='style-popup' class='demo-popup demo-fallback animate margin3 col6 pad4 pin-bottom bottom2 fill-blue dark z1 round'>
   <h3>Style editor</h3>
   <small class='space-bottom4'>
   In the TM2 style editor you can design map styles using data from OpenStreetMap, Mapbox, and other custom sources. Then publish them to be used with the Mapbox API.
@@ -279,7 +279,7 @@
   </div>
 </div>
 
-<div id='settings-popup' class='demo-popup col4 margin3 pin-topleft pad2 fill-blue dark'>
+<div id='settings-popup' class='demo-popup col5 margin3 pin-topleft pad4 top1 fill-blue dark round-right'>
   <h3>Publishing</h3>
   <small class='space-bottom4'>
   Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
@@ -290,7 +290,7 @@
   </div>
 </div>
 
-<div id='layers-popup' class='demo-popup col4 margin3 pin-topleft pad2 top1 fill-blue dark'>
+<div id='layers-popup' class='demo-popup col5 margin3 pin-topleft pad4 top1 fill-blue dark round-right'>
   <h3>Vector sources</h3>
   <small class='space-bottom4'>
   Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
@@ -301,7 +301,7 @@
   </div>
 </div>
 
-<div id='fonts-popup' class='demo-popup col4 margin3 pin-topleft pad2 top2 fill-blue dark'>
+<div id='fonts-popup' class='demo-popup col5 margin3 pin-topleft pad4 top2 fill-blue dark round-right'>
   <h3>Fonts</h3>
   <small class='space-bottom4'>
   The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
@@ -312,7 +312,7 @@
   </div>
 </div>
 
-<div id='docs-popup' class='demo-popup hidden col4 margin3 pin-bottomleft pad2 bottom2 fill-blue dark'>
+<div id='docs-popup' class='demo-popup hidden col5 margin3 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
   <h3>CartoCSS</h3>
   <small class='space-bottom4'>
   View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
@@ -323,7 +323,7 @@
   </div>
 </div>
 
-<div id='user-popup' class='demo-popup col4 margin3 pin-bottomleft pad2 bottom1 fill-blue dark'>
+<div id='user-popup' class='demo-popup col5 margin3 pin-bottomleft pad4 bottom1 fill-blue dark round-right'>
   <h3>Switching projects</h3>
   <small class='space-bottom4'>
   Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
@@ -334,8 +334,6 @@
   </div>
 </div>
 <!-- END DEMO POPUPS -->
-
-<%= this.styledemo() %>
 
 </div>
 
