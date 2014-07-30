@@ -22,6 +22,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       .map(_(function(item) {
         return this.sourceitem({
           classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
+          withdel: true,
           item: item
         });
       }).bind(this))
@@ -37,6 +38,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
         .map(_(function(item) {
           return this.sourceitem({
             classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
+            withdel: true,
             item: item
           });
         }).bind(this))

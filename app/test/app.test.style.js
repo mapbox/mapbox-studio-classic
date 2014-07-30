@@ -24,24 +24,12 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
-/*
-TODO - https://github.com/mapbox/tm2/issues/203
-beforeEach(function() {
-    event = document.createEvent('HTMLEvents');
+tape('#settings-form', function(t) {
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('#settings-drawer').change();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.end();
 });
-
-tape('saves a project', function() {
-    el = document.getElementById('title').getElementsByClassName('js-save')[0];
-    event.initEvent('click', true, false);
-    el.dispatchEvent(event);
-
-    var form = document.getElementById('saveas');
-    form.getElementsByTagName('input')[1].value = 'foo.tm2';
-    var submit = document.createEvent('HTMLEvents');
-    submit.initEvent('submit', true, false);
-    form.dispatchEvent(submit);
-});
-*/
 
 tape('.js-history browses sources', function(t) {
     $('.js-history .js-browsesource').click();
@@ -181,5 +169,52 @@ tape('#reference tabs through CartoCSS reference', function(t) {
     t.ok($('#reference .js-tab:last').hasClass('active'));
     t.ok(target.hasClass('active'));
     t.end();
+});
+
+tape('keybindings', function(t) {
+    window.location.hash = '#';
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 190; // .
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#full', 'ctrl+. => #fullscreen');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 72; // h
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#docs', 'ctrl+h => #help');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 73; // i
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#layers', 'ctrl+i => #layers');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 220; // backslash
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#settings', 'ctrl+\\ => #settings');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 66; // backslash
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
+    });
 });
 

@@ -530,8 +530,14 @@ app.get('/new/source', middleware.exporting, middleware.writeSource, function(re
     res.redirect('/source?id=' + req.source.data.id + '#addlayer');
 });
 
-app.get('/', function(req, res, next) {
-    res.redirect('/new/style');
+app.get('/', middleware.latest, function(req, res, next) {
+    if (req.latest && req.latest.indexOf('tmstyle:') === 0) {
+        res.redirect('/style?id=' + req.latest);
+    } else if (req.latest && req.latest.indexOf('tmsource:') === 0) {
+        res.redirect('/source?id=' + req.latest);
+    } else {
+        res.redirect('/new/style');
+    }
 });
 
 app.get('/history.json', middleware.userTilesets, middleware.history, function(req, res, next) {
@@ -540,7 +546,7 @@ app.get('/history.json', middleware.userTilesets, middleware.history, function(r
 
 app.del('/history/:type(style|source)', function(req, res, next) {
     if (!req.query.id) return next(new Error('No id specified'));
-    tm.history(req.params.type,req.query.id, true);
+    tm.history(req.query.id, true);
     res.send(200);
 });
 
