@@ -29,6 +29,8 @@ var crypto = require('crypto');
 var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
 var task = require('./lib/task');
+var app = express();
+var startup = 0;
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
@@ -37,9 +39,11 @@ config.port = config.port || '3000';
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
 
-tm.config(config);
+tm.config(config, function(err) {
+    if (err) throw err;
+    if (++startup === 2) app.emit('ready');
+});
 
-var app = express();
 app.use(express.bodyParser());
 app.use(require('./lib/oauth'));
 app.use(app.router);
@@ -592,7 +596,7 @@ if (config.test) require('./lib/mapbox-mock')(app);
 module.exports = app;
 app.listen(config.port, function(err) {
     if (err) throw err;
-    app.emit('listening');
+    if (++startup === 2) app.emit('ready');
     console.log('TM2 @ http://localhost:'+config.port+'/');
 });
 
