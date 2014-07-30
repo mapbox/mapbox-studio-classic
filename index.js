@@ -597,6 +597,6 @@ module.exports = app;
 app.listen(config.port, function(err) {
     if (err) throw err;
     if (++startup === 2) app.emit('ready');
-    console.log('TM2 @ http://localhost:'+config.port+'/');
+    console.log('Mapbox Studio @ http://localhost:'+config.port+'/');
 });
 
