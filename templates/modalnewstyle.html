@@ -1,0 +1,16 @@
+<form id='newstylecheck' class='modal margin3 round col6 pad2 pin-top top2 dark fill-dark'>
+  <a href='#' class="pad1 quiet icon x pin-topright close js-close"></a>
+    <fieldset class='col12'>
+        <div class='center space-bottom2'> 
+        <h3>Create style with</h3>
+        </div>
+        <div class='clearfix margin1 col10'>
+             <div id='mapstatus-mapid' class='pad0y pad1x center truncate round-top space small fill-darken1'>
+              <strong>Map ID</strong>
+              <a href='https://www.mapbox.com/data/' class='quiet js-mapid' target='_blank'><%= _(source._prefs.mapid).escape()%></a>
+            </div>
+            <a href='/new/style?source=mapbox:///<%=source._prefs.mapid%>' class='col12 button icon space-bottom1 cloud'>Remote source</a>
+            <a href='/new/style?source=<%=source.id%>' class='col12 button quiet keyline-right icon harddrive js-browsefile'>Local source</a>
+        </div>
+    </fieldset>
+</form>

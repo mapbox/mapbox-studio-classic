@@ -578,8 +578,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
     Editor.prototype.newStyle = function(){
-        if (!source._prefs.mapid) Modal.show('newstylecheck');
-        else window.location.href = '/new/style?source=mapbox:///' + source._prefs.mapid;
+        if (!source._prefs.mapid) {
+            Modal.show('newstylecheck');
+        } else {
+            Modal.show('newstyle');
+        }
     };
     window.editor = new Editor({
         el: document.body,
