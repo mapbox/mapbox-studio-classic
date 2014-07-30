@@ -1,10 +1,10 @@
 environment:
+  AWS_ACCESS_KEY_ID:
+    secure: "0J8mscGMiIN0z/vdkISIUKY29S00YSLZChKHHCLLY/o="
+  AWS_SECRET_ACCESS_KEY:
+    secure: "7CsF2jx+syO5/6OGnS5xk4gbJtyh06iHq5J26sO0bFNZmwX1PDOIm3micFg9E2CQ"
   matrix:
     - nodejs_version: 0.10
-  AWS_ACCESS_KEY_ID:
-    secure: 0J8mscGMiIN0z/vdkISIUKY29S00YSLZChKHHCLLY/o=
-  AWS_SECRET_ACCESS_KEY:
-    secure: 7CsF2jx+syO5/6OGnS5xk4gbJtyh06iHq5J26sO0bFNZmwX1PDOIm3micFg9E2CQ
 
 platform:
   - x86
@@ -12,7 +12,8 @@ platform:
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   - node --version
-  - node -e "console.log(process.version)"
+  - node -e "console.log(process.env)"
+  - node -e "console.log(process.arch)"
   - node -e "console.log(process.arch)"
   - npm --version
   - npm install
