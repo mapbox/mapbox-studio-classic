@@ -1,9 +1,9 @@
-TM2 CartoCSS Styling
+Mapbox Studio CartoCSS Styling
 =======================
 
 ### Selectors
 
-TileMill 2 relies on the [CartoCSS](https://github.com/mapbox/CartoCSS) styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style:
+Mapbox Studio relies on the [CartoCSS](https://github.com/mapbox/CartoCSS) styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style:
 
 ```css
 // Select the layer
@@ -47,7 +47,7 @@ The order of selectors does not matter as there is no hierarchical structure in 
 ```
 
 ### Nested styles
-TileMill 2 allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance:
+Mapbox Studio allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance:
 
 ```css
 // Applies to all layers

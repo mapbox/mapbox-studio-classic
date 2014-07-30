@@ -1,6 +1,6 @@
-TM2 (development)
+Mapbox Studio (development)
 -----------------
-Experimental version of TileMill powered by vector tiles. There are currently no supported releases of this software.
+There are currently no supported releases of this software.
 
 [![Build Status](https://secure.travis-ci.org/mapbox/tm2.png)](http://travis-ci.org/mapbox/tm2)
 [![Build status](https://ci.appveyor.com/api/projects/status/bfb4jhunuaqg48q5)](https://ci.appveyor.com/project/Mapbox/tm2)
@@ -15,7 +15,7 @@ Install [node v0.10.x](http://nodejs.org/download/). Then
     npm install
     npm start
 
-*Note: the binary dependencies of TM2 are now prebuilt for common platforms (64 bit Linux and OS X). This means that you do not need to install these dependencies externally. However if packages fail to install from a binary then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source.*
+*Note: the binary dependencies of Mapbox Studio are now prebuilt for common platforms (64 bit Linux and OS X). This means that you do not need to install these dependencies externally. However if packages fail to install from a binary then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source.*
 
 ### What are vector tiles?
 
@@ -55,11 +55,11 @@ Here are some rough details of our implementation at time of writing:
 - Vector tiles store a serialized version of the internal data that [Mapnik](http://mapnik.org/) uses when rendering maps.
 - Vector tiles are organized into layers (e.g. roads, water, areas), which contain individual features each with a geometry and variable number of attributes per layer(e.g. name, type, etc.).
 
-### TM2 architecture
+### Mapbox Studio architecture
 
-TM2 ships with an example vector tile source: Mapbox Streets. When you create your first project you will have full access to style curated data from OpenStreetMap without setting up PostGIS, downloading and importing a large planet database file, or any of the other steps usually taken to work with OpenStreetMap data. If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, TM2 will download the vector tiles on-the-fly as you pan over to France. TM2 caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
+Mapbox Studio ships with an example vector tile source: Mapbox Streets. When you create your first project you will have full access to style curated data from OpenStreetMap without setting up PostGIS, downloading and importing a large planet database file, or any of the other steps usually taken to work with OpenStreetMap data. If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, Mapbox Studio will download the vector tiles on-the-fly as you pan over to France. Mapbox Studio caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
 
-Unlike TileMill, TM2 makes a hard split between two types of packages:
+Unlike TileMill, Mapbox Studio makes a hard split between two types of packages:
 
 - **[Styles](./HOWTO-styles.md)** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a datasource.
 - **[Sources](./HOWTO-sources.md)** describe a source for vector tiles, for example a URL endpoint from which to download tiles. We also have an API for generating vector tiles on the fly from traditional Mapnik datasources (shapefiles, postgis, etc) -- see [tilelive-bridge](http://github.com/mapbox/tilelive-bridge) for more info.

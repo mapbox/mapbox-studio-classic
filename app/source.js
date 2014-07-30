@@ -273,7 +273,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
         layersArray.forEach(function(current_layer, index, array) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
-            //so this is just reversing that process in order to properly render the mapnikXML for TM2
+            //so this is just reversing that process in order to properly render the mapnikXML for Mapbox Studio
             //This only applies to files that have gone through mapnik-omnivore
             var layername = metadata ? (current_layer.id).split('_').join(' ') : current_layer.id;
 
