@@ -9,7 +9,7 @@
   <title>Error</title>
 </head>
 
-<body id='view' class='fill-denim pad4y'>
+<body id='view' class='fill-blue pad8'>
 
 <%
 var title = 'Error';
@@ -22,11 +22,14 @@ case 'ENOENT':
 };
 %>
 
-<div class='clearfix limiter'>
+<div class='clearfix limiter pad4y'>
   <div class='col6 margin3 dark'>
-    <h2 class='center pad2y pad4x fill-darken0'><%= title %></h2>
-    <pre class='fill-darken1 unround pad2y pad4x'><%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %></pre>
-    <a href='/' class='button icon quiet prev col12 round-bottom'>Back</a>
+    <h2 class='center space-bottom'><%= title %></h2>
+    <pre class='fill-darken0 pad2 unround space-bottom contain'><%= message.split(' ').map(function(v) { return v.length > 20 ? "<span class='long'>" + v + "</span>" : v; }).join(' ') %><!--
+    --><a href='/authorize' class='button quiet round-right icon close pin-topright offcanvas-right'></a></pre>
+    <div class='center small space'>
+      <a href='https://github.com/mapbox/tm2/issues' class='icon quiet github' target='_blank'>Report on GitHub</a>
+    </div>
   </div>
 </div>
 
