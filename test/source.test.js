@@ -222,11 +222,15 @@ test('local: saves source to disk', function(t) {
         // Normalize all this nonsense before following through with basepath
         // replacement for fixture comparison + creation.
         var yaml = require('js-yaml');
-        var ymldirname = yaml.dump(__dirname).trim().replace(/"/g,'');
+        var dirname = tm.join(__dirname);
+        var ymldirname = yaml.dump(dirname).trim().replace(/"/g,'');
+
+        console.log('dirname ' + dirname);
+        console.log('ymldirname ' + ymldirname);
 
         var projectdir = tm.parse(tmpid).dirname;
         var datayml = fs.readFileSync(projectdir + '/data.yml', 'utf8').replace(new RegExp(ymldirname,'g'),'BASEPATH');
-        var dataxml = fs.readFileSync(projectdir + '/data.xml', 'utf8').replace(new RegExp(__dirname,'g'),'BASEPATH');
+        var dataxml = fs.readFileSync(projectdir + '/data.xml', 'utf8').replace(new RegExp(dirname,'g'),'BASEPATH');
 
         if (UPDATE) {
             fs.writeFileSync(__dirname + '/expected/source-save-data.yml', datayml);
