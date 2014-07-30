@@ -99,6 +99,7 @@ Editor.prototype.events = {
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
+  'click .js-download': 'downloadPackage',
   'keydown': 'keys'
 };
 
@@ -392,6 +393,14 @@ Editor.prototype.upload = function(ev) {
       $('#mapstatus').removeClass('loading');
       return Modal.show((resp.status === 422 ? 'upgrade' : 'error'), resp.responseText);
     });
+};
+
+Editor.prototype.downloadPackage = function(ev){
+  if (style.source.split(':')[0] === 'tmsource'){
+    return Modal.show('error', new Error('Cannot package a local source with a style.'));
+  } else {
+    window.location = '/style.tm2z?id=' + style.id;
+  }
 };
 
 Editor.prototype.selectall = function(ev) {
