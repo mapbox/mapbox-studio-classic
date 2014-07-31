@@ -355,10 +355,7 @@ app.put('/style.upload.json', function(req, res, next) {
 app.get('/upload', function(req, res, next) {
     source.info(req.query.id, function(err, info) {
         if (err) return next(err);
-        source.upload({
-            id: req.query.id,
-            oauth: tm.oauth()
-        }, false, function(err, job) {
+        source.upload(req.query.id, false, function(err, job) {
             if (err) return next(err);
 
             res.set({'content-type':'text/html'});
@@ -378,10 +375,7 @@ app.all('/upload.json', function(req, res, next) {
         res.send({});
         return;
     }
-    source.upload({
-        id: req.query.id,
-        oauth: tm.oauth()
-    }, req.method === 'PUT', function(err, job){
+    source.upload(req.query.id, req.method === 'PUT', function(err, job){
         if (err && err.code) {
             res.send(err.code, err.message);
         } else if (err) {
