@@ -23,9 +23,9 @@
   padding-right: 5px;
 }
 
-.print-controls.visible-n { display:none; }
+.export-controls.visible-n { display:none; }
 
-.print-controls.print-y { display:inline-block; }
+.export-controls.export-y { display:inline-block; }
 
 /* locationfilter default overrides */
 div.leaflet-marker-icon.location-filter.resize-marker {

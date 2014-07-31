@@ -88,9 +88,9 @@
       --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
     </div>
   </div>
-  <div class='print-controls visible-n'>
-    <a href='#print' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
-    <a href='#print' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
+  <div class='export-controls visible-n'>
+    <a href='#export' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
+    <a href='#export' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
   </div>
 
   <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
@@ -130,7 +130,7 @@
           <a href='#settings' class='js-upload col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
         <section class='space-bottom1'>
-          <a href='/print?id=<%=style.id%>' id='print-style' class='col12 short button picture icon'>Export image</a>
+          <a href='#export' id='export-style' class='col12 short button picture icon'>Export image</a>
         </section>
         <section>
           <a href='#package' class='js-download col12 short button icon package'>Download package</a>
@@ -239,14 +239,14 @@
         <% }); %>
       --></nav>
       <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-bottomright'></a>
-      <a href='#print' class='js-print print-n keyline-right icon picture fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
+      <a href='#export' class='js-export export-n icon picture keyline-left fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
     </div>
     <div id='stylesheets'></div>
     
   </div>
-  <div id='print' class='offcanvas-right z100 col12 export-menu pin-right dark fill-dark'>
+  <div id='export' class='offcanvas-right z100 col12 export-menu pin-right dark fill-dark'>
       <nav class='row1 col12 pin-top keyline-bottom z1'>
-        <a href='#' class='js-print print-y keyline-right icon x fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
+        <a href='#' class='js-export export-y keyline-left icon x fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
         <h3 class='inline pad1'>Export image</h3>
         <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
         <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
@@ -351,7 +351,7 @@
       </form>
 
       <div class='fill-dark pin-bottom keyline-top pad1'>
-        <a id='export' href='#' type='button' class='round short col12 button disabled icon floppy' value='Download image' name='Export' >Download</a>
+        <a id='exportDownload' href='#' type='button' class='round short col12 button disabled icon floppy' value='Download image' name='Export' >Download</a>
       </div>
 
     </div>

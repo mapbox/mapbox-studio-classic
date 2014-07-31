@@ -470,48 +470,48 @@ a.project.proj-active .proj-status { display: block;}
   display:block;
   background:#fff;
   }
-#zoomedto:target .z.z0, #zoomedto .print.z.z0,
-#zoomedto:target .z.z6, #zoomedto .print.z.z6,
-#zoomedto:target .z.z12, #zoomedto .print.z.z12,
-#zoomedto:target .z.z18, #zoomedto .print.z.z18  { top:0px; }
-#zoomedto:target .z.z1, #zoomedto .print.z.z1,
-#zoomedto:target .z.z7, #zoomedto .print.z.z7,
-#zoomedto:target .z.z13, #zoomedto .print.z.z13,
-#zoomedto:target .z.z19, #zoomedto .print.z.z19 { top:20px; }
-#zoomedto:target .z.z2, #zoomedto .print.z.z2,
-#zoomedto:target .z.z8, #zoomedto .print.z.z8,
-#zoomedto:target .z.z14, #zoomedto .print.z.z14,
-#zoomedto:target .z.z20, #zoomedto .print.z.z20 { top:40px; }
-#zoomedto:target .z.z3, #zoomedto .print.z.z3,
-#zoomedto:target .z.z9, #zoomedto .print.z.z9,
-#zoomedto:target .z.z15, #zoomedto .print.z.z15,
-#zoomedto:target .z.z21, #zoomedto .print.z.z21 { top:60px; }
-#zoomedto:target .z.z4, #zoomedto .print.z.z4,
-#zoomedto:target .z.z10, #zoomedto .print.z.z10,
-#zoomedto:target .z.z16, #zoomedto .print.z.z16,
-#zoomedto:target .z.z22, #zoomedto .print.z.z22 { top:80px; }
-#zoomedto:target .z.z5, #zoomedto .print.z.z5,
-#zoomedto:target .z.z11, #zoomedto .print.z.z11,
-#zoomedto:target .z.z17, #zoomedto .print.z.z17,
-#zoomedto:target .z.z23, #zoomedto .print.z.z23 { top:100px; }
-#zoomedto:target .z.z6, #zoomedto .print.z.z6,
-#zoomedto:target .z.z7, #zoomedto .print.z.z7,
-#zoomedto:target .z.z8, #zoomedto .print.z.z8,
-#zoomedto:target .z.z9, #zoomedto .print.z.z9,
-#zoomedto:target .z.z10, #zoomedto .print.z.z10,
-#zoomedto:target .z.z11, #zoomedto .print.z.z11 { left:25%; }
-#zoomedto:target .z.z12, #zoomedto .print.z.z12,
-#zoomedto:target .z.z13, #zoomedto .print.z.z13,
-#zoomedto:target .z.z14, #zoomedto .print.z.z14,
-#zoomedto:target .z.z15, #zoomedto .print.z.z15,
-#zoomedto:target .z.z16, #zoomedto .print.z.z16,
-#zoomedto:target .z.z17, #zoomedto .print.z.z17 { left:50%; }
-#zoomedto:target .z.z18, #zoomedto .print.z.z18,
-#zoomedto:target .z.z19, #zoomedto .print.z.z19,
-#zoomedto:target .z.z20, #zoomedto .print.z.z20,
-#zoomedto:target .z.z21, #zoomedto .print.z.z21,
-#zoomedto:target .z.z22, #zoomedto .print.z.z22,
-#zoomedto:target .z.z23, #zoomedto .print.z.z23 { left:75%;border-right-width: 0; }
+#zoomedto:target .z.z0, #zoomedto .export.z.z0,
+#zoomedto:target .z.z6, #zoomedto .export.z.z6,
+#zoomedto:target .z.z12, #zoomedto .export.z.z12,
+#zoomedto:target .z.z18, #zoomedto .export.z.z18  { top:0px; }
+#zoomedto:target .z.z1, #zoomedto .export.z.z1,
+#zoomedto:target .z.z7, #zoomedto .export.z.z7,
+#zoomedto:target .z.z13, #zoomedto .export.z.z13,
+#zoomedto:target .z.z19, #zoomedto .export.z.z19 { top:20px; }
+#zoomedto:target .z.z2, #zoomedto .export.z.z2,
+#zoomedto:target .z.z8, #zoomedto .export.z.z8,
+#zoomedto:target .z.z14, #zoomedto .export.z.z14,
+#zoomedto:target .z.z20, #zoomedto .export.z.z20 { top:40px; }
+#zoomedto:target .z.z3, #zoomedto .export.z.z3,
+#zoomedto:target .z.z9, #zoomedto .export.z.z9,
+#zoomedto:target .z.z15, #zoomedto .export.z.z15,
+#zoomedto:target .z.z21, #zoomedto .export.z.z21 { top:60px; }
+#zoomedto:target .z.z4, #zoomedto .export.z.z4,
+#zoomedto:target .z.z10, #zoomedto .export.z.z10,
+#zoomedto:target .z.z16, #zoomedto .export.z.z16,
+#zoomedto:target .z.z22, #zoomedto .export.z.z22 { top:80px; }
+#zoomedto:target .z.z5, #zoomedto .export.z.z5,
+#zoomedto:target .z.z11, #zoomedto .export.z.z11,
+#zoomedto:target .z.z17, #zoomedto .export.z.z17,
+#zoomedto:target .z.z23, #zoomedto .export.z.z23 { top:100px; }
+#zoomedto:target .z.z6, #zoomedto .export.z.z6,
+#zoomedto:target .z.z7, #zoomedto .export.z.z7,
+#zoomedto:target .z.z8, #zoomedto .export.z.z8,
+#zoomedto:target .z.z9, #zoomedto .export.z.z9,
+#zoomedto:target .z.z10, #zoomedto .export.z.z10,
+#zoomedto:target .z.z11, #zoomedto .export.z.z11 { left:25%; }
+#zoomedto:target .z.z12, #zoomedto .export.z.z12,
+#zoomedto:target .z.z13, #zoomedto .export.z.z13,
+#zoomedto:target .z.z14, #zoomedto .export.z.z14,
+#zoomedto:target .z.z15, #zoomedto .export.z.z15,
+#zoomedto:target .z.z16, #zoomedto .export.z.z16,
+#zoomedto:target .z.z17, #zoomedto .export.z.z17 { left:50%; }
+#zoomedto:target .z.z18, #zoomedto .export.z.z18,
+#zoomedto:target .z.z19, #zoomedto .export.z.z19,
+#zoomedto:target .z.z20, #zoomedto .export.z.z20,
+#zoomedto:target .z.z21, #zoomedto .export.z.z21,
+#zoomedto:target .z.z22, #zoomedto .export.z.z22,
+#zoomedto:target .z.z23, #zoomedto .export.z.z23 { left:75%;border-right-width: 0; }
 #zoomedto:target, #zoomedto.visible-y {
   z-index:1;
   border-top: 1px solid rgba(0,0,0,.1);

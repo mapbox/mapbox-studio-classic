@@ -14,7 +14,6 @@ var Modal = new views.Modal({
 
 Printer.boundingBox;
 
-
 var Style = Backbone.Model.extend({}) || options.style;
 // Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
 
@@ -107,7 +106,7 @@ Printer.prototype.bboxEnable = function(ev) {
     // Enable the location filter
     window.exporter.boundingBox.enable();
     window.exporter.boundingBox.fire('enableClick');
-    $('#export').removeClass('disabled');
+    $('#exportDownload').removeClass('disabled');
   }
 };
 
@@ -222,9 +221,9 @@ Printer.prototype.calculateTotal = function(ev) {
   } else {
     $('#pixelY').removeClass('warning');
   }
-  if (percentage > 100 ) $('#export').addClass('disabled').removeAttr('href');
+  if (percentage > 100 ) $('#exportDownload').addClass('disabled').removeAttr('href');
   if (percentage <= 100 ) {
-    $('#export').removeClass('disabled');
+    $('#exportDownload').removeClass('disabled');
     this.updateurl();
   }
 
@@ -376,7 +375,7 @@ Printer.prototype.updateurl = function() {
     '.' + coords.format +
     '?id='+window.exporter.model.get('id');
 
-  $('#export').attr('href', url);
+  $('#exportDownload').attr('href', url);
 };
 
 Printer.prototype.imageSizeStats = function() {
@@ -384,7 +383,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#print' class='z10 print js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#exportDownload' class='z10 export js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -407,7 +406,7 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#print' class='js-zoomedto print clip strong micro col12 quiet z z",z,"'>",
+      "<a href='#exportDownload' class='js-zoomedto export clip strong micro col12 quiet z z",z,"'>",
       "<span class='col3 center strong keyline-right'>z",z,"</span>",
       perc ? "<span class='truncate col9 strong perc pad0x " : '',
       perc > 100 ? "warning'" : '',
@@ -416,7 +415,7 @@ Printer.prototype.imageSizeStats = function() {
     ].join('');
   }
   html += [
-      "<span class='clip print js-zoomedto strong micro col12 quiet z z23'>",
+      "<span class='clip export js-zoomedto strong micro col12 quiet z z23'>",
       "<p class='truncate col12 pad1x'>% of image size limit</p>",
       "</span>"
     ].join('');

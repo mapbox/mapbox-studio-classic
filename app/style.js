@@ -100,7 +100,6 @@ Editor.prototype.events = {
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'click .js-download': 'downloadPackage',
-  'click .js-print': 'loadPrint',
   'keydown': 'keys'
 };
 
@@ -404,18 +403,6 @@ Editor.prototype.downloadPackage = function(ev) {
   }
 };
 
-Editor.prototype.loadPrint = function(ev) {
-  this.togglePane('print');
-  if (ev.currentTarget.hash === '#print'){
-    window.exporter.refresh();
-    $('.print-controls').addClass('visible-y').removeClass('visible-n');
-  } else {
-    window.exporter.boundingBox.disable();
-    $('.print-controls').addClass('visible-n').removeClass('visible-y');
-    statHandler('drawtime')();
-  }
-};
-
 Editor.prototype.selectall = function(ev) {
   $(ev.currentTarget).select();
   return false;
@@ -534,6 +521,23 @@ window.onhashchange = function(ev) {
   case 'home':
   case 'xray':
     window.editor.refresh();
+    break;
+  case !'export':
+    console.log('wut')
+    window.exporter.boundingBox.disable();
+    $('.export-controls').addClass('visible-n').removeClass('visible-y');
+    statHandler('drawtime')();
+    break;
+  case 'export':
+    window.exporter.refresh();
+    $('.export-controls').addClass('visible-y').removeClass('visible-n');
+    break;
+  default:
+    if (window.exporter.boundingBox) {
+      window.exporter.boundingBox.disable();
+      $('.export-controls').addClass('visible-n').removeClass('visible-y');
+      statHandler('drawtime')();
+    }
     break;
   }
 };
