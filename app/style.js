@@ -404,8 +404,13 @@ Editor.prototype.downloadPackage = function(ev) {
   }
 };
 
-Editor.prototype.loadPrint = function() {
-  this.togglePane('print')
+Editor.prototype.loadPrint = function(ev) {
+  this.togglePane('print');
+  if (ev.currentTarget.hash === '#print'){
+    window.exporter.refresh();
+  } else {
+    // window.exporter.boundingBox.disable();
+  }
 };
 
 Editor.prototype.selectall = function(ev) {
@@ -498,7 +503,12 @@ window.editor = new Editor({
 });
 window.editor.refresh();
 
-var Printer = window.Print(null, null, Style, Source);
+var Printer = window.Print(null, null, null, {
+  style: Style,
+  source: Source,
+  map: map,
+  tiles: tiles
+});
 
 window.exporter = new Printer({
   el: document.body,

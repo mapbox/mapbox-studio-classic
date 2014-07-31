@@ -1,9 +1,7 @@
-window.Print = function(templates, cwd, style, source) {
+window.Print = function(templates, cwd, style, options) {
 
-var map;
-var tiles;
-var grids;
-var gridc;
+var map = options.map;
+var tiles = options.tiles;
 var boundingBox;
 var mtime = (+new Date).toString(36);
 var limit = 20000;
@@ -16,10 +14,10 @@ var Modal = new views.Modal({
   templates: templates
 });
 
-var Style = Backbone.Model.extend({}) || style;
+var Style = Backbone.Model.extend({}) || options.style;
 // Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
 
-var Source = Backbone.Model.extend({}) || source;
+var Source = Backbone.Model.extend({}) || options.source;
 // Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Printer.prototype.events = {
@@ -415,55 +413,29 @@ Printer.prototype.imageSizeStats = function() {
 };
 
 Printer.prototype.refresh = function(ev) {
+  console.log('refresh')
   var calcTotal = _(this.calculateTotal).bind(this);
   var modifydimensions = _(this.modifydimensions).bind(this);
+  console.log(this)
 
-  if (!map) {
-    map = L.mapbox.map('map');
+  boundingBox = new L.LocationFilter().addTo(map);
+  boundingBox.on('enabled', _(this.calculateCoordinates).bind(this));
+  boundingBox.on('change', _(this.calculateCoordinates).bind(this));
 
-    boundingBox = new L.LocationFilter().addTo(map);
-    boundingBox.on('enabled', _(this.calculateCoordinates).bind(this));
-    boundingBox.on('change', _(this.calculateCoordinates).bind(this));
+  map.on('zoomend', function() {
+    var zoom = map.getZoom()|0;
+    $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
+    if (window.exporter.model.get('coordinates')) {
+      $('#zoom').html(zoom);
+      calcTotal();
+      if (window.exporter.model.get('coordinates').locked) modifydimensions();
+    }
+  });
 
-    map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() {
-      var zoom = map.getZoom()|0;
-      $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
-      if (window.exporter.model.get('coordinates')) {
-        $('#zoom').html(zoom);
-        calcTotal();
-        if (window.exporter.model.get('coordinates').locked) modifydimensions();
-      }
-    });
-    map.on('click', inspectFeature({
-      id: this.model.id,
-      type: 'style',
-      map: map
-    }));
-    new views.Maputils({
-      el: $('#view'),
-      map: map,
-      model: this.model
-    });
-  }
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
 
-  // Refresh map layer.
-  if (tiles) map.removeLayer(tiles);
-  tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
-    minzoom: this.model.get('minzoom'),
-    maxzoom: this.model.get('maxzoom')
-  })
-    .addOneTimeEventListener('load', _(this.bboxEnable).bind(this))
-    .on('load', errorHandler);
-  tiles.addTo(map);
-
-  // Set canvas background color.
-  if (this.model.get('background')) {
-    $('#map').css({'background-color':this.model.get('background')});
-  }
+  this.bboxEnable();
 
   return false;
 };
