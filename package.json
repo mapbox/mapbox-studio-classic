@@ -11,6 +11,7 @@
     "url": "git://github.com/mapbox/mapbox-studio.git"
   },
   "dependencies": {
+    "getport": "0.1.x",
     "express": "3.1.x",
     "chrono": "1.0.x",
     "connect": "2.7.x",

@@ -29,13 +29,14 @@ var crypto = require('crypto');
 var mapnik_omnivore = require('mapnik-omnivore');
 var printer = require('abaculus');
 var task = require('./lib/task');
+var getport = require('getport');
 var app = express();
 var startup = 0;
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
 config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
-config.port = config.port || '3000';
+config.port = config.port || undefined;
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
 
@@ -594,9 +595,19 @@ app.get('/metadata', function(req, res, next) {
 if (config.test) require('./lib/mapbox-mock')(app);
 
 module.exports = app;
-app.listen(config.port, function(err) {
+
+if (config.port) {
+    startServer(null, config.port);
+} else {
+    getport(3000, 3999, startServer);
+}
+
+function startServer(err, port) {
     if (err) throw err;
-    if (++startup === 2) app.emit('ready');
-    console.log('Mapbox Studio @ http://localhost:'+config.port+'/');
-});
+    app.listen(port, function(err) {
+        if (err) throw err;
+        if (++startup === 2) app.emit('ready');
+        console.log('Mapbox Studio @ http://localhost:'+port+'/');
+    });
+}
 
