@@ -87,7 +87,10 @@ require('../index.js').on('ready', function() {
             if (err) throw err;
             var testURL = test.url.replace('{id}', tmpid);
             execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
-                if (err && err.code) exit = err.code;
+                if (err && err.code) {
+                    exit = err.code;
+                    console.log(test.name + ' exit ' + err.code);
+                }
                 console.log(stdout);
                 console.warn(stderr);
                 runTest();
