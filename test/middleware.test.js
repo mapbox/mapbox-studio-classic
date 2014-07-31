@@ -317,7 +317,8 @@ test('exporting: passes through', function(t) {
 test('userTilesets: fails without oauth', function(t) {
     tm.db.rm('oauth');
     middleware.userTilesets({}, {}, function(err) {
-        t.equal('Error: oauth required', err.toString());
+        t.equal('Error: No active OAuth account', err.toString());
+        t.equal(err.code, 'EOAUTH');
         t.end();
     });
 });
