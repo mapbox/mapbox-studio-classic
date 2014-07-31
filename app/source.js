@@ -400,8 +400,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       var current_id = $('#current_id').val();
       var layer = layers[current_id].get();
       var new_id = $('#newLayername').val();
-      var new_layerform = '#layers-' + new_id;
-      layer.id = new_id;
 
       // No-op.
       if (current_id === new_id) {
@@ -409,17 +407,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
       }
 
-      //Add the new layer form and div
-      $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-      $('#layers .js-layer-content').prepend(templates.layeritem(layer));
-
-      //Replace old layer with new in the project's layers array
-      layers[layer.id] = Layer(layer.id, layer.Datasource);
-
-      //Delete old layer/form
-      layers[current_id].form.remove();
-      layers[current_id].item.remove();
+      // Replace old layer/form
+      layer.id = new_id;
+      layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
+      layers[current_id].item.replaceWith(templates.layeritem(layer));
       delete layers[current_id];
+      layers[layer.id] = Layer(layer.id, layer.Datasource);
 
       //Close
       Modal.close();
