@@ -32,7 +32,7 @@ test('setup: config', function(t) {
 
 test('setup: mockserver', function(t) {
     tm.db.set('oauth', creds);
-    tm._config.mapboxauth = 'https://api.mapbox.com',
+    tm._config.mapboxauth = 'http://localhost:3001',
     tm._config.mapboxtile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, t.end);
 });
@@ -390,15 +390,7 @@ test('source.mbtilesUpload: uploads map', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
     assert.ifError(err);
 
-    source.upload({
-        id: id,
-        oauth: {
-            account: 'test',
-            accesstoken: 'testaccesstoken'
-        },
-        mapbox: 'http://localhost:3001'
-    }, false,
-    function(err, task){
+    source.upload(id, false, function(err, task) {
         t.ifError(err);
         t.strictEqual(task.id, id, 'sets task.id');
         t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
@@ -423,15 +415,7 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
     assert.ifError(err);
 
-    source.upload({
-        id: id,
-        oauth: {
-            account: 'test',
-            accesstoken: 'testaccesstoken'
-        },
-        mapbox: 'http://localhost:3001'
-    }, false,
-    function(err, task){
+    source.upload(id, false, function(err, task) {
         t.ifError(err);
         t.equal(task.progress, null, 'progress obj not created');
 
