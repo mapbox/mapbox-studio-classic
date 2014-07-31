@@ -534,12 +534,12 @@ L.LocationFilter = L.Class.extend({
         // Add the filter layer to the map
         this._layer.addTo(this._map);
         
-        // Zoom out the map if necessary
-        var mapBounds = this._map.getBounds();
-        bounds = new L.LatLngBounds(this._sw, this._ne).modify(this._map, 10);
-        if (!mapBounds.contains(bounds.getSouthWest()) || !mapBounds.contains(bounds.getNorthEast())) {
-            this._map.fitBounds(bounds);
-        }
+        // // Zoom out the map if necessary
+        // var mapBounds = this._map.getBounds();
+        // bounds = new L.LatLngBounds(this._sw, this._ne).modify(this._map, 10);
+        // if (!mapBounds.contains(bounds.getSouthWest()) || !mapBounds.contains(bounds.getNorthEast())) {
+        //     this._map.fitBounds(bounds);
+        // }
 
         this._enabled = true;
         

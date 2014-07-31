@@ -95,13 +95,22 @@ Printer.prototype.recache = function(ev) {
 
 Printer.prototype.bboxEnable = function(ev) {
   if (!this.boundingBox._enabled) {
-    this.calculateBounds();
-
-    // Enable the location filter
-    this.boundingBox.enable();
-    this.boundingBox.fire('enableClick');
-
-    $('#export').removeClass('disabled');
+    // if coordinates are saved in the model, use those.
+    // otherwise, start over.
+    if (window.exporter.model && window.exporter.model.get('coordinates')){
+        var bounds = this.calculateCornersLl(window.exporter.model.get('coordinates').center, window.exporter.model.get('coordinates').bbox);
+        // Enable the location filter
+        window.exporter.boundingBox.enable({bounds: bounds});
+        window.exporter.boundingBox.fire('enableClick');
+        $('#export').removeClass('disabled');
+    } else {
+      this.calculateBounds(function(bounds){
+        // Enable the location filter
+        window.exporter.boundingBox.enable({bounds: bounds});
+        window.exporter.boundingBox.fire('enableClick');
+        $('#export').removeClass('disabled');
+      });
+    }
   }
 };
 
@@ -130,7 +139,8 @@ Printer.prototype.bboxRecenter = function() {
 
 };
 
-Printer.prototype.calculateBounds = function() {
+Printer.prototype.calculateBounds = function(callback) {
+  callback = callback || function() {};
   // when bounding box is reset to current viewport,
   // calculate the new dimensions of the bbox to the
   // visible viewport, not actual (covered by settings pane)
@@ -142,6 +152,7 @@ Printer.prototype.calculateBounds = function() {
     center = [(ne[0] - sw[0])/2 + sw[0], (ne[1] - sw[1])/2 + sw[1]];
 
   bounds = this.calculateCornersPx(center, sidebar, Math.abs(ne[1] - sw[1]));
+  callback(bounds);
   this.boundingBox.setBounds(bounds);
 };
 
@@ -415,10 +426,8 @@ Printer.prototype.imageSizeStats = function() {
 };
 
 Printer.prototype.refresh = function(ev) {
-  console.log('refresh')
   var calcTotal = _(this.calculateTotal).bind(this);
   var modifydimensions = _(this.modifydimensions).bind(this);
-  console.log(this)
 
   if (!this.boundingBox){
     this.boundingBox = new L.LocationFilter().addTo(map);
