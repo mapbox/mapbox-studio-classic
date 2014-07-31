@@ -21,6 +21,7 @@
   <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <script src='/app/source.js?_=<%= +new Date %>'></script>
+  <%= this.analytics(obj) %>
   <title><%= source.name %></title>
 </head>
 
@@ -178,9 +179,10 @@
 <%
   _(revlayers).each(_(function(l) {
     var type = (l.Datasource && l.Datasource.type);
+    var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
-        fields: source.vector_layers.filter(function(v) { return v.id === l.id })[0].fields
+        fields: vlayer ? vlayer.fields : null
     }).extend(l)));
   }).bind(this));
 %>
@@ -219,9 +221,11 @@ templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layersqlite = <%= this.layersqlite.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
 templates.layerogr = <%= this.layerogr.source %>;
+templates.layergdal = <%= this.layergdal.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 templates.modalnewstylecheck = <%= this.modalnewstylecheck.source %>;
+templates.modalnewstyle = <%= this.modalnewstyle.source %>;
 
 var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;

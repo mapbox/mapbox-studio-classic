@@ -1,16 +1,16 @@
-TM2 Vector Tile Sources
+Mapbox Studio Vector Tile Sources
 =======================
 
-Unlike TileMill 1, TM2 cannot apply visual styles to geospatial data files directly. Instead, the raw data must be collected and cut into [Mapnik Vector Tiles](./README.md#what-are-vector-tiles). This happens via TM2 source projects which transform traditional geodata formats (Shapefiles, GeoJSON, PostGIS databases, etc.) into vector tiles containing the appropriate layers and configurations needed for styling.
+Unlike TileMill 1, Mapbox Studio cannot apply visual styles to geospatial data files directly. Instead, the raw data must be collected and cut into [Mapnik Vector Tiles](./README.md#what-are-vector-tiles). This happens via Mapbox Studio source projects which transform traditional geodata formats (Shapefiles, GeoJSON, PostGIS databases, etc.) into vector tiles containing the appropriate layers and configurations needed for styling.
 
-There is no visual style directly associated with sources - the source view of TM2 autogenerates an inspection style only for viewing your data. See [HOWTO-styles.md](./HOWTO-styles.md) to learn about applying styles to vector tile sources.
+There is no visual style directly associated with sources - the source view of Mapbox Studio autogenerates an inspection style only for viewing your data. See [HOWTO-styles.md](./HOWTO-styles.md) to learn about applying styles to vector tile sources.
 
 Quick Tutorial
 --------------
 
 ### Create a new project
 
-Open TM2 and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the bottom.
+Open Mapbox Studio and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the bottom.
 
 ### Project settings
 
@@ -24,17 +24,17 @@ If you wish you can leave the project settings as they are and come back to adju
 
 ### Adding your first layer
 
-TM2 supports several different types of data sources: Shapefiles, GeoJSON, geographic SQLite databases, PostGIS databases, and CSV (Comma-Separated Value) files containing latitude and longitude fields.
+Mapbox Studio supports several different types of data sources: Shapefiles, GeoJSON, geographic SQLite databases, PostGIS databases, and CSV (Comma-Separated Value) files containing latitude and longitude fields.
 
 As an example, download this GeoJSON file of country polygons from Natural Earth (right-click and "Save link as"): [ne_110m_admin_0_countries.geojson](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson)
 
-Now click the __New Layer__ button in TM2. Fill out a name like `countries`, select __GeoJSON__ as the format, then click the blue __New layer__ button.
+Now click the __New Layer__ button in Mapbox Studio. Fill out a name like `countries`, select __GeoJSON__ as the format, then click the blue __New layer__ button.
 
 In the right panel you'll see the configuration view for your newly-added layer. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`.
 
 Next you'll need to make sure your projection is set correctly. For the Natural Earth file, change this to `WGS84`.
 
-_Currently TM2 only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
+_Currently Mapbox Studio only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
 
 You can now click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
 
@@ -46,11 +46,11 @@ You can click on any elements on the map in the preview pane to inspect the data
 
 At this point you should save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
 
-TM2 source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
+Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 
 ### Exporting & Uploading
 
-Exporting a TM2 source project will give you an [MBTiles]() file containing vector tiles that you can upload to Mapbox.com and use as a source for TM2 style projects. To export, click on the __Settings__ button, then __Export__ at the bottom of the popup. Exports will not include any un-saved changes, so be sure to save before you export.
+Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles that you can upload to Mapbox.com and use as a source for Mapbox Studio style projects. To export, click on the __Settings__ button, then __Export__ at the bottom of the popup. Exports will not include any un-saved changes, so be sure to save before you export.
 
 Export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
 
@@ -61,7 +61,7 @@ Important Concepts
 
 Labeling polygons doesn't work quite like it could in TileMill 1. With vector tiles a polygon might be split across many vector tiles, so if you try to label it directly you will end up with lots of duplicate labels. Instead you willl need to derive a separate point layer and use that for polygon labeling.
 
-You can do this beforehand with a tool like QGIS, or on-the-fly in a TM2 SQL query using PostGIS's `ST_PointOnSurface` function, eg:
+You can do this beforehand with a tool like QGIS, or on-the-fly in a Mapbox Studio SQL query using PostGIS's `ST_PointOnSurface` function, eg:
 
 ```sql
 ( SELECT ST_PointOnSurface(geom) AS geom, name
@@ -93,4 +93,4 @@ Also note that tile buffers get stretched along with the rest of the tile when o
 Advanced PostgreSQL Layers
 --------------------------
 
-Have a look at the [Natural Earth TM2 project](https://github.com/mapbox/natural-earth-tm2) for a full TM2 source example, and advanced PostgreSQL tricks like having multiple tables in one layer and scale-aware queries.
+Have a look at the [Natural Earth Mapbox Studio project](https://github.com/mapbox/natural-earth-tm2) for a full Mapbox Studio source example, and advanced PostgreSQL tricks like having multiple tables in one layer and scale-aware queries.

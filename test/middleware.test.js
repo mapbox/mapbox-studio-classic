@@ -156,6 +156,20 @@ test('loadStyle: loads a tmp style with source', function(t) {
     });
 });
 
+test('loadStyle: loads a tmp style with a raster source', function(t) {
+    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localraster'));
+    var req = { body: {}, query: { source:sourceId } };
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
+        t.deepEqual({
+            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#raster_local {\n  raster-opacity: 1;\n}\n\n'
+        }, req.style.data.styles, 'creates default styles');
+        t.equal(sourceId, req.style.data.source, 'sets source from input param');
+        t.ok(style.tmpid(req.style.data.id));
+        t.end();
+    });
+});
+
 test('loadStyle: errors a tmp style with bad source', function(t) {
     var sourceId = 'tmsource:///bad/path/to/nonexistent/source';
     var req = { body: {}, query: { source:sourceId } };
@@ -352,4 +366,3 @@ test('cleanup', function(t) {
         t.end();
     });
 });
-

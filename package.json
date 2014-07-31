@@ -1,14 +1,14 @@
 {
-  "name": "tm2",
+  "name": "mapbox-studio",
   "version": "0.0.0",
   "main": "./index",
   "engineStrict": true,
   "engines": {
-    "node": "0.8.x || 0.10.x"
+    "node": "0.10.x"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mapbox/tm2.git"
+    "url": "git://github.com/mapbox/mapbox-studio.git"
   },
   "dependencies": {
     "express": "3.1.x",
@@ -39,7 +39,7 @@
     "cors": "~2.3.1",
     "request": "~2.36.0",
     "mapbox-upload": "1.1.0",
-    "mapnik-omnivore": "1.1.4",
+    "mapnik-omnivore": "1.2.8",
     "abaculus": "0.0.4",
     "progress-stream": "0.5.0"
   },

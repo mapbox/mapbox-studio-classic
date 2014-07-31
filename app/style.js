@@ -99,6 +99,7 @@ Editor.prototype.events = {
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
+  'click .js-download': 'downloadPackage',
   'keydown': 'keys'
 };
 
@@ -394,6 +395,14 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
+Editor.prototype.downloadPackage = function(ev){
+  if (style.source.split(':')[0] === 'tmsource'){
+    return Modal.show('error', new Error('Cannot package a local source with a style.'));
+  } else {
+    window.location = '/style.tm2z?id=' + style.id;
+  }
+};
+
 Editor.prototype.selectall = function(ev) {
   $(ev.currentTarget).select();
   return false;
@@ -486,6 +495,8 @@ window.editor.refresh();
 
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
+  analytics.page({hash:window.location.hash});
+
   switch (ev.newURL.split('#').pop()) {
   case 'demo':
     $('body').addClass('demo');

@@ -211,15 +211,6 @@ a.docs-y { display:none; }
 
 /* Demo
 ------------------------------------------------------- */
-body.demo #app {
-  margin-left: 0;
-  top:20px;
-  left:100px;
-  right:20px;
-  bottom:180px;
-  box-shadow:0px 0px 0px 2px rgba(0,0,0,0.1);
-}
-
 #demo { display:none; }
 body.demo #demo { display:block; }
 .demo-popup { display:none; }
@@ -252,27 +243,17 @@ body.demo #user:target ~ #user-popup.demo-popup {
 #settings:target ~ .demo-fallback,
 #user:target ~ .demo-fallback { display:none; }
 
-/* Walkthrough nav active state */
-#demo:target     a.demo-demo,
-#xray:target ~ * a.demo-xray,
-#full:target ~ * a.demo-full,
-#home:target ~ * a.demo-home,
-#search:target ~ * a.demo-search,
-#bookmark:target ~ * a.demo-bookmark,
-#docs:target ~ * a.demo-docs,
-#fonts:target ~ * a.demo-fonts,
-#layers:target ~ * a.demo-layers,
-#settings:target ~ * a.demo-settings,
 #user:target ~ * a.demo-user { color:#fff; }
 
-/* Bring active element to top */
 body.demo #xray:target ~ #full,
 body.demo #docs:target ~ #drawers,
 body.demo #fonts:target ~ #drawers,
 body.demo #layers:target ~ #drawers,
+body.demo #settings:target ~ #drawers,
+body.demo #user:target ~ #drawers,
 body.demo #home:target ~ #style-ui { z-index:101; }
 
-/* Highlight active element */
+body.demo .demo-fallback,
 body.demo #xray:target ~ #full,
 body.demo #home:target ~ #style-ui,
 body.demo #full:target ~ #style-ui,
@@ -283,7 +264,6 @@ body.demo #fonts:target ~ #drawers,
 body.demo #layers:target ~ #drawers,
 body.demo #settings:target ~ #drawers,
 body.demo #user:target ~ #drawers {
-  box-shadow: 0px 0px 0px 5px #3887be, 0px 0px 5px 10px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 0px 2000px rgba(0,0,0,0.75);
   -webkit-transition:none;
   }
-

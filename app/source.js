@@ -27,7 +27,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             var l = _(editor.model.get('vector_layers')).find(function(l) {
                 return l.id === id;
             });
-            var fields = l.fields || {};
+            var fields = l && l.fields ? l.fields : {};
             $('div.fields', layer.form).html(templates.layerfields(fields));
         };
         layer.get = function() {
@@ -218,7 +218,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
-                window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
+                else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
                 window.editor.changed();
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -255,10 +256,24 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
     };
+    function consistentSourceType(metadata){
+        var sourceType = $('.js-layer .datasourceType').val();
+        if(sourceType === undefined) return true;
+        //if adding raster among vector sources
+        else if(sourceType !== 'gdal' && metadata.hasOwnProperty('raster')) return false;
+        //if adding vector among raster sources
+        else if(sourceType === 'gdal' && !metadata.hasOwnProperty('raster')) return false;
+        else return true;
+    };
+
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
+        var consistent = consistentSourceType(metadata);
+
+        if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
+
         layersArray.forEach(function(current_layer, index, array) {
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
-            //so this is just reversing that process in order to properly render the mapnikXML for TM2
+            //so this is just reversing that process in order to properly render the mapnikXML for Mapbox Studio
             //This only applies to files that have gone through mapnik-omnivore
             var layername = metadata ? (current_layer.id).split('_').join(' ') : current_layer.id;
 
@@ -288,6 +303,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 }
             };
 
+            if (metadata.dstype === 'gdal') {
+                layer.nodata = metadata.raster.nodata;
+                layer.Datasource.nodata = metadata.raster.nodata;
+            }
+
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -313,6 +333,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 window.location.hash = '#layers-' + layersArray[0].id;
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
+
+            analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
     };
     Editor.prototype.deletelayer = function(ev) {
@@ -558,14 +580,22 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
     Editor.prototype.newStyle = function(){
-        if (!source._prefs.mapid) Modal.show('newstylecheck');
-        else window.location.href = '/new/style?source=mapbox:///' + source._prefs.mapid;
+        if (!source._prefs.mapid) {
+            Modal.show('newstylecheck');
+        } else {
+            Modal.show('newstyle');
+        }
     };
     window.editor = new Editor({
         el: document.body,
         model: new Source(source)
     });
     window.editor.refresh();
+
+    window.onhashchange = function(ev) {
+        analytics.page({hash:window.location.hash});
+    };
+
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
         $('#layers .js-layer-content').sortable();

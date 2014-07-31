@@ -1,0 +1,43 @@
+<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
+  <nav class='text-right pad1 keyline-bottom'>
+    <span class='inline rounded-toggle'><!--
+      --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
+      --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
+ --></span>
+    <a href='#' class='quiet inline pad1 icon close'></a>
+  </nav>
+  <section class='pad2 pin-topleft'>
+    <h3>
+      <%= obj.id %>
+    </h3>
+    <input type='hidden' name='id' value='<%=obj.id%>' />
+    <input type='hidden' name='nodata' value='<%=obj.nodata%>' />
+  </section>
+
+  <div class='conf'>
+    <fieldset>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>Description</label>
+        <input class='stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>GDAL<label>
+        <div class='input-pill clearfix'>
+          <input type='hidden' name='Datasource-type' value='gdal' />
+          <input type='hidden' name='properties-buffer-size' value='0' />
+          <input class='col8' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>' title='No spaces allowed. Requires ".tiff" extension.' placeholder='data.tiff' pattern='[\w+\d+\.\/_-]+\.(tif|tiff|TIF|TIFF)'/>
+          <a id='browse-<%=obj.id%>' class='quiet col4 button icon folder js-browsefile'>Browse</a>
+        </div>
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label class='col3 inline'>Projection</label>
+        <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' readonly />
+      </section>
+      <section class='pad2'>
+        <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
+      </section>
+    </fieldset>
+  </div>
+
+  <div class='fields'><%= this.layerfields(obj.fields) %></div>
+</form>
