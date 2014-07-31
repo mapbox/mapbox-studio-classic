@@ -27,19 +27,29 @@ fs.mkdirSync(tmp);
 // Make a working copy of the test database that is excluded in .gitignore
 fs.writeFileSync(path.join(tmp, 'app.db'), fs.readFileSync(path.join(__dirname, 'fixtures-oauth', 'test.db')));
 
-process.argv.push('--test');
-process.argv.push('--db=' + path.join(tmp, 'app.db'));
-process.argv.push('--tmp=' + path.join(tmp, 'tmp'));
-process.argv.push('--cache=' + path.join(tmp, 'cache'));
-process.argv.push('--cwd=' + testPath);
-process.argv.push('--port=3001');
-process.argv.push('--mapboxauth=http://localhost:3001');
-process.argv.push('--mapboxtile=http://localhost:3001/v4');
+var tm = require('../lib/tm');
+tm.config({
+    test: true,
+    db: path.join(tmp, 'app.db'),
+    tmp: path.join(tmp, 'tmp'),
+    cache: path.join(tmp, 'cache'),
+    cwd: testPath,
+    port: 3001,
+    mapboxauth: 'http://localhost:3001',
+    mapboxtile: 'http://localhost:3001/v4'
+}, listen);
 
 // Test params
 var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data');
 
-require('../index.js').on('ready', function() {
+function listen(err) {
+    if (err) throw err;
+    var server = require('../lib/server');
+    server.listen(3001, ready);
+}
+
+function ready(err) {
+    if (err) throw err;
     var exit = 0;
     var tests = [
         {
@@ -98,5 +108,5 @@ require('../index.js').on('ready', function() {
         });
     }
     runTest();
-});
+}
 
