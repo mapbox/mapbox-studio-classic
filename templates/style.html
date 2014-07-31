@@ -10,6 +10,7 @@
   <link href='/app/app.css' rel='stylesheet' />
   <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
+  <link href='/app/print.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror/codemirror.js'></script>
   <script src='/ext/codemirror/runmode.js'></script>
@@ -87,6 +88,11 @@
       --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
     </div>
   </div>
+  <div class='print-controls visible-n'>
+    <a href='#print' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
+    <a href='#print' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
+  </div>
+
   <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
   <!-- DEMO -->
   <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
@@ -242,7 +248,7 @@
       <nav class='row1 col12 pin-top keyline-bottom z1'>
         <a href='#' class='js-print print-y keyline-right icon x fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
         <h3 class='inline pad1'>Export image</h3>
-        <a href='#export-info' class='pin-right pad1 js-info inline icon info quiet'></a>
+        <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
         <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
           <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
         </div>

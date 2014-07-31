@@ -28,6 +28,7 @@ Printer.prototype.events = {
   'click .js-info': 'toggleInfo',
   'click .reselect': 'bboxReselect',
   'click .recenter': 'bboxRecenter',
+  'click .js-zoomedto': 'toggleStats',
   'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
   'change .js-dimensions': 'modifydimensions',
@@ -384,7 +385,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#print' class='z10 print js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -407,7 +408,7 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#zoomedto' class='clip strong micro col12 quiet z z",z,"'>",
+      "<a href='#print' class='js-zoomedto print clip strong micro col12 quiet z z",z,"'>",
       "<span class='col3 center strong keyline-right'>z",z,"</span>",
       perc ? "<span class='truncate col9 strong perc pad0x " : '',
       perc > 100 ? "warning'" : '',
@@ -416,11 +417,20 @@ Printer.prototype.imageSizeStats = function() {
     ].join('');
   }
   html += [
-      "<span class='clip strong micro col12 quiet z z23'>",
+      "<span class='clip print js-zoomedto strong micro col12 quiet z z23'>",
       "<p class='truncate col12 pad1x'>% of image size limit</p>",
       "</span>"
     ].join('');
   $('#zoomedto').html(html);
+};
+
+Printer.prototype.toggleStats = function(ev) {
+  if (ev.currentTarget.classList.contains('close')){
+    $('#zoomedto').addClass('visible-n').removeClass('visible-y');
+
+  } else {
+    $('#zoomedto').addClass('visible-y').removeClass('visible-n');
+  }
 };
 
 Printer.prototype.refresh = function(ev) {

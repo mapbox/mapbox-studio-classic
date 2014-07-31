@@ -408,8 +408,11 @@ Editor.prototype.loadPrint = function(ev) {
   this.togglePane('print');
   if (ev.currentTarget.hash === '#print'){
     window.exporter.refresh();
+    $('.print-controls').addClass('visible-y').removeClass('visible-n');
   } else {
     window.exporter.boundingBox.disable();
+    $('.print-controls').addClass('visible-n').removeClass('visible-y');
+    statHandler('drawtime')();
   }
 };
 
