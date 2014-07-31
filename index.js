@@ -594,6 +594,7 @@ if (config.port) {
 
 function startServer(err, port) {
     if (err) throw err;
+    config.port = port;
     app.listen(port, function(err) {
         if (err) throw err;
         if (++startup === 2) app.emit('ready');
