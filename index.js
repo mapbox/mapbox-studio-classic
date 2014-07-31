@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+var tm = require('./lib/tm');
+var path = require('path');
+var getport = require('getport');
+var server;
+
 // increase the libuv threadpool size to 1.5x the number of logical CPUs.
 process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().length * 1.5));
 
@@ -11,11 +16,6 @@ if (process.platform === 'win32') {
     // Add custom library paths to the PATH
     process.env.PATH = path.join(__dirname,'node_modules/mapnik/lib/binding/');
 }
-
-var tm = require('./lib/tm');
-var path = require('path');
-var getport = require('getport');
-var server;
 
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
