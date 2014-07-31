@@ -32,6 +32,9 @@ before_install:
 - node --version
 - npm --version
 
+install:
+- npm install
+
 before_script:
  - npm ls
 
