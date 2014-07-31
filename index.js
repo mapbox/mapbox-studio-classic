@@ -342,7 +342,7 @@ app.get('/style.tm2z', middleware.style, function(req, res, next) {
 app.put('/style.upload.json', function(req, res, next) {
     return style.upload({
         id: req.query.id,
-        oauth: tm.db.get('oauth'),
+        oauth: tm.oauth(),
         cache: tm.config().cache
     }, function(err, job) {
         if (err && err.code) {
@@ -360,7 +360,7 @@ app.get('/upload', function(req, res, next) {
         if (err) return next(err);
         source.upload({
             id: req.query.id,
-            oauth: tm.db.get('oauth')
+            oauth: tm.oauth()
         }, false, function(err, job) {
             if (err) return next(err);
 
@@ -383,7 +383,7 @@ app.all('/upload.json', function(req, res, next) {
     }
     source.upload({
         id: req.query.id,
-        oauth: tm.db.get('oauth')
+        oauth: tm.oauth()
     }, req.method === 'PUT', function(err, job){
         if (err && err.code) {
             res.send(err.code, err.message);
