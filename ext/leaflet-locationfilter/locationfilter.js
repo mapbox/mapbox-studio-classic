@@ -98,9 +98,6 @@ L.LocationFilter = L.Class.extend({
             enableText: "Select area",
             disableText: "Remove selection"
         },
-        adjustButton: {
-            text: "Select area within current zoom"
-        },
         buttonPosition: 'topleft'
     },
 
@@ -115,10 +112,6 @@ L.LocationFilter = L.Class.extend({
 
     onAdd: function(map) {
         this._map = map;
-
-        // if (this.options.enableButton || this.options.adjustButton) {
-        //     this._initializeButtonContainer();
-        // }
 
         if (this.options.enable) {
             this.enable();
@@ -526,10 +519,6 @@ L.LocationFilter = L.Class.extend({
         if (this._enableButton) {
             this._enableButton.setText(this.options.enableButton.disableText);
         }
-
-        if (this.options.adjustButton) {
-            this._createAdjustButton();
-        }
         
         // Draw filter
         this._initialDraw();
@@ -573,10 +562,6 @@ L.LocationFilter = L.Class.extend({
             this._enableButton.setText(this.options.enableButton.enableText);
         }
 
-        if (this._adjustButton) {
-            this._adjustButton.remove();
-        }
-
         // Remove event listener
         this._map.off("move", this._moveHandler);
 
@@ -587,21 +572,6 @@ L.LocationFilter = L.Class.extend({
 
         // Fire the disabled event
         this.fire("disabled");
-    },
-
-    /* Create a button that allows the user to adjust the location
-       filter to the current zoom */
-    _createAdjustButton: function() {
-        var that = this;
-        this._adjustButton = new L.Control.Button({
-            className: "adjust-button",
-            text: this.options.adjustButton.text,
-            
-            onClick: function(event) {
-                that._adjustToMap();
-                that.fire("adjustToZoomClick");
-            }
-        }).addTo(this._buttonContainer);
     },
 
     /* Create the location filter button container and the button that

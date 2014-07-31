@@ -2,7 +2,6 @@ window.Print = function(templates, cwd, style, options) {
 
 var map = options.map;
 var tiles = options.tiles;
-var boundingBox;
 var mtime = (+new Date).toString(36);
 var limit = 20000;
 var sm = new SphericalMercator();
@@ -13,6 +12,9 @@ var Modal = new views.Modal({
   el: $('.modal-content'),
   templates: templates
 });
+
+Printer.boundingBox;
+
 
 var Style = Backbone.Model.extend({}) || options.style;
 // Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
@@ -92,25 +94,25 @@ Printer.prototype.recache = function(ev) {
 };
 
 Printer.prototype.bboxEnable = function(ev) {
-  if (!boundingBox._enabled) {
+  if (!this.boundingBox._enabled) {
     this.calculateBounds();
 
     // Enable the location filter
-    boundingBox.enable();
-    boundingBox.fire('enableClick');
+    this.boundingBox.enable();
+    this.boundingBox.fire('enableClick');
 
     $('#export').removeClass('disabled');
   }
 };
 
 Printer.prototype.bboxReselect = function() {
-  if (!boundingBox._enabled) return;
+  if (!this.boundingBox._enabled) return;
   map.zoomOut();
   this.calculateBounds();
 };
 
 Printer.prototype.bboxRecenter = function() {
-  if (!boundingBox._enabled) return;
+  if (!this.boundingBox._enabled) return;
   var coordinates = window.exporter.model.get('coordinates');
   var center = map.getCenter(),
     zoom = map.getZoom(),
@@ -124,7 +126,7 @@ Printer.prototype.bboxRecenter = function() {
   } else {
     var bounds = this.calculateCornersLl([center.lat, center.lng], coordinates.bbox);
   }
-  boundingBox.setBounds(bounds);
+  this.boundingBox.setBounds(bounds);
 
 };
 
@@ -140,13 +142,13 @@ Printer.prototype.calculateBounds = function() {
     center = [(ne[0] - sw[0])/2 + sw[0], (ne[1] - sw[1])/2 + sw[1]];
 
   bounds = this.calculateCornersPx(center, sidebar, Math.abs(ne[1] - sw[1]));
-  boundingBox.setBounds(bounds);
+  this.boundingBox.setBounds(bounds);
 };
 
 Printer.prototype.calculateCoordinates = function(ev) {
   // calculate bounding box dimensions and center point in lat,lng.
   // update model with new coordinates.
-  var bounds = boundingBox.getBounds(),
+  var bounds = this.boundingBox.getBounds(),
     center = [(bounds._northEast.lat - bounds._southWest.lat)/2 + bounds._southWest.lat, (bounds._northEast.lng - bounds._southWest.lng)/2 + bounds._southWest.lng],
     decimals = 4,
     format = $('input[name=format]:checked').prop('value');
@@ -186,7 +188,7 @@ Printer.prototype.calculateCoordinates = function(ev) {
 
 Printer.prototype.calculateTotal = function(ev) {
   // Calculate bounding box dimensions in pixel and inch values and update field values.
-  if (!boundingBox.isEnabled()) return;
+  if (!this.boundingBox.isEnabled()) return;
   var scale = $('input[name=resolution]:checked').prop('value'),
     zoom = map.getZoom(),
     bbox = this.model.get('coordinates').bbox,
@@ -256,7 +258,7 @@ Printer.prototype.modifycoordinates = function(ev) {
     bboxSum = window.exporter.model.get('coordinates').bbox.reduce(function(a, b){ return a + b; });
 
   if (bSum != bboxSum) {
-    boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2])));
+    this.boundingBox.setBounds(L.latLngBounds(L.latLng(bounds[1], bounds[0]), L.latLng(bounds[3], bounds[2])));
     center = [ (bounds[3] - bounds[1])/2 + bounds[1], (bounds[2] - bounds[0])/2 + bounds[0]];
     map.setView(center, map.getZoom());
     return;
@@ -264,7 +266,7 @@ Printer.prototype.modifycoordinates = function(ev) {
   var cSum = center.reduce(function(a, b){ return a + b; });
   var centerSum = window.exporter.model.get('coordinates').center.reduce(function(a, b){ return a + b; });
   if (cSum != centerSum) {
-    boundingBox.setBounds(this.calculateCornersLl(center, bounds));
+    this.boundingBox.setBounds(this.calculateCornersLl(center, bounds));
     map.setView([center[0], center[1]], map.getZoom());
     return;
   }
@@ -298,7 +300,7 @@ Printer.prototype.modifydimensions = function(ev) {
     return;
   }
 
-  boundingBox.setBounds(bounds);
+  this.boundingBox.setBounds(bounds);
 };
 
 Printer.prototype.calculateCornersPx = function(center, w, h) {
@@ -324,8 +326,8 @@ Printer.prototype.lockdimensions = function (){
   var locked = $('input[id=lock]:checked')[0] ? true : false;
   if (locked) {
     markers.forEach(function(marker){
-      boundingBox[marker].dragging.disable();
-      L.DomUtil.addClass(boundingBox[marker]._icon, 'locked');
+      this.boundingBox[marker].dragging.disable();
+      L.DomUtil.addClass(this.boundingBox[marker]._icon, 'locked');
     });
     $('.js-dimensions').prop('disabled', true);
     $('.js-coordinates').prop('disabled', true);
@@ -334,8 +336,8 @@ Printer.prototype.lockdimensions = function (){
     this.imageSizeStats();
   } else {
     markers.forEach(function(marker){
-      boundingBox[marker].dragging.enable();
-      L.DomUtil.removeClass(boundingBox[marker]._icon, 'locked');
+      this.boundingBox[marker].dragging.enable();
+      L.DomUtil.removeClass(this.boundingBox[marker]._icon, 'locked');
     });
     $('.js-dimensions').prop('disabled', false);
     $('.js-coordinates').prop('disabled', false);
@@ -348,7 +350,7 @@ Printer.prototype.lockdimensions = function (){
 Printer.prototype.updateformat = function() {
   var format = $('input[name=format]:checked').prop('value');
 
-  if (!boundingBox.isEnabled()) return;
+  if (!this.boundingBox.isEnabled()) return;
   window.exporter.model.get('coordinates').format = format;
   window.exporter.model.get('coordinates').quality = (format === 'png') ? 256 : 100;
   this.updateurl();
@@ -356,7 +358,7 @@ Printer.prototype.updateformat = function() {
 
 Printer.prototype.updateurl = function() {
   // update the link for 'download static map'
-  if (!boundingBox.isEnabled()) return;
+  if (!this.boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
   var url = 'http://localhost:3000/static/' +
     map.getZoom() + '/' +
@@ -384,7 +386,7 @@ Printer.prototype.imageSizeStats = function() {
     perc;
 
   for (var z = 0; z < 23; z++) {
-    if (z >= minZoom && z <= maxZoom && boundingBox.isEnabled()) {
+    if (z >= minZoom && z <= maxZoom && this.boundingBox.isEnabled()) {
       var zoomDiff = Math.abs(z - zoom);
       var greatest = ( w > h ) ? w : h;
       if (window.exporter.model.get('coordinates').locked) {
@@ -418,9 +420,14 @@ Printer.prototype.refresh = function(ev) {
   var modifydimensions = _(this.modifydimensions).bind(this);
   console.log(this)
 
-  boundingBox = new L.LocationFilter().addTo(map);
-  boundingBox.on('enabled', _(this.calculateCoordinates).bind(this));
-  boundingBox.on('change', _(this.calculateCoordinates).bind(this));
+  if (!this.boundingBox){
+    this.boundingBox = new L.LocationFilter().addTo(map);
+    this.boundingBox.on('enabled', _(this.calculateCoordinates).bind(this));
+    this.boundingBox.on('change', _(this.calculateCoordinates).bind(this));
+  } else {
+    this.boundingBox.addTo(map);
+  }
+  this.bboxEnable();
 
   map.on('zoomend', function() {
     var zoom = map.getZoom()|0;
@@ -434,8 +441,6 @@ Printer.prototype.refresh = function(ev) {
 
   map.options.minZoom = this.model.get('minzoom');
   map.options.maxZoom = this.model.get('maxzoom');
-
-  this.bboxEnable();
 
   return false;
 };

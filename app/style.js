@@ -409,7 +409,7 @@ Editor.prototype.loadPrint = function(ev) {
   if (ev.currentTarget.hash === '#print'){
     window.exporter.refresh();
   } else {
-    // window.exporter.boundingBox.disable();
+    window.exporter.boundingBox.disable();
   }
 };
 
