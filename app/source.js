@@ -61,6 +61,15 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         memo[l.id] = Layer(l.id, l.Datasource);
         return memo;
     }, {});
+    function orderLayers() {
+        var ids = $('#layers .js-layer-content .js-layer').map(function() {
+            return $(this).attr('id');
+        }).get();
+        layers = _(ids).reduce(function(memo, id) {
+            memo[id] = layers[id];
+            return memo;
+        }, {});
+    };
     var Source = Backbone.Model.extend({});
     Source.prototype.url = function() {
         return '/source.json?id=' + this.get('id');
@@ -251,6 +260,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $('#editor').prepend(templates['layer' + type](layer));
         $('#layers .js-layer-content').prepend(templates.layeritem(layer));
         layers[id] = Layer(id, layer.Datasource);
+        orderLayers();
         Modal.close();
         window.location.hash = '#layers-' + id;
         $('#layers .js-layer-content').sortable('destroy').sortable();
@@ -314,6 +324,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
             //Add new layer to the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
+            orderLayers();
 
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
@@ -592,14 +603,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
         $('#layers .js-layer-content').sortable();
-        $('#layers .js-layer-content').bind('sortupdate', function(ev, ui) {
-            var ids = $('#layers .js-layer-content .js-layer').map(function() {
-                return $(this).attr('id');
-            }).get();
-            layers = _(ids).reduce(function(memo, id) {
-                memo[id] = layers[id];
-                return memo;
-            }, {});
-        });
+        $('#layers .js-layer-content').bind('sortupdate', orderLayers);
     }
 };
