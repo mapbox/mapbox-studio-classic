@@ -95,22 +95,19 @@ Printer.prototype.recache = function(ev) {
 
 Printer.prototype.bboxEnable = function(ev) {
   if (!this.boundingBox._enabled) {
+
     // if coordinates are saved in the model, use those.
     // otherwise, start over.
     if (window.exporter.model && window.exporter.model.get('coordinates')){
-        var bounds = this.calculateCornersLl(window.exporter.model.get('coordinates').center, window.exporter.model.get('coordinates').bbox);
-        // Enable the location filter
-        window.exporter.boundingBox.enable({bounds: bounds});
-        window.exporter.boundingBox.fire('enableClick');
-        $('#export').removeClass('disabled');
+      var locked = $('input[id=lock]:checked')[0] ? true : false;
+      if (locked) this.lockdimensions();
     } else {
-      this.calculateBounds(function(bounds){
-        // Enable the location filter
-        window.exporter.boundingBox.enable({bounds: bounds});
-        window.exporter.boundingBox.fire('enableClick');
-        $('#export').removeClass('disabled');
-      });
+      this.calculateBounds();
     }
+    // Enable the location filter
+    window.exporter.boundingBox.enable();
+    window.exporter.boundingBox.fire('enableClick');
+    $('#export').removeClass('disabled');
   }
 };
 
@@ -139,20 +136,21 @@ Printer.prototype.bboxRecenter = function() {
 
 };
 
-Printer.prototype.calculateBounds = function(callback) {
-  callback = callback || function() {};
+Printer.prototype.calculateBounds = function() {
   // when bounding box is reset to current viewport,
   // calculate the new dimensions of the bbox to the
   // visible viewport, not actual (covered by settings pane)
+
+  // offset maintains access to bbox controls
   var sidebar = $('#full').width();
+  var offset = 20;
   var bounds = map.getBounds(),
     zoom = map.getZoom(),
     ne = sm.px([bounds._northEast.lng, bounds._northEast.lat], zoom),
     sw = sm.px([bounds._southWest.lng, bounds._southWest.lat], zoom),
     center = [(ne[0] - sw[0])/2 + sw[0], (ne[1] - sw[1])/2 + sw[1]];
 
-  bounds = this.calculateCornersPx(center, sidebar, Math.abs(ne[1] - sw[1]));
-  callback(bounds);
+  bounds = this.calculateCornersPx(center, sidebar - offset, Math.abs(ne[1] - sw[1]) - offset);
   this.boundingBox.setBounds(bounds);
 };
 
@@ -337,8 +335,8 @@ Printer.prototype.lockdimensions = function (){
   var locked = $('input[id=lock]:checked')[0] ? true : false;
   if (locked) {
     markers.forEach(function(marker){
-      this.boundingBox[marker].dragging.disable();
-      L.DomUtil.addClass(this.boundingBox[marker]._icon, 'locked');
+      window.exporter.boundingBox[marker].dragging.disable();
+      L.DomUtil.addClass(window.exporter.boundingBox[marker]._icon, 'locked');
     });
     $('.js-dimensions').prop('disabled', true);
     $('.js-coordinates').prop('disabled', true);
@@ -347,8 +345,8 @@ Printer.prototype.lockdimensions = function (){
     this.imageSizeStats();
   } else {
     markers.forEach(function(marker){
-      this.boundingBox[marker].dragging.enable();
-      L.DomUtil.removeClass(this.boundingBox[marker]._icon, 'locked');
+      window.exporter.boundingBox[marker].dragging.enable();
+      L.DomUtil.removeClass(window.exporter.boundingBox[marker]._icon, 'locked');
     });
     $('.js-dimensions').prop('disabled', false);
     $('.js-coordinates').prop('disabled', false);
