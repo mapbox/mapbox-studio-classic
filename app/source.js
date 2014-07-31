@@ -333,6 +333,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
                 window.location.hash = '#layers-' + layersArray[0].id;
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
+
+            analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
     };
     Editor.prototype.deletelayer = function(ev) {
@@ -589,6 +591,11 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         model: new Source(source)
     });
     window.editor.refresh();
+
+    window.onhashchange = function(ev) {
+        analytics.page({hash:window.location.hash});
+    };
+
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
         $('#layers .js-layer-content').sortable();
