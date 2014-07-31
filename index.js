@@ -596,12 +596,18 @@ if (config.test) require('./lib/mapbox-mock')(app);
 
 module.exports = app;
 
-getport(config.port || 3000, config.port || 3999, function(err, port) {
+if (config.port) {
+    startServer(null, config.port);
+} else {
+    getport(3000, 3999, startServer);
+}
+
+function startServer(err, port) {
     if (err) throw err;
     app.listen(port, function(err) {
         if (err) throw err;
         if (++startup === 2) app.emit('ready');
         console.log('Mapbox Studio @ http://localhost:'+port+'/');
     });
-});
+}
 
