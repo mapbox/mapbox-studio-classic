@@ -50,7 +50,7 @@ L.Control.Button = L.Class.extend({
     },
 
     remove: function() {
-        L.DomEvent.off(this._button, "click", this._onClick);
+        L.DomEvent.off(this._button, 'click', this._onClick);
         this._buttonContainer.getContainer().removeChild(this._button);
     },
 
@@ -95,8 +95,8 @@ L.LocationFilter = L.Class.extend({
 
     options: {
         enableButton: {
-            enableText: "Select area",
-            disableText: "Remove selection"
+            enableText: 'Select area',
+            disableText: 'Remove selection'
         },
         buttonPosition: 'topleft'
     },
@@ -141,7 +141,7 @@ L.LocationFilter = L.Class.extend({
         this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
         if (this.isEnabled()) {
             this._draw();
-            this.fire("change", {bounds: bounds});
+            this.fire('change', {bounds: bounds});
         }
     },
 
@@ -155,7 +155,7 @@ L.LocationFilter = L.Class.extend({
         var defaultOptions = {
             stroke: false,
             fill: true,
-            fillColor: "black",
+            fillColor: 'black',
             fillOpacity: 0.3,
             clickable: false,
             className: divClass
@@ -186,9 +186,9 @@ L.LocationFilter = L.Class.extend({
     _drawMoveMarker: function(point) {
         var that = this;
         this._moveMarker = this._drawImageMarker(point, {
-            "className": "location-filter move-marker",
-            "anchor": [-10, -10],
-            "size": [13,13]
+            'className': 'location-filter move-marker',
+            'anchor': [-10, -10],
+            'size': [13,13]
         });
         this._moveMarker.on('drag', function(e) {
             var markerPos = that._moveMarker.getLatLng(),
@@ -211,9 +211,9 @@ L.LocationFilter = L.Class.extend({
     /* Draw a resize marker */
     _drawResizeMarker: function(point, className) {
         return this._drawImageMarker(point, {
-            "className": "location-filter resize-marker " + className,
-            "anchor": [7, 6],
-            "size": [23, 22]
+            'className': 'location-filter resize-marker ' + className,
+            'anchor': [7, 6],
+            'size': [23, 22]
         });
     },
 
@@ -332,7 +332,7 @@ L.LocationFilter = L.Class.extend({
     _setupDragendListener: function(marker) {
         var that = this;
         marker.on('dragend', function(e) {
-            that.fire("change", {bounds: that.getBounds()});
+            that.fire('change', {bounds: that.getBounds()});
         });
     },
 
@@ -402,7 +402,7 @@ L.LocationFilter = L.Class.extend({
         this._innerRect = this._drawRectangle(this.getBounds(), 'innerRect', {
             fillOpacity: 0,
             stroke: true,
-            color: "white",
+            color: 'white',
             weight: 1,
             opacity: 0.9
         });
@@ -513,7 +513,7 @@ L.LocationFilter = L.Class.extend({
 
         // Update buttons
         if (this._buttonContainer) {
-            this._buttonContainer.addClass("enabled");
+            this._buttonContainer.addClass('enabled');
         }
 
         if (this._enableButton) {
@@ -529,7 +529,7 @@ L.LocationFilter = L.Class.extend({
         this._moveHandler = function() {
             that._draw();
         };
-        this._map.on("move", this._moveHandler);
+        this._map.on('move', this._moveHandler);
 
         // Add the filter layer to the map
         this._layer.addTo(this._map);
@@ -544,7 +544,7 @@ L.LocationFilter = L.Class.extend({
         this._enabled = true;
         
         // Fire the enabled event
-        this.fire("enabled");
+        this.fire('enabled');
     },
 
     /* Disable the location filter */
@@ -555,7 +555,7 @@ L.LocationFilter = L.Class.extend({
 
         // Update buttons
         if (this._buttonContainer) {
-            this._buttonContainer.removeClass("enabled");
+            this._buttonContainer.removeClass('enabled');
         }
 
         if (this._enableButton) {
@@ -563,7 +563,7 @@ L.LocationFilter = L.Class.extend({
         }
 
         // Remove event listener
-        this._map.off("move", this._moveHandler);
+        this._map.off('move', this._moveHandler);
 
         // Remove rectangle layer from map
         this._map.removeLayer(this._layer);
@@ -571,7 +571,7 @@ L.LocationFilter = L.Class.extend({
         this._enabled = false;
 
         // Fire the disabled event
-        this.fire("disabled");
+        this.fire('disabled');
     },
 
     /* Create the location filter button container and the button that
@@ -579,24 +579,24 @@ L.LocationFilter = L.Class.extend({
     _initializeButtonContainer: function() {
         var that = this;
         this._buttonContainer = new L.Control.ButtonContainer({
-	    className: "location-filter button-container",
+	    className: 'location-filter button-container',
 	    position: this.options.buttonPosition
 	});
 
         if (this.options.enableButton) {
             this._enableButton = new L.Control.Button({
-                className: "enable-button",
+                className: 'enable-button',
                 text: this.options.enableButton.enableText,
 
                 onClick: function(event) {
                     if (!that._enabled) {
                         // Enable the location filter
                         that.enable();
-                        that.fire("enableClick");
+                        that.fire('enableClick');
                     } else {
                         // Disable the location filter
                         that.disable();
-                        that.fire("disableClick");
+                        that.fire('disableClick');
                     }
                 }
             }).addTo(this._buttonContainer);

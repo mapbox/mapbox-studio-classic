@@ -138,11 +138,11 @@ Editor.prototype.keys = function(ev) {
     break;
   case (which === 69): // b for bookmarks
     ev.preventDefault();
-    this.togglePane('export');
+    this.togglePane('bookmark');
     break;
     case (which === 66): // e for export-pane
     ev.preventDefault();
-    this.togglePane('bookmark');
+    this.togglePane('export');
     break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
     var tab = $('#tabs a.tab')[(which-48)-1];
@@ -529,7 +529,6 @@ window.onhashchange = function(ev) {
     window.editor.refresh();
     break;
   case !'export':
-    console.log('wut')
     window.exporter.boundingBox.disable();
     $('.export-controls').addClass('visible-n').removeClass('visible-y');
     statHandler('drawtime')();

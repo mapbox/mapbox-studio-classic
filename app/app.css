@@ -528,7 +528,7 @@ a.project.proj-active .proj-status { display: block;}
       -ms-transition:height .125s;
           transition:height .125s;
   }
-#zoomedto:target .z, #zoomedto.visible-y .z{
+#zoomedto:target .z, #zoomedto.visible-y .z {
   width: 25%;
   border:0px;
   border-bottom:1px solid rgba(0,0,0,.1);
@@ -830,7 +830,7 @@ a.bookmark-y,
 a.user-y,
 a.search-y,
 a.settings-y,
-a.print-y
+a.print-y,
 a.data-y { display:none; }
 
 .xray-toggle a.xray-n,
