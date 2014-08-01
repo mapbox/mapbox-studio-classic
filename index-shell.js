@@ -3,10 +3,8 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 
-var node = path.resolve(path.join(__dirname, 'bin', 'node'));
+var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
-
-console.log(node + ' ' + script);
 
 // Start the server child process.
 var server = spawn(node, [script]);
