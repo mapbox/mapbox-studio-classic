@@ -32,7 +32,7 @@ else
         cd $cwd
         exit 0
     else
-        curl -s http://nodejs.org/dist/v0.10.30/node-v0.10.30-$platform-x64.tar.gz | tar zxvf - node-v0.10.30-$platform-x64/bin/node --strip=2
+        curl -s "http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz" | tar zxvf - "node-v0.10.30-${platform}-x64/bin/node" --strip=2
         cd $cwd
         exit 0
     fi
