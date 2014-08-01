@@ -61,6 +61,14 @@ rm -rf $app_dir/.git
 
 BUILD_PLATFORM=$platform npm install --production
 
+# Remove extra deps dirs to save space
+deps="node_modules/mbtiles/node_modules/sqlite3/deps
+node_modules/mapnik-omnivore/node_modules/gdal/deps
+node_modules/mapnik-omnivore/node_modules/srs/deps"
+for depdir in $deps; do
+    rm -r $app_dir/$depdir
+done
+
 # Go through pre-gyp modules and rebuild for target platform/arch.
 modules="node_modules/mapnik
 node_modules/mbtiles/node_modules/sqlite3
