@@ -192,6 +192,20 @@ test('tm font (cache hit)', function(t) {
     });
 });
 
+test('tm oauth', function(t) {
+    var oauth = tm.db.get('oauth');
+
+    tm.db.set('oauth', null);
+    t.throws(function() { tm.oauth(); }, /No active OAuth account/, 'throws without oauth info');
+
+    tm.db.set('oauth', { account:'test' });
+    t.deepEqual(tm.oauth(), { account:'test' }, 'gets oauth info');
+
+    tm.db.set('oauth', oauth);
+
+    t.end();
+});
+
 test('tm mapid', function(t) {
     var oauth = tm.db.get('oauth');
 

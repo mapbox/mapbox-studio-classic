@@ -511,6 +511,8 @@ window.exporter = new Printer({
 
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
+  analytics.page({hash:window.location.hash});
+
   switch (ev.newURL.split('#').pop()) {
   case 'demo':
     $('body').addClass('demo');

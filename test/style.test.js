@@ -32,6 +32,7 @@ test('setup: config', function(t) {
 
 test('setup: mockserver', function(t) {
     tm.db.set('oauth', creds);
+    tm._config.mapboxauth = 'http://localhost:3001';
     tm._config.mapboxtile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, t.end);
 });
@@ -289,16 +290,7 @@ test('style.toXML: compiles data params', function(t) {
 test('style.upload: uploads stylesheet', function(t) {
     var id = 'tmstyle://' + __dirname + '/fixtures-upload';
     var cache = path.join(tmppath, 'cache');
-    style.upload({
-        id: id,
-        oauth: {
-            account: 'test',
-            accesstoken: 'testaccesstoken'
-        },
-        cache: cache,
-        mapbox: 'http://localhost:3001'
-    },
-    function(err, info){
+    style.upload(id, function(err, info){
         t.ifError(err);
         t.assert(!fs.existsSync(path.join(cache, 'package-' + info._prefs.mapid + '.tm2z')), 'file unlinked');
         t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
@@ -308,16 +300,7 @@ test('style.upload: uploads stylesheet', function(t) {
 });
 
 test('style.upload: errors on unsaved id', function(t) {
-    style.upload({
-        id: style.tmpid(),
-        oauth: {
-            account: 'test',
-            accesstoken: 'testaccesstoken'
-        },
-        cache: path.join(tmppath, 'cache'),
-        mapbox: 'http://localhost:3001'
-    },
-    function(err, info){
+    style.upload(style.tmpid(), function(err, info){
         t.equal(err.message, 'Style must be saved first');
         t.end();
     });
