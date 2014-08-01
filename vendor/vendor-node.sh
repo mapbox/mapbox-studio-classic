@@ -20,7 +20,8 @@ if [ $platform == "windows" ]; then
         cd $cwd
         exit 0
     else
-        curl -sO node.exe http://nodejs.org/dist/v0.10.30/node.exe
+        curl -so node.exe http://nodejs.org/dist/v0.10.30/node.exe
+        chmod a+x node.exe
         cd $cwd
         exit 0
     fi
