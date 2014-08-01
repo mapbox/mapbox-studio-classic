@@ -78,7 +78,7 @@ done
 
 # Zip things up
 cd /tmp
-zip -qr $build_dir.zip $build_dir
+zip -qr $build_dir.zip $(basename $build_dir)
 rm -rf $build_dir
 
 # Upload to s3
