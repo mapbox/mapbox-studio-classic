@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-platform=$1
-
 if [ -z "$1" ]; then
     platform=$(uname -s | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/")
 else
@@ -32,7 +30,8 @@ else
         cd $cwd
         exit 0
     else
-        curl -s "http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz" | tar zxvf - "node-v0.10.30-${platform}-x64/bin/node" --strip=2
+        echo "downloading http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz"
+        curl -fs "http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz" | tar zxvf - "node-v0.10.30-${platform}-x64/bin/node" --strip=2
         cd $cwd
         exit 0
     fi
