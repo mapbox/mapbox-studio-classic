@@ -19,6 +19,7 @@ if [ $platform == "win32" ]; then
         cd $cwd
         exit 0
     else
+        echo "downloading http://nodejs.org/dist/v0.10.30/node.exe"
         curl -so node.exe http://nodejs.org/dist/v0.10.30/node.exe
         chmod a+x node.exe
         cd $cwd
@@ -31,7 +32,7 @@ else
         exit 0
     else
         echo "downloading http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz"
-        curl -fs "http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz" | tar zxvf - "node-v0.10.30-${platform}-x64/bin/node" --strip=2
+        curl -fs "http://nodejs.org/dist/v0.10.30/node-v0.10.30-${platform}-x64.tar.gz" | tar zxvf - --strip=2 "node-v0.10.30-${platform}-x64/bin/node"
         cd $cwd
         exit 0
     fi
