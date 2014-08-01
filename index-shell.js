@@ -27,14 +27,27 @@ var mainWindow = null;
 // Report crashes to our server.
 require('crash-reporter').start();
 
-atom.on('window-all-closed', function() { atom.quit(); });
+atom.on('window-all-closed', function() {
+    if (server) server.kill();
+    process.exit();
+});
 atom.on('ready', makeWindow);
 
 function makeWindow() {
     if (!serverPort) return;
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    mainWindow = new BrowserWindow({
+        width: 960,
+        height: 600,
+        title: 'Mapbox Studio',
+        'node-integration': 'disable',
+        'web-preferences': {
+            webgl: true,
+            java: false,
+            webaudio: false
+        }
+    });
 
     // and load the index.html of the app.
     mainWindow.loadUrl('http://localhost:'+serverPort);

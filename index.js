@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-var atom;
-try { atom = require('app'); } catch(err) {}
-if (atom) {
+if (process.versions['atom-shell']) {
     require('./index-shell');
 } else {
     require('./index-server');
