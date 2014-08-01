@@ -43,11 +43,12 @@
 }
 
 .addtab {
-  padding-right: 40px;
+  padding-right: 45px;
 }
 
 .js-export {
-  padding-left: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .carto-tabs a.tab {
