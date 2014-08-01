@@ -87,4 +87,4 @@ rm $build_dir.zip
 
 cd $cwd
 
-echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$build_dir.zip"
+echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
