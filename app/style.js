@@ -136,7 +136,11 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('settings');
     break;
-  case (which === 66): // b for bookmarks
+  case (which === 69): // b for bookmarks
+    ev.preventDefault();
+    this.togglePane('export');
+    break;
+    case (which === 66): // e for export-pane
     ev.preventDefault();
     this.togglePane('bookmark');
     break;
@@ -493,7 +497,7 @@ window.editor = new Editor({
 });
 window.editor.refresh();
 
-var Printer = window.Print(null, null, null, {
+var Printer = window.Print({
   style: Style,
   source: Source,
   map: map,

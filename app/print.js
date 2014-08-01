@@ -1,4 +1,4 @@
-window.Print = function(templates, cwd, style, options) {
+window.Print = function(options) {
 
 var map = options.map;
 var tiles = options.tiles;
@@ -14,15 +14,11 @@ var Modal = new views.Modal({
 
 Printer.boundingBox;
 
-var Style = Backbone.Model.extend({}) || options.style;
-// Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
-
-var Source = Backbone.Model.extend({}) || options.source;
-// Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
+var Style = options.style;
+var Source = options.source;
 
 Printer.prototype.events = {
   'click .js-recache': 'recache',
-  'keydown': 'keys',
   'click .js-info': 'toggleInfo',
   'click .reselect': 'bboxReselect',
   'click .recenter': 'bboxRecenter',
@@ -32,46 +28,6 @@ Printer.prototype.events = {
   'change .js-dimensions': 'modifydimensions',
   'change .js-coordinates': 'modifycoordinates',
   'change #lock': 'lockdimensions'
-};
-
-Printer.prototype.keys = function(ev) {
-  // Escape. Collapses windows, dialogs, modals, etc.
-  if (ev.which === 27) {
-    if (Modal.active) Modal.close();
-    window.location.href = '#';
-  }
-  if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
-  var which = ev.which;
-  switch (true) {
-  case (which === 72): // h for help
-    ev.preventDefault();
-    this.togglePane('docs');
-    break;
-  case (which === 190): // . for fullscreen
-    ev.preventDefault();
-    this.togglePane('full');
-    break;
-  case (which === 220): // \ for settings
-    ev.preventDefault();
-    this.togglePane('settings');
-    break;
-  case (which === 66): // b for bookmarks
-    ev.preventDefault();
-    this.togglePane('bookmark');
-    break;
-  default:
-    return true;
-  }
-  return false;
-};
-
-Printer.prototype.togglePane = function(name) {
-  var loc = location.href;
-  if (loc.indexOf('#'+name) === -1) {
-    location.href = loc.substring(0, loc.indexOf('#'))+'#'+name;
-  } else {
-    location.href = loc.replace('#'+name, '#');
-  }
 };
 
 Printer.prototype.toggleInfo = function(ev) {
