@@ -104,36 +104,6 @@ app.get('/style', middleware.style, middleware.history, function(req, res, next)
     return res.send(page);
 });
 
-app.get('/print', middleware.style, middleware.history, function(req, res, next) {
-    res.set({'content-type':'text/html'});
-
-    // identify user's OS for styling docs shortcuts
-    var agent = function() {
-        var agent = req.headers['user-agent'];
-        if (agent.indexOf('Win') != -1) return 'windows';
-        if (agent.indexOf('Mac') != -1) return 'mac';
-        if (agent.indexOf('X11') != -1 || agent.indexOf('Linux') != -1) return 'linux';
-        return 'mac'; // default to Mac.
-    };
-
-    try {
-        var page = tm.templates.print({
-            cwd: process.env.HOME,
-            fontsRef: tm.fontfamilies(),
-            cartoRef: require('carto').tree.Reference.data,
-            sources: [req.style._backend._source.data],
-            style: req.style.data,
-            history: req.history,
-            user: tm.db._docs.user,
-            test: req.query.test,
-            agent: agent()
-        });
-    } catch(err) {
-        return next(new Error('print template: ' + err.message));
-    }
-    return res.send(page);
-});
-
 app.get('/source/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.source, cors(), grid);
 
 app.get('/style/:z(\\d+)/:x(\\d+)/:y(\\d+).grid.json', middleware.style, cors(), grid);
