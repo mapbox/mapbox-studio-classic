@@ -50,14 +50,15 @@ Printer.prototype.recache = function(ev) {
 
 Printer.prototype.bboxEnable = function(ev) {
   if (!this.boundingBox._enabled) {
-
     // if coordinates are saved in the model, use those.
     // otherwise, start over.
     if (window.exporter.model && window.exporter.model.get('coordinates')){
+      window.exporter.boundingBox.enable();
       var locked = $('input[id=lock]:checked')[0] ? true : false;
       if (locked) this.lockdimensions();
     } else {
       this.calculateBounds();
+      window.exporter.boundingBox.enable();
     }
     // Enable the location filter
     window.exporter.boundingBox.enable();
