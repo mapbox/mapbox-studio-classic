@@ -12,6 +12,7 @@ set -e -u
 set -o pipefail
 
 cwd=$(pwd)
+mkdir -p $(dirname $0)/../vendor
 cd $(dirname $0)/../vendor
 
 if [ $platform == "win32" ]; then
