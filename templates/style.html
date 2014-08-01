@@ -239,15 +239,17 @@
         --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x'></span></a><!--
         <% }); %>
       --></nav>
-      <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-bottomright'></a>
-      <a href='#export' class='js-export export-n icon picture keyline-left fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
+      <div class='pin-right row1 z1'><!--
+        --><a href='#' class='inline js-addtab quiet icon plus pad1'></a><!--
+        --><a href='#export' class='inline js-export export-n icon picture keyline-left fill-dark dark pad1'></a>
+      </div>
     </div>
     <div id='stylesheets'></div>
     
   </div>
   <div id='export' class='offcanvas-right z100 col12 export-menu pin-right dark fill-dark'>
       <nav class='row1 col12 pin-top keyline-bottom z1'>
-        <a href='#' class='js-export export-y icon x fill-dark dark pad1y pad0x z1 pin-bottomright'></a>
+        <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
         <h3 class='inline pad1'>Export image</h3>
         <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
         <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>

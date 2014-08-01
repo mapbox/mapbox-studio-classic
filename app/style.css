@@ -39,16 +39,7 @@
 /* Code pane
 ------------------------------------------------------- */
 .carto-tabs {
-  padding-right: 30px;
-}
-
-.addtab {
-  padding-right: 45px;
-}
-
-.js-export {
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 80px;
 }
 
 .carto-tabs a.tab {
