@@ -58,7 +58,8 @@ git clone https://github.com/mapbox/mapbox-studio.git $app_dir
 cd $app_dir
 git checkout $gitsha
 rm -rf $app_dir/.git
-npm install --production
+
+BUILD_PLATFORM=$platform npm install --production
 
 # Go through pre-gyp modules and rebuild for target platform/arch.
 modules="node_modules/mapnik

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-if [ -z "$1" ]; then
+platform=$BUILD_PLATFORM
+
+if [ -z "$platform" ]; then
     platform=$(uname -s | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/")
-else
-    platform=$1
 fi
 
 set -e -u
