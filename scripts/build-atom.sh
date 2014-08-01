@@ -81,10 +81,18 @@ cd /tmp
 zip -qr $build_dir.zip $(basename $build_dir)
 rm -rf $build_dir
 
-# Upload to s3
-aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
-rm $build_dir.zip
+# Make the zip self extracting
+if [ $platform == "win32" ]; then
+    cat $cwd/$(dirname $0)/../vendor/unzipsfx-552_win32/unzipsfx.exe $build_dir.zip > $build_dir.exe
+    zip -A $build_dir.exe
+    aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
+    echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
+else
+    aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
+    echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
+fi
+
+rm -f $build_dir.zip $build_dir.exe
 
 cd $cwd
 
-echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
