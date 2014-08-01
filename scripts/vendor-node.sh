@@ -12,9 +12,9 @@ set -e -u
 set -o pipefail
 
 cwd=$(pwd)
-cd $(dirname $0)
+cd $(dirname $0)/../vendor
 
-if [ $platform == "windows" ]; then
+if [ $platform == "win32" ]; then
     if [ -f node.exe ]; then
         echo "vendor node.exe already exists"
         cd $cwd
