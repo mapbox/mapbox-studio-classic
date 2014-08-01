@@ -136,11 +136,11 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('settings');
     break;
-  case (which === 69): // b for bookmarks
+  case (which === 66): // b for bookmarks
     ev.preventDefault();
     this.togglePane('bookmark');
     break;
-    case (which === 66): // e for export-pane
+    case (which === 69): // e for export-pane
     ev.preventDefault();
     this.togglePane('export');
     break;
