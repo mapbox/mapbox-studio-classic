@@ -10,8 +10,8 @@ There are currently no supported releases of this software.
 
 Install [node v0.10.x](http://nodejs.org/download/). Then
 
-    git clone https://github.com/mapbox/tm2.git
-    cd tm2
+    git clone https://github.com/mapbox/mapbox-studio.git
+    cd mapbox-studio
     npm install
     npm start
 
