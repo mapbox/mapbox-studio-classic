@@ -56,7 +56,7 @@ InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
 Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
-  File ..\..\..\*.*
+  File /r ..\..\..\*.*
 SectionEnd
 
 ; Add firewall rule
