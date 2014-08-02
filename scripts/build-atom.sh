@@ -90,18 +90,18 @@ cd /tmp
 # Make the zip self extracting
 if [ $platform == "win32" ]; then
     makensis $build_dir/resources/app/scripts/mapbox-studio.nsi
-    exit 0
-    cat $cwd/$(dirname $0)/../vendor/unzipsfx-552_win32/unzipsfx.exe $build_dir.zip > $build_dir.exe
-    zip -A $build_dir.exe
+    rm -rf $build_dir
+    mv /tmp/mapbox-studio.exe $build_dir.exe
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
+    rm -f $build_dir.exe
 # Zip things up
 else
     zip -qr $build_dir.zip $(basename $build_dir)
     rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
-    rm -f $build_dir.zip $build_dir.exe
+    rm -f $build_dir.zip
 fi
 
 cd $cwd
