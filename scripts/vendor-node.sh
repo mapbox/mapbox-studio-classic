@@ -20,7 +20,7 @@ if [ $platform == "win32" ]; then
         exit 0
     else
         echo "downloading http://nodejs.org/dist/v0.10.30/node.exe"
-        curl -so node.exe http://nodejs.org/dist/v0.10.30/node.exe
+        curl -fso node.exe http://nodejs.org/dist/v0.10.30/node.exe
         chmod a+x node.exe
         cd $cwd
         exit 0

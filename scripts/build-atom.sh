@@ -52,7 +52,7 @@ if [ -d $build_dir ]; then
 fi
 
 curl -Lsfo $shell_file $shell_url
-unzip $shell_file -d $build_dir
+unzip -qq $shell_file -d $build_dir
 rm $shell_file
 
 git clone https://github.com/mapbox/mapbox-studio.git $app_dir
@@ -89,7 +89,7 @@ cd /tmp
 
 # Create windows installer using nsis
 if [ $platform == "win32" ]; then
-    makensis $build_dir/resources/app/scripts/mapbox-studio.nsi
+    makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
