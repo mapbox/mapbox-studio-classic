@@ -1,12 +1,19 @@
-language: node_js
+language: cpp
 
-node_js:
-  - "0.10"
+compiler:
+  - gcc
+
+os:
+  - linux
+  - osx
+
 
 env:
+  matrix:
+  - NODE_NVM_VERSION="0.10"
   global:
-  - secure: "VaWSqPRCVqp+7bP7zYrrASXPO9Po5hX1+YaCkaGHdET9ybwejWUUPpAZ/Yfd8PrjRuzkXOWDKGL3GDbr7GbLCvD6GxXmo9WqrJMQpdzru0Gqa7p67dbA3swBA+E3QaBvcRThdPHBP7xu11+0P2K8sI7XZLGix8ebfMZZPRDfjbY="
-  - secure: "ZpfehiS1S06Z9FZ1KtGOp4mdLxWj1+Kyr4kdC+525+HnVe1eMHGDyLeCK5z6vUt2G1tZ/FxGNLVQDIlwsXSbb0mOIqt/HPr1K9r3jKuPkqnrH01xiXnnrp09+NJO0E3qQlmoeyEk5mSuM5UQN1uSh7FiJC46etflhtOUs/oEjfo="
+  - secure: "EXgVgtayyyxt7flmPhwKZIvkqfkpX1TnrX/EX7ZEQ36TuZGYYX5OXjLTtXWk9sSE6l6O3wRewpkou2PvQQpX25yOI8XYD8vBjx3ymt1lg5RS8nTDZO0XHsd0aTV7JxJCyZGCkIYXvVRPpVbLDbGwULhJe55p8YYKx/lohDB3FYM="
+  - secure: "YvtR+B6yC+MxsU7tP6FCEHKLZoRfvlfwX5HSs8eAYWxqrZmIqJTbavSlj4bQ919szyQ1vZ8wTMkXd/8tCqWARTyWA8tLOHgXm/ZAlxdtdtotyZzNsbC0FmtJHF/wmaQcJ4lX2vcWWhOwtEetEULO6Hv0xGiW26aK+Jp240f6NJE="
 
 # http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
 # addons:
@@ -14,6 +21,19 @@ env:
 # before_install:
 #  - createdb template_postgis
 #  - psql -c "CREATE EXTENSION postgis" template_postgis
+
+before_install:
+- COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
+- PUBLISH_BINARY=false
+- if test "${COMMIT_MESSAGE#*'[publish binary]'}" != "$COMMIT_MESSAGE"; then PUBLISH_BINARY=true; fi;
+- git clone https://github.com/creationix/nvm.git ../.nvm && source ../.nvm/nvm.sh
+- nvm install $NODE_NVM_VERSION
+- nvm use $NODE_NVM_VERSION
+- node --version
+- npm --version
+
+install:
+- npm install
 
 before_script:
  - npm ls

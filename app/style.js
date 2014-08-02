@@ -140,6 +140,10 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('bookmark');
     break;
+    case (which === 69): // e for export-pane
+    ev.preventDefault();
+    this.togglePane('export');
+    break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
     var tab = $('#tabs a.tab')[(which-48)-1];
     if (tab) $(tab).click();
@@ -395,7 +399,7 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
-Editor.prototype.downloadPackage = function(ev){
+Editor.prototype.downloadPackage = function(ev) {
   if (style.source.split(':')[0] === 'tmsource'){
     return Modal.show('error', new Error('Cannot package a local source with a style.'));
   } else {
@@ -493,6 +497,18 @@ window.editor = new Editor({
 });
 window.editor.refresh();
 
+var Printer = window.Print({
+  style: Style,
+  source: Source,
+  map: map,
+  tiles: tiles
+});
+
+window.exporter = new Printer({
+  el: document.body,
+  model: new Style(style)
+});
+
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
   analytics.page({hash:window.location.hash});
@@ -511,6 +527,22 @@ window.onhashchange = function(ev) {
   case 'home':
   case 'xray':
     window.editor.refresh();
+    break;
+  case !'export':
+    window.exporter.boundingBox.disable();
+    $('.export-controls').addClass('visible-n').removeClass('visible-y');
+    statHandler('drawtime')();
+    break;
+  case 'export':
+    window.exporter.refresh();
+    $('.export-controls').addClass('visible-y').removeClass('visible-n');
+    break;
+  default:
+    if (window.exporter.boundingBox) {
+      window.exporter.boundingBox.disable();
+      $('.export-controls').addClass('visible-n').removeClass('visible-y');
+      statHandler('drawtime')();
+    }
     break;
   }
 };
