@@ -87,7 +87,7 @@ done
 
 cd /tmp
 
-# Make the zip self extracting
+# Create windows installer using nsis
 if [ $platform == "win32" ]; then
     makensis $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
