@@ -29,9 +29,10 @@ set -o pipefail
 if ! which git > /dev/null; then echo "git command not found"; exit 1; fi;
 if ! which aws > /dev/null; then echo "aws command not found"; exit 1; fi;
 if ! which npm > /dev/null; then echo "npm command not found"; exit 1; fi;
-if ! which tar > /dev/null; then echo "npm command not found"; exit 1; fi;
+if ! which tar > /dev/null; then echo "tar command not found"; exit 1; fi;
 if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
+if ! which makensis > /dev/null; then echo "makensis command not found"; exit 1; fi;
 
 build_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha"
 shell_url="https://github.com/atom/atom-shell/releases/download/v0.15.1/atom-shell-v0.15.1-$platform-$arch.zip"
@@ -82,26 +83,26 @@ for module in $modules; do
         --target=$node_version \
         --target_arch=$arch \
         --fallback-to-build=false
-    echo $module
 done
 
-# Zip things up
 cd /tmp
-zip -qr $build_dir.zip $(basename $build_dir)
-rm -rf $build_dir
 
 # Make the zip self extracting
 if [ $platform == "win32" ]; then
+    makensis $build_dir/resources/app/scripts/mapbox-studio.nsi
+    exit 0
     cat $cwd/$(dirname $0)/../vendor/unzipsfx-552_win32/unzipsfx.exe $build_dir.zip > $build_dir.exe
     zip -A $build_dir.exe
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
+# Zip things up
 else
+    zip -qr $build_dir.zip $(basename $build_dir)
+    rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
+    rm -f $build_dir.zip $build_dir.exe
 fi
-
-rm -f $build_dir.zip $build_dir.exe
 
 cd $cwd
 
