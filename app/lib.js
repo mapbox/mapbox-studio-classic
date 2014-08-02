@@ -72,36 +72,20 @@ var statHandler = function(key) {
   }).throttle(50);
 };
 
-var messageModal = function(text, html) {
-  if (html) {
-    $('#message .js-message').html(html);
-  } else {
-    $('#message .js-message').text(text);
-  }
-  window.location.hash = '#message';
-};
-
-var messageClear = function() {
-  $('#message .js-message').text('');
-  $('#full').removeClass('loading');
-};
-
 var delStyle = function(ev) {
   var id = $(ev.currentTarget).attr('href');
   var parent = $(ev.currentTarget).parent();
   var name = id.split('/').pop();
-  if (confirm('Remove "' + name + '"?')) {
+  Modal.show('confirm', 'Remove "' + name + '"?', function(err, confirm) {
+    if (err) return Modal.show('error', err);
+    if (!confirm) return;
     $.ajax({
       url:'/history/' + id,
       type: 'DELETE',
-      success: function(resp) {
-        parent.remove();
-      },
-      error: function(resp) {
-        messageModal(resp.status + " " + resp.statusText);
-      }
+      success: function(resp) { parent.remove(); },
+      error: function(resp) { Modal.show('error', resp.responseText); }
     });
-  }
+  });
   return false;
 };
 
@@ -257,17 +241,18 @@ views.Browser.styleHandler = function(Modal, cwd) {
 
 views.Modal = Backbone.View.extend({});
 views.Modal.prototype.events = {
-  'click a.js-close': 'close'
+  'click a.js-close': 'close',
+  'click a.js-confirm': 'close'
 };
 views.Modal.prototype.active = false;
 views.Modal.prototype.modals = {};
-views.Modal.prototype.close = function() {
+views.Modal.prototype.close = function(ev) {
     // default, just close the modal
     // need to also accept a url and redirect there on close
     if (!this.active) return false;
     this.$el.empty();
     this.$el.parent().removeClass('active');
-    this.active.callback();
+    this.active.callback(null, ev && $(ev.currentTarget).is('a.js-confirm'));
     this.active = false;
     return false;
 };
@@ -283,7 +268,7 @@ views.Modal.prototype.show = function(id, options, callback) {
     try {
         var html = this.options.templates['modal' + id](options);
     } catch(err) {
-        return callback('Error in template "modal' + id + '": ' + err.toString());
+        return callback(new Error('Error in template "modal' + id + '": ' + err.toString()));
     }
 
     var modal = { el: $(html), callback: callback };

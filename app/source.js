@@ -61,11 +61,20 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         memo[l.id] = Layer(l.id, l.Datasource);
         return memo;
     }, {});
+    function orderLayers() {
+        var ids = $('#layers .js-layer-content .js-layer').map(function() {
+            return $(this).attr('id');
+        }).get();
+        layers = _(ids).reduce(function(memo, id) {
+            memo[id] = layers[id];
+            return memo;
+        }, {});
+    };
     var Source = Backbone.Model.extend({});
     Source.prototype.url = function() {
         return '/source.json?id=' + this.get('id');
     };
-    var Modal = new views.Modal({
+    var Modal = window.Modal = new views.Modal({
         el: $('.modal-content'),
         templates: templates
     });
@@ -251,6 +260,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         $('#editor').prepend(templates['layer' + type](layer));
         $('#layers .js-layer-content').prepend(templates.layeritem(layer));
         layers[id] = Layer(id, layer.Datasource);
+        orderLayers();
         Modal.close();
         window.location.hash = '#layers-' + id;
         $('#layers .js-layer-content').sortable('destroy').sortable();
@@ -314,6 +324,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
             //Add new layer to the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
+            orderLayers();
 
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
@@ -340,13 +351,15 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.deletelayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('del-').pop();
         if (!layers[id]) return false;
-        if (confirm('Remove layer "' + id + '"?')) {
+        Modal.show('confirm', 'Remove layer "' + id + '"?', function(err, confirm) {
+            if (err) return Modal.show('error', err);
+            if (!confirm) return;
             layers[id].form.remove();
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
-        }
-        window.location.href = '#';
+            window.location.href = '#';
+        });
         return false;
     };
     //This only applies to single-layer sources at the moment
@@ -400,8 +413,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
       var current_id = $('#current_id').val();
       var layer = layers[current_id].get();
       var new_id = $('#newLayername').val();
-      var new_layerform = '#layers-' + new_id;
-      layer.id = new_id;
 
       // No-op.
       if (current_id === new_id) {
@@ -409,17 +420,12 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         return false;
       }
 
-      //Add the new layer form and div
-      $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
-      $('#layers .js-layer-content').prepend(templates.layeritem(layer));
-
-      //Replace old layer with new in the project's layers array
-      layers[layer.id] = Layer(layer.id, layer.Datasource);
-
-      //Delete old layer/form
-      layers[current_id].form.remove();
-      layers[current_id].item.remove();
+      // Replace old layer/form
+      layer.id = new_id;
+      layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
+      layers[current_id].item.replaceWith(templates.layeritem(layer));
       delete layers[current_id];
+      layers[layer.id] = Layer(layer.id, layer.Datasource);
 
       //Close
       Modal.close();
@@ -430,7 +436,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
     };
     Editor.prototype.error = function(model, resp) {
-        this.messageclear();
+        $('#full').removeClass('loading');
         if (resp.responseText) {
             var json;
             try {
@@ -478,7 +484,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     };
 
     Editor.prototype.refresh = function(ev) {
-        this.messageclear();
+        $('#full').removeClass('loading');
         $('body').removeClass('changed');
         if (!map) {
             map = L.mapbox.map('map');
@@ -565,7 +571,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
 
-    Editor.prototype.messageclear = messageClear;
     Editor.prototype.delstyle = delStyle;
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {
@@ -599,14 +604,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
         $('#layers .js-layer-content').sortable();
-        $('#layers .js-layer-content').bind('sortupdate', function(ev, ui) {
-            var ids = $('#layers .js-layer-content .js-layer').map(function() {
-                return $(this).attr('id');
-            }).get();
-            layers = _(ids).reduce(function(memo, id) {
-                memo[id] = layers[id];
-                return memo;
-            }, {});
-        });
+        $('#layers .js-layer-content').bind('sortupdate', orderLayers);
     }
 };

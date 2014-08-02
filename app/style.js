@@ -14,7 +14,7 @@ if ('onbeforeunload' in window) window.onbeforeunload = function() {
 };
 
 var Editor = Backbone.View.extend({});
-var Modal = new views.Modal({
+var Modal = window.Modal = new views.Modal({
   el: $('.modal-content'),
   templates: templates
 });
@@ -184,7 +184,6 @@ Editor.prototype.togglePane = function(name) {
 };
 
 Editor.prototype.messageclear = function() {
-  messageClear();
   _(code).each(function(cm) {
       _(cm._cartoErrors||[]).each(function() {
         cm.clearGutter('errors');
@@ -264,23 +263,26 @@ Editor.prototype.addtab = function(ev) {
   return false;
 };
 Editor.prototype.deltab = function(ev) {
+  var view = this;
   var styles = this.model.get('styles');
   var parent = $(ev.currentTarget).parent();
   var target = parent.attr('rel');
-  if (!styles[target] || confirm('Remove stylesheet "' + target.replace(/.mss/,'') + '"?')) {
+  Modal.show('confirm', 'Remove stylesheet "' + target.replace(/.mss/,'') + '"?', function(err, confirm) {
+    if (err) return Modal.show('error', err);
+    if (!confirm) return;
     $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];
     delete code[target];
-    this.model.set({styles:styles});
-    this.changed();
-  }
+    view.model.set({styles:styles});
+    view.changed();
 
-  // Set first tab to active.
-  var tabs = $('.js-tab', '#tabs');
-  if (parent.is('.active') && tabs.size())
-    this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
-
+    // Set first tab to active.
+    var tabs = $('.js-tab', '#tabs');
+    if (parent.is('.active') && tabs.size()) {
+      view.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
+    }
+  });
   return false;
 };
 Editor.prototype.recache = function(ev) {
@@ -336,6 +338,7 @@ Editor.prototype.save = function(ev, options) {
 };
 Editor.prototype.error = function(model, resp) {
   this.messageclear();
+  $('#full').removeClass('loading');
 
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
@@ -414,6 +417,7 @@ Editor.prototype.selectall = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
+  $('#full').removeClass('loading');
   $('body').removeClass('changed');
 
   if (!map) {
