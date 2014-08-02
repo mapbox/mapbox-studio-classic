@@ -1,8 +1,5 @@
 'use strict';
 
-// Override window methods for the test runner.
-window.confirm = function(message) { return true; };
-
 // Global queue for testing post-ajax request. Use by calling
 //
 // onajax(function() {
@@ -46,6 +43,8 @@ tape('.js-history browses styles', function(t) {
 tape('.js-history removes history style', function(t) {
     var count = $('#history-style .project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
+    t.ok(hasModal('#confirm'), 'shows confirm modal');
+    $('#confirm a.js-confirm').click();
     onajax(function() {
         t.equal(count - 1, $('#history-style .project').size());
         t.end();
@@ -106,6 +105,8 @@ tape('#style-ui keys set tabs as active', function(t) {
 tape('#style-ui deletes a tab', function(t) {
     var count = $('#tabs .js-tab').size();
     $('#tabs .js-deltab:eq(0)').click();
+    t.ok(hasModal('#confirm'), 'shows confirm modal');
+    $('#confirm a.js-confirm').click();
     t.equal(count - 1, $('#tabs .js-tab').size());
     t.end();
 });

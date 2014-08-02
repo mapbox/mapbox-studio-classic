@@ -74,7 +74,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Source.prototype.url = function() {
         return '/source.json?id=' + this.get('id');
     };
-    var Modal = new views.Modal({
+    var Modal = window.Modal = new views.Modal({
         el: $('.modal-content'),
         templates: templates
     });
@@ -351,13 +351,15 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     Editor.prototype.deletelayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('del-').pop();
         if (!layers[id]) return false;
-        if (confirm('Remove layer "' + id + '"?')) {
+        Modal.show('confirm', 'Remove layer "' + id + '"?', function(err, confirm) {
+            if (err) return Modal.show('error', err);
+            if (!confirm) return;
             layers[id].form.remove();
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
-        }
-        window.location.href = '#';
+            window.location.href = '#';
+        });
         return false;
     };
     //This only applies to single-layer sources at the moment
@@ -434,7 +436,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
 
     };
     Editor.prototype.error = function(model, resp) {
-        this.messageclear();
+        $('#full').removeClass('loading');
         if (resp.responseText) {
             var json;
             try {
@@ -482,7 +484,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     };
 
     Editor.prototype.refresh = function(ev) {
-        this.messageclear();
+        $('#full').removeClass('loading');
         $('body').removeClass('changed');
         if (!map) {
             map = L.mapbox.map('map');
@@ -569,7 +571,6 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
 
-    Editor.prototype.messageclear = messageClear;
     Editor.prototype.delstyle = delStyle;
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {

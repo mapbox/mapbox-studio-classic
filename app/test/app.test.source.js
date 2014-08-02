@@ -1,8 +1,5 @@
 'use strict';
 
-// Override window methods for the test runner.
-window.confirm = function(message) { return true; };
-
 // Global queue for testing post-ajax request. Use by calling
 //
 // onajax(function() {
@@ -19,6 +16,10 @@ $(document).ajaxComplete(function() {
     // before the actual ajax call's success/error handlers are called.
     setTimeout(function() { callback(); }, 100);
 });
+
+function hasModal(selector) {
+    return $('#modal-content ' + selector).size() > 0;
+}
 
 tape('#settings-form', function(t) {
     t.ok(!$('body').hasClass('changed'), 'body');
@@ -242,6 +243,8 @@ for (var name in datatests) (function(name, info) {
                 }
             }
             $('#del-' + info.expected.id).click();
+            t.ok(hasModal('#confirm'), 'shows confirm modal');
+            $('#confirm a.js-confirm').click();
             t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
             t.end();
         });
