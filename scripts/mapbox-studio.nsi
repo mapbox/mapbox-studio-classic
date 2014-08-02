@@ -1,11 +1,11 @@
 ; Mapbox Studio nsis installer script
 
 ; HM NIS Edit Wizard helper defines
-!define PRODUCT_NAME "mapbox-studio"
-!define BUILD_DIR "mapbox-studio"
+!define PRODUCT_DIR "mapbox-studio"
+!define PRODUCT_NAME "Mapbox Studio"
 !define PRODUCT_PUBLISHER "Mapbox"
 !define PRODUCT_WEB_SITE "https://www.mapbox.com/"
-!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_DIR}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
@@ -30,7 +30,7 @@ RequestExecutionLevel admin
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "${PRODUCT_NAME}"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "${PRODUCT_DIR}"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
@@ -48,9 +48,9 @@ var ICONS_GROUP
 
 ; MUI end ------
 
-Name "${PRODUCT_NAME}"
-OutFile "..\..\..\..\${PRODUCT_NAME}.exe"
-InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
+Name "${PRODUCT_DIR}"
+OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
+InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
 
 
 Section "MainSection" SEC01
@@ -74,7 +74,7 @@ Section -AdditionalIcons
   SetOutPath $INSTDIR
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start ${PRODUCT_NAME}.lnk" "$INSTDIR\atom.exe" "" "$INSTDIR\resources\app\mapbox-studio.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\atom.exe" "" "$INSTDIR\resources\app\mapbox-studio.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall ${PRODUCT_NAME}.lnk" "$INSTDIR\uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -113,7 +113,7 @@ Section Uninstall
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall ${PRODUCT_NAME}.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\Start ${PRODUCT_NAME}.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk"
   RMDir /r "$SMPROGRAMS\$ICONS_GROUP"
   !insertmacro MUI_STARTMENU_WRITE_END
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
