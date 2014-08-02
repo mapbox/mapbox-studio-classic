@@ -28,7 +28,7 @@ before_install:
 - nvm use $NODE_NVM_VERSION
 - node --version
 - npm --version
-- ./scripts/build-travis.sh
+- ./scripts/build-travis.sh $TRAVIS_COMMIT
 
 install:
 - npm install
