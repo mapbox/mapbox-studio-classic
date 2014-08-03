@@ -140,19 +140,21 @@ views.Browser.prototype.initialize = function(options, initCallback) {
 };
 views.Browser.prototype.render = function() {
   var view = this;
+  var win = view.cwd.indexOf(':') === 1;
+  var sep = win ? '\\' : '/';
   $.ajax({
-    url: '/browse?path=' + (view.cwd.indexOf(':') === -1 ? '/' : '') + view.cwd,
+    url: '/browse?path=' + view.cwd,
     dataType: 'json',
     success: function(resp) {
       view.$('input[name=cwd]').val(view.cwd);
       view.$('.cwd strong').text(view.cwd);
-      view.$('.cwd a').attr('href', '#' + view.cwd.split('/').slice(0,-1).join('/'));
+      view.$('.cwd a').attr('href', '#' + (view.cwd.split(sep).slice(0,-1).join(sep) || '/'));
       view.$('.list').html(_(resp).chain()
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
           var targetFile = view.isFile(f.basename) ? '' : 'quiet';
-          return "<a class='icon " + targetFile + " " + type + " strong small pad1x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
+          return "<a class='icon " + targetFile + " " + type + " small truncate round block fill-lighten0-onhover fill-blue-onactive' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));
@@ -183,10 +185,12 @@ views.Browser.prototype.browse = function(ev) {
   var target = $(ev.currentTarget);
   if (target.is('.document') || this.isFile(target.attr('href').split('#').pop())) {
     this.$('input[name=basename]').val(target.text());
-  } else if (target.is('.folder') || target.is('.prev')) {
+  } else if (target.is('.folder.active') || target.is('.prev')) {
     this.cwd = target.attr('href').split('#').pop();
     this.render();
   }
+  target.addClass('active');
+  target.siblings().removeClass('active');
   return false;
 };
 // Shared helper for generating a browseSource event handler.
