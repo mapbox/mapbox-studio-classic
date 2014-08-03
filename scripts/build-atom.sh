@@ -87,7 +87,7 @@ done
 
 cd /tmp
 
-# Create windows installer using nsis
+# win32: installer using nsis
 if [ $platform == "win32" ]; then
     makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
@@ -95,7 +95,16 @@ if [ $platform == "win32" ]; then
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
     rm -f $build_dir.exe
-# Zip things up
+# darwin: add app resources, zip up
+elif [ $platform == "darwin" ]; then
+    cp $app_dir/scripts/darwin/mapbox-studio.icns $build_dir/Atom.app/Contents/Resources/atom.icns
+    mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
+    zip -qr $build_dir.zip $(basename $build_dir)
+    rm -rf $build_dir
+    aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
+    echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
+    rm -f $build_dir.zip
+# linux: zip up
 else
     zip -qr $build_dir.zip $(basename $build_dir)
     rm -rf $build_dir
