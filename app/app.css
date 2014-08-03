@@ -6,6 +6,9 @@
 .bottom2 { bottom:80px; }
 .bottom3 { bottom:120px; }
 
+/* Hover/acive fills */
+.fill-lighten0-onhover:hover { background:rgba(255,255,255,0.10); }
+.fill-blue-onactive.active { background:#3887be; }
 
 /* FIX IN BASE - inputs in dark pills lose their border */
 .dark.fill-dark .pill > input {
