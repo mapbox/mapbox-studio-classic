@@ -20,7 +20,7 @@ RequestExecutionLevel admin
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "win32\mapbox-studio.ico"
+!define MUI_ICON "assets\mapbox-studio.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -74,7 +74,7 @@ Section -AdditionalIcons
   SetOutPath $INSTDIR
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\atom.exe" "" "$INSTDIR\resources\app\mapbox-studio.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\atom.exe" "" "$INSTDIR\resources\app\scripts\assets\mapbox-studio.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall ${PRODUCT_NAME}.lnk" "$INSTDIR\uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
