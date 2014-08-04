@@ -39,7 +39,6 @@ function makeWindow() {
         width: 960,
         height: 600,
         title: 'Mapbox Studio',
-        'node-integration': 'disable',
         'web-preferences': {
             webgl: true,
             java: false,
