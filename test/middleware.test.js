@@ -18,8 +18,6 @@ var tmppath = tm.join(tmp, 'tm2-middleware-' + (+new Date));
 var tmpId = tm.join(tmp, 'tm2-middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
-console.log('sourceId ' + sourceId);
-console.log('styleId ' + styleId);
 var server;
 
 test('setup: config', function(t) {
@@ -76,26 +74,23 @@ test('history: removes dead source/styles', function(t) {
 });
 
 test('writeStyle: makes tmp styles', function(t) {
-    var req = { body: {} };
-    middleware.writeStyle(req, {}, function() {
+    var data = {
+        id:'tmpstyle://' + tm.parse(styleId).dirname,
+        name:'tmp-1234',
+        source:'mapbox:///mapbox.mapbox-streets-v2',
+        styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
+    };
+    var req = { body: data };
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
         t.ok(style.tmpid(req.style.data.id), 'creates a valid tmp id');
         var history = tm.history();
         if (history.style) {
             t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
         }
-
-        style.info('tmstyle://' + path.dirname(require.resolve('mapbox-studio-default-style')), function(err, defaultInfo) {
-            delete req.style.data.id;
-            delete req.style.data.mtime;
-            delete req.style.data._tmp;
-            delete req.style.data.background;
-            delete defaultInfo.id;
-            delete defaultInfo.mtime;
-
-            t.deepEqual(req.style.data, defaultInfo, 'mimics default style');
-            t.end();
-        });
+        t.equal(req.style.data.name, data.name, 'has correct info');
+        t.end();
     });
 });
 
@@ -107,7 +102,8 @@ test('writeStyle: makes persistent styles', function(t) {
         styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
     };
     var req = { body: data };
-    middleware.writeStyle(req, {}, function() {
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
         t.ok(!style.tmpid(req.style.data.id), 'does not create a tmp id');
         t.ok(tm.history().indexOf(req.style.data.id) !== -1, 'writes to history');
@@ -129,25 +125,23 @@ test('writeStyle: cleanup', function(t) {
 });
 
 test('loadStyle: loads a tmp style', function(t) {
-    var writeReq = { body: {} };
-    middleware.writeStyle(writeReq, {}, function() {
-        var req = { query: { id: writeReq.style.data.id } };
-        middleware.loadStyle(req, {}, function() {
-            t.ok(req.style, 'appends style to req');
-            t.equal(req.style.data.id, writeReq.style.data.id, 'has the correct id');
-            var history = tm.history();
-            if (history.style) {
-                t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
-            }
-            t.end();
-        });
+    var req = { query: { id:'tmpstyle://' + tm.parse(styleId).dirname } };
+    middleware.loadStyle(req, {}, function(err) {
+        t.ifError(err);
+        t.ok(req.style, 'appends style to req');
+        t.equal(req.style.data.id, req.query.id, 'has the correct id');
+        var history = tm.history();
+        if (history.style) {
+            t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
+        }
+        t.end();
     });
 });
 
-test('loadStyle: loads a tmp style with source', function(t) {
+test('newStyle: creates a tmp style with source', function(t) {
     var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
     var req = { body: {}, query: { source:sourceId } };
-    middleware.writeStyle(req, {}, function(err) {
+    middleware.newStyle(req, {}, function(err) {
         t.ifError(err);
         t.deepEqual({
             'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#solid {\n  line-width: 1;\n  line-color: rgba(153,204,68,0.5);\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
@@ -158,10 +152,10 @@ test('loadStyle: loads a tmp style with source', function(t) {
     });
 });
 
-test('loadStyle: loads a tmp style with a raster source', function(t) {
+test('newStyle: creates a tmp style with a raster source', function(t) {
     var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localraster');
     var req = { body: {}, query: { source:sourceId } };
-    middleware.writeStyle(req, {}, function(err) {
+    middleware.newStyle(req, {}, function(err) {
         t.ifError(err);
         t.deepEqual({
             'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#raster_local {\n  raster-opacity: 1;\n}\n\n'
@@ -172,10 +166,10 @@ test('loadStyle: loads a tmp style with a raster source', function(t) {
     });
 });
 
-test('loadStyle: errors a tmp style with bad source', function(t) {
+test('newStyle: errors a tmp style with bad source', function(t) {
     var sourceId = 'tmsource:///bad/path/to/nonexistent/source';
     var req = { body: {}, query: { source:sourceId } };
-    middleware.writeStyle(req, {}, function(err) {
+    middleware.newStyle(req, {}, function(err) {
         t.ok(err);
         t.equal('ENOENT', err.code);
         t.end();
@@ -195,9 +189,9 @@ test('loadStyle: loads a persistent style', function(t) {
     });
 });
 
-test('writeSource: makes tmp sources', function(t) {
+test('newSource: makes tmp sources', function(t) {
     var req = { body: {} };
-    middleware.writeSource(req, {}, function() {
+    middleware.newSource(req, {}, function() {
         t.ok(req.source, 'appends source to req');
         t.ok(source.tmpid(req.source.data.id), 'creates a valid tmp id');
         var history = tm.history();
@@ -257,17 +251,15 @@ test('writeSource: cleanup', function(t) {
 
 test('loadSource: loads a tmp source', function(t) {
     var writeReq = { body: {} };
-    middleware.writeSource(writeReq, {}, function() {
-        var req = { query: { id: writeReq.source.data.id } };
-        middleware.loadSource(req, {}, function() {
-            t.ok(req.source, 'appends source to req');
-            t.equal(req.source.data.id, writeReq.source.data.id, 'has the correct id');
-            var history = tm.history();
-            if (history.source) {
-                t.ok(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
-            }
-            t.end();
-        });
+    var req = { query: { id: source.tmpid() } };
+    middleware.loadSource(req, {}, function() {
+        t.ok(req.source, 'appends source to req');
+        t.equal(req.source.data.id, source.tmpid(), 'has the correct id');
+        var history = tm.history();
+        if (history.source) {
+            t.ok(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
+        }
+        t.end();
     });
 });
 
