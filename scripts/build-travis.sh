@@ -15,7 +15,7 @@ if [ $PLATFORM == "linux" ] && [ -n "$GITSHA" ]; then
     ./scripts/build-atom.sh "$GITSHA" win32
 elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA" ]; then
     echo "Publishing $GITSHA"
-    sudo brew install python
-    sudo pip install -q awscli
+    brew install python
+    pip install -q awscli
     ./scripts/build-atom.sh "$GITSHA" darwin
 fi
