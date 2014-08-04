@@ -21,7 +21,7 @@ elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA" ]; then
     # Test getting signing key.
     aws s3 cp "s3://mapbox/mapbox-studio/keys/Mac Developer ID Application: Mapbox, Inc..p12" signing-key.p12
     security create-keychain -p travis signing.keychain
-    security import signing-key.p12 -k ~/Library/Keychains/signing.keychain -T /usr/bin/codesign
+    security import signing-key.p12 -k ~/Library/Keychains/signing.keychain -P "" -T /usr/bin/codesign
     rm signing-key.p12
 
     ./scripts/build-atom.sh "$GITSHA" darwin
