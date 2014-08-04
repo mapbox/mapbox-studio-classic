@@ -18,8 +18,6 @@ var tmppath = tm.join(tmp, 'tm2-middleware-' + (+new Date));
 var tmpId = tm.join(tmp, 'tm2-middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
-console.log('sourceId ' + sourceId);
-console.log('styleId ' + styleId);
 var server;
 
 test('setup: config', function(t) {
