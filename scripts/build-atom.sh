@@ -32,7 +32,6 @@ if ! which npm > /dev/null; then echo "npm command not found"; exit 1; fi;
 if ! which tar > /dev/null; then echo "tar command not found"; exit 1; fi;
 if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
-if ! which makensis > /dev/null; then echo "makensis command not found"; exit 1; fi;
 
 build_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha"
 shell_url="https://github.com/atom/atom-shell/releases/download/v0.15.1/atom-shell-v0.15.1-$platform-$arch.zip"
@@ -89,6 +88,7 @@ cd /tmp
 
 # win32: installer using nsis
 if [ $platform == "win32" ]; then
+    if ! which makensis > /dev/null; then echo "makensis command not found"; exit 1; fi;
     makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe

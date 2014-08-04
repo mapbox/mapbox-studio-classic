@@ -12,6 +12,10 @@ if [ $PLATFORM == "linux" ] && [ -n "$GITSHA" ]; then
     sudo apt-get install -qqy curl unzip nsis python-pip
     sudo pip install -q awscli
     ./scripts/build-atom.sh "$GITSHA" linux
-    ./scripts/build-atom.sh "$GITSHA" darwin
     ./scripts/build-atom.sh "$GITSHA" win32
+elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA"; then
+    echo "Publishing $GITSHA"
+    sudo brew install python
+    sudo pip install -q awscli
+    ./scripts/build-atom.sh "$GITSHA" darwin
 fi
