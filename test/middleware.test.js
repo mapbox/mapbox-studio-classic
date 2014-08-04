@@ -81,7 +81,8 @@ test('writeStyle: makes tmp styles', function(t) {
         styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
     };
     var req = { body: data };
-    middleware.writeStyle(req, {}, function() {
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
         t.ok(style.tmpid(req.style.data.id), 'creates a valid tmp id');
         var history = tm.history();
@@ -101,7 +102,8 @@ test('writeStyle: makes persistent styles', function(t) {
         styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
     };
     var req = { body: data };
-    middleware.writeStyle(req, {}, function() {
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
         t.ok(!style.tmpid(req.style.data.id), 'does not create a tmp id');
         t.ok(tm.history().indexOf(req.style.data.id) !== -1, 'writes to history');
