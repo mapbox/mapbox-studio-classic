@@ -108,9 +108,6 @@ Section Uninstall
        Return
 
   Delete "$INSTDIR\*.*"
-  RMDir /r "$INSTDIR\resources\node_modules\mapnik-omnivore\node_modules\gdal\*.*"
-  RMDir /r "$INSTDIR\resources\node_modules\mapnik-omnivore\node_modules\srs\*.*"
-  RMDir /r "$INSTDIR\resources\node_modules\mbtiles\node_modules\sqlite3\*.*"
   RMDir /r "$INSTDIR\*.*"
   RMDir "$INSTDIR"
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
