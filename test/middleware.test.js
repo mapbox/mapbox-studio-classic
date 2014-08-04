@@ -186,9 +186,9 @@ test('loadStyle: loads a persistent style', function(t) {
     });
 });
 
-test('writeSource: makes tmp sources', function(t) {
+test('newSource: makes tmp sources', function(t) {
     var req = { body: {} };
-    middleware.writeSource(req, {}, function() {
+    middleware.newSource(req, {}, function() {
         t.ok(req.source, 'appends source to req');
         t.ok(source.tmpid(req.source.data.id), 'creates a valid tmp id');
         var history = tm.history();
@@ -248,17 +248,15 @@ test('writeSource: cleanup', function(t) {
 
 test('loadSource: loads a tmp source', function(t) {
     var writeReq = { body: {} };
-    middleware.writeSource(writeReq, {}, function() {
-        var req = { query: { id: writeReq.source.data.id } };
-        middleware.loadSource(req, {}, function() {
-            t.ok(req.source, 'appends source to req');
-            t.equal(req.source.data.id, writeReq.source.data.id, 'has the correct id');
-            var history = tm.history();
-            if (history.source) {
-                t.ok(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
-            }
-            t.end();
-        });
+    var req = { query: { id: source.tmpid() } };
+    middleware.loadSource(req, {}, function() {
+        t.ok(req.source, 'appends source to req');
+        t.equal(req.source.data.id, source.tmpid(), 'has the correct id');
+        var history = tm.history();
+        if (history.source) {
+            t.ok(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
+        }
+        t.end();
     });
 });
 
