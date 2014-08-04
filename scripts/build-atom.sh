@@ -97,7 +97,9 @@ if [ $platform == "win32" ]; then
     rm -f $build_dir.exe
 # darwin: add app resources, zip up
 elif [ $platform == "darwin" ]; then
-    cp $app_dir/scripts/assets/mapbox-studio.icns $build_dir/Atom.app/Contents/Resources/atom.icns
+    rm $build_dir/Atom.app/Contents/Resources/atom.icns
+    cp $app_dir/scripts/assets/mapbox-studio.icns $build_dir/Atom.app/Contents/Resources/mapbox-studio.icns
+    cp $app_dir/scripts/assets/Info.plist $build_dir/Atom.app/Contents/Info.plist
     mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
 
     # Test getting signing key.
