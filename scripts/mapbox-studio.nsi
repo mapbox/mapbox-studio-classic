@@ -108,7 +108,8 @@ Section Uninstall
        Return
 
   Delete "$INSTDIR\*.*"
-  RMDir /r "$INSTDIR\*.*"
+  RMDir /S /Q "$INSTDIR\resources"
+  RMDir /R "$INSTDIR\*.*"
   RMDir "$INSTDIR"
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
