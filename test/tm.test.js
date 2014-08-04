@@ -186,16 +186,15 @@ test('tm font (valid)', function(t) {
         setTimeout(function() {
             t.ok(fs.existsSync(path.join(tm.config().cache, 'font-bd95f62a.png')));
             t.end();
-        }, 1000);
+        }, 2000);
     });
 });
 
 test('tm font (cache hit)', function(t) {
-    var start = +new Date;
     tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
-        t.ok((+new Date - start) < 50);
+        t.ok(buffer.hit);
         t.end();
     });
 });
