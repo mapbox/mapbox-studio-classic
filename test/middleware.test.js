@@ -75,7 +75,7 @@ test('history: removes dead source/styles', function(t) {
 
 test('writeStyle: makes tmp styles', function(t) {
     var data = {
-        id:'tmpstyle://' + tmpId,
+        id:'tmpstyle://' + tm.parse(styleId).dirname,
         name:'tmp-1234',
         source:'mapbox:///mapbox.mapbox-streets-v2',
         styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
@@ -125,8 +125,9 @@ test('writeStyle: cleanup', function(t) {
 });
 
 test('loadStyle: loads a tmp style', function(t) {
-    var req = { query: { id:'tmpstyle://' + tmpId } };
-    middleware.loadStyle(req, {}, function() {
+    var req = { query: { id:'tmpstyle://' + tm.parse(styleId).dirname } };
+    middleware.loadStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
         t.equal(req.style.data.id, req.query.id, 'has the correct id');
         var history = tm.history();
