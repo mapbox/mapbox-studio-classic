@@ -7,7 +7,7 @@ var url = require('url');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
-var defpath = path.dirname(require.resolve('mapbox-studio-default-style'));
+var defpath = tm.join(path.dirname(require.resolve('mapbox-studio-default-style')));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var Vector = require('tilelive-vector');
 var testutil = require('./util');
@@ -19,8 +19,8 @@ var creds = {
 };
 
 var server;
-var localstyle = 'tmstyle://' + path.join(__dirname, 'fixtures-localstyle');
-var tmppath = path.join(tmp, 'tm2-styleTest-' + (+new Date));
+var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
+var tmppath = tm.join(tmp, 'tm2-styleTest-' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({
@@ -178,13 +178,36 @@ test('style.info: fails on bad path', function(t) {
 });
 
 test('style.info: reads style YML', function(t) {
-    style.info('tmstyle://' + defpath, function(err, info) {
+    var tmpid = 'tmstyle://' + defpath;
+    style.info(tmpid, function(err, info) {
         t.ifError(err);
-        t.equal(info.id, 'tmstyle://' + defpath, 'style.info adds id key');
+        t.equal(info.id, tmpid, 'style.info adds id key');
+        t.equal(info._tmp, false, 'style info adds _tmp=false');
 
-        info.id = '[id]';
+        var basepath = tm.parse(tmpid).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
 
         var filepath = path.join(__dirname,'expected','style-info-default.json');
+        if (UPDATE) {
+            fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+        }
+        t.deepEqual(info, require(filepath));
+        t.end();
+    });
+});
+
+test('style.info: reads style YML (tmp)', function(t) {
+    var tmpid = 'tmpstyle://' + defpath;
+    style.info(tmpid, function(err, info) {
+        t.ifError(err);
+        t.equal(info.id, tmpid, 'style.info adds id key');
+        t.equal(info._tmp, tmpid, 'style info adds _tmp=id');
+
+        var basepath = tm.parse(tmpid).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
+        info._tmp = info._tmp.replace(basepath, '[BASEPATH]');
+
+        var filepath = path.join(__dirname,'expected','style-info-default-tmp.json');
         if (UPDATE) {
             fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
         }
