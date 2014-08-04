@@ -293,13 +293,35 @@ test('source.info: fails on bad path', function(t) {
 });
 
 test('source.info: reads source YML', function(t) {
-    source.info('tmsource://' + __dirname + '/fixtures-localsource', function(err, info) {
+    var tmpid = 'tmsource://' + __dirname + '/fixtures-localsource';
+    source.info(tmpid, function(err, info) {
         t.ifError(err);
-        t.equal(info.id, 'tmsource://' + __dirname + '/fixtures-localsource', 'source.info adds id key');
+        t.equal(info.id, tmpid, 'source.info adds id key');
+        t.equal(info._tmp, false, 'style info adds _tmp=false');
 
-        info.id = '[id]';
+        var basepath = tm.parse(tmpid).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
 
         var filepath = __dirname + '/expected/source-info.json';
+        if (UPDATE) {
+            fs.writeFileSync(filepath, JSON.stringify(info, null, 2).replace(__dirname, '[basepath]'));
+        }
+        t.deepEqual(info, require(filepath));
+        t.end();
+    });
+});
+
+test('source.info: reads source YML (tmp)', function(t) {
+    var tmpid = 'tmpsource://' + __dirname + '/fixtures-localsource';
+    source.info(tmpid, function(err, info) {
+        t.ifError(err);
+        t.equal(info.id, tmpid, 'source.info adds id key');
+
+        var basepath = tm.parse(tmpid).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
+        info._tmp = info._tmp.replace(basepath, '[BASEPATH]');
+
+        var filepath = __dirname + '/expected/source-info-tmp.json';
         if (UPDATE) {
             fs.writeFileSync(filepath, JSON.stringify(info, null, 2).replace(__dirname, '[basepath]'));
         }
