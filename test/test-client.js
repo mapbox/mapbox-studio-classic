@@ -12,7 +12,7 @@ var path = require('path');
 var testutil = require('./util');
 
 var basePath = path.resolve(path.join(__dirname, '..'));
-var styleId = 'tmstyle://'+basePath+'/node_modules/tm2-default-style';
+var styleId = 'tmstyle://'+basePath+'/node_modules/mapbox-studio-default-style';
 var sourceId = 'tmsource://'+basePath+'/test/fixtures-localsource';
 var exportId = 'tmsource://'+basePath+'/test/fixtures-export';
 var testPath = path.resolve(path.join(__dirname, '..'));
@@ -55,12 +55,7 @@ function ready(err) {
         {
             name: 'style',
             url: 'http://localhost:3001/style?id={id}&test=true',
-            src: 'tmstyle://'+basePath+'/node_modules/tm2-default-style'
-        },
-        {
-            name: 'print',
-            url: 'http://localhost:3001/print?id={id}&test=true',
-            src: 'tmstyle://'+basePath+'/node_modules/tm2-default-style'
+            src: 'tmstyle://'+basePath+'/node_modules/mapbox-studio-default-style'
         },
         {
             name: 'source',

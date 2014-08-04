@@ -14,7 +14,7 @@ if ('onbeforeunload' in window) window.onbeforeunload = function() {
 };
 
 var Editor = Backbone.View.extend({});
-var Modal = new views.Modal({
+var Modal = window.Modal = new views.Modal({
   el: $('.modal-content'),
   templates: templates
 });
@@ -140,6 +140,10 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('bookmark');
     break;
+    case (which === 69): // e for export-pane
+    ev.preventDefault();
+    this.togglePane('export');
+    break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
     var tab = $('#tabs a.tab')[(which-48)-1];
     if (tab) $(tab).click();
@@ -180,7 +184,6 @@ Editor.prototype.togglePane = function(name) {
 };
 
 Editor.prototype.messageclear = function() {
-  messageClear();
   _(code).each(function(cm) {
       _(cm._cartoErrors||[]).each(function() {
         cm.clearGutter('errors');
@@ -260,23 +263,26 @@ Editor.prototype.addtab = function(ev) {
   return false;
 };
 Editor.prototype.deltab = function(ev) {
+  var view = this;
   var styles = this.model.get('styles');
   var parent = $(ev.currentTarget).parent();
   var target = parent.attr('rel');
-  if (!styles[target] || confirm('Remove stylesheet "' + target.replace(/.mss/,'') + '"?')) {
+  Modal.show('confirm', 'Remove stylesheet "' + target.replace(/.mss/,'') + '"?', function(err, confirm) {
+    if (err) return Modal.show('error', err);
+    if (!confirm) return;
     $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];
     delete code[target];
-    this.model.set({styles:styles});
-    this.changed();
-  }
+    view.model.set({styles:styles});
+    view.changed();
 
-  // Set first tab to active.
-  var tabs = $('.js-tab', '#tabs');
-  if (parent.is('.active') && tabs.size())
-    this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
-
+    // Set first tab to active.
+    var tabs = $('.js-tab', '#tabs');
+    if (parent.is('.active') && tabs.size()) {
+      view.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
+    }
+  });
   return false;
 };
 Editor.prototype.recache = function(ev) {
@@ -332,6 +338,7 @@ Editor.prototype.save = function(ev, options) {
 };
 Editor.prototype.error = function(model, resp) {
   this.messageclear();
+  $('#full').removeClass('loading');
 
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
@@ -395,7 +402,7 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
-Editor.prototype.downloadPackage = function(ev){
+Editor.prototype.downloadPackage = function(ev) {
   if (style.source.split(':')[0] === 'tmsource'){
     return Modal.show('error', new Error('Cannot package a local source with a style.'));
   } else {
@@ -410,6 +417,7 @@ Editor.prototype.selectall = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
+  $('#full').removeClass('loading');
   $('body').removeClass('changed');
 
   if (!map) {
@@ -493,6 +501,18 @@ window.editor = new Editor({
 });
 window.editor.refresh();
 
+var Printer = window.Print({
+  style: Style,
+  source: Source,
+  map: map,
+  tiles: tiles
+});
+
+window.exporter = new Printer({
+  el: document.body,
+  model: new Style(style)
+});
+
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
   analytics.page({hash:window.location.hash});
@@ -511,6 +531,22 @@ window.onhashchange = function(ev) {
   case 'home':
   case 'xray':
     window.editor.refresh();
+    break;
+  case !'export':
+    window.exporter.boundingBox.disable();
+    $('.export-controls').addClass('visible-n').removeClass('visible-y');
+    statHandler('drawtime')();
+    break;
+  case 'export':
+    window.exporter.refresh();
+    $('.export-controls').addClass('visible-y').removeClass('visible-n');
+    break;
+  default:
+    if (window.exporter.boundingBox) {
+      window.exporter.boundingBox.disable();
+      $('.export-controls').addClass('visible-n').removeClass('visible-y');
+      statHandler('drawtime')();
+    }
     break;
   }
 };

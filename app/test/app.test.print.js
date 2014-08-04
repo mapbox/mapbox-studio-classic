@@ -1,8 +1,5 @@
 'use strict';
 
-// Override window methods for the test runner.
-window.confirm = function(message) { return true; };
-
 // Global queue for testing post-ajax request. Use by calling
 //
 // onajax(function() {

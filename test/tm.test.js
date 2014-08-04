@@ -65,10 +65,8 @@ test('tm compacts', function(t) {
     t.equal(276, fs.statSync(dbpath).size);
     tm.dbcompact(dbpath, function(err, db) {
         t.ifError(err);
-        db.on('drain', function() {
-            t.equal(23, fs.statSync(dbpath).size);
-            t.end();
-        });
+        t.equal(23, fs.statSync(dbpath).size);
+        t.end();
     });
 });
 
@@ -161,6 +159,16 @@ test('tm history', function(t) {
         'Confirm invalidation');
     t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('mapbox:///mapbox.mapbox-streets-v5', true),
         'Cannot invalidate default source');
+
+    // Windows path testing.
+    var sep = path.sep;
+    path.sep = '\\';
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmstyle://c:/Windows/Path']), tm.history('tmstyle://c:\\Windows\\Path'),
+        'Normalizes windows path');
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmstyle://c:/Windows/Path']), tm.history('tmstyle://C:/Windows/Path'),
+        'Normalizes drive case in windows path');
+    path.sep = sep;
+
     t.end();
 });
 
@@ -178,16 +186,15 @@ test('tm font (valid)', function(t) {
         setTimeout(function() {
             t.ok(fs.existsSync(path.join(tm.config().cache, 'font-bd95f62a.png')));
             t.end();
-        }, 1000);
+        }, 2000);
     });
 });
 
 test('tm font (cache hit)', function(t) {
-    var start = +new Date;
     tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 600 && buffer.length < 1000);
-        t.ok((+new Date - start) < 50);
+        t.ok(buffer.hit);
         t.end();
     });
 });

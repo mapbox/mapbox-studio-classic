@@ -8,7 +8,9 @@
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
+  <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
+  <link href='/app/print.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror/codemirror.js'></script>
   <script src='/ext/codemirror/runmode.js'></script>
@@ -19,12 +21,15 @@
   <script src='/ext/mapbox.js'></script>
   <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
+  <script src='/app/print.js?_=<%= +new Date %>'></script>
   <script src='/app/style.js?_=<%= +new Date %>'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
   <script src='/app/codemirror.tm2.palette.js'></script>
   <script src='/ext/sexagesimal.js'></script>
+  <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
+  <script src='/ext/sphericalmercator.js'></script>
   <%= this.analytics(obj) %>
   <title><%= style.name %></title>
 </head>
@@ -84,6 +89,11 @@
       --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
     </div>
   </div>
+  <div class='export-controls visible-n'>
+    <a href='#export' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
+    <a href='#export' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
+  </div>
+
   <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
   <!-- DEMO -->
   <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
@@ -121,7 +131,7 @@
           <a href='#settings' class='js-upload col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
         <section class='space-bottom1'>
-          <a href='/print?id=<%=style.id%>' id='print-style' class='col12 short button picture icon'>Export image</a>
+          <a href='#export' id='export-style' class='col12 short button picture icon'>Export image</a>
         </section>
         <section>
           <a href='#package' class='js-download col12 short button icon package'>Download package</a>
@@ -229,7 +239,10 @@
         --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x'></span></a><!--
         <% }); %>
       --></nav>
-      <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-bottomright'></a>
+      <div class='pin-right row1 z1'><!--
+        --><a href='#' class='inline js-addtab quiet icon plus pad1'></a><!--
+        --><a href='#export' class='inline js-export export-n icon picture keyline-left fill-dark dark pad1'></a>
+      </div>
     </div>
     <div id='stylesheets'></div>
   </div>
@@ -246,6 +259,117 @@
     </div>
   </div>
   <!-- END DEMO -->
+</div>
+
+<div id='export' class='offcanvas-right z100 col6 export-menu pin-right dark fill-dark'>
+  <nav class='row1 col12 pin-top keyline-bottom z1'>
+    <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
+    <h3 class='inline pad1'>Export image</h3>
+    <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
+    <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
+      <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
+    </div>
+  </nav>
+
+  <form class='js-data-content menu-content pin-left col12 top1 scroll-styled pad1x pad2y'>
+    <h3 class='space-bottom1'>Zoom level  <span id='zoom'><%=style.center[2]%></span></h3>
+
+    <fieldset class='space-bottom1'>
+      <label>Crop size</label>
+      <div class='space-bottom1 clearfix col12'>
+        <div class='col6 col-input with-icon'>
+          <input id='pixelX' class='js-dimensions col12 short small dim' type='text' value='' />
+          <span class='icon quiet l-r-arrow'></span>
+          <label class='micro ghost'>Pixels</label>
+        </div>
+        <div class='col6 col-input with-icon'>
+          <input id='pixelY' class='js-dimensions col12 dim short small' type='text' value='' />
+          <span class='icon quiet u-d-arrow'></span>
+          <label class='micro ghost'>Pixels</label>
+        </div>
+      </div>
+      <div class='clearfix col12'>
+        <div class='col6 col-input with-icon'>
+          <input id='inchX' class='js-dimensions col12 short small dim' type='text' value='' />
+          <span class='icon quiet l-r-arrow'></span>
+          <label class='micro ghost'>Inches</label>
+        </div>
+        <div class='col6 col-input with-icon'>
+          <input id='inchY' class='js-dimensions col12 dim short small' type='text' value='' />
+          <span class='icon quiet u-d-arrow'></span>
+          <label class='micro ghost'>Inches</label>
+        </div>
+      </div>
+      <div class='pad1y checkbox inline short'>
+        <input type='checkbox' id='lock'>
+        <label for='lock' class='round keyline-all small icon lock'>Lock dimensions</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class='space-bottom1 clearfix'>
+        <label>Crop bounds</label>
+          <!-- [W, S, E, N] -->
+        <div class='col3 col-input contain'>
+          <input id='bboxInputW' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>W</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputS' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>S</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputE' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>E</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputN' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>N</label>
+        </div>
+      </div>
+      <div class='space-bottom1'>
+        <label>Center point</label>
+        <div class='col6 col-input contain'>
+          <input id='centerInputLat' class='js-coordinates col12 short small' type='text' value='' />
+          <label class='micro ghost'>Lat</label>
+        </div>
+        <div class='col6 col-input contain'>
+          <input id='centerInputLng' class='js-coordinates col12 short small' type='text' value='' />
+          <label class='micro ghost'>Lng</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class='pad1 keyline-all round clearfix'>
+      <div class='space-bottom1'>
+        <label>Image format</label>
+        <div id='format' class='fill-dark clearfix center inline rounded-toggle short'>
+          <input id='png' type='radio' name='format' value='png' checked='checked'>
+          <label for='png'>png</label>
+          <input id='jpeg' type='radio' name='format' value='jpeg'>
+          <label for='jpeg'>jpeg</label>
+        </div>
+      </div>
+      <div>
+        <label>Resolution</label>
+        <div id='resolution' class='clearfix inline rounded-toggle short'>
+        <% _({
+          '2.078125': '150ppi',
+          '4.15625': '300ppi',
+          '8.3125': '600ppi'
+        }).each(function(label, format) { %>
+        <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '300ppi') { %> checked='true' <% } %>>
+        <label for='<%= label %>'><%= label %></label>
+        <% }); %>
+        </div>
+     </div>
+    </fieldset>
+
+  </form>
+
+  <div class='fill-dark pin-bottom keyline-top pad1'>
+    <a id='exportDownload' href='#' type='button' class='round short col12 button disabled icon floppy' value='Download image' name='Export' >Download</a>
+  </div>
 </div>
 
 <div id='toolbar' class='center pad1 dark z10'>
@@ -346,7 +470,7 @@ templates.modalbrowser = <%= this.modalbrowser.source %>;
 templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
 templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
 templates.modaladdtab = <%= this.modaladdtab.source %>;
-templates.modalmessage = <%= this.modalmessage.source %>;
+templates.modalconfirm = <%= this.modalconfirm.source %>;
 templates.modalsources = <%= this.modalsources.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
 templates.modalupgrade = <%= this.modalupgrade.source %>;

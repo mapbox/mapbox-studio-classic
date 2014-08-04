@@ -16,7 +16,7 @@ server.stdout.once('data', function(data) {
         process.exit(1);
     }
     serverPort = matches[1];
-    makeWindow();
+    loadURL();
 });
 server.stdout.pipe(process.stdout);
 server.stderr.pipe(process.stderr);
@@ -34,8 +34,6 @@ atom.on('window-all-closed', function() {
 atom.on('ready', makeWindow);
 
 function makeWindow() {
-    if (!serverPort) return;
-
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 960,
@@ -48,10 +46,7 @@ function makeWindow() {
             webaudio: false
         }
     });
-
-    // and load the index.html of the app.
-    mainWindow.loadUrl('http://localhost:'+serverPort);
-
+    mainWindow.loadUrl('file://' + path.join(__dirname, 'app', 'loading.html'));
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
@@ -75,5 +70,13 @@ function makeWindow() {
           return;
         });
     }
+
+    loadURL();
+}
+
+function loadURL() {
+    if (!mainWindow) return;
+    if (!serverPort) return;
+    mainWindow.loadUrl('http://localhost:'+serverPort);
 }
 

@@ -1,8 +1,5 @@
 'use strict';
 
-// Override window methods for the test runner.
-window.confirm = function(message) { return true; };
-
 // Global queue for testing post-ajax request. Use by calling
 //
 // onajax(function() {
@@ -46,6 +43,8 @@ tape('.js-history browses styles', function(t) {
 tape('.js-history removes history style', function(t) {
     var count = $('#history-style .project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
+    t.ok(hasModal('#confirm'), 'shows confirm modal');
+    $('#confirm a.js-confirm').click();
     onajax(function() {
         t.equal(count - 1, $('#history-style .project').size());
         t.end();
@@ -106,6 +105,8 @@ tape('#style-ui keys set tabs as active', function(t) {
 tape('#style-ui deletes a tab', function(t) {
     var count = $('#tabs .js-tab').size();
     $('#tabs .js-deltab:eq(0)').click();
+    t.ok(hasModal('#confirm'), 'shows confirm modal');
+    $('#confirm a.js-confirm').click();
     t.equal(count - 1, $('#tabs .js-tab').size());
     t.end();
 });
@@ -185,6 +186,89 @@ tape('.js-download errors on local source', function(t) {
     t.end();
 });
 
+tape('initializes export ui', function(t) {
+    // for some reason clicking on .js-export doesn't
+    // initialize the bounding box
+    window.exporter.refresh();
+    t.ok(window.exporter.boundingBox);
+    t.end();
+});
+
+tape('export-ui: .js-coordinates recalculates center', function(t) {
+    $('#bboxInputW').prop('value', -2.5);
+    $('#bboxInputS').prop('value', -2.5);
+    $('#bboxInputE').prop('value', 1.5);
+    $('#bboxInputN').prop('value', 1.5);
+    $('.js-coordinates').change();
+
+    t.equal($('#centerInputLat').val(), '-0.5000');
+    t.equal($('#centerInputLng').val(), '-0.5000');
+
+    t.end();
+});
+
+tape('export-ui: .js-dimensions updates #exportDownload url', function(t) {
+    $('#pixelX').prop('value', 324);
+    $('#pixelY').prop('value', 324);
+    $('.js-dimensions').change();
+
+    t.equal($('#inchX').val(), '1.08');
+    t.equal($('#inchY').val(), '1.08');
+
+    $('#centerInputLat').prop('value', 0);
+    $('#centerInputLng').prop('value', 0);
+    $('.js-coordinates').change();
+
+    var href = document.getElementById('exportDownload').pathname;
+    t.equal(href, '/static/3/-6.8515,-6.835,6.8515,6.835@4.15625x.png');
+
+    t.end();
+});
+
+tape('export-ui: #format updates #export url', function(t) {
+    $('#jpeg').prop('checked', 'checked');
+    $('#png').prop('checked', null);
+    $('#format').change();
+
+    t.ok($('#exportDownload').attr('href').indexOf('jpeg') > -1, 'jpeg instead of png');
+
+    t.end();
+});
+
+tape('export-ui: #resolution updates #js-dimensions url', function(t) {
+    var px = $('#pixelX').val();
+    var py = $('#pixelY').val();
+    var ix = $('#inchX').val();
+    var iy = $('#inchY').val();
+
+    $('#600ppi').prop('checked', 'checked');
+    $('#300ppi').prop('checked', null);
+    $('#resolution').change();
+
+    t.equal($('#inchX').val(), ix);
+    t.equal($('#inchY').val(), iy);
+    t.equal($('#pixelX').val() | 0, px * 2);
+    t.equal($('#pixelY').val() | 0, py * 2);
+
+    t.end();
+});
+
+tape('export-ui: .js-dimensions over limit triggers warning', function(t) {
+    var zoom = $('#zoom').html();
+    while (zoom < 8) {
+        $('#zoom-in').click();
+        zoom = $('#zoom').html();
+    }
+
+    $('#pixelX').prop('value', 24000);
+    $('.js-dimensions').change();
+
+    t.ok($('#pixelX').hasClass('warning'));
+    t.ok($('#zoomedto .z8 .perc').hasClass('warning'));
+
+    t.end();
+});
+
 tape('keybindings', function(t) {
     window.location.hash = '#';
 
@@ -215,9 +299,15 @@ tape('keybindings', function(t) {
 
     e = $.Event('keydown');
     e.ctrlKey = true;
-    e.which = 66; // backslash
+    e.which = 66; // b
     $('body').trigger(e);
     t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 69; // e
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#export', 'ctrl+e => #export');
 
     var e;
     e = $.Event('keydown');

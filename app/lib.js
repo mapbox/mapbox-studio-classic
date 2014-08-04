@@ -79,36 +79,20 @@ var statHandler = function(key) {
   }).throttle(50);
 };
 
-var messageModal = function(text, html) {
-  if (html) {
-    $('#message .js-message').html(html);
-  } else {
-    $('#message .js-message').text(text);
-  }
-  window.location.hash = '#message';
-};
-
-var messageClear = function() {
-  $('#message .js-message').text('');
-  $('#full').removeClass('loading');
-};
-
 var delStyle = function(ev) {
   var id = $(ev.currentTarget).attr('href');
   var parent = $(ev.currentTarget).parent();
   var name = id.split('/').pop();
-  if (confirm('Remove "' + name + '"?')) {
+  Modal.show('confirm', 'Remove "' + name + '"?', function(err, confirm) {
+    if (err) return Modal.show('error', err);
+    if (!confirm) return;
     $.ajax({
       url:'/history/' + id,
       type: 'DELETE',
-      success: function(resp) {
-        parent.remove();
-      },
-      error: function(resp) {
-        messageModal(resp.status + " " + resp.statusText);
-      }
+      success: function(resp) { parent.remove(); },
+      error: function(resp) { Modal.show('error', resp.responseText); }
     });
-  }
+  });
   return false;
 };
 
@@ -163,19 +147,23 @@ views.Browser.prototype.initialize = function(options, initCallback) {
 };
 views.Browser.prototype.render = function() {
   var view = this;
+  var win = view.cwd.indexOf(':') === 1;
+  var sep = win ? '\\' : '/';
   $.ajax({
-    url: '/browse?path=' + (view.cwd.indexOf(':') === -1 ? '/' : '') + view.cwd,
+    url: '/browse?path=' + view.cwd,
     dataType: 'json',
     success: function(resp) {
+      var parent = view.cwd.split(sep).slice(0,-1).join(sep);
+      parent = parent.indexOf(sep) === -1 ? parent + sep : parent;
       view.$('input[name=cwd]').val(view.cwd);
       view.$('.cwd strong').text(view.cwd);
-      view.$('.cwd a').attr('href', '#' + view.cwd.split('/').slice(0,-1).join('/'));
+      view.$('.cwd a').attr('href', '#' + parent);
       view.$('.list').html(_(resp).chain()
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
           var targetFile = view.isFile(f.basename) ? '' : 'quiet';
-          return "<a class='icon " + targetFile + " " + type + " strong small pad1x pad0y truncate col12 keyline-bottom' href='#" + f.path + "'>" + f.basename + "</a>";
+          return "<a class='icon " + targetFile + " " + type + " small truncate round block fill-lighten0-onhover fill-blue-onactive' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));
@@ -197,19 +185,23 @@ views.Browser.prototype.submit = function(ev) {
   }, {});
   if (!values.basename) return false;
   if (!this.callback) return false;
+  var win = this.cwd.indexOf(':') === 1;
+  var sep = win ? '\\' : '/';
   this.callback(null, (values.basename[0] === '/' || values.basename[1] === ':') ?
     values.basename :
-    values.cwd + '/' + values.basename);
+    values.cwd + sep + values.basename);
   return false;
 };
 views.Browser.prototype.browse = function(ev) {
   var target = $(ev.currentTarget);
   if (target.is('.document') || this.isFile(target.attr('href').split('#').pop())) {
     this.$('input[name=basename]').val(target.text());
-  } else if (target.is('.folder') || target.is('.prev')) {
+  } else if (target.is('.folder.active') || target.is('.prev')) {
     this.cwd = target.attr('href').split('#').pop();
     this.render();
   }
+  target.addClass('active');
+  target.siblings().removeClass('active');
   return false;
 };
 // Shared helper for generating a browseSource event handler.
@@ -264,17 +256,18 @@ views.Browser.styleHandler = function(Modal, cwd) {
 
 views.Modal = Backbone.View.extend({});
 views.Modal.prototype.events = {
-  'click a.js-close': 'close'
+  'click a.js-close': 'close',
+  'click a.js-confirm': 'close'
 };
 views.Modal.prototype.active = false;
 views.Modal.prototype.modals = {};
-views.Modal.prototype.close = function() {
+views.Modal.prototype.close = function(ev) {
     // default, just close the modal
     // need to also accept a url and redirect there on close
     if (!this.active) return false;
     this.$el.empty();
     this.$el.parent().removeClass('active');
-    this.active.callback();
+    this.active.callback(null, ev && $(ev.currentTarget).is('a.js-confirm'));
     this.active = false;
     return false;
 };
@@ -290,7 +283,7 @@ views.Modal.prototype.show = function(id, options, callback) {
     try {
         var html = this.options.templates['modal' + id](options);
     } catch(err) {
-        return callback('Error in template "modal' + id + '": ' + err.toString());
+        return callback(new Error('Error in template "modal' + id + '": ' + err.toString()));
     }
 
     var modal = { el: $(html), callback: callback };

@@ -29,7 +29,7 @@ set -o pipefail
 if ! which git > /dev/null; then echo "git command not found"; exit 1; fi;
 if ! which aws > /dev/null; then echo "aws command not found"; exit 1; fi;
 if ! which npm > /dev/null; then echo "npm command not found"; exit 1; fi;
-if ! which tar > /dev/null; then echo "npm command not found"; exit 1; fi;
+if ! which tar > /dev/null; then echo "tar command not found"; exit 1; fi;
 if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
 
@@ -51,7 +51,7 @@ if [ -d $build_dir ]; then
 fi
 
 curl -Lsfo $shell_file $shell_url
-unzip $shell_file -d $build_dir
+unzip -qq $shell_file -d $build_dir
 rm $shell_file
 
 git clone https://github.com/mapbox/mapbox-studio.git $app_dir
@@ -60,6 +60,14 @@ git checkout $gitsha
 rm -rf $app_dir/.git
 
 BUILD_PLATFORM=$platform npm install --production
+
+# Remove extra deps dirs to save space
+deps="node_modules/mbtiles/node_modules/sqlite3/deps
+node_modules/mapnik-omnivore/node_modules/gdal/deps
+node_modules/mapnik-omnivore/node_modules/srs/deps"
+for depdir in $deps; do
+    rm -r $app_dir/$depdir
+done
 
 # Go through pre-gyp modules and rebuild for target platform/arch.
 modules="node_modules/mapnik
@@ -74,26 +82,59 @@ for module in $modules; do
         --target=$node_version \
         --target_arch=$arch \
         --fallback-to-build=false
-    echo $module
 done
 
-# Zip things up
 cd /tmp
-zip -qr $build_dir.zip $(basename $build_dir)
-rm -rf $build_dir
 
-# Make the zip self extracting
+# win32: installer using nsis
 if [ $platform == "win32" ]; then
-    cat $cwd/$(dirname $0)/../vendor/unzipsfx-552_win32/unzipsfx.exe $build_dir.zip > $build_dir.exe
-    zip -A $build_dir.exe
+    if ! which makensis > /dev/null; then echo "makensis command not found"; exit 1; fi;
+    makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
+    rm -rf $build_dir
+    mv /tmp/mapbox-studio.exe $build_dir.exe
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
-else
+    rm -f $build_dir.exe
+# darwin: add app resources, zip up
+elif [ $platform == "darwin" ]; then
+    cp $app_dir/scripts/assets/mapbox-studio.icns $build_dir/Atom.app/Contents/Resources/atom.icns
+    mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
+
+    # Test getting signing key.
+    aws s3 cp "s3://mapbox/mapbox-studio/keys/Developer ID Certification Authority.cer" authority.cer
+    aws s3 cp "s3://mapbox/mapbox-studio/keys/Developer ID Application: Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
+    aws s3 cp "s3://mapbox/mapbox-studio/keys/Mac Developer ID Application: Mapbox, Inc..p12" signing-key.p12
+    security create-keychain -p travis signing.keychain \
+        && echo "+ signing keychain created"
+    security import authority.cer -k ~/Library/Keychains/signing.keychain -T /usr/bin/codesign \
+        && echo "+ authority cer added to keychain"
+    security import signing-key.cer -k ~/Library/Keychains/signing.keychain -T /usr/bin/codesign \
+        && echo "+ signing cer added to keychain"
+    security import signing-key.p12 -k ~/Library/Keychains/signing.keychain -P "" -T /usr/bin/codesign \
+        && echo "+ signing key added to keychain"
+    rm authority.cer
+    rm signing-key.cer
+    rm signing-key.p12
+
+    # Sign .app file.
+    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
+
+    # Nuke signin keychain.
+    security delete-keychain signing.keychain
+
+    zip -qr $build_dir.zip $(basename $build_dir)
+    rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
+    rm -f $build_dir.zip
+# linux: zip up
+else
+    zip -qr $build_dir.zip $(basename $build_dir)
+    rm -rf $build_dir
+    aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
+    echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
+    rm -f $build_dir.zip
 fi
-
-rm -f $build_dir.zip $build_dir.exe
 
 cd $cwd
 

@@ -10,7 +10,8 @@
 #layers:target ~ #drawers,
 #fonts:target ~ #drawers #fonts-drawer,
 #docs:target ~ #drawers #docs-drawer,
-#layers:target ~ #drawers #layers-drawer {
+#layers:target ~ #drawers #layers-drawer,
+#export:target ~ #export-ui {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -20,7 +21,8 @@
 
 #fonts:target ~ #drawers #fonts-drawer ~ .drawer,
 #docs:target ~ #drawers #docs-drawer ~ .drawer,
-#layers:target ~ #drawers #layers-drawer ~ .drawer {
+#layers:target ~ #drawers #layers-drawer ~ .drawer,
+#export:target ~ #export-ui {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -37,7 +39,7 @@
 /* Code pane
 ------------------------------------------------------- */
 .carto-tabs {
-  padding-right:30px;
+  padding-right: 80px;
 }
 
 .carto-tabs a.tab {
