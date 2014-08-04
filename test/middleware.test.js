@@ -13,11 +13,11 @@ var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var tmp = os.tmpdir();
-var tmppath = path.join(tmp, 'tm2-middleware-' + (+new Date));
+var tmppath = tm.join(tmp, 'tm2-middleware-' + (+new Date));
 
-var tmpId = path.join(tmp, 'tm2-middlewareProject-' + (+new Date));
-var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
-var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+var tmpId = tm.join(tmp, 'tm2-middlewareProject-' + (+new Date));
+var sourceId = 'tmsource://' + path.resolve(tm.join(__dirname, 'fixtures-localsource'));
+var styleId = 'tmstyle://' + path.resolve(tm.join(__dirname, 'fixtures-localsource'));
 var server;
 
 test('setup: config', function(t) {
