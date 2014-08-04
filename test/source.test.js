@@ -290,7 +290,7 @@ test('source.info: fails on bad path', function(t) {
 });
 
 test('source.info: reads source YML', function(t) {
-    var tmpid = 'tmsource://' + __dirname + '/fixtures-localsource';
+    var tmpid = 'tmsource://' + tm.join(__dirname, 'fixtures-localsource');
     source.info(tmpid, function(err, info) {
         t.ifError(err);
         t.equal(info.id, tmpid, 'source.info adds id key');
@@ -309,7 +309,7 @@ test('source.info: reads source YML', function(t) {
 });
 
 test('source.info: reads source YML (tmp)', function(t) {
-    var tmpid = 'tmpsource://' + __dirname + '/fixtures-localsource';
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
     source.info(tmpid, function(err, info) {
         t.ifError(err);
         t.equal(info.id, tmpid, 'source.info adds id key');

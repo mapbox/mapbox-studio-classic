@@ -7,7 +7,7 @@ var url = require('url');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
-var defpath = path.dirname(require.resolve('mapbox-studio-default-style'));
+var defpath = tm.join(path.dirname(require.resolve('mapbox-studio-default-style')));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var Vector = require('tilelive-vector');
 var testutil = require('./util');
@@ -19,8 +19,8 @@ var creds = {
 };
 
 var server;
-var localstyle = 'tmstyle://' + path.join(__dirname, 'fixtures-localstyle');
-var tmppath = path.join(tmp, 'tm2-styleTest-' + (+new Date));
+var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
+var tmppath = tm.join(tmp, 'tm2-styleTest-' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({
