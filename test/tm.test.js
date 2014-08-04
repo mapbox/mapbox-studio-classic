@@ -264,6 +264,11 @@ test('tm fontfamilies', function(t) {
     t.end();
 });
 
+test('tm copydir', function(t) {
+    t.equal('this function is tested', false, 'TODO write tests for tm.copydir()');
+    t.end();
+});
+
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
