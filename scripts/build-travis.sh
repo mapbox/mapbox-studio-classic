@@ -15,13 +15,13 @@ if [ $PLATFORM == "linux" ] && [ -n "$GITSHA" ]; then
     ./scripts/build-atom.sh "$GITSHA" win32
 elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA" ]; then
     echo "Publishing $GITSHA"
+    brew install python
+    pip install -q awscli
 
     # Test getting signing key.
     aws s3 cp "s3://mapbox/mapbox-studio/keys/Mac Developer ID Application: Mapbox, Inc..p12" signing-key.p12
     security import signing-key.p12
     rm signing-key.p12
 
-    brew install python
-    pip install -q awscli
     ./scripts/build-atom.sh "$GITSHA" darwin
 fi
