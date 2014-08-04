@@ -65,10 +65,8 @@ test('tm compacts', function(t) {
     t.equal(276, fs.statSync(dbpath).size);
     tm.dbcompact(dbpath, function(err, db) {
         t.ifError(err);
-        db.on('drain', function() {
-            t.equal(23, fs.statSync(dbpath).size);
-            t.end();
-        });
+        t.equal(23, fs.statSync(dbpath).size);
+        t.end();
     });
 });
 
