@@ -41,7 +41,7 @@ function makeWindow() {
         width: 960,
         height: 600,
         title: 'Mapbox Studio',
-        'node-integration': 'disable',
+        'node-integration': 'all',
         'web-preferences': {
             webgl: true,
             java: false,
@@ -59,5 +59,21 @@ function makeWindow() {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+
+    var protocol = require('protocol');
+
+    if (protocol.isHandledProtocol('https')) {
+        protocol.interceptProtocol('https', function(request) {
+          var url = request.url.substr(7)
+          console.log(url);
+          return;
+        });
+    } else {
+        protocol.registerProtocol('https', function(request) {
+          var url = request.url.substr(7)
+          console.log('URL', url)
+          return;
+        });
+    }
 }
 
