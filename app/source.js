@@ -585,11 +585,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
     };
     Editor.prototype.newStyle = function(){
-        if (!source._prefs.mapid) {
-            Modal.show('newstylecheck');
-        } else {
-            Modal.show('newstyle');
-        }
+        Modal.show('sourcenewstyle', {source:source});
     };
     window.editor = new Editor({
         el: document.body,
