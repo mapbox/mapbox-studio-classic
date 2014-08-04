@@ -83,7 +83,7 @@ test('writeStyle: makes tmp styles', function(t) {
             t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
         }
 
-        style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, defaultInfo) {
+        style.info('tmstyle://' + path.dirname(require.resolve('mapbox-studio-default-style')), function(err, defaultInfo) {
             delete req.style.data.id;
             delete req.style.data.mtime;
             delete req.style.data._tmp;
