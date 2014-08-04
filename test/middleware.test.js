@@ -145,7 +145,7 @@ test('loadStyle: loads a tmp style', function(t) {
 });
 
 test('loadStyle: loads a tmp style with source', function(t) {
-    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
     var req = { body: {}, query: { source:sourceId } };
     middleware.writeStyle(req, {}, function(err) {
         t.ifError(err);
@@ -159,7 +159,7 @@ test('loadStyle: loads a tmp style with source', function(t) {
 });
 
 test('loadStyle: loads a tmp style with a raster source', function(t) {
-    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localraster'));
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localraster');
     var req = { body: {}, query: { source:sourceId } };
     middleware.writeStyle(req, {}, function(err) {
         t.ifError(err);
@@ -183,7 +183,7 @@ test('loadStyle: errors a tmp style with bad source', function(t) {
 });
 
 test('loadStyle: loads a persistent style', function(t) {
-    var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+    var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
     var styleDoc = require('./fixtures-localsource/project.yml');
     var req = { query: { id: styleId } };
     middleware.loadStyle(req, {}, function() {
@@ -272,7 +272,7 @@ test('loadSource: loads a tmp source', function(t) {
 });
 
 test('loadSource: loads a persistent source', function(t) {
-    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
     var sourceDoc = require('./fixtures-localsource/data.yml');
     var req = { query: { id: sourceId } };
     middleware.loadSource(req, {}, function() {
