@@ -99,6 +99,21 @@ if [ $platform == "win32" ]; then
 elif [ $platform == "darwin" ]; then
     cp $app_dir/scripts/assets/mapbox-studio.icns $build_dir/Atom.app/Contents/Resources/atom.icns
     mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
+
+    # Test getting signing key.
+    aws s3 cp "s3://mapbox/mapbox-studio/keys/Mac Developer ID Application: Mapbox, Inc..p12" signing-key.p12
+    security create-keychain -p travis signing.keychain \
+        && echo "+ signing keychain created"
+    security import signing-key.p12 -k ~/Library/Keychains/signing.keychain -P "" -T /usr/bin/codesign \
+        && echo "+ signing key added to keychain"
+    rm signing-key.p12
+
+    # Sign .app file.
+    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
+
+    # Nuke signin keychain.
+    security delete-keychain signing.keychain
+
     zip -qr $build_dir.zip $(basename $build_dir)
     rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
