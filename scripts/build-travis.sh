@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e -u
-set -o pipefail
 
 PLATFORM=$(uname -s | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/")
 COMMIT_MESSAGE=$(git show -s --format=%B $1 | tr -d '\n')
