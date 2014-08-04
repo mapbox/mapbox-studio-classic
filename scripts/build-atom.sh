@@ -122,7 +122,9 @@ elif [ $platform == "darwin" ]; then
     # Nuke signin keychain.
     security delete-keychain signing.keychain
 
-    zip -qr $build_dir.zip $(basename $build_dir)
+    # Use ditto rather than zip to preserve code signing.
+    ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 $(basename $build_dir) $build_dir.zip
+
     rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
