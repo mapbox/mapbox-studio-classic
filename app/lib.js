@@ -178,9 +178,11 @@ views.Browser.prototype.submit = function(ev) {
   }, {});
   if (!values.basename) return false;
   if (!this.callback) return false;
+  var win = this.cwd.indexOf(':') === 1;
+  var sep = win ? '\\' : '/';
   this.callback(null, (values.basename[0] === '/' || values.basename[1] === ':') ?
     values.basename :
-    values.cwd + '/' + values.basename);
+    values.cwd + sep + values.basename);
   return false;
 };
 views.Browser.prototype.browse = function(ev) {
