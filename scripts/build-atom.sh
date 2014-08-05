@@ -59,6 +59,10 @@ cd $app_dir
 git checkout $gitsha
 rm -rf $app_dir/.git
 
+# Update Info.plist with correct version number
+ver=$(node -e "var fs = require('fs'); console.log(JSON.parse(fs.readFileSync('$app_dir/package.json')).version);")
+sed s/VREPLACE/$ver/ < $app_dir/scripts/assets/Info.plist
+
 BUILD_PLATFORM=$platform npm install --production
 
 # Remove extra deps dirs to save space
