@@ -18,7 +18,6 @@ var Style = options.style;
 var Source = options.source;
 
 Printer.prototype.events = {
-  'click .js-recache': 'recache',
   'click .js-info': 'toggleInfo',
   'click .reselect': 'bboxReselect',
   'click .recenter': 'bboxRecenter',
@@ -39,12 +38,6 @@ Printer.prototype.toggleInfo = function(ev) {
     $el.addClass('fill-darken2 dark').removeClass('quiet');
     $($el.attr('href')).removeClass('hidden');
   }
-  return false;
-};
-
-Printer.prototype.recache = function(ev) {
-  this.model.set({_recache:true});
-  this.save(ev);
   return false;
 };
 
