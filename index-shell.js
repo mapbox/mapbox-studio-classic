@@ -101,8 +101,8 @@ function createMenu() {
           },
           {
             label: 'Quit',
-            accelerator: 'Command+Q',
-            click: function() { app.quit(); }
+            accelerator: 'Command+W',
+            selector: 'performClose:'
           },
         ]
       },
@@ -152,12 +152,7 @@ function createMenu() {
             label: 'Minimize',
             accelerator: 'Command+M',
             selector: 'performMiniaturize:'
-          },
-          {
-            label: 'Close',
-            accelerator: 'Command+W',
-            selector: 'performClose:'
-          },
+          }
         ]
       },
     ];
