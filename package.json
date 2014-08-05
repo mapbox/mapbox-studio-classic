@@ -52,6 +52,7 @@
   },
   "scripts": {
     "start": "./index.js",
+    "preinstall": "node scripts/run.js scripts/vendor-node.sh",
     "test": "tape test/*.test.js"
   }
 }

@@ -23,6 +23,7 @@
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <script src='/app/print.js?_=<%= +new Date %>'></script>
   <script src='/app/style.js?_=<%= +new Date %>'></script>
+  <script src='/app/atom.js?_=<%= +new Date %>'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
@@ -34,7 +35,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> clip'><div id='app' class='pin-top pin-bottom'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom'>
 
 <a id='settings'></a>
 <a id='layers'></a>
@@ -117,7 +118,7 @@
     </div>
     <div class='pin-left top1 scroll-styled'>
       <fieldset class='keyline-bottom clearfix pad2y pad1x contain'>
-        <div class='z10 pin-top pin-bottom col12 pad1x pad2y fill-disable on-tmp on-changed'></div>
+        <div class='z10 pin-top pin-bottom col12 pad1x pad2y fill-disable on-local on-tmp on-changed'></div>
         <section class='space-bottom1'>
           <div id='mapstatus' class='contain clip'>
             <div id='mapstatus-mapid' class='pin-top pad0y pad1x center truncate round-top space small animate fill-darken1'>
@@ -134,7 +135,7 @@
           <a href='#export' id='export-style' class='col12 short button picture icon'>Export image</a>
         </section>
         <section>
-          <a href='#package' class='js-download col12 short button icon package'>Download package</a>
+          <a href='/style.tm2z?id=<%= style.id %>' class='col12 short button icon package'>Download package</a>
         </section>
       </fieldset>
       <fieldset class='pad1x'>
@@ -241,7 +242,10 @@
       --></nav>
       <div class='pin-right row1 z1'><!--
         --><a href='#' class='inline js-addtab quiet icon plus pad1'></a><!--
-        --><a href='#export' class='inline js-export export-n icon picture keyline-left fill-dark dark pad1'></a>
+        -->
+        <div class='z10 pin-right col6 fill-disable on-local on-tmp'></div><!--
+        -->
+        <a href='#export' class='inline js-export export-n icon picture keyline-left fill-dark dark pad1'></a>
       </div>
     </div>
     <div id='stylesheets'></div>

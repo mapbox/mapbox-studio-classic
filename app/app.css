@@ -265,8 +265,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 ------------------------------------------------------- */
 .on-tmp { display:none; }
 .on-changed { display:none; }
+.on-local { display:none; }
 body.tmp .on-tmp { display:block; }
 body.changed .on-changed { display:block; }
+body.local .on-local { display:block; }
 
 /* Project history
 ------------------------------------------------------- */

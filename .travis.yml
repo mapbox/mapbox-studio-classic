@@ -23,14 +23,12 @@ env:
 #  - psql -c "CREATE EXTENSION postgis" template_postgis
 
 before_install:
-- COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
-- PUBLISH_BINARY=false
-- if test "${COMMIT_MESSAGE#*'[publish binary]'}" != "$COMMIT_MESSAGE"; then PUBLISH_BINARY=true; fi;
 - git clone https://github.com/creationix/nvm.git ../.nvm && source ../.nvm/nvm.sh
 - nvm install $NODE_NVM_VERSION
 - nvm use $NODE_NVM_VERSION
 - node --version
 - npm --version
+- ./scripts/build-travis.sh $TRAVIS_COMMIT
 
 install:
 - npm install
@@ -41,3 +39,4 @@ before_script:
 script:
  - npm test
  - ./test/test-client.js
+
