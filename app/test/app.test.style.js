@@ -255,6 +255,30 @@ tape('export-ui: .js-dimensions over limit triggers warning', function(t) {
     t.end();
 });
 
+tape('.js-save', function(t) {
+    t.equal($('.js-save').size(), 1, 'has .js-save button');
+    $('.js-save').click();
+    t.equal($('#full').hasClass('loading'), true, '.js-save => #full.loading');
+    onajax(function() {
+        t.equal(!$('#full').hasClass('loading'), true, '.js-save => #full');
+        t.equal($('body').hasClass('changed'), false, '.js-save => saved style');
+        t.end();
+    });
+});
+
+tape('.js-upload', function(t) {
+    t.equal($('.js-upload').size(), 1, 'has .js-upload button');
+    t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), false, 'no mapid');
+    t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
+    $('.js-upload').click();
+    t.equal($('#mapstatus').hasClass('loading'), true, '#mapstatus.loading');
+    onajax(function() {
+        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'has mapid');
+        t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
+        t.end();
+    });
+});
+
 tape('keybindings', function(t) {
     window.location.hash = '#';
 
