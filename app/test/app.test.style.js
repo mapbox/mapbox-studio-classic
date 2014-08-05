@@ -172,20 +172,6 @@ tape('#reference tabs through CartoCSS reference', function(t) {
     t.end();
 });
 
-tape('.js-download errors on local source', function(t) {
-    var source = style.source;
-    $('.js-download').click();
-    t.ok(!hasModal('#error'));
-
-    style.source = 'tmsource:///';
-
-    $('.js-download').click();
-    t.ok(hasModal('#error'));
-
-    style.source = source;
-    t.end();
-});
-
 tape('initializes export ui', function(t) {
     // for some reason clicking on .js-export doesn't
     // initialize the bounding box

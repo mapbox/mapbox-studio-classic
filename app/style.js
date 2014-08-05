@@ -99,7 +99,6 @@ Editor.prototype.events = {
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
-  'click .js-download': 'downloadPackage',
   'keydown': 'keys'
 };
 
@@ -402,14 +401,6 @@ Editor.prototype.upload = function(ev) {
     });
 };
 
-Editor.prototype.downloadPackage = function(ev) {
-  if (style.source.split(':')[0] === 'tmsource'){
-    return Modal.show('error', new Error('Cannot package a local source with a style.'));
-  } else {
-    window.location = '/style.tm2z?id=' + style.id;
-  }
-};
-
 Editor.prototype.selectall = function(ev) {
   $(ev.currentTarget).select();
   return false;
@@ -538,6 +529,10 @@ window.onhashchange = function(ev) {
     statHandler('drawtime')();
     break;
   case 'export':
+    if ($('body').hasClass('local')) {
+      window.location.hash = '#';
+      break;
+    }
     window.exporter.refresh();
     $('.export-controls').addClass('visible-y').removeClass('visible-n');
     break;
