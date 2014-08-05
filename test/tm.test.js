@@ -21,42 +21,27 @@ test('setup: db', function(t) {
     fs.writeFileSync(path.join(tmppath, 'noncompact.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'noncompact.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v1.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v1.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v2.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v2.db')));
+    fs.writeFileSync(path.join(tmppath, 'schema-v3.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v3.db')));
     t.end();
 });
 
-test('tm migrate v1', function(t) {
-    var dbpath = path.join(tmppath, 'schema-v1.db');
-    var db = dirty(dbpath);
-    db.once('load', function() {
-        var docs = {};
-        tm.dbmigrate(db);
-        db.forEach(function(k,v) { docs[k] = v });
-        t.deepEqual({
-            version: 3,
-            history: [
-                'tmstyle:///no-protocol/path/style.tm2',
-                'mapbox:///mapbox.mapbox-streets-v2'
-            ]
-        }, docs);
-        t.end();
-    });
-});
-
-test('tm migrate v2', function(t) {
-    var dbpath = path.join(tmppath, 'schema-v2.db');
-    var db = dirty(dbpath);
-    db.once('load', function() {
-        var docs = {};
-        tm.dbmigrate(db);
-        db.forEach(function(k,v) { docs[k] = v });
-        t.deepEqual({
-            version: 3,
-            history: [
-                'tmstyle:///no-protocol/path/style.tm2',
-                'mapbox:///mapbox.mapbox-streets-v2'
-            ]
-        }, docs);
-        t.end();
+[1,2,3].forEach(function(v) {
+    test('tm migrate v' + v, function(t) {
+        var dbpath = path.join(tmppath, 'schema-v'+v+'.db');
+        var db = dirty(dbpath);
+        db.once('load', function() {
+            var docs = {};
+            tm.dbmigrate(db);
+            db.forEach(function(k,v) { docs[k] = v });
+            t.deepEqual({
+                version: 4,
+                history: [
+                    'tmstyle:///no-protocol/path/style.tm2',
+                    'mapbox:///mapbox.mapbox-streets-v2'
+                ]
+            }, docs);
+            t.end();
+        });
     });
 });
 
@@ -269,7 +254,9 @@ test('tm fontfamilies', function(t) {
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {} 
+    try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'schema-v2.db')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'schema-v3.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'cache', 'font-dbad83a6.png')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}
