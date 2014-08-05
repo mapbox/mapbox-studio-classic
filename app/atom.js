@@ -30,15 +30,11 @@ $(document).ready(function() {
                 defaultPath: ext[0]
             });
             if (filepath) {
-                $('body').addClass('loading');
                 uri.method = 'GET';
                 var writestream = fs.createWriteStream(filepath);
                 var req = http.request(uri, function(res) {
                     if (res.statusCode !== 200) return;
                     res.pipe(writestream);
-                    writestream.on('finish', function() {
-                        $('body').removeClass('loading');
-                    });
                 });
                 req.end();
             }
