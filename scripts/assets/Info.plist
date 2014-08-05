@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleVersion</key>
-	<string>0.15.1</string>
+	<string>dev</string>
 	<key>DTSDKBuild</key>
 	<string>13C64</string>
 	<key>DTSDKName</key>
