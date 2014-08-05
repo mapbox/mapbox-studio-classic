@@ -1,3 +1,10 @@
+// var protocol = require('protocol');
+
+// protocol.registerProtocol('https', function(request) {
+//       var url = request.url.substr(7)
+//       console.log('URL', url)
+//     });
+
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');

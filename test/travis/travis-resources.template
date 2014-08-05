@@ -1,11 +1,29 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "tm2 test user",
+    "Description": "mapbox-studio test user",
     "Resources": {
         "TestUser": {
             "Type": "AWS::IAM::User",
             "Properties": {
                 "Policies": [
+                    {
+                        "PolicyName": "publish",
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "s3:GetObject",
+                                        "s3:PutObject",
+                                        "s3:PutObjectAcl"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": [
+                                        "arn:aws:s3:::mapbox/mapbox-studio/*"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
                     {
                         "PolicyName": "upload",
                         "PolicyDocument": {
