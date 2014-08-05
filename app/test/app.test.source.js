@@ -28,6 +28,20 @@ tape('#settings-form', function(t) {
     t.end();
 });
 
+tape('.js-newstyle => newstyle modal', function(t) {
+    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
+    $('.js-newstyle').click();
+    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+    t.end();
+});
+
+tape('.js-sourcenewstyle => sourcenewstyle modal', function(t) {
+    t.equal(hasModal('#sourcenewstyle'), false, 'no sourcenewstyle modal');
+    $('.js-sourcenewstyle').click();
+    t.equal(hasModal('#sourcenewstyle'), true, 'shows sourcenewstyle modal');
+    t.end();
+});
+
 tape('Setting maxzoom: sets maxzoom to higher value than 6 (tests logic preference for higher maxzoom...see #addlayer-shape test)', function(t) {
     var maxzoomTarget = $('#settings-drawer #maxzoom');
     maxzoomTarget.val(12);

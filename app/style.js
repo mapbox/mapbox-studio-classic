@@ -1,4 +1,4 @@
-window.Style = function(templates, cwd, style) {
+window.Style = function(templates, cwd, style, examples) {
 
 var map;
 var tiles;
@@ -82,6 +82,7 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
+  'click .js-newstyle': 'newStyle',
   'click .js-browsestyle': 'browseStyle',
   'click .js-browsesource': 'browseSource',
   'click .js-tab': 'tabbed',
@@ -171,6 +172,7 @@ Editor.prototype.saveModal = function() {
   });
   return false;
 };
+Editor.prototype.newStyle = function() { return Modal.show('newstyle', examples) || false; };
 Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
 Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
 Editor.prototype.togglePane = function(name) {

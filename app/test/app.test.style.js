@@ -51,6 +51,13 @@ tape('.js-history removes history style', function(t) {
     });
 });
 
+tape('.js-newstyle => newstyle modal', function(t) {
+    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
+    $('.js-newstyle').click();
+    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+    t.end();
+});
+
 tape('#style-ui creates a new tab', function(t) {
     $('.js-addtab:eq(0)').click();
     t.ok(hasModal('form#addtab'));

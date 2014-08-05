@@ -155,7 +155,7 @@
       </div>
       <div class='col6 pad1 text-right contain'>
         <div class='z10 pin-top pin-bottom inline fill-disable on-tmp on-changed'></div>
-        <a href='#' class='js-newstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
+        <a href='#' class='js-sourcenewstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
       </div>
     </div>
     <nav class='clip row1 col12 keyline-top keyline-bottom fill-dark contain z1'>
@@ -215,6 +215,7 @@ templates.modaladdlayer = <%= this.modaladdlayer.source %>;
 templates.modalupdatename = <%= this.modalupdatename.source %>;
 templates.modalconfirm = <%= this.modalconfirm.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
+templates.modalnewstyle = <%= this.modalnewstyle.source %>;
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerfields = <%= this.layerfields.source %>;
 templates.layershape = <%= this.layershape.source %>;
@@ -232,9 +233,10 @@ tm.srs = <%= JSON.stringify(tm.srs) %>;
 
 var cwd = <%= JSON.stringify(cwd) %>;
 var source = <%= JSON.stringify(source) %>;
+var examples = <%= JSON.stringify(examples) %>;
 var revlayers = <%= JSON.stringify(revlayers) %>;
 
-Source(templates, cwd, tm, source, revlayers);
+Source(templates, cwd, tm, source, revlayers, examples);
 </script>
 
 <% if (test) { %>

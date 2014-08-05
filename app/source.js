@@ -1,4 +1,4 @@
-window.Source = function(templates, cwd, tm, source, revlayers) {
+window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     var map;
     var tiles;
     var mtime = (+new Date).toString(36);
@@ -80,6 +80,8 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
     });
     var Editor = Backbone.View.extend({});
     Editor.prototype.events = {
+        'click .js-newstyle': 'newStyle',
+        'click .js-sourcenewstyle': 'sourceNewStyle',
         'click .js-browsesource': 'browseSource',
         'click .js-browsestyle': 'browseStyle',
         'click .js-save': 'save',
@@ -104,8 +106,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         'change #settings-drawer': 'changed',
         'submit #settings-drawer': 'save',
         'keydown': 'keys',
-        'click .js-zoom-to': 'zoomToLayer',
-        'click .js-newstyle': 'newStyle'
+        'click .js-zoom-to': 'zoomToLayer'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -171,6 +172,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
         });
         return false;
     };
+    Editor.prototype.newStyle = function() { return Modal.show('newstyle', examples) || false; };
     Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
     Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
     Editor.prototype.user = function() {
@@ -584,7 +586,7 @@ window.Source = function(templates, cwd, tm, source, revlayers) {
             }
         });
     };
-    Editor.prototype.newStyle = function(){
+    Editor.prototype.sourceNewStyle = function(){
         Modal.show('sourcenewstyle', {source:source});
     };
     window.editor = new Editor({

@@ -73,6 +73,19 @@ test('history: removes dead source/styles', function(t) {
     });
 });
 
+test('examples: gets style info', function(t) {
+    var req = {};
+    middleware.examples(req, {}, function(err) {
+        t.ifError(err);
+        t.equal(typeof req.examples.style, 'object');
+        t.equal(typeof req.examples.source, 'object');
+        t.deepEqual(Object.keys(req.examples.style), ['mapbox-studio-default-style', 'osm-bright', 'mapbox-outdoors', 'satellite-afternoon'], 'has example styles');
+        t.equal(req.examples.style['mapbox-studio-default-style'].name, '');
+        t.equal(req.examples.style['osm-bright'].name, 'OSM Bright 2');
+        t.end();
+    });
+});
+
 test('writeStyle: makes tmp styles', function(t) {
     var data = {
         id:'tmpstyle://' + tm.parse(styleId).dirname,

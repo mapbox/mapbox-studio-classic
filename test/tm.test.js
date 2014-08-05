@@ -251,6 +251,46 @@ test('tm fontfamilies', function(t) {
     t.end();
 });
 
+test('tm copydir invalid from', function(t) {
+    var dest = tm.join(tmppath, 'copydir-invalid-from');
+    tm.copydir(tm.join(__dirname, 'doesnotexist'), dest, null, function(err) {
+        t.equal(err.code, 'ENOENT', 'ENOENT');
+        t.equal(fs.existsSync(dest), false, 'dest does not exist');
+        t.end();
+    });
+});
+
+test('tm copydir does not overwrite dest', function(t) {
+    var dest = tm.join(tmppath, 'app.db');
+    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
+        t.equal(err.code, 'EEXIST', 'EEXIST');
+        t.equal(fs.statSync(dest).isDirectory(), false, 'dest is not a directory');
+        t.end();
+    });
+});
+
+test('tm copydir copies', function(t) {
+    var dest = tm.join(tmppath, 'copydir');
+    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
+        t.ifError(err);
+        t.equal(fs.existsSync(dest), true, 'dest exists');
+        t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), true, 'copied files');
+        t.end();
+    });
+});
+
+test('tm copydir filter', function(t) {
+    var dest = tm.join(tmppath, 'copydir-filtered');
+    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, [ /\.shx$/, 'data.yml' ], function(err) {
+        t.ifError(err);
+        t.equal(fs.existsSync(dest), true, 'dest exists');
+        t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), false, 'excludes by regexp');
+        t.equal(fs.existsSync(tm.join(dest, 'data.yml')), false, 'excludes by string');
+        t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shp')), true, 'includes shp');
+        t.end();
+    });
+});
+
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
