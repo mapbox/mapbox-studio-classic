@@ -155,6 +155,10 @@ label.ghost {
   right: 10px;
   }
 
+/* Only reason to add loading to body is to block evthing */
+body.loading:before,
+body.loading:after { z-index:1000; }
+
 /* General styles
 ------------------------------------------------------- */
 pre,
@@ -598,7 +602,7 @@ a.project.proj-active .proj-status { display: block;}
   box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 10px;
   background:#444 url(spinner.gif) 50% 50% no-repeat;
   }
-.loading #map-overlay {
+#full.loading #map-overlay {
   z-index:1000;
   opacity:1;
   }
