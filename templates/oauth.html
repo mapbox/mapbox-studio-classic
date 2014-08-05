@@ -21,10 +21,15 @@
             <div class='inline small-graphic avatar dot' style='background-image:url(<%= obj.user.avatar %>)' /></div>
         </div>
         <h2><%- obj.user.name || obj.user.id %></h2>
-        <div class='space-bottom4 quiet small space'>
+        <div class='space-bottom quiet small space'>
             <a href='https://www.mapbox.com/projects/' target='_blank'>My account</a>
             <a href='/unauthorize'>Sign out</a>
         </div>
+        <div class='space-bottom1 clearfix'>
+            <div class='col4 small pad1 truncate fill-darken0 round-left'>Access token</div>
+            <input class='col8 code clean round-right' type='text' value='<%= obj.oauth.accesstoken %>' disabled readonly />
+        </div>
+        <div class='space-bottom4 micro'><em>Authorized to use the <a href='https://www.mapbox.com/developers/api/' target='_blank'>Mapbox API</a></em></div>
         <a href='/' class='button rcon next col8 margin2'>Skip intro</a>
         <% } else { %>
         <div class='mb-logo white row1 space-bottom'></div>
