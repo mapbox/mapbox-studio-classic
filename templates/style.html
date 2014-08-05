@@ -469,6 +469,7 @@
 <script>
 var cwd = <%= JSON.stringify(cwd) %>;
 var style = <%= JSON.stringify(style) %>;
+var examples = <%= JSON.stringify(examples) %>;
 var templates = {};
 templates.modalbrowser = <%= this.modalbrowser.source %>;
 templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
@@ -478,11 +479,12 @@ templates.modalconfirm = <%= this.modalconfirm.source %>;
 templates.modalsources = <%= this.modalsources.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
 templates.modalupgrade = <%= this.modalupgrade.source %>;
+templates.modalnewstyle = <%= this.modalnewstyle.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
-Style(templates, cwd, style);
+Style(templates, cwd, style, examples);
 </script>
 
 <% if (test) { %>
