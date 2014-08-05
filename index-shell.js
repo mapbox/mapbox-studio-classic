@@ -57,25 +57,6 @@ function makeWindow() {
         mainWindow = null;
     });
 
-    // var protocol = require('protocol');
-
-    // if (protocol.isHandledProtocol('https')) {
-    //     console.log('top', protocol.isHandledProtocol('https'))
-    //     protocol.interceptProtocol('https', function(request) {
-    //       console.log(req)
-    //       var url = request.url.substr(7)
-    //       console.log(url);
-    //       return;
-    //     });
-    // } else {
-    //     console.log('bottom')
-    //     protocol.registerProtocol('https', function(request) {
-    //       var url = request.url.substr(7)
-    //       console.log('URL', url)
-    //       return;
-    //     });
-    // }
-
     createMenu();
     loadURL();
 }
@@ -129,19 +110,6 @@ function createMenu() {
         label: 'Edit',
         submenu: [
           {
-            label: 'Undo',
-            accelerator: 'Command+Z',
-            selector: 'undo:'
-          },
-          {
-            label: 'Redo',
-            accelerator: 'Shift+Command+Z',
-            selector: 'redo:'
-          },
-          {
-            type: 'separator'
-          },
-          {
             label: 'Cut',
             accelerator: 'Command+X',
             selector: 'cut:'
@@ -155,28 +123,7 @@ function createMenu() {
             label: 'Paste',
             accelerator: 'Command+V',
             selector: 'paste:'
-          },
-          {
-            label: 'Select All',
-            accelerator: 'Command+A',
-            selector: 'selectAll:'
-          },
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Save',
-            accelerator: 'Command+S',
-            selector: 'save:'
-          },
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Find',
-            accelerator: 'Command+F',
-            selector: 'find:'
-          },
+          }
         ]
       },
       {
@@ -217,44 +164,6 @@ function createMenu() {
 
     menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
-  } else {
-    template = [
-      {
-        label: 'File',
-        submenu: [
-          {
-            label: 'Open',
-            accelerator: 'Ctrl+O',
-          },
-          {
-            label: 'Close',
-            accelerator: 'Ctrl+W',
-            click: function() { mainWindow.close(); }
-          },
-        ]
-      },
-      {
-        label: 'View',
-        submenu: [
-          {
-            label: 'Reload',
-            accelerator: 'Ctrl+R',
-            click: function() { mainWindow.restart(); }
-          },
-          {
-            label: 'Enter Fullscreen',
-            click: function() { mainWindow.setFullScreen(true); }
-          },
-          {
-            label: 'Toggle DevTools',
-            accelerator: 'Alt+Ctrl+I',
-            click: function() { mainWindow.toggleDevTools(); }
-          },
-        ]
-      },
-    ];
-    menu = Menu.buildFromTemplate(template);
-    mainWindow.setMenu(menu);
   }
 }
 
