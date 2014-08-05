@@ -23,9 +23,11 @@ $(document).ready(function() {
 
         // File saving.
         var extensions = /(\.tm2z|\.mbtiles|\.png|\.jpg)$/;
-        if (extensions.test(uri.pathname)) {
+        var ext = extensions.exec(uri.pathname);
+        if (ext) {
             var filepath = remote.require('dialog').showSaveDialog({
-                title: 'Save file'
+                title: 'Save file',
+                defaultPath: ext[0]
             });
             if (filepath) {
                 uri.method = 'GET';
