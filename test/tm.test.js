@@ -65,6 +65,7 @@ test('tm compacts', function(t) {
     t.equal(276, fs.statSync(dbpath).size);
     tm.dbcompact(dbpath, function(err, db) {
         t.ifError(err);
+        t.equal(db.get('test'), 4, 'has right value');
         t.equal(23, fs.statSync(dbpath).size);
         t.end();
     });
@@ -75,6 +76,7 @@ test('tm compacts nofile', function(t) {
     t.equal(false, fs.existsSync(dbpath));
     tm.dbcompact(dbpath, function(err, db) {
         t.ifError(err);
+        t.equal(db.get('test'), undefined, 'has no value');
         db.set('test', 1);
         db.on('drain', function() {
             t.equal(23, fs.statSync(dbpath).size);
