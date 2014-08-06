@@ -9,7 +9,7 @@ var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
 
 // Start the server child process.
-var server = spawn(node, [script]);
+var server = spawn(node, [script, '--shell=true']);
 server.on('exit', process.exit);
 server.stdout.once('data', function(data) {
     var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
