@@ -22,6 +22,7 @@ var server;
 var config = require('minimist')(process.argv.slice(2));
 config.db = config.db || path.join(process.env.HOME, '.tilemill', 'v2', 'app.db');
 config.mapboxauth = config.mapboxauth || 'https://api.mapbox.com';
+config.shell = config.shell || false;
 config.port = config.port || undefined;
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
@@ -41,7 +42,11 @@ function configure(err, port) {
 function listen(err) {
     if (err) throw err;
     server = require('./lib/server');
-    server.listen(tm.config().port, finish);
+    if (config.shell) {
+        server.listen(tm.config().port, '127.0.0.1', finish);
+    } else {
+        server.listen(tm.config().port, finish);
+    }
 }
 
 function finish(err) {
