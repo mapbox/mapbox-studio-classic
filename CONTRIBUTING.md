@@ -4,10 +4,22 @@ Notes for developers.
 
 ### Tagging + releasing
 
-1. Update version number in package.json + commit with a message like "v0.0.1"
-2. `git tag v0.0.1`. Use `git tag -n` to list tags and confirm, and then `git push --tags`
+Tagging flow is like this:
 
-Package using the tag name in the steps below.
+    # Update version number in package.json using vim or your favorite editor
+
+    # Commit package.json change and tag it.
+    git commit package.json -m "v0.0.1"
+    git tag v0.0.1
+
+    # Confirm the tag.
+    git tag -n
+
+    # Push all the things to github
+    git push origin master
+    git push --tags
+
+Then package using the tag name in the steps below.
 
 ### Packaging
 
