@@ -100,6 +100,7 @@ Editor.prototype.events = {
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
+  'click .js-demo': 'demo',
   'keydown': 'keys'
 };
 
@@ -408,6 +409,10 @@ Editor.prototype.selectall = function(ev) {
   return false;
 };
 
+Editor.prototype.demo = function(ev) {
+  $('body').toggleClass('demo');
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
   $('#full').removeClass('loading');
@@ -511,16 +516,6 @@ window.onhashchange = function(ev) {
   analytics.page({hash:window.location.hash});
 
   switch (ev.newURL.split('#').pop()) {
-  case 'demo':
-    $('body').addClass('demo');
-    window.editor.refresh();
-    break;
-  case 'start':
-    $('body').removeClass('demo');
-    window.editor.refresh();
-    setTimeout(map.invalidateSize, 200);
-    localStorage.setItem('style.demo', true);
-    break;
   case 'home':
   case 'xray':
     window.editor.refresh();
@@ -547,9 +542,6 @@ window.onhashchange = function(ev) {
     break;
   }
 };
-
-// Enter walkthrough if not yet set.
-if (!localStorage.getItem('style.demo')) window.location.hash = '#demo';
 
 window.onhashchange({
   oldURL:window.location.toString(),
