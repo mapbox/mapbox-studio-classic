@@ -59,9 +59,10 @@ cd $app_dir
 git checkout $gitsha
 rm -rf $app_dir/.git
 
-# Update Info.plist with correct version number
+# Update LICENSE and version files from atom default.
 ver=$(node -e "var fs = require('fs'); console.log(JSON.parse(fs.readFileSync('$app_dir/package.json')).version);")
-sed -i.bak s/VREPLACE/$ver/ $app_dir/scripts/assets/Info.plist
+echo $ver > $build_dir/version
+cp $app_dir/LICENSE.md $build_dir/LICENSE
 
 BUILD_PLATFORM=$platform npm install --production
 
@@ -101,6 +102,9 @@ if [ $platform == "win32" ]; then
     rm -f $build_dir.exe
 # darwin: add app resources, zip up
 elif [ $platform == "darwin" ]; then
+    # Update Info.plist with correct version number.
+    sed -i.bak s/VREPLACE/$ver/ $app_dir/scripts/assets/Info.plist
+
     rm $build_dir/Atom.app/Contents/Resources/atom.icns
     cp $app_dir/scripts/assets/mapbox-studio.icns $build_dir/Atom.app/Contents/Resources/mapbox-studio.icns
     cp $app_dir/scripts/assets/Info.plist $build_dir/Atom.app/Contents/Info.plist
