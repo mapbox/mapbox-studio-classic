@@ -2,6 +2,13 @@ For developers
 --------------
 Notes for developers.
 
+### Tagging + releasing
+
+1. Update version number in package.json + commit with a message like "v0.0.1"
+2. `git tag v0.0.1`. Use `git tag -n` to list tags and confirm, and then `git push --tags`
+
+Package using the tag name in the steps below.
+
 ### Packaging
 
 Travis bundles Mapbox Studio with the [atom-shell](https://github.com/atom/atom-shell) wrapper and uploads packages to S3 for hosting. There are two OSs in the travis matrix:
