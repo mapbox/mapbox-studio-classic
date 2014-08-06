@@ -56,6 +56,10 @@ function makeWindow() {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+    // Prevent page changes from updating the window title (typically to 'Untitled').
+    mainWindow.on('page-title-updated', function(e) {
+        e.preventDefault();
+    });
 
     createMenu();
     loadURL();
@@ -100,8 +104,8 @@ function createMenu() {
             type: 'separator'
           },
           {
-            label: 'Quit',
-            accelerator: 'Command+W',
+            label: 'Quit Mapbox Studio',
+            accelerator: 'Command+Q',
             selector: 'performClose:'
           },
         ]
@@ -135,13 +139,17 @@ function createMenu() {
             click: function() { mainWindow.restart(); }
           },
           {
-            label: 'Enter Fullscreen',
-            click: function() { mainWindow.setFullScreen(true); }
-          },
-          {
-            label: 'Toggle DevTools',
+            label: 'Toggle Developer Tools',
             accelerator: 'Alt+Command+I',
             click: function() { mainWindow.toggleDevTools(); }
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Toggle Full Screen',
+            accelerator: 'Ctrl+Command+F',
+            click: function() { mainWindow.setFullScreen(!mainWindow.isFullScreen()); }
           },
         ]
       },
