@@ -10,7 +10,7 @@ Quick Tutorial
 
 ### Create a new project
 
-Open Mapbox Studio and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the bottom.
+Open Mapbox Studio and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the top.
 
 ### Project settings
 
@@ -24,15 +24,13 @@ If you wish you can leave the project settings as they are and come back to adju
 
 ### Adding your first layer
 
-Mapbox Studio supports several different types of data sources: Shapefiles, GeoJSON, geographic SQLite databases, PostGIS databases, and CSV (Comma-Separated Value) files containing latitude and longitude fields.
+Mapbox Studio supports several different types of data sources: Shapefiles, GeoJSON, geographic SQLite databases, PostGIS databases, GeoTIFFs, VRTs, KML, GPX, and CSV (Comma-Separated Value) files containing latitude and longitude fields.
 
 As an example, download this GeoJSON file of country polygons from Natural Earth (right-click and "Save link as"): [ne_110m_admin_0_countries.geojson](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson)
 
-Now click the __New Layer__ button in Mapbox Studio. Fill out a name like `countries`, select __GeoJSON__ as the format, then click the blue __New layer__ button.
+Now click the __New Layer__ button in Mapbox Studio. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`. 
 
-In the right panel you'll see the configuration view for your newly-added layer. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`.
-
-Next you'll need to make sure your projection is set correctly. For the Natural Earth file, change this to `WGS84`.
+In the right panel you'll see the configuration view for your newly-added layer. The name of the layer will autofill to the filename. Edit the layer name by clicking the pencil icon next to the name and update it with a name like `countries`. Next you'll need to make sure your projection is set correctly. For the Natural Earth file, change this to `WGS84`.
 
 _Currently Mapbox Studio only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
 
@@ -42,6 +40,8 @@ You can now click __Done__ to see your new layer. It is automatically given a co
 
 You can click on any elements on the map in the preview pane to inspect the data fields and values within your layers. The layer name and color are shown so you can inspect multiple layers if features overlap.
 
+You can also view the data fields for a layer when in the configuration view for a layer by switching the toggle in the upper left corner from __Configure__ to __Fields__.
+
 ### Saving
 
 At this point you should save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
@@ -49,10 +49,13 @@ At this point you should save your project. Click the __Save As__ button at the 
 Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 
 ### Exporting & Uploading
+Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. Local sources will not work in packaged & uploaded styles. Make sure to export & upload your source project and change the reference in your style project before you publish the style.
 
-Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles that you can upload to Mapbox.com and use as a source for Mapbox Studio style projects. To export, click on the __Settings__ button, then __Export__ at the bottom of the popup. Exports will not include any un-saved changes, so be sure to save before you export.
+To upload, click on the __Settings__ button, then __Upload to Mapbox__. If the source has already been uploaded to Mapbox, it's Map ID will be displayed. Uploading will update the source associated with that Map ID.
 
-Export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
+Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles. To export, click on the __Settings__ button, then __MBTiles Export__ near the top of the popup. 
+
+Uploads and exports will not include any un-saved changes, so be sure to save before you upload or export. Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
 
 Important Concepts
 ------------------

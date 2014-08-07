@@ -15,6 +15,7 @@ Mapbox also provides some ready-made sources that you use to design your own cus
 - [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/)
 - [Mapbox Terrain](https://www.mapbox.com/developers/vector-tiles/mapbox-terrain/)
 
+
 ### Compositing remote sources
 
 Multiple vector tile sources can be merged together into a single source if they are all hosted on Mapbox.com. For example, you can combine up-to-date OpenStreetMap data from Mapbox Streets with a custom overlay of your own data.
