@@ -6,6 +6,7 @@ arch="x64"
 # @TODO 0.10.30 must be added to https://github.com/mapbox/node-pre-gyp/blob/master/lib/util/abi_crosswalk.json
 # and available in all our node-pre-gyp modules.
 node_version="0.10.26"
+atom_version="0.15.4"
 
 if [ -z "$1" ]; then
     gitsha="master"
@@ -34,8 +35,8 @@ if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
 
 build_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha"
-shell_url="https://github.com/atom/atom-shell/releases/download/v0.15.1/atom-shell-v0.15.1-$platform-$arch.zip"
-shell_file="/tmp/atom-shell-v0.15.1-$platform-$arch.zip"
+shell_url="https://github.com/atom/atom-shell/releases/download/v$atom_version/atom-shell-v$atom_version-$platform-$arch.zip"
+shell_file="/tmp/atom-shell-v$atom_version-$platform-$arch.zip"
 
 if [ "$platform" == "darwin" ]; then
     app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/Atom.app/Contents/Resources/app"
