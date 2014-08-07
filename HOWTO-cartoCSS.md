@@ -57,7 +57,7 @@ Mapbox Studio allows you to arbitarily nest styles. All elements are added to cr
   text-face-name: 'Lato Light';
   // Applies to class 'name'
   // in layer #country_names
-  #counry_names { font-size: 15px; }
+  #country_names { font-size: 15px; }
 }
 ```
 
