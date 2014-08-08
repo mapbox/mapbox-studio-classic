@@ -537,6 +537,7 @@ window.onhashchange = function(ev) {
     if (window.exporter.boundingBox) {
       window.exporter.boundingBox.disable();
       $('.export-controls').addClass('visible-n').removeClass('visible-y');
+      $('#zoomedto').addClass('visible-n').removeClass('visible-y');
       statHandler('drawtime')();
     }
     break;
