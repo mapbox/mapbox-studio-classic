@@ -26,7 +26,6 @@ These map tiles are stored in a package file, called an [MBTiles file](http://ma
 Unlike static maps, tiled maps tend to have many layers of detail - you’ll want to choose what features to show and hide at each zoom level. Mapbox Studio's styling language CartoCSS makes this easy, and it's fast to learn how to use it with a built-in reference, autocomplete, and error highlighting - and even easier if you’re already comfortable with CSS.
 
 ### Data and Styling
-Unlike TileMill, Mapbox Studio makes a hard split between two types of packages:
 
 Unlike TileMill, Mapbox Studio makes a hard split between two types of packages:
 

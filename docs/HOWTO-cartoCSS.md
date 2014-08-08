@@ -20,25 +20,31 @@ The first step to styling a map is to instruct the map _what_ piece of your data
 
 Select the 'water' layer:
 
-```css
+```
+css
 #water {...}
 ```
 
-In layer '#country_label', select features with class 'name', and in that class select countries with the value 'United States':
+You can see a list of data features that can be styled by clicking on __Layers__ in the sidebar. Under the name of the source is a list of each constituent layer. Clicking on a layer title will display the class names of it's data fields and descriptions.
 
-```css
+You can make selections on classes within layers. In layer '#country_label', select features with class 'name', and in that class select countries with the value 'United States':
+
+```
+css
 #country_label[name='United States'] {...}
 ```
 
 Use the wildcard selector to select all layers:
 
-```css
+```
+css
 * {...}
 ```
 
 The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:
 
-```css
+```
+css
 #world [NAME='USA'] .red [zoom &gt; 10] {...}
 
 [zoom &gt; 10].red#world[NAME='USA'] {...}

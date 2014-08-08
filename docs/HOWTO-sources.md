@@ -71,7 +71,9 @@ Exporting a Mapbox Studio source project will give you an [MBTiles]() file conta
 Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
 
 ### Create Style From Source
-Once your source is saved, you can create a style from the source data. Local sources will not work in packaged & uploaded styles. Make sure to upload your source project and change the source reference in your style project before you publish the style.
+Once your source is saved, you can create a style from the source data by clicking __Create style from this source__. This will render an basic stylesheet based on the data layers and their fields.
+
+Local sources will not work in packaged & uploaded styles. Make sure to upload your source project and change the source reference in your style project before you publish the style.
 
 Important Concepts
 ------------------
