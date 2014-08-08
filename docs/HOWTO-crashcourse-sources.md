@@ -25,22 +25,22 @@ In this crash course, we'll use this GeoJSON file of country polygons from Natur
 
 Open Mapbox Studio and click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the top.
 
-![New Source](./img/quicksource-1.png =300x)
+![New Source](./img/crashcourse-source-1.png =300x)
 
 
 ### Adding your first layer
 
 1. Now click the __New Layer__ button in Mapbox Studio. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`.
 
-	![Add data](./img/quicksource-2.png =300x)
+	![Add data](./img/crashcourse-source-2.png =300x)
 
 2. In the right panel you'll see the configuration view for your newly-added layer. The name of the layer will autofill with metadata from the file. Edit the layer name by clicking the pencil icon next to the name and update it with a name like `countries`.
 
-	![Change layer name](./img/quicksource-3.png =300x)
+	![Change layer name](./img/crashcourse-source-3.png =300x)
 
 3. Verify that projection is set correctly. This field will also autofill with metadata from the file, and it should reference WGS84.
 
-	![Check projection](./img/quicksource-4.png =300x)
+	![Check projection](./img/crashcourse-source-4.png =300x)
 
 	_Currently Mapbox Studio only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
 
@@ -50,11 +50,11 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 
 4. Click on any element on the map in the preview pane to inspect the data fields and values within your layers. The layer name and color are shown so you can inspect multiple layers if features overlap. You will use these data fields to style this source.
 
-	![Inspect layers](./img/quicksource-5.png =300x)
+	![Inspect layers](./img/crashcourse-source-5.png =300x)
 
 5. You can also view the data fields for a layer when in the configuration view for a layer by switching the toggle in the upper left corner from __Configure__ to __Fields__.
 
-	![Inspect layers](./img/quicksource-6.png =300x)
+	![Inspect layers](./img/crashcourse-source-6.png =300x)
 
 ### Project settings & Saving
 
@@ -62,7 +62,7 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 
 	If you wish you can leave the project settings as they are and come back to adjust them at any time.
 
-	![Settings pane](./img/quicksource-7.png =300x)
+	![Settings pane](./img/crashcourse-source-7.png =300x)
 
 7. Save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
 
@@ -72,9 +72,9 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 
 8. Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. If the source has already been uploaded to Mapbox, it's Map ID will be displayed. Uploading will update the source associated with that Map ID. Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. 
 
-	![Upload Project](./img/quicksource-8.png =300x)
+	![Upload Project](./img/crashcourse-source-8.png =300x)
 	
-	![Upload Project](./img/quicksource-9.png =300x)
+	![Upload Project](./img/crashcourse-source-9.png =300x)
 
 	Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles. To export, click on the __Settings__ button, then __MBTiles Export__ near the top of the popup.
 
@@ -83,7 +83,7 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 ### Create Style From Source
 9. Now that your source is saved, create a style from the source data by clicking __Create style from this source__. This will render an basic stylesheet based on the data layers and their fields.
 
-	![Upload Project](./img/quicksource-10.png =300x)
+	![Upload Project](./img/crashcourse-source-10.png =300x)
 
 	Local sources will not work in packaged & uploaded styles. Make sure to upload your source project and change the source reference in your style project before you publish the style.
 	
