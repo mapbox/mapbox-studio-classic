@@ -5,13 +5,7 @@ Unlike TileMill, Mapbox Studio cannot apply visual styles to geospatial data fil
 
 There is no visual style directly associated with sources - the source view of Mapbox Studio autogenerates an inspection style only for viewing your data. See [HOWTO-styles.md](./HOWTO-styles.md) to learn about applying styles to vector tile sources.
 
-Quick Tutorial
---------------
-
-### Create a new project
-
-Open Mapbox Studio and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the top.
-
+##Important Concepts
 
 ### Supported Formats
 
@@ -28,56 +22,10 @@ Mapbox Studio supports several different types of data sources:
 * CSV (Comma-Separated Value) files containing latitude and longitude fields.
 
 
-As an example, we'll use this GeoJSON file of country polygons from Natural Earth: [ne_110m_admin_0_countries.geojson](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson) (right-click and "Save link as")
-
-Now click the __New Layer__ button in Mapbox Studio. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`.
-
-In the right panel you'll see the configuration view for your newly-added layer. The name of the layer will autofill with metadata from the file. Edit the layer name by clicking the pencil icon next to the name and update it with a name like `countries`.
-
-Next you'll need to make sure your projection is set correctly. This field will also autofill with metadata from the file, and it should reference WGS84.
-
-_Currently Mapbox Studio only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
-
-You can now click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
-
-### Inspect your data properties
-
-You can click on any elements on the map in the preview pane to inspect the data fields and values within your layers. The layer name and color are shown so you can inspect multiple layers if features overlap.
-
-You can also view the data fields for a layer when in the configuration view for a layer by switching the toggle in the upper left corner from __Configure__ to __Fields__.
-
-### Project settings
-
-Click on the __Settings__ button to bring up the project settings panel. Here you can set information about your project as a whole, such as a name, description, and attributing your data sources.
-
-The __Minzoom__ and __Maxzoom__ are also important - these define which [zoom levels](https://www.mapbox.com/foundations/how-web-maps-work/#tiles-and-zoom-levels) will be included in your source. The Minzoom defines how far out users will be able to zoom and still see data, but Maxzoom is a bit different. Maxzoom defines the maximum zoom level your source will *store* data for, but it's possible to *display* this data at even higher zoom levels. This is referred to as *overzooming* and allows for great efficiency in creating and storing vector tiles, reducing the number of tiles required by several orders of magnitude.
+### Minzoom and Maxzoom
+In the settings pane, the __Minzoom__ and __Maxzoom__ are important - these define which [zoom levels](https://www.mapbox.com/foundations/how-web-maps-work/#tiles-and-zoom-levels) will be included in your source. The Minzoom defines how far out users will be able to zoom and still see data, but Maxzoom is a bit different. Maxzoom defines the maximum zoom level your source will *store* data for, but it's possible to *display* this data at even higher zoom levels. This is referred to as *overzooming* and allows for great efficiency in creating and storing vector tiles, reducing the number of tiles required by several orders of magnitude.
 
 As a general rule, vector tiles are useful for about 4-6  levels of overzooming, eg the data in a zoom level 14 tile can be stretched out and look great up to zoom level 18 or 20.
-
-If you wish you can leave the project settings as they are and come back to adjust them at any time.
-
-### Saving
-
-At this point you should save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
-
-Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
-
-### Exporting & Uploading
-Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. 
-
-To upload, click on the __Settings__ button, then __Upload to Mapbox__. If the source has already been uploaded to Mapbox, it's Map ID will be displayed. Uploading will update the source associated with that Map ID.
-
-Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles. To export, click on the __Settings__ button, then __MBTiles Export__ near the top of the popup.
-
-Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
-
-### Create Style From Source
-Once your source is saved, you can create a style from the source data by clicking __Create style from this source__. This will render an basic stylesheet based on the data layers and their fields.
-
-Local sources will not work in packaged & uploaded styles. Make sure to upload your source project and change the source reference in your style project before you publish the style.
-
-Important Concepts
-------------------
 
 ### Labeling polygons
 
