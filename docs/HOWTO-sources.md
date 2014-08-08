@@ -13,7 +13,7 @@ Quick Tutorial
 Open Mapbox Studio and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the top.
 
 
-### Adding your first layer
+### Supported Formats
 
 Mapbox Studio supports several different types of data sources: 
 
@@ -26,6 +26,7 @@ Mapbox Studio supports several different types of data sources:
 * KML
 * GPX (GPS Exchange Format)
 * CSV (Comma-Separated Value) files containing latitude and longitude fields.
+
 
 As an example, we'll use this GeoJSON file of country polygons from Natural Earth: [ne_110m_admin_0_countries.geojson](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson) (right-click and "Save link as")
 

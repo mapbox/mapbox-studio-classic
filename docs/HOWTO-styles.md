@@ -6,6 +6,14 @@ Referencing vector tile sources
 
 In order to design a Mapbox Studio style you will need to have a vector tile source to pull data from. Styles will use the Mapbox Streets source by default, but can also use custom sources you've uploaded to your Mapbox account.
 
+Mapbox Studio ships with an example vector tile source: Mapbox Streets. 
+
+When you create your first project you will have full access to style curated data from OpenStreetMap without setting up PostGIS, downloading and importing a large planet database file, or any of the other steps usually taken to work with OpenStreetMap data. 
+
+If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, Mapbox Studio will download the vector tiles on-the-fly as you pan over to France. Mapbox Studio caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
+
+You can begin [styling immediately](./HOWTO-cartoCSS.md) with Mapbox Streets, or learn more about importing a [custom data source](./HOWTO-sources.md).
+
 ### Remote sources
 
 To change the source of a Mapbox Studio style, click on the __Data layers__ icon near the top-left of the code panel, then click on the blue __Change source__ button at the top of the layers panel. You will be shown a list of any vector tile sources you've uploaded to your Mapbox account.

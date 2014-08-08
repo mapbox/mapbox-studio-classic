@@ -1,8 +1,5 @@
 ##Introduction
-
-This crash course walks through how to design custom web maps in Mapbox Studio. It will help you quickly get familiar with the basics of map design with Mapbox Studio, from importing and styling your data to designing and sharing your map. 
-
-This guide focuses on the core functions of Mapbox Studio and links to documentation throughout for more advanced and specific techniques in map design. If you have any questions along the way, [start a discussion with our support team](http://support.mapbox.com).
+-------------------------------
 
 ###What is Mapbox Studio
 
