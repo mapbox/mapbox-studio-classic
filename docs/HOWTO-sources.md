@@ -12,25 +12,28 @@ Quick Tutorial
 
 Open Mapbox Studio and click on your user icon at the top left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New Source__ button at the top.
 
-### Project settings
-
-Click on the __Settings__ button to bring up the project settings panel. Here you can set information about your project as a whole, such as a name, description, and attributing your data sources.
-
-The __Minzoom__ and __Maxzoom__ are also important - these define which [zoom levels](https://www.mapbox.com/foundations/how-web-maps-work/#tiles-and-zoom-levels) will be included in your source. The Minzoom defines how far out users will be able to zoom and still see data, but Maxzoom is a bit different. Maxzoom defines the maximum zoom level your source will *store* data for, but it's possible to *display* this data at even higher zoom levels. This is referred to as *overzooming* and allows for great efficiency in creating and storing vector tiles, reducing the number of tiles required by several orders of magnitude.
-
-As a general rule, vector tiles are useful for about 4-6  levels of overzooming, eg the data in a zoom level 14 tile can be stretched out and look great up to zoom level 18 or 20.
-
-If you wish you can leave the project settings as they are and come back to adjust them at any time.
 
 ### Adding your first layer
 
-Mapbox Studio supports several different types of data sources: Shapefiles, GeoJSON, geographic SQLite databases, PostGIS databases, GeoTIFFs, VRTs, KML, GPX, and CSV (Comma-Separated Value) files containing latitude and longitude fields.
+Mapbox Studio supports several different types of data sources: 
 
-As an example, download this GeoJSON file of country polygons from Natural Earth (right-click and "Save link as"): [ne_110m_admin_0_countries.geojson](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson)
+* Shapefiles
+* GeoJSON
+* geographic SQLite databases
+* PostGIS databases
+* GeoTIFFs
+* VRTs
+* KML
+* GPX (GPS Exchange Format)
+* CSV (Comma-Separated Value) files containing latitude and longitude fields.
 
-Now click the __New Layer__ button in Mapbox Studio. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`. 
+As an example, we'll use this GeoJSON file of country polygons from Natural Earth: [ne_110m_admin_0_countries.geojson](https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson) (right-click and "Save link as")
 
-In the right panel you'll see the configuration view for your newly-added layer. The name of the layer will autofill to the filename. Edit the layer name by clicking the pencil icon next to the name and update it with a name like `countries`. Next you'll need to make sure your projection is set correctly. For the Natural Earth file, change this to `WGS84`.
+Now click the __New Layer__ button in Mapbox Studio. To point the layer at the correct file, click the __Browse__ button and use the file browser to find and select `ne_110m_admin_0_countries.geojson`.
+
+In the right panel you'll see the configuration view for your newly-added layer. The name of the layer will autofill with metadata from the file. Edit the layer name by clicking the pencil icon next to the name and update it with a name like `countries`.
+
+Next you'll need to make sure your projection is set correctly. This field will also autofill with metadata from the file, and it should reference WGS84.
 
 _Currently Mapbox Studio only accepts input files in either WGS84 (aka EPSG:4326) or 900913 (aka EPSG:3857). If you have data in other projections, you should reproject it to 900913 before adding it as a layer._
 
@@ -42,6 +45,16 @@ You can click on any elements on the map in the preview pane to inspect the data
 
 You can also view the data fields for a layer when in the configuration view for a layer by switching the toggle in the upper left corner from __Configure__ to __Fields__.
 
+### Project settings
+
+Click on the __Settings__ button to bring up the project settings panel. Here you can set information about your project as a whole, such as a name, description, and attributing your data sources.
+
+The __Minzoom__ and __Maxzoom__ are also important - these define which [zoom levels](https://www.mapbox.com/foundations/how-web-maps-work/#tiles-and-zoom-levels) will be included in your source. The Minzoom defines how far out users will be able to zoom and still see data, but Maxzoom is a bit different. Maxzoom defines the maximum zoom level your source will *store* data for, but it's possible to *display* this data at even higher zoom levels. This is referred to as *overzooming* and allows for great efficiency in creating and storing vector tiles, reducing the number of tiles required by several orders of magnitude.
+
+As a general rule, vector tiles are useful for about 4-6  levels of overzooming, eg the data in a zoom level 14 tile can be stretched out and look great up to zoom level 18 or 20.
+
+If you wish you can leave the project settings as they are and come back to adjust them at any time.
+
 ### Saving
 
 At this point you should save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
@@ -49,20 +62,23 @@ At this point you should save your project. Click the __Save As__ button at the 
 Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 
 ### Exporting & Uploading
-Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. Local sources will not work in packaged & uploaded styles. Make sure to export & upload your source project and change the reference in your style project before you publish the style.
+Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. 
 
 To upload, click on the __Settings__ button, then __Upload to Mapbox__. If the source has already been uploaded to Mapbox, it's Map ID will be displayed. Uploading will update the source associated with that Map ID.
 
-Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles. To export, click on the __Settings__ button, then __MBTiles Export__ near the top of the popup. 
+Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles. To export, click on the __Settings__ button, then __MBTiles Export__ near the top of the popup.
 
 Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
+
+### Create Style From Source
+Once your source is saved, you can create a style from the source data. Local sources will not work in packaged & uploaded styles. Make sure to upload your source project and change the source reference in your style project before you publish the style.
 
 Important Concepts
 ------------------
 
 ### Labeling polygons
 
-Labeling polygons doesn't work quite like it could in TileMill 1. With vector tiles a polygon might be split across many vector tiles, so if you try to label it directly you will end up with lots of duplicate labels. Instead you willl need to derive a separate point layer and use that for polygon labeling.
+Labeling polygons doesn't work quite like it could in TileMill. With vector tiles a polygon might be split across many vector tiles, so if you try to label it directly you will end up with lots of duplicate labels. Instead you willl need to derive a separate point layer and use that for polygon labeling.
 
 You can do this beforehand with a tool like QGIS, or on-the-fly in a Mapbox Studio SQL query using PostGIS's `ST_PointOnSurface` function, eg:
 
