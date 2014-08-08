@@ -1,7 +1,7 @@
 Mapbox Studio Vector Tile Sources
 =======================
 
-Unlike TileMill 1, Mapbox Studio cannot apply visual styles to geospatial data files directly. Instead, the raw data must be collected and cut into [Mapnik Vector Tiles](./README.md#what-are-vector-tiles). This happens via Mapbox Studio source projects which transform traditional geodata formats (Shapefiles, GeoJSON, PostGIS databases, etc.) into vector tiles containing the appropriate layers and configurations needed for styling.
+Unlike TileMill, Mapbox Studio cannot apply visual styles to geospatial data files directly. Instead, the raw data must be collected and cut into [Mapnik Vector Tiles](./HOWTO-introduction.md#what-are-vector-tiles). This happens via Mapbox Studio source projects which transform traditional geodata formats (Shapefiles, GeoJSON, PostGIS databases, etc.) into vector tiles containing the appropriate layers and configurations needed for styling.
 
 There is no visual style directly associated with sources - the source view of Mapbox Studio autogenerates an inspection style only for viewing your data. See [HOWTO-styles.md](./HOWTO-styles.md) to learn about applying styles to vector tile sources.
 
@@ -55,7 +55,7 @@ To upload, click on the __Settings__ button, then __Upload to Mapbox__. If the s
 
 Exporting a Mapbox Studio source project will give you an [MBTiles]() file containing vector tiles. To export, click on the __Settings__ button, then __MBTiles Export__ near the top of the popup. 
 
-Uploads and exports will not include any un-saved changes, so be sure to save before you upload or export. Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
+Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
 
 Important Concepts
 ------------------
