@@ -56,11 +56,11 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 
 	![Inspect layers](./img/crashcourse-source-6.png )
 
-### Project settings & Saving
+### Project settings & saving
 
-6. Click on the __Settings__ button to bring up the project settings panel. Here you can set information about your project as a whole, such as a name, description, and attributing your data sources.
+6. Click on the __Settings__ button to bring up the project settings panel. Here you can set information about your project as a whole, such as a name, description, and attributing your data sources. Change the name of the project to 'Countries' so when it's uploaded you will be able to find it.
 
-	If you wish you can leave the project settings as they are and come back to adjust them at any time.
+	If you wish you can leave the other project settings as they are and come back to adjust them at any time.
 
 	![Settings pane](./img/crashcourse-source-7.png )
 
@@ -81,10 +81,10 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 	Upload and export times can vary widely depending on your data and desired number of zoom levels - anywhere from a few minutes to many hours.
 
 ### Create Style From Source
-9. Now that your source is saved, create a style from the source data by clicking __Create style from this source__. This will render an basic stylesheet based on the data layers and their fields.
+9. Now that your source is saved, you can create a style from the source data by clicking __Create style from this source__. This will render an basic stylesheet based on the data layers and their fields.
 
 	![Upload Project](./img/crashcourse-source-10.png )
 
 	Local sources will not work in packaged & uploaded styles. Make sure to upload your source project and change the source reference in your style project before you publish the style.
 	
-// Show Next Up -- Styling course
+Continue the crash course:
