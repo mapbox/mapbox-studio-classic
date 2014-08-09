@@ -1,63 +1,35 @@
 ---
 layout: default
 title: Mapbox
+class: darwin
 options: full bleed
+release: master
 head: |
-    <style>
-    .textline {
-        clear:left;
-        display:block;
-        height:15px;
-        padding:5px 0px 6px;
-    }
-    .textline:before {
-        display:block;
-        content:'';
-        height:4px;
-        background:#ccc;
-        border-radius:2px;
-        -moz-border-radius:2px;
-        -webkit-border-radius:2px;
-    }
-    .fill-blue-gradient {
-        background-image:linear-gradient(to bottom, #3887be, #8a8acb);
-    }
-    .studio-1 {
-        background:url(img/studio-1.png) 100% 100% no-repeat;
-        background-size:cover;
-    }
-    .studio-2 {
-        background:url(img/studio-2.png) 50% 0% no-repeat;
-        background-size:cover;
-    }
-    .studio-3 {
-        background:url(img/studio-3.png) 50% 0% no-repeat;
-        background-size:cover;
-    }
-    .studio-4 {
-        background:url(img/studio-4.jpg) 50% 50% no-repeat;
-        background-size:cover;
-    }
-    </style>
+    <script src='index.js'></script>
+    <link href='index.css' rel='stylesheet' />
 ---
+<a id='win32' class='fixed'></a>
+<a id='linux' class='fixed'></a>
+<a id='darwin' class='fixed'></a>
+
 <section class='fill-navy-dark studio-1 pad8y'>
 <div class='pad8y'>
     <div class='limiter pad8y clearfix contain dark'>
         <h2 class='fancy center dark z1 contain'>Mapbox Studio</h2>
         <h2 class='center dark space-bottom2'>Vector tile driven map design</h2>
-        <div class='clearfix'><div class='device device-browser col6 margin3'>
-            <div class='device-content row5 clearfix contain mobile-cols fill-blue'>
+        <div class='clearfix space-bottom1'><div class='device device-browser col6 margin3'>
+            <div class='device-content mobile-cols studio-editor'><div class='clearfix contain clip row6'>
                 <!-- TODO map image in app chrome -->
-                <div class='fill-dark pin-left pad1'>
+                <div class='fill-dark pin-left pad1 animate offcanvas-left-onhover'>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
+                    <div class='pin-bottomleft pad1'>
+                        <div class='block icon dot fill-darken1'></div>
+                    </div>
                 </div>
-                <div class='pin-bottomleft pad1'>
-                    <div class='block icon dot fill-darken1'></div>
-                </div>
-                <div class='fill-white pin-right col4'>
+                <div class='fill-white pin-right col4 animate offcanvas-right-onhover'>
                     <div class='contain'>
                         <div class='col3 pad1 keyline-right fill-white'></div>
                         <div class='col3 pad1 keyline-right fill-light keyline-bottom'></div>
@@ -74,28 +46,45 @@ head: |
                         <div class='textline col2'></div>
                         <div class='textline col7'></div>
                         <div class='textline col7'></div>
-                        <div class='textline col7'></div>
-                        <div class='textline col2'></div>
                     </div>
                 </div>
-            </div>
+            </div></div>
             <div class='device-details'></div>
         </div></div>
-        <div class='clearfix space-bottom2'>
-            <a href='#foobar' class='margin3 col6 round row2 pad2 button fill-green space animate round-bottom'>
+
+        <div class='clearfix space-bottom2'><div class='margin3 col6 row2 contain clip fill-green round'>
+            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-linux'>
                 <button class='inline row1 icon big down dot fill-darken1'></button>
                 <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-linux-x64-v0.0.0.zip</h3>
+                    <h3>mapbox-studio-linux-x64-{{page.release}}.zip</h3>
                     <small>160MB download for Linux</small>
                 </span>
             </a>
-        </div>
-        <div class='small center space'>
-            <span class='quiet'>Available for</span>
-            <a href='#windows'>Windows</a>
-            <a href='#darwin'>OS X</a>
-            <a href='#linux'>Linux</a>
-            <span class='quiet'>with code on <a href='https://github.com/mapbox/mapbox-studio'>GitHub</a></span>
+            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-darwin'>
+                <button class='inline row1 icon big down dot fill-darken1'></button>
+                <span class='inline row1 text-left'>
+                    <h3>mapbox-studio-darwin-x64-{{page.release}}.zip</h3>
+                    <small>149MB download for OS X</small>
+                </span>
+            </a>
+            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-ia32-{{page.release}}.exe' class='pin-top button row2 pad2 fill-green space animate clip on-win32'>
+                <button class='inline row1 icon big down dot fill-darken1'></button>
+                <span class='inline row1 text-left'>
+                    <h3>mapbox-studio-win32-ia32-{{page.release}}.exe</h3>
+                    <small>139MB download for Windows</small>
+                </span>
+            </a>
+        </div></div>
+
+        <div class='small center'>
+            <span class='quiet pad0'>Available for</span>
+            <span class='pill mobile-cols'>
+                <a class='inline pad0y pad1x fill-darken1' href='#darwin'>OS X</a><!--
+             --><a class='inline pad0y pad1x fill-darken1' href='#win32'>Windows</a><!--
+             --><a class='inline pad0y pad1x fill-darken1' href='#linux'>Linux</a>
+            </span>
+            <span class='quiet pad0'>with code on</span>
+            <a class='inline icon github pad0 round fill-darken1' href='https://github.com/mapbox/mapbox-studio' target='_blank'>GitHub</a>
         </div>
     </div>
 </div>
@@ -129,7 +118,7 @@ head: |
 </div>
 </section>
 
-<section class='pad8y fill-green'>
+<section class='pad8y fill-green studio-5'>
 <div class='row12 clearfix limiter'>
     <div class='fill-green pad4 margin6 col6 dark prose'>
         <h2><span class='inline icon pad0 search dot fill-darken1'></span> Resolution independence</h2>
@@ -141,26 +130,45 @@ head: |
 
 <section class='fill-navy-dark pad8y dark'>
 <div class='clearfix limiter'>
-    <div class='pad4 margin1 col10 clearfix'>
+    <div class='pad4y clearfix'>
         <h3 class='fancy center space-bottom'>Start designing</h3>
-        <div class='pill col12'>
-        <a href='#' class='col4 center pad2 fill-darken1'>
-            <span class='block'>
-                <span class='inline icon big paint dot fill-darken1'></span>
-            </span>
-            Style crashcourse
-        </a><!--
-     --><a href='#' class='col4 center pad2 fill-darken1'>
-            <span class='block'>
-                <span class='inline icon big polygon dot fill-darken1'></span>
-            </span>
-            Source crashcourse
-        </a><!--
-     --><a href='#' class='col4 center pad2 fill-darken1'>
-            <span class='block'>
-                <span class='inline icon big lifebuoy dot fill-darken1'></span>
-            </span>
-            Questions
+
+        <div class='clearfix space-bottom2'><div class='margin3 col6 row2 contain clip fill-green round'>
+            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-linux'>
+                <button class='inline row1 icon big down dot fill-darken1'></button>
+                <span class='inline row1 text-left'>
+                    <h3>mapbox-studio-linux-x64-{{page.release}}.zip</h3>
+                    <small>160MB download for Linux</small>
+                </span>
+            </a>
+            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-darwin'>
+                <button class='inline row1 icon big down dot fill-darken1'></button>
+                <span class='inline row1 text-left'>
+                    <h3>mapbox-studio-darwin-x64-{{page.release}}.zip</h3>
+                    <small>149MB download for OS X</small>
+                </span>
+            </a>
+            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-ia32-{{page.release}}.exe' class='pin-top button row2 pad2 fill-green space animate clip on-win32'>
+                <button class='inline row1 icon big down dot fill-darken1'></button>
+                <span class='inline row1 text-left'>
+                    <h3>mapbox-studio-win32-ia32-{{page.release}}.exe</h3>
+                    <small>139MB download for Windows</small>
+                </span>
+            </a>
+        </div></div>
+
+        <div class='pill margin3 col6'>
+        <a href='#' class='col12 center pad1 fill-darken1 quiet stroke'>
+            <span class='dot inline icon paint pad1 fill-lighten1'></span>
+            <strong class='pad1x'>Style crashcourse</strong>
+        </a>
+        <a href='#' class='col12 center pad1 fill-darken1 quiet stroke'>
+            <span class='dot inline icon polygon pad1 fill-lighten1'></span>
+            <strong class='pad1x'>Source crashcourse</strong>
+        </a>
+        <a href='#' class='col12 center pad1 fill-darken1 quiet stroke'>
+            <span class='dot inline icon lifebuoy pad1 fill-lighten1'></span>
+            <strong class='pad1x'>Help</strong>
         </a>
         </div>
     </div>
