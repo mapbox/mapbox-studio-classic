@@ -1,5 +1,5 @@
-Create a source
-===============
+Creating a vector source
+========================
 
 Mapbox Studio does not apply visual styles to geospatial data files directly. Instead, raw data is converted into [mapnik vector tiles](./HOWTO-introduction.md#what-are-vector-tiles). The *Source editor* transforms [traditional geodata formats](./HOWTO-sources.md#supported-formats) into vector tiles containing the appropriate layers and configurations needed for styling.
 
@@ -78,4 +78,100 @@ Upload your project by click on the __Settings__ button, then __Upload to Mapbox
 ![Upload project](https://cloud.githubusercontent.com/assets/83384/3869977/bc77bc78-20b3-11e4-9adb-73a6e28d0171.png)
 
 Your project now has been converted to vector tiles that can be read from the Mapbox API. Once the upload is done processing __Copy its Map ID__. You will use this to add your custom vector tiles to a custom map style.
+
+Styling custom data
+===================
+
+Click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Sources__ to __Styles__, then click the __New style__ button at the top.
+
+Select the __Satellite Afternoon__ style to use a starting point for your new style.
+
+![New style](https://cloud.githubusercontent.com/assets/83384/3870122/501656c6-20bc-11e4-889b-83d51f840787.png)
+
+Changing the vector tile source
+-------------------------------
+
+Click on __Layers__ to open the layers pane and then click __Change source__ to choose a new source for this style project.
+
+![Change source](https://cloud.githubusercontent.com/assets/83384/3870136/1cd60c56-20bd-11e4-9b7d-e20599c7003b.png)
+
+Add a command and the Mapbox __Map ID__ of your vector source to the end of the list of sources in the input field. The Mapbox API will automatically composite the existing sources (Mapbox Satellite, Mapbox Terrain, Mapbox Streets) with your new source. Click __Update__ after you have entered the full map ID.
+
+    mapbox.satellite,mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5,[Map ID]
+
+_The full composited list of Map IDs that should be in your source field_
+
+Add a stylesheet tab
+--------------------
+
+Click on the __+__ button on the top right of the style editor to add a new tab. Name your tab _earthquakes_.
+
+![Add tab](https://cloud.githubusercontent.com/assets/83384/3870168/cad0390c-20be-11e4-8050-7521ce362d77.png)
+
+Styling points
+--------------
+
+Add the following CartoCSS to your _earthquakes_ stylesheet and then click __Save__.
+
+    #earthquakes {
+      marker-comp-op:screen;
+      marker-allow-overlap:true;
+      marker-line-width:0;
+      marker-fill:#a20;
+      [zoom>=0] { marker-width:[mag]*[mag]*0.1; }
+      [zoom>=2] { marker-width:[mag]*[mag]*0.2; }
+      [zoom>=3] { marker-width:[mag]*[mag]*0.4; }
+      [zoom>=4] { marker-width:[mag]*[mag]*0.6; }
+      [zoom>=5] { marker-width:[mag]*[mag]*1; }
+      [zoom>=6] { marker-width:[mag]*[mag]*2; }
+      [zoom>=7] { marker-width:[mag]*[mag]*4; }
+      [zoom>=8] { marker-width:[mag]*[mag]*8; }
+      [zoom>=9] { marker-width:[mag]*[mag]*12; }
+      [zoom>=10] { marker-width:[mag]*[mag]*24; }
+      [zoom>=11] { marker-width:[mag]*[mag]*48; }
+    }
+
+![Styling points](https://cloud.githubusercontent.com/assets/83384/3870179/5bf756a4-20bf-11e4-95cf-f18b370aa95c.png)
+
+- `marker-width: [mag]*[mag]*n` properties draw each earthquake point as a circle scaled by the `[mag]` field.
+- `[zoom>=n]` selectors increase the size of each circle as you zoom in.
+- `marker-allow-overlap: true` allows the circles to be drawn over each other.
+- `marker-comp-op: screen` switches the blend mode of the markers so overlapping circles create an interesting visual affect.
+
+Styling labels
+--------------
+
+Next we will add labels so that earthquakes with a large magnitude are labeled clearly on the map. Add the following CartoCSS to your _earthquakes_ stylesheet and then click __Save__.
+
+    #earthquakes::label[zoom>=6][mag>=4],
+    #earthquakes::label[zoom>=8][mag>=3] {
+      text-allow-overlap:true;
+      text-size:14;
+      text-name:'[mag]';
+      text-face-name:'BentonGraphicsSansCond BlackIt';
+      text-fill:#fff;
+    }
+
+![Styling labels](https://cloud.githubusercontent.com/assets/83384/3870195/37ba920a-20c0-11e4-99e5-93f1912e5f5b.png)
+
+- `#earthquakes::label` defines a new CartoCSS attachment. The properties in this attachment will be drawn on top of any previous `#earthquake` layer rules.
+- `text-allow-overlap: true` allows text to be drawn on top of markers and other labels.
+- `text-name: '[mag]'` sets the layer field to use for the contents of the text labels.
+
+Uploading
+---------
+
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/) and you may be prompted if you aren't yet on one.
+
+![Upload style](https://cloud.githubusercontent.com/assets/83384/3870219/d2d2ffe6-20c2-11e4-97b8-83bd1965a4ff.png)
+
+Mission complete
+----------------
+
+Your map style is now deployed to Mapbox and has a __Map ID__. You can use this map with any of the Mapbox Developer APIs to integrate into your apps and sites.
+
+
+<div class='clearfix'>
+    <a class='button rcon next margin3 col6' href='https://www.mapbox.com/developers/'>Developer docs</a>
+</div>
 
