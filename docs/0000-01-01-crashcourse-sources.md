@@ -31,15 +31,17 @@ Adding your first layer
 
 2. In the right panel you'll see the configuration view for your newly-added layer. The name of the layer will autofill with metadata from the file. You can edit the layer name by clicking the pencil icon. Leave it as `earthquakes` for now.
 
-    ![Change layer name](https://cloud.githubusercontent.com/assets/83384/3869871/f3096b30-20ac-11e4-84b2-c184f2d8c23c.png)
-
 3. Verify that projection is set correctly. This field will also autofill with metadata from the file, and it should reference WGS84.
 
-    ![Check projection](https://cloud.githubusercontent.com/assets/83384/3868307/de0d3db0-2034-11e4-81ab-8516f825796b.png)
+    _Mapbox Studio autodetects the projection of most geodata files. If you have data that does not have its projection autodetected, report it as an [issue on GitHub](https://github.com/mapbox/mapbox-studio/issues)._
 
-	_Mapbox Studio autodetects the projection of most geodata files. If you have data that does not have its projection autodetected, report it as an [issue on GitHub](https://github.com/mapbox/mapbox-studio/issues)._
+4. Set the __Buffer size__ slider to __32__. The vector tile buffer determines how much extra data is included around the edges of each tile and can be used to prevent visual clipping artifacts when styling data.
 
-3. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
+5. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
+
+    ![Layer settings](https://cloud.githubusercontent.com/assets/83384/3870117/ccf6bd8a-20bb-11e4-8000-5c0401a62292.png)
+
+    _The layer settings panel fully configured._
 
 Inspecting data properties
 --------------------------
