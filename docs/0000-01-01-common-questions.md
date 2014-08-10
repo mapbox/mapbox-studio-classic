@@ -1,5 +1,5 @@
-##Introduction
--------------------------------
+Common questions
+================
 
 ###What is Mapbox Studio
 
