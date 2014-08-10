@@ -333,7 +333,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#exportDownload' class='z10 export js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#export' class='z10 export js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -356,7 +356,7 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#exportDownload' class='js-zoomedto export clip strong micro col12 quiet z z",z,"'>",
+      "<a href='#export' class='js-zoomedto export clip strong micro col12 quiet z z",z,"'>",
       "<span class='col3 center strong keyline-right'>z",z,"</span>",
       perc ? "<span class='truncate col9 strong perc pad0x " : '',
       perc > 100 ? "warning'" : '',
