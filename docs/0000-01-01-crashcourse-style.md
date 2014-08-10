@@ -1,69 +1,130 @@
-Styling your data
+Creating a custom style
 =======================
 
-Mapbox Studio uses a language called CartoCSS to determine the look of a map. Colors, sizes, and shapes can all be manipulated by applying their relative CartoCSS parameters in the stylesheet panel to the right of the map. Read the [CartoCSS manual]() for a more detailed introduction to the language.
+Mapbox Studio uses a language called CartoCSS to determine the look of a map. Colors, sizes, and shapes can all be manipulated by applying their relative CartoCSS parameters in the stylesheet panel to the right of the map. Read the [CartoCSS manual](https://www.mapbox.com/carto/) for a more detailed introduction to the language.
 
-In the previous crash course section on [Importing a data source](./crashcourse-sources), we [created a data source with a country boundaries layer](./crashcourse-sources). If we had used the __Create style from source__ button, our stylesheet would be automatically prefilled with several styling parameters and given initial values.
+In this tutorial we’ll create a custom style by writing Carto for buildings, roads, and parks.
 
-![](./img/crashcourse-style-1.png =400x)
+Create a style project
+----------------------
 
-1. `#Countries` - the layer to which the styles are applied.
-2. `line-color` - the color of the line.
-2. `line-width` - the size of the line, in pixels.
+Create a new style by clicking on __Projects__ in the lower left, and click __New style__. Select the __Basic__ style project. The basic project includes basic styling for for roads, city names, admin borders, rivers, and so on.
 
+![Create style](https://cloud.githubusercontent.com/assets/83384/3870270/d16352ac-20c5-11e4-9728-072b14213f79.png)
 
-Quick Tutorial
---------------
-For this crash course, whoever, we're going to go beyond the prefilled styling parameters and composite our new `Countries` data source onto Mapbox Streets, and create a chloropleth map of the world based on population.
+Inspecting the vector source
+----------------------------
 
-### Composite Sources
-1. Create a new style by clicking on __Projects__ in the lower left, and click __New style__. Select the __Basic__ style project. We will use this as our data source for roads, city names, rivers, etc.
-2. Add our Countries data source to this style project by opening the __Layers__ panel and clicking __Change Source__.
-3. To composite the Countries data source, find the Countries source in the list of remote sources and enter the `mapid` (it will be `username.numberjumble`) before the existing `mapbox.mapbox-streets-v5`, separated by a comma and click __Update__. 
+Center the map preview around New York City and increase the zoom level of the map to z17. Click the <span class='icon eye'></span> icon on the map preview pane. While the map currently looks empty there are a lot of features available for styling in this area.
 
-	Placing the `mapid` for Countries before that of Mapbox Streets is important because source is composed of layers which are in a specific order. In order to layer the roads and rivers on our Countries data, we need to have it below Mapbox Streets.
+Mapbox Studio includes a vector source inspector that will show you all layers and features for the vector source. Like the DOM inspector in web browsers, the vector source inspector shows you details about the fields and features in vector tiles that can be styled. Click a __building polygon__ on the map to see its properties.
 
-4. The countries layer will appear at the top of the __Layers__ list.
+![Inspector](https://cloud.githubusercontent.com/assets/83384/3870292/efa59dbe-20c6-11e4-935e-4617c0f16019.png)
 
-### Create a cartoCSS stylesheet
-Mapbox Streets loads with its own cartoCSS, but our data has not been styled.
+Toggle the <span class='icon eye'></span> icon again to return to the normal map preview.
 
-Let's ignore the Mapbox Streets' stylesheet for now and create a new stylesheet.
+Add a stylesheet tab
+--------------------
 
-1. Click the plus in the top right corner of the cartoCSS pane to add a new tab. Title it `countries`.
-2. Select the new countries tab and create a selector for the `Countries` layer. Add `polygon-fill: #eeffee` to style the shapes of the countries light green. Notice this color is below the place names and administrative (political) boundaries of Mapbox Streets.
-3. Click __Save__ to view your changes.
+Click on the __+__ button on the top right of the style editor to add a new tab. Name your tab _custom_.
 
+![Custom](https://cloud.githubusercontent.com/assets/83384/3870301/4cd8b908-20c7-11e4-8fea-b12665003556.png)
 
-###Conditional styles
+Styling buildings
+-----------------
 
-Conditional CartoCSS styles allow you to change the appearance of the points on your map based on attributes in the data. Now we will customize the fill color of the countries based on the size of their population.
+Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 
-1. Click on __Layers__ in the sidebar to see a list of data features that can be styled. Under the name of the source is a list of each constituent layer. Clicking on a layer title will display the names of its data fields and descriptions.
-2. Find the `Countries` layer - one of the data fields is 'pop_est'.
-3. Make a selection on a particular piece of data  within the `Countries` layer by adding the data field name and a conditional after the `Countries` selector: `#Countries[pop_est >= 100000000] {...}`
-	
-	This will only fill countries with green that have populations equal or greater to 100 million. 
-	
-4. Click __Save__ to view your changes.
+    #building[zoom>=14] {
+      polygon-fill:#eee;
+      line-width:0.5;
+      line-color:#ddd;
+    }
 
-###Variables
-You can save values such as color to variables and reference and manipulate those values.
-1. At the top of your cartoCSS add `@population: rgb(180, 240, 220);` to create a variable named `population`.
-2. Lets modify our selection on `Countries` so we can create more rules for `pop_est` data. Replace your current selection with the code below: 
-	
-	```
-	#Countries{
-	   [pop_est >= 1000000]   { polygon-fill: @population; }
-	   [pop_est >= 10000000]  { polygon-fill: darken(@population, 10%); }
-	   [pop_est >= 50000000]  { polygon-fill: darken(@population, 15%); }
-	   [pop_est >= 100000000] { polygon-fill: darken(@population, 20%); }
-	   [pop_est >= 50000000]  { polygon-fill: darken(@population, 25%); }
-	   [pop_est >= 100000000] { polygon-fill: darken(@population, 30%); }
-	   [pop_est >= 500000000] { polygon-fill: darken(@population, 35%); }
-	   [pop_est >= 1000000000]{ polygon-fill: darken(@population, 40%); }
-	}
-```
-3. Click __Save__ to view your changes.
+![Styling buildings](https://cloud.githubusercontent.com/assets/83384/3870305/ba0d0a6a-20c7-11e4-9454-a751319ca7e2.png)
 
-Voila! A worldwide chloropleth map based on population size.
+- `#building` selects the building layer as the one that will be styled.
+- `[zoom>=14]` restricts the styles to zoom level 14 or greater.
+- `polygon-fill: #eee` fills the building polygons with a light grey color.
+
+To add depth to our buildings at higher zoom levels let's add another set of rules that use the `building` symbolizer to render polygons as block-like shapes. Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
+
+    #building[zoom>=16] {
+      building-fill:#eee;
+      building-fill-opacity:0.9;
+      building-height:4;
+    }
+
+![Building symbolizer](https://cloud.githubusercontent.com/assets/83384/3870329/bceff796-20c8-11e4-8ff2-23bf7b374bff.png)
+
+Styling parks
+-------------
+
+Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
+
+    #landuse[class='park'] {
+      polygon-fill:#dec;
+    }
+
+    #poi_label[maki='park'][scalerank<=3][zoom>=15] {
+      text-name:@name;
+      text-face-name:@sans;
+      text-size:10;
+      text-wrap-width: 60;
+      text-fill:#686;
+      text-halo-fill:#fff;
+      text-halo-radius:1;
+      text-halo-rasterizer:fast;
+    }
+
+![Styling parks](https://cloud.githubusercontent.com/assets/83384/3870363/c7b51674-20c9-11e4-8393-9da2f75b5d67.png)
+
+- `#landuse` selects features from the landuse layer.
+- `[class='park']` restricts the landuse layer to features where the `class` attribute is `park`.
+- `#poi_label` selects the poi_label layer for labelling parks.
+- `[maki='park'][scalerank<=3][zoom>=15]` restricts the poi_label layer to prominent park labels and restricts their visibility to zoom level 15 or greater.
+- `text-name: @name` sets the field that label contents will use for their text. It references the existing `@name` variable defined in the `style` tab.
+- `text-face-name: @sans` sets the font to use for displaying labels. It references the existing `@sans` variable defined in the `style` tab.
+- `text-wrap-width: 60` sets a maximum width for a single line of text.
+- `text-halo-rasterizer: fast` uses an alternative optimized algorithm for drawing halos around text that improves rendering speed.
+
+Labelling roads
+---------------
+
+Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
+
+    #road_label[zoom>=13] {
+      text-name:@name;
+      text-face-name:@sans;
+      text-size:10;
+      text-placement:line;
+      text-avoid-edges:true;
+      text-fill:#68a;
+      text-halo-fill:#fff;
+      text-halo-radius:1;
+      text-halo-rasterizer:fast;
+    }
+
+![Labelling roads](https://cloud.githubusercontent.com/assets/83384/3870380/23717e70-20cb-11e4-99f5-68a80914a0ce.png)
+
+- `#road_label` selects features from the road_label layer.
+- `[zoom>=13]` restricts the road_label layer to zoom level 13 or greater.
+- `text-placement: line` sets labels to follow the orientation of lines rather than horizontally.
+- `text-avoid-edges: true` forces labels to be placed away from tile edges to avoid being clipped.
+
+Uploading
+---------
+
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/) and you may be prompted if you aren't yet on one.
+
+![Upload style](https://cloud.githubusercontent.com/assets/83384/3870412/70cc4fb8-20cd-11e4-89e6-0012952df580.png)
+
+Mission complete
+----------------
+
+Your map style is now deployed to Mapbox and has a __Map ID__. You can use this map with any of the Mapbox Developer APIs to integrate into your apps and sites.
+
+<div class='clearfix'>
+    <a class='button rcon next margin3 col6' href='https://www.mapbox.com/developers/'>Developer docs</a>
+</div>
+

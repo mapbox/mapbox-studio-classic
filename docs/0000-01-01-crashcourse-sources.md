@@ -170,7 +170,6 @@ Mission complete
 
 Your map style is now deployed to Mapbox and has a __Map ID__. You can use this map with any of the Mapbox Developer APIs to integrate into your apps and sites.
 
-
 <div class='clearfix'>
     <a class='button rcon next margin3 col6' href='https://www.mapbox.com/developers/'>Developer docs</a>
 </div>
