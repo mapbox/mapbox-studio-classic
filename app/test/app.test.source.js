@@ -52,6 +52,7 @@ tape('Setting maxzoom: sets maxzoom to higher value than 6 (tests logic preferen
 });
 
 tape('#addlayer-shape: adds new shapefile and checks input values', function(t) {
+    t.equal($('#10m-900913-bounding-box').size(), 0, 'has no bbox layer');
     //Browse for file and add new shape layer
     $('.js-addlayer').click();
     $('.js-browsefile').click();
@@ -63,6 +64,7 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
     $('#browsefile .col8').val(shpFile);
     $('#browsefile .col4').submit();
     onajax(function() {
+        t.equal($('#10m-900913-bounding-box').size(), 1, 'has bbox layer');
     	var maxzoomTarget = $('#settings-drawer #maxzoom');
     	var maxzoom = maxzoomTarget.val();
     	var projTarget = $('.js-metadata-projection');
@@ -91,7 +93,7 @@ tape('tests the projection input field is populated with the expected projection
 
 tape('#updatename-shape: updates the layer name and checks that input values and new layer modal are set', function(t) {
     //Set description of old layer
-    $('.js-layer #10m-900913-bounding-box').click();
+    $('#10m-900913-bounding-box').click();
     $('#10m-900913-bounding-box-buffer-size').val('24');
     var expectedBuffer = $('#10m-900913-bounding-box-buffer-size').val();
 

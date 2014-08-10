@@ -303,7 +303,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             //Setup layer object
             var layer = {
                 tm: tm,
-                id: current_layer.id,
+                id: current_layer.id.replace(/[^\w+-]/gi, '_'),
                 srs: metadata.projection,
                 properties: {
                     'buffer-size': 8
