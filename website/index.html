@@ -1,9 +1,7 @@
 ---
 layout: default
 title: Mapbox
-class: darwin
 options: full bleed
-release: master
 head: |
     <script src='index.js'></script>
     <link href='index.css' rel='stylesheet' />
@@ -52,29 +50,7 @@ head: |
             <div class='device-details'></div>
         </div></div>
 
-        <div class='clearfix space-bottom2'><div class='margin3 col6 row2 contain clip fill-green round'>
-            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-linux'>
-                <button class='inline row1 icon big down dot fill-darken1'></button>
-                <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-linux-x64-{{page.release}}.zip</h3>
-                    <small>160MB download for Linux</small>
-                </span>
-            </a>
-            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-darwin'>
-                <button class='inline row1 icon big down dot fill-darken1'></button>
-                <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-darwin-x64-{{page.release}}.zip</h3>
-                    <small>149MB download for OS X</small>
-                </span>
-            </a>
-            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-ia32-{{page.release}}.exe' class='pin-top button row2 pad2 fill-green space animate clip on-win32'>
-                <button class='inline row1 icon big down dot fill-darken1'></button>
-                <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-win32-ia32-{{page.release}}.exe</h3>
-                    <small>139MB download for Windows</small>
-                </span>
-            </a>
-        </div></div>
+        {% include download.html %}
 
         <div class='small center'>
             <span class='quiet pad0'>Available for</span>
@@ -132,45 +108,8 @@ head: |
 <div class='clearfix limiter'>
     <div class='pad4y clearfix'>
         <h3 class='fancy center space-bottom'>Start designing</h3>
-
-        <div class='clearfix space-bottom2'><div class='margin3 col6 row2 contain clip fill-green round'>
-            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-linux'>
-                <button class='inline row1 icon big down dot fill-darken1'></button>
-                <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-linux-x64-{{page.release}}.zip</h3>
-                    <small>160MB download for Linux</small>
-                </span>
-            </a>
-            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{{page.release}}.zip' class='pin-top button row2 pad2 fill-green space animate clip on-darwin'>
-                <button class='inline row1 icon big down dot fill-darken1'></button>
-                <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-darwin-x64-{{page.release}}.zip</h3>
-                    <small>149MB download for OS X</small>
-                </span>
-            </a>
-            <a href='https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-ia32-{{page.release}}.exe' class='pin-top button row2 pad2 fill-green space animate clip on-win32'>
-                <button class='inline row1 icon big down dot fill-darken1'></button>
-                <span class='inline row1 text-left'>
-                    <h3>mapbox-studio-win32-ia32-{{page.release}}.exe</h3>
-                    <small>139MB download for Windows</small>
-                </span>
-            </a>
-        </div></div>
-
-        <div class='pill margin3 col6'>
-        <a href='#' class='col12 center pad1 fill-darken1 quiet stroke'>
-            <span class='dot inline icon paint pad1 fill-lighten1'></span>
-            <strong class='pad1x'>Style crashcourse</strong>
-        </a>
-        <a href='#' class='col12 center pad1 fill-darken1 quiet stroke'>
-            <span class='dot inline icon polygon pad1 fill-lighten1'></span>
-            <strong class='pad1x'>Source crashcourse</strong>
-        </a>
-        <a href='#' class='col12 center pad1 fill-darken1 quiet stroke'>
-            <span class='dot inline icon lifebuoy pad1 fill-lighten1'></span>
-            <strong class='pad1x'>Help</strong>
-        </a>
-        </div>
+        {% include download.html %}
+        {% include docnav.html %}
     </div>
 </div>
 </section>
