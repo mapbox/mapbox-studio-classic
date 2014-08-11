@@ -1,5 +1,5 @@
-Creating a custom style
-=======================
+Style quickstart
+================
 
 Mapbox Studio uses a language called CartoCSS to determine the look of a map. Colors, sizes, and shapes can all be manipulated by applying their relative CartoCSS parameters in the stylesheet panel to the right of the map. Read the [CartoCSS manual](https://www.mapbox.com/carto/) for a more detailed introduction to the language.
 

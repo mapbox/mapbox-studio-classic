@@ -1,5 +1,5 @@
-Creating a vector source
-========================
+Source quickstart
+=================
 
 Mapbox Studio does not apply visual styles to geospatial data files directly. Instead, raw data is converted into [mapnik vector tiles](./HOWTO-introduction.md#what-are-vector-tiles). The *Source editor* transforms [traditional geodata formats](./HOWTO-sources.md#supported-formats) into vector tiles containing the appropriate layers and configurations needed for styling.
 
