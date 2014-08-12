@@ -89,7 +89,7 @@
                 } else if (token.type === 'carto-selector') {
                     return i + ' {';
                 } else {
-                    return i + ':';
+                    return i + ': ';
                 }
             });
         }
@@ -150,7 +150,9 @@
             if (!completions.length) {
                 return true;
             } else if (completions.length == 1) {
-                insert(completions[0]); return true;
+                insert(completions[0]);
+                e.preventDefault();
+                return true;
             }
 
             // Build the select widget
