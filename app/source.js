@@ -495,9 +495,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('#zoomedto').attr('class', 'contain z' + (map.getZoom() | 0));
             });
             $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
-            map.on('move', _.throttle(function(e) {
+            map.on('moveend', function(e) {
                 $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));
-            }, 100));
+            });
             map.on('click', inspectFeature({
                 id: this.model.id,
                 type: 'source',

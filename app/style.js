@@ -426,9 +426,9 @@ Editor.prototype.refresh = function(ev) {
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
     map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
     $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
-    map.on('move', _.throttle(function(e) {
+    map.on('moveend', function(e) {
         $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));
-    }, 100));
+    });
     map.on('click', inspectFeature({
       id: this.model.id,
       type: 'style',
