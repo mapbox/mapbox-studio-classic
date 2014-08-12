@@ -5,7 +5,7 @@ Compositing operations affect the way colors and textures of different elements 
 
 Without any compositing operations on a source it will just be painted directly over the destination -- compositing operations allow us to change this. There are 33 compositing operations available in CartoCSS:
 
-<table>
+<table class='space-bottom'>
   <tr><td> plus        </td><td> difference    </td><td> src      </td></tr>
   <tr><td> minus       </td><td> exclusion     </td><td> dst      </td></tr>
   <tr><td> multiply    </td><td> contrast      </td><td> src-over </td></tr>
@@ -35,7 +35,7 @@ If you are familiar with image editors such as the GIMP or PhotoShop you will re
 
 There are times when you'll want to use the style-wide `comp-op` and times when you'll want to use the symbolizer-specific properties. It will depend on the results you want to achieve. With the symbolizer-specific approach, overlapping objects in the style will have their compositing operations applied to each other as well as the layers below. With the style-wide approach, the style will be rendered and flattened first.
 
-<table><tr>
+<table class='space-bottom'><tr>
 <td><img src='https://cloud.githubusercontent.com/assets/83384/3881031/1d351f02-218a-11e4-8092-10002ca9ff2b.png' />
 <pre>
 // style-wide
@@ -58,47 +58,6 @@ There are times when you'll want to use the style-wide `comp-op` and times when 
 </pre></td></tr></table>
 
 *Note*: When we talk about the effects of composite operations, we need to talk about a *source* and a *destination*. The *source* is the style or symbolizer that the `comp-op` property is applied to, and the *destination* is the rest of the image that is drawn below that. There may also be more parts to the image that appear above the source; these are not affected by the comp-op and are drawn normally.
-
-## Example Uses
-
-As a quick overview, this section will show a few examples of some of the many cartographic design options compositing operations provide.
-
-Here is a simple map to start with, using the default countries layer in TileMill filled in white, and a green background.
-
-![ex_1_1](https://cloud.githubusercontent.com/assets/83384/3881352/22c96ac4-218d-11e4-8c89-e734912f763d.png)
-
-    Map { background-color: #264; }
-
-    #countries { polygon-fill: #fff; }
-
-We'll add the Natural Earth bathymetry layer from the [MapBox GeoData library](/tilemill/docs/manual/mapbox-geodata/), which contains a number of overlapping polygons representing different ocean depths. (The more polygons overlapping, the deeper the ocean at that spot.) 
-
-![ex_1_2](https://cloud.githubusercontent.com/assets/83384/3881355/22d2b5e8-218d-11e4-8a56-ee605cd0eff7.png)
-
-    #bathymetry {
-      polygon-fill: rgb(16,12,4);
-      polygon-comp-op: minus;
-    }
-
-We'll add a graticules layer which draws lines every 10 by 10 degrees. Using the `color-dodge` operation, these lines will brighten the colors below. You can also see the lines get brighter at the points where they intersect each other.
-
-![ex_1_3](https://cloud.githubusercontent.com/assets/83384/3881353/22cc299e-218d-11e4-9256-1c35fcb33a21.png)
-
-    #graticules-10 {
-      line-gamma: 0.01;
-      line-color: #468;
-      line-comp-op: color-dodge;
-    }
-
-We can also add texture to our map; the `soft-light` operation is great for this. Here we're applying it to a solid overlay shape with a pattern fill.
-
-![ex_1_4](https://cloud.githubusercontent.com/assets/83384/3881354/22ccef3c-218d-11e4-972e-fd863710b86f.png)
-
-    #texture {
-      polygon-pattern-file: url(static.png);
-      comp-op: soft-light;
-      opacity: 0.4;
-    }
 
 ## Color Blending
 
