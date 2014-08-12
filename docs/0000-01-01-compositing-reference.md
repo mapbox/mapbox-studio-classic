@@ -21,7 +21,7 @@ Without any compositing operations on a source it will just be painted directly 
 
 The operations in the first two columns are color blending modes that provide a variety of ways to control the blending of the colors of objects and layers with each other. The operations in the last column are [Duff-Porter alpha blending modes](http://www.imagemagick.org/Usage/compose/#duff-porter). They provide a variety of ways to fill and mask objects and layers with each other.
 
-If you are familiar with image editors such as the GIMP or PhotoShop you will recognize many of these as layer blending modes. They work much the same way in TileMill, but do not (necessarily) operate on the layer as a whole. There are two ways to invoke a composite operation - on an entire style attachment via the `comp-op` property, or on a particular symbolizer via a symbolizer-specific property:
+If you are familiar with image editors such as the GIMP or PhotoShop you will recognize many of these as layer blending modes. They work much the same way in Mapbox Studio, but do not (necessarily) operate on the layer as a whole. There are two ways to invoke a composite operation - on an entire style attachment via the `comp-op` property, or on a particular symbolizer via a symbolizer-specific property:
 
 - line-comp-op
 - line-pattern-comp-op
@@ -102,7 +102,7 @@ We can also add texture to our map; the `soft-light` operation is great for this
 
 ## Color Blending
 
-There are 22 color-blending compositing operations. This section will describe the ones that are most useful for cartographic design in TileMill. To illustrate the differences between them all, we'll show how each of them affect a few example layers and backgrounds.
+There are 22 color-blending compositing operations. This section will describe the ones that are most useful for cartographic design in Mapbox Studio. To illustrate the differences between them all, we'll show how each of them affect a few example layers and backgrounds.
 
 These are the layers the `comp-op` properties will be applied to:
 
@@ -254,8 +254,8 @@ The `hue` comp-op applies the hue of the source pixels to the destination pixels
 ### Saturation
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/saturation.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/saturation2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881382/2327d55a-218d-11e4-9056-620382c07de3.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881385/233295da-218d-11e4-87c4-9922c2bd9c22.png' />
 </div>
 
 The `saturation` comp-op applies the saturation of the source pixels to the destination pixels, keeping the destination hue and value.
@@ -263,8 +263,8 @@ The `saturation` comp-op applies the saturation of the source pixels to the dest
 ### Color
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/color.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/color2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881331/228fddf4-218d-11e4-87a5-d98f1ef742f7.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881329/228b0f22-218d-11e4-80da-4d1ef13490a0.png' />
 </div>
 
 The `color` comp-op applies the saturation of the source pixels to the destination pixels, keeping the destination hue and value.
@@ -272,8 +272,8 @@ The `color` comp-op applies the saturation of the source pixels to the destinati
 ### Value
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/value.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/value2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881399/2363996e-218d-11e4-866c-acfdda0d7e0e.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881402/2368f206-218d-11e4-9f13-3ab2e694f92f.png' />
 </div>
 
 The `value` comp-op applies the value of the source pixels to the destination pixels, keeping the destination hue and saturation.
@@ -284,13 +284,13 @@ There are 11 alpha blending compositing operations. Rather than altering the col
 
 Some of these modes will be more useful when applied to the whole style with the `comp-op` property, rather than with a symbolizer-specific property such as `polygon-comp-op`. All of the examples below were created with `comp-op`; there would be fewer differences between some of them had `polygon-comp-op` been used.
 
-The `src` and `dst` composite operations show only the source and destination layers, respectively. Neither are of much use in TileMill (where you can just as easily hide the layers). The `src-over` comp-op is another one you won't be uding much. It draws the source and destination normally, the same as not applying a comp-op at all. The rest of the alpha blending compositing operations may be useful for cartography, however.
+The `src` and `dst` composite operations show only the source and destination layers, respectively. Neither are of much use in Mapbox Studio (where you can just as easily hide the layers). The `src-over` comp-op is another one you won't be uding much. It draws the source and destination normally, the same as not applying a comp-op at all. The rest of the alpha blending compositing operations may be useful for cartography, however.
 
 ### Dst-over
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-over.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-over2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881350/22c57d1a-218d-11e4-9e97-ccb28a19d971.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881351/22c7d876-218d-11e4-9002-11ba7ca66adc.png' />
 </div>
 
 The `dst-over` comp-op will draw the source beneath everything else. If your destination forms a solid background, this will effectively hide the source.
@@ -298,8 +298,8 @@ The `dst-over` comp-op will draw the source beneath everything else. If your des
 ### Src-in
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/src-in.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/src-in2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881394/234dd5a2-218d-11e4-8bfa-279ce07573f8.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881392/2349ad74-218d-11e4-84e7-3e6f9261bbdf.png' />
 </div>
 
 The `src-in` comp-op will only draw parts of the source if they intersect with parts of the destination. The colors of the destination will not be drawn, only alpha channel (the shapes). If your destination forms a solid background, this operation will effectively be the same as `src`, since all parts of the source will intersect with the destination.
@@ -307,8 +307,8 @@ The `src-in` comp-op will only draw parts of the source if they intersect with p
 ### Dst-in
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-in.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-in2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881344/22b87980-218d-11e4-891d-cfd326d518ef.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881346/22bcd0de-218d-11e4-8a10-30df1c5fa612.png' />
 </div>
 
 The `dst-in` comp-op will only draw parts of the destination that intersect with parts of the sources. The colors of the source will not be drawn, only the alpha channel (the shapes). If your source is completely solid, this operation will effectively be the same as `dst`, since all parts of the destination will intersect with the source.
@@ -316,8 +316,8 @@ The `dst-in` comp-op will only draw parts of the destination that intersect with
 ### Src-out
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/src-out.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/src-out2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881396/2354f404-218d-11e4-8568-49f82ca4162f.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881395/2354c0d8-218d-11e4-936e-bce3adf1f3fd.png' />
 </div>
 
 The `src-out` comp-op will only draw parts of the source that do *not* intersect parts of the destination. The colors of the destination will not be drawn, only alpha channel (the shapes). If your destination forms a solid background, this operation will completely hide both the source and the destination, since all parts of the source intersect the destination.
@@ -325,8 +325,8 @@ The `src-out` comp-op will only draw parts of the source that do *not* intersect
 ### Dst-out
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-out.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-out2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881347/22bde7a8-218d-11e4-832d-538c601a88f3.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881349/22be78da-218d-11e4-980f-ed4073e842ff.png' />
 </div>
 
 The `dst-out` comp-op will only draw parts of the destination that do *not* intersect parts of the source. The colors of the source will not be drawn, only alpha channel (the shapes). If your source is completely solid, this operation will completely hide both the source and the destination, since all parts of the source intersect the destination.
@@ -334,8 +334,8 @@ The `dst-out` comp-op will only draw parts of the destination that do *not* inte
 ### Src-atop
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/src-atop.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/src-atop2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881390/23448290-218d-11e4-87cb-9959b68357fc.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881391/2345454a-218d-11e4-9f3b-b94b6d97c3b3.png' />
 </div>
 
 The `src-atop` comp-op will only draw the source where it intersects with the destination. It will also draw the entire destination. If your destination forms a solid background, the result will be the same as `src-over` (or no comp-op at all).
@@ -343,8 +343,8 @@ The `src-atop` comp-op will only draw the source where it intersects with the de
 ### Dst-atop
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-atop.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/dst-atop2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881343/22b63abc-218d-11e4-989d-998bd386dbdf.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881345/22bafc78-218d-11e4-9fc2-8bf14c5cd158.png' />
 </div>
 
 The `dst-atop` comp-op will only draw the destination on top of the source, but only where the two intersect. All parts of the source will be drawn, but below the destination. If your destination forms a solid background, no part of the source will be visible.
@@ -352,8 +352,8 @@ The `dst-atop` comp-op will only draw the destination on top of the source, but 
 ### Xor
 
 <div class='center'>
-    <img class='inline' src='/tilemill/assets/pages/comp-op/xor.png' />
-    <img class='inline' src='/tilemill/assets/pages/comp-op/xor2.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881400/2366cd96-218d-11e4-9047-afacbbec5a53.png' />
+    <img class='inline' src='https://cloud.githubusercontent.com/assets/83384/3881401/2367757a-218d-11e4-8460-9fc2e5c50e42.png' />
 </div>
 
 The `xor` comp-op means 'exclusive or'. It will only draw parts of the source and destination that do *not* overlap each other. If either your source or your destination forms a solid layer, neither will be drawn because there are no non-overlapping parts.
