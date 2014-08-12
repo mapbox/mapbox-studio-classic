@@ -62,7 +62,7 @@ If you are creating a custom vector tile source this is something you will have 
 
 Data coming from files are read from the beginning of the file to the end and cannot be re-ordered on-the-fly by TileMill. You'll want to pre-process such files to make sure the ordering makes sense.
 
-You can do this from the terminal with `ogr2ogr` (see [Setting up GDAL](/tilemill/docs/guides/gdal/)). This example rearranges all the objects in `cities.shp` based on the `population` field in descending order (highest population first).
+You can do this from the terminal with `ogr2ogr`. This example rearranges all the objects in `cities.shp` based on the `population` field in descending order (highest population first).
 
     ogr2ogr -sql \
       'select * from cities order by population desc' \
