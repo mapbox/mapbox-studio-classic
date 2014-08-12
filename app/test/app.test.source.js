@@ -65,13 +65,13 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
     $('#browsefile .col4').submit();
     onajax(function() {
         t.equal($('#10m-900913-bounding-box').size(), 1, 'has bbox layer');
-    	var maxzoomTarget = $('#settings-drawer #maxzoom');
-    	var maxzoom = maxzoomTarget.val();
-    	var projTarget = $('.js-metadata-projection');
-		var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
-		t.equal(expectedValue, projTarget.val());
-    	t.equal(maxzoom, '12');
-    	t.end();
+        var maxzoomTarget = $('#settings-drawer #maxzoom');
+        var maxzoom = maxzoomTarget.val();
+        var projTarget = $('.js-metadata-projection');
+        var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
+        t.equal(expectedValue, projTarget.val());
+        t.equal(maxzoom, '12');
+        t.end();
     });
 });
 
@@ -85,15 +85,15 @@ tape('sets maxzoom', function(t) {
 });
 
 tape('tests the projection input field is populated with the expected projection', function(t) {
-	var projTarget = $('.js-metadata-projection');
-	var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
-	t.deepEqual(expectedValue, projTarget.val());
+    var projTarget = $('.js-metadata-projection');
+    var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
+    t.deepEqual(expectedValue, projTarget.val());
     t.end();
 });
 
 tape('#updatename-shape: updates the layer name and checks that input values and new layer modal are set', function(t) {
     //Set description of old layer
-    $('#10m-900913-bounding-box').click();
+    $('.js-layer #10m-900913-bounding-box').click();
     $('#10m-900913-bounding-box-buffer-size').val('24');
     var expectedBuffer = $('#10m-900913-bounding-box-buffer-size').val();
 
@@ -107,6 +107,8 @@ tape('#updatename-shape: updates the layer name and checks that input values and
 
     t.equal(currentUrl.slice(-10),'layers-hey');
     t.equal(expectedBuffer, newBufferTarget.text());
+    $('#del-hey').click();
+    $('#confirm a.js-confirm').click();
     t.end();
 });
 
@@ -142,7 +144,61 @@ tape('bookmarks: removes', function(t) {
     t.end();
 });
 
+
+tape('#raster and nonraster mix error', function(t) {
+    if (!window.testParams || !window.testParams.dataPath) {
+        console.warn('WARNING: skipping test, window.testParams.dataPath required');
+        return t.end();
+    }
+    $('.js-addlayer').click();
+    t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
+    $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/shp/dc_bus_lines/DCGIS_BusLineLn.shp');
+    $('#addlayer').submit();
+    $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
+    $('#addlayer').submit();
+    onajax(function() {
+        t.ok(hasModal('#error'), 'shows error modal');
+        $('#error a.js-close').click();
+        $('#del-DCGIS_BusLineLn').click();
+        $('#confirm a.js-confirm').click();
+        t.end();
+    });
+});
+
 var datatests = {
+    'geotiff/sample.tif': {
+        filepath: '/geotiff/sample.tif',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/geotiff/sample.tif',
+            'Datasource-type': 'gdal',
+            'description': '',
+            'id': 'sample',
+            'properties-buffer-size': '0',
+            'srs': '+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+        }
+    },
+    'geotiff/DC_rgb.tif': {
+        filepath: '/geotiff/DC_rgb.tif',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/geotiff/DC_rgb.tif',
+            'Datasource-type': 'gdal',
+            'description': '',
+            'id': 'DC_rgb',
+            'properties-buffer-size': '0',
+            'srs': '+proj=utm +zone=18 +datum=NAD83 +units=m +no_defs'
+        }
+    },
+    'vrt/sample.vrt': {
+        filepath: '/vrt/sample.vrt',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/vrt/sample.vrt',
+            'Datasource-type': 'gdal',
+            'description': '',
+            'id': 'sample',
+            'properties-buffer-size': '0',
+            'srs': '+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+        }
+    },
     'csv/bbl_current_csv': {
         filepath: '/csv/bbl_current_csv.csv',
         expected: {
@@ -178,39 +234,6 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
-    'geotiff/sample.tif': {
-        filepath: '/geotiff/sample.tif',
-        expected: {
-            'Datasource-file': window.testParams.dataPath + '/geotiff/sample.tif',
-            'Datasource-type': 'gdal',
-            'description': '',
-            'id': 'sample',
-            'properties-buffer-size': '0',
-            'srs': '+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
-        }
-    },
-    'geotiff/DC_rgb.tif': {
-        filepath: '/geotiff/DC_rgb.tif',
-        expected: {
-            'Datasource-file': window.testParams.dataPath + '/geotiff/DC_rgb.tif',
-            'Datasource-type': 'gdal',
-            'description': '',
-            'id': 'DC_rgb',
-            'properties-buffer-size': '0',
-            'srs': '+proj=utm +zone=18 +datum=NAD83 +units=m +no_defs'
-        }
-    },
-    'vrt/sample.vrt': {
-        filepath: '/vrt/sample.vrt',
-        expected: {
-            'Datasource-file': window.testParams.dataPath + '/vrt/sample.vrt',
-            'Datasource-type': 'gdal',
-            'description': '',
-            'id': 'sample',
-            'properties-buffer-size': '0',
-            'srs': '+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
-        }
-    },
     'shp/dc_bus_lines': {
         filepath: '/shp/dc_bus_lines/DCGIS_BusLineLn.shp',
         expected: {
@@ -235,12 +258,30 @@ var datatests = {
     },
 };
 
+//Delete old layers from yml
+$('#del-box').click();
+$('#confirm a.js-confirm').click();
+$('#del-solid').click();
+$('#confirm a.js-confirm').click();
+
 for (var name in datatests) (function(name, info) {
     tape('data test: ' + name, function(t) {
+        var layerLength = $('.js-layer').length;
+        if (layerLength > 0){
+            //Delete all current layers to avoid raster/non-raster error message
+            for(var i = 0; i < layerLength; i++){
+                var layername;
+                layername = $('.js-layer')[i].id;
+                $('#del-' + layername).click();
+                $('#confirm a.js-confirm').click();
+            };
+        };
+
         if (!window.testParams || !window.testParams.dataPath) {
             console.warn('WARNING: skipping test, window.testParams.dataPath required');
             return t.end();
         }
+
         $('.js-addlayer').click();
         t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
         $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + info.filepath);
