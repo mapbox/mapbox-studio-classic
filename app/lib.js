@@ -402,7 +402,10 @@ views.Maputils.prototype.search = function(ev) {
 
   var view = this;
 
-  $.ajax('/geocode?search=' + query).done(function(data) {
+  $.ajax({
+    url: '/geocode?search=' + query,
+    crossDomain: true
+  }).done(function(data) {
     var results = data.features;
     if (results.length === 0) {
       $results.html('<li class="keyline-top contain pad0 col12 small">No results</li>');
