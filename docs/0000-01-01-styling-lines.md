@@ -3,66 +3,65 @@ Styling lines
 
 Line styles can be applied to both line and polygon layers. The simplest line styles have just a `line-width` (in pixels) and a `line-color` making a single solid line. The default values for these properties are `1` and `black` respectively if they are not specified.
 
-<img src='/tilemill/assets/pages/styling-lines-1.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893043/893b0c40-2237-11e4-83b5-5fef2e1478ba.png)
 
-    // country land borders
-    #admin_0_lines {
+    #admin[admin_level=2] {
       line-width: 0.75;
       line-color: #426;
     }
 
 ## Dashed lines
  
-Simple dashed lines can be created with the `line-dasharray` property. The value of this property is a comma-separated list of pixel widths that will alternatively be applied to dashes and spaces. This style draws a line with 10 pixel dashes separated by 4 pixel spaces:
+Simple dashed lines can be created with the `line-dasharray` property. The value of this property is a comma-separated list of pixel widths that will alternatively be applied to dashes and spaces. This style draws a line with 5 pixel dashes separated by 3 pixel spaces:
 
-<img src='/tilemill/assets/pages/styling-lines-2.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893044/893cb6ee-2237-11e4-886b-d35dad27acb2.png)
 
-    #admin_1_line {
+    #admin[admin_level>=3] {
       line-width: 0.5;
       line-color: #426;
-      line-dasharray: 10, 4;
+      line-dasharray: 5,3;
     }
  
 You can make your dash patterns as complex as you want, with the limitation that the dasharray values must all be whole numbers.
 
-<img src='/tilemill/assets/pages/styling-lines-3.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893076/d7d35dda-2237-11e4-99ff-7b04d27e44f4.png)
 
-    #admin_1_line {
+    #admin[admin_level>=3] {
       line-width: 0.5;
       line-color: #426;
-      line-dasharray: 10, 3, 2, 3;
+      line-dasharray: 10,3,2,3;
     }
  
 ## Caps & Joins
 
 With thicker line widths you'll notice long points at sharp angles and odd gaps on small polygons.
 
-<img src='/tilemill/assets/pages/styling-lines-4.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893195/c3bea344-2238-11e4-9da7-a4c46aba4a74.png)
 
-    #countries::bigoutline {
-      line-color: #9ed1dc;
-      line-width: 20;
+    #admin::bigoutline {
+      line-color: white;
+      line-width: 15;
     }
 
 You can adjust the angles with the `line-join` property: `round` or `square` them off (the default is called `miter`). The gaps can be filled by setting `line-cap` to `round` or `square` (the default is called `butt`).
 
-<img src='/tilemill/assets/pages/styling-lines-5.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893194/c3b7d6f4-2238-11e4-8013-39b721fb7d30.png)
 
-    #countries::bigoutline {
-      line-color: #9ed1dc;
-      line-width: 20;
+    #admin::bigoutline {
+      line-color: white;
+      line-width: 15;
       line-join: round;
       line-cap: round;
     }
 
 For dashed lines, line-caps are applied to each dash and their additional length is not included in the dasharray definition. Notice how the following style creates almost-solid lines despite the dasharray defining a gap of 4 pixels.
 
-<img src='/tilemill/assets/pages/styling-lines-6.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893235/2131fb8e-2239-11e4-9975-bd4cea05228a.png)
 
-    #layer {
+    #admin {
       line-width: 4;
       line-cap: round;
-      line-dasharray: 10, 4;
+      line-dasharray: 4, 4;
     }
 
 ## Compound line styles
@@ -71,9 +70,9 @@ For dashed lines, line-caps are applied to each dash and their additional length
 
 For certain types of line styles you will need to style and overlap multiple line styles. For example, a road with casing:
 
-<img src='/tilemill/assets/pages/styling-lines-7.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893352/0cfd24e4-223a-11e4-80ca-be06b2b036e1.png)
 
-    #roads[Type='Major Highway'] {
+    #road[class='motorway'] {
       ::case {
         line-width: 5;
         line-color:#d83;
@@ -84,12 +83,12 @@ For certain types of line styles you will need to style and overlap multiple lin
       }
     }
 
-Dealing with multiple road classes, things get a little more complicated. You can either group your styles by class or group them by attachment. Here we've grouped by class (filtering on the `Type` column).
+Dealing with multiple road classes, things get a little more complicated. You can either group your styles by class or group them by attachment. Here we've grouped by class (filtering on the `class` field).
 
-<img src='/tilemill/assets/pages/styling-lines-8.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893351/0cf7ecfe-223a-11e4-9aa6-8d367835f306.png)
 
-    #roads {
-      [Type='Major Highway'] {
+    #road {
+      [class='motorway'] {
         ::case {
           line-width: 5;
           line-color:#d83;
@@ -99,7 +98,7 @@ Dealing with multiple road classes, things get a little more complicated. You ca
           line-color:#fe3;
         }
       }
-      [Type='Secondary Highway'] {
+      [class='main'] {
         ::case {
           line-width: 4.5;
           line-color:#ca8;
@@ -115,9 +114,9 @@ Dealing with multiple road classes, things get a little more complicated. You ca
 
 A common way of symbolizing railroad lines is with regular hatches on a thin line. This can be done with two line attachments - one thin and solid, the other thick and dashed. The dash should be short with wide spacing.
 
-<img src='/tilemill/assets/pages/styling-lines-9.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893425/b8d7178e-223a-11e4-813a-f14390ac3bd6.png)
 
-    #railroads {
+    #road[class='major_rail' {
       ::line, ::hatch { line-color: #777; }
       ::line { line-width:1; }
       ::hatch {
@@ -128,9 +127,9 @@ A common way of symbolizing railroad lines is with regular hatches on a thin lin
 
 Another common railroad line style is similar, but with a thin dash and a thick outline. Make sure you define the `::dash` after the `::line` so that it appears on top correctly.
 
-<img src='/tilemill/assets/pages/styling-lines-10.png' class='fig-right' />
+![](https://cloud.githubusercontent.com/assets/126952/3893426/b8da3a5e-223a-11e4-824d-24c1fec600a2.png)
 
-    #railroads {
+    #road[class='major_rail'] {
       ::line {
         line-width: 5;
         line-color: #777;
@@ -142,33 +141,34 @@ Another common railroad line style is similar, but with a thin dash and a thick 
       }
     }
 
-<!--### Tunnels
+### Tunnels
 
 A simple tunnel style can be created by modifying a regular road style and making the background line dashed. 
 
-    #roads {
-      [tunnel='true'] {
-        ::case {
-          line-width: 8;
-          line-color:#888;
-          line-dasharray: 4, 3;
-        }
-        ::fill {
-          line-width: 5;
-          line-color:#fff;
-        }
+![](https://cloud.githubusercontent.com/assets/126952/3893606/73e3eeac-223c-11e4-83dd-8343f8525513.png)
+
+    #road,
+    #bridge {
+      ::case {
+        line-width: 8;
+        line-color:#888;
       }
-      [tunnel='false'] {
-        ::case {
-          line-width: 8;
-          line-color:#888;
-        }
-        ::fill {
-          line-width: 5;
-          line-color:#fff;
-        }
+      ::fill {
+        line-width: 5;
+        line-color:#fff;
       }
-    }-->
+    }
+    #tunnel {
+      ::case {
+        line-width: 8;
+        line-color:#888;
+        line-dasharray: 4, 3;
+      }
+      ::fill {
+        line-width: 5;
+        line-color:#fff;
+      }
+    }
 
 ## Line patterns with Images
 
@@ -176,15 +176,15 @@ Certain types of line pattens are too complex to be easily achieved with regular
 
 In Inkscape (or whatever you are using), create a new document. The size should be rather small - the height of the image will be the width of the line pattern and the width of the image will be repeated along the length of the line. Our example is 30x16 pixels.
 
-![](/tilemill/assets/pages/styling-lines-11.png)
+![](https://cloud.githubusercontent.com/assets/126952/3893643/d05c41fc-223c-11e4-968f-53eb8d2713a8.png)
 
 Note how the centerline of the pattern is centered on the image (with empty space at the top) for correct alignment with the line data.
 
 To use the image from Inkscape, export it as a PNG file. Line patterns just need a single CartoCSS style to be added to your TileMill project:
 
-<img src='/tilemill/assets/pages/styling-lines-12.png' class='fig-right' />
+![]((https://cloud.githubusercontent.com/assets/126952/3893795/0039a7d8-223e-11e4-92b6-253ccf826af3.png)
 
-    #cliff {
+    #barrier_line[class='cliff'] {
       line-pattern-file: url(cliff.png);
     }
 
