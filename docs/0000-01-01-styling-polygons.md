@@ -1,17 +1,15 @@
 Styling polygons
 ================
 
-Polygons are areas that can be filled with a solid color or a pattern, and also given an outline. When you start a new TileMill project with the 'Include world layer and styles' option checked (the default) you'll already have a basic polygon layer and style ready. The fill color of the polygons is defined by the `polygon-fill` property, and it has some line styles as well.
+Polygons are areas that can be filled with a solid color or a pattern, and also given an outline.
 
-<small class='note' markdown='1'>
-__Tip:__ everything covered in the [Styling Lines](/tilemill/docs/guides/styling-lines/) guide can also be applied to polygon layers.
-</small>
+_Tip: everything covered in the [Styling lines](../styling-lines/) guide can also be applied to polygon layers._
 
 ## Basic Styling
 
 If you want to  adjust the opacity of a polygon-fill you can use the `polygon-opacity` property. This is a number between 0 and 1 - 0 being fully transparent and 1 being fully opaque. With 75% opacity we can see both the map background and the lines that have been drawn beneath the polygons.
 
-<img src='/tilemill/assets/pages/styling-polygons-2.png' class='fig-right' />
+<img src='https://cloud.githubusercontent.com/assets/83384/3893817/1341593e-223e-11e4-8fb0-d5b4e2610dd1.png' class='fig-right' />
 
     #countries {
       polygon-fill: #fff;
@@ -22,7 +20,7 @@ If you want to  adjust the opacity of a polygon-fill you can use the `polygon-op
 
 When you have a layer containing polygons that should fit together seamlessly, you might notice subtle gaps between them at certain scales. You can use the `polygon-gamma` style to help reduce this effect. Gamma takes a value between 0 and 1 - the default is 1, so try lowering it to hide the gaps. Be careful about setting it too low, though. You'll get jagged edges and possibly even stranger artifacts.
 
-![](/tilemill/assets/pages/styling-polygons-3.png)
+![styling-polygons-3](https://cloud.githubusercontent.com/assets/83384/3893819/134194f8-223e-11e4-999f-c01fa8140632.png)
 
     #countries {
       polygon-fill: #fff;
@@ -35,15 +33,15 @@ With TileMill, you can easily fill areas with textures and patterns by bringing 
 
 You can add a pattern style from any local file or web URL using the `polygon-pattern-file` style. Here is a simple diagonal stripe pattern you can use to try out - you can reference it from CartoCSS as in the snippet below.
 
-![](/tilemill/assets/pages/pattern-stripe.png)
+![pattern-stripe](https://cloud.githubusercontent.com/assets/83384/3893834/32389e24-223e-11e4-8ec6-163fd55d6622.png)
 
     polygon-pattern-file: url("http://tilemill.com/assets/pages/pattern-stripe.png");
 
-![](/tilemill/assets/pages/pattern-example.png)
+![pattern-example](https://cloud.githubusercontent.com/assets/83384/3893835/328b51b4-223e-11e4-926c-c7c21edff4a5.png)
 
 For organization it's a good idea to save and store images resources like this on your computer, for example inside your TileMill project folder. To see an example of this look at the Open Streets DC example: open your Documents directory in a file manager and navigate to MapBox→project→open-streets-dc. You can see that there is a subdirectory named 'images' and there are a couple of pattern images inside of it.
 
-![](/tilemill/assets/pages/tilemill-project-folder.png)
+![tilemill-project-folder](https://cloud.githubusercontent.com/assets/83384/3893839/3cbc071e-223e-11e4-8f2a-fc9f7c8f2018.png)
 
 Images are stored inside the TileMill project they can be *relatively referenced*, meaning you don't need to specify the full path of the file location. Your style would simply be `polygon-pattern-file: url("images/water.png");`. Doing this also makes the TileMill project more portable, for example if you want move it to a different computer.
 
@@ -59,7 +57,7 @@ Like all other properties on the Map object, background-image has a global effec
 
 If you want to control the a background pattern by zoom level you can add a layer to your project that contains an earth-sized polygon for you to style. MapBox provides such a data file in the [MapBox GeoData Library](). Browse to the `natural-earth-1.4.0/physical` directory and it is the first file in the list - __10m-900913-bounding-box.zip__.
 
-![](/tilemill/assets/pages/styling-polygons-4.png)
+![styling-polygons-4](https://cloud.githubusercontent.com/assets/83384/3893820/1345ce74-223e-11e4-8474-cc5a4b7915f9.png)
 
 You can style this layer like any polygon with a pattern or a solid fill and different styles for different scales. You can also put it above other layers and style it with a transparent pattern to create textured overlays (as in the 'Geography Class' example project).
 
