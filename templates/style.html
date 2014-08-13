@@ -236,8 +236,9 @@
 
 </div>
 
-<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='code' class='pin-left col12'>
+<div id='style-ui' class='animate z1 col6 pin-right'>
+
+  <div id='code' class='animate pin-right fill-light col12'>
     <div class='row1 fill-white pin-top'>
       <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
         <% _(style.styles).keys().forEach(function(k,i) { %>
@@ -249,7 +250,7 @@
         -->
         <div class='z10 pin-right col6 fill-disable on-local on-tmp'></div><!--
         -->
-        <a href='#export' class='inline js-export export-n icon picture keyline-left fill-dark dark pad1'></a>
+        <a href='#export' class='inline js-export export-n icon picture keyline-left quiet pad1'></a>
       </div>
     </div>
     <div id='stylesheets'></div>
@@ -270,7 +271,7 @@
   <!-- END DEMO -->
 </div>
 
-<div id='export' class='offcanvas-right z100 col6 export-menu pin-right dark fill-dark'>
+<div id='export' class='z100 col6 animate pin-right dark fill-dark'>
   <nav class='row1 col12 pin-top keyline-bottom z1'>
     <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
     <h3 class='inline pad1'>Export image</h3>
@@ -280,9 +281,12 @@
     </div>
   </nav>
 
-  <form class='js-data-content menu-content pin-left col12 top1 scroll-styled pad1x pad2y'>
-    <h3 class='space-bottom1'>Zoom level  <span id='zoom'><%=style.center[2]%></span></h3>
-
+  <form class='js-data-content menu-content pin-right col12 top1 scroll-styled pad1x pad2y'>
+    <h3 class='space-bottom1 col8'>Zoom level  <span id='zoom'><%=style.center[2]%></span></h3>
+    <div class='col4 checkbox-pill'>
+      <input type='checkbox' id='lock'>
+      <label for='lock' class='fr button short quiet icon check'>Lock dimensions</label>
+    </div>
     <fieldset class='space-bottom1'>
       <label>Crop size</label>
       <div class='space-bottom1 clearfix col12'>
@@ -308,10 +312,6 @@
           <span class='icon quiet u-d-arrow'></span>
           <label class='micro ghost'>Inches</label>
         </div>
-      </div>
-      <div class='pad1y checkbox inline short'>
-        <input type='checkbox' id='lock'>
-        <label for='lock' class='round keyline-all small icon lock'>Lock dimensions</label>
       </div>
     </fieldset>
 

@@ -1,8 +1,21 @@
 
+html {
+  -webkit-transform:translateX(0%);
+     -moz-transform:translateX(0%);
+      -ms-transform:translateX(0%);
+          transform:translateX(0%);
+          height: 100%;
+          width: 100%;
+}
+
 /* Layout
 ------------------------------------------------------- */
 #style-ui {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
+  -webkit-transform:translateX(0%);
+     -moz-transform:translateX(0%);
+      -ms-transform:translateX(0%);
+          transform:translateX(0%);
 }
 
 #fonts:target ~ #drawers,
@@ -35,6 +48,13 @@
 #fonts:target ~ #drawers #fonts-drawer > *,
 #docs:target ~ #drawers #docs-drawer > *,
 #layers:target ~ #drawers #layers-drawer > * { display:block; }
+
+#export {
+  opacity: 0;
+  z-index: -1;
+}
+
+#export:target { opacity: 1; z-index: 100;}
 
 /* Code pane
 ------------------------------------------------------- */
