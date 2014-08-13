@@ -10,6 +10,8 @@ var refreshable = (obj.Datasource.type === 'shape' || obj.Datasource.type === 'c
   <a class='<%=(obj.Datasource && obj.Datasource.type) ? "js-reset-mode" : "js-tab" %> block col8 contain pad0y pad1x quiet' href='#layers-<%=obj.id%>'>
     <%=obj.id%>
     <input type='hidden' class='datasourceType' value='<%=obj.Datasource.type%>' />
+    <input type='hidden' class='layer-minzoom' value='<%=obj.minzoom%>' />
+    <input type='hidden' class='layer-maxzoom' value='<%=obj.maxzoom%>' />
     <span><code><%= (obj.Datasource.type) %></code></span>
   </a>
 
@@ -25,11 +27,11 @@ var refreshable = (obj.Datasource.type === 'shape' || obj.Datasource.type === 'c
     <span class='pad0 col4 fr center'>
       <a href='#refresh' class='icon xrayswatch js-xrayswatch x inline round fill-darken1 <%=disabled ? 'disabled' : ''%> <%=obj.geometry||'unknown'%>' style='background-color:<%=this.xraycolor(obj.id)%>'></a>
     </span>
-    <% if ('minzoom' && 'maxzoom' in obj) { %>
+<!--     <% if ('minzoom' && 'maxzoom' in obj) { %>
     <div class='center col3 fr pad1x'>
       <span class='inline zooms pad0 micro'><%= obj.minzoom %>-<%= obj.maxzoom %></span>
     </div>
-    <% } %>
+    <% } %> -->
   </div>
 
 </div>

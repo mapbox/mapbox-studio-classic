@@ -268,6 +268,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
     };
+
+    // Make sure rasters and non-rasters are not added to the same source project
     function consistentSourceType(metadata){
         var sourceType = $('.js-layer .datasourceType').val();
         if(sourceType === undefined) return true;
@@ -276,6 +278,21 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         //if adding vector among raster sources
         else if(sourceType === 'gdal' && !metadata.hasOwnProperty('raster')) return false;
         else return true;
+    };
+
+    // Set min/maxzoom, if needed
+    function setZoom(minzoom, maxzoom){
+        var maxzoomTarget = $('.max');
+        var minzoomTarget = $('.min');
+        if (Object.keys(layers).length === 1){
+            maxzoomTarget.val(maxzoom);
+            minzoomTarget.val(minzoom);
+            return;
+        } else {
+            if (maxzoomTarget.val() < maxzoom) maxzoomTarget.val(maxzoom);
+            if (minzoomTarget.val() < minzoom) minzoomTarget.val(minzoom);
+            return;
+        }
     };
 
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
@@ -305,6 +322,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 tm: tm,
                 id: current_layer.id.replace(/[^\w+-]/gi, '_'),
                 srs: metadata.projection,
+                minzoom: metadata.minzoom,
+                maxzoom: metadata.maxzoom,
                 properties: {
                     'buffer-size': 8
                 },
@@ -328,9 +347,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
-            //set maxzoom, if needed
-            var maxzoomTarget = $('.max');
-            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+            //set maxzoom/minzoom, if needed
+            setZoom(metadata.minzoom, metadata.maxzoom);
 
             //show new layer
             var center = metadata.center;
@@ -350,6 +368,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
     };
+
     Editor.prototype.deletelayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('del-').pop();
         if (!layers[id]) return false;
@@ -360,6 +379,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
+            if (Object.keys(layers).length === 1){
+                var layer_id = $('.js-layer').get(0).id;
+                setZoom(layers[layer_id].minzoom, layers[layer_id].maxzoom);
+            }
             window.location.href = '#';
         });
         return false;
@@ -382,9 +405,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata) {
-            //Transfer new maxzoom, if relevant
-            var maxzoomTarget = $('.max');
-            if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
+            //Transfer new zooms, if relevant
+            setZoom(metadata.minzoom, metadata.maxzoom);
 
             //Transfer current field descriptions to the new fields, if relevant
             var new_fields = metadata.json.vector_layers[0].fields;
