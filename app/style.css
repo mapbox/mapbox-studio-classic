@@ -1,21 +1,8 @@
 
-html {
-  -webkit-transform:translateX(0%);
-     -moz-transform:translateX(0%);
-      -ms-transform:translateX(0%);
-          transform:translateX(0%);
-          height: 100%;
-          width: 100%;
-}
-
 /* Layout
 ------------------------------------------------------- */
 #style-ui {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
-  -webkit-transform:translateX(0%);
-     -moz-transform:translateX(0%);
-      -ms-transform:translateX(0%);
-          transform:translateX(0%);
 }
 
 #fonts:target ~ #drawers,
