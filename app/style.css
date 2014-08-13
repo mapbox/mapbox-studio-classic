@@ -8,10 +8,13 @@
 #fonts:target ~ #drawers,
 #docs:target ~ #drawers,
 #layers:target ~ #drawers,
+#gazetteer:target ~ #drawers,
 #fonts:target ~ #drawers #fonts-drawer,
 #docs:target ~ #drawers #docs-drawer,
 #layers:target ~ #drawers #layers-drawer,
-#export:target ~ #export-ui {
+#gazetteer:target ~ #drawers #gazetteer-drawer,
+#export:target ~ #export-ui
+ {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -22,6 +25,7 @@
 #fonts:target ~ #drawers #fonts-drawer ~ .drawer,
 #docs:target ~ #drawers #docs-drawer ~ .drawer,
 #layers:target ~ #drawers #layers-drawer ~ .drawer,
+#gazetteer:target ~ #drawers #gazetteer-drawer ~ .drawer,
 #export:target ~ #export-ui {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
@@ -31,10 +35,12 @@
 
 #fonts:target ~ #drawers > *,
 #docs:target ~ #drawers > *,
+#gazetteer:target ~ #gazetteer > *,
 #layers:target ~ #drawers > *,
 #fonts:target ~ #drawers #fonts-drawer > *,
 #docs:target ~ #drawers #docs-drawer > *,
-#layers:target ~ #drawers #layers-drawer > * { display:block; }
+#layers:target ~ #drawers #layers-drawer > *,
+#gazetteer:target ~ #drawers #gazetteer-drawer > *  { display:block; }
 
 /* Code pane
 ------------------------------------------------------- */
@@ -201,12 +207,15 @@
 ------------------------------------------------------- */
 a.layers-y,
 a.fonts-y,
-a.docs-y { display:none; }
+a.docs-y,
+a.gazetteer-y { display:none; }
 
+#gazetteer:target      ~ * a.gazetteer-y,
 #docs:target      ~ * a.docs-y,
 #layers:target    ~ * a.layers-y,
 #fonts:target     ~ * a.fonts-y { display:inline-block; }
 
+#gazetteer:target      ~ * a.gazetteer-n,
 #docs:target      ~ * a.docs-n,
 #fonts:target     ~ * a.fonts-n,
 #layers:target    ~ * a.layers-n { display:none; }
