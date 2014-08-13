@@ -1,3 +1,4 @@
+
 window.Style = function(templates, cwd, style, examples) {
 
 var map;
@@ -87,6 +88,7 @@ Editor.prototype.events = {
   'click .js-browsesource': 'browseSource',
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
+  'click .js-gazetteer': 'gazetteer',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
@@ -103,6 +105,22 @@ Editor.prototype.events = {
   'click .js-demo': 'demo',
   'keydown': 'keys'
 };
+
+Editor.prototype.gazetteer = function(ev) {
+
+  var gazetteer = $.getJSON('../ext/gazetteer.json', function(data) {alert('done');
+    for (var i=0;i<data.length;i++)
+      {var name=data[i]['place_name'];
+      var lat=data[i]['center'][0];
+      var lon=data[i]['center'][1];
+      var zoom=data[i]['zoom'];
+      var tags=data[i]['tags'][0].replace(/\s/g, '_');
+       $('#gazetteerlist').append('<div class="entry pad1" tags='+tags+'><h6>'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>');
+       console.log(tags);
+    }
+  });
+
+}
 
 Editor.prototype.changed = function() {
   $('body').addClass('changed');
