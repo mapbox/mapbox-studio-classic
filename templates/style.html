@@ -247,13 +247,24 @@
 
   <div id='gazetteer-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
-      <h3>Gazetteer</h3>
+      <h3 style='display:inline'>Gazetteer</h3>
+      <div class='rounded-toggle inline' style='float:right'>
+        <input id='Major cities' type='radio' name='rtoggle' value='Major cities' checked='checked'>
+        <label for='Major cities'>Major cities</label>
+        <input id='Land cover' type='radio' name='rtoggle' value='Land cover'>
+        <label for='Land cover'>Land cover</label>
+        <input id='Features' type='radio' name='rtoggle' value='charlotte'>
+        <label for='Features'>Features</label>
+        <input id='Residential' type='radio' name='rtoggle' value='Residential'>
+        <label for='Residential'>Residential</label>
+        <input id='Motorway' type='radio' name='rtoggle' value='Motorway'>
+        <label for='Motorway'>Motorway</label>
+        <input id='Elevation' type='radio' name='rtoggle' value='Elevation'>
+        <label for='Elevation'>Elevation</label>
+
+      </div>
     </div>
-    <div class='col12 pin-left top1 scroll-styled' id='gazetteerlist'>
-      <img class='pad1' src='http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/-73.99,40.70,13/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g'>
-      <img class='pad1' src='http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/-73.99,40.70,13/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g'>
-      <img class='pad1' src='http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/-73.99,40.70,13/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g'>
-      <img class='pad1' src='http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/-73.99,40.70,13/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g'>
+    <div class='col12 pin-left top1 scroll-styled clearfix' id='gazetteerlist'>
     </div>
   </div>
 </div>
@@ -530,7 +541,7 @@ Style(templates, cwd, style, examples);
 
 
 <script>
-var gazetteer_json=[
+window.gazetteer_json=[
     {
         "place_name": "New York City",
         "zoom": 10,
@@ -1219,13 +1230,15 @@ var gazetteer_json=[
             "natural"
         ]
     }];
-    
+
 for (var i=0;i<gazetteer_json.length;i++)
       {var name=gazetteer_json[i]['place_name'];
       var lat=gazetteer_json[i]['center'][0];
       var lon=gazetteer_json[i]['center'][1];
       var zoom=gazetteer_json[i]['zoom'];
-       $('#gazetteerlist').append('<h3>'+name+'</h3>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g">');
+      var tags=gazetteer_json[i]['tags'][0].replace(/\s/g, '_');
+       $('#gazetteerlist').append('<div class="entry pad1" tags='+tags+'><h6>'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>');
+       console.log(tags);
     }
 
 

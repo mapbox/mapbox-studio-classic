@@ -42,6 +42,19 @@
 #layers:target ~ #drawers #layers-drawer > *,
 #gazetteer:target ~ #drawers #gazetteer-drawer > *  { display:block; }
 
+#gazetteer:target ~ #drawers {
+  min-width:50%;
+}
+
+#gazetteerlist .entry {
+  width:33%;
+  float:left;
+}
+
+#gazetteerlist .entry img{
+  width:100%;
+}
+
 /* Code pane
 ------------------------------------------------------- */
 .carto-tabs {
