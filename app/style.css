@@ -67,17 +67,21 @@
   border-right-width: 0;
 }
 
-#gazetteerlist .entry span{
-  z-index:101;
-  display:none;
+#gazetteerlist .entry-label { opacity: 0; }
+
+#gazetteerlist .entry-label h2 {
+  top: 50%;
+  -webkit-transform:translateY(-50%);
+     -moz-transform:translateY(-50%);
+      -ms-transform:translateY(-50%);
+          transform:translateY(-50%);
 }
 
-#gazetteerlist .entry:hover {
-  cursor: pointer;
-}
-
-#gazetteerlist .entry:hover span{
-  display:block;
+#gazetteerlist .entry:hover .entry-label {
+  margin: 0;
+  opacity: 1;
+  font-size: 22px;
+  line-height: 30px;
 }
 
 #gazetteer .gazetteer-toggle {
