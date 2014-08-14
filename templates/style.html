@@ -56,9 +56,9 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
-  <div style='position:absolute;height:100%;' id='gazetteer' class='col12 fill-dark dark'>
+  <div id='gazetteer' class='pin-left col12 fill-dark dark'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
-      <h3 class='inline'>Gazetteer</h3>
+      <h3 class='inline'>Places</h3>
       <div class='rounded-toggle inline fr js-gazetteer-toggle'>
         <input id='Major cities' type='radio' name='rtoggle' value='Major cities' checked='checked' class='js-gazetteer'>
         <label for='Major cities'>Major cities</label>
@@ -117,8 +117,8 @@
     <div class='align-top fill-white inline'>
       <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
       --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
-      --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
-      --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
+      --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon bookmark quiet'></a><!--
+      --><a href='#' title='Close bookmarks' class='bookmark-y icon bookmark fill-dark dark'></a>
     </div>
     <a href='#full' title='Toggle fullscreen' class='align-top full-n inline fill-white icon fullscreen quiet'></a>
     <a href='#' title='Exit fillscreen' class='align-top full-y fill-dark dark icon fullscreen'></a>
@@ -431,8 +431,8 @@
   <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
-  <a class='toolbar-button strong icon gazetteer-n info js-gazetteer' href='#gazetteer'>Places</a>
-  <a class='toolbar-button strong icon gazetteer-y info active fill-lighten1' href='#'>Places</a>
+  <a class='toolbar-button strong icon gazetteer-n marker js-gazetteer' href='#gazetteer'>Places</a>
+  <a class='toolbar-button strong icon gazetteer-y marker active fill-lighten1' href='#'>Places</a>
 
   <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
