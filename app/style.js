@@ -103,8 +103,26 @@ Editor.prototype.events = {
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
-  'keydown': 'keys'
+  'keydown': 'keys',
+  'click #bookmarks':'getbookmarks'
 };
+
+
+
+
+Editor.prototype.getbookmarks = function(ev) {
+  $('#gazetteerlist').html('bookmarkshere');
+  console.log(listofbookmarks);
+
+
+    var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
+    var entries=JSON.parse(entry_string);
+    console.log(entries);
+    for (var b in entry_string) {
+      //console.log(b);
+    }
+}
+
 
 Editor.prototype.gazetteer = function(ev) {
   var container = $('.js-gazetteer-toggle');

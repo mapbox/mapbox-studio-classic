@@ -4,7 +4,7 @@
 //       var url = request.url.substr(7)
 //       console.log('URL', url)
 //     });
-
+window.listofbookmarks=[];
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
@@ -341,11 +341,8 @@ views.Maputils.prototype.appendBookmark = function(name) {
     '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
     '</li>').appendTo('#bookmark-list');
 
-    $('<li class="keyline-top contain">'+
-    '<a href="#" class="icon marker quiet pad0 col12 small truncate js-bookmark-name">'+name+'</a>'+
-    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
-    '</li>').appendTo('#gazetteerlist');
 };
+
 views.Maputils.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
       coords = this.bookmarks[target.text()];
@@ -363,6 +360,7 @@ views.Maputils.prototype.removebookmark = function(ev) {
 };
 views.Maputils.prototype.addbookmark = function(ev) {
   ev.preventDefault();
+
   var coords = this.map.getCenter(),
       zoom = this.map.getZoom(),
       field = $('#addbookmark'),
@@ -373,6 +371,7 @@ views.Maputils.prototype.addbookmark = function(ev) {
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
+  listofbookmarks.push({name:name,zoom:zoom,coords:coords});
   return false;
 };
 views.Maputils.prototype.focusBookmark = function(ev) {
