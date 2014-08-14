@@ -109,20 +109,40 @@ Editor.prototype.events = {
 Editor.prototype.gazetteer = function(ev) {
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).val();
-  var results = '';
-  var gazetteer = $.getJSON('../ext/gazetteer.json', function(data) {
-    for (var i=0;i<data.length;i++) {
-      if (data[i]['tags'].indexOf(filter)!=-1) {
-        var name = data[i]['place_name'];
-        var lat = data[i]['center'][0];
-        var lon = data[i]['center'][1];
-        var zoom = data[i]['zoom'];
-        results = results+'<div class="entry pad1"><h6 class="truncate">'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>';
-      }
-    }
-    $('#gazetteerlist').html(results);
-  });
-}
+  var view = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row3 col3"></div>';
+  var tiles = L.mapbox.tileLayer({
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
+    minzoom: this.model.get('minzoom'),
+    maxzoom: this.model.get('maxzoom')
+  })
+
+  $.getJSON('../ext/gazetteer.json', function(data) {
+
+    // Filter data
+    var filtered = _.filter(data, function(d) {
+      return d.tags.indexOf(filter);
+    });
+
+    // Print template
+    $('#gazetteerlist').html(_.map(filtered, function(d,i) {
+      d.index = i;
+      return _.template(view,d);
+    }));
+
+    // Render maps
+    _.each($('.js-gazetteer-map'), function(d) {
+      var $this = $(d);
+      var id = $this.attr('id');
+      var lat = $this.attr('lat');
+      var lng = $this.attr('lng');
+      var zoom = $this.attr('zoom');
+      var map = L.mapbox.map(id,tiles);
+      map.setView([lat,lng],zoom);
+    });
+
+  })
+
+};
 
 Editor.prototype.changed = function() {
   $('body').addClass('changed');
