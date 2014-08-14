@@ -126,6 +126,8 @@ Editor.prototype.getbookmarks = function(ev) {
 
 
 Editor.prototype.gazetteer = function(ev) {
+
+  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').has('.js-gazetteer-map')) return;
   var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).attr('value');
@@ -175,7 +177,6 @@ Editor.prototype.gazetteer = function(ev) {
 };
 
 Editor.prototype.gazetteerJump = function(ev) {
-  console.log(map);
   var target = $(ev.currentTarget);
   var lat = target.attr('lat');
   var lng = target.attr('lng');
