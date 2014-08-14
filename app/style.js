@@ -128,7 +128,7 @@ Editor.prototype.gazetteer = function(ev) {
   var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).val();
-  var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row3 col3"></div>';
+  var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row6 col3 entry"></div>';
 
   $.getJSON('../ext/gazetteer.json', function(data) {
 
