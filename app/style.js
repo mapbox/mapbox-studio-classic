@@ -156,13 +156,14 @@ Editor.prototype.gazetteer = function(ev) {
 };
 
 Editor.prototype.gazetteerJump = function(ev) {
-  this.map = options.map;
+  console.log(map);
   var target = $(ev.currentTarget);
   var lat = target.attr('lat');
   var lng = target.attr('lng');
   var zoom = target.attr('zoom');
 
-  options.map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+  map.setView([lat, lng], zoom);
+  window.location.href = '#';
 };
 
 Editor.prototype.changed = function() {
