@@ -55,6 +55,7 @@
 }
 
 .gazetteer-list .entry {
+  background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
   height: calc(33.3333vh);
