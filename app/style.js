@@ -89,6 +89,7 @@ Editor.prototype.events = {
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
   'click .js-gazetteer': 'gazetteer',
+  'click .js-gazetteer-map': 'gazetteerJump',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
@@ -160,12 +161,27 @@ Editor.prototype.gazetteer = function(ev) {
         maxzoom: view.model.get('maxzoom')
       });
       var map = L.mapbox.map(container);
+      map.dragging.disable();
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.scrollWheelZoom.disable();
       map.setView([lat, lng], zoom);
       tiles.addTo(map);
     };
 
   })
 
+};
+
+Editor.prototype.gazetteerJump = function(ev) {
+  console.log(map);
+  var target = $(ev.currentTarget);
+  var lat = target.attr('lat');
+  var lng = target.attr('lng');
+  var zoom = target.attr('zoom');
+
+  map.setView([lat, lng], zoom);
+  window.location.href = '#';
 };
 
 Editor.prototype.changed = function() {
