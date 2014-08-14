@@ -109,18 +109,18 @@ Editor.prototype.events = {
 Editor.prototype.gazetteer = function(ev) {
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).val();
-  var results;
+  var results = '';
   var gazetteer = $.getJSON('../ext/gazetteer.json', function(data) {
-    for (var i=0;i<data.length;i++)
-      {if (data[i]['tags'].indexOf(filter)!=-1)
-        {var name=data[i]['place_name'];
-        var lat=data[i]['center'][0];
-        var lon=data[i]['center'][1];
-        var zoom=data[i]['zoom'];
-
-        results=results+'<div class="entry pad1"><h6>'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>';}
+    for (var i=0;i<data.length;i++) {
+      if (data[i]['tags'].indexOf(filter)!=-1) {
+        var name = data[i]['place_name'];
+        var lat = data[i]['center'][0];
+        var lon = data[i]['center'][1];
+        var zoom = data[i]['zoom'];
+        results = results+'<div class="entry pad1"><h6 class="truncate">'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>';
       }
-        $('#gazetteerlist').html(results);
+    }
+    $('#gazetteerlist').html(results);
   });
 }
 
