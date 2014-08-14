@@ -40,6 +40,12 @@
 #layers:target ~ #drawers #layers-drawer > *
   { display:block; }
 
+#export { opacity: 0; z-index: -1;}
+#export:target { opacity: 1; z-index: 100;}
+
+/* Gazetteer
+------------------------------------------------------- */
+
 #gazetteer {
   visibility:hidden;
 }
@@ -48,17 +54,14 @@
   visibility:visible;
 }
 
-#gazetteerlist .entry {
+.gazetteer-list { top: 40px; }
+
+.gazetteer-list .entry {
   width:33%;
   float:left;
 }
 
-#gazetteerlist .entry img{
-  width:100%;
-}
-
-#export { opacity: 0; z-index: -1;}
-#export:target { opacity: 1; z-index: 100;}
+.gazetteer-toggle { right: 5px; }
 
 /* Code pane
 ------------------------------------------------------- */
