@@ -127,7 +127,7 @@ Editor.prototype.getbookmarks = function(ev) {
 
 Editor.prototype.gazetteer = function(ev) {
 
-  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').has('.js-gazetteer-map')) return;
+  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').has('.entry')) return;
   var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).attr('value');

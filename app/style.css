@@ -48,17 +48,21 @@
 
 #gazetteer {
   visibility:hidden;
+  overflow: hidden;
 }
 
 #gazetteer:target ~ #full #gazetteer{
   visibility:visible;
 }
 
-.gazetteer-list { top: 40px; }
+.gazetteer-list {
+  top: 0;
+}
 
 .gazetteer-list .entry {
-  height: 0;
-  padding-bottom: 33.3333%;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  height: calc(33.3333vh);
 }
 
 #gazetteerlist .entry span{
@@ -74,7 +78,10 @@ opacity:0.9;
 }
 #export { opacity: 0; z-index: -1;}
 #export:target { opacity: 1; z-index: 100;}
-.gazetteer-toggle { right: 40px; }
+#gazetteer .gazetteer-toggle {
+  right: 40px;
+  background: #636363;
+}
 
 /* Code pane
 ------------------------------------------------------- */

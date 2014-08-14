@@ -73,8 +73,8 @@
         "place_name": "Washington, DC",
         "zoom": 10,
         "center": [
-            -76.992697,
-            38.899396
+            38.899396,
+            -76.992697
         ],
         "tags": [
             "US cities"
