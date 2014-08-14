@@ -53,10 +53,17 @@
   float:left;
 }
 
-#gazetteerlist .entry img{
-  width:100%;
+#gazetteerlist .entry span{
+z-index:101;
+display:none;
+}
+#gazetteerlist .entry:hover span{
+display:block;
 }
 
+#gazetteerlist:hover .entry:not(:hover){
+opacity:0.9;
+}
 #export { opacity: 0; z-index: -1;}
 #export:target { opacity: 1; z-index: 100;}
 

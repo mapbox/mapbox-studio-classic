@@ -371,7 +371,7 @@ views.Maputils.prototype.addbookmark = function(ev) {
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
-  listofbookmarks.push({name:name,zoom:zoom,coords:coords});
+  listofbookmarks.push({place_name:name,zoom:zoom,center:coords});
   return false;
 };
 views.Maputils.prototype.focusBookmark = function(ev) {
