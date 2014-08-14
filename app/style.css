@@ -48,10 +48,12 @@
 #gazetteer {
   visibility:hidden;
   overflow: hidden;
+  opacity: 0;
 }
 
 #gazetteer:target ~ #full #gazetteer{
   visibility:visible;
+  opacity: 1;
 }
 
 .gazetteer-list .entry {
