@@ -59,6 +59,7 @@
   <div id='gazetteer' class='pin-left col12 fill-dark dark'>
     <div class='pin-top keyline-botom pad1 keyline-bottom'>
       <h3 class='inline'>Places</h3>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
       <div class='rounded-toggle pin-topright gazetteer-toggle js-gazetteer-toggle'>
         <input id='Major cities' type='radio' name='rtoggle' value='Major cities' checked='checked' class='js-gazetteer'>
         <label for='Major cities'>Major cities</label>
@@ -76,7 +77,7 @@
         <label for='bookmarks'>Bookmarks</label>
       </div>
     </div>
-    <div class='col12 pin-left top2 scroll-styled clearfix gazetteer-list' id='gazetteerlist'></div>
+    <div class='col12 pin-left top2 scroll-styled clearfix gazetteer-list js-gazetteer-list' id='gazetteerlist'></div>
   </div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
@@ -431,7 +432,7 @@
   <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
-  <a class='toolbar-button strong icon gazetteer-n marker js-gazetteer' href='#gazetteer'>Places</a>
+  <a class='toolbar-button strong icon gazetteer-n marker js-gazetteer js-initialize-gazetteer' href='#gazetteer'>Places</a>
   <a class='toolbar-button strong icon gazetteer-y marker active fill-lighten1' href='#'>Places</a>
 
   <div class='user-icon pad1 pin-bottom'>
