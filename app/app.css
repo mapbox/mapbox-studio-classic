@@ -19,6 +19,13 @@
   margin-left: 15px;
 }
 
+.scroll-hide {
+  overflow-y: auto;
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
 
 /* FIX IN BASE - to offset weird fieldset form label style */
 .rounded-toggle input[type=radio] + label {

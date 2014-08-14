@@ -534,23 +534,6 @@
         ]
     },
     {
-        "place_name": "Traditional city streets, Sevilla",
-        "zoom": 19,
-        "center": [
-            37.3906,
-            -5.9939
-        ],
-        "tags": [
-            "osm data",
-            "street limited",
-            "main",
-            "street",
-            "path",
-            "road",
-            "residential"
-        ]
-    },
-    {
         "place_name": "Interchange with tunnels, Tokyo",
         "zoom": 18,
         "center": [

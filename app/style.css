@@ -45,7 +45,6 @@
 
 /* Gazetteer
 ------------------------------------------------------- */
-
 #gazetteer {
   visibility:hidden;
   overflow: hidden;
@@ -55,29 +54,29 @@
   visibility:visible;
 }
 
-.gazetteer-list {
-  top: 0;
-}
-
 .gazetteer-list .entry {
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
   height: calc(33.3333vh);
 }
 
-#gazetteerlist .entry span{
-z-index:101;
-display:none;
-}
-#gazetteerlist .entry:hover span{
-display:block;
+.gazetteer-list .entry:nth-child(3n) {
+  border-right-width: 0;
 }
 
-#gazetteerlist:hover .entry:not(:hover){
-opacity:0.9;
+#gazetteerlist .entry span{
+  z-index:101;
+  display:none;
 }
-#export { opacity: 0; z-index: -1;}
-#export:target { opacity: 1; z-index: 100;}
+
+#gazetteerlist .entry:hover {
+  cursor: pointer;
+}
+
+#gazetteerlist .entry:hover span{
+  display:block;
+}
+
 #gazetteer .gazetteer-toggle {
   right: 40px;
   background: #636363;
