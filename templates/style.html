@@ -56,6 +56,28 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
+  <div style='position:absolute;height:100%;' id='gazetteer' class='col12 fill-dark dark'>
+    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+      <h3 class='inline'>Gazetteer</h3>
+      <div class='rounded-toggle inline fr js-gazetteer-toggle'>
+        <input id='Major cities' type='radio' name='rtoggle' value='Major cities' checked='checked' class='js-gazetteer'>
+        <label for='Major cities'>Major cities</label>
+        <input id='US cities' type='radio' name='rtoggle' value='US cities' class='js-gazetteer'>
+        <label for='US cities'>US cities</label>
+        <input id='osm data' type='radio' name='rtoggle' value='osm data' class='js-gazetteer'>
+        <label for='osm data'>OSM data</label>
+        <input id='landuse' type='radio' name='rtoggle' value='landuse' class='js-gazetteer'>
+        <label for='landuse'>Land use</label>
+        <input id='residential' type='radio' name='rtoggle' value='residential' class='js-gazetteer'>
+        <label for='residential'>Residential</label>
+        <input id='natural' type='radio' name='rtoggle' value='natural' class='js-gazetteer'>
+        <label for='natural'>Natural</label>
+        <input id='bookmarks' type='radio' name='rtoggle' value='bookmarks' class='js-gazetteer'>
+        <label for='bookmarks'>Bookmarks</label>
+      </div>
+    </div>
+    <div class='col12 pin-left top2 scroll-styled clearfix' id='gazetteerlist'></div>
+  </div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
 
@@ -248,28 +270,6 @@
     <%= this.history(obj) %>
   </div>
 
-  <div id='gazetteer-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
-      <h3 class='inline'>Gazetteer</h3>
-      <div class='rounded-toggle inline fr js-gazetteer-toggle'>
-        <input id='Major cities' type='radio' name='rtoggle' value='Major cities' checked='checked' class='js-gazetteer'>
-        <label for='Major cities'>Major cities</label>
-        <input id='US cities' type='radio' name='rtoggle' value='US cities' class='js-gazetteer'>
-        <label for='US cities'>US cities</label>
-        <input id='osm data' type='radio' name='rtoggle' value='osm data' class='js-gazetteer'>
-        <label for='osm data'>OSM data</label>
-        <input id='landuse' type='radio' name='rtoggle' value='landuse' class='js-gazetteer'>
-        <label for='landuse'>Land use</label>
-        <input id='residential' type='radio' name='rtoggle' value='residential' class='js-gazetteer'>
-        <label for='residential'>Residential</label>
-        <input id='natural' type='radio' name='rtoggle' value='natural' class='js-gazetteer'>
-        <label for='natural'>Natural</label>
-      </div>
-    </div>
-    <div class='col12 pin-left top2 scroll-styled clearfix' id='gazetteerlist'>
-
-    </div>
-  </div>
 </div>
 
 <div id='style-ui' class='animate z1 col6 pin-right'>
@@ -431,8 +431,8 @@
   <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
-  <a class='toolbar-button strong icon gazetteer-n info js-gazetteer' href='#gazetteer'>Gazetteer</a>
-  <a class='toolbar-button strong icon gazetteer-y info active fill-lighten1' href='#'>Gazetteer</a>
+  <a class='toolbar-button strong icon gazetteer-n info js-gazetteer' href='#gazetteer'>Places</a>
+  <a class='toolbar-button strong icon gazetteer-y info active fill-lighten1' href='#'>Places</a>
 
   <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>

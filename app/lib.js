@@ -340,6 +340,11 @@ views.Maputils.prototype.appendBookmark = function(name) {
     '<a href="#" class="icon marker quiet pad0 col12 small truncate js-bookmark-name">'+name+'</a>'+
     '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
     '</li>').appendTo('#bookmark-list');
+
+    $('<li class="keyline-top contain">'+
+    '<a href="#" class="icon marker quiet pad0 col12 small truncate js-bookmark-name">'+name+'</a>'+
+    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
+    '</li>').appendTo('#gazetteerlist');
 };
 views.Maputils.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
