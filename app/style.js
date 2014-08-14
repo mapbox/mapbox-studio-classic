@@ -118,7 +118,7 @@ Editor.prototype.gazetteer = function(ev) {
         var lon=data[i]['center'][1];
         var zoom=data[i]['zoom'];
 
-        results=results+'<div class="entry pad1"><h6>'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>';}
+        results=results+'<div class="entry pad1"><h6 class="truncate">'+name+'</h6>'+'<img src="http://api.tiles.mapbox.com/v4/examples.map-zr0njcqy/'+lat+','+lon+','+zoom+'/300x300.png?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g"></div>';}
       }
         $('#gazetteerlist').html(results);
   });
