@@ -57,8 +57,8 @@
 .gazetteer-list { top: 40px; }
 
 .gazetteer-list .entry {
-  width:33%;
-  float:left;
+  height: 0;
+  padding-bottom: 33.3333%;
 }
 
 #gazetteerlist .entry span{
