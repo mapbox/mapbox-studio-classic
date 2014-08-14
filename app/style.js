@@ -125,14 +125,10 @@ Editor.prototype.getbookmarks = function(ev) {
 
 
 Editor.prototype.gazetteer = function(ev) {
+  var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).val();
-  var view = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row3 col3"></div>';
-  var tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime ],
-    minzoom: this.model.get('minzoom'),
-    maxzoom: this.model.get('maxzoom')
-  })
+  var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row3 col3"></div>';
 
   $.getJSON('../ext/gazetteer.json', function(data) {
 
@@ -142,9 +138,9 @@ Editor.prototype.gazetteer = function(ev) {
     });
 
     // Print template
-    $('#gazetteerlist').html(_.map(filtered, function(d,i) {
+    $('#gazetteerlist').html(_.map(filtered, function(d, i) {
       d.index = i;
-      return _.template(view,d);
+      return _.template(mapTemplate, d);
     }));
 
     // Render maps
@@ -154,9 +150,19 @@ Editor.prototype.gazetteer = function(ev) {
       var lat = $this.attr('lat');
       var lng = $this.attr('lng');
       var zoom = $this.attr('zoom');
-      var map = L.mapbox.map(id,tiles);
-      map.setView([lat,lng],zoom);
+      buildMap(id, lat, lng, zoom);
     });
+
+    function buildMap(container,lat,lng,zoom) {
+      var tiles = L.mapbox.tileLayer({
+        tiles: ['/style/{z}/{x}/{y}.png?id=' + view.model.id + '&' + mtime ],
+        minzoom: view.model.get('minzoom'),
+        maxzoom: view.model.get('maxzoom')
+      });
+      var map = L.mapbox.map(container);
+      map.setView([lat, lng], zoom);
+      tiles.addTo(map);
+    };
 
   })
 
