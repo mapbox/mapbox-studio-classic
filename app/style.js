@@ -109,7 +109,7 @@ Editor.prototype.events = {
 Editor.prototype.gazetteer = function(ev) {
   var target = $(ev.currentTarget);
   var filter = target.hasClass('toolbar-button') ? 'Major cities' : ev['currentTarget']['id'];
-  var results;
+  var results='';
   var gazetteer = $.getJSON('../ext/gazetteer.json', function(data) {
     for (var i=0;i<data.length;i++)
       {if (data[i]['tags'].indexOf(filter)!=-1)
