@@ -106,10 +106,9 @@ Editor.prototype.events = {
   'keydown': 'keys'
 };
 
-window.filter="Major cities";
 Editor.prototype.gazetteer = function(ev) {
-  filter=ev['currentTarget']['id'];
-  console.log(filter);
+  var target = $(ev.currentTarget);
+  var filter = target.hasClass('toolbar-button') ? 'Major cities' : ev['currentTarget']['id'];
   var results;
   var gazetteer = $.getJSON('../ext/gazetteer.json', function(data) {
     for (var i=0;i<data.length;i++)
@@ -504,6 +503,12 @@ Editor.prototype.refresh = function(ev) {
     });
     map.addLayer(grids);
     map.addControl(gridc);
+  }
+
+  // Refresh gazetteer.
+  if (window.location.hash === '#gazetteer') {
+    // gazetteer();
+
   }
 
   // Refresh map title.tm.db.rm('user');
