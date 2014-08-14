@@ -8,11 +8,9 @@
 #fonts:target ~ #drawers,
 #docs:target ~ #drawers,
 #layers:target ~ #drawers,
-#gazetteer:target ~ #drawers,
 #fonts:target ~ #drawers #fonts-drawer,
 #docs:target ~ #drawers #docs-drawer,
 #layers:target ~ #drawers #layers-drawer,
-#gazetteer:target ~ #drawers #gazetteer-drawer,
 #export:target ~ #export-ui
  {
   -webkit-transform:translateX(0%);
@@ -39,11 +37,15 @@
 #layers:target ~ #drawers > *,
 #fonts:target ~ #drawers #fonts-drawer > *,
 #docs:target ~ #drawers #docs-drawer > *,
-#layers:target ~ #drawers #layers-drawer > *,
-#gazetteer:target ~ #drawers #gazetteer-drawer > *  { display:block; }
+#layers:target ~ #drawers #layers-drawer > *
+  { display:block; }
 
-#gazetteer:target ~ #drawers {
-  min-width:50%;
+#gazetteer {
+  visibility:hidden;
+}
+
+#gazetteer:target ~ #full #gazetteer{
+  visibility:visible;
 }
 
 #gazetteerlist .entry {
