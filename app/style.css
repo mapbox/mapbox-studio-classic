@@ -56,11 +56,21 @@
   opacity: 1;
 }
 
+.gazetteer-list {
+  top: 40px;
+  display: flex;
+  flex-flow: row wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .gazetteer-list .entry {
   background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
-  height: 33.3333vh;
+  flex-grow: 1;
+  min-height: 150px;
+  min-width: 25%;
 }
 
 .gazetteer-list .entry:nth-child(3n) {
@@ -86,13 +96,6 @@
 
 .gazetteer-toggle {
   right: 40px;
-}
-
-.gazetteer-toggle .rounded-toggle {
-  background: #636363;
-}
-.gazetteer-toggle .rounded-toggle:hover {
-  background: #767676;
 }
 
 .show-search-button {
