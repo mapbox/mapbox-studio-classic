@@ -317,18 +317,7 @@ a.project.proj-active .proj-status { display: block;}
 /* Map bookmarks
 ------------------------------------------------------- */
 #bookmark {
-  pointer-events:none;
-  position:absolute;
-  right:120px;
-  width:200px;
-  bottom:45px;
-  opacity:0;
-  visibility: hidden;
-  box-shadow:0 0 0 2px rgba(0,0,0,.08);
-  -webkit-transform:translateY(10px);
-     -moz-transform:translateY(10px);
-      -ms-transform:translateY(10px);
-          transform:translateY(10px);
+
   }
 
 .dark #bookmark { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
@@ -336,13 +325,7 @@ a.project.proj-active .proj-status { display: block;}
 #bookmark > input { padding-right:50px }
 
 #bookmark:target {
-  visibility: visible;
-  pointer-events:all;
-  opacity:1;
-  -webkit-transform:translateY(0);
-     -moz-transform:translateY(0);
-      -ms-transform:translateY(0);
-          transform:translateY(0);
+
   }
 
 #bookmark-list {
