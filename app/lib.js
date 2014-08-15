@@ -4,8 +4,8 @@
 //       var url = request.url.substr(7)
 //       console.log('URL', url)
 //     });
-  window.listofbookmarks='';
-
+if (localStorage.listofbookmarks){}
+  else{localStorage.setItem('listofbookmarks','')};
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
@@ -373,8 +373,8 @@ views.Maputils.prototype.addbookmark = function(ev) {
   field.val('');
   this.appendBookmark(name);
 
-  listofbookmarks={place_name:name,zoom:zoom,center:coords};
-  localStorage.setItem('listofbookmarks');
+  //listofbookmarks={place_name:name,zoom:zoom,center:coords};
+  //localStorage.setItem('listofbookmarks',JSON.stringify(listofbookmarks));
   localStorage.listofbookmarks.push(listofbookmarks);
   //localStorage.listofbookmarks=JSON.stringify(listofbookmarks);
   return false;
