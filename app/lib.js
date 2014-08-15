@@ -4,7 +4,7 @@
 //       var url = request.url.substr(7)
 //       console.log('URL', url)
 //     });
-var listofbookmarks=[];
+
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
@@ -372,8 +372,10 @@ views.Maputils.prototype.addbookmark = function(ev) {
   field.val('');
   this.appendBookmark(name);
 
-  listofbookmarks.push({place_name:name, zoom:zoom, center:[coords.lat, coords.lng]});
+  var listofbookmarks=JSON.parse(localStorage.listofbookmarks);
 
+  listofbookmarks.push({place_name:name, zoom:zoom, center:[coords.lat, coords.lng]});
+  localStorage.setItem('listofbookmarks',JSON.stringify(listofbookmarks))
   return false;
 };
 views.Maputils.prototype.focusBookmark = function(ev) {

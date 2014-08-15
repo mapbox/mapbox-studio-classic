@@ -138,7 +138,9 @@ Editor.prototype.events = {
 
 Editor.prototype.getbookmarks = function(ev) {
   var view = this;
-  var filtered=listofbookmarks;
+
+  if(localStorage.listofbookmarks===undefined) {localStorage.setItem('listofbookmarks','[]')};
+  var filtered=JSON.parse(localStorage.listofbookmarks);
 
     // Print template
     $('#placeslist').html(_.map(filtered, function(d, i) {
@@ -156,7 +158,7 @@ Editor.prototype.getbookmarks = function(ev) {
       buildMap(id, lat, lng, zoom,view);
     });
 
-    var entrybox="<div class='col4 places-entry animate leaflet-container leaflet-retina leaflet-fade-anim pad2 dark fill-darken1'><form id='bookmark' class='tip-bottom z10 contain fill-white round animate'><input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' /><div class='pin-topright pad0'><input type='submit' class='short quiet button' value='Add' /></form></div>";
+    var entrybox="<div class='col4 places-entry animate leaflet-container leaflet-retina leaflet-fade-anim pad2 dark fill-darken1'><form id='bookmark' class='contain fill-white round animate'><input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' /><div class='pin-topright pad0'><input type='submit' class='short quiet button' value='Add' /></form></div>";
 
     if (filtered.length === 0) {
       //$('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No bookmarks.<h1></div>');
