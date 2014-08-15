@@ -571,6 +571,9 @@ a.project.proj-active .proj-status { display: block;}
 .dark #zoomedto.z20 .z20,
 .dark #zoomedto.z21 .z21,
 .dark #zoomedto.z22 .z22 { background:#3b3b3b; }
+
+.zoomedto-close { z-index: 100; }
+
 .dark #zoomedto .z,
 .dark #zoomedto strong,
 .dark #map-controls * { border-color:rgba(0,0,0,.2); }
