@@ -107,6 +107,7 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-gazetteer': 'gazetteer',
   'click .js-gazetteer-map': 'gazetteerJump',
+  'click .js-show-search': 'showGazetteerSearch',
   'click .js-gazetteer-search': 'gazetteerSearch',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
@@ -236,6 +237,20 @@ Editor.prototype.gazetteerJump = function(ev) {
   window.location.href = '#';
 };
 
+Editor.prototype.showGazetteerSearch = function(ev) {
+  var target = $(ev.currentTarget);
+  if (target.hasClass('hide')) {
+    $('.js-gazetteer-container').addClass('hidden');
+    var container = $('.js-gazetteer-toggle');
+    var filter = $('input:checked',container);
+    window.editor.gazetteer(filter);
+  } else {
+    $('.js-gazetteer-container').removeClass('hidden');
+    $('#gazetteer-search').focus();
+  }
+  return false;
+}
+
 Editor.prototype.gazetteerSearch = function(ev) {
   var target = $(ev.currentTarget);
 
@@ -243,7 +258,7 @@ Editor.prototype.gazetteerSearch = function(ev) {
   var filter = $('#gazetteer-search').val();
 
   console.log(filter);
-  
+
   $.getJSON('../ext/gazetteer.json', function(data) {
 
     // Filter data
@@ -268,7 +283,7 @@ Editor.prototype.gazetteerSearch = function(ev) {
     });
 
   })
-
+  return false;
 };
 
 Editor.prototype.changed = function() {

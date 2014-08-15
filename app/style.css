@@ -46,6 +46,7 @@
 /* Gazetteer
 ------------------------------------------------------- */
 #gazetteer {
+  background:#ddd url(canvas.png);
   visibility:hidden;
   overflow: hidden;
   opacity: 0;
@@ -84,9 +85,26 @@
   line-height: 30px;
 }
 
-#gazetteer .gazetteer-toggle {
+.gazetteer-toggle {
+  background: transparent !important;
   right: 40px;
+}
+
+.gazetteer-toggle .rounded-toggle {
   background: #636363;
+}
+.gazetteer-toggle .rounded-toggle:hover {
+  background: #767676;
+}
+
+.show-search-button {
+  top: 5px;
+  left: 10px;
+}
+
+.gazetteer-search-container .button {
+  top: 5px;
+  right: 45px;
 }
 
 /* Code pane
