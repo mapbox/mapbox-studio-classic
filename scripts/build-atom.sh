@@ -64,6 +64,8 @@ rm -rf $app_dir/.git
 ver=$(node -e "var fs = require('fs'); console.log(JSON.parse(fs.readFileSync('$app_dir/package.json')).version);")
 echo $ver > $build_dir/version
 cp $app_dir/LICENSE.md $build_dir/LICENSE
+mv $build_dir/version $build_dir/version.txt
+mv $build_dir/LICENSE $build_dir/LICENSE.txt
 
 BUILD_PLATFORM=$platform npm install --production
 
