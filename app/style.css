@@ -59,6 +59,7 @@
 .gazetteer-list .entry {
   width:33%;
   float:left;
+  position:relative;
 }
 
 #gazetteerlist .entry span{
