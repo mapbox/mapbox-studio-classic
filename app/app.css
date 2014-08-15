@@ -748,7 +748,7 @@ a.project.proj-active .proj-status { display: block;}
   background: white url(canvas.png) 0 0 !important;
   border-radius: 3px !important;
   padding-bottom: 30px !important;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,.1) !important;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.15) !important;
 }
 .picker > *:first-child {
   background: white !important;
