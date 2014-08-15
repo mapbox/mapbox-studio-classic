@@ -7,6 +7,23 @@ var xray;
 var grids;
 var gridc;
 var mtime = (+new Date).toString(36);
+var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="js-gazetteer-map col4 entry animate"><div class="z1 entry-label fill-darken1 dark pin-bottom center pin-top"><h2 class="pin-top pad2x"><%= place_name %></h2></div></div>';
+
+function buildMap(container, lat, lng, zoom, view) {
+  var tiles = L.mapbox.tileLayer({
+    tiles: ['/style/{z}/{x}/{y}.png?id=' + view.model.id + '&' + mtime ],
+    minzoom: view.model.get('minzoom'),
+    maxzoom: view.model.get('maxzoom')
+  });
+  var map = L.mapbox.map(container);
+  map.dragging.disable();
+  map.touchZoom.disable();
+  map.doubleClickZoom.disable();
+  map.scrollWheelZoom.disable();
+  map.setView([lat, lng], zoom);
+  tiles.addTo(map);
+};
+
 
 statHandler('drawtime')();
 
@@ -90,6 +107,7 @@ Editor.prototype.events = {
   'click .js-save': 'save',
   'click .js-gazetteer': 'gazetteer',
   'click .js-gazetteer-map': 'gazetteerJump',
+  'click .js-gazetteer-search': 'gazetteerSearch',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
@@ -108,9 +126,6 @@ Editor.prototype.events = {
   'click #bookmarks':'getbookmarks'
 };
 
-
-
-
 Editor.prototype.getbookmarks = function(ev) {
   $('#gazetteerlist').html('bookmarkshere');
 
@@ -120,13 +135,14 @@ Editor.prototype.getbookmarks = function(ev) {
     }
 }
 
-
 Editor.prototype.gazetteer = function(ev) {
+
+  var target = $(ev.currentTarget);
+
   if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').children().size() > 0) return;
   var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).attr('value');
-  var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="js-gazetteer-map col4 entry animate"><div class="z1 entry-label fill-darken1 dark pin-bottom center pin-top"><h2 class="pin-top pad2x"><%= place_name %></h2></div></div>';
 
   $.getJSON('../ext/gazetteer.json', function(data) {
 
@@ -148,26 +164,45 @@ Editor.prototype.gazetteer = function(ev) {
       var lat = $this.attr('lat');
       var lng = $this.attr('lng');
       var zoom = $this.attr('zoom');
-      buildMap(id, lat, lng, zoom);
+      buildMap(id, lat, lng, zoom, view);
     });
 
-    function buildMap(container,lat,lng,zoom) {
-      var tiles = L.mapbox.tileLayer({
-        tiles: ['/style/{z}/{x}/{y}.png?id=' + view.model.id + '&' + mtime ],
-        minzoom: view.model.get('minzoom'),
-        maxzoom: view.model.get('maxzoom')
-      });
-      var map = L.mapbox.map(container);
-      map.dragging.disable();
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
-      map.setView([lat, lng], zoom);
-      tiles.addTo(map);
-    };
+  })
+};
+
+Editor.prototype.gazetteer = function(ev) {
+
+  var target = $(ev.currentTarget);
+
+  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').children().size() > 0) return;
+  var view = this;
+  var container = $('.js-gazetteer-toggle');
+  var filter = $('input:checked',container).attr('value');
+
+  $.getJSON('../ext/gazetteer.json', function(data) {
+
+    // Filter data
+    var filtered = _.filter(data, function(d) {
+      return d.tags.indexOf(filter) !== -1;
+    });
+
+    // Print template
+    $('#gazetteerlist').html(_.map(filtered, function(d, i) {
+      d.index = i;
+      return _.template(mapTemplate, d);
+    }));
+
+    // Render maps
+    _.each($('.js-gazetteer-map'), function(d) {
+      var $this = $(d);
+      var id = $this.attr('id');
+      var lat = $this.attr('lat');
+      var lng = $this.attr('lng');
+      var zoom = $this.attr('zoom');
+      buildMap(id, lat, lng, zoom, view);
+    });
 
   })
-
 };
 
 Editor.prototype.gazetteerJump = function(ev) {
@@ -175,9 +210,43 @@ Editor.prototype.gazetteerJump = function(ev) {
   var lat = target.attr('lat');
   var lng = target.attr('lng');
   var zoom = target.attr('zoom');
-
   map.setView([lat, lng], zoom);
   window.location.href = '#';
+};
+
+Editor.prototype.gazetteerSearch = function(ev) {
+  var target = $(ev.currentTarget);
+
+  var view = this;
+  var filter = $('#gazetteer-search').val();
+
+  console.log(filter);
+  
+  $.getJSON('../ext/gazetteer.json', function(data) {
+
+    // Filter data
+    var filtered = _.filter(data, function(d) {
+      return d.tags.indexOf(filter) !== -1;
+    });
+
+    // Print template
+    $('#gazetteerlist').html(_.map(filtered, function(d, i) {
+      d.index = i;
+      return _.template(mapTemplate, d);
+    }));
+
+    // Render maps
+    _.each($('.js-gazetteer-map'), function(d) {
+      var $this = $(d);
+      var id = $this.attr('id');
+      var lat = $this.attr('lat');
+      var lng = $this.attr('lng');
+      var zoom = $this.attr('zoom');
+      buildMap(id, lat, lng, zoom, view);
+    });
+
+  })
+
 };
 
 Editor.prototype.changed = function() {
