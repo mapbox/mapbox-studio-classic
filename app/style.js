@@ -109,6 +109,7 @@ Editor.prototype.events = {
   'click .js-gazetteer-map': 'gazetteerJump',
   'click .js-show-search': 'showGazetteerSearch',
   'click .js-gazetteer-search': 'gazetteerSearch',
+  'submit #gazetteer-search': 'gazetteerSearch',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
@@ -241,7 +242,7 @@ Editor.prototype.showGazetteerSearch = function(ev) {
   var target = $(ev.currentTarget);
   if (target.hasClass('js-show')) {
     $('.js-gazetteer-container').removeClass('hidden');
-    $('#gazetteer-search').focus();
+    $('#gazetteer-dosearch').focus();
   } else {
     $('.js-gazetteer-container').addClass('hidden');
     var container = $('.js-gazetteer-toggle');
@@ -255,15 +256,13 @@ Editor.prototype.gazetteerSearch = function(ev) {
   var target = $(ev.currentTarget);
 
   var view = this;
-  var filter = $('#gazetteer-search').val();
-
-  console.log(filter);
+  var filter = $('#gazetteer-dosearch').val().toLowerCase();
 
   $.getJSON('../ext/gazetteer.json', function(data) {
 
     // Filter data
     var filtered = _.filter(data, function(d) {
-      return d.tags.indexOf(filter) !== -1;
+      return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
     });
 
     // Print template

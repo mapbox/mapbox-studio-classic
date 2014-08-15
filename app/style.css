@@ -73,10 +73,6 @@
   min-width: 25%;
 }
 
-.gazetteer-list .entry:nth-child(3n) {
-  border-right-width: 0;
-}
-
 #gazetteerlist .entry-label { opacity: 0; }
 
 #gazetteerlist .entry-label h2 {
