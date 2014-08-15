@@ -56,24 +56,28 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
-  <div id='gazetteer' class='animate pin-left col12 fill-dark dark'>
+  <div id='gazetteer' class='animate pin-left col12'>
     <div class='pin-top z10 pad1'>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
-      <div class='col12 top1 clearfix pad1 pin-top'>
-        <input id='gazetteer-search' class='col8' type='text' />
-        <input for='gazetteer-search' type='submit' value='search' class='col4 round-right js-gazetteer-search'/>
+      <a href='#' class='js-show-search show-search-button icon search pin-topleft button short quiet'></a>
+      <div class='js-gazetteer-container gazetteer-search-container z10 col12 fill-white hidden keyline-bottom clearfix pin-top'>
+        <input id='gazetteer-search' class='col12 clean hidden' type='text' />
+        <a href='#' class='pin-right button quiet icon search short js-gazetteer-search'>Search</a>
+        <a href='#' class='icon hide js-show-search x pin-right fill-white keyline-left pad1 quiet'></a>
       </div>
-      <div class='fill-dark rounded-toggle pin-topright gazetteer-toggle js-gazetteer-toggle'>
-        <input id='road' type='radio' name='rtoggle' value='road' checked='checked' class='js-gazetteer'>
-        <label for='road'>Roads</label>
-        <input id='natural' type='radio' name='rtoggle' value='natural' class='js-gazetteer'>
-        <label for='natural'>Natural</label>
-        <input id='park' type='radio' name='rtoggle' value='park' class='js-gazetteer'>
-        <label for='park'>Parks</label>
-        <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-gazetteer'>
-        <label for='Major cities'>Major cities</label>
-        <input id='bookmarks' type='radio' name='rtoggle' value='bookmarks' class=''>
-        <label for='bookmarks'>Bookmarks</label>
+      <div class='dark fill-dark pin-topright gazetteer-toggle'>
+        <div class='rounded-toggle js-gazetteer-toggle'>
+          <input id='road' type='radio' name='rtoggle' value='road' checked='checked' class='js-gazetteer'>
+          <label for='road'>Roads</label>
+          <input id='natural' type='radio' name='rtoggle' value='natural' class='js-gazetteer'>
+          <label for='natural'>Natural</label>
+          <input id='park' type='radio' name='rtoggle' value='park' class='js-gazetteer'>
+          <label for='park'>Parks</label>
+          <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-gazetteer'>
+          <label for='Major cities'>Major cities</label>
+          <input id='bookmarks' type='radio' name='rtoggle' value='bookmarks' class=''>
+          <label for='bookmarks'>Bookmarks</label>
+        </div>
       </div>
     </div>
     <div class='col12 pin-left scroll-hide clearfix gazetteer-list unlimiter js-gazetteer-list' id='gazetteerlist'></div>
