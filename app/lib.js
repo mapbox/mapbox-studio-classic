@@ -4,7 +4,8 @@
 //       var url = request.url.substr(7)
 //       console.log('URL', url)
 //     });
-window.listofbookmarks=[];
+  window.listofbookmarks='';
+
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
@@ -371,7 +372,11 @@ views.Maputils.prototype.addbookmark = function(ev) {
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
   this.appendBookmark(name);
-  listofbookmarks.push({place_name:name,zoom:zoom,center:coords});
+
+  listofbookmarks={place_name:name,zoom:zoom,center:coords};
+  localStorage.setItem('listofbookmarks');
+  localStorage.listofbookmarks.push(listofbookmarks);
+  //localStorage.listofbookmarks=JSON.stringify(listofbookmarks);
   return false;
 };
 views.Maputils.prototype.focusBookmark = function(ev) {
