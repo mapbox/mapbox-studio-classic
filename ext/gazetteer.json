@@ -565,10 +565,10 @@
     },
     {
         "place_name": "Folgefonna, Norway",
-        "zoom": 13,
+        "zoom": 10,
         "center": [
             60.0184,
-            -173.652
+            6.333
         ],
         "tags": [
             "landuse",
