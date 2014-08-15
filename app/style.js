@@ -255,14 +255,14 @@ Editor.prototype.gazetteerJump = function(ev) {
 
 Editor.prototype.showGazetteerSearch = function(ev) {
   var target = $(ev.currentTarget);
-  if (target.hasClass('hide')) {
+  if (target.hasClass('js-show')) {
+    $('.js-gazetteer-container').removeClass('hidden');
+    $('#gazetteer-search').focus();
+  } else {
     $('.js-gazetteer-container').addClass('hidden');
     var container = $('.js-gazetteer-toggle');
     var filter = $('input:checked',container);
     window.editor.gazetteer(filter);
-  } else {
-    $('.js-gazetteer-container').removeClass('hidden');
-    $('#gazetteer-search').focus();
   }
   return false;
 }
@@ -689,7 +689,7 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#gazetteer') {
     var container = $('.js-gazetteer-toggle');
     var filter = $('input:checked',container);
-    window.editor.gazetteer(filter);
+    window.editor.showGazetteerSearch(filter);
   }
 
   // Refresh map title.tm.db.rm('user');

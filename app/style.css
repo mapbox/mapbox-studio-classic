@@ -46,7 +46,6 @@
 /* Gazetteer
 ------------------------------------------------------- */
 #gazetteer {
-  background:#ddd url(canvas.png);
   visibility:hidden;
   overflow: hidden;
   opacity: 0;
@@ -86,7 +85,6 @@
 }
 
 .gazetteer-toggle {
-  background: transparent !important;
   right: 40px;
 }
 
