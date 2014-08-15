@@ -131,7 +131,6 @@ Editor.prototype.getbookmarks = function(ev) {
   $('#gazetteerlist').html('bookmarkshere');
   var filtered=JSON.parse(localStorage.listofbookmarks);
   console.log(filtered);
-  var mapTemplate = '<div lat="<%= center["lat"] %>" lng="<%= center["lng"] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row6 col3 entry animate"><span class="truncate fill-darken3 dark pad1 pin-bottom strong"><%= place_name %></span></div>';
 
     // Print template
     $('#gazetteerlist').html(_.map(filtered, function(d, i) {
@@ -149,21 +148,6 @@ Editor.prototype.getbookmarks = function(ev) {
       console.log('id is '+id);
       buildMap(id, lat, lng, zoom);
     });
-
-    function buildMap(container,lat,lng,zoom) {
-      var tiles = L.mapbox.tileLayer({
-        tiles: ['/style/{z}/{x}/{y}.png?id=' + view.model.id + '&' + mtime ],
-        minzoom: view.model.get('minzoom'),
-        maxzoom: view.model.get('maxzoom')
-      });
-      var map = L.mapbox.map(container);
-      map.dragging.disable();
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
-      map.setView([lat, lng], zoom);
-      tiles.addTo(map);
-    };
 
 
     var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
