@@ -4,7 +4,7 @@
 //       var url = request.url.substr(7)
 //       console.log('URL', url)
 //     });
-var listofbookmarks='';
+var listofbookmarks=[];
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
@@ -372,7 +372,7 @@ views.Maputils.prototype.addbookmark = function(ev) {
   field.val('');
   this.appendBookmark(name);
 
-  listofbookmarks={place_name:name,zoom:zoom,center:coords};
+  listofbookmarks.push({place_name:name, zoom:zoom, center:[coords.lat, coords.lng]});
 
   return false;
 };

@@ -130,7 +130,7 @@ Editor.prototype.events = {
 Editor.prototype.getbookmarks = function(ev) {
     var view = this;
   $('#gazetteerlist').html('bookmarkshere');
-  var filtered=JSON.parse(localStorage.listofbookmarks);
+  var filtered=listofbookmarks;
   console.log(filtered);
 
     // Print template
@@ -147,7 +147,7 @@ Editor.prototype.getbookmarks = function(ev) {
       var lng = $this.attr('lng');
       var zoom = $this.attr('zoom');
       console.log('id is '+id);
-      buildMap(id, lat, lng, zoom);
+      buildMap(id, lat, lng, zoom,view);
     });
 
 
