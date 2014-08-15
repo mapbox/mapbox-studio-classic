@@ -114,7 +114,6 @@ Editor.prototype.events = {
 Editor.prototype.getbookmarks = function(ev) {
     var view = this;
   $('#gazetteerlist').html('bookmarkshere');
-<<<<<<< HEAD
   var filtered=JSON.parse(localStorage.listofbookmarks);
   console.log(filtered);
   var mapTemplate = '<div lat="<%= center["lat"] %>" lng="<%= center["lng"] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row6 col3 entry animate"><span class="truncate fill-darken3 dark pad1 pin-bottom strong"><%= place_name %></span></div>';
@@ -151,13 +150,11 @@ Editor.prototype.getbookmarks = function(ev) {
       tiles.addTo(map);
     };
 
-=======
 
     var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
     var entries=JSON.parse(entry_string);
     for (var b in entry_string) {
     }
->>>>>>> 6abf7f5096e5eeba769bd1c4bd92889fabb5dda8
 }
 
 
@@ -172,10 +169,7 @@ Editor.prototype.gazetteer = function(ev) {
 
     // Filter data
     var filtered = _.filter(data, function(d) {
-<<<<<<< HEAD
-      //console.log(d.tags+', index is'+ d.tags.indexOf(filter));
-=======
->>>>>>> 6abf7f5096e5eeba769bd1c4bd92889fabb5dda8
+
       return d.tags.indexOf(filter) !== -1;
     });
 
