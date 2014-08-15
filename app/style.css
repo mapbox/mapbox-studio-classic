@@ -46,7 +46,6 @@
 /* Gazetteer
 ------------------------------------------------------- */
 #gazetteer {
-  background:#ddd url(canvas.png);
   visibility:hidden;
   overflow: hidden;
   opacity: 0;
@@ -61,7 +60,7 @@
   background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
-  height: calc(33.3333vh);
+  height: 33.3333vh;
 }
 
 .gazetteer-list .entry:nth-child(3n) {
@@ -86,7 +85,6 @@
 }
 
 .gazetteer-toggle {
-  background: transparent !important;
   right: 40px;
 }
 
