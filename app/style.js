@@ -114,6 +114,7 @@ Editor.prototype.events = {
 Editor.prototype.getbookmarks = function(ev) {
     var view = this;
   $('#gazetteerlist').html('bookmarkshere');
+<<<<<<< HEAD
   var filtered=JSON.parse(localStorage.listofbookmarks);
   console.log(filtered);
   var mapTemplate = '<div lat="<%= center["lat"] %>" lng="<%= center["lng"] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row6 col3 entry animate"><span class="truncate fill-darken3 dark pad1 pin-bottom strong"><%= place_name %></span></div>';
@@ -150,22 +151,31 @@ Editor.prototype.getbookmarks = function(ev) {
       tiles.addTo(map);
     };
 
+=======
+
+    var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
+    var entries=JSON.parse(entry_string);
+    for (var b in entry_string) {
+    }
+>>>>>>> 6abf7f5096e5eeba769bd1c4bd92889fabb5dda8
 }
 
 
 Editor.prototype.gazetteer = function(ev) {
-
-  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').has('.js-gazetteer-map')) return;
+  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').children().size() > 0) return;
   var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).attr('value');
-  var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="fill-blue js-gazetteer-map row6 col3 entry animate"><span class="truncate fill-darken3 dark pad1 pin-bottom strong"><%= place_name %></span></div>';
+  var mapTemplate = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="gazetteer-map-<%= index %>" class="js-gazetteer-map col4 entry animate"><div class="z1 entry-label fill-darken1 dark pin-bottom center pin-top"><h2 class="pin-top pad2x"><%= place_name %></h2></div></div>';
 
   $.getJSON('../ext/gazetteer.json', function(data) {
 
     // Filter data
     var filtered = _.filter(data, function(d) {
+<<<<<<< HEAD
       //console.log(d.tags+', index is'+ d.tags.indexOf(filter));
+=======
+>>>>>>> 6abf7f5096e5eeba769bd1c4bd92889fabb5dda8
       return d.tags.indexOf(filter) !== -1;
     });
 

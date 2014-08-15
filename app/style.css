@@ -45,37 +45,49 @@
 
 /* Gazetteer
 ------------------------------------------------------- */
-
 #gazetteer {
   visibility:hidden;
+  overflow: hidden;
+  opacity: 0;
 }
 
 #gazetteer:target ~ #full #gazetteer{
   visibility:visible;
+  opacity: 1;
 }
-
-.gazetteer-list { top: 40px; }
 
 .gazetteer-list .entry {
-  width:33%;
-  float:left;
-  position:relative;
+  background:#ddd url(canvas.png);
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  height: calc(33.3333vh);
 }
 
-#gazetteerlist .entry span{
-z-index:101;
-display:none;
-}
-#gazetteerlist .entry:hover span{
-display:block;
+.gazetteer-list .entry:nth-child(3n) {
+  border-right-width: 0;
 }
 
-#gazetteerlist:hover .entry:not(:hover){
-opacity:0.9;
+#gazetteerlist .entry-label { opacity: 0; }
+
+#gazetteerlist .entry-label h2 {
+  top: 50%;
+  -webkit-transform:translateY(-50%);
+     -moz-transform:translateY(-50%);
+      -ms-transform:translateY(-50%);
+          transform:translateY(-50%);
 }
-#export { opacity: 0; z-index: -1;}
-#export:target { opacity: 1; z-index: 100;}
-.gazetteer-toggle { right: 40px; }
+
+#gazetteerlist .entry:hover .entry-label {
+  margin: 0;
+  opacity: 1;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+#gazetteer .gazetteer-toggle {
+  right: 40px;
+  background: #636363;
+}
 
 /* Code pane
 ------------------------------------------------------- */

@@ -3,8 +3,8 @@
         "place_name": "New York City",
         "zoom": 10,
         "center": [
-            -76.165069,
-            42.788208
+            40.7298,
+            -73.9933
         ],
         "tags": [
             "Major cities",
@@ -15,8 +15,8 @@
         "place_name": "Los Angeles",
         "zoom": 10,
         "center": [
-            -118.257226,
-            34.031765
+            34.031765,
+            -118.257226
         ],
         "tags": [
             "Major cities",
@@ -27,8 +27,8 @@
         "place_name": "Chicago",
         "zoom": 10,
         "center": [
-            -87.664248,
-            41.82698
+            41.82698,
+            -87.664248
         ],
         "tags": [
             "Major cities",
@@ -39,8 +39,8 @@
         "place_name": "Houston",
         "zoom": 10,
         "center": [
-            -95.436742,
-            29.784969
+            29.784969,
+            -95.436742
         ],
         "tags": [
             "Major cities",
@@ -51,8 +51,8 @@
         "place_name": "Philadelphia",
         "zoom": 10,
         "center": [
-            -75.13907,
-            40.002632
+            40.002632,
+            -75.13907
         ],
         "tags": [
             "US cities"
@@ -62,8 +62,8 @@
         "place_name": "San Francisco",
         "zoom": 10,
         "center": [
-            -122.448276,
-            37.760548
+            37.760548,
+            -122.448276
         ],
         "tags": [
             "US cities"
@@ -73,8 +73,8 @@
         "place_name": "Washington, DC",
         "zoom": 10,
         "center": [
-            -76.992697,
-            38.899396
+            38.899396,
+            -76.992697
         ],
         "tags": [
             "US cities"
@@ -84,8 +84,8 @@
         "place_name": "Bangkok",
         "zoom": 10,
         "center": [
-            100.466667,
-            13.75
+            13.75,
+            100.466667
         ],
         "tags": [
             "Major cities"
@@ -95,8 +95,8 @@
         "place_name": "Beijing",
         "zoom": 10,
         "center": [
-            116.639748,
-            40.248852
+            40.248852,
+            116.639748
         ],
         "tags": [
             "Major cities"
@@ -106,8 +106,8 @@
         "place_name": "Buenos Aires",
         "zoom": 10,
         "center": [
-            -60.169753,
-            -37.251328
+            -34.6033,
+            -58.3817
         ],
         "tags": [
             "Major cities"
@@ -128,8 +128,8 @@
         "place_name": "London",
         "zoom": 10,
         "center": [
-            -0.135769,
-            51.49998
+            51.49998,
+            -0.135769
         ],
         "tags": [
             "Major cities"
@@ -139,8 +139,8 @@
         "place_name": "Paris",
         "zoom": 10,
         "center": [
-            2.319985,
-            48.858882
+            48.858882,
+            2.319985
         ],
         "tags": [
             "Major cities"
@@ -534,23 +534,6 @@
         ]
     },
     {
-        "place_name": "Traditional city streets, Sevilla",
-        "zoom": 19,
-        "center": [
-            37.3906,
-            -5.9939
-        ],
-        "tags": [
-            "osm data",
-            "street limited",
-            "main",
-            "street",
-            "path",
-            "road",
-            "residential"
-        ]
-    },
-    {
         "place_name": "Interchange with tunnels, Tokyo",
         "zoom": 18,
         "center": [
@@ -585,7 +568,7 @@
         "zoom": 13,
         "center": [
             60.0184,
-            -353.6520
+            -173.652
         ],
         "tags": [
             "landuse",
@@ -598,7 +581,7 @@
         "zoom": 12,
         "center": [
             46.1963,
-            -482.1879
+            -122.1879
         ],
         "tags": [
             "landuse",
@@ -634,23 +617,10 @@
     },
     {
         "place_name": "Squamish, BC",
-        "zoom": 14,
+        "zoom": 12,
         "center": [
-            -49.7023,
-            123.1039
-        ],
-        "tags": [
-            "landuse",
-            "elevation",
-            "natural"
-        ]
-    },
-    {
-        "place_name": "Squamish, BC",
-        "zoom": 14,
-        "center": [
-            -49.7023,
-            123.1039
+            49.7017,
+            -123.1588
         ],
         "tags": [
             "landuse",

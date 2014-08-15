@@ -56,28 +56,23 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
-  <div id='gazetteer' class='pin-left col12 fill-dark dark'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
-      <h3 class='inline'>Places</h3>
+  <div id='gazetteer' class='animate pin-left col12 fill-dark dark'>
+    <div class='pin-top z10 pad1'>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
-      <div class='rounded-toggle pin-topright gazetteer-toggle js-gazetteer-toggle'>
-        <input id='Major cities' type='radio' name='rtoggle' value='Major cities' checked='checked' class='js-gazetteer'>
-        <label for='Major cities'>Major cities</label>
-        <input id='US cities' type='radio' name='rtoggle' value='US cities' class='js-gazetteer'>
-        <label for='US cities'>US cities</label>
-        <input id='osm data' type='radio' name='rtoggle' value='osm data' class='js-gazetteer'>
-        <label for='osm data'>OSM data</label>
-        <input id='landuse' type='radio' name='rtoggle' value='landuse' class='js-gazetteer'>
-        <label for='landuse'>Land use</label>
-        <input id='residential' type='radio' name='rtoggle' value='residential' class='js-gazetteer'>
-        <label for='residential'>Residential</label>
+      <div class='fill-dark rounded-toggle pin-topright gazetteer-toggle js-gazetteer-toggle'>
+        <input id='road' type='radio' name='rtoggle' value='road' checked='checked' class='js-gazetteer'>
+        <label for='road'>Roads</label>
         <input id='natural' type='radio' name='rtoggle' value='natural' class='js-gazetteer'>
         <label for='natural'>Natural</label>
+        <input id='park' type='radio' name='rtoggle' value='park' class='js-gazetteer'>
+        <label for='park'>Parks</label>
+        <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-gazetteer'>
+        <label for='Major cities'>Major cities</label>
         <input id='bookmarks' type='radio' name='rtoggle' value='bookmarks' class=''>
         <label for='bookmarks'>Bookmarks</label>
       </div>
     </div>
-    <div class='col12 pin-left top2 scroll-styled clearfix gazetteer-list js-gazetteer-list' id='gazetteerlist'></div>
+    <div class='col12 pin-left scroll-hide clearfix gazetteer-list unlimiter js-gazetteer-list' id='gazetteerlist'></div>
   </div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
@@ -244,7 +239,7 @@
   </div>
 
   <div id='fonts-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <div class=' in-top keyline-botom pad1 keyline-bottom'>
       <h3>Fonts</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
