@@ -23,7 +23,7 @@
 #fonts:target ~ #drawers #fonts-drawer ~ .drawer,
 #docs:target ~ #drawers #docs-drawer ~ .drawer,
 #layers:target ~ #drawers #layers-drawer ~ .drawer,
-#gazetteer:target ~ #drawers #gazetteer-drawer ~ .drawer,
+#places:target ~ #drawers #places-drawer ~ .drawer,
 #export:target ~ #export-ui {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
@@ -33,7 +33,7 @@
 
 #fonts:target ~ #drawers > *,
 #docs:target ~ #drawers > *,
-#gazetteer:target ~ #gazetteer > *,
+#places:target ~ #places > *,
 #layers:target ~ #drawers > *,
 #fonts:target ~ #drawers #fonts-drawer > *,
 #docs:target ~ #drawers #docs-drawer > *,
@@ -43,20 +43,20 @@
 #export { opacity: 0; z-index: -1;}
 #export:target { opacity: 1; z-index: 100;}
 
-/* Gazetteer
+/* places
 ------------------------------------------------------- */
-#gazetteer {
+#places {
   visibility:hidden;
   overflow: hidden;
   opacity: 0;
 }
 
-#gazetteer:target ~ #full #gazetteer{
+#places:target ~ #full #places{
   visibility:visible;
   opacity: 1;
 }
 
-.gazetteer-list {
+.places-list {
   top: 40px;
   display: flex;
   flex-flow: row wrap;
@@ -64,7 +64,7 @@
   flex-wrap: wrap;
 }
 
-.gazetteer-list .entry {
+.places-entry {
   background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
@@ -73,9 +73,9 @@
   min-width: 25%;
 }
 
-#gazetteerlist .entry-label { opacity: 0; }
+.entry-label { opacity: 0; }
 
-#gazetteerlist .entry-label h2 {
+.entry-label h2 {
   top: 50%;
   -webkit-transform:translateY(-50%);
      -moz-transform:translateY(-50%);
@@ -83,14 +83,14 @@
           transform:translateY(-50%);
 }
 
-#gazetteerlist .entry:hover .entry-label {
+.places-entry:hover .entry-label {
   margin: 0;
   opacity: 1;
   font-size: 22px;
   line-height: 30px;
 }
 
-.gazetteer-toggle {
+.places-toggle {
   right: 40px;
 }
 
@@ -99,7 +99,7 @@
   left: 5px;
 }
 
-.gazetteer-search-container .button {
+.places-search-container .button {
   top: 5px;
   right: 45px;
 }
@@ -270,14 +270,14 @@
 a.layers-y,
 a.fonts-y,
 a.docs-y,
-a.gazetteer-y { display:none; }
+a.places-y { display:none; }
 
-#gazetteer:target      ~ * a.gazetteer-y,
+#places:target      ~ * a.places-y,
 #docs:target      ~ * a.docs-y,
 #layers:target    ~ * a.layers-y,
 #fonts:target     ~ * a.fonts-y { display:inline-block; }
 
-#gazetteer:target      ~ * a.gazetteer-n,
+#places:target      ~ * a.places-n,
 #docs:target      ~ * a.docs-n,
 #fonts:target     ~ * a.fonts-n,
 #layers:target    ~ * a.layers-n { display:none; }
