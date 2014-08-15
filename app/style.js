@@ -113,21 +113,16 @@ Editor.prototype.events = {
 
 Editor.prototype.getbookmarks = function(ev) {
   $('#gazetteerlist').html('bookmarkshere');
-  console.log(listofbookmarks);
-
 
     var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
     var entries=JSON.parse(entry_string);
-    console.log(entries);
     for (var b in entry_string) {
-      //console.log(b);
     }
 }
 
 
 Editor.prototype.gazetteer = function(ev) {
-
-  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').has('.entry')) return;
+  if ($(ev.currentTarget).hasClass('js-initialize-gazetteer') && $('.js-gazetteer-list').children().size() > 0) return;
   var view = this;
   var container = $('.js-gazetteer-toggle');
   var filter = $('input:checked',container).attr('value');
@@ -137,7 +132,6 @@ Editor.prototype.gazetteer = function(ev) {
 
     // Filter data
     var filtered = _.filter(data, function(d) {
-      console.log(d.tags+', index is'+ d.tags.indexOf(filter));
       return d.tags.indexOf(filter) !== -1;
     });
 

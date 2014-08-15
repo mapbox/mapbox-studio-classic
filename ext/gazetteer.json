@@ -568,7 +568,7 @@
         "zoom": 13,
         "center": [
             60.0184,
-            -353.6520
+            -173.652
         ],
         "tags": [
             "landuse",
@@ -581,7 +581,7 @@
         "zoom": 12,
         "center": [
             46.1963,
-            -482.1879
+            -122.1879
         ],
         "tags": [
             "landuse",
@@ -617,23 +617,10 @@
     },
     {
         "place_name": "Squamish, BC",
-        "zoom": 14,
+        "zoom": 12,
         "center": [
-            -49.7023,
-            123.1039
-        ],
-        "tags": [
-            "landuse",
-            "elevation",
-            "natural"
-        ]
-    },
-    {
-        "place_name": "Squamish, BC",
-        "zoom": 14,
-        "center": [
-            -49.7023,
-            123.1039
+            49.7017,
+            -123.1588
         ],
         "tags": [
             "landuse",
