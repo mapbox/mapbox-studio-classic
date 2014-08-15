@@ -157,6 +157,10 @@ Editor.prototype.getbookmarks = function(ev) {
       buildMap(id, lat, lng, zoom,view);
     });
 
+    if (filtered.length === 0) {
+      $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No bookmarks.<h1></div>');
+      return false;
+    }
 
     var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
     var entries=JSON.parse(entry_string);
@@ -233,6 +237,11 @@ Editor.prototype.placesSearch = function(ev) {
     var filtered = _.filter(data, function(d) {
       return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
     });
+
+    if (filtered.length === 0) {
+      $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No results.<h1></div>');
+      return false;
+    }
 
     // Print template
     $('#placeslist').html(_.map(filtered, function(d, i) {
