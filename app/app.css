@@ -384,8 +384,7 @@ a.project.proj-active .proj-status { display: block;}
       -ms-transform:translateY(0);
           transform:translateY(0);
 }
-#search input { padding-left: 35px; }
-#search-results {max-height:200px;}
+
 
 /* Panes for display:none on hidden content */
 .pane { height:100%;}
