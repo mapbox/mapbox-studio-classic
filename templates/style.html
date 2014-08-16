@@ -11,7 +11,6 @@
   <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
   <link href='/app/print.css' rel='stylesheet' />
-  <script src='/ext/gazetteer.json'></script>
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror/codemirror.js'></script>
   <script src='/ext/codemirror/runmode.js'></script>
@@ -59,11 +58,11 @@
   <div id='places' class='animate pin-left dark fill-dark col12'>
     <div class='pin-top z10 pad1'>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
-      <a href='#' class='js-show-search js-show show-search-button icon search pin-topleft button short quiet'></a>
+      <a href='#' class='js-show-search show-search-button icon search pin-topleft button short quiet'></a>
       <form id='places-search' class='js-places-container places-search-container z10 col12 fill-dark hidden keyline-bottom clearfix pin-top'>
         <input id='places-dosearch' class='col12 clean hidden' type='text' />
         <a href='#' class='pin-right button quiet icon search short js-places-search'>Search</a>
-        <a href='#' class='icon js-show-search x pin-right keyline-left pad1 quiet'></a>
+        <a href='#' class='icon js-hide-search x pin-right keyline-left pad1 quiet'></a>
       </form>
       <div class='dark pin-topright places-toggle'>
         <div class='rounded-toggle js-places-toggle'>
@@ -420,7 +419,7 @@
   <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
-  <a class='toolbar-button strong icon places-n marker js-places js-initialize-places' href='#places'>Places</a>
+  <a class='toolbar-button strong icon places-n marker js-places js-toolbar-places' href='#places'>Places</a>
   <a class='toolbar-button strong icon places-y marker active fill-lighten1' href='#'>Places</a>
 
   <div class='user-icon pad1 pin-bottom'>

@@ -6,6 +6,7 @@ var tiles;
 var xray;
 var grids;
 var gridc;
+var gazetteer = [];
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="places-entry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<div class="z1 entry-label fill-darken1 dark pin-bottom center pin-top">' +
@@ -116,6 +117,7 @@ Editor.prototype.events = {
   'click .js-places': 'places',
   'click .js-places-entry': 'placesJump',
   'click .js-show-search': 'showPlacesSearch',
+  'click .js-hide-search': 'hidePlacesSearch',
   'click .js-places-search': 'placesSearch',
   'submit #places-search': 'placesSearch',
   'click .js-saveas': 'saveModal',
@@ -175,20 +177,22 @@ Editor.prototype.getbookmarks = function(ev) {
     }
 }
 
-Editor.prototype.places = function(ev) {
-
-  var target = $(ev.currentTarget);
-
-  if ($(ev.currentTarget).hasClass('js-initialize-places') && $('.js-places-list').children().size() > 0) return;
+Editor.prototype.renderPlaces = function(filter) {
   var view = this;
-  var container = $('.js-places-toggle');
-  var filter = $('input:checked',container).attr('value');
 
-  $.getJSON('../ext/gazetteer.json', function(data) {
+  if (gazetteer.length === 0) {
+    $.getJSON('../ext/gazetteer.json', function(data) {
+      gazetteer = data;
+      render(filter);
+    });
+  } else {
+    render(filter);
+  }
 
-    // Filter data
-    var filtered = _.filter(data, function(d) {
-      return d.tags.indexOf(filter) !== -1;
+  function render(filter) {
+    // Filter gazetteer
+    var filtered = _.filter(gazetteer, function(d) {
+      return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
     });
 
     // Print template
@@ -206,8 +210,35 @@ Editor.prototype.places = function(ev) {
       var zoom = $this.attr('zoom');
       buildMap(id, lat, lng, zoom, view);
     });
+  };
 
-  })
+};
+
+Editor.prototype.places = function(ev) {
+  var isToolbarButton = (ev !== undefined) ? $(ev.currentTarget).hasClass('js-toolbar-places') : false;
+  var container = $('.js-places-toggle');
+  var filter = $('input:checked',container).attr('value').toLowerCase();
+  if (isToolbarButton && $('.js-places-list').children().size() > 0) return;
+  window.editor.renderPlaces(filter);
+};
+
+
+Editor.prototype.showPlacesSearch = function(ev) {
+  $('.js-places-container').removeClass('hidden');
+  $('#places-dosearch').focus();
+  return false;
+};
+
+Editor.prototype.hidePlacesSearch = function(ev) {
+  $('.js-places-container').addClass('hidden');
+  window.editor.places(ev);
+  return false;
+};
+
+Editor.prototype.placesSearch = function(ev) {
+  var filter = $('#places-dosearch').val().toLowerCase();
+  window.editor.renderPlaces(filter);
+  return false;
 };
 
 Editor.prototype.placesJump = function(ev) {
@@ -217,57 +248,6 @@ Editor.prototype.placesJump = function(ev) {
   var zoom = target.attr('zoom');
   map.setView([lat, lng], zoom);
   window.location.href = '#';
-};
-
-Editor.prototype.showPlacesSearch = function(ev) {
-  var target = $(ev.currentTarget);
-  if (target.hasClass('js-show')) {
-    $('.js-places-container').removeClass('hidden');
-    $('#places-dosearch').focus();
-  } else {
-    $('.js-places-container').addClass('hidden');
-    var container = $('.js-places-toggle');
-    var filter = $('input:checked',container);
-    window.editor.places(filter);
-  }
-  return false;
-}
-
-Editor.prototype.placesSearch = function(ev) {
-  var target = $(ev.currentTarget);
-  var view = this;
-  var filter = $('#places-dosearch').val().toLowerCase();
-
-  $.getJSON('../ext/gazetteer.json', function(data) {
-
-    // Filter data
-    var filtered = _.filter(data, function(d) {
-      return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
-    });
-
-    if (filtered.length === 0) {
-      $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No results.<h1></div>');
-      return false;
-    }
-
-    // Print template
-    $('#placeslist').html(_.map(filtered, function(d, i) {
-      d.index = i;
-      return _.template(placeentry, d);
-    }));
-
-    // Render maps
-    _.each($('.js-places-entry'), function(d) {
-      var $this = $(d);
-      var id = $this.attr('id');
-      var lat = $this.attr('lat');
-      var lng = $this.attr('lng');
-      var zoom = $this.attr('zoom');
-      buildMap(id, lat, lng, zoom, view);
-    });
-
-  })
-  return false;
 };
 
 Editor.prototype.changed = function() {
@@ -655,9 +635,15 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh places.
   if (window.location.hash === '#places') {
-    var container = $('.js-places-toggle');
-    var filter = $('input:checked',container);
-    window.editor.showPlacesSearch(filter);
+    // if search is active, use search value,
+    // otherwise use toggle value
+    if ($('.js-places-container').hasClass('hidden')) {
+      var container = $('.js-places-toggle');
+      var filter = $('input:checked',container).attr('value').toLowerCase();
+    } else {
+      var filter = $('#places-dosearch').val().toLowerCase();
+    }
+    window.editor.renderPlaces(filter);
   }
 
   // Refresh map title.tm.db.rm('user');
