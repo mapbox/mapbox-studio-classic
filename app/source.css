@@ -91,7 +91,7 @@ section:not(.field) + .empty-state { margin: 20px;display: block;}
   box-shadow:inset 0px 0px 0px 2px rgba(0,0,0,0.2);
   cursor: pointer;
   }
-.xrayswatch:not(.disabled)::before { background: none !important;}
+.xrayswatch:not(.disabled)::before { content: '';}
 .xrayswatch.disabled { background-color:rgba(0,0,0,0.1) !important; }
 .xrayswatch.disabled::before { background-color:rgba(0,0,0,0.1) !important; }
 .xrayinspector::before { visibility:hidden; }
