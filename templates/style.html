@@ -85,7 +85,7 @@
   <div id='map-errors'></div>
 
 
-  <form id='search' class='tip-bottom z10 contain fill-white round animate'>
+  <form id='search' class='tip-top z10 contain fill-white round animate'>
 
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
     <div class='pin-topleft pad1'>
@@ -93,13 +93,26 @@
     </div>
     <ul id='search-results' class='clip fill-light scroll-styled round-bottom'></ul>
   </form>
-  <div class='pin-topright right darker col12 fill-dark pad0'>
-    <a id='' class='button short icon eye quiet'></a>
+  <div class='pin-bottom right darker col12 fill-dark pad0'>
+    <span class='align-top inline xray-toggle'>
+      <a href='#xray' class='xray-n button short icon eye quiet'></a>
+      <a href='' class='xray-y button short icon eye quiet'></a>
+    </span>
     <a id='quickaddbookmark' class='button short icon bookmark'></a>
-    <a id='' class='button short icon search quiet'></a>
-    <a id='' class='button short icon fullscreen quiet'></a>
-    <a id='' class='button short icon plus quiet'></a>
-    <a id='' class='button short icon minus quiet'></a>
+    <a href='#search' class='search-n button short icon search quiet'></a>
+    <a href='#' class='search-y button short icon search quiet'></a>
+
+    <a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a>
+    <a href='#' title='Exit fillscreen' class='button short icon fullscreen full-y quiet'></a>
+
+    <a id='zoom-in' class='button short icon plus quiet'></a>
+    <a id='zoom-out' class='button short icon minus quiet'></a>    
+    <span id='map-center' class='dark' style='float: right;padding-right: 150px;'></span>
+    <div id='zoomedto' class='dark fill-dark animate z<%=style.center[2]%>'></div>
+
+
+
+
   </div>
   <div id='map-controls' class='z10'>
     <span class='align-top inline xray-toggle'>
@@ -126,7 +139,6 @@
   </div>
 
 
-  <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
   <!-- DEMO -->
   <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
     <a href='#' class='icon x pin-topright pad1 js-demo'></a>

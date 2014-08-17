@@ -340,7 +340,7 @@ a.project.proj-active .proj-status { display: block;}
   pointer-events:none;
   position:absolute;
   visibility: hidden;
-  right:140px;
+  left:70px;
   width:200px;
   bottom:45px;
   opacity:0;
@@ -397,6 +397,7 @@ a.project.proj-active .proj-status { display: block;}
   position: absolute;
   right: 130px;
   bottom: 10px;
+  display:none;
 }
 
 .map-control-center { width: 100px;}
@@ -411,6 +412,8 @@ a.project.proj-active .proj-status { display: block;}
   width:120px;
   height: 20px;
 }
+
+
 #zoomedto .z {
   display:none;
   width:100%;
@@ -464,7 +467,6 @@ a.project.proj-active .proj-status { display: block;}
 #zoomedto.z21 .z21,
 #zoomedto.z22 .z22 {
   display:block;
-  background:#fff;
   }
 #zoomedto:target .z.z0, #zoomedto .export.z.z0,
 #zoomedto:target .z.z6, #zoomedto .export.z.z6,
@@ -512,7 +514,6 @@ a.project.proj-active .proj-status { display: block;}
   z-index:1;
   border-top: 1px solid rgba(0,0,0,.1);
   overflow:hidden;
-  background:#eee;
   height:120px;
   z-index: 10;
   bottom: 0;
