@@ -317,7 +317,7 @@ a.project.proj-active .proj-status { display: block;}
 /* Map bookmarks
 ------------------------------------------------------- */
 #bookmark {
-
+  position:relative;
   }
 
 .dark #bookmark { box-shadow:0 0 0 2px rgba(0,0,0,.5);}

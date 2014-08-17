@@ -297,6 +297,7 @@ views.Maputils.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
   'submit #bookmark': 'addbookmark',
+  'click #quickaddbookmark': 'addbookmark',
   'submit #search': 'search',
   'click #bookmark .js-bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
@@ -360,7 +361,7 @@ views.Maputils.prototype.removebookmark = function(ev) {
 };
 views.Maputils.prototype.addbookmark = function(ev) {
   ev.preventDefault();
-
+  console.log('added');
   var coords = this.map.getCenter(),
       zoom = this.map.getZoom(),
       field = $('#addbookmark'),
