@@ -333,7 +333,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#export' class='z10 export js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#export' class='zoomedto-close export js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -375,7 +375,6 @@ Printer.prototype.imageSizeStats = function() {
 Printer.prototype.toggleStats = function(ev) {
   if (ev.currentTarget.classList.contains('close')){
     $('#zoomedto').addClass('visible-n').removeClass('visible-y');
-
   } else {
     $('#zoomedto').addClass('visible-y').removeClass('visible-n');
   }
@@ -396,7 +395,6 @@ Printer.prototype.refresh = function(ev) {
 
   map.on('zoomend', function() {
     var zoom = map.getZoom()|0;
-    $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
     if (window.exporter.model.get('coordinates')) {
       $('#zoom').html(zoom);
       calcTotal();
