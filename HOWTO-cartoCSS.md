@@ -3,7 +3,7 @@ Mapbox Studio CartoCSS Styling
 
 ### Selectors
 
-Mapbox Studio relies on the [CartoCSS](https://github.com/mapbox/CartoCSS) styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style:
+Mapbox Studio relies on the [CartoCSS](https://github.com/mapbox/carto) styling language. It should be familiar to CSS users and easy to pick up for everyone else. Here's a simple CartoCSS style:
 
 ```css
 // Select the layer
