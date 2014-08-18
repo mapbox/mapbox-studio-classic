@@ -164,11 +164,9 @@ Editor.prototype.addBookmark = function(ev) {
         'userbookmark'
       ]
     };
+    bookmarks.push(bookmark);
     localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(bookmarks));
   });
-
-  // update of bookmarks list
-  window.editor.renderPlaces('userbookmark');
 
   // flicker places button to hint where bookmark will live
   $('.places-n').attr('style','transition:all 0.25s; background-color:#3887be');
@@ -235,7 +233,7 @@ Editor.prototype.places = function(ev) {
   var isToolbarButton = (ev !== undefined) ? $(ev.currentTarget).hasClass('js-toolbar-places') : false;
   var container = $('.js-places-toggle');
   var filter = $('input:checked',container).attr('value').toLowerCase();
-  if (isToolbarButton && $('.js-places-list').children().size() > 0) return;
+  if (isToolbarButton && filter !== 'userbookmark' && $('.js-places-list').children().size() > 0) return;
   window.editor.renderPlaces(filter);
 };
 
