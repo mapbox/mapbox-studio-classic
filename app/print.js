@@ -333,7 +333,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#export' class='z10 export js-zoomedto zoomedto-close inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#export' class='export js-zoomedto zoomedto-close inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
