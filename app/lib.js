@@ -293,21 +293,20 @@ views.Modal.prototype.show = function(id, options, callback) {
 };
 
 views.Maputils = Backbone.View.extend({});
+
 views.Maputils.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
-  'click #quickaddbookmark': 'addbookmark',
   'submit #search': 'search',
-  'click .js-del-bookmark': 'removebookmark',
   'click .search-n': 'focusSearch',
   'click .js-search-result': 'selectSearch',
   'keydown': 'keys'
 };
+
 views.Maputils.prototype.initialize = function (options) {
   this.map = options.map;
-  this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
-    JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
 };
+
 views.Maputils.prototype.keys = function(ev) {
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
     // up and down on search results
@@ -330,49 +329,6 @@ views.Maputils.prototype.keys = function(ev) {
   return true;
 };
 
-views.Maputils.prototype.removebookmark = function(ev) {
-  var target = $(ev.currentTarget).parent('.js-places-entry');
-  if (this.bookmarks[name]) delete this.bookmarks[name];
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  return false;
-};
-
-views.Maputils.prototype.addbookmark = function(ev) {
-  ev.preventDefault();
-
-  var coords = this.map.getCenter(),
-      zoom = this.map.getZoom(),
-      query = coords.lng+','+coords.lat;
-
-  // Set name to lat/lng to be reverse geocoded
-  this.bookmarks[name] = [coords.lat, coords.lng, zoom];
-
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
-
-  // Async call to reverse geocode name based on lat-lon
-  $.ajax({
-    url: '/geocode?search=' + query,
-    crossDomain: true
-  }).done(function(data) {
-    var name = data['features'][0]['place_name'];
-    listofbookmarks.unshift({
-      place_name: name,
-      zoom: zoom,
-      center:[coords.lat, coords.lng]
-    });
-    localStorage.setItem('listofbookmarks', JSON.stringify(listofbookmarks));
-
-    // update of bookmarks list by force-clicking radio button
-    $('#bookmarks').trigger('click');
-
-    // flicker places button to hint where bookmark will live
-    $('.places-n').attr('style','transition:all 0.25s; background-color:#3887be');
-      setTimeout(function() {$('.places-n').attr('style','transition:all 0.25s;'); }, 600);
-    return false;
-  });
-
-};
 views.Maputils.prototype.search = function(ev) {
   ev.preventDefault();
   var query = $('#search input').get(0).value;
