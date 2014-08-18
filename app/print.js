@@ -356,7 +356,7 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#export' class='js-zoomedto export clip strong micro col12 z z",z,"'>",
+      "<a href='#export' class='js-zoomedto export clip strong micro col12 zoom zoom",z,"'>",
       "<span class='col3 center strong keyline-right'>z",z,"</span>",
       perc ? "<span class='truncate col9 strong perc pad0x " : '',
       perc > 100 ? "warning'" : '',
@@ -365,7 +365,7 @@ Printer.prototype.imageSizeStats = function() {
     ].join('');
   }
   html += [
-      "<span class='clip export js-zoomedto strong micro col12 quiet z z23'>",
+      "<span class='clip export js-zoomedto strong micro col12 quiet zoom zoom23'>",
       "<p class='truncate col12 pad1x'>% of image size limit</p>",
       "</span>"
     ].join('');
@@ -396,7 +396,7 @@ Printer.prototype.refresh = function(ev) {
 
   map.on('zoomend', function() {
     var zoom = map.getZoom()|0;
-    $('#zoomedto').attr('class', 'contain align-top z' + zoom);
+    $('#zoomedto').attr('class', 'contain align-top zoom' + zoom);
     if (window.exporter.model.get('coordinates')) {
       $('#zoom').html(zoom);
       calcTotal();
