@@ -112,49 +112,6 @@ tape('#updatename-shape: updates the layer name and checks that input values and
     t.end();
 });
 
-tape('bookmarks: saves', function(t) {
-    // Ensure nothing in localstorage
-    var bookmarkId = editor.model.get('id') + '.bookmarks';
-    localStorage.removeItem(bookmarkId);
-
-    // Add a bookmark
-    $('.js-add-bookmark').click();
-
-    // Check that it is in localstorage
-    var bookmarks = localStorage.getItem(bookmarkId);
-    try { bookmarks = JSON.parse(bookmarks); }
-    catch(err) { t.ifError(err); }
-    t.equal(Object.keys(bookmarks).length, 1, 'bookmark was saved');
-
-    // Check that the UI is populated correctly
-    $('.toolbar-button.js-places').click();
-    $('label[for="bookmarks"]').click();
-    t.equal($('#js-places-list').children().length, 1, 'bookmark appears in list');
-    t.end();
-});
-
-tape('bookmarks: removes', function(t) {
-    // Delete a bookmark
-    $('.js-del-bookmark').click();
-
-    // Is removed from localStorage
-    var bookmarkId = editor.model.get('id') + '.bookmarks';
-    t.equal(localStorage.getItem(bookmarkId), '{}', 'bookmark was removed');
-
-    // Is removed from UI
-    $('.toolbar-button.js-places').click();
-    $('label[for="bookmarks"]').click();
-    t.equal($('#js-places-list').children().length, 0, 'bookmark not in list');
-    t.end();
-});
-
-tape('populates places list', function(t) {
-
-    $('.toolbar-button.js-places').click();
-    t.notEqual($('#js-places-list').children().length, 0, 'place is in list');
-    t.end();
-});
-
 tape('#raster and nonraster mix error', function(t) {
     if (!window.testParams || !window.testParams.dataPath) {
         console.warn('WARNING: skipping test, window.testParams.dataPath required');
