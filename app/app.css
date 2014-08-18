@@ -384,19 +384,21 @@ a.project.proj-active .proj-status { display: block;}
 
 #map.map-clickable { cursor: pointer;}
 
-.map-controls { background: #525252;}
+.map-controls, .search-results { background: #525252;}
 .map-control-center { width: 100px;}
-#map-center { top: 10px; right: 140px;}
 
 .leaflet-control-zoom { display: none; }
 .leaflet-control { z-index: 0; }
 
 #zoomedto {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
   width:120px;
+  display: inline-block;
   height: 20px;
+  top: 5px;
+  -webkit-transition:height .125s;
+     -moz-transition:height .125s;
+      -ms-transition:height .125s;
+          transition:height .125s;
 }
 #zoomedto * { border-color: #525252; }
 #zoomedto .z {
@@ -496,21 +498,17 @@ a.project.proj-active .proj-status { display: block;}
 #zoomedto:target .z.z22, #zoomedto .export.z.z22,
 #zoomedto:target .z.z23, #zoomedto .export.z.z23 { left:75%;border-right-width: 0; }
 #zoomedto:target, #zoomedto.visible-y {
-  z-index:1;
+  position: absolute;
+  display: block;
   border-top: 1px solid rgba(0,0,0,0.25);
   overflow:hidden;
   height:120px;
-  border-radius: 0;
   background: #525252;
   z-index: 10;
-  top: 0;
+  width: 100%;
   left: 0;
   right: 0;
-  width: 100%;
-  -webkit-transition:height .125s;
-     -moz-transition:height .125s;
-      -ms-transition:height .125s;
-          transition:height .125s;
+  top: 0;
   }
 #zoomedto:target .z, #zoomedto.visible-y .z {
   width: 25%;

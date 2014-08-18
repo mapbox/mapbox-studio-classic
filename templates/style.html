@@ -85,30 +85,31 @@
   <div id='map-errors'></div>
 
 
-  <form id='search' class='tip-top z10 contain fill-white round animate'>
-
+  <form id='search' class='z10 contain dark round animate search-results'>
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
-    <ul id='search-results' class='clip fill-light scroll-styled round-bottom'></ul>
+    <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
-  <div class='map-controls pin-top right col12 dark fill-dark pad0'>
-    <a href='#search' class='search-n button short icon search quiet'></a>
-    <a href='#' class='search-y fill-darken1 pad0 align-top quiet round short icon search'></a>
-    <span class='align-top inline xray-toggle'>
-      <a href='#xray' class='xray-n button short icon eye quiet'></a>
-      <a href='#home' class='xray-y fill-darken1 pad0 align-top quiet round short icon eye'></a>
-    </span>
-    <a id='quickaddbookmark' class='button short icon bookmark quiet'></a>
+  <div class='map-controls pin-top text-right col12 dark fill-dark pad0'>
+    <div class='fl'>
+      <a href='#search' class='search-n button short icon search quiet'></a>
+      <a href='#' class='search-y button short icon active icon search quiet'></a>
 
-    <a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a>
-    <a href='#' title='Exit fillscreen' class='fill-darken1 pad0 align-top quiet round short icon fullscreen full-y'></a>
+      <a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a>
+      <a href='#' title='Exit fillscreen' class='button short icon quiet active fullscreen full-y'></a>
 
-    <div class='pill'>
-    <a id='zoom-in' class='button short icon plus quiet'></a><!--
- --><a id='zoom-out' class='button short icon minus quiet'></a>
+      <div class='pill'>
+      <a id='zoom-in' class='button short icon plus quiet'></a><!--
+   --><a id='zoom-out' class='button short icon minus quiet'></a>
+      </div>
+      <span class='align-top inline xray-toggle'>
+        <a href='#xray' class='xray-n button short icon eye quiet'>X-ray</a>
+        <a href='#home' class='xray-y button short active icon eye quiet'>X-ray</a>
+      </span>
+      <a id='quickaddbookmark' class='button short icon bookmark quiet'>Bookmark</a>
+
     </div>
-    <span id='map-center' class='quiet micro strong fr pin-topright'></span>
-
-    <div id='zoomedto' class='round animate contain z<%=style.center[2]%>'></div>
+    <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
+    <div id='zoomedto' class='align-top inline contain z<%=style.center[2]%>'></div>
   </div>
 
   <!-- DEMO -->

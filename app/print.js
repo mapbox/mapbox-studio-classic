@@ -396,7 +396,7 @@ Printer.prototype.refresh = function(ev) {
 
   map.on('zoomend', function() {
     var zoom = map.getZoom()|0;
-    $('#zoomedto').attr('class', 'round animate contain z' + zoom);
+    $('#zoomedto').attr('class', 'contain align-top z' + zoom);
     if (window.exporter.model.get('coordinates')) {
       $('#zoom').html(zoom);
       calcTotal();
