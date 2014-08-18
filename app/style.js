@@ -121,7 +121,7 @@ Editor.prototype.events = {
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
   'keydown': 'keys',
-  'click #quickaddbookmark': 'addBookmark',
+  'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
 };
 
