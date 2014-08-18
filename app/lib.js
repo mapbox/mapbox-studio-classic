@@ -339,6 +339,7 @@ views.Maputils.prototype.removebookmark = function(ev) {
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   return false;
 };
+
 views.Maputils.prototype.addbookmark = function(ev) {
   ev.preventDefault();
 
