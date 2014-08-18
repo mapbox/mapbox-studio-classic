@@ -298,7 +298,7 @@ views.Maputils.prototype.events = {
   'click #zoom-out': 'zoomout',
   'click #quickaddbookmark': 'addbookmark',
   'submit #search': 'search',
-  'click #bookmark .js-del-bookmark': 'removebookmark',
+  'click .js-del-bookmark': 'removebookmark',
   'click .search-n': 'focusSearch',
   'click .js-search-result': 'selectSearch',
   'keydown': 'keys'
@@ -331,10 +331,8 @@ views.Maputils.prototype.keys = function(ev) {
 };
 
 views.Maputils.prototype.removebookmark = function(ev) {
-  ev.preventDefault();
-  var target = $(ev.currentTarget).prev('a'),
-      name = target.text();
-  target.parent('li').remove();
+  console.log(this.bookmarks);
+  var target = $(ev.currentTarget).parent('.js-places-entry');
   if (this.bookmarks[name]) delete this.bookmarks[name];
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   return false;
@@ -343,20 +341,23 @@ views.Maputils.prototype.removebookmark = function(ev) {
 views.Maputils.prototype.addbookmark = function(ev) {
   ev.preventDefault();
 
-    var coords = this.map.getCenter(),
-        zoom = this.map.getZoom(),
-        field = $('#quickaddbookmark'),
-        fieldVal = field.val(),
-        value = [coords.lat, coords.lng, zoom],
-        apiurl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places-city-v1/'+coords.lng+','+coords.lat+'.json?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g';
+  var coords = this.map.getCenter(),
+      zoom = this.map.getZoom(),
+      field = $('#quickaddbookmark'),
+      fieldVal = field.val(),
+      value = [coords.lat, coords.lng, zoom],
+      query = coords.lng+','+coords.lat;
 
-    this.bookmarks[name] = value;
-    localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-    field.val('');
-    var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
+  this.bookmarks[name] = value;
+  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  field.val('');
+  var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
 
   // async call to get city based on lat-lon
-  $.get(apiurl).done(function(data) {
+  $.ajax({
+    url: '/geocode?search=' + query,
+    crossDomain: true
+  }).done(function(data) {
     var name = data['features'][0]['place_name'];
     listofbookmarks.unshift({
       place_name: name,
@@ -401,8 +402,9 @@ views.Maputils.prototype.search = function(ev) {
     return false;
   }
 
-  var view = this;
+  console.log(this);
 
+  var view = this;
   $.ajax({
     url: '/geocode?search=' + query,
     crossDomain: true

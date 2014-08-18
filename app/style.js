@@ -12,7 +12,7 @@ var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zo
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
                       '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
                     '</a>' +
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" class="zoomedto-close icon x pin-topright pad1 quiet"></a><% }; %>' +
+                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" class="js-del-bookmark zoomedto-close icon x pin-topright pad1 quiet"></a><% }; %>' +
                   '</div>';
 
 function buildMap(container, lat, lng, zoom, view) {
