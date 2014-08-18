@@ -298,7 +298,6 @@ views.Maputils.prototype.events = {
   'click #zoom-out': 'zoomout',
   'click #quickaddbookmark': 'addbookmark',
   'submit #search': 'search',
-  'click #bookmark .js-bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .search-n': 'focusSearch',
   'click .js-search-result': 'selectSearch',
@@ -331,12 +330,6 @@ views.Maputils.prototype.keys = function(ev) {
   return true;
 };
 
-views.Maputils.prototype.gotoBookmark = function(ev) {
-  var target = $(ev.currentTarget),
-      coords = this.bookmarks[target.text()];
-  this.map.setView([coords[0], coords[1]], coords[2]);
-  return false;
-};
 views.Maputils.prototype.removebookmark = function(ev) {
   ev.preventDefault();
   var target = $(ev.currentTarget).prev('a'),
