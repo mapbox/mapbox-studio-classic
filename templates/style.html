@@ -109,10 +109,6 @@
     <span id='map-center' class='quiet micro strong fr pin-topright'></span>
     <div id='zoomedto' class='round animate contain z<%=style.center[2]%>'></div>
   </div>
-  <div class='export-controls visible-n'>
-    <a href='#export' title='Reselect within view' id='reselect' class='align-top reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
-    <a href='#export' title='Reselect within view' id='recenter' class='align-top recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
-  </div>
 
   <!-- DEMO -->
   <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
@@ -293,6 +289,10 @@
   <nav class='row1 col12 pin-top keyline-bottom z1'>
     <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
     <h3 class='inline pad1'>Export image</h3>
+    <div class='fr align-top quiet space export-controls visible-n pin-right'>
+      <a href='#export' title='Reselect within view' id='reselect' class='fr quiet icon refresh button js-reselect short'>New crop</a>
+      <a href='#export' title='Reselect within view' id='recenter' class='fr quiet icon crosshair button js-recenter short'>Center crop</a>
+    </div>
     <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
     <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
       <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
