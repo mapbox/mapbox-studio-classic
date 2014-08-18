@@ -13,10 +13,8 @@ var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zo
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
                       '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
                     '</a>' +
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" class="js-del-bookmark zoomedto-close icon x pin-topright pad1 quiet"></a><% }; %>' +
+                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" data-entry="<%= place_name %>" class="js-del-bookmark zoomedto-close icon x pin-topright pad1 quiet"></a><% }; %>' +
                   '</div>';
-
-console.log(bookmarks);
 
 function buildMap(container, lat, lng, zoom, view) {
   var tiles = L.mapbox.tileLayer({
@@ -149,13 +147,13 @@ Editor.prototype.addBookmark = function(ev) {
       lng = map.getCenter().lng,
       zoom = map.getZoom();
 
-  // Reverse geocode name based on lat-lon
+  // Reverse geocode to get name
   $.ajax({
     url: '/geocode?search=' + lng + ',' + lat,
     crossDomain: true
   }).done(function(data) {
     // Same structure as gazetteer
-    var place = (data['features'].length === 0) ? ' ' : data['features'][0]['place_name'];
+    var place = (data['features'].length === 0) ? lat.toFixed(4) + ', ' + lng.toFixed(4) : data['features'][0]['place_name'];
     var bookmark = {
       'place_name': place,
       'zoom': zoom,
@@ -175,9 +173,15 @@ Editor.prototype.addBookmark = function(ev) {
 };
 
 Editor.prototype.removeBookmark = function(ev) {
-  // var target = $(ev.currentTarget).parent('.js-places-entry');
-  // if (this.bookmarks[name]) delete this.bookmarks[name];
-  // localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  var view = this;
+  var target = $(ev.currentTarget).attr('data-entry');
+  var removed = _.reject(bookmarks,function(d) {
+    return d.place_name === target;
+  });
+
+  localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(removed));
+  bookmarks = removed;
+  window.editor.renderPlaces('userbookmark');
   return false;
 };
 
