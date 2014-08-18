@@ -357,7 +357,7 @@ views.Maputils.prototype.addbookmark = function(ev) {
   // async call to get city based on lat-lon
   $.get(apiurl).done(function(data) {
     var name = data['features'][0]['place_name'];
-    listofbookmarks.push({
+    listofbookmarks.unshift({
       place_name: name,
       zoom: zoom,
       center:[coords.lat, coords.lng]
