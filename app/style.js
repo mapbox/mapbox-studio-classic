@@ -138,72 +138,37 @@ Editor.prototype.events = {
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
   'keydown': 'keys',
-  'click #bookmarks':'getbookmarks',
-  'click #quickaddbookmark': 'addbookmark',
-  'click .js-del-bookmark': 'removebookmark',
+  'click #quickaddbookmark': 'addBookmark',
+  'click .js-del-bookmark': 'removeBookmark',
 };
 
-Editor.prototype.getbookmarks = function(ev) {
-  var view = this;
-
-  // Print template
-  $('#placeslist').html(_.map(bookmarks, function(d, i) {
-    d.index = i;
-    return _.template(placeentry, d);
-  }));
-
-  // Render maps
-  _.each($('.js-places-entry'), function(d) {
-    var $this = $(d);
-    var id = $this.attr('id');
-    var lat = $this.attr('lat');
-    var lng = $this.attr('lng');
-    var zoom = $this.attr('zoom');
-    buildMap(id, lat, lng, zoom,view);
-  });
-
-  if (filtered.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No bookmarks.<h1></div>');
-    return false;
-  }
-
-};
-
-Editor.prototype.removebookmark = function(ev) {
-
-  // var target = $(ev.currentTarget).parent('.js-places-entry');
-  // if (this.bookmarks[name]) delete this.bookmarks[name];
-  // localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  return false;
-};
-
-Editor.prototype.addbookmark = function(ev) {
+Editor.prototype.addBookmark = function(ev) {
   ev.preventDefault();
   var view = this;
-  var lat = this.model.get('center')[0],
-      lng = this.model.get('center')[1],
-      zoom = this.model.get('center')[2];
+  var lat = map.getCenter().lat,
+      lng = map.getCenter().lng,
+      zoom = map.getZoom();
 
   // Reverse geocode name based on lat-lon
   $.ajax({
-    url: '/geocode?search=' + lat + ',' + lng,
+    url: '/geocode?search=' + lng + ',' + lat,
     crossDomain: true
   }).done(function(data) {
     // Same structure as gazetteer
+    var place = (data['features'].length === 0) ? ' ' : data['features'][0]['place_name'];
     var bookmark = {
-      'place_name': data['features'][0]['place_name'],
+      'place_name': place,
       'zoom': zoom,
-      'center': [lat, lng],
+      'center': [lat,lng],
       'tags': [
         'userbookmark'
       ]
     };
-    bookmarks.push(bookmark);
     localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(bookmarks));
   });
 
-  // update of bookmarks list by force-clicking radio button
-  $('#bookmarks').trigger('click');
+  // update of bookmarks list
+  window.editor.renderPlaces('userbookmark');
 
   // flicker places button to hint where bookmark will live
   $('.places-n').attr('style','transition:all 0.25s; background-color:#3887be');
@@ -211,12 +176,25 @@ Editor.prototype.addbookmark = function(ev) {
   return false;
 };
 
+Editor.prototype.removeBookmark = function(ev) {
+  // var target = $(ev.currentTarget).parent('.js-places-entry');
+  // if (this.bookmarks[name]) delete this.bookmarks[name];
+  // localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+  return false;
+};
+
 Editor.prototype.renderPlaces = function(filter) {
   var view = this;
+  var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
 
-  if (gazetteer.length === 0) {
+  if (filter === 'userbookmark' && list.length === 0) {
+    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.<h1></div>');
+    return false;
+  }
+
+  if (list.length === 0) {
     $.getJSON('../ext/gazetteer.json', function(data) {
-      gazetteer = data;
+      list = data;
       render(filter);
     });
   } else {
@@ -224,8 +202,8 @@ Editor.prototype.renderPlaces = function(filter) {
   }
 
   function render(filter) {
-    // Filter gazetteer
-    var filtered = _.filter(gazetteer, function(d) {
+    // Filter list
+    var filtered = _.filter(list, function(d) {
       return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
     });
 
