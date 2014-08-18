@@ -75,7 +75,9 @@
 
 .entry-label { opacity: 0; }
 
-.entry-label h2 {
+.entry-label h2,
+.entry-label h2:hover {
+  color: white;
   top: 50%;
   -webkit-transform:translateY(-50%);
      -moz-transform:translateY(-50%);
