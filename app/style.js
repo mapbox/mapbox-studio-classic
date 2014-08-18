@@ -16,21 +16,6 @@ var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zo
                     '<% if (!tags.indexOf("userbookmark")) { %><a href="#" data-entry="<%= place_name %>" class="js-del-bookmark zoomedto-close icon x pin-topright pad1 quiet"></a><% }; %>' +
                   '</div>';
 
-function buildMap(container, lat, lng, zoom, view) {
-  var tiles = L.mapbox.tileLayer({
-    tiles: ['/style/{z}/{x}/{y}.png?id=' + view.model.id + '&' + mtime ],
-    minzoom: view.model.get('minzoom'),
-    maxzoom: view.model.get('maxzoom')
-  });
-  var map = L.mapbox.map(container);
-  map.dragging.disable();
-  map.touchZoom.disable();
-  map.doubleClickZoom.disable();
-  map.scrollWheelZoom.disable();
-  map.setView([lat, lng], zoom);
-  tiles.addTo(map);
-};
-
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
@@ -229,6 +214,21 @@ Editor.prototype.renderPlaces = function(filter) {
       var zoom = $this.attr('zoom');
       buildMap(id, lat, lng, zoom, view);
     });
+  };
+
+  function buildMap(container, lat, lng, zoom, view) {
+    var tiles = L.mapbox.tileLayer({
+      tiles: ['/style/{z}/{x}/{y}.png?id=' + view.model.id + '&' + mtime ],
+      minzoom: view.model.get('minzoom'),
+      maxzoom: view.model.get('maxzoom')
+    });
+    var map = L.mapbox.map(container);
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.setView([lat, lng], zoom);
+    tiles.addTo(map);
   };
 
 };
