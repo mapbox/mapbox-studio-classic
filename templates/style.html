@@ -95,7 +95,7 @@
     <a href='#' class='search-y fill-darken1 pad0 align-top quiet round short icon search'></a>
     <span class='align-top inline xray-toggle'>
       <a href='#xray' class='xray-n button short icon eye quiet'></a>
-      <a href='#' class='xray-y fill-darken1 pad0 align-top quiet round short icon eye'></a>
+      <a href='#home' class='xray-y fill-darken1 pad0 align-top quiet round short icon eye'></a>
     </span>
     <a id='quickaddbookmark' class='button short icon bookmark quiet'></a>
 
@@ -107,13 +107,8 @@
  --><a id='zoom-out' class='button short icon minus quiet'></a>
     </div>
     <span id='map-center' class='quiet micro strong fr pin-topright'></span>
-    <div id='zoomedto' class='round animate z<%=style.center[2]%>'></div>
-  </div>
-  <div class='export-controls visible-n'>
-     <a href='#export' title='Reselect within view' id='reselect' class='button short icon reselect refresh '>New crop from view</a>
-     <a href='#export' title='Reselect within view' id='recenter' class='button short icon recenter crosshair '>Center crop</a>
 
-
+    <div id='zoomedto' class='round animate contain z<%=style.center[2]%>'></div>
   </div>
 
   <!-- DEMO -->
@@ -295,9 +290,13 @@
   <nav class='row1 col12 pin-top keyline-bottom z1'>
     <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
     <h3 class='inline pad1'>Export image</h3>
+    <div class='fr align-top quiet space export-controls visible-n pin-right'>
+      <a href='#export' title='Reselect within view' id='reselect' class='fr quiet icon refresh button js-reselect short'>New crop</a>
+      <a href='#export' title='Reselect within view' id='recenter' class='fr quiet icon crosshair button js-recenter short'>Center crop</a>
+    </div>
     <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
     <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
-      <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
+      <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport.</p>
     </div>
   </nav>
 

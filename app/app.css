@@ -344,15 +344,14 @@ a.project.proj-active .proj-status { display: block;}
   top:45px;
   opacity:0;
   box-shadow:0 0 0 2px rgba(0,0,0,.1);
-  -webkit-transform:translateY(10px);
-     -moz-transform:translateY(10px);
-      -ms-transform:translateY(10px);
-          transform:translateY(10px);
+  -webkit-transform:translateY(-10px);
+     -moz-transform:translateY(-10px);
+      -ms-transform:translateY(-10px);
+          transform:translateY(-10px);
 }
 
 #search .search-result {
   height: 30px;
-  padding-right: 40px;
 }
 
 #search:target {
@@ -524,6 +523,8 @@ a.project.proj-active .proj-status { display: block;}
   }
 #zoomedto .close { display:none; }
 #zoomedto:target .close, #zoomedto.visible-y .close { display:block; }
+
+.zoomedto-close { z-index: 100; }
 
 .leaflet-container.dark .leaflet-bar,
 .leaflet-container.dark .leaflet-bar a { border-color:rgba(0,0,0,.2); }

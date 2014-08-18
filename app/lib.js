@@ -52,7 +52,7 @@ var statHandler = function(key) {
       memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10); });
       return memo;
     }, {});
-    var html = "<a href='#' class='z10 inline pad1 quiet pin-bottomright icon close'></a>";
+    var html = "<a href='#' class='zoomedto-close inline pad1 quiet pin-bottomright icon close'></a>";
 
     function round(v) { return Math.round(v * 0.001); }
 
@@ -298,7 +298,6 @@ views.Maputils.prototype.events = {
   'click #zoom-out': 'zoomout',
   'click #quickaddbookmark': 'addbookmark',
   'submit #search': 'search',
-  'click #bookmark .js-bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
   'click .search-n': 'focusSearch',
   'click .js-search-result': 'selectSearch',
@@ -331,12 +330,6 @@ views.Maputils.prototype.keys = function(ev) {
   return true;
 };
 
-views.Maputils.prototype.gotoBookmark = function(ev) {
-  var target = $(ev.currentTarget),
-      coords = this.bookmarks[target.text()];
-  this.map.setView([coords[0], coords[1]], coords[2]);
-  return false;
-};
 views.Maputils.prototype.removebookmark = function(ev) {
   ev.preventDefault();
   var target = $(ev.currentTarget).prev('a'),

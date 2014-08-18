@@ -9,9 +9,9 @@ var gridc;
 var gazetteer = [];
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="places-entry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
-                    '<div class="z1 entry-label fill-darken1 dark pin-bottom center pin-top">' +
+                    '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
                       '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
-                    '</div>' +
+                    '</a>' +
                   '</div>';
 
 function buildMap(container, lat, lng, zoom, view) {
@@ -563,7 +563,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { $('#zoomedto').attr('class', 'round animate z' + (map.getZoom()|0)); });
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'round animate contain z' + (map.getZoom()|0)); });
     $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
     map.on('moveend', function(e) {
         $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));

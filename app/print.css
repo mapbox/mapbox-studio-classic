@@ -8,20 +8,13 @@
 /* Map overlay
 ------------------------------------------------------- */
 
-#reselect {
-  bottom: 10px;
-  left: 10px;
-  position: absolute;
-}
 
-#recenter {
-  bottom: 10px;
-  left: 168px;
-  position: absolute;
+.export-controls {
+  top: 5px;
+  right: 75px;
 }
 
 .export-controls.visible-n { display:none; }
-
 .export-controls.export-y { display:inline-block; }
 
 /* locationfilter default overrides */
