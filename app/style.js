@@ -595,7 +595,7 @@ Editor.prototype.refresh = function(ev) {
       if (window.location.hash === '#export' && $('#zoomedto').hasClass('visible-y')){
         visible = 'visible-y';
       }
-      $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0) + ' ' + visible);
+      $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible);
     });
 
     $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
