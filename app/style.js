@@ -141,41 +141,34 @@ Editor.prototype.events = {
 Editor.prototype.getbookmarks = function(ev) {
   var view = this;
 
-  if(localStorage.listofbookmarks===undefined) {localStorage.setItem('listofbookmarks','[]')};
-  var filtered=JSON.parse(localStorage.listofbookmarks);
+  if (localStorage.listofbookmarks === undefined) { localStorage.setItem('listofbookmarks','[]') };
+  var filtered = JSON.parse(localStorage.listofbookmarks);
 
-    // Print template
-    $('#placeslist').html(_.map(filtered, function(d, i) {
-      d.index = i;
-      return _.template(placeentry, d);
-    }));
+  // Print template
+  $('#placeslist').html(_.map(filtered, function(d, i) {
+    d.index = i;
+    return _.template(placeentry, d);
+  }));
 
-    // Render maps
-    _.each($('.js-places-entry'), function(d) {
-      var $this = $(d);
-      var id = $this.attr('id');
-      var lat = $this.attr('lat');
-      var lng = $this.attr('lng');
-      var zoom = $this.attr('zoom');
-      buildMap(id, lat, lng, zoom,view);
-    });
+  // Render maps
+  _.each($('.js-places-entry'), function(d) {
+    var $this = $(d);
+    var id = $this.attr('id');
+    var lat = $this.attr('lat');
+    var lng = $this.attr('lng');
+    var zoom = $this.attr('zoom');
+    buildMap(id, lat, lng, zoom,view);
+  });
 
-    var entrybox="<div class='col4 places-entry animate leaflet-container leaflet-retina leaflet-fade-anim pad2 dark fill-darken1'><form id='bookmark' class='contain fill-white round animate'><input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' /><div class='pin-topright pad0'><input type='submit' class='short quiet button' value='Add' /></form></div>";
+  if (filtered.length === 0) {
+    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No bookmarks.<h1></div>');
+    return false;
+  }
 
-    if (filtered.length === 0) {
-      //$('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No bookmarks.<h1></div>');
-      $('#placeslist').append(entrybox);
-      return false;
-    }
-      //$('#placeslist').append(entrybox);
+  var entry_string = localStorage.getItem(this.model.get('id') + '.bookmarks');
+  var entries = JSON.parse(entry_string);
 
-
-      $('#placeslist').append(entrybox);
-    var entry_string=localStorage.getItem(this.model.get('id') + '.bookmarks');
-    var entries=JSON.parse(entry_string);
-    for (var b in entry_string) {
-    }
-}
+};
 
 Editor.prototype.renderPlaces = function(filter) {
   var view = this;
@@ -221,7 +214,6 @@ Editor.prototype.places = function(ev) {
   if (isToolbarButton && $('.js-places-list').children().size() > 0) return;
   window.editor.renderPlaces(filter);
 };
-
 
 Editor.prototype.showPlacesSearch = function(ev) {
   $('.js-places-container').removeClass('hidden');
@@ -571,7 +563,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
+    map.on('zoomend', function() { $('#zoomedto').attr('class', 'round animate z' + (map.getZoom()|0)); });
     $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
     map.on('moveend', function(e) {
         $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));

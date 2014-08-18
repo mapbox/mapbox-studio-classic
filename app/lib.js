@@ -65,8 +65,8 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
       html += [
-        "<a href='#zoomedto' class='clip contain strong micro col12 quiet z z",z,"'>",
-        "<span class='col3 center strong keyline-right'>z",z,"</span>",
+        "<a href='#zoomedto' class='clip contain strong micro col12 z z",z,"'>",
+        "<span class='col3 center strong'>z",z,"</span>",
         s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
@@ -296,24 +296,18 @@ views.Maputils = Backbone.View.extend({});
 views.Maputils.prototype.events = {
   'click #zoom-in': 'zoomin',
   'click #zoom-out': 'zoomout',
-  'submit #bookmark': 'addbookmark',
   'click #quickaddbookmark': 'addbookmark',
   'submit #search': 'search',
   'click #bookmark .js-bookmark-name': 'gotoBookmark',
   'click #bookmark .js-del-bookmark': 'removebookmark',
-  'click .bookmark-n': 'focusBookmark',
   'click .search-n': 'focusSearch',
   'click .js-search-result': 'selectSearch',
-  'click .js-search-result-bookmark': 'bookmarkSearch',
   'keydown': 'keys'
 };
 views.Maputils.prototype.initialize = function (options) {
   this.map = options.map;
   this.bookmarks = localStorage.getItem(this.model.get('id') + '.bookmarks') ?
     JSON.parse(localStorage.getItem(this.model.get('id') + '.bookmarks')) : {};
-  for (var b in this.bookmarks) {
-    this.appendBookmark(b);
-  }
 };
 views.Maputils.prototype.keys = function(ev) {
   if ((ev.which === 38 || ev.which == 40) && window.location.hash == '#search') {
@@ -336,13 +330,6 @@ views.Maputils.prototype.keys = function(ev) {
   }
   return true;
 };
-views.Maputils.prototype.appendBookmark = function(name) {
-  $('<li class="keyline-top contain">'+
-    '<a href="#" class="icon marker quiet pad0 col12 small truncate js-bookmark-name">'+name+'</a>'+
-    '<a href="#" class="icon keyline-left trash js-del-bookmark quiet pin-topright pad0" title="Delete"></a>'+
-    '</li>').appendTo('#bookmark-list');
-
-};
 
 views.Maputils.prototype.gotoBookmark = function(ev) {
   var target = $(ev.currentTarget),
@@ -361,27 +348,23 @@ views.Maputils.prototype.removebookmark = function(ev) {
 };
 views.Maputils.prototype.addbookmark = function(ev) {
   ev.preventDefault();
-  console.log('added');
   var coords = this.map.getCenter(),
       zoom = this.map.getZoom(),
-      field = $('#addbookmark'),
+      field = $('#quickaddbookmark'),
       fieldVal = field.val(),
       value = [coords.lat, coords.lng, zoom],
       name = fieldVal ? fieldVal : value;
   this.bookmarks[name] = value;
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
   field.val('');
-  this.appendBookmark(name);
-
-  var listofbookmarks=JSON.parse(localStorage.listofbookmarks);
-
-  listofbookmarks.push({place_name:name, zoom:zoom, center:[coords.lat, coords.lng]});
-  localStorage.setItem('listofbookmarks',JSON.stringify(listofbookmarks))
+  var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
+  listofbookmarks.push({
+    place_name: name,
+    zoom: zoom,
+    center:[coords.lat, coords.lng]
+  });
+  localStorage.setItem('listofbookmarks', JSON.stringify(listofbookmarks));
   return false;
-};
-views.Maputils.prototype.focusBookmark = function(ev) {
-  $('#addbookmark').focus();
-  return;
 };
 views.Maputils.prototype.search = function(ev) {
   ev.preventDefault();
@@ -429,7 +412,6 @@ views.Maputils.prototype.search = function(ev) {
         '<a href="#" class="pad0 quiet small js-search-result truncate col12 align-middle search-result '+(!idx ? 'active fill-darken0': '')+'" data-coords="'+coords+'" data-type="'+result.type+'" data-bounds="'+(result.bbox||false)+'" data-idx="'+idx+'">'+
         '<span><strong>' + name.shift() + '</strong>' + name +'</span>'+
         '</a>'+
-        '<a href="#bookmark" class="pad0 icon marker js-search-result-bookmark pin-topright quiet center keyline-left" title="Bookmark"></a>'+
         '</li>').appendTo($results);
       view.selectSearch(false, $('#search-results [data-idx="0"]'));
     });
@@ -461,12 +443,6 @@ views.Maputils.prototype.selectSearch = function(ev, selection) {
     }
   }
   return false;
-};
-views.Maputils.prototype.bookmarkSearch = function(ev, selection) {
-  var result = $(ev.currentTarget).siblings('.js-search-result');
-  this.selectSearch(false, result);
-  $('#addbookmark').val(result.find('strong').text()+', '+result.find('span').text());
-  $('#bookmark').submit();
 };
 views.Maputils.prototype.navSearch = function(ev, dir) {
   var results = $('#search-results li');

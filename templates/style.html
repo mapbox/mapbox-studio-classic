@@ -55,12 +55,12 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
-  <div id='places' class='animate pin-left dark fill-dark col12'>
+  <div id='places' class='z10 animate pin-left dark fill-dark col12'>
     <div class='pin-top z10 pad1'>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
       <a href='#' class='js-show-search show-search-button icon search pin-topleft button short quiet'></a>
       <form id='places-search' class='js-places-container places-search-container z10 col12 fill-dark hidden keyline-bottom clearfix pin-top'>
-        <input id='places-dosearch' class='col12 clean hidden' type='text' />
+        <input id='places-dosearch' placeholder='Search by feature, location, or OSM tag' class='col12 clean hidden' type='text' />
         <a href='#' class='pin-right button quiet icon search short js-places-search'>Search</a>
         <a href='#' class='icon js-hide-search x pin-right keyline-left pad1 quiet'></a>
       </form>
@@ -75,7 +75,7 @@
           <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-places'>
           <label for='Major cities'>Major cities</label>
           <input id='bookmarks' type='radio' name='rtoggle' value='bookmarks' class=''>
-          <label for='bookmarks' class='strong'>Bookmarks</label>
+          <label for='bookmarks'><span class='icon bookmark'></span>Bookmarks</label>
         </div>
       </div>
     </div>
@@ -88,56 +88,31 @@
   <form id='search' class='tip-top z10 contain fill-white round animate'>
 
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
-    <div class='pin-topleft pad1'>
-      <span class='icon search'></span>
-    </div>
     <ul id='search-results' class='clip fill-light scroll-styled round-bottom'></ul>
   </form>
-  <div class='pin-bottom right darker col12 fill-dark pad0'>
+  <div class='map-controls pin-top right col12 dark fill-dark pad0'>
+    <a href='#search' class='search-n button short icon search quiet'></a>
+    <a href='#' class='search-y fill-darken1 pad0 align-top quiet round short icon search'></a>
     <span class='align-top inline xray-toggle'>
       <a href='#xray' class='xray-n button short icon eye quiet'></a>
-      <a href='' class='xray-y button short icon eye quiet'></a>
+      <a href='#' class='xray-y fill-darken1 pad0 align-top quiet round short icon eye'></a>
     </span>
-    <a id='quickaddbookmark' class='button short icon bookmark'></a>
-    <a href='#search' class='search-n button short icon search quiet'></a>
-    <a href='#' class='search-y button short icon search quiet'></a>
+    <a id='quickaddbookmark' class='button short icon bookmark quiet'></a>
 
     <a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a>
-    <a href='#' title='Exit fillscreen' class='button short icon fullscreen full-y quiet'></a>
+    <a href='#' title='Exit fillscreen' class='fill-darken1 pad0 align-top quiet round short icon fullscreen full-y'></a>
 
-    <a id='zoom-in' class='button short icon plus quiet'></a>
-    <a id='zoom-out' class='button short icon minus quiet'></a>    
-    <span id='map-center' class='dark' style='float: right;padding-right: 150px;'></span>
-    <div id='zoomedto' class='dark fill-dark animate z<%=style.center[2]%>'></div>
-
-
-
-
-  </div>
-  <div id='map-controls' class='z10'>
-    <span class='align-top inline xray-toggle'>
-      <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
-      <a href='#home' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
-    </span>
-    <div class='align-top fill-white inline'>
-      <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
-      --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
-      --><a href='' id='quickaddbookmark' title='Bookmarks' class='bookmark-n icon bookmark quiet'></a><!--
-      --><a href='#' title='Close bookmarks' class='bookmark-y icon bookmark fill-dark dark'></a>
+    <div class='pill'>
+    <a id='zoom-in' class='button short icon plus quiet'></a><!--
+ --><a id='zoom-out' class='button short icon minus quiet'></a>
     </div>
-    <a href='#full' title='Toggle fullscreen' class='align-top full-n inline fill-white icon fullscreen quiet'></a>
-    <a href='#' title='Exit fillscreen' class='align-top full-y fill-dark dark icon fullscreen'></a>
-    <div class='inline fill-white'>
-      <a href='#' id='zoom-in' title='Zoom in' class='align-top icon plus keyline-right quiet'></a><!--
-      --><a href='#' id='zoom-out' title='Zoom out' class='align-top icon minus keyline-right quiet'></a>
-    </div>
-    <span class='align-top strong quiet fill-light inline micro truncate map-control-center center' id='map-center'></span>
+    <span id='map-center' class='quiet micro strong fr pin-topright'></span>
+    <div id='zoomedto' class='round animate z<%=style.center[2]%>'></div>
   </div>
   <div class='export-controls visible-n'>
     <a href='#export' title='Reselect within view' id='reselect' class='align-top reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
     <a href='#export' title='Reselect within view' id='recenter' class='align-top recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
   </div>
-
 
   <!-- DEMO -->
   <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
