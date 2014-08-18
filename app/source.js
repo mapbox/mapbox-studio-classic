@@ -217,7 +217,16 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
     Editor.prototype.togglelayer = function(ev) {
-        $(ev.currentTarget).toggleClass('disabled');
+        var $target = $(ev.currentTarget);
+        var $siblings = $('.js-xrayswatch');
+        if (ev.shiftKey) {
+            $siblings.hasClass('disabled') ? $siblings.removeClass('disabled') : $siblings.addClass('disabled');
+            $target.removeClass('disabled');
+            window.location.href === '#refresh';
+            return false;
+        } else {
+            $target.toggleClass('disabled');
+        }
     };
     Editor.prototype.addlayerModal = function(ev) {
         Modal.show('addlayer');

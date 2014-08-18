@@ -524,6 +524,8 @@ a.project.proj-active .proj-status { display: block;}
 #zoomedto .close { display:none; }
 #zoomedto:target .close, #zoomedto.visible-y .close { display:block; }
 
+.zoomedto-close { z-index: 100; }
+
 .leaflet-container.dark .leaflet-bar,
 .leaflet-container.dark .leaflet-bar a { border-color:rgba(0,0,0,.2); }
 
