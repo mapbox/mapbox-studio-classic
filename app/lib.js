@@ -331,7 +331,6 @@ views.Maputils.prototype.keys = function(ev) {
 };
 
 views.Maputils.prototype.removebookmark = function(ev) {
-  console.log(this.bookmarks);
   var target = $(ev.currentTarget).parent('.js-places-entry');
   if (this.bookmarks[name]) delete this.bookmarks[name];
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
@@ -343,17 +342,15 @@ views.Maputils.prototype.addbookmark = function(ev) {
 
   var coords = this.map.getCenter(),
       zoom = this.map.getZoom(),
-      field = $('#quickaddbookmark'),
-      fieldVal = field.val(),
-      value = [coords.lat, coords.lng, zoom],
       query = coords.lng+','+coords.lat;
 
-  this.bookmarks[name] = value;
+  // Set name to lat/lng to be reverse geocoded
+  this.bookmarks[name] = [coords.lat, coords.lng, zoom];
+
   localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  field.val('');
   var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
 
-  // async call to get city based on lat-lon
+  // Async call to reverse geocode name based on lat-lon
   $.ajax({
     url: '/geocode?search=' + query,
     crossDomain: true
@@ -369,7 +366,7 @@ views.Maputils.prototype.addbookmark = function(ev) {
     // update of bookmarks list by force-clicking radio button
     $('#bookmarks').trigger('click');
 
-    //flicker Places button to hint where bookmark will live
+    // flicker places button to hint where bookmark will live
     $('.places-n').attr('style','transition:all 0.25s; background-color:#3887be');
       setTimeout(function() {$('.places-n').attr('style','transition:all 0.25s;'); }, 600);
     return false;
@@ -402,9 +399,8 @@ views.Maputils.prototype.search = function(ev) {
     return false;
   }
 
-  console.log(this);
-
   var view = this;
+
   $.ajax({
     url: '/geocode?search=' + query,
     crossDomain: true
