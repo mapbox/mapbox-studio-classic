@@ -341,23 +341,38 @@ views.Maputils.prototype.removebookmark = function(ev) {
 };
 views.Maputils.prototype.addbookmark = function(ev) {
   ev.preventDefault();
-  var coords = this.map.getCenter(),
-      zoom = this.map.getZoom(),
-      field = $('#quickaddbookmark'),
-      fieldVal = field.val(),
-      value = [coords.lat, coords.lng, zoom],
-      name = fieldVal ? fieldVal : value;
-  this.bookmarks[name] = value;
-  localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
-  field.val('');
-  var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
-  listofbookmarks.push({
-    place_name: name,
-    zoom: zoom,
-    center:[coords.lat, coords.lng]
+
+    var coords = this.map.getCenter(),
+        zoom = this.map.getZoom(),
+        field = $('#quickaddbookmark'),
+        fieldVal = field.val(),
+        value = [coords.lat, coords.lng, zoom],
+        apiurl = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places-city-v1/'+coords.lng+','+coords.lat+'.json?access_token=pk.eyJ1IjoicGV0ZXJxbGl1IiwiYSI6ImpvZmV0UEEifQ._D4bRmVcGfJvo1wjuOpA1g';
+
+    this.bookmarks[name] = value;
+    localStorage.setItem(this.model.get('id') + '.bookmarks', JSON.stringify(this.bookmarks));
+    field.val('');
+    var listofbookmarks = JSON.parse(localStorage.listofbookmarks);
+
+  // async call to get city based on lat-lon
+  $.get(apiurl).done(function(data) {
+    var name = data['features'][0]['place_name'];
+    listofbookmarks.push({
+      place_name: name,
+      zoom: zoom,
+      center:[coords.lat, coords.lng]
+    });
+    localStorage.setItem('listofbookmarks', JSON.stringify(listofbookmarks));
+
+    // update of bookmarks list by force-clicking radio button
+    $('#bookmarks').trigger('click');
+
+    //flicker Places button to hint where bookmark will live
+    $('.places-n').attr('style','transition:all 0.25s; background-color:#3887be');
+      setTimeout(function() {$('.places-n').attr('style','transition:all 0.25s;'); }, 600);
+    return false;
   });
-  localStorage.setItem('listofbookmarks', JSON.stringify(listofbookmarks));
-  return false;
+
 };
 views.Maputils.prototype.search = function(ev) {
   ev.preventDefault();
