@@ -30,3 +30,4 @@
 .fill-darken3.gradient.reverse {
     background-image: linear-gradient( to top, rgba(0,0,0,0.55), rgba(0,0,0,0.70));
 }
+.single-font { background-size: cover;}
