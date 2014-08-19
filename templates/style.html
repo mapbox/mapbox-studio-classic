@@ -500,8 +500,10 @@
 </div>
 
 <script>
+
 var cwd = <%= JSON.stringify(cwd) %>;
 var style = <%= JSON.stringify(style) %>;
+var bookmarks = <%= JSON.stringify(style.bookmarks) %>;
 var examples = <%= JSON.stringify(examples) %>;
 var templates = {};
 templates.modalbrowser = <%= this.modalbrowser.source %>;
@@ -518,7 +520,7 @@ templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 
-Style(templates, cwd, style, examples);
+Style(templates, cwd, style, examples, bookmarks);
 </script>
 
 <% if (test) { %>

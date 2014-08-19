@@ -1,5 +1,5 @@
 
-window.Style = function(templates, cwd, style, examples) {
+window.Style = function(templates, cwd, style, examples, bookmarks) {
 
 var map;
 var tiles;
@@ -7,7 +7,7 @@ var xray;
 var grids;
 var gridc;
 var gazetteer = [];
-var bookmarks = localStorage.getItem(this.style.id + '.bookmarks') ? JSON.parse(localStorage.getItem(this.style.id + '.bookmarks')) : [];
+var bookmarks = (bookmarks.length > 0) ? bookmarks : [];
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="places-entry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
@@ -150,7 +150,6 @@ Editor.prototype.addBookmark = function(ev) {
       ]
     };
     bookmarks.push(bookmark);
-    localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(bookmarks));
 
     // tell user the bookmark has been added
     button.text('Added!').removeClass('spinner');
@@ -491,6 +490,7 @@ Editor.prototype.save = function(ev, options) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
+  attr.bookmarks = bookmarks;
   attr.source = $('.js-layers .js-layer').map(function() {
     return $(this).attr('id').split('layer-').pop();
   }).get().shift();
