@@ -162,6 +162,7 @@
   background-color:transparent;
   background-position:10px 50%;
   background-repeat:no-repeat;
+  background-size: 250px 30px;
   /* render but hide text for copying */
   color: transparent;
 }

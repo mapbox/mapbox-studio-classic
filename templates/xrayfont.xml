@@ -3,7 +3,7 @@
   <Style name='font'>
     <Rule>
       <TextSymbolizer
-        size='13'
+        size='26'
         fill='#fff'
         clip='false'
         face-name='<%=obj.name%>'
