@@ -182,7 +182,7 @@ Editor.prototype.renderPlaces = function(filter) {
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
 
   if (filter === 'userbookmark' && list.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.<h1></div>');
+    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 
@@ -202,7 +202,7 @@ Editor.prototype.renderPlaces = function(filter) {
     });
 
     if (filtered.length === 0) {
-      $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Results.<h1></div>');
+      $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Results.</h1></div>');
       return false;
     }
 
