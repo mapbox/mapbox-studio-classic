@@ -372,7 +372,7 @@ Editor.prototype.cartoError = function(ln, e) {
     if (!$('.js-error-alert').length) {
       var alert = document.createElement('div');
       alert.className = 'z100 top1 truncate js-error-alert error-alert pin-top col12 pad1 fill-yellow';
-      alert.innerHTML = '<strong>Unable to save.</strong> Fix carto errors and try again.';
+      alert.innerHTML = '<strong>Unable to save.</strong> Fix Carto errors and try again.';
       document.getElementById('style-ui').appendChild(alert);
     }
 
