@@ -1,13 +1,17 @@
 /* Layout
 ------------------------------------------------------- */
 
-#print {
+#export-ui {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
 /* Map overlay
 ------------------------------------------------------- */
 
+#export:target ~ #full .map-controls .export-controls { display: inline-block;}
+#export:target ~ #full .map-controls .xray-toggle { display: none; }
+#export:target ~ #full .map-controls .add-bookmark { display: none; }
+#export:target ~ #full .map-controls .places-button { border-radius: 3px;}
 /* locationfilter default overrides */
 div.leaflet-marker-icon.location-filter.resize-marker {
   background: #3887be;
@@ -38,8 +42,7 @@ div.leaflet-marker-icon.location-filter.move-marker.leaflet-drag-target {
 ------------------------------------------------------- */
 
 .export-controls {
-  top: 15px;
-  right: 10px;
+  padding-left: 5px;
 }
 
 .col-input input { border-right-width: 0;}

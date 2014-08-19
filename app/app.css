@@ -395,11 +395,15 @@ a.project.proj-active .proj-status { display: block;}
 .map-controls, .search-results { background: #525252;}
 .map-control-center { width: 100px;}
 
+.map-controls .pill .search-button {
+  border-left: 0;
+  border-radius: 3px 0 0 3px;
+}
 .leaflet-control-zoom { display: none; }
 .leaflet-control { z-index: 0; }
 
 #zoomedto {
-  width:120px;
+  width:60px;
   display: inline-block;
   height: 20px;
   top: 5px;
@@ -414,7 +418,9 @@ a.project.proj-active .proj-status { display: block;}
   width:100%;
   height:20px;
   }
+#zoomedto .close { display:none; }
 #zoomedto .range {
+  display: none;
   margin-left: 10px;
   height:4px;
   position:absolute;
@@ -423,7 +429,6 @@ a.project.proj-active .proj-status { display: block;}
   right:5px;
   top:8px;
   background:rgba(0,0,0,0.1);
-  display:block;
   }
 #zoomedto .minmax {
   height:4px;
@@ -527,8 +532,9 @@ a.project.proj-active .proj-status { display: block;}
   position:absolute;
   display:block;
   }
-#zoomedto .close { display:none; }
-#zoomedto:target .close, #zoomedto.visible-y .close { display:block; }
+#zoomedto:target .range,
+#zoomedto:target .close,
+#zoomedto.visible-y .close { display:block; }
 
 .zoomedto-close { z-index: 100; }
 

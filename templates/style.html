@@ -47,6 +47,7 @@
 
 <a id='home'></a>
 <a id='xray'></a>
+<a id='export'></a>
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
@@ -84,31 +85,32 @@
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
 
-
   <form id='search' class='z10 contain dark round animate search-results'>
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
     <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
   <div class='map-controls pin-top text-right col12 dark fill-dark pad0'>
     <div class='fl'>
-      <a href='#search' class='search-n button short icon search quiet'></a>
-      <a href='#' class='search-y button short icon active icon search quiet'></a>
-
-      <a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a>
-      <a href='#' title='Exit fillscreen' class='button short icon quiet active fullscreen full-y'></a>
-
       <div class='pill'>
-      <a id='zoom-in' class='button short icon plus quiet'></a><!--
-   --><a id='zoom-out' class='button short icon minus quiet'></a>
+        <a href='#search' class='search-n search-button button short icon search quiet'></a><!--
+     --><a href='#' class='search-y button search-button short icon active icon search quiet'></a><!--
+     --><a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a><!--
+     --><a href='#' title='Exit fillscreen' class='button short icon quiet active fullscreen full-y'></a><!--
+     --><a id='zoom-in' class='button short icon plus quiet'></a><!--
+     --><a id='zoom-out' class='button short icon minus quiet'></a>
       </div>
       <span class='align-top inline xray-toggle'>
         <a href='#xray' class='xray-n button short icon eye quiet'></a>
         <a href='#home' class='xray-y button short active icon eye quiet'></a>
       </span>
       <div class='pill inline align-top'>
-        <a class='button short icon places-n marker js-places quiet js-toolbar-places' title='gazetteer' href='#places'>Places</a><!--
-        --><a class='button js-add-bookmark short quiet'>Add</a>
+        <a class='button short icon places-button marker js-places quiet js-toolbar-places' title='gazetteer' href='#places'>Places</a><!--
+        --><a class='button js-add-bookmark add-bookmark short quiet'>Add</a>
       </div>
+    </div>
+    <div class='fl align-top hidden quiet export-controls'>
+      <a href='#export' title='Reselect crop area within view' id='reselect' class='quiet icon refresh button js-reselect short'>New</a>
+      <a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
     </div>
     <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
     <div id='zoomedto' class='align-top inline contain zoom<%=style.center[2]%>'></div>
@@ -289,7 +291,7 @@
   <!-- END DEMO -->
 </div>
 
-<div id='export' class='z100 col6 animate pin-right dark fill-dark'>
+<div id='export-ui' class='z100 col6 animate pin-right dark fill-dark'>
   <nav class='row1 col12 pin-top keyline-bottom z1'>
     <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
     <h3 class='inline pad1'>Export image</h3>
@@ -300,11 +302,9 @@
   </nav>
 
   <form class='js-data-content menu-content pin-right col12 top1 scroll-styled pad1x pad2y'>
-    <h3 class='space-bottom2'>Zoom <span id='zoom'><%=style.center[2]%></span></h3>
-    <div class='align-top quiet space export-controls pin-right'>
-      <a href='#export' title='Reselect within view' id='reselect' class='quiet icon refresh button js-reselect short'>New crop</a>
-      <a href='#export' title='Reselect within view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center crop</a>
-      <div class='checkbox-pill inline align-top'>
+    <div class='clearfix'>
+      <h3 class='space-bottom2 col8'>Zoom <span id='zoom'><%=style.center[2]%></span></h3>
+      <div class='checkbox-pill col4'>
         <input type='checkbox' id='lock'>
         <label for='lock' class='fr button short quiet icon check'>Lock dimensions</label>
       </div>

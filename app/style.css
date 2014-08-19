@@ -10,9 +10,7 @@
 #layers:target ~ #drawers,
 #fonts:target ~ #drawers #fonts-drawer,
 #docs:target ~ #drawers #docs-drawer,
-#layers:target ~ #drawers #layers-drawer,
-#export:target ~ #export-ui
- {
+#layers:target ~ #drawers #layers-drawer {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -23,8 +21,7 @@
 #fonts:target ~ #drawers #fonts-drawer ~ .drawer,
 #docs:target ~ #drawers #docs-drawer ~ .drawer,
 #layers:target ~ #drawers #layers-drawer ~ .drawer,
-#places:target ~ #drawers #places-drawer ~ .drawer,
-#export:target ~ #export-ui {
+#places:target ~ #drawers #places-drawer ~ .drawer {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -40,8 +37,8 @@
 #layers:target ~ #drawers #layers-drawer > *
   { display:block; }
 
-#export { opacity: 0; z-index: -1;}
-#export:target { opacity: 1; z-index: 100;}
+#export-ui { opacity: 0; z-index: -1;}
+#export:target ~ #export-ui { opacity: 1; z-index: 100;}
 
 /* places
 ------------------------------------------------------- */
