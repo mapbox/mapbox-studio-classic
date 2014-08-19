@@ -7,18 +7,11 @@
 .bottom3 { bottom:120px; }
 
 .button.spinner:after {
-  content: '';
-  position: absolute;
   right: 0;
   top: 0;
   left: 0;
   margin: auto;
-  border-radius: 3px;
-  background: #444 url(spinner.gif) 50% 50% no-repeat;
-  height: 30px;
   width: auto;
-  opacity: 0.25;
-  background-size: 20px 20px;
 }
 
 /* Hover/acive fills */

@@ -331,7 +331,10 @@ views.Maputils.prototype.keys = function(ev) {
 
 views.Maputils.prototype.search = function(ev) {
   ev.preventDefault();
-  var query = $('#search input').get(0).value;
+  var searchbox = $('#search input'),
+      container = $('#search input').parent('form');
+      query = searchbox.get(0).value;
+
   // This query is empty or only whitespace.
   if (/^\s*$/.test(query)) return null;
 
@@ -340,6 +343,8 @@ views.Maputils.prototype.search = function(ev) {
 
   // The query matches what is currently displayed
   if ($('#search input').val() == $('#dosearch').data('query')) return;
+
+  container.addClass('spinner');
 
   var $results = $('#search-results');
   $results.html('');
@@ -367,6 +372,8 @@ views.Maputils.prototype.search = function(ev) {
     }
 
     $('#dosearch').data('query', query);
+
+    container.removeClass('spinner');
 
     results.forEach(function(result, idx) {
       var coords = result.center[1] + ',' + result.center[0];
