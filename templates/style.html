@@ -75,7 +75,7 @@
           <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-places'>
           <label for='Major cities'>Major cities</label>
           <input id='bookmarks' type='radio' name='rtoggle' value='userbookmark' class='js-places'>
-          <label for='bookmarks'><span class='icon bookmark'></span>Bookmarks</label>
+          <label for='bookmarks'></span>Your places</label>
         </div>
       </div>
     </div>
@@ -105,8 +105,10 @@
         <a href='#xray' class='xray-n button short icon eye quiet'></a>
         <a href='#home' class='xray-y button short active icon eye quiet'></a>
       </span>
-      <a class='button js-add-bookmark short icon bookmark quiet'>Bookmark</a>
-
+      <div class='pill inline align-top'>
+        <a class='button short icon places-n marker js-places quiet js-toolbar-places' title='gazetteer' href='#places'>Places</a><!--
+        --><a class='button js-add-bookmark short quiet'>Add</a>
+      </div>
     </div>
     <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
     <div id='zoomedto' class='align-top inline contain zoom<%=style.center[2]%>'></div>
@@ -415,8 +417,6 @@
   <a class='toolbar-button strong icon fonts-y font active fill-lighten1' href='#'>Fonts</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
-  <a class='toolbar-button strong icon places-n marker js-places js-toolbar-places' href='#places'>Places</a>
-  <a class='toolbar-button strong icon places-y marker active fill-lighten1' href='#'>Places</a>
 
   <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
