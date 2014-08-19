@@ -143,6 +143,18 @@ test('remote: loads', function(t) {
     });
 });
 
+test('remote: loads raster', function(t) {
+    source('mapbox:///mapbox.satellite', function(err, source) {
+        t.ifError(err);
+        t.equal('Mapbox Satellite', source.data.name);
+        t.equal(0, source.data.minzoom);
+        t.equal(19, source.data.maxzoom);
+        t.equal(source.data.vector_layers, undefined);
+        t.ok(!!source.style);
+        t.end();
+    });
+});
+
 test('remote: loads via tilelive', function(t) {
     tilelive.load('mapbox:///mapbox.mapbox-streets-v2', function(err, source) {
         t.ifError(err);
