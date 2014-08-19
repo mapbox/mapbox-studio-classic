@@ -169,9 +169,9 @@ test('tm font (invalid)', function(t) {
 test('tm font (valid)', function(t) {
     tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
-        t.ok(buffer.length > 600 && buffer.length < 1000);
+        t.ok(buffer.length > 1200 && buffer.length < 2000);
         setTimeout(function() {
-            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-bd95f62a.png')));
+            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-6310313b.png')));
             t.end();
         }, 2000);
     });
@@ -180,7 +180,7 @@ test('tm font (valid)', function(t) {
 test('tm font (cache hit)', function(t) {
     tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
-        t.ok(buffer.length > 600 && buffer.length < 1000);
+        t.ok(buffer.length > 1200 && buffer.length < 2000);
         t.ok(buffer.hit);
         t.end();
     });
