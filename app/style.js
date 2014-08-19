@@ -1,4 +1,4 @@
-window.Style = function(templates, cwd, style) {
+window.Style = function(templates, cwd, style, examples) {
 
 var map;
 var tiles;
@@ -10,11 +10,11 @@ var mtime = (+new Date).toString(36);
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if (Editor && Editor.changed) return 'Save your changes?';
+  if ($('body').hasClass('changed')) return 'Save your changes?';
 };
 
 var Editor = Backbone.View.extend({});
-var Modal = new views.Modal({
+var Modal = window.Modal = new views.Modal({
   el: $('.modal-content'),
   templates: templates
 });
@@ -41,6 +41,9 @@ var Tab = function(id, value) {
     },
     keyMap: 'tabSpace'
   });
+
+  Inlet(tab);
+
   var completer = cartoCompletion(tab, window.cartoRef);
 
   /*
@@ -62,12 +65,8 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
-  function changed() {
-    Editor.changed = true;
-  }
-
   tab.on('keydown', completer.onKeyEvent);
-  tab.on('change', changed);
+  tab.on('change', function() { return window.editor && window.editor.changed(); });
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
@@ -86,22 +85,30 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
+  'click .js-newstyle': 'newStyle',
   'click .js-browsestyle': 'browseStyle',
   'click .js-browsesource': 'browseSource',
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
   'click .js-saveas': 'saveModal',
   'click .js-recache': 'recache',
-  'submit js-settings-form': 'save',
+  'change #settings-drawer': 'changed',
+  'submit #settings-drawer': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'submit #addmapbox': 'addmapbox',
   'click #tabs .js-deltab': 'deltab',
-  'click .js-history .js-ref-delete': 'delstyle',
+  'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
   'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
+  'click .js-selectall': 'selectall',
+  'click .js-demo': 'demo',
   'keydown': 'keys'
+};
+
+Editor.prototype.changed = function() {
+  $('body').addClass('changed');
 };
 
 Editor.prototype.keys = function(ev) {
@@ -137,6 +144,10 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('bookmark');
     break;
+    case (which === 69): // e for export-pane
+    ev.preventDefault();
+    this.togglePane('export');
+    break;
   case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
     var tab = $('#tabs a.tab')[(which-48)-1];
     if (tab) $(tab).click();
@@ -165,6 +176,7 @@ Editor.prototype.saveModal = function() {
   });
   return false;
 };
+Editor.prototype.newStyle = function() { return Modal.show('newstyle', examples) || false; };
 Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
 Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
 Editor.prototype.togglePane = function(name) {
@@ -177,7 +189,6 @@ Editor.prototype.togglePane = function(name) {
 };
 
 Editor.prototype.messageclear = function() {
-  messageClear();
   _(code).each(function(cm) {
       _(cm._cartoErrors||[]).each(function() {
         cm.clearGutter('errors');
@@ -209,6 +220,7 @@ Editor.prototype.adddata = function(ev) {
     success: _(function(model, resp) {
       $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
+      this.changed();
       Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
@@ -228,6 +240,7 @@ Editor.prototype.addmapbox = function(ev) {
     success: _(function(model, resp) {
       $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
       this.model.set({source:id});
+      this.changed();
       Modal.close();
     }).bind(this),
     error: _(this.error).bind(this)
@@ -244,6 +257,7 @@ Editor.prototype.addtab = function(ev) {
   if (!code[filename]) {
     $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='keyline-right strong quiet tab js-tab pad1y pad0x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad0'></span></a><!--");
     code[filename] = Tab(filename, '');
+    this.changed();
   } else {
     Modal.show('error', 'Tab name must be different than existing tab "' + filename.replace(/.mss/,'') + '"');
     field.val('');
@@ -254,22 +268,26 @@ Editor.prototype.addtab = function(ev) {
   return false;
 };
 Editor.prototype.deltab = function(ev) {
+  var view = this;
   var styles = this.model.get('styles');
   var parent = $(ev.currentTarget).parent();
   var target = parent.attr('rel');
-  if (!styles[target] || confirm('Remove stylesheet "' + target.replace(/.mss/,'') + '"?')) {
+  Modal.show('confirm', 'Remove stylesheet "' + target.replace(/.mss/,'') + '"?', function(err, confirm) {
+    if (err) return Modal.show('error', err);
+    if (!confirm) return;
     $(code[target].getWrapperElement()).remove();
     parent.remove();
     delete styles[target];
     delete code[target];
-    this.model.set({styles:styles});
-  }
+    view.model.set({styles:styles});
+    view.changed();
 
-  // Set first tab to active.
-  var tabs = $('.js-tab', '#tabs');
-  if (parent.is('.active') && tabs.size())
-    this.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
-
+    // Set first tab to active.
+    var tabs = $('.js-tab', '#tabs');
+    if (parent.is('.active') && tabs.size()) {
+      view.tabbed({ currentTarget:tabs.get(tabs.length - 1) });
+    }
+  });
   return false;
 };
 Editor.prototype.recache = function(ev) {
@@ -283,9 +301,12 @@ Editor.prototype.save = function(ev, options) {
   // Set map in loading state.
   $('#full').addClass('loading');
 
+  // Clear focus from any fields.
+  $('#settings-drawer input, #settings-drawer textarea').blur();
+
   var attr = {};
   // Grab settings form values.
-  _($('.js-settings-form').serializeArray()).reduce(function(memo, field) {
+  _($('#settings-drawer').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
     } else if (field.name && field.value) {
@@ -312,7 +333,6 @@ Editor.prototype.save = function(ev, options) {
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
-  Editor.changed = false;
   options = options || {
     success:_(this.refresh).bind(this),
     error: _(this.error).bind(this)
@@ -323,6 +343,9 @@ Editor.prototype.save = function(ev, options) {
 };
 Editor.prototype.error = function(model, resp) {
   this.messageclear();
+
+  $('#full').removeClass('loading');
+
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
 
@@ -373,28 +396,54 @@ Editor.prototype.cartoError = function(ln, e) {
 
 Editor.prototype.upload = function(ev) {
   var style = this.model.get('id');
-  $('.js-settings-form').addClass('loading');
-  $.ajax('/upload?styleid=' + style)
-    .done(function() {
-      Modal.show('message', '<span class="dark fill-green inline dot"><span class="icon dark check"></span></span> Uploaded! Your map style is at <a target="blank" href=\'http://mapbox.com/data\'>Mapbox.com</a>');
-      $('.js-settings-form').removeClass('loading');
+  $('#mapstatus').addClass('loading');
+  $.ajax({
+    url: '/style.upload.json?id=' + style,
+    method: 'PUT'
+  })
+    .done(function(info) {
+      $('.js-mapid').text(info._prefs.mapid);
+      $('#mapstatus').removeClass('loading');
+      $('#mapstatus').addClass('uploaded');
+      setTimeout(function() { $('#mapstatus').removeClass('uploaded'); }, 1000);
       return true;
     })
     .error(function(resp) {
-      $('.js-settings-form').removeClass('loading');
-      return Modal.show('error', resp.responseText);
+      $('#mapstatus').removeClass('loading');
+      return Modal.show((resp.status === 422 ? 'upgrade' : 'error'), resp.responseText);
     });
+};
+
+Editor.prototype.selectall = function(ev) {
+  $(ev.currentTarget).select();
+  return false;
+};
+
+Editor.prototype.demo = function(ev) {
+  $('body').toggleClass('demo');
 };
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
+  $('#full').removeClass('loading');
+  $('body').removeClass('changed');
 
   $('.js-error-alert').remove();
 
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
-    map.on('zoomend', function() { $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0)); });
+    map.on('zoomend', function() {
+      var visible = '';
+      if (window.location.hash === '#export' && $('#zoomedto').hasClass('visible-y')){
+        visible = 'visible-y';
+      }
+      $('#zoomedto').attr('class', 'contain z' + (map.getZoom()|0) + ' ' + visible);
+    });
+    $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
+    map.on('moveend', function(e) {
+        $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));
+    });
     map.on('click', inspectFeature({
       id: this.model.id,
       type: 'style',
@@ -416,7 +465,9 @@ Editor.prototype.refresh = function(ev) {
     minzoom: this.model.get('minzoom'),
     maxzoom: this.model.get('maxzoom')
   })
-  .on('tileload', statHandler('drawtime'))
+  .on('tileload', function(){
+    if (window.location.hash !== '#export') statHandler('drawtime')();
+  })
   .on('load', errorHandler);
   if (window.location.hash !== '#xray') {
     $('.xray-toggle').removeClass('active');
@@ -472,28 +523,50 @@ window.editor = new Editor({
 });
 window.editor.refresh();
 
+var Printer = window.Print({
+  style: Style,
+  source: Source,
+  map: map,
+  tiles: tiles
+});
+
+window.exporter = new Printer({
+  el: document.body,
+  model: new Style(style)
+});
+
 // A few :target events need supplemental JS action. Handled here.
 window.onhashchange = function(ev) {
+  analytics.page({hash:window.location.hash});
+
   switch (ev.newURL.split('#').pop()) {
-  case 'demo':
-    $('body').addClass('demo');
-    window.editor.refresh();
-    break;
-  case 'start':
-    $('body').removeClass('demo');
-    window.editor.refresh();
-    setTimeout(map.invalidateSize, 200);
-    localStorage.setItem('style.demo', true);
-    break;
   case 'home':
   case 'xray':
     window.editor.refresh();
     break;
+  case !'export':
+    window.exporter.boundingBox.disable();
+    $('.export-controls').addClass('visible-n').removeClass('visible-y');
+    statHandler('drawtime')();
+    break;
+  case 'export':
+    if ($('body').hasClass('local')) {
+      window.location.hash = '#';
+      break;
+    }
+    window.exporter.refresh();
+    $('.export-controls').addClass('visible-y').removeClass('visible-n');
+    break;
+  default:
+    if (window.exporter.boundingBox) {
+      window.exporter.boundingBox.disable();
+      $('.export-controls').addClass('visible-n').removeClass('visible-y');
+      $('#zoomedto').addClass('visible-n').removeClass('visible-y');
+      statHandler('drawtime')();
+    }
+    break;
   }
 };
-
-// Enter walkthrough if not yet set.
-if (!localStorage.getItem('style.demo')) window.location.hash = '#demo';
 
 window.onhashchange({
   oldURL:window.location.toString(),

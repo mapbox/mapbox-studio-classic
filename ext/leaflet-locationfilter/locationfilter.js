@@ -50,7 +50,7 @@ L.Control.Button = L.Class.extend({
     },
 
     remove: function() {
-        L.DomEvent.off(this._button, "click", this._onClick);
+        L.DomEvent.off(this._button, 'click', this._onClick);
         this._buttonContainer.getContainer().removeChild(this._button);
     },
 
@@ -95,11 +95,8 @@ L.LocationFilter = L.Class.extend({
 
     options: {
         enableButton: {
-            enableText: "Select area",
-            disableText: "Remove selection"
-        },
-        adjustButton: {
-            text: "Select area within current zoom"
+            enableText: 'Select area',
+            disableText: 'Remove selection'
         },
         buttonPosition: 'topleft'
     },
@@ -115,10 +112,6 @@ L.LocationFilter = L.Class.extend({
 
     onAdd: function(map) {
         this._map = map;
-
-        // if (this.options.enableButton || this.options.adjustButton) {
-        //     this._initializeButtonContainer();
-        // }
 
         if (this.options.enable) {
             this.enable();
@@ -148,7 +141,7 @@ L.LocationFilter = L.Class.extend({
         this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
         if (this.isEnabled()) {
             this._draw();
-            this.fire("change", {bounds: bounds});
+            this.fire('change', {bounds: bounds});
         }
     },
 
@@ -162,7 +155,7 @@ L.LocationFilter = L.Class.extend({
         var defaultOptions = {
             stroke: false,
             fill: true,
-            fillColor: "black",
+            fillColor: 'black',
             fillOpacity: 0.3,
             clickable: false,
             className: divClass
@@ -193,9 +186,9 @@ L.LocationFilter = L.Class.extend({
     _drawMoveMarker: function(point) {
         var that = this;
         this._moveMarker = this._drawImageMarker(point, {
-            "className": "location-filter move-marker",
-            "anchor": [-10, -10],
-            "size": [13,13]
+            'className': 'location-filter move-marker',
+            'anchor': [-10, -10],
+            'size': [13,13]
         });
         this._moveMarker.on('drag', function(e) {
             var markerPos = that._moveMarker.getLatLng(),
@@ -218,9 +211,9 @@ L.LocationFilter = L.Class.extend({
     /* Draw a resize marker */
     _drawResizeMarker: function(point, className) {
         return this._drawImageMarker(point, {
-            "className": "location-filter resize-marker " + className,
-            "anchor": [7, 6],
-            "size": [23, 22]
+            'className': 'location-filter resize-marker ' + className,
+            'anchor': [7, 6],
+            'size': [23, 22]
         });
     },
 
@@ -339,7 +332,7 @@ L.LocationFilter = L.Class.extend({
     _setupDragendListener: function(marker) {
         var that = this;
         marker.on('dragend', function(e) {
-            that.fire("change", {bounds: that.getBounds()});
+            that.fire('change', {bounds: that.getBounds()});
         });
     },
 
@@ -365,11 +358,36 @@ L.LocationFilter = L.Class.extend({
         this._southBounds = new L.LatLngBounds(this._osw, new L.LatLng(this._sw.lat, this._one.lng, true));
     },
 
+    _calculatePixelCorners: function(){
+        // calculate the new geographic dimensions of the bounding by desired dimensions in pixels
+        // uses node-sphericalmercator to calculate between pixel values and lat,lng
+        var zoom = this._map.getZoom(),
+            ne = this._sm.px([this._ne.lng, this._ne.lat], zoom),
+            sw = this._sm.px([this._sw.lng, this._sw.lat], zoom),
+            center = [(ne[0] - sw[0])/2 + sw[0], (ne[1] - sw[1])/2 + sw[1]],
+            w = Math.ceil(window.exporter.model.get('coordinates').dimensions[0] / window.exporter.model.get('coordinates').scale),
+            h = Math.ceil(window.exporter.model.get('coordinates').dimensions[1] / window.exporter.model.get('coordinates').scale);
+
+        ne = this._sm.ll([center[0] + w/2, center[1] - h/2], zoom);
+        sw = this._sm.ll([center[0] - w/2, center[1] + h/2], zoom);
+
+        this._nw = L.latLng(ne[1], sw[0]);
+        this._ne = L.latLng(ne[1], ne[0]);
+        this._sw = L.latLng(sw[1], sw[0]);
+        this._se = L.latLng(sw[1], ne[0]);
+        this._north = new L.LatLng(this._nw.lat, (this._ne.lng - this._nw.lng)/2 + this._nw.lng);
+        this._south = new L.LatLng(this._sw.lat, (this._se.lng - this._sw.lng)/2 + this._sw.lng);
+        this._east = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._ne.lng);
+        this._west = new L.LatLng((this._sw.lat - this._nw.lat)/2 + this._nw.lat, this._nw.lng);
+    },
+
     /* Initializes rectangles and markers */
     _initialDraw: function() {
         if (this._initialDrawCalled) {
             return;
         }
+        // for geo -> pixel conversion
+        this._sm = new SphericalMercator();
 
         this._layer = new L.LayerGroup();
 
@@ -384,7 +402,7 @@ L.LocationFilter = L.Class.extend({
         this._innerRect = this._drawRectangle(this.getBounds(), 'innerRect', {
             fillOpacity: 0,
             stroke: true,
-            color: "white",
+            color: 'white',
             weight: 1,
             opacity: 0.9
         });
@@ -423,6 +441,17 @@ L.LocationFilter = L.Class.extend({
     /* Reposition all rectangles and markers to the current filter bounds. */    
     _draw: function(options) {
         options = L.Util.extend({repositionResizeMarkers: true}, options);
+
+        /*  In order to combat skewing of the bounding box
+        *   and divergence from desired pixel dimensions due
+        *   to the projection of the map (especially near the poles),
+        *   if the dimensions of the bounding box are locked
+        *   recalculate bounding box coordinates by saved
+        *   pixel dimensions.
+        */ 
+        if (window.exporter.model.get('coordinates') && window.exporter.model.get('coordinates').locked){
+            this._calculatePixelCorners();
+        }
 
         // Calculate filter bounds
         this._calculateBounds();
@@ -484,15 +513,11 @@ L.LocationFilter = L.Class.extend({
 
         // Update buttons
         if (this._buttonContainer) {
-            this._buttonContainer.addClass("enabled");
+            this._buttonContainer.addClass('enabled');
         }
 
         if (this._enableButton) {
             this._enableButton.setText(this.options.enableButton.disableText);
-        }
-
-        if (this.options.adjustButton) {
-            this._createAdjustButton();
         }
         
         // Draw filter
@@ -504,22 +529,22 @@ L.LocationFilter = L.Class.extend({
         this._moveHandler = function() {
             that._draw();
         };
-        this._map.on("move", this._moveHandler);
+        this._map.on('move', this._moveHandler);
 
         // Add the filter layer to the map
         this._layer.addTo(this._map);
         
-        // Zoom out the map if necessary
-        var mapBounds = this._map.getBounds();
-        bounds = new L.LatLngBounds(this._sw, this._ne).modify(this._map, 10);
-        if (!mapBounds.contains(bounds.getSouthWest()) || !mapBounds.contains(bounds.getNorthEast())) {
-            this._map.fitBounds(bounds);
-        }
+        // // Zoom out the map if necessary
+        // var mapBounds = this._map.getBounds();
+        // bounds = new L.LatLngBounds(this._sw, this._ne).modify(this._map, 10);
+        // if (!mapBounds.contains(bounds.getSouthWest()) || !mapBounds.contains(bounds.getNorthEast())) {
+        //     this._map.fitBounds(bounds);
+        // }
 
         this._enabled = true;
         
         // Fire the enabled event
-        this.fire("enabled");
+        this.fire('enabled');
     },
 
     /* Disable the location filter */
@@ -530,19 +555,15 @@ L.LocationFilter = L.Class.extend({
 
         // Update buttons
         if (this._buttonContainer) {
-            this._buttonContainer.removeClass("enabled");
+            this._buttonContainer.removeClass('enabled');
         }
 
         if (this._enableButton) {
             this._enableButton.setText(this.options.enableButton.enableText);
         }
 
-        if (this._adjustButton) {
-            this._adjustButton.remove();
-        }
-
         // Remove event listener
-        this._map.off("move", this._moveHandler);
+        this._map.off('move', this._moveHandler);
 
         // Remove rectangle layer from map
         this._map.removeLayer(this._layer);
@@ -550,22 +571,7 @@ L.LocationFilter = L.Class.extend({
         this._enabled = false;
 
         // Fire the disabled event
-        this.fire("disabled");
-    },
-
-    /* Create a button that allows the user to adjust the location
-       filter to the current zoom */
-    _createAdjustButton: function() {
-        var that = this;
-        this._adjustButton = new L.Control.Button({
-            className: "adjust-button",
-            text: this.options.adjustButton.text,
-            
-            onClick: function(event) {
-                that._adjustToMap();
-                that.fire("adjustToZoomClick");
-            }
-        }).addTo(this._buttonContainer);
+        this.fire('disabled');
     },
 
     /* Create the location filter button container and the button that
@@ -573,24 +579,24 @@ L.LocationFilter = L.Class.extend({
     _initializeButtonContainer: function() {
         var that = this;
         this._buttonContainer = new L.Control.ButtonContainer({
-	    className: "location-filter button-container",
+	    className: 'location-filter button-container',
 	    position: this.options.buttonPosition
 	});
 
         if (this.options.enableButton) {
             this._enableButton = new L.Control.Button({
-                className: "enable-button",
+                className: 'enable-button',
                 text: this.options.enableButton.enableText,
 
                 onClick: function(event) {
                     if (!that._enabled) {
                         // Enable the location filter
                         that.enable();
-                        that.fire("enableClick");
+                        that.fire('enableClick');
                     } else {
                         // Disable the location filter
                         that.disable();
-                        that.fire("disableClick");
+                        that.fire('disableClick');
                     }
                 }
             }).addTo(this._buttonContainer);

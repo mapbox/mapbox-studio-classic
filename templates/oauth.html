@@ -5,17 +5,186 @@
   <meta charset='UTF-8'/>
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
-  <title>TM2 Authorization</title>
+  <link href='/app/welcome.css' rel='stylesheet' />
+  <script src='/ext/jquery-2.0.3.min.js'></script>
+  <script src='/app/atom.js?_=<%= +new Date %>'></script>
+  <%= this.analytics(obj) %>
+  <title>Mapbox Studio Authorization</title>
 </head>
 
-<body id='view' class='fill-denim pad2y'>
-  <div class='center col6 margin3 dark'>
-    <h3 class='icon tilemill pad4y'>TileMill 2</h3>
-    <div class='pad4 fill-darken0 clearfix'>
-      <h1 class='space-bottom2'>Connect your Mapbox account to get&nbsp;started.</h1>
-      <a href='/oauth/mapbox' class='button icon lock col8 margin2'>Connect</a>
+<body id='view'>
+
+<div class='fill-blue'><div class='dark pad8 clearfix fill-darken0 gradient'>
+    <div class='col6 margin3 pad8y center'>
+        <% if (obj.user) { %>
+        <div class='space-bottom'>
+            <div class='inline small-graphic avatar dot' style='background-image:url(<%= obj.user.avatar %>)' /></div>
+        </div>
+        <h2><%- obj.user.name || obj.user.id %></h2>
+        <div class='space-bottom quiet small space'>
+            <a href='https://www.mapbox.com/projects/' target='_blank'>My account</a>
+            <a href='/unauthorize'>Sign out</a>
+        </div>
+        <div class='space-bottom1 clearfix'>
+            <div class='col4 small pad1 truncate fill-darken0 round-left'>Access token</div>
+            <input class='col8 code clean round-right' type='text' value='<%= obj.oauth.accesstoken %>' disabled readonly />
+        </div>
+        <div class='space-bottom4 micro'><em>Authorized to use the <a href='https://www.mapbox.com/developers/api/' target='_blank'>Mapbox API</a></em></div>
+        <a href='/' class='button rcon next col8 margin2'>Skip intro</a>
+        <% } else { %>
+        <div class='mb-logo white row1 space-bottom'></div>
+        <h2 class='space-bottom4'>
+        Connect&nbsp;to&nbsp;your&nbsp;Mapbox<br/>
+        account&nbsp;to&nbsp;get&nbsp;started.
+        </h2>
+        <a href='/oauth/mapbox' class='button icon lock col8 margin2'>Connect</a>
+        <% } %>
     </div>
-  </div>
+</div></div>
+
+<div class='fill-blue'><div class='dark pad8 clearfix fill-darken1 gradient'>
+    <div class='col6 margin3 pad8y prose'>
+        <h1 class='center'>Welcome</h1>
+        <p>
+        Mapbox Studio is a powerful map design studio for creating radically custom maps using data from Mapbox, OpenStreetMap, and your own custom sources.
+        </p>
+    </div>
+</div></div>
+
+<div class='fill-blue'><div class='dark pad8 clearfix fill-darken2 gradient contain'>
+    <div class='col6 margin3 fill-darken0 round clearfix contain mobile-cols'>
+        <div class='col6 pad4 center'>
+            <div class='inline icon big polygon'></div><br/>
+            <strong class='micro truncate'>Source editor</strong>
+        </div>
+        <div class='col6 pad4 center keyline-left'>
+            <div class='inline icon big paint'></div></br>
+            <strong class='micro truncate'>Style editor</strong>
+        </div>
+    </div>
+    <div class='col6 margin3 pad4y prose'>
+        <h2 class='center'>Every map starts with data</h2>
+        <p>
+        Mapbox Studio gives you instant streaming access to massive global datasets like Mapbox Streets, Mapbox Terrain, and Mapbox Satellite without importing any data onto your computer.
+        </p>
+        <p>
+        At its core Mapbox Studio is powered by the mapnik vector tile format. The map creation workflow is split between designing custom styles and creating custom sources. Use the <em>Style editor</em> to start designing custom maps right away. Use the <em>Source editor</em> to convert data from traditional formats (Shapefile, GeoJSON, KML, GPX) into vector tiles that you can create map styles from.
+        </p>
+    </div>
+    <div class='pin-bottomright pad2'>
+        <div class='inline big quiet icon polyline'></div>
+    </div>
+</div></div>
+
+<div class='fill-blue gradient'><div class='dark pad8 clearfix fill-darken3 gradient contain'>
+    <div class='col6 margin3 prose code small pad2 fill-darken0 round contain'>#road[zoom=14] {
+  line-width: @road_line * 2;
+  line-color: rgba(255, 255, 255, 0.80);
+}<!--
+ --><div class='pin-bottomright fill-darken1 strong micro pad1x'>CartoCSS</div></div>
+    <div class='col6 margin3 pad4y prose'>
+        <h2 class='center'>Styling with CartoCSS</h2>
+        <p>
+        Designing maps is complex and Mapbox Studio doesn't try to hide it. Instead, it puts the CartoCSS styling language in your hands to give you full control over every zoom level, vector layer, and style decision so that you can become an expert at map design.
+        </p>
+        <p>
+        CartoCSS stylesheets are insprired by CSS but with a vocabulary specific to cartography. Each selector can be scoped by zoom level <code class='quiet'>[zoom<15]</code>, filtered by layer fields <code class='quiet'>[type='park']</code>, and use properties like <code class='quiet'>line-dasharray</code> and <code class='quiet'>polygon-fill</code>.
+        </p>
+    </div>
+    <div class='pin-bottomright pad2'>
+        <div class='inline big quiet icon pencil'></div>
+    </div>
+</div></div>
+
+<div class='fill-purple'><div class='dark pad8 clearfix fill-darken3 gradient reverse contain'>
+    <div class='col6 margin3 prose small pad2 fill-darken0 round contain mobile-cols'>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Brokenscript OT Bold")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Clan Offc Pro Book Italic")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Crimson Semibold")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=DIN Offc Pro Black")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Elementa Pro Regular")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=HolmenOT Regular")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Lato Black")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Kievit Offc Pro Light")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Mark Offc Pro Regular")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Marselis Slab Offc Pro Bold")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=PT Sans Bold Italic")'></div>
+        <div class='block col6 row1 single-font' style='background-image:url("/font.png?id=Tisa Offc Pro Medium")'></div>
+    </div>
+    <div class='col6 margin3 pad4y prose'>
+        <h2 class='center'>Dozens of pro fonts</h2>
+        <p>
+        Mapbox Studio comes bundled with over 300 pro fonts selected for use with digital cartography thanks to our friends at <a href='https://www.fontfont.com/' target='_blank'>FontFont</a>. You'll find a variety of fonts ranging from clean, highly readable sans-serifs to expressive, stylized scripts.
+        </p>
+    </div>
+    <div class='pin-bottomright pad2'>
+        <div class='inline big quiet icon font'></div>
+    </div>
+</div></div>
+
+<div class='fill-purple'><div class='dark pad8 clearfix fill-darken2 gradient reverse contain'>
+    <div class='col6 margin3 fill-darken0 round clearfix contain mobile-cols'>
+        <div class='col4 pad2 center'>
+            <div class='inline icon big brackets'></div><br/>
+            <strong class='micro truncate'>GeoJSON</strong>
+        </div>
+        <div class='col4 pad2 center keyline-left'>
+            <div class='inline icon big document'></div></br>
+            <strong class='micro truncate'>Shapefile</strong>
+        </div>
+        <div class='col4 pad2 center keyline-left'>
+            <div class='inline icon big data'></div></br>
+            <strong class='micro truncate'>PostGIS</strong>
+        </div>
+    </div>
+    <div class='col6 margin3 pad4y prose'>
+        <h2 class='center'>Creating custom sources</h2>
+        <p>
+        To convert custom data into vector tiles Mapbox Studio provides a <em>Source editor</em>. A source project can include multiple layers from different formats like GeoJSON, CSV, KML, GPX, ESRI Shapefile and access PostGIS database tables.
+        </p>
+        <p>
+        The Source editor focuses exclusively on the data side of the Mapbox Studio equation. It's designed to create fast, scalable vector tile sources. When you're finished use the Style editor with your custom source to start visualizing your data with fonts, colors, and patterns.
+        </p>
+    </div>
+    <div class='pin-bottomright pad2'>
+        <div class='inline big quiet icon harddrive'></div>
+    </div>
+</div></div>
+
+<div class='fill-purple'><div class='dark pad8 clearfix fill-darken1 gradient reverse contain'>
+    <div class='col6 margin3 prose code small pad2 fill-darken0 round contain'>&lt;script&gt;
+  // Create a map in the div #map
+  L.mapbox.map('map', 'username.mapid');
+&lt;/script&gt;<!--
+ --><div class='pin-bottomright fill-darken1 strong micro pad1x'>Mapbox.js</div></div>
+    <div class='col6 margin3 pad4y prose'>
+        <h2 class='center'>Publish with Mapbox</h2>
+        <p>
+        Projects from Mapbox Studio can be uploaded to Mapbox and accessed through the Mapbox API. Publish your custom styles and add them to your apps and sites in minutes.
+        </p>
+        <p>
+        Custom sources that are uploaded to Mapbox can be composited with other sources and shared with other users making it possible to collaborate on your map designs without requiring data imports.
+        </p>
+    </div>
+    <div class='pin-bottomright pad2'>
+        <div class='inline big quiet icon cloud'></div>
+    </div>
+</div></div>
+
+<div class='fill-purple'><div class='dark pad8 clearfix fill-darken0 gradient reverse contain'>
+    <div class='col6 margin3 pad8y center'>
+        <h2 class='space-bottom4'>
+        Start&nbsp;designing&nbsp;your&nbsp;first<br/>
+        custom&nbsp;map&nbsp;now.
+        </h2>
+        <% if (obj.user) { %>
+        <a href='/new/style' class='button loud rcon next col8 margin2'>Get started</a>
+        <% } else { %>
+        <a href='/oauth/mapbox' class='button loud icon lock col8 margin2'>Connect</a>
+        <% } %>
+    </div>
+</div></div>
+
 </body>
 
 </html>

@@ -8,7 +8,9 @@
   <link href='/ext/mapbox.css' rel='stylesheet' />
   <link href='/ext/base/base.css' rel='stylesheet' />
   <link href='/app/app.css' rel='stylesheet' />
+  <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
   <link href='/app/style.css' rel='stylesheet' />
+  <link href='/app/print.css' rel='stylesheet' />
   <script src='/ext/underscore-min.js'></script>
   <script src='/ext/codemirror/codemirror.js'></script>
   <script src='/ext/codemirror/runmode.js'></script>
@@ -19,16 +21,22 @@
   <script src='/ext/mapbox.js'></script>
   <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
+  <script src='/app/print.js?_=<%= +new Date %>'></script>
   <script src='/app/style.js?_=<%= +new Date %>'></script>
+  <script src='/app/atom.js?_=<%= +new Date %>'></script>
   <script src='/app/codemirror.carto.js'></script>
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
   <script src='/app/codemirror.tm2.palette.js'></script>
+  <script src='/ext/inlet.js'></script>
   <script src='/ext/sexagesimal.js'></script>
+  <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
+  <script src='/ext/sphericalmercator.js'></script>
+  <%= this.analytics(obj) %>
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> clip'><div id='app' class='pin-top pin-bottom'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom'>
 
 <a id='settings'></a>
 <a id='layers'></a>
@@ -66,29 +74,37 @@
   </form>
 
   <div id='map-controls' class='z10'>
-    <span class='inline xray-toggle'>
+    <span class='align-top inline xray-toggle'>
       <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
       <a href='#home' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
     </span>
-    <div class='fill-white inline'>
+    <div class='align-top fill-white inline'>
       <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
       --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
       --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
       --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
     </div>
-    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
-    <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
+    <a href='#full' title='Toggle fullscreen' class='align-top full-n inline fill-white icon fullscreen quiet'></a>
+    <a href='#' title='Exit fillscreen' class='align-top full-y fill-dark dark icon fullscreen'></a>
     <div class='inline fill-white'>
-      <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
-      --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
+      <a href='#' id='zoom-in' title='Zoom in' class='align-top icon plus keyline-right quiet'></a><!--
+      --><a href='#' id='zoom-out' title='Zoom out' class='align-top icon minus keyline-right quiet'></a>
     </div>
+    <span class='align-top strong quiet fill-light inline micro truncate map-control-center center' id='map-center'></span>
   </div>
+  <div class='export-controls visible-n'>
+    <a href='#export' title='Reselect within view' id='reselect' class='align-top reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
+    <a href='#export' title='Reselect within view' id='recenter' class='align-top recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
+  </div>
+
+
   <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
   <!-- DEMO -->
-  <div id='inspect-popup' class='demo-popup col6 pin-bottomleft pad2 bottom2 fill-blue dark'>
+  <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
+    <a href='#' class='icon x pin-topright pad1 js-demo'></a>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
-    TM2 styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
+    Mapbox Studio styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
     </small>
     <div class='pin-bottom clearfix center'><!--
     --><a href='#home' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
@@ -99,27 +115,33 @@
 
 <div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
 
-  <form id='settings-drawer' class='js-settings-form drawer col12 animate offcanvas-left'>
+  <form id='settings-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
       <h3>Settings</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled'>
-      <fieldset class='keyline-bottom clearfix pad2y pad1x'>
-        <% if (style._tmp) { %>
-        <div class='z10 pin-topleft col12 pad1x pad2y fill-disable disable-mask'></div>
-        <% } %>
+      <fieldset class='keyline-bottom clearfix pad2y pad1x contain'>
+        <div class='z10 pin-top pin-bottom col12 pad1x pad2y fill-disable on-local on-tmp on-changed'></div>
         <section class='space-bottom1'>
-          <a href='#settings' class='js-upload col12 short button icon up'>Upload to Mapbox</a>
+          <div id='mapstatus' class='contain clip'>
+            <div id='mapstatus-mapid' class='pin-top pad0y pad1x center truncate round-top space small animate fill-darken1'>
+              <strong>Map ID</strong>
+              <a href='https://www.mapbox.com/data/' class='quiet js-mapid' target='_blank'><%= _(style._prefs.mapid).escape() || 'Style not uploaded' %></a>
+            </div>
+            <div id='mapstatus-uploaded' class='pin-top pad0y pad1x center truncate round-top space small animate fill-green icon check'>
+              Upload complete
+            </div>
+          </div>
+          <a href='#settings' class='js-upload col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
         <section class='space-bottom1'>
-          <a href='/print?id=<%=style.id%>' id='print-style' class='col12 short button picture icon'>Export image</a>
+          <a href='#export' id='export-style' class='col12 short button picture icon'>Export image</a>
         </section>
         <section>
-          <a href='/style.tm2z?id=<%=style.id%>' class='col12 short button icon package'>Download package</a>
+          <a href='/style.tm2z?id=<%= style.id %>' class='col12 short button icon package'>Download package</a>
         </section>
       </fieldset>
-
       <fieldset class='pad1x'>
         <section class='space-bottom1'>
           <label>Name</label>
@@ -165,12 +187,6 @@
             <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
             <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
           </section>
-          <% if (style._prefs.mapid) { %>
-          <section class='space-bottom0 clearfix'>
-            <label class='inline col4 pad0y' for='map_id'>Map ID</label>
-            <input id='map_id' class='code clean short small col8 readonly' name='mapid' type='text' value='<%= _(style._prefs.mapid).escape() %>' placeholder='Mapbox map ID' readonly disabled></input>
-          </section>
-          <% } %>
         </fieldset>
       </div>
     </div>
@@ -184,7 +200,7 @@
     <div class='pin-left top1 scroll-styled col12'>
       <div class='pad2y pad1x'><a href='#' class='js-modalsources col12 button short icon point-line'>Change source</a></div>
       <div id='sources' class='js-layer-content'>
-        <%= _(sources).map(this.sourcelayers.bind(this)).join('\n') %>
+        <%= _(sources).map(_(this.sourcelayers).bind(this)).join('\n') %>
       </div>
     </div>
 
@@ -220,21 +236,29 @@
 
 </div>
 
-<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='code' class='pin-left col12'>
+<div id='style-ui' class='animate z1 col6 pin-right'>
+
+  <div id='code' class='animate pin-right fill-light col12'>
     <div class='row1 fill-white pin-top'>
       <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
         <% _(style.styles).keys().forEach(function(k,i) { %>
         --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='icon trash js-deltab pin-topright pad1y pad0x'></span></a><!--
         <% }); %>
       --></nav>
-      <a href='#' class='js-addtab addtab quiet icon plus pad1y pad0x z1 pin-bottomright'></a>
+      <div class='pin-right row1 z1'><!--
+        --><a href='#' class='inline js-addtab quiet icon plus pad1'></a><!--
+        -->
+        <div class='z10 pin-right col6 fill-disable on-local on-tmp'></div><!--
+        -->
+        <a href='#export' class='inline js-export export-n icon picture keyline-left quiet pad1'></a>
+      </div>
     </div>
     <div id='stylesheets'></div>
   </div>
 
   <!-- DEMO -->
-  <div id='style-popup' class='demo-popup col6 pin-topleft pad2 top2 fill-blue dark offcanvas-left'>
+  <div id='style-popup' class='demo-popup col7 pin-topleft pad4 top2 fill-blue dark offcanvas-left round-left'>
+    <a href='#' class='icon x pin-topright pad1 js-demo'></a>
     <h3>Editing + saving</h3>
     <small class='space-bottom4'>
     Change the Map <code>background-color</code> property to a hex code (<code>#f88</code>) or html color (<code>pink</code>). Hit <kbd class='prefixed'>s</kbd> to save and update your style. The map preview on the left updates as you work.
@@ -245,6 +269,116 @@
     </div>
   </div>
   <!-- END DEMO -->
+</div>
+
+<div id='export' class='z100 col6 animate pin-right dark fill-dark'>
+  <nav class='row1 col12 pin-top keyline-bottom z1'>
+    <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
+    <h3 class='inline pad1'>Export image</h3>
+    <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
+    <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
+      <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
+    </div>
+  </nav>
+
+  <form class='js-data-content menu-content pin-right col12 top1 scroll-styled pad1x pad2y'>
+    <h3 class='space-bottom1 col8'>Zoom level  <span id='zoom'><%=style.center[2]%></span></h3>
+    <div class='col4 checkbox-pill'>
+      <input type='checkbox' id='lock'>
+      <label for='lock' class='fr button short quiet icon check'>Lock dimensions</label>
+    </div>
+    <fieldset class='space-bottom1'>
+      <label>Crop size</label>
+      <div class='space-bottom1 clearfix col12'>
+        <div class='col6 col-input with-icon'>
+          <input id='pixelX' class='js-dimensions col12 short small dim' type='text' value='' />
+          <span class='icon quiet l-r-arrow'></span>
+          <label class='micro ghost'>Pixels</label>
+        </div>
+        <div class='col6 col-input with-icon'>
+          <input id='pixelY' class='js-dimensions col12 dim short small' type='text' value='' />
+          <span class='icon quiet u-d-arrow'></span>
+          <label class='micro ghost'>Pixels</label>
+        </div>
+      </div>
+      <div class='clearfix col12'>
+        <div class='col6 col-input with-icon'>
+          <input id='inchX' class='js-dimensions col12 short small dim' type='text' value='' />
+          <span class='icon quiet l-r-arrow'></span>
+          <label class='micro ghost'>Inches</label>
+        </div>
+        <div class='col6 col-input with-icon'>
+          <input id='inchY' class='js-dimensions col12 dim short small' type='text' value='' />
+          <span class='icon quiet u-d-arrow'></span>
+          <label class='micro ghost'>Inches</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class='space-bottom1 clearfix'>
+        <label>Crop bounds</label>
+          <!-- [W, S, E, N] -->
+        <div class='col3 col-input contain'>
+          <input id='bboxInputW' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>W</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputS' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>S</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputE' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>E</label>
+        </div>
+        <div class='col3 col-input contain'>
+          <input id='bboxInputN' class='js-coordinates stretch short small' type='text' value='' />
+          <label class='micro ghost'>N</label>
+        </div>
+      </div>
+      <div class='space-bottom1'>
+        <label>Center point</label>
+        <div class='col6 col-input contain'>
+          <input id='centerInputLat' class='js-coordinates col12 short small' type='text' value='' />
+          <label class='micro ghost'>Lat</label>
+        </div>
+        <div class='col6 col-input contain'>
+          <input id='centerInputLng' class='js-coordinates col12 short small' type='text' value='' />
+          <label class='micro ghost'>Lng</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class='pad1 keyline-all round clearfix'>
+      <div class='space-bottom1'>
+        <label>Image format</label>
+        <div id='format' class='fill-dark clearfix center inline rounded-toggle short'>
+          <input id='png' type='radio' name='format' value='png' checked='checked'>
+          <label for='png'>png</label>
+          <input id='jpeg' type='radio' name='format' value='jpeg'>
+          <label for='jpeg'>jpeg</label>
+        </div>
+      </div>
+      <div>
+        <label>Resolution</label>
+        <div id='resolution' class='clearfix inline rounded-toggle short'>
+        <% _({
+          '2.078125': '150ppi',
+          '4.15625': '300ppi',
+          '8.3125': '600ppi'
+        }).each(function(label, format) { %>
+        <input value='<%= format %>' id='<%= label %>' type='radio' name='resolution' <% if (label === '300ppi') { %> checked='true' <% } %>>
+        <label for='<%= label %>'><%= label %></label>
+        <% }); %>
+        </div>
+     </div>
+    </fieldset>
+
+  </form>
+
+  <div class='fill-dark pin-bottom keyline-top pad1'>
+    <a id='exportDownload' href='#' type='button' class='round short col12 button disabled icon floppy' value='Download image' name='Export' >Download</a>
+  </div>
 </div>
 
 <div id='toolbar' class='center pad1 dark z10'>
@@ -269,17 +403,19 @@
 </div>
 
 <!-- DEMO POPUPS -->
-<div id='style-popup' class='demo-popup demo-fallback animate margin4 col4 pad2 pin-bottom bottom2 fill-blue dark z1'>
+<div id='style-popup' class='demo-popup demo-fallback animate margin3 col6 pad4 pin-bottom bottom2 fill-blue dark z1 round'>
+  <a href='#' class='icon x pin-topright pad1 js-demo'></a>
   <h3>Style editor</h3>
   <small class='space-bottom4'>
-  In the TM2 style editor you can design map styles using data from OpenStreetMap, Mapbox, and other custom sources. Then publish them to be used with the Mapbox API.
+  In the Mapbox Studio style editor you can design map styles using data from OpenStreetMap, Mapbox, and other custom sources. Then publish them to be used with the Mapbox API.
   </small>
   <div class='pin-bottom clearfix center'><!--
   --><a href='#home' class='small fill-darken0 pad1 col12 icon next quiet'>Next</a>
   </div>
 </div>
 
-<div id='settings-popup' class='demo-popup col4 margin3 pin-topleft pad2 fill-blue dark'>
+<div id='settings-popup' class='demo-popup col5 margin3 pin-topleft pad4 top1 fill-blue dark round-right'>
+  <a href='#' class='icon x pin-topright pad1 js-demo'></a>
   <h3>Publishing</h3>
   <small class='space-bottom4'>
   Styles can be packaged as <code>.tm2z</code> files that include your style and any image resources in your style folder. Click the <strong class='icon package'>Package</strong> button or <strong class='icon up'>Upload</strong> directly to your Mapbox account.
@@ -290,7 +426,8 @@
   </div>
 </div>
 
-<div id='layers-popup' class='demo-popup col4 margin3 pin-topleft pad2 top1 fill-blue dark'>
+<div id='layers-popup' class='demo-popup col5 margin3 pin-topleft pad4 top1 fill-blue dark round-right'>
+  <a href='#' class='icon x pin-topright pad1 js-demo'></a>
   <h3>Vector sources</h3>
   <small class='space-bottom4'>
   Each style is powered by a vector source. Click a layer to see more about the data that can be styled. Use the <strong class='icon point-line'>Change source</strong> button to switch out the active vector source for another.
@@ -301,10 +438,11 @@
   </div>
 </div>
 
-<div id='fonts-popup' class='demo-popup col4 margin3 pin-topleft pad2 top2 fill-blue dark'>
+<div id='fonts-popup' class='demo-popup col5 margin3 pin-topleft pad4 top2 fill-blue dark round-right'>
+  <a href='#' class='icon x pin-topright pad1 js-demo'></a>
   <h3>Fonts</h3>
   <small class='space-bottom4'>
-  The fonts drawer displays previews of fonts that TM2 can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
+  The fonts drawer displays previews of fonts that Mapbox Studio can use. Use the correct combination of font family and weight in your CartoCSS to the font used by text labels.
   </small>
   <div class='pin-bottom clearfix center'><!--
   --><a href='#docs' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
@@ -312,7 +450,8 @@
   </div>
 </div>
 
-<div id='docs-popup' class='demo-popup hidden col4 margin3 pin-bottomleft pad2 bottom2 fill-blue dark'>
+<div id='docs-popup' class='demo-popup hidden col5 margin3 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
+  <a href='#' class='icon x pin-topright pad1 js-demo'></a>
   <h3>CartoCSS</h3>
   <small class='space-bottom4'>
   View a full reference to the map styling language CartoCSS in a drawer next to your code as you work. Click any of the properties to see a description of what it does and its default values.
@@ -323,47 +462,45 @@
   </div>
 </div>
 
-<div id='user-popup' class='demo-popup col4 margin3 pin-bottomleft pad2 bottom1 fill-blue dark'>
+<div id='user-popup' class='demo-popup col5 margin3 pin-bottomleft pad4 bottom1 fill-blue dark round-right'>
+  <a href='#' class='icon x pin-topright pad1 js-demo'></a>
   <h3>Switching projects</h3>
   <small class='space-bottom4'>
   Click your avatar to see styles you've edited recently or start a new style. Switch to the <strong>Sources</strong> pane to create or edit vector sources from your custom data.
   </small>
   <div class='pin-bottom clearfix center'><!--
   --><a href='#settings' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
-  --><a href='#start' class='small fill-darken0 pad1 col6 icon check quiet'>Done</a>
+  --><a href='#' class='small fill-darken0 pad1 col6 icon check quiet js-demo'>Done</a>
   </div>
 </div>
 <!-- END DEMO POPUPS -->
-
-<%= this.styledemo() %>
 
 </div>
 
 <script>
 var cwd = <%= JSON.stringify(cwd) %>;
 var style = <%= JSON.stringify(style) %>;
+var examples = <%= JSON.stringify(examples) %>;
 var templates = {};
 templates.modalbrowser = <%= this.modalbrowser.source %>;
 templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
 templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
 templates.modaladdtab = <%= this.modaladdtab.source %>;
-templates.modalmessage = <%= this.modalmessage.source %>;
+templates.modalconfirm = <%= this.modalconfirm.source %>;
 templates.modalsources = <%= this.modalsources.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
+templates.modalupgrade = <%= this.modalupgrade.source %>;
+templates.modalnewstyle = <%= this.modalnewstyle.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
-Style(templates, cwd, style);
+Style(templates, cwd, style, examples);
 </script>
 
 <% if (test) { %>
-  <link href='/app/test/mocha.css' rel='stylesheet' />
-  <style>body{padding:0;line-height:1;}/*Bad Mocha*/</style>
-  <script src='/app/test/chai.js'></script>
-  <script src='/app/test/mocha.js'></script>
-  <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
-  <a href='#' id='mask' class='fill-darken2 animate'></a>
+  <script>window.testParams = <%= JSON.stringify(test) %>;</script>
+  <script src='/app/test/tape.js'></script>
   <script src='/app/test/app.test.style.js'></script>
 <% } %>
 

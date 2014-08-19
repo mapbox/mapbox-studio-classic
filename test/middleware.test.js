@@ -13,18 +13,18 @@ var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var tmp = os.tmpdir();
-var tmppath = path.join(tmp, 'tm2-middleware-' + (+new Date));
+var tmppath = tm.join(tmp, 'tm2-middleware-' + (+new Date));
 
-var tmpId = path.join(tmp, 'tm2-perm-' + (+new Date));
-var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
-var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+var tmpId = tm.join(tmp, 'tm2-middlewareProject-' + (+new Date));
+var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
+var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var server;
 
 test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
-        // fonts: path.join(tmppath, 'fonts'), maybe?
+        fonts: path.join(tmppath, 'fonts'),
         mapboxauth: 'http://localhost:3001'
     }, t.end);
 });
@@ -43,14 +43,14 @@ test('history: loads', function(t) {
     middleware.history(req, {}, function() {
         t.ok(req.history, 'has history');
         t.ok(req.history.source, 'history object includes a source');
-        t.ok(req.history.source['mapbox:///mapbox.mapbox-streets-v4'], 'default source is listed');
+        t.ok(req.history.source['mapbox:///mapbox.mapbox-streets-v5'], 'default source is listed');
         t.end();
     });
 });
 
 test('history: gets style/source info', function(t) {
-    tm.history('source', sourceId);
-    tm.history('style', styleId);
+    tm.history(sourceId);
+    tm.history(styleId);
 
     var req = {};
     middleware.history(req, {}, function() {
@@ -63,8 +63,8 @@ test('history: gets style/source info', function(t) {
 });
 
 test('history: removes dead source/styles', function(t) {
-    tm.history('source', 'foo');
-    tm.history('style', 'bar');
+    tm.history('tmstyle:///foo');
+    tm.history('tmsource:///bar');
     var req = {};
     middleware.history(req, {}, function() {
         t.ok(!req.history.source.foo, 'source `foo` was removed');
@@ -73,27 +73,37 @@ test('history: removes dead source/styles', function(t) {
     });
 });
 
+test('examples: gets style info', function(t) {
+    var req = {};
+    middleware.examples(req, {}, function(err) {
+        t.ifError(err);
+        t.equal(typeof req.examples.style, 'object');
+        t.equal(typeof req.examples.source, 'object');
+        t.deepEqual(Object.keys(req.examples.style), ['mapbox-studio-default-style', 'osm-bright', 'mapbox-outdoors', 'satellite-afternoon'], 'has example styles');
+        t.equal(req.examples.style['mapbox-studio-default-style'].name, '');
+        t.equal(req.examples.style['osm-bright'].name, 'OSM Bright 2');
+        t.end();
+    });
+});
+
 test('writeStyle: makes tmp styles', function(t) {
-    var req = { body: {} };
-    middleware.writeStyle(req, {}, function() {
+    var data = {
+        id:'tmpstyle://' + tm.parse(styleId).dirname,
+        name:'tmp-1234',
+        source:'mapbox:///mapbox.mapbox-streets-v2',
+        styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
+    };
+    var req = { body: data };
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
-        t.ok(tm.tmpid('tmstyle:', req.style.data.id), 'creates a valid tmp id');
+        t.ok(style.tmpid(req.style.data.id), 'creates a valid tmp id');
         var history = tm.history();
         if (history.style) {
             t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
         }
-
-        style.info('tmstyle://' + path.dirname(require.resolve('tm2-default-style')), function(err, defaultInfo) {
-            delete req.style.data.id;
-            delete req.style.data.mtime;
-            delete req.style.data._tmp;
-            delete req.style.data.background;
-            delete defaultInfo.id;
-            delete defaultInfo.mtime;
-
-            t.deepEqual(req.style.data, defaultInfo, 'mimics default style');
-            t.end();
-        });
+        t.equal(req.style.data.name, data.name, 'has correct info');
+        t.end();
     });
 });
 
@@ -105,10 +115,11 @@ test('writeStyle: makes persistent styles', function(t) {
         styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
     };
     var req = { body: data };
-    middleware.writeStyle(req, {}, function() {
+    middleware.writeStyle(req, {}, function(err) {
+        t.ifError(err);
         t.ok(req.style, 'appends style to req');
-        t.ok(!tm.tmpid('tmstyle:', req.style.data.id), 'does not create a tmp id');
-        t.ok(tm.history().style.indexOf(req.style.data.id) !== -1, 'writes to history');
+        t.ok(!style.tmpid(req.style.data.id), 'does not create a tmp id');
+        t.ok(tm.history().indexOf(req.style.data.id) !== -1, 'writes to history');
         t.equal(req.style.data.name, data.name, 'has correct info');
         t.ok(/maxzoom: 22/.test(fs.readFileSync(tmpId + '/project.yml', 'utf8')), 'saves project.yml');
         t.equal(data.styles['a.mss'], fs.readFileSync(tmpId + '/a.mss', 'utf8'), 'saves a.mss');
@@ -127,39 +138,51 @@ test('writeStyle: cleanup', function(t) {
 });
 
 test('loadStyle: loads a tmp style', function(t) {
-    var writeReq = { body: {} };
-    middleware.writeStyle(writeReq, {}, function() {
-        var req = { query: { id: writeReq.style.data.id } };
-        middleware.loadStyle(req, {}, function() {
-            t.ok(req.style, 'appends style to req');
-            t.equal(req.style.data.id, writeReq.style.data.id, 'has the correct id');
-            var history = tm.history();
-            if (history.style) {
-                t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
-            }
-            t.end();
-        });
-    });
-});
-
-test('loadStyle: loads a tmp style with source', function(t) {
-    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
-    var req = { body: {}, query: { source:sourceId } };
-    middleware.writeStyle(req, {}, function(err) {
+    var req = { query: { id:'tmpstyle://' + tm.parse(styleId).dirname } };
+    middleware.loadStyle(req, {}, function(err) {
         t.ifError(err);
-        t.deepEqual({
-            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
-        }, req.style.data.styles, 'creates default styles');
-        t.equal(sourceId, req.style.data.source, 'sets source from input param');
-        t.ok(tm.tmpid(req.style.data.id));
+        t.ok(req.style, 'appends style to req');
+        t.equal(req.style.data.id, req.query.id, 'has the correct id');
+        var history = tm.history();
+        if (history.style) {
+            t.ok(history.style.indexOf(req.style.data.id) === -1, 'does not write to history');
+        }
         t.end();
     });
 });
 
-test('loadStyle: errors a tmp style with bad source', function(t) {
+test('newStyle: creates a tmp style with source', function(t) {
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
+    var req = { body: {}, query: { source:sourceId } };
+    middleware.newStyle(req, {}, function(err) {
+        t.ifError(err);
+        t.deepEqual({
+            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#solid {\n  line-width: 1;\n  line-color: rgba(153,204,68,0.5);\n}\n\n#box {\n  line-width: 1;\n  line-color: rgba(238,68,187,0.5);\n}\n\n'
+        }, req.style.data.styles, 'creates default styles');
+        t.equal(sourceId, req.style.data.source, 'sets source from input param');
+        t.ok(style.tmpid(req.style.data.id));
+        t.end();
+    });
+});
+
+test('newStyle: creates a tmp style with a raster source', function(t) {
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localraster');
+    var req = { body: {}, query: { source:sourceId } };
+    middleware.newStyle(req, {}, function(err) {
+        t.ifError(err);
+        t.deepEqual({
+            'style.mss': 'Map {\n  background-color: #fff;\n}\n\n#raster_local {\n  raster-opacity: 1;\n}\n\n'
+        }, req.style.data.styles, 'creates default styles');
+        t.equal(sourceId, req.style.data.source, 'sets source from input param');
+        t.ok(style.tmpid(req.style.data.id));
+        t.end();
+    });
+});
+
+test('newStyle: errors a tmp style with bad source', function(t) {
     var sourceId = 'tmsource:///bad/path/to/nonexistent/source';
     var req = { body: {}, query: { source:sourceId } };
-    middleware.writeStyle(req, {}, function(err) {
+    middleware.newStyle(req, {}, function(err) {
         t.ok(err);
         t.equal('ENOENT', err.code);
         t.end();
@@ -167,21 +190,21 @@ test('loadStyle: errors a tmp style with bad source', function(t) {
 });
 
 test('loadStyle: loads a persistent style', function(t) {
-    var styleId = 'tmstyle://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+    var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
     var styleDoc = require('./fixtures-localsource/project.yml');
     var req = { query: { id: styleId } };
     middleware.loadStyle(req, {}, function() {
         t.ok(req.style, 'appends style to req');
         t.equal(req.style.data.id, styleId, 'has the correct id');
-        t.ok(tm.history().style.indexOf(req.style.data.id) !== -1, 'writes to history');
+        t.ok(tm.history().indexOf(req.style.data.id) !== -1, 'writes to history');
         t.equal(req.style.data.mtime, styleDoc.mtime, 'style info was loaded');
         t.end();
     });
 });
 
-test('writeSource: makes tmp sources', function(t) {
+test('newSource: makes tmp sources', function(t) {
     var req = { body: {} };
-    middleware.writeSource(req, {}, function() {
+    middleware.newSource(req, {}, function() {
         t.ok(req.source, 'appends source to req');
         t.ok(source.tmpid(req.source.data.id), 'creates a valid tmp id');
         var history = tm.history();
@@ -241,28 +264,26 @@ test('writeSource: cleanup', function(t) {
 
 test('loadSource: loads a tmp source', function(t) {
     var writeReq = { body: {} };
-    middleware.writeSource(writeReq, {}, function() {
-        var req = { query: { id: writeReq.source.data.id } };
-        middleware.loadSource(req, {}, function() {
-            t.ok(req.source, 'appends source to req');
-            t.equal(req.source.data.id, writeReq.source.data.id, 'has the correct id');
-            var history = tm.history();
-            if (history.source) {
-                t.ok(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
-            }
-            t.end();
-        });
+    var req = { query: { id: source.tmpid() } };
+    middleware.loadSource(req, {}, function() {
+        t.ok(req.source, 'appends source to req');
+        t.equal(req.source.data.id, source.tmpid(), 'has the correct id');
+        var history = tm.history();
+        if (history.source) {
+            t.ok(history.source.indexOf(req.source.data.id) === -1, 'does not write to history');
+        }
+        t.end();
     });
 });
 
 test('loadSource: loads a persistent source', function(t) {
-    var sourceId = 'tmsource://' + path.resolve(path.join(__dirname, 'fixtures-localsource'));
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
     var sourceDoc = require('./fixtures-localsource/data.yml');
     var req = { query: { id: sourceId } };
     middleware.loadSource(req, {}, function() {
         t.ok(req.source, 'appends source to req');
         t.equal(req.source.data.id, sourceId, 'has the correct id');
-        t.ok(tm.history().source.indexOf(req.source.data.id) !== -1, 'writes to history');
+        t.ok(tm.history().indexOf(req.source.data.id) !== -1, 'writes to history');
         t.equal(req.source.data.name, sourceDoc.name, 'has the correct name');
         t.equal(req.source.data.attribution, sourceDoc.attribution, 'has the correct attribution');
         t.equal(req.source.data.minzoom, sourceDoc.minzoom, 'has the correct minzoom');
@@ -303,7 +324,8 @@ test('exporting: passes through', function(t) {
 test('userTilesets: fails without oauth', function(t) {
     tm.db.rm('oauth');
     middleware.userTilesets({}, {}, function(err) {
-        t.equal('Error: oauth required', err.toString());
+        t.equal('Error: No active OAuth account', err.toString());
+        t.equal(err.code, 'EOAUTH');
         t.end();
     });
 });
@@ -326,16 +348,25 @@ test('userTilesets: adds history entries for tilesets', function(t) {
     });
     middleware.userTilesets({}, {}, function(err) {
         t.ifError(err);
-        t.ok(tm.history().source.indexOf('mapbox:///test.vector-source') !== -1);
-        t.ok(tm.history().source.indexOf('mapbox:///test.raster-source') === -1);
+        t.ok(tm.history().indexOf('mapbox:///test.vector-source') !== -1);
+        t.ok(tm.history().indexOf('mapbox:///test.raster-source') === -1);
+        t.end();
+    });
+});
+
+test('latest: finds latest local project entry', function(t) {
+    var req = {};
+    middleware.latest(req, {}, function(err) {
+        t.ifError(err);
+        t.equal(req.latest, sourceId, 'finds latest source');
         t.end();
     });
 });
 
 test('cleanup', function(t) {
     tm.db.rm('oauth');
-    tm.history('source', sourceId, true);
-    tm.history('style', styleId, true);
+    tm.history(sourceId, true);
+    tm.history(styleId, true);
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}
@@ -343,4 +374,3 @@ test('cleanup', function(t) {
         t.end();
     });
 });
-

@@ -1,0 +1,18 @@
+<% var rand = Math.random().toString(16).split('.')[1]; %>
+
+<form id='newstyle' class='modal margin1 round col10 pin-top top2 dark fill-dark'>
+    <a href='#' class='pad1 quiet icon x pin-topright close js-close'></a>
+    <h3 class='pad1 keyline-bottom center'>Start a new style project</h3>
+    <div class='clearfix'>
+        <% _(obj.style).chain().toArray().each(function(item, i) { %>
+        <% var last = i === _(obj.style).size() - 1; %>
+        <a class='col3 row6 pad2 <% if (!last) { %>keyline-right<% } %>' href='/new/style?id=<%=item.id%>'>
+            <span class='block contain'>
+                <span class='row4 fill-darken2 block round-top' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
+                </span>
+                <strong class='block small center pad1 fill-darken1 round-bottom truncate'><%- item.name || 'Basic' %></strong>
+            </span>
+        </a>
+        <% }); %>
+    </div>
+</form>

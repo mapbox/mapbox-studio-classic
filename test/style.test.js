@@ -1,4 +1,5 @@
 var test = require('tape');
+var stream = require('stream');
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
@@ -6,9 +7,10 @@ var url = require('url');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var style = require('../lib/style');
-var defpath = path.dirname(require.resolve('tm2-default-style'));
+var defpath = tm.join(path.dirname(require.resolve('mapbox-studio-default-style')));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var Vector = require('tilelive-vector');
+var testutil = require('./util');
 var UPDATE = !!process.env.UPDATE;
 var tmp = require('os').tmpdir();
 var creds = {
@@ -17,31 +19,23 @@ var creds = {
 };
 
 var server;
-var tmppath = path.join(tmp, 'tm2-test-' + (+new Date));
-var tmpPerm = path.join(tmp, 'tm2-perm-' + (+new Date));
-var tmpSpace = path.join(tmp, 'tm2-space ' + (+new Date));
+var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
+var tmppath = tm.join(tmp, 'tm2-styleTest-' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
+        fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
     }, t.end);
 });
 
 test('setup: mockserver', function(t) {
     tm.db.set('oauth', creds);
+    tm._config.mapboxauth = 'http://localhost:3001';
     tm._config.mapboxtile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, t.end);
 });
-
-var data = {
-    name:'tmp-1234',
-    source:'mapbox:///mapbox.mapbox-streets-v2',
-    styles:{
-        'a.mss': '#water { polygon-fill:#fff }',
-        'b.mss': '#landuse { polygon-fill:#000 }'
-    }
-};
 
 test('loads default style from disk', function(t) {
     style('tmstyle://' + defpath, function(err, proj) {
@@ -53,15 +47,33 @@ test('loads default style from disk', function(t) {
 });
 
 test('saves style in memory', function(t) {
-    style.save(_({id:'tmstyle:///tmp-12345678'}).defaults(data), function(err, source) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+    t.ifError(err);
+
+    style.save(_({id:style.tmpid()}).defaults(data), function(err, source) {
         t.ifError(err);
         t.ok(source);
         t.end();
     });
+
+    });
+});
+
+test('saves style (invalid)', function(t) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+        t.ifError(err);
+        style.save(_({id:style.tmpid(),minzoom:-1}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.save() errors on invalid style');
+            t.end();
+        });
+    });
 });
 
 test('saves style to disk', function(t) {
-    style.save(_({id:'tmstyle://' + tmpPerm}).defaults(data), function(err, source) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+    t.ifError(err);
+
+    style.save(_({id:tmpid}).defaults(data), function(err, source) {
         t.ifError(err);
         t.ok(source);
 
@@ -72,10 +84,11 @@ test('saves style to disk', function(t) {
         expect['style-save-b.mss'] = path.join(__dirname,'expected','style-save-b.mss');
 
         var output = {};
-        output['project.yml'] = path.join(tmpPerm,'project.yml');
-        output['project.xml'] = path.join(tmpPerm,'project.xml');
-        output['a.mss'] = path.join(tmpPerm,'a.mss');
-        output['b.mss'] = path.join(tmpPerm,'b.mss');
+        var tmpdir = tm.parse(tmpid).dirname;
+        output['project.yml'] = path.join(tmpdir,'project.yml');
+        output['project.xml'] = path.join(tmpdir,'project.xml');
+        output['a.mss'] = path.join(tmpdir,'a.mss');
+        output['b.mss'] = path.join(tmpdir,'b.mss');
 
         if (UPDATE) {
             fs.writeFileSync(expect['style-save-project.yml'], fs.readFileSync(output['project.yml']));
@@ -93,57 +106,54 @@ test('saves style to disk', function(t) {
         // is an optimistic operation (e.g. callback does not wait for it
         // to complete).
         setTimeout(function() {
-            t.ok(fs.existsSync(path.join(tmpPerm,'.thumb.png')), 'saves thumb');
+            t.ok(fs.existsSync(path.join(tmpdir,'.thumb.png')), 'saves thumb');
             t.end();
         }, 500);
+    });
+
     });
 });
 
 test('saves style with space', function(t) {
-    style.save(_({id:'tmstyle://' + tmpSpace}).defaults(data), function(err, source) {
+    testutil.createTmpProject('style-save space', localstyle, function(err, tmpid, data) {
         t.ifError(err);
-        fs.stat(tmpSpace, function(err, stat) {
-            t.ifError(err);
-            t.end();
-        });
+        t.end();
     });
 });
 
 test('packages style to tm2z', function(t) {
-    style.toPackage('tmstyle://' + tmpPerm, tmpPerm + '.tm2z', function(err) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+    t.ifError(err);
+
+    var tmptm2z = tm.parse(tmpid).dirname + '.tm2z';
+    style.toPackage(tmpid, tmptm2z, function(err) {
         t.ifError(err);
-        var stat = fs.statSync(tmpPerm + '.tm2z');
-        t.ok(fs.existsSync(tmpPerm + '.tm2z'));
+        var stat = fs.statSync(tmptm2z);
+        t.ok(fs.existsSync(tmptm2z));
         t.ok(stat.isFile(), 'writes file');
         t.ok(846, stat.size, 'with correct size');
-        Vector.tm2z(url.parse('tm2z://' + tmpPerm + '.tm2z'), function(err, source) {
+        Vector.tm2z(url.parse('tm2z://' + tmptm2z), function(err, source) {
             t.ifError(err, 'tilelive-vector succeeds in reading tm2z');
             t.ok(source);
             t.end();
         });
     });
+
+    });
 });
 
 test('fails to package tmp style', function(t) {
-    style.toPackage('tmstyle:///tmp-e31db7cd.tm2z', tmpPerm + '.tm2z', function(err) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+    t.ifError(err);
+
+    var tmptm2z = tm.parse(tmpid).dirname + '.tm2z';
+    style.toPackage(style.tmpid(), tmptm2z, function(err) {
         t.ok(err);
         t.equal('Error: temporary style must be saved first', err.toString());
         t.end();
     });
-});
 
-test('style: cleanup', function(t) {
-    setTimeout(function() {
-        ['project.xml','project.yml','a.mss','b.mss','.thumb.png'].forEach(function(file) {
-            try { fs.unlinkSync(path.join(tmpPerm,file)) } catch(err) {};
-            try { fs.unlinkSync(path.join(tmpSpace,file)) } catch(err) {};
-        });
-        try { fs.rmdirSync(tmpPerm) } catch(err) {};
-        try { fs.rmdirSync(tmpSpace) } catch(err) {};
-        try { fs.unlinkSync(tmpPerm + '.tm2z') } catch(err) {};
-        try { fs.unlinkSync(tmpSpace + '.tm2z') } catch(err) {};
-        t.end();
-    }, 250);
+    });
 });
 
 test('style.info: fails on bad path', function(t) {
@@ -155,13 +165,36 @@ test('style.info: fails on bad path', function(t) {
 });
 
 test('style.info: reads style YML', function(t) {
-    style.info('tmstyle://' + defpath, function(err, info) {
+    var tmpid = 'tmstyle://' + defpath;
+    style.info(tmpid, function(err, info) {
         t.ifError(err);
-        t.equal(info.id, 'tmstyle://' + defpath, 'style.info adds id key');
+        t.equal(info.id, tmpid, 'style.info adds id key');
+        t.equal(info._tmp, false, 'style info adds _tmp=false');
 
-        info.id = '[id]';
+        var basepath = tm.parse(tmpid).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
 
         var filepath = path.join(__dirname,'expected','style-info-default.json');
+        if (UPDATE) {
+            fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+        }
+        t.deepEqual(info, require(filepath));
+        t.end();
+    });
+});
+
+test('style.info: reads style YML (tmp)', function(t) {
+    var tmpid = 'tmpstyle://' + defpath;
+    style.info(tmpid, function(err, info) {
+        t.ifError(err);
+        t.equal(info.id, tmpid, 'style.info adds id key');
+        t.equal(info._tmp, tmpid, 'style info adds _tmp=id');
+
+        var basepath = tm.parse(tmpid).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
+        info._tmp = info._tmp.replace(basepath, '[BASEPATH]');
+
+        var filepath = path.join(__dirname,'expected','style-info-default-tmp.json');
         if (UPDATE) {
             fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
         }
@@ -264,7 +297,27 @@ test('style.toXML: compiles data params', function(t) {
     });
 });
 
+test('style.upload: uploads stylesheet', function(t) {
+    var id = 'tmstyle://' + __dirname + '/fixtures-upload';
+    var cache = path.join(tmppath, 'cache');
+    style.upload(id, function(err, info){
+        t.ifError(err);
+        t.assert(!fs.existsSync(path.join(cache, 'package-' + info._prefs.mapid + '.tm2z')), 'file unlinked');
+        t.assert(/test\..{8}/.test(info._prefs.mapid), 'mapid correctly generated');
+        t.assert(true, 'uploads stylesheet');
+        t.end();
+    });
+});
+
+test('style.upload: errors on unsaved id', function(t) {
+    style.upload(style.tmpid(), function(err, info){
+        t.equal(err.message, 'Style must be saved first');
+        t.end();
+    });
+});
+
 test('cleanup', function(t) {
+    testutil.cleanup();
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}

@@ -1,12 +1,5 @@
 'use strict';
 
-var assert = chai.assert;
-
-mocha.setup('bdd');
-
-// Override window methods for the test runner.
-window.confirm = function(message) { return true; };
-
 // Global queue for testing post-ajax request. Use by calling
 //
 // onajax(function() {
@@ -28,162 +21,321 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
-/*
-TODO - https://github.com/mapbox/tm2/issues/203
-beforeEach(function() {
-    event = document.createEvent('HTMLEvents');
+tape('#settings-form', function(t) {
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('#settings-drawer').change();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.end();
 });
 
-it('saves a project', function() {
-    el = document.getElementById('title').getElementsByClassName('js-save')[0];
-    event.initEvent('click', true, false);
-    el.dispatchEvent(event);
-
-    var form = document.getElementById('saveas');
-    form.getElementsByTagName('input')[1].value = 'foo.tm2';
-    var submit = document.createEvent('HTMLEvents');
-    submit.initEvent('submit', true, false);
-    form.dispatchEvent(submit);
+tape('.js-history browses sources', function(t) {
+    $('.js-history .js-browsesource').click();
+    t.ok(hasModal('#browsesource'));
+    t.end();
 });
-*/
 
-describe('.js-history', function() {
-    it('browses sources', function() {
-        $('.js-history .js-browsesource').click();
-        assert.ok(hasModal('#browsesource'));
+tape('.js-history browses styles', function(t) {
+    $('.js-history .js-browsestyle').click();
+    t.ok(hasModal('#browsestyle'));
+    t.end();
+});
+
+tape('.js-history removes history style', function(t) {
+    var count = $('#history-style .project').size();
+    $('.js-history .js-ref-delete:eq(0)').click();
+    t.ok(hasModal('#confirm'), 'shows confirm modal');
+    $('#confirm a.js-confirm').click();
+    onajax(function() {
+        t.equal(count - 1, $('#history-style .project').size());
+        t.end();
     });
+});
 
-    it('browses styles', function() {
-        $('.js-history .js-browsestyle').click();
-        assert.ok(hasModal('#browsestyle'));
-    });
+tape('.js-newstyle => newstyle modal', function(t) {
+    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
+    $('.js-newstyle').click();
+    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+    t.end();
+});
 
-    it('removes history style', function(done) {
-        var count = $('#history-style .project').size();
-        $('.js-history .js-ref-delete:eq(0)').click();
+tape('#style-ui creates a new tab', function(t) {
+    $('.js-addtab:eq(0)').click();
+    t.ok(hasModal('form#addtab'));
+
+    $('#addtab-filename').val('foo');
+    $('#addtab').submit();
+
+    // Submit removes modal.
+    t.equal(0, $('#addtab-filename').size());
+
+    // Automatically adds .mss extension.
+    t.equal('foo.mss', $('#tabs .js-tab:last').attr('rel'));
+
+    t.end();
+});
+
+tape('#style-ui clicks set tabs as active', function(t) {
+    $('#tabs .js-tab:eq(1)').click();
+    t.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
+    t.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
+
+    $('#tabs .js-tab:eq(0)').click();
+    t.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
+    t.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
+
+    t.end();
+});
+
+tape('#style-ui keys set tabs as active', function(t) {
+    var e;
+    // ctrl+alt+1
+    e = $.Event('keydown');
+    e.which = ('1').charCodeAt(0);
+    e.altKey = true;
+    e.ctrlKey = true;
+    $('body').trigger(e);
+    t.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
+    t.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
+
+    // ctrl+alt+2
+    e = $.Event('keydown');
+    e.which = ('2').charCodeAt(0);
+    e.altKey = true;
+    e.ctrlKey = true;
+    $('body').trigger(e);
+    t.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
+    t.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
+
+    t.end();
+});
+
+tape('#style-ui deletes a tab', function(t) {
+    var count = $('#tabs .js-tab').size();
+    $('#tabs .js-deltab:eq(0)').click();
+    t.ok(hasModal('#confirm'), 'shows confirm modal');
+    $('#confirm a.js-confirm').click();
+    t.equal(count - 1, $('#tabs .js-tab').size());
+    t.end();
+});
+
+tape('#style-ui prevents duplicate extensions in filename', function(t) {
+    $('.js-addtab:eq(0)').click();
+    t.ok(hasModal('#addtab'));
+
+    $('#addtab-filename').val('bar.mss');
+    $('#addtab').submit();
+
+    // Submit removes modal.
+    t.ok(!hasModal('#addtab'));
+
+    // Prevents duplicate .mss extension.
+    t.equal('bar.mss', $('#tabs .js-tab:last').attr('rel'));
+
+    t.end();
+});
+
+tape('#style-ui requires unique stylesheet name', function(t) {
+    $('.js-addtab:eq(0)').click();
+    t.ok(hasModal('form#addtab'));
+
+    $('#addtab-filename').val('baz');
+    $('#addtab').submit();
+
+    $('.js-addtab:eq(0)').click();
+    t.ok(hasModal('form#addtab'));
+
+    $('#addtab-filename').val('baz');
+    $('#addtab').submit();
+
+    t.ok(hasModal('#error'));
+    t.equal('Tab name must be different than existing tab "baz"', $('#error > pre').text());
+
+    t.end();
+});
+
+tape('.js-layers opens layer description', function(t) {
+    $('.js-layers .js-tab:eq(0)').click();
+    t.ok($('.js-layers .js-tab:eq(0)').hasClass('active'));
+    t.end();
+});
+
+tape('.js-layers shows sources modal', function(t) {
+    $('.js-layers .js-modalsources:eq(0)').click();
+    onajax(function() {
+        t.ok(hasModal('#modalsources'));
+        $('#modalsources-remote .js-adddata:eq(0)').click();
         onajax(function() {
-            assert.equal(count - 1, $('#history-style .project').size());
-            done();
+            t.ok(!hasModal('#modalsources'));
+            t.end();
         });
     });
 });
 
-describe('#style-ui', function() {
-    it('creates a new tab', function() {
-        $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('form#addtab'));
+tape('#reference tabs through CartoCSS reference', function(t) {
+    $('#reference .js-tab:last').click();
+    var target = $('#' + $('#reference .js-tab:last').attr('href').split('#').pop());
+    t.ok($('#reference .js-tab:last').hasClass('active'));
+    t.ok(target.hasClass('active'));
+    t.end();
+});
 
-        $('#addtab-filename').val('foo');
-        $('#addtab').submit();
+tape('initializes export ui', function(t) {
+    // for some reason clicking on .js-export doesn't
+    // initialize the bounding box
+    window.exporter.refresh();
+    t.ok(window.exporter.boundingBox);
+    t.end();
+});
 
-        // Submit removes modal.
-        assert.equal(0, $('#addtab-filename').size());
+tape('export-ui: .js-coordinates recalculates center', function(t) {
+    $('#bboxInputW').prop('value', -2.5);
+    $('#bboxInputS').prop('value', -2.5);
+    $('#bboxInputE').prop('value', 1.5);
+    $('#bboxInputN').prop('value', 1.5);
+    $('.js-coordinates').change();
 
-        // Automatically adds .mss extension.
-        assert.equal('foo.mss', $('#tabs .js-tab:last').attr('rel'));
-    });
+    t.equal($('#centerInputLat').val(), '-0.5000');
+    t.equal($('#centerInputLng').val(), '-0.5000');
 
-    it('clicks set tabs as active', function() {
-        $('#tabs .js-tab:eq(1)').click();
-        assert.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
+    t.end();
+});
 
-        $('#tabs .js-tab:eq(0)').click();
-        assert.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
-    });
+tape('export-ui: .js-dimensions updates #exportDownload url', function(t) {
+    $('#pixelX').prop('value', 324);
+    $('#pixelY').prop('value', 324);
+    $('.js-dimensions').change();
 
-    it('keys set tabs as active', function() {
-        var e;
-        // ctrl+alt+1
-        e = $.Event('keydown');
-        e.which = ('1').charCodeAt(0);
-        e.altKey = true;
-        e.ctrlKey = true;
-        $('body').trigger(e);
-        assert.ok($('#tabs .js-tab:eq(0)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(1)').is('.active'));
+    t.equal($('#inchX').val(), '1.08');
+    t.equal($('#inchY').val(), '1.08');
 
-        // ctrl+alt+2
-        e = $.Event('keydown');
-        e.which = ('2').charCodeAt(0);
-        e.altKey = true;
-        e.ctrlKey = true;
-        $('body').trigger(e);
-        assert.ok($('#tabs .js-tab:eq(1)').hasClass('active'));
-        assert.ok(!$('#tabs .js-tab:eq(0)').is('.active'));
-    });
+    $('#centerInputLat').prop('value', 0);
+    $('#centerInputLng').prop('value', 0);
+    $('.js-coordinates').change();
 
-    it('deletes a tab', function() {
-        var count = $('#tabs .js-tab').size();
-        $('#tabs .js-deltab:eq(0)').click();
-        assert.equal(count - 1, $('#tabs .js-tab').size());
-    });
+    var href = document.getElementById('exportDownload').pathname;
+    t.equal(href, '/static/3/-6.8515,-6.835,6.8515,6.835@4.15625x.png');
 
-    it('prevents duplicate extensions in filename', function() {
-        $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('#addtab'));
+    t.end();
+});
 
-        $('#addtab-filename').val('bar.mss');
-        $('#addtab').submit();
+tape('export-ui: #format updates #export url', function(t) {
+    $('#jpeg').prop('checked', 'checked');
+    $('#png').prop('checked', null);
+    $('#format').change();
 
-        // Submit removes modal.
-        assert.ok(!hasModal('#addtab'));
+    t.ok($('#exportDownload').attr('href').indexOf('jpeg') > -1, 'jpeg instead of png');
 
-        // Prevents duplicate .mss extension.
-        assert.equal('bar.mss', $('#tabs .js-tab:last').attr('rel'));
-    });
+    t.end();
+});
 
-    it('requires unique stylesheet name', function() {
-        $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('form#addtab'));
+tape('export-ui: #resolution updates #js-dimensions url', function(t) {
+    var px = $('#pixelX').val();
+    var py = $('#pixelY').val();
+    var ix = $('#inchX').val();
+    var iy = $('#inchY').val();
 
-        $('#addtab-filename').val('baz');
-        $('#addtab').submit();
+    $('#600ppi').prop('checked', 'checked');
+    $('#300ppi').prop('checked', null);
+    $('#resolution').change();
 
-        $('.js-addtab:eq(0)').click();
-        assert.ok(hasModal('form#addtab'));
+    t.equal($('#inchX').val(), ix);
+    t.equal($('#inchY').val(), iy);
+    t.equal($('#pixelX').val() | 0, px * 2);
+    t.equal($('#pixelY').val() | 0, py * 2);
 
-        $('#addtab-filename').val('baz');
-        $('#addtab').submit();
+    t.end();
+});
 
-        assert.ok(hasModal('#error'));
-        assert.equal('Tab name must be different than existing tab "baz"', $('#error > pre').text());
+tape('export-ui: .js-dimensions over limit triggers warning', function(t) {
+    var zoom = $('#zoom').html();
+    while (zoom < 8) {
+        $('#zoom-in').click();
+        zoom = $('#zoom').html();
+    }
+
+    $('#pixelX').prop('value', 24000);
+    $('.js-dimensions').change();
+
+    t.ok($('#pixelX').hasClass('warning'));
+    t.ok($('#zoomedto .z8 .perc').hasClass('warning'));
+
+    t.end();
+});
+
+tape('.js-save', function(t) {
+    t.equal($('.js-save').size(), 1, 'has .js-save button');
+    $('.js-save').click();
+    t.equal($('#full').hasClass('loading'), true, '.js-save => #full.loading');
+    onajax(function() {
+        t.equal(!$('#full').hasClass('loading'), true, '.js-save => #full');
+        t.equal($('body').hasClass('changed'), false, '.js-save => saved style');
+        t.end();
     });
 });
 
-describe('.js-layers', function() {
-    it('opens layer description', function() {
-        $('.js-layers .js-tab:eq(0)').click();
-        assert.ok($('.js-layers .js-tab:eq(0)').hasClass('active'));
-    });
-
-    it('shows sources modal', function(done) {
-        $('.js-layers .js-modalsources:eq(0)').click();
-        onajax(function() {
-            assert.ok(hasModal('#modalsources'));
-            $('#modalsources-remote .js-adddata:eq(0)').click();
-            onajax(function() {
-                assert.ok(!hasModal('#modalsources'));
-                done();
-            });
-        });
+tape('.js-upload', function(t) {
+    t.equal($('.js-upload').size(), 1, 'has .js-upload button');
+    t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), false, 'no mapid');
+    t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
+    $('.js-upload').click();
+    t.equal($('#mapstatus').hasClass('loading'), true, '#mapstatus.loading');
+    onajax(function() {
+        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'has mapid');
+        t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
+        t.end();
     });
 });
 
-describe('#reference', function() {
-    it('tabs through CartoCSS reference', function() {
-        $('#reference .js-tab:last').click();
-        var target = $('#' + $('#reference .js-tab:last').attr('href').split('#').pop());
-        assert.ok($('#reference .js-tab:last').hasClass('active'));
-        assert.ok(target.hasClass('active'));
+tape('keybindings', function(t) {
+    window.location.hash = '#';
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 190; // .
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#full', 'ctrl+. => #fullscreen');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 72; // h
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#docs', 'ctrl+h => #help');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 73; // i
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#layers', 'ctrl+i => #layers');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 220; // backslash
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#settings', 'ctrl+\\ => #settings');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 66; // b
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 69; // e
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#export', 'ctrl+e => #export');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
     });
 });
 
-mocha.ignoreLeaks();
-
-if (window.mochaPhantomJS) {
-    mochaPhantomJS.run();
-} else {
-    mocha.run();
-}

@@ -21,10 +21,12 @@
   <script src='/app/cartoref.js'></script>
   <script src='/app/lib.js?_=<%= +new Date %>'></script>
   <script src='/app/source.js?_=<%= +new Date %>'></script>
+  <script src='/app/atom.js?_=<%= +new Date %>'></script>
+  <%= this.analytics(obj) %>
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> clip dark'><div id='app' class='pin-top pin-bottom'>
+<body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> clip dark'><div id='app' class='pin-top pin-bottom'>
 
 <a id='settings'></a>
 <a id='user'></a>
@@ -38,17 +40,24 @@
 
 <div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
 
-  <form id='settings-drawer' class='js-settings-form drawer col12 animate offcanvas-left'>
+  <form id='settings-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
       <h3>Settings</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled'>
-      <% if (source._tmp) { %>
-        <div class='z10 pin-topleft col12 pad1x pad2y fill-disable disable-mask'></div>
-      <% } %>
-      <fieldset class='clearfix pad1x pad2y keyline-bottom'>
-          <a href='/mbtiles?id=<%= source.id %>' class='col12 short button icon package'>Export vector tiles</a>
+      <fieldset class='clearfix pad1x pad2y keyline-bottom contain'>
+        <div class='z10 pin-top pin-bottom col12 pad1x fill-disable on-tmp on-changed'></div>
+        <section class='space-bottom1'>
+          <div id='mapstatus-mapid' class='pad0y pad1x center truncate round-top space small animate fill-darken1'>
+            <strong>Map ID</strong>
+            <a href='https://www.mapbox.com/data/' class='quiet js-mapid' target='_blank'><%= _(source._prefs.mapid).escape() || 'Source not uploaded' %></a>
+          </div>
+          <a href='/upload?id=<%= source.id %>' class='col12 short button round-bottom icon up'>Upload to Mapbox</a>
+        </section>
+        <section>
+          <a href='/mbtiles?id=<%= source.id %>' class='col12 short button icon package'>MBTiles Export</a>
+        </section>
       </fieldset>
       <fieldset class='pad1x'>
         <section class='space-bottom1'>
@@ -115,18 +124,19 @@
   <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
 
   <div id='map-controls' class='z10'>
-    <div class='fill-dark inline'>
+    <div class='align-top fill-dark inline'>
       <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
       --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
       --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
       --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
     </div>
-    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
-    <div class='inline fill-dark'>
+    <a href='#full' title='Toggle fullscreen' class='align-top full-n inline fill-dark icon fullscreen quiet'></a>
+    <a href='#' title='Exit fillscreen' class='align-top full-y fill-dark dark icon fullscreen'></a>
+    <div class='align-top inline fill-dark'>
       <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
       --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
     </div>
+    <span class='align-top strong quiet fill-dark inline micro truncate map-control-center center' id='map-center'></span>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
@@ -144,10 +154,9 @@
       <div class='col6 pad1'>
         <a href='#' class='js-addlayer short button col12 icon plus'>New layer</a>
       </div>
-      <div class='col6 pad1 text-right'>
-        <% if (!source._tmp) { %>
-        <a href='/new/style?source=<%=source.id%>' class='quiet inline pad0 small col12 rcon next'>Create style from this source</a>
-        <% } %>
+      <div class='col6 pad1 text-right contain'>
+        <div class='z10 pin-top pin-bottom inline fill-disable on-tmp on-changed'></div>
+        <a href='#' class='js-sourcenewstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
       </div>
     </div>
     <nav class='clip row1 col12 keyline-top keyline-bottom fill-dark contain z1'>
@@ -160,9 +169,9 @@
     </nav>
     <div class='js-layer-content layer-content pin-left col12 scroll-styled'><!--
       --><%
-       _(revlayers).each(function(l) {
+       _(revlayers).each(_(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
-      }.bind(this)); %><!--
+      }).bind(this)); %><!--
     --></div>
     <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
   </div>
@@ -170,13 +179,14 @@
 
 <div class='z10' id='editor'>
 <%
-  _(revlayers).each(function(l) {
+  _(revlayers).each(_(function(l) {
     var type = (l.Datasource && l.Datasource.type);
+    var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
     if (this['layer' + type]) print(this['layer' + type](_({
         tm: tm,
-        fields: source.vector_layers.filter(function(v) { return v.id === l.id })[0].fields
+        fields: vlayer ? vlayer.fields : null
     }).extend(l)));
-  }.bind(this));
+  }).bind(this));
 %>
 </div>
 
@@ -204,8 +214,9 @@ templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
 templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
 templates.modaladdlayer = <%= this.modaladdlayer.source %>;
 templates.modalupdatename = <%= this.modalupdatename.source %>;
-templates.modalmessage = <%= this.modalmessage.source %>;
+templates.modalconfirm = <%= this.modalconfirm.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
+templates.modalnewstyle = <%= this.modalnewstyle.source %>;
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerfields = <%= this.layerfields.source %>;
 templates.layershape = <%= this.layershape.source %>;
@@ -213,26 +224,25 @@ templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layersqlite = <%= this.layersqlite.source %>;
 templates.layercsv = <%= this.layercsv.source %>;
 templates.layerogr = <%= this.layerogr.source %>;
+templates.layergdal = <%= this.layergdal.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
+templates.modalsourcenewstyle = <%= this.modalsourcenewstyle.source %>;
 
 var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;
 
 var cwd = <%= JSON.stringify(cwd) %>;
 var source = <%= JSON.stringify(source) %>;
+var examples = <%= JSON.stringify(examples) %>;
 var revlayers = <%= JSON.stringify(revlayers) %>;
 
-Source(templates, cwd, tm, source, revlayers);
+Source(templates, cwd, tm, source, revlayers, examples);
 </script>
 
 <% if (test) { %>
-  <link href='/app/test/mocha.css' rel='stylesheet' />
-  <style>body{padding:0;line-height:1;}/*Bad Mocha*/</style>
-  <script src='/app/test/chai.js'></script>
-  <script src='/app/test/mocha.js'></script>
-  <div id='mocha' class='modal target round pad2 col6 scroll-styled row8 margin3 fill-light'></div>
-  <a href='#' id='mask' class='fill-darken2 animate'></a>
+  <script>window.testParams = <%= JSON.stringify(test) %>;</script>
+  <script src='/app/test/tape.js'></script>
   <script src='/app/test/app.test.source.js'></script>
 <% } %>
 

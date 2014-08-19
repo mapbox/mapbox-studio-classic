@@ -1,15 +1,37 @@
-language: node_js
+language: cpp
 
-node_js:
-  - "0.10"
+compiler:
+  - gcc
+
+os:
+  - linux
+  - osx
+
+
+env:
+  matrix:
+  - NODE_NVM_VERSION="0.10"
+  global:
+  - secure: "EXgVgtayyyxt7flmPhwKZIvkqfkpX1TnrX/EX7ZEQ36TuZGYYX5OXjLTtXWk9sSE6l6O3wRewpkou2PvQQpX25yOI8XYD8vBjx3ymt1lg5RS8nTDZO0XHsd0aTV7JxJCyZGCkIYXvVRPpVbLDbGwULhJe55p8YYKx/lohDB3FYM="
+  - secure: "YvtR+B6yC+MxsU7tP6FCEHKLZoRfvlfwX5HSs8eAYWxqrZmIqJTbavSlj4bQ919szyQ1vZ8wTMkXd/8tCqWARTyWA8tLOHgXm/ZAlxdtdtotyZzNsbC0FmtJHF/wmaQcJ4lX2vcWWhOwtEetEULO6Hv0xGiW26aK+Jp240f6NJE="
 
 # http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
-addons:
-  postgresql: "9.3"
+# addons:
+#   postgresql: "9.3"
+# before_install:
+#  - createdb template_postgis
+#  - psql -c "CREATE EXTENSION postgis" template_postgis
 
 before_install:
- - createdb template_postgis
- - psql -c "CREATE EXTENSION postgis" template_postgis
+- git clone https://github.com/creationix/nvm.git ../.nvm && source ../.nvm/nvm.sh
+- nvm install $NODE_NVM_VERSION
+- nvm use $NODE_NVM_VERSION
+- node --version
+- npm --version
+- ./scripts/build-travis.sh $TRAVIS_COMMIT
+
+install:
+- npm install
 
 before_script:
  - npm ls
@@ -17,3 +39,4 @@ before_script:
 script:
  - npm test
  - ./test/test-client.js
+

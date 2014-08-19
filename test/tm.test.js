@@ -5,11 +5,14 @@ var assert = require('assert');
 var tm = require('../lib/tm');
 var dirty = require('dirty');
 var tmppath = path.join(require('os').tmpdir(), 'tm2-lib-' + +new Date);
+var stream = require('stream');
+var progress = require('progress-stream');
 var UPDATE = process.env.UPDATE;
 
 test('setup: config', function(t) {
     tm.config({
         db: path.join(tmppath, 'app.db'),
+        fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
     }, t.end);
 });
@@ -17,24 +20,28 @@ test('setup: config', function(t) {
 test('setup: db', function(t) {
     fs.writeFileSync(path.join(tmppath, 'noncompact.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'noncompact.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v1.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v1.db')));
+    fs.writeFileSync(path.join(tmppath, 'schema-v2.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v2.db')));
+    fs.writeFileSync(path.join(tmppath, 'schema-v3.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v3.db')));
     t.end();
 });
 
-test('tm migrates', function(t) {
-    var dbpath = path.join(tmppath, 'schema-v1.db');
-    var db = dirty(dbpath);
-    db.once('load', function() {
-        var docs = {};
-        tm.dbmigrate(db);
-        db.forEach(function(k,v) { docs[k] = v });
-        t.deepEqual({
-            version: 2,
-            history: {
-                style: [ 'tmstyle:///no-protocol/path/style.tm2' ],
-                source: [ 'mapbox:///mapbox.mapbox-streets-v2' ]
-            }
-        }, docs);
-        t.end();
+[1,2,3].forEach(function(v) {
+    test('tm migrate v' + v, function(t) {
+        var dbpath = path.join(tmppath, 'schema-v'+v+'.db');
+        var db = dirty(dbpath);
+        db.once('load', function() {
+            var docs = {};
+            tm.dbmigrate(db);
+            db.forEach(function(k,v) { docs[k] = v });
+            t.deepEqual({
+                version: 4,
+                history: [
+                    'tmstyle:///no-protocol/path/style.tm2',
+                    'mapbox:///mapbox.mapbox-streets-v2'
+                ]
+            }, docs);
+            t.end();
+        });
     });
 });
 
@@ -43,10 +50,9 @@ test('tm compacts', function(t) {
     t.equal(276, fs.statSync(dbpath).size);
     tm.dbcompact(dbpath, function(err, db) {
         t.ifError(err);
-        db.on('drain', function() {
-            t.equal(23, fs.statSync(dbpath).size);
-            t.end();
-        });
+        t.equal(db.get('test'), 4, 'has right value');
+        t.equal(23, fs.statSync(dbpath).size);
+        t.end();
     });
 });
 
@@ -55,6 +61,7 @@ test('tm compacts nofile', function(t) {
     t.equal(false, fs.existsSync(dbpath));
     tm.dbcompact(dbpath, function(err, db) {
         t.ifError(err);
+        t.equal(db.get('test'), undefined, 'has no value');
         db.set('test', 1);
         db.on('drain', function() {
             t.equal(23, fs.statSync(dbpath).size);
@@ -95,6 +102,11 @@ test('tm dirfiles', function(t) {
             '10m-900913-bounding-box.prj',
             '10m-900913-bounding-box.shp',
             '10m-900913-bounding-box.shx',
+            '10m_lakes_historic.dbf',
+            '10m_lakes_historic.index',
+            '10m_lakes_historic.prj',
+            '10m_lakes_historic.shp',
+            '10m_lakes_historic.shx',
             'data.yml',
             'project.yml'
         ], files.map(function(f) { return f.basename }));
@@ -108,51 +120,42 @@ test('tm dirfiles', function(t) {
 // @TODO tm.writefiles
 
 test('tm history', function(t) {
-    t.deepEqual({style:[], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    var defaultSources = [
+        'mapbox:///mapbox.mapbox-streets-v5',
+        'mapbox:///mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5',
+        'mapbox:///mapbox.satellite,mapbox.mapbox-streets-v5'
+    ];
+    t.throws(function() {
+        tm.history('badprotocol://xyz')
+    });
+    t.deepEqual(defaultSources, tm.history(),
         'Inits with defaults');
-    t.deepEqual({style:[], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('insufficient args'),
-        'Does not attempt set without enough args');
-    t.throws(function() { tm.history('badtype', 'foo') }, /requires valid type/,
-        'Throws error on bad type');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('style', 'foo'),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('tmstyle:///foo'),
         'Sets style');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar'),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmsource:///bar']), tm.history('tmsource:///bar'),
         'Sets source');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmsource:///bar']), tm.history(),
         'Confirm set');
-    t.deepEqual({style:['foo'], source:[
-        'bar',
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar'),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmsource:///bar']), tm.history('tmsource:///bar'),
         'Ignores duplicates');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'bar', true),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('tmsource:///bar', true),
         'Invalidates source');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history(),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history(),
         'Confirm invalidation');
-    t.deepEqual({style:['foo'], source:[
-        'mapbox:///mapbox.mapbox-streets-v4'
-    ]}, tm.history('source', 'mapbox:///mapbox.mapbox-streets-v4', true),
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo']), tm.history('mapbox:///mapbox.mapbox-streets-v5', true),
         'Cannot invalidate default source');
+
+    // Windows path testing.
+    var sep = path.sep;
+    path.sep = '\\';
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmstyle://c:/Windows/Path']), tm.history('tmstyle://c:\\Windows\\Path'),
+        'Normalizes windows path');
+    t.deepEqual([].concat(defaultSources).concat(['tmstyle:///foo','tmstyle://c:/Windows/Path']), tm.history('tmstyle://C:/Windows/Path'),
+        'Normalizes drive case in windows path');
+    path.sep = sep;
+
     t.end();
 });
 
@@ -166,35 +169,48 @@ test('tm font (invalid)', function(t) {
 test('tm font (valid)', function(t) {
     tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
-        t.ok(buffer.length > 600 && buffer.length < 1000);
+        t.ok(buffer.length > 1200 && buffer.length < 2000);
         setTimeout(function() {
-            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-bd95f62a.png')));
+            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-6310313b.png')));
             t.end();
-        }, 1000);
+        }, 2000);
     });
 });
 
 test('tm font (cache hit)', function(t) {
-    var start = +new Date;
     tm.font('Source Sans Pro Bold', '', function(err, buffer) {
         t.ifError(err);
-        t.ok(buffer.length > 600 && buffer.length < 1000);
-        t.ok((+new Date - start) < 50);
+        t.ok(buffer.length > 1200 && buffer.length < 2000);
+        t.ok(buffer.hit);
         t.end();
     });
 });
 
-test('tm tmpid', function(t) {
-    ['tmsource:', 'tmstyle:'].forEach(function(protocol) {
-        t.ok(tm.tmpid(protocol, tm.tmpid(protocol)));
-        t.ok(tm.tmpid(protocol) !== tm.tmpid(protocol));
-        t.ok(tm.tmpid(protocol, 'hello', true) === tm.tmpid(protocol, 'hello', true));
-        t.ok(tm.tmpid(protocol, tm.tmpid(protocol, 'hello world', true)));
-        t.ok(!tm.tmpid(protocol, protocol + '///real/ish/path'));
-        t.ok(!tm.tmpid(protocol, protocol + '///tmp-1234'));
-        t.ok(!tm.tmpid(protocol, 'mapbox:///tmp-1234'));
-        t.ok(tm.tmpid(protocol, protocol + '///tmp-12345678'));
-    });
+test('tm oauth', function(t) {
+    var oauth = tm.db.get('oauth');
+
+    tm.db.set('oauth', null);
+    t.throws(function() { tm.oauth(); }, /No active OAuth account/, 'throws without oauth info');
+
+    tm.db.set('oauth', { account:'test' });
+    t.deepEqual(tm.oauth(), { account:'test' }, 'gets oauth info');
+
+    tm.db.set('oauth', oauth);
+
+    t.end();
+});
+
+test('tm mapid', function(t) {
+    var oauth = tm.db.get('oauth');
+
+    tm.db.set('oauth', null);
+    t.throws(function() { tm.mapid(); }, /No active OAuth account/, 'throws without oauth info');
+
+    tm.db.set('oauth', { account:'test' });
+    t.ok(/test\.[0-9a-f]{8}/.test(tm.mapid()), 'generates mapid');
+
+    tm.db.set('oauth', oauth);
+
     t.end();
 });
 
@@ -202,6 +218,17 @@ test('tm parse', function(t) {
     t.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
     t.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
     t.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+    t.end();
+});
+
+test('tm join', function(t) {
+    // Simulate windows if we're not.
+    var sep = path.sep;
+    path.sep = '\\';
+    t.equal(tm.join('/home/villeda', 'somewhere'), '/home/villeda/somewhere');
+    t.equal(tm.join('c:\\home\\villeda', 'somewhere'), 'c:/home/villeda/somewhere');
+    t.equal(tm.join('c:\\home\\villeda'), 'c:/home/villeda');
+    path.sep = sep;
     t.end();
 });
 
@@ -224,10 +251,52 @@ test('tm fontfamilies', function(t) {
     t.end();
 });
 
+test('tm copydir invalid from', function(t) {
+    var dest = tm.join(tmppath, 'copydir-invalid-from');
+    tm.copydir(tm.join(__dirname, 'doesnotexist'), dest, null, function(err) {
+        t.equal(err.code, 'ENOENT', 'ENOENT');
+        t.equal(fs.existsSync(dest), false, 'dest does not exist');
+        t.end();
+    });
+});
+
+test('tm copydir does not overwrite dest', function(t) {
+    var dest = tm.join(tmppath, 'app.db');
+    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
+        t.equal(err.code, 'EEXIST', 'EEXIST');
+        t.equal(fs.statSync(dest).isDirectory(), false, 'dest is not a directory');
+        t.end();
+    });
+});
+
+test('tm copydir copies', function(t) {
+    var dest = tm.join(tmppath, 'copydir');
+    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
+        t.ifError(err);
+        t.equal(fs.existsSync(dest), true, 'dest exists');
+        t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), true, 'copied files');
+        t.end();
+    });
+});
+
+test('tm copydir filter', function(t) {
+    var dest = tm.join(tmppath, 'copydir-filtered');
+    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, [ /\.shx$/, 'data.yml' ], function(err) {
+        t.ifError(err);
+        t.equal(fs.existsSync(dest), true, 'dest exists');
+        t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), false, 'excludes by regexp');
+        t.equal(fs.existsSync(tm.join(dest, 'data.yml')), false, 'excludes by string');
+        t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shp')), true, 'includes shp');
+        t.end();
+    });
+});
+
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {} 
+    try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'schema-v2.db')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'schema-v3.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'cache', 'font-dbad83a6.png')); } catch(err) {}
     try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
     try { fs.rmdirSync(tmppath); } catch(err) {}

@@ -1,6 +1,13 @@
 environment:
+  HOME: "c:\\projects\\tm2"
+  AWS_ACCESS_KEY_ID:
+    secure: "yr0cfv7H8uVu2iyIn93+brMT6oEhvm9FpkJPvwGZMlA="
+  AWS_SECRET_ACCESS_KEY:
+    secure: "cqTj03yqur/yCYCrMI0+A2ttBJ5r7uA8Xb0i0prEcM7lDLczYssPdp3DnqUnvIPN"
   matrix:
     - nodejs_version: 0.10
+
+shallow_clone: true
 
 platform:
   - x86
@@ -8,8 +15,10 @@ platform:
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   - node --version
-  - node -e "console.log(process.version)"
   - node -e "console.log(process.arch)"
+  - node -e "console.log(process.env.HOME)"
+  - node -e "console.log(!!process.env.AWS_ACCESS_KEY_ID)"
+  - node -e "console.log(!!process.env.AWS_SECRET_ACCESS_KEY)"
   - npm --version
   - npm install
   - npm test
