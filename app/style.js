@@ -7,7 +7,6 @@ var xray;
 var grids;
 var gridc;
 var gazetteer = [];
-var bookmarks = (bookmarks.length > 0) ? bookmarks : [];
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="places-entry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
@@ -170,7 +169,6 @@ Editor.prototype.removeBookmark = function(ev) {
     return d.place_name === target;
   });
 
-  localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(removed));
   bookmarks = removed;
   window.editor.renderPlaces('userbookmark');
   return false;
@@ -197,6 +195,7 @@ Editor.prototype.renderPlaces = function(filter) {
   function render(filter) {
     // Filter list
     var filtered = _.filter(list, function(d) {
+      if (filter === 'userbookmark') { d.tags = filter; }
       return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
     });
 
@@ -490,7 +489,12 @@ Editor.prototype.save = function(ev, options) {
     memo[k] = cm.getValue();
     return memo;
   }, {});
-  attr.bookmarks = bookmarks;
+  attr.bookmarks = _.map(bookmarks, function(bookmark, i) {
+    // remove tags and index for cleaner bookmark storage
+    delete bookmark.tags;
+    delete bookmark.index;
+    return bookmark;
+  });
   attr.source = $('.js-layers .js-layer').map(function() {
     return $(this).attr('id').split('layer-').pop();
   }).get().shift();
