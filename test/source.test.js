@@ -95,6 +95,27 @@ test('source.normalize', function(t) {
     t.deepEqual(n.Layer.length, 2, 'raster source contains two layers');
     t.deepEqual(n.vector_layers, undefined, 'raster source contains no vector_layers');
 
+    // Test normalizing metadata for a remote vector source.
+    n = source.normalize({
+        id: 'mapbox:///mapbox.remote-vector',
+        vector_layers: [{
+            id: 'water',
+        }, {
+            id: 'landuse'
+        }]
+    });
+    t.deepEqual(n.format, 'pbf', 'remote vector source is pbf');
+    t.deepEqual(n.vector_layers.length, 2, 'remote vector source preserves vector_layers key');
+
+    // Test normalizing metadata for a remote raster source.
+    n = source.normalize({
+        id: 'mapbox:///mapbox.remote-raster',
+        format: 'webp'
+    });
+    t.deepEqual(n.format, 'webp', 'remote raster source is webp');
+    t.deepEqual(n.vector_layers, undefined, 'remote raster source contains no vector_layers');
+
+
     // @TODO check postgis auto srs extent generation ... without postgis.
 
     t.end();
