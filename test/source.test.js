@@ -98,6 +98,7 @@ test('source.normalize', function(t) {
     // Test normalizing metadata for a remote vector source.
     n = source.normalize({
         id: 'mapbox:///mapbox.remote-vector',
+        format: 'pbf',
         vector_layers: [{
             id: 'water',
         }, {
