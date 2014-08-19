@@ -503,7 +503,7 @@
 
 var cwd = <%= JSON.stringify(cwd) %>;
 var style = <%= JSON.stringify(style) %>;
-var bookmarks = <%= JSON.stringify(style.bookmarks) %>;
+var bookmarks = <%= JSON.stringify(style._prefs.bookmarks) %>;
 var examples = <%= JSON.stringify(examples) %>;
 var templates = {};
 templates.modalbrowser = <%= this.modalbrowser.source %>;
