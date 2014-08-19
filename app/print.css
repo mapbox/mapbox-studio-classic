@@ -8,15 +8,6 @@
 /* Map overlay
 ------------------------------------------------------- */
 
-
-.export-controls {
-  top: 5px;
-  right: 75px;
-}
-
-.export-controls.visible-n { display:none; }
-.export-controls.export-y { display:inline-block; }
-
 /* locationfilter default overrides */
 div.leaflet-marker-icon.location-filter.resize-marker {
   background: #3887be;
@@ -45,11 +36,15 @@ div.leaflet-marker-icon.location-filter.move-marker.leaflet-drag-target {
 
 /* Export pane
 ------------------------------------------------------- */
+
+.export-controls {
+  top: 15px;
+  right: 10px;
+}
+
 .col-input input { border-right-width: 0;}
 .col-input:last-of-type input { border-right-width: 1px;}
 
 .warning, input.warning  { color: #ee8a65 !important; }
-
-.icon.reselect:before, .icon.recenter:before { margin-left: 2px; }
 
 .js-info { right: 40px;}

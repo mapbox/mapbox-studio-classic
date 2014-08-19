@@ -724,7 +724,6 @@ window.onhashchange = function(ev) {
     break;
   case !'export':
     window.exporter.boundingBox.disable();
-    $('.export-controls').addClass('visible-n').removeClass('visible-y');
     statHandler('drawtime')();
     break;
   case 'export':
@@ -733,12 +732,10 @@ window.onhashchange = function(ev) {
       break;
     }
     window.exporter.refresh();
-    $('.export-controls').addClass('visible-y').removeClass('visible-n');
     break;
   default:
     if (window.exporter.boundingBox) {
       window.exporter.boundingBox.disable();
-      $('.export-controls').addClass('visible-n').removeClass('visible-y');
       $('#zoomedto').addClass('visible-n').removeClass('visible-y');
       statHandler('drawtime')();
     }
