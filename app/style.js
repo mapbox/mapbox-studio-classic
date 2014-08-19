@@ -369,6 +369,13 @@ Editor.prototype.cartoError = function(ln, e) {
     var error = document.createElement('div');
     error.className = 'error';
 
+    if (!$('.js-error-alert').length) {
+      var alert = document.createElement('div');
+      alert.className = 'z100 top1 truncate js-error-alert error-alert pin-top col12 pad1 fill-yellow';
+      alert.innerHTML = '<strong>Unable to save.</strong> Fix carto errors and try again.';
+      document.getElementById('style-ui').appendChild(alert);
+    }
+
     var link = document.createElement('a');
     link.id = 'error-' + ln;
     link.href = '#error-' + ln;
@@ -420,6 +427,7 @@ Editor.prototype.refresh = function(ev) {
   this.messageclear();
   $('#full').removeClass('loading');
   $('body').removeClass('changed');
+  $('.js-error-alert').remove();
 
   if (!map) {
     map = L.mapbox.map('map');
