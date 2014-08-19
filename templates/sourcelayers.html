@@ -18,6 +18,7 @@
 </div>
 
 <div class='keyline-top'>
+  <% if (obj.vector_layers) { %>
   <% _(obj.vector_layers).chain().clone().reverse().each(_(function(l) { %>
   <div class='col12 contain clip layer' id='sources-<%=l.id%>'>
     <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
@@ -46,5 +47,11 @@
     </div>
   </div>
   <% }).bind(this)); %>
+  <% } else { %>
+  <div class='col12 contain clip layer pad1 small'>
+    <strong class='block center icon alert space-bottom1'>No layers found</strong>
+    Select image tiles from this source for styling as rasters using <code>#_image</code>
+  </div>
+  <% } %>
   </div>
 </div>
