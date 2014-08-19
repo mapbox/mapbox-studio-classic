@@ -41,6 +41,9 @@
 
 /* Code pane
 ------------------------------------------------------- */
+.error-alert {
+}
+
 .carto-tabs {
   padding-right: 80px;
 }
