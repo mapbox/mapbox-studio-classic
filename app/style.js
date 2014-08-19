@@ -127,8 +127,10 @@ Editor.prototype.events = {
 
 Editor.prototype.addBookmark = function(ev) {
   ev.preventDefault();
-  var view = this;
-  var lat = map.getCenter().lat,
+
+  var view = this,
+      button = $('.js-add-bookmark'),
+      lat = map.getCenter().lat,
       lng = map.getCenter().lng,
       zoom = map.getZoom();
 
@@ -149,11 +151,16 @@ Editor.prototype.addBookmark = function(ev) {
     };
     bookmarks.push(bookmark);
     localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(bookmarks));
+
+    // tell user the bookmark has been added
+    button.text('Added!').removeClass('spinner');
+    setTimeout(function() {
+      button.text('Bookmark');
+    }, 1000);
+
   });
 
-  // flicker places button to hint where bookmark will live
-  $('.places-n').attr('style','transition:all 0.25s; background-color:#3887be');
-    setTimeout(function() {$('.places-n').attr('style','transition:all 0.25s;'); }, 600);
+  button.addClass('animate spinner');
   return false;
 };
 
