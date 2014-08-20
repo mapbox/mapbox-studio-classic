@@ -390,6 +390,12 @@ tape('keybindings', function(t) {
     $('body').trigger(e);
     t.equal(window.location.hash, '#export', 'ctrl+e => #export');
 
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 80; // b
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#places', 'ctrl+p => #places');
+
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
