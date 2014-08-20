@@ -189,6 +189,10 @@ Editor.prototype.togglePane = function(name) {
 };
 
 Editor.prototype.messageclear = function() {
+  // Remove bottom alert
+  $('.js-error-alert').remove();
+
+  // Remove line alert
   _(code).each(function(cm) {
       _(cm._cartoErrors||[]).each(function() {
         cm.clearGutter('errors');
@@ -368,6 +372,13 @@ Editor.prototype.error = function(model, resp) {
 Editor.prototype.cartoError = function(ln, e) {
     var error = document.createElement('div');
     error.className = 'error';
+
+    if (!$('.js-error-alert').length) {
+      var alert = document.createElement('div');
+      alert.className = 'z100 truncate code small js-error-alert error-alert pin-bottom col12 pad0 fill-yellow';
+      alert.innerHTML = '<strong>Unable to save.</strong> Fix Carto errors and try again.';
+      document.getElementById('style-ui').appendChild(alert);
+    }
 
     var link = document.createElement('a');
     link.id = 'error-' + ln;
