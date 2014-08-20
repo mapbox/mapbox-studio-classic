@@ -182,7 +182,7 @@ Note how the centerline of the pattern is centered on the image (with empty spac
 
 To use the image from Inkscape, export it as a PNG file. Line patterns just need a single CartoCSS style to be added to your TileMill project:
 
-![]((https://cloud.githubusercontent.com/assets/126952/3893795/0039a7d8-223e-11e4-92b6-253ccf826af3.png)
+![](https://cloud.githubusercontent.com/assets/126952/3893795/0039a7d8-223e-11e4-92b6-253ccf826af3.png)
 
     #barrier_line[class='cliff'] {
       line-pattern-file: url(cliff.png);

@@ -54,11 +54,11 @@ You can nest filters to better organize your styles. For example, this style wil
 
 ### Numeric value comparison filters
 
-The same comparison operators available for the zoom filter can also be used for any numeric column in your data. For example, you might have a `population` column in a file full of city points. You could create a style that only labels cities with a population of more than 1 million.
+The same comparison operators available for the zoom filter can also be used for any numeric column in your data. For example, you might have a `population` field in a source full of city points. You could create a style that only labels cities with a population of more than 1 million.
 
     #cities[population>1000000] {
       text-name: [name];
-      text-face-name: 'Arial Regular';
+      text-face-name: 'Open Sans Regular';
     }
 
 You could also combine multiple numeric filters with zoom level filters to gradually bring in more populated cities as you zoom in.
@@ -68,7 +68,7 @@ You could also combine multiple numeric filters with zoom level filters to gradu
       [zoom>=5][population>500000],
       [zoom>=6][population>100000] {
         text-name: [name];
-        text-face-name: 'Arial Regular';
+        text-face-name: 'Open Sans Regular';
       }
     }
 
@@ -80,36 +80,30 @@ As with zoom levels, you can select data based on numeric ranges.
 
 You can also filter on columns that contain text. Filter on exact matches with the equals operator (`=`) or get the inverse results with the not-equal operator (`!=`). Unlike zoom and numeric values, text values must be quoted with either double or single quotes.
 
-As an example, look at the '10m-roads' shapefile from Natural Earth (available in TileMill via the [MapBox GeoData Library]()). It contains a column called `Type`, and each value for this column is one of just a few options: "Major Highway", "Secondary Highway", or "Ferry Route". This makes it a good column to filter on for styling.
+As an example, look at the `roads` layer in Mapbox Streets (the default vector tile source in Mapbox Studio). It contains a field called `class`, and each value for this field is one of just a few options such as "motorway", "main", and "street". This makes it a good column to filter on for styling.
 
     #roads {
-      [Type="Major Highway"] {
+      [class='motorway'] {
         line-width: 4;
       }
-      [Type="Secondary Highway"] {
+      [class='main'] {
         line-width: 2;
       }
-      [Type="Ferry Route"] {
-        line-dasharray: 4,4;
+      [class='street'] {
+        line-width: 1;
       }
     }
 
-To select everything that is not a ferry route, you could use this filter:
+To select everything that is *not* a motorway you could use the `!=` ("not equal") operator in the filter:
 
-    #roads[Type!="Ferry Route"] { /* style */ }
+    #roads[class!='motorway'] { /* style */ }
 
 ### Regular expression filters
 
 _Note: This is an advanced feature that may have negative performance implications._
 
-You can match text in filters based on a pattern using the [regular expression](http://en.wikipedia.org/wiki/Regular_expression) operator (`=~`). This filter will match any text ending with ' Highway' (ie, both 'Major Highway' and 'Secondary Highway').
+You can match text in filters based on a pattern using the [regular expression](http://en.wikipedia.org/wiki/Regular_expression) operator (`=~`). This filter will match any text starting with 'motorway' (ie, both 'motorway' and 'motorway_link').
 
-    #roads[Type=~".* Highway"] { /* style */ }
+    #roads[class=~'motorway.*'] { /* style */ }
 
 The `.` represents 'any character', and the `*` means 'any number of occurrences of the preceding expression. So `.*` used in combination means 'any number of any characters'.
-
-<!-- TODO
-- more regex details
-- geometry type filters
-- performance considerations
--->
