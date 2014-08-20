@@ -28,7 +28,6 @@
   <script src='/app/codemirror.carto.complete.js'></script>
   <script src='/app/codemirror.tm2.search.js'></script>
   <script src='/app/codemirror.tm2.palette.js'></script>
-  <script src='/ext/inlet.js'></script>
   <script src='/ext/sexagesimal.js'></script>
   <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
   <script src='/ext/sphericalmercator.js'></script>
@@ -37,15 +36,17 @@
 </head>
 
 <body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom'>
-
 <a id='settings'></a>
 <a id='layers'></a>
 <a id='fonts'></a>
 <a id='docs'></a>
+<a id='places'></a>
+
 <a id='user'></a>
 
 <a id='home'></a>
 <a id='xray'></a>
+<a id='export'></a>
 
 <div id='modal'>
   <div class='modal-mask fill-darken2 animate'></div>
@@ -54,51 +55,68 @@
 
 <div id='full' class='z1 clip animate pin-left'>
   <div id='map' class='animate' style='background-color:<%=style.background%>;'></div>
+  <div id='places' class='z10 animate pin-left dark fill-dark col12'>
+    <div class='pin-top z10 pad1'>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
+      <a href='#' class='js-show-search show-search-button icon search pin-topleft button short quiet'></a>
+      <form id='places-search' class='js-places-container places-search-container z10 col12 fill-dark hidden keyline-bottom clearfix pin-top'>
+        <input id='places-dosearch' placeholder='Search by feature, location, or OSM tag' class='col12 clean hidden' type='text' />
+        <a href='#' class='pin-right button quiet icon search short js-places-search'>Search</a>
+        <a href='#' class='icon js-hide-search x pin-right keyline-left pad1 quiet'></a>
+      </form>
+      <div class='dark pin-topright places-toggle'>
+        <div class='rounded-toggle js-places-toggle'>
+          <input id='road' type='radio' name='rtoggle' value='road' checked='checked' class='js-places'>
+          <label for='road'>Roads</label>
+          <input id='natural' type='radio' name='rtoggle' value='natural' class='js-places'>
+          <label for='natural'>Natural</label>
+          <input id='park' type='radio' name='rtoggle' value='park' class='js-places'>
+          <label for='park'>Parks</label>
+          <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-places'>
+          <label for='Major cities'>Major cities</label>
+          <input id='bookmarks' type='radio' name='rtoggle' value='userbookmark' class='js-places'>
+          <label for='bookmarks'></span>My places</label>
+        </div>
+      </div>
+    </div>
+    <div class='col12 pin-left scroll-hide clearfix places-list unlimiter js-places-list' id='placeslist'></div>
+  </div>
   <div id='map-overlay' class='overlay'></div>
   <div id='map-errors'></div>
 
-  <form id='bookmark' class='tip-bottom z10 contain fill-white round animate'>
-    <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
-    <div class='pin-topright pad0'>
-      <input type='submit' class='short quiet button' value='Add' />
-    </div>
-    <ul id='bookmark-list' class='clip fill-light scroll-styled round-bottom'></ul>
-  </form>
-
-  <form id='search' class='tip-bottom z10 contain fill-white round animate'>
+  <form id='search' class='z10 contain dark round animate search-results'>
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
-    <div class='pin-topleft pad1'>
-      <span class='icon search'></span>
-    </div>
-    <ul id='search-results' class='clip fill-light scroll-styled round-bottom'></ul>
+    <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
-
-  <div id='map-controls' class='z10'>
-    <span class='inline xray-toggle'>
-      <a href='#xray' title='Toggle inspector' class='xray-n inline icon eye fill-white quiet'></a>
-      <a href='#home' title='Toggle inspector' class='xray-y inline icon eye fill-dark dark'></a>
-    </span>
-    <div class='fill-white inline'>
-      <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
-      --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
-      --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
-      --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
+  <div class='map-controls pin-top text-right col12 dark fill-dark pad0'>
+    <div class='fl'>
+      <div class='pill'>
+        <a href='#search' class='search-n search-button button short icon search quiet'></a><!--
+     --><a href='#' class='search-y button search-button short icon active icon search quiet'></a><!--
+     --><a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a><!--
+     --><a href='#' title='Exit fillscreen' class='button short icon quiet active fullscreen full-y'></a><!--
+     --><a id='zoom-in' class='button short icon plus quiet'></a><!--
+     --><a id='zoom-out' class='button short icon minus quiet'></a>
+      </div>
+      <span class='align-top inline xray-toggle'>
+        <a href='#xray' class='xray-n button short icon eye quiet'></a>
+        <a href='#home' class='xray-y button short active icon eye quiet'></a>
+      </span>
+      <div class='pill inline align-top'>
+        <a class='button short icon places-button marker js-places quiet js-toolbar-places' title='places' href='#places'>Places</a><!--
+        --><a class='button js-add-bookmark add-bookmark short quiet'>Add</a>
+      </div>
     </div>
-    <a href='#full' title='Toggle fullscreen' class='full-n inline fill-white icon fullscreen quiet'></a>
-    <a href='#' title='Exit fillscreen' class='full-y fill-dark dark icon fullscreen'></a>
-    <div class='inline fill-white'>
-      <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
-      --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
+    <div class='align-top fl quiet export-controls'>
+      <a href='#export' title='Reselect crop area within view' id='reselect' class='quiet icon refresh button js-reselect short'>New</a>
+      <a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
     </div>
-  </div>
-  <div class='export-controls visible-n'>
-    <a href='#export' title='Reselect within view' id='reselect' class='reselect icon refresh micro inline fill-white quiet'>New crop from view</a>
-    <a href='#export' title='Reselect within view' id='recenter' class='recenter icon crosshair micro inline fill-white quiet '>Center crop</a>
+    <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
+    <div id='zoomedto' class='align-top inline contain zoom<%=style.center[2]%>'></div>
   </div>
 
-  <div id='zoomedto' class='animate z<%=style.center[2]%>'></div>
   <!-- DEMO -->
-  <div id='inspect-popup' class='demo-popup col7 pin-bottomleft pad4 bottom2 fill-blue dark round-right'>
+  <div id='inspect-popup' class='top2 demo-popup col7 pin-topleft pad4 fill-blue dark round-right'>
     <a href='#' class='icon x pin-topright pad1 js-demo'></a>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
@@ -205,7 +223,7 @@
   </div>
 
   <div id='fonts-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <div class='pin-top pad1 keyline-bottom'>
       <h3>Fonts</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
@@ -232,10 +250,14 @@
     <%= this.history(obj) %>
   </div>
 
+  <div class='drawer col12 animate offcanvas-left'>
+
+  </div>
 </div>
 
-<div id='style-ui' class='animate z1 col6 pin-right fill-light'>
-  <div id='code' class='pin-left col12'>
+<div id='style-ui' class='animate z1 col6 pin-right'>
+
+  <div id='code' class='animate pin-right fill-light col12'>
     <div class='row1 fill-white pin-top'>
       <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
         <% _(style.styles).keys().forEach(function(k,i) { %>
@@ -247,7 +269,7 @@
         -->
         <div class='z10 pin-right col6 fill-disable on-local on-tmp'></div><!--
         -->
-        <a href='#export' class='inline js-export export-n icon picture keyline-left fill-dark dark pad1'></a>
+        <a href='#export' class='inline js-export export-n icon picture keyline-left quiet pad1'></a>
       </div>
     </div>
     <div id='stylesheets'></div>
@@ -268,19 +290,24 @@
   <!-- END DEMO -->
 </div>
 
-<div id='export' class='offcanvas-right z100 col6 export-menu pin-right dark fill-dark'>
+<div id='export-ui' class='z100 col6 animate pin-right dark fill-dark'>
   <nav class='row1 col12 pin-top keyline-bottom z1'>
     <a href='#' class='js-export export-y icon x fill-dark dark pad1 z1 pin-bottomright'></a>
     <h3 class='inline pad1'>Export image</h3>
     <a href='#export-info' class='pin-right pad1 js-info keyline-right inline icon info quiet'></a>
     <div id='export-info' class='clearfix pin-top top1 z10 pad1 prose keyline-bottom fill-dark hidden'>
-      <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport. To verify whether your image will be correctly sized at your desired zoom level, click on the zoom in the bottom-left corner of the viewport.</p>
+      <p>Select an area to export as a static image by manipulating the bounding box, or the coordinates below. The final image will be at the same zoom level as the viewport.</p>
     </div>
   </nav>
 
-  <form class='js-data-content menu-content pin-left col12 top1 scroll-styled pad1x pad2y'>
-    <h3 class='space-bottom1'>Zoom level  <span id='zoom'><%=style.center[2]%></span></h3>
-
+  <form class='js-data-content menu-content pin-right col12 top1 scroll-styled pad1x pad2y'>
+    <div class='clearfix'>
+      <h3 class='space-bottom2 col8'>Zoom <span id='zoom'><%=style.center[2]%></span></h3>
+      <div class='checkbox-pill col4'>
+        <input type='checkbox' id='lock'>
+        <label for='lock' class='fr button short quiet icon check'>Lock dimensions</label>
+      </div>
+    </div>
     <fieldset class='space-bottom1'>
       <label>Crop size</label>
       <div class='space-bottom1 clearfix col12'>
@@ -306,10 +333,6 @@
           <span class='icon quiet u-d-arrow'></span>
           <label class='micro ghost'>Inches</label>
         </div>
-      </div>
-      <div class='pad1y checkbox inline short'>
-        <input type='checkbox' id='lock'>
-        <label for='lock' class='round keyline-all small icon lock'>Lock dimensions</label>
       </div>
     </fieldset>
 
@@ -493,6 +516,7 @@ templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
+
 Style(templates, cwd, style, examples);
 </script>
 
