@@ -220,7 +220,7 @@ var tm = {};
 tm.srs = <%= JSON.stringify(tm.srs) %>;
 
 var cwd = <%= JSON.stringify(cwd) %>;
-var source = <%= JSON.stringify(source) %>;
+var source = <%= JSON.stringify(source, null, 2).replace(new RegExp('/', 'g'), '\\/').replace("\u2028", "\\u2028").replace("\u2029", "\\u2029") %>;
 var examples = <%= JSON.stringify(examples) %>;
 var revlayers = <%= JSON.stringify(revlayers) %>;
 

@@ -499,8 +499,9 @@
 </div>
 
 <script>
+
 var cwd = <%= JSON.stringify(cwd) %>;
-var style = <%= JSON.stringify(style) %>;
+var style = <%= JSON.stringify(style, null, 2).replace(new RegExp('/', 'g'), '\\/').replace("\u2028", "\\u2028").replace("\u2029", "\\u2029") %>;
 var examples = <%= JSON.stringify(examples) %>;
 var templates = {};
 templates.modalbrowser = <%= this.modalbrowser.source %>;
