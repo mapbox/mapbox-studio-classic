@@ -9,11 +9,11 @@ var gridc;
 var gazetteer = [];
 var bookmarks = localStorage.getItem(this.style.id + '.bookmarks') ? JSON.parse(localStorage.getItem(this.style.id + '.bookmarks')) : [];
 var mtime = (+new Date).toString(36);
-var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="places-entry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
+var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
                       '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
                     '</a>' +
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" data-entry="<%= place_name %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1 quiet"></a><% }; %>' +
+                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1 quiet"></a><% }; %>' +
                   '</div>';
 
 statHandler('drawtime')();
@@ -166,9 +166,9 @@ Editor.prototype.addBookmark = function(ev) {
 
 Editor.prototype.removeBookmark = function(ev) {
   var view = this;
-  var target = $(ev.currentTarget).attr('data-entry');
+  var target = parseInt($(ev.currentTarget).attr('index'));
   var removed = _.reject(bookmarks,function(d) {
-    return d.place_name === target;
+    return d.index === target;
   });
 
   localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(removed));
