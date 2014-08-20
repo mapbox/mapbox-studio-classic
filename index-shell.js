@@ -107,7 +107,7 @@ function createMenu() {
             label: 'Quit Mapbox Studio',
             accelerator: 'Command+Q',
             selector: 'performClose:'
-          },
+          }
         ]
       },
       {
@@ -150,7 +150,7 @@ function createMenu() {
             label: 'Toggle Full Screen',
             accelerator: 'Ctrl+Command+F',
             click: function() { mainWindow.setFullScreen(!mainWindow.isFullScreen()); }
-          },
+          }
         ]
       },
       {
@@ -163,6 +163,15 @@ function createMenu() {
           }
         ]
       },
+      {
+        label: 'Help',
+        submenu: [
+          {
+            label: 'Online Resources',
+            click: function() { shell.openExternal('https://www.mapbox.com/mapbox-studio/'); }
+          }
+        ]
+      }
     ];
 
     menu = Menu.buildFromTemplate(template);
