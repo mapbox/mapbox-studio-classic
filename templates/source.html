@@ -91,7 +91,7 @@
   </form>
 
   <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <div class='row1 pin-top keyline-botom pad1 keyline-bottom'>
       <h3>Projects</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
@@ -105,38 +105,25 @@
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
 
-  <form id='bookmark' class='tip-bottom z1 contain fill-dark round animate'>
-    <input id='addbookmark' type='text' class='col12 clean round small' value='' placeholder='Name a bookmark' autocomplete='off' />
-    <div class='pin-topright pad0'>
-      <input type='submit' class='short quiet button' value='Add' />
-    </div>
-    <ul id='bookmark-list' class='clip fill-dark scroll-styled round-bottom'></ul>
-  </form>
-
-  <form id='search' class='tip-bottom z1 contain fill-dark round animate'>
+  <form id='search' class='z10 contain dark round animate search-results'>
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
-    <div class='pin-topleft pad1'>
-      <span class='icon search'></span>
-    </div>
-    <ul id='search-results' class='clip fill-dark dark scroll-styled round-bottom'></ul>
+    <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
+  <div class='map-controls pin-top text-right col12 dark fill-dark pad0'>
+    <div class='fl'>
+      <a href='#search' class='search-n button short icon search quiet'></a>
+      <a href='#' class='search-y button short icon active icon search quiet'></a>
 
-  <div id='zoomedto' class='fill-dark contain z<%=source.center[2]%>'></div>
+      <a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a>
+      <a href='#' title='Exit fillscreen' class='button short icon quiet active fullscreen full-y'></a>
 
-  <div id='map-controls' class='z10'>
-    <div class='align-top fill-dark inline'>
-      <a href='#search' title='Search' class='search-n keyline-right icon search quiet '></a><!--
-      --><a href='#' title='Close search' class='search-y icon keyline-right search fill-dark dark'></a><!--
-      --><a href='#bookmark' title='Bookmarks' class='bookmark-n icon marker quiet'></a><!--
-      --><a href='#' title='Close bookmarks' class='bookmark-y icon marker fill-dark dark'></a>
+      <div class='pill'>
+      <a id='zoom-in' class='button short icon plus quiet'></a><!--
+   --><a id='zoom-out' class='button short icon minus quiet'></a>
+      </div>
     </div>
-    <a href='#full' title='Toggle fullscreen' class='align-top full-n inline fill-dark icon fullscreen quiet'></a>
-    <a href='#' title='Exit fillscreen' class='align-top full-y fill-dark dark icon fullscreen'></a>
-    <div class='align-top inline fill-dark'>
-      <a href='#' id='zoom-in' title='Zoom in' class='icon plus keyline-right quiet'></a><!--
-      --><a href='#' id='zoom-out' title='Zoom out' class='icon minus keyline-right quiet'></a>
-    </div>
-    <span class='align-top strong quiet fill-dark inline micro truncate map-control-center center' id='map-center'></span>
+    <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
+    <div id='zoomedto' class='align-top inline contain zoom<%=source.center[2]%>'></div>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
     <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
