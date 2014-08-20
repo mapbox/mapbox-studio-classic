@@ -189,10 +189,10 @@ Editor.prototype.togglePane = function(name) {
 };
 
 Editor.prototype.messageclear = function() {
-  // Remove top notice
+  // Remove bottom alert
   $('.js-error-alert').remove();
 
-  // Remove line notice
+  // Remove line alert
   _(code).each(function(cm) {
       _(cm._cartoErrors||[]).each(function() {
         cm.clearGutter('errors');
