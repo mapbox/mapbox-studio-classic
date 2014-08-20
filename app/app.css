@@ -392,7 +392,9 @@ a.project.proj-active .proj-status { display: block;}
 
 #map.map-clickable { cursor: pointer;}
 
-.map-controls, .search-results { background: #525252;}
+.map-controls,
+.map-controls .fill-dark,
+.search-results { background: #525252;}
 .map-control-center { width: 100px;}
 
 .map-controls .pill .search-button {
