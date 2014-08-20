@@ -42,8 +42,6 @@ var Tab = function(id, value) {
     keyMap: 'tabSpace'
   });
 
-  Inlet(tab);
-
   var completer = cartoCompletion(tab, window.cartoRef);
 
   /*
