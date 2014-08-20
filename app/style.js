@@ -320,10 +320,6 @@ Editor.prototype.keys = function(ev) {
     var tab = $('#tabs a.tab')[(which-48)-1];
     if (tab) $(tab).click();
     break;
-  case (which === 80): // p for places
-    ev.preventDefault();
-    this.togglePane('places');
-    break;
   default:
     return true;
   }
