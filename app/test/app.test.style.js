@@ -222,7 +222,7 @@ tape('bookmarks: save', function(t) {
     target.click();
     t.ok(target.hasClass('spinner'), 'button has spinner');
 
-//     onajax(function() {
+    onajax(function() {
 //         // Check that it is stored
 //         var bookmarks = JSON.parse(localStorage.getItem(editor.model.get('id') + '.bookmarks'));
 //         t.equal(bookmarks.length, 1, 'bookmark is in localstorage');
@@ -232,7 +232,7 @@ tape('bookmarks: save', function(t) {
 //         $('label[for="bookmarks"]').click();
 //         t.equal($('.js-places-list').children().length, 1, 'bookmark appears in list');
            t.end();
-//     });
+    });
 
 });
 
