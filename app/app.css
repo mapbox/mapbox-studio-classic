@@ -467,6 +467,7 @@ a.project.proj-active .proj-status { display: block;}
 #zoomedto.zoom21 .zoom21,
 #zoomedto.zoom22 .zoom22 {
   display:block;
+  background: #525252;
   }
 #zoomedto:target .zoom.zoom0, #zoomedto .export.zoom.zoom0,
 #zoomedto:target .zoom.zoom6, #zoomedto .export.zoom.zoom6,
@@ -516,7 +517,7 @@ a.project.proj-active .proj-status { display: block;}
   border-top: 1px solid rgba(0,0,0,0.25);
   overflow:hidden;
   height:120px;
-  background: #525252;
+  background: #626262;
   z-index: 10;
   width: 100%;
   left: 0;
@@ -532,6 +533,12 @@ a.project.proj-active .proj-status { display: block;}
   position:absolute;
   display:block;
   }
+
+/* override confusing a element hover effects */
+#zoomedto:target:hover .zoom {
+  cursor: default;
+  color: rgba(255,255,255,.5)
+}
 #zoomedto:target .range,
 #zoomedto:target .close,
 #zoomedto.visible-y .close { display:block; }
