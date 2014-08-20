@@ -189,6 +189,10 @@ Editor.prototype.togglePane = function(name) {
 };
 
 Editor.prototype.messageclear = function() {
+  // Remove top notice
+  $('.js-error-alert').remove();
+
+  // Remove line notice
   _(code).each(function(cm) {
       _(cm._cartoErrors||[]).each(function() {
         cm.clearGutter('errors');
@@ -371,7 +375,7 @@ Editor.prototype.cartoError = function(ln, e) {
 
     if (!$('.js-error-alert').length) {
       var alert = document.createElement('div');
-      alert.className = 'z100 top1 truncate js-error-alert error-alert pin-top col12 pad1 fill-yellow';
+      alert.className = 'z100 truncate code small js-error-alert error-alert pin-bottom col12 pad0 fill-yellow';
       alert.innerHTML = '<strong>Unable to save.</strong> Fix Carto errors and try again.';
       document.getElementById('style-ui').appendChild(alert);
     }
@@ -427,7 +431,6 @@ Editor.prototype.refresh = function(ev) {
   this.messageclear();
   $('#full').removeClass('loading');
   $('body').removeClass('changed');
-  $('.js-error-alert').remove();
 
   if (!map) {
     map = L.mapbox.map('map');
