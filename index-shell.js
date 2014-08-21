@@ -64,18 +64,20 @@ function makeWindow() {
     });
 
     createMenu();
-    versionCheck();
+    loadURL();
 }
 
-function loadURL(update) {
-    update = update || '';
+function loadURL() {
     if (!mainWindow) return;
     if (!serverPort) return;
-    mainWindow.loadUrl('http://localhost:'+serverPort + update);
+    versionCheck(function(update){
+      update = update ? '#update' : '';
+      mainWindow.loadUrl('http://localhost:'+serverPort + update);
+    });
 }
 
-function versionCheck() {
-
+function versionCheck(callback) {
+  var update = false;
   https.request({
     host:'mapbox.s3.amazonaws.com',
     path: '/mapbox-studio/latest'
@@ -85,19 +87,21 @@ function versionCheck() {
       latest += chunk;
     });
     response.on('end', function () {
-      // for testing without building
-      //var current = "0.0.2"
+      //for testing without building
+      // var current = "0.0.2"
       var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
       latest = latest.replace(/^\s+|\s+$/g, '');
-      if (latest === current) {
-        console.log('current');
-        return loadURL();
-      } else {
+      if (latest !== current) {
         console.log('notcurrent');
-        return loadURL('#update');
+        update = true;
       }
+      return callback(update);
     });
-  }).end();
+  })
+    .on('error', function(){
+      return callback(false);
+    })
+    .end();
 }
 
 function createMenu() {
