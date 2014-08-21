@@ -87,9 +87,7 @@ function versionCheck(callback) {
       latest += chunk;
     });
     response.on('end', function () {
-      // for testing without building
-      var current = "0.0.2"
-      //var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
+      var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
       latest = latest.replace(/^\s+|\s+$/g, '');
       if (latest !== current) {
         update = true;
