@@ -40,6 +40,8 @@ function makeWindow() {
     mainWindow = new BrowserWindow({
         width: 960,
         height: 600,
+        'min-width': 720,
+        'min-height': 480,
         title: 'Mapbox Studio',
         'node-integration': 'all',
         'web-preferences': {
