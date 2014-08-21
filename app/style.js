@@ -279,6 +279,7 @@ Editor.prototype.zoomToLayer = function(ev) {
   var center_string = $('#sources-'+id + ' input[name=center]').val();
   var center = center_string.split(',');
   map.setView([center[1], center[0]], center[2]);
+  return false;
 };
 
 Editor.prototype.changed = function() {

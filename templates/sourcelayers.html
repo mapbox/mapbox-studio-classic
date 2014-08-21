@@ -23,12 +23,12 @@
   <div class='col12 contain clip layer' id='sources-<%=l.id%>'>
     <input type='hidden' name='center' value='<%=l.center%>' />
     <div class='col1 pad0'>
-      <a href='#' id='zoom-<%=l.id%>' title='Zoom to layer' class='icon marker inline round js-zoom-to'></a>
+      <a href='#' id='zoom-<%=l.id%>' title='Zoom to layer' class='icon crosshair inline round js-zoom-to'></a>
     </div>
     <a href='#sources-<%=l.id%>' class='col11 pin-right js-tab'></a>
     <div class='space small pad1x pad0y keyline-bottom <%=l.geometry ? l.geometry + 'icon' : ''%>'>
-      <span class='icon round' style='background-color:<%=this.xraycolor(l.id)%>'></span>
-      <span>#<%=l.id%></span>
+      <span class='icon round pin-topright space-top0' style='background-color:<%=this.xraycolor(l.id)%>'></span>
+      <span class="pad0x">#<%=l.id%></span>
     </div>
     <div class='small center pin-right'>
       <span class='inline zooms pad0'>

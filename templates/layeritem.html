@@ -5,7 +5,7 @@ var refreshable = (obj.Datasource.type === 'shape' || obj.Datasource.type === 'c
 %>
 <div id='<%=obj.id%>' class='contain keyline-bottom clearfix layer js-layer col12 small quiet'>
   <span class='pad0 col0'>
-    <a href='#' id='zoom-<%=obj.id%>' title='Zoom to extent' class='icon marker inline round js-zoom-to'></a>
+    <a href='#' id='zoom-<%=obj.id%>' title='Zoom to extent' class='icon crosshair inline round js-zoom-to'></a>
   </span>
   <a class='<%=(obj.Datasource && obj.Datasource.type) ? "js-reset-mode" : "js-tab" %> block col8 contain pad0y pad1x quiet' href='#layers-<%=obj.id%>'>
     <%=obj.id%>
