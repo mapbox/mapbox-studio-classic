@@ -4,7 +4,6 @@ var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
 var https = require('http');
-var fs = require('fs');
 
 
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
