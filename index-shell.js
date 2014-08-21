@@ -82,13 +82,13 @@ function versionCheck() {
   }, function(response){
     var latest = '';
     response.on('data', function (chunk) {
-      console.log('CHUNK', chunk)
       latest += chunk;
     });
     response.on('end', function () {
       // for testing without building
-      // var current = "0.0.2"
-      var current = fs.readFileSync(__dirname.split('Mapbox Studio.app')[0] + "version.txt", {encoding: 'utf8' });
+      //var current = "0.0.2"
+      var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
+      latest = latest.replace(/^\s+|\s+$/g, '');
       if (latest === current) {
         console.log('current');
         return loadURL();
