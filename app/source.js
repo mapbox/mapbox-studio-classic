@@ -505,7 +505,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
             map.on('zoomend', function() {
-                $('#zoomedto').attr('class', 'contain z' + (map.getZoom() | 0));
+                $('#zoomedto').attr('class', 'align-top inline contain zoom' + (map.getZoom() | 0));
             });
             $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
             map.on('moveend', function(e) {
