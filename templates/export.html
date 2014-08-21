@@ -62,8 +62,8 @@
 var templates = {};
 templates.exportsize = <%= this.exportsize.source %>;
 
-var source = <%= JSON.stringify(source, null, 2).replace(new RegExp('/', 'g'), '\\/').replace("\u2028", "\\u2028").replace("\u2029", "\\u2029") %>;
-var job = <%= JSON.stringify(job) %>;
+var source = <%= saferstringify(source, null, 2) %>;
+var job = <%= saferstringify(job, null, 2) %>;
 
 Export(templates, source , job);
 
