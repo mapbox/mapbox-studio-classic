@@ -12,11 +12,11 @@ Common questions
 What are vector tiles?
 ----------------------
 
-Vector tiles are the vector data equivalent of image tiles for web mapping. They apply the strengths of tiling -- developed for caching, scaling and serving map imagery rapidly -- to vector data. Consider an image tile at the zxy coordinate 14/4823/6160. This image is a PNG that depicts the corner of lower Manhattan with roads, building footprints, and parks:
+Vector tiles are the vector data equivalent of image tiles for web mapping. They apply the strengths of tiling -- developed for caching, scaling and serving map imagery rapidly -- to vector data. Consider an image tile at the `zxy` coordinate `14/4823/6160`. This image is a PNG that depicts the corner of lower Manhattan with roads, building footprints, and parks:
 
 ![z14 image tile](https://cloud.githubusercontent.com/assets/83384/3870695/97169564-20d9-11e4-8cc2-b2b75963fd5d.png)
 
-A vector tile at 14/4823/6160 would contain all the corresponding geometries and metadata -- like road names, area types, building heights -- in a compact, parsable format. Vector tiles are a highly performant format that provide greater flexibility in terms of styling, output format, and interactivity.
+A vector tile at `14/4823/6160` would contain all the corresponding geometries and metadata -- like road names, area types, building heights -- in a compact, parsable format. Vector tiles are a highly performant format that provide greater flexibility in terms of styling, output format, and interactivity.
 
 What is the difference between style and source projects?
 ---------------------------------------------------------
@@ -24,7 +24,7 @@ What is the difference between style and source projects?
 Mapbox Studio makes a hard split between two types of projects:
 
 - **Style projects** contain stylesheets, basic thin metadata (name, description, attribution, etc.), and a *reference* to a source.
-- **Source projects** contain configuration for converting a traditional geodata storage format (shapefile, geojson, etc.) into vector tiles. Once converted into vector tiles the source can be referenced by style projects for styling.
+- **Source projects** contain configuration for converting a traditional geodata storage format (Shapefile, GeoJSON, etc.) into vector tiles. Once converted into vector tiles the source can be referenced by style projects for styling.
 
 <div class='clearfix space-bottom'>
     <div class='margin2 col8'>
@@ -62,7 +62,7 @@ Do I need a Mapbox account to use Mapbox Studio?
 
 Yes, a Mapbox account is needed to access the default vector tile sources included in Mapbox Studio. You can try out the features of Mapbox Studio for free but to make use of all of the functionality you must be on the Mapbox [Standard plan](https://www.mapbox.com/plans/).
 
-You are not locked into using Studio with Mapbox -- you can export vector tiles from any source project as a standard [MBTiles file](https://github.com/mapbox/mbtiles-spec) and package any style project as a [tm2z package](https://github.com/mapbox/tilelive-vector).
+You are not locked into using Studio with Mapbox -- you can export vector tiles from any source project as a standard [MBTiles file](https://github.com/mapbox/mbtiles-spec) and package any style project as a [`.tm2z` package](https://github.com/mapbox/tilelive-vector).
 
 What can/can't I do with pro fonts?
 -----------------------------------
@@ -89,8 +89,8 @@ Mapbox Studio is a new map design application from Mapbox. It is powered exclusi
 ### Similarities
 
 - **Open source**. Mapbox Studio is an open source project with [all its code on GitHub](https://github.com/mapbox/mapbox-studio).
-- **CartoCSS-based styling**. Mapbox Studio leverages the same CartoCSS language and mapnik rendering backend used by TileMill.
-- **Broad geodata format support**. Mapbox Studio supports shapefile, geojson, csv, postgis, and more like TileMill.
+- **CartoCSS-based styling**. Mapbox Studio leverages the same CartoCSS language and Mapnik rendering backend used by TileMill.
+- **Broad geodata format support**. Mapbox Studio supports Shapefile, GeoJSON, CSV, PostGIS, and more, just like TileMill.
 
 ### Differences
 
@@ -100,7 +100,7 @@ Mapbox Studio is a new map design application from Mapbox. It is powered exclusi
 How is Mapbox Studio related to Mapbox GL?
 ------------------------------------------
 
-Mapbox Studio is a predecessor to Mapbox GL in terms of rendering technology. Both platforms are powered by the same [mapnik vector tile](https://github.com/mapbox/mapnik-vector-tile) format, but Mapbox Studio renders maps using mapnik as its backend while Mapbox GL uses GPU-based rendering.
+Mapbox Studio is a predecessor to Mapbox GL in terms of rendering technology. Both platforms are powered by the same [Mapnik vector tile](https://github.com/mapbox/mapnik-vector-tile) format, but Mapbox Studio renders maps using Mapnik as its backend while Mapbox GL uses GPU-based rendering.
 
 The vector tiles created by Mapbox Studio in the _Source editor_ can be used directly with Mapbox GL. As Mapbox GL rendering matures expect Mapbox Studio to begin transitioning its rendering to leverage GL as well.
 
