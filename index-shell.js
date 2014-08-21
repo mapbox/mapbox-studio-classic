@@ -71,7 +71,6 @@ function loadURL() {
     if (!mainWindow) return;
     if (!serverPort) return;
     versionCheck(function(update, current, latest){
-      console.log(current, latest)
       update = update ? '/update?current='+current+'&latest='+latest : '';
       mainWindow.loadUrl('http://localhost:'+serverPort + update);
     });
