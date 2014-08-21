@@ -92,7 +92,6 @@ function versionCheck(callback) {
       var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
       latest = latest.replace(/^\s+|\s+$/g, '');
       if (latest !== current) {
-        console.log('notcurrent');
         update = true;
       }
       return callback(update);
