@@ -19,6 +19,9 @@ Tagging flow is like this:
     git push origin master
     git push --tags
 
+    # Update version number at https://mapbox.s3.amazonaws.com/mapbox-studio/latest
+    scripts/version-update.sh
+
 Then package using the tag name in the steps below.
 
 ### Packaging
