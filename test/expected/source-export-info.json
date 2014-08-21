@@ -13,6 +13,8 @@
   "vector_layers": [
     {
       "id": "solid",
+      "center": [],
+      "extent": [],
       "description": "",
       "fields": {
         "Id": "Number"
@@ -20,6 +22,8 @@
     },
     {
       "id": "box",
+      "center": [],
+      "extent": [],
       "description": "",
       "fields": {
         "ScaleRank": "String",

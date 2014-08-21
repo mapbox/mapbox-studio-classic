@@ -16,6 +16,8 @@ Layer:
       file: BASEPATH/fixtures-localsource/10m-900913-bounding-box.shp
       type: shape
     description: ''
+    center: []
+    extent: []
     fields: {}
     properties: 
       "buffer-size": 0
@@ -25,6 +27,8 @@ Layer:
       file: BASEPATH/fixtures-localsource/10m_lakes_historic.shp
       type: shape
     description: ''
+    center: []
+    extent: []
     fields: {}
     properties: 
       "buffer-size": 0

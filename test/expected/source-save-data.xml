@@ -6,7 +6,7 @@
   <Parameter name="attribution"><![CDATA[John Doe 2013.]]></Parameter>
   <Parameter name="center">0,0,3</Parameter>
   <Parameter name="format">pbf</Parameter>
-  <Parameter name="json"><![CDATA[{"vector_layers":[{"id":"solid","description":"","fields":{"Id":"Number"}},{"id":"box","description":"","fields":{"ScaleRank":"String","FeatureCla":"String","Name1":"String","Name2":"String","Date":"String"}}]}]]></Parameter>
+  <Parameter name="json"><![CDATA[{"vector_layers":[{"id":"solid","description":"","fields":{"Id":"Number"},"extent":[],"center":[]},{"id":"box","description":"","fields":{"ScaleRank":"String","FeatureCla":"String","Name1":"String","Name2":"String","Date":"String"},"extent":[],"center":[]}]}]]></Parameter>
   <Parameter name="maxzoom">6</Parameter>
   <Parameter name="minzoom">0</Parameter>
   <Parameter name="name"><![CDATA[Test source]]></Parameter>

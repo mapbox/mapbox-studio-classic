@@ -57,7 +57,7 @@ test('source.normalize', function(t) {
     t.deepEqual(n.vector_layers.length, 1);
     t.deepEqual(n.vector_layers[0].fields, {'Id':'Valid helptext for a field'},
         'Populates field help');
-    t.deepEqual(Object.keys(tm.sortkeys(n.Layer[0])), ['id','Datasource','description','fields','properties','srs'],
+    t.deepEqual(Object.keys(tm.sortkeys(n.Layer[0])), ['id','center','Datasource','description','extent','fields','properties','srs'],
         'Populates deep defaults in Layer objects');
     t.deepEqual(Object.keys(tm.sortkeys(n.Layer[0].Datasource)), ['file','type'],
         'Strips invalid datasource properties based on type');
