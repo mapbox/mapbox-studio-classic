@@ -88,9 +88,9 @@
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
     <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
-  <div class='map-controls pin-top text-right col12 dark fill-dark pad0'>
-    <div class='fl'>
-      <div class='pill'>
+  <div class='map-controls pin-top text-right dark fill-dark row1'>
+    <div class='pin-left fill-dark z1 pad0 row1 truncate'>
+      <div class='pill inline align-top'>
         <a href='#search' class='search-n search-button button short icon search quiet'></a><!--
      --><a href='#' class='search-y button search-button short icon active icon search quiet'></a><!--
      --><a id='' href='#full' title='Toggle fullscreen' class='button short icon fullscreen full-n quiet'></a><!--
@@ -106,13 +106,15 @@
         <a class='button short icon places-button marker js-places quiet js-toolbar-places' title='places' href='#places'>Places</a><!--
         --><a class='button js-add-bookmark add-bookmark short quiet'>Add</a>
       </div>
+      <div class='pill inline align-top export-controls'>
+        <a href='#export' title='Reselect crop area within view' id='reselect' class='quiet icon refresh button js-reselect short'>New</a><!-
+        --><a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
+      </div>
     </div>
-    <div class='align-top fl quiet export-controls'>
-      <a href='#export' title='Reselect crop area within view' id='reselect' class='quiet icon refresh button js-reselect short'>New</a>
-      <a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
+    <div class='pin-top fill-dark z0 pad0 row1 text-right'>
+      <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
+      <div id='zoomedto' class='align-top inline contain zoom<%=style.center[2]%>'></div>
     </div>
-    <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
-    <div id='zoomedto' class='align-top inline contain zoom<%=style.center[2]%>'></div>
   </div>
 
   <!-- DEMO -->
