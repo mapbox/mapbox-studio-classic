@@ -309,6 +309,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             //checks that the layer doesn't already exist
             if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
 
+            var c = [metadata.center[0], metadata.center[1], metadata.maxzoom-1];
+
             //Setup layer object
             var layer = {
                 tm: tm,
@@ -317,6 +319,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 properties: {
                     'buffer-size': 8
                 },
+                center: c,
+                extent: metadata.extent.slice(0),
                 Datasource: {
                     type: metadata.dstype,
                     file: filepath,

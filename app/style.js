@@ -104,7 +104,15 @@ Editor.prototype.events = {
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
+  'click .js-zoom-to': 'zoomToLayer',
   'keydown': 'keys'
+};
+
+Editor.prototype.zoomToLayer = function(ev) {
+  var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
+  var center_string = $('#sources-'+id + ' input[name=center]').val();
+  var center = center_string.split(',');
+  map.setView([center[1], center[0]], center[2]);
 };
 
 Editor.prototype.changed = function() {

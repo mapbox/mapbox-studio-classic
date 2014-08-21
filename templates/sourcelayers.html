@@ -21,12 +21,15 @@
   <% if (obj.vector_layers) { %>
   <% _(obj.vector_layers).chain().clone().reverse().each(_(function(l) { %>
   <div class='col12 contain clip layer' id='sources-<%=l.id%>'>
-    <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
+    <input type='hidden' name='center' value='<%=l.center%>' />
+    <div class='col1 pad0'>
+      <a href='#' id='zoom-<%=l.id%>' title='Zoom to layer' class='icon marker inline round js-zoom-to'></a>
+    </div>
+    <a href='#sources-<%=l.id%>' class='col11 pin-right js-tab'></a>
     <div class='space small pad1x pad0y keyline-bottom <%=l.geometry ? l.geometry + 'icon' : ''%>'>
       <span class='icon round' style='background-color:<%=this.xraycolor(l.id)%>'></span>
       <span>#<%=l.id%></span>
     </div>
-
     <div class='small center pin-right'>
       <span class='inline zooms pad0'>
         <% if (typeof l.minzoom === 'number' && typeof l.maxzoom === 'number') { %>
