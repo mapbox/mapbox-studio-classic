@@ -483,7 +483,7 @@ Editor.prototype.save = function(ev, options) {
   _($('#settings-drawer').serializeArray()).reduce(function(memo, field) {
     if (field.name === 'minzoom' || field.name === 'maxzoom') {
       memo[field.name] = parseInt(field.value,10);
-    } else if (field.name && field.value) {
+    } else if (field.name) {
       memo[field.name] = field.value;
     }
     return memo;
