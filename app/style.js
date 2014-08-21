@@ -728,6 +728,8 @@ window.onhashchange = function(ev) {
 
   switch (ev.newURL.split('#').pop()) {
   case 'home':
+  case 'update':
+    Modal.show('update');
   case 'xray':
     window.editor.refresh();
     break;

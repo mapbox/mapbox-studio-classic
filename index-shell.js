@@ -3,6 +3,8 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
+var https = require('http');
+var fs = require('fs');
 
 
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
@@ -62,13 +64,40 @@ function makeWindow() {
     });
 
     createMenu();
-    loadURL();
+    versionCheck();
 }
 
-function loadURL() {
+function loadURL(update) {
+    update = update || '';
     if (!mainWindow) return;
     if (!serverPort) return;
-    mainWindow.loadUrl('http://localhost:'+serverPort);
+    mainWindow.loadUrl('http://localhost:'+serverPort + update);
+}
+
+function versionCheck() {
+
+  https.request({
+    host:'mapbox.s3.amazonaws.com',
+    path: '/mapbox-studio/latest'
+  }, function(response){
+    var latest = '';
+    response.on('data', function (chunk) {
+      console.log('CHUNK', chunk)
+      latest += chunk;
+    });
+    response.on('end', function () {
+      // for testing without building
+      // var current = "0.0.2"
+      var current = fs.readFileSync(__dirname.split('Mapbox Studio.app')[0] + "version.txt", {encoding: 'utf8' });
+      if (latest === current) {
+        console.log('current');
+        return loadURL();
+      } else {
+        console.log('notcurrent');
+        return loadURL('#update');
+      }
+    });
+  }).end();
 }
 
 function createMenu() {
