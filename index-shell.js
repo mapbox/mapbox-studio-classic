@@ -70,8 +70,9 @@ function makeWindow() {
 function loadURL() {
     if (!mainWindow) return;
     if (!serverPort) return;
-    versionCheck(function(update){
-      update = update ? '#update' : '';
+    versionCheck(function(update, current, latest){
+      console.log(current, latest)
+      update = update ? '/update?current='+current+'&latest='+latest : '';
       mainWindow.loadUrl('http://localhost:'+serverPort + update);
     });
 }
@@ -87,14 +88,14 @@ function versionCheck(callback) {
       latest += chunk;
     });
     response.on('end', function () {
-      //for testing without building
-      // var current = "0.0.2"
-      var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
+      // for testing without building
+      var current = "0.0.2"
+      //var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
       latest = latest.replace(/^\s+|\s+$/g, '');
       if (latest !== current) {
         update = true;
       }
-      return callback(update);
+      return callback(update, current, latest);
     });
   })
     .on('error', function(){
