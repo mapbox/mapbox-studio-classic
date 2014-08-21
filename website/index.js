@@ -1,3 +1,5 @@
+$(function() {
+
 switch (window.location.hash) {
 case '#darwin':
 case '#linux':
@@ -15,3 +17,5 @@ default:
     }
     break;
 }
+
+});
