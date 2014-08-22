@@ -19,8 +19,8 @@ var Source = options.source;
 
 Printer.prototype.events = {
   'click .js-info': 'toggleInfo',
-  'click .reselect': 'bboxReselect',
-  'click .recenter': 'bboxRecenter',
+  'click .js-reselect': 'bboxReselect',
+  'click .js-recenter': 'bboxRecenter',
   'click .js-zoomedto': 'toggleStats',
   'change #resolution': 'calculateTotal',
   'change #format': 'updateformat',
@@ -289,7 +289,7 @@ Printer.prototype.lockdimensions = function (){
     });
     $('.js-dimensions').prop('disabled', true);
     $('.js-coordinates').prop('disabled', true);
-    $('.reselect').prop('disabled', true);
+    $('.js-reselect').prop('disabled', true);
     window.exporter.model.get('coordinates').locked = true;
     this.imageSizeStats();
   } else {
@@ -299,7 +299,7 @@ Printer.prototype.lockdimensions = function (){
     });
     $('.js-dimensions').prop('disabled', false);
     $('.js-coordinates').prop('disabled', false);
-    $('.reselect').prop('disabled', false);
+    $('.js-reselect').prop('disabled', false);
     window.exporter.model.get('coordinates').locked = false;
     this.calculateTotal();
   }
@@ -333,7 +333,7 @@ Printer.prototype.imageSizeStats = function() {
   Add percentage of image size limit based on
   current dimensions to chart in bottom corner of map.
   */
-  var html = "<a href='#export' class='z10 export js-zoomedto inline pad1 quiet pin-bottomright icon close'></a>";
+  var html = "<a href='#export' class='export js-zoomedto zoomedto-close inline pad1 quiet pin-bottomright icon close'></a>";
 
   var minZoom = window.exporter.model.get('minzoom'),
     maxZoom = window.exporter.model.get('maxzoom'),
@@ -356,7 +356,7 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#export' class='js-zoomedto export clip strong micro col12 quiet z z",z,"'>",
+      "<a href='#export' class='js-zoomedto export clip strong micro col12 zoom zoom",z,"'>",
       "<span class='col3 center strong keyline-right'>z",z,"</span>",
       perc ? "<span class='truncate col9 strong perc pad0x " : '',
       perc > 100 ? "warning'" : '',
@@ -365,7 +365,7 @@ Printer.prototype.imageSizeStats = function() {
     ].join('');
   }
   html += [
-      "<span class='clip export js-zoomedto strong micro col12 quiet z z23'>",
+      "<span class='clip export js-zoomedto strong micro col12 quiet zoom zoom23'>",
       "<p class='truncate col12 pad1x'>% of image size limit</p>",
       "</span>"
     ].join('');
@@ -375,7 +375,6 @@ Printer.prototype.imageSizeStats = function() {
 Printer.prototype.toggleStats = function(ev) {
   if (ev.currentTarget.classList.contains('close')){
     $('#zoomedto').addClass('visible-n').removeClass('visible-y');
-
   } else {
     $('#zoomedto').addClass('visible-y').removeClass('visible-n');
   }
@@ -396,7 +395,7 @@ Printer.prototype.refresh = function(ev) {
 
   map.on('zoomend', function() {
     var zoom = map.getZoom()|0;
-    $('#zoomedto').attr('class', 'fill-white contain z' + zoom);
+
     if (window.exporter.model.get('coordinates')) {
       $('#zoom').html(zoom);
       calcTotal();

@@ -1,31 +1,17 @@
 /* Layout
 ------------------------------------------------------- */
 
-#print {
+#export-ui {
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
 /* Map overlay
 ------------------------------------------------------- */
-
-#reselect {
-  top: 10px;
-  right: 10px;
-  position: absolute;
-  padding-right: 5px;
-  width: 130px;
-}
-
-#recenter {
-  top: 10px;
-  right: 148px;
-  position: absolute;
-  padding-right: 5px;
-}
-
-.export-controls.visible-n { display:none; }
-
-.export-controls.export-y { display:inline-block; }
+.export-controls { display: none;}
+#export:target ~ #full .map-controls .export-controls { display: inline-block;}
+#export:target ~ #full .map-controls .xray-toggle { display: none; }
+#export:target ~ #full .map-controls .add-bookmark { display: none; }
+#export:target ~ #full .map-controls .places-button { display: none;}
 
 /* locationfilter default overrides */
 div.leaflet-marker-icon.location-filter.resize-marker {
@@ -55,11 +41,10 @@ div.leaflet-marker-icon.location-filter.move-marker.leaflet-drag-target {
 
 /* Export pane
 ------------------------------------------------------- */
+
 .col-input input { border-right-width: 0;}
 .col-input:last-of-type input { border-right-width: 1px;}
 
 .warning, input.warning  { color: #ee8a65 !important; }
-
-.icon.reselect:before, .icon.recenter:before { margin-left: 2px; }
 
 .js-info { right: 40px;}

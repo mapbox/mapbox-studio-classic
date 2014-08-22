@@ -40,6 +40,8 @@ function makeWindow() {
     mainWindow = new BrowserWindow({
         width: 960,
         height: 600,
+        'min-width': 720,
+        'min-height': 480,
         title: 'Mapbox Studio',
         'node-integration': 'all',
         'web-preferences': {
@@ -107,7 +109,7 @@ function createMenu() {
             label: 'Quit Mapbox Studio',
             accelerator: 'Command+Q',
             selector: 'performClose:'
-          },
+          }
         ]
       },
       {
@@ -150,7 +152,7 @@ function createMenu() {
             label: 'Toggle Full Screen',
             accelerator: 'Ctrl+Command+F',
             click: function() { mainWindow.setFullScreen(!mainWindow.isFullScreen()); }
-          },
+          }
         ]
       },
       {
@@ -163,6 +165,15 @@ function createMenu() {
           }
         ]
       },
+      {
+        label: 'Help',
+        submenu: [
+          {
+            label: 'Online Resources',
+            click: function() { shell.openExternal('https://www.mapbox.com/mapbox-studio/'); }
+          }
+        ]
+      }
     ];
 
     menu = Menu.buildFromTemplate(template);

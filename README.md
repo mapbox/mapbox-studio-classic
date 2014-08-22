@@ -3,7 +3,7 @@ Mapbox Studio (development)
 There are currently no supported releases of this software.
 
 [![Build Status](https://secure.travis-ci.org/mapbox/mapbox-studio.png)](http://travis-ci.org/mapbox/mapbox-studio)
-[![Build status](https://ci.appveyor.com/api/projects/status/bfb4jhunuaqg48q5)](https://ci.appveyor.com/project/Mapbox/mapbox-studio)
+[![Build status](https://ci.appveyor.com/api/projects/status/28kreaivb6nv6ju2)](https://ci.appveyor.com/project/Mapbox/mapbox-studio)
 [![Dependencies](https://david-dm.org/mapbox/mapbox-studio.png)](https://david-dm.org/mapbox/mapbox-studio)
 
 ### Install

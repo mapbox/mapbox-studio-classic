@@ -10,8 +10,7 @@
 #layers:target ~ #drawers,
 #fonts:target ~ #drawers #fonts-drawer,
 #docs:target ~ #drawers #docs-drawer,
-#layers:target ~ #drawers #layers-drawer,
-#export:target ~ #export-ui {
+#layers:target ~ #drawers #layers-drawer {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -22,7 +21,7 @@
 #fonts:target ~ #drawers #fonts-drawer ~ .drawer,
 #docs:target ~ #drawers #docs-drawer ~ .drawer,
 #layers:target ~ #drawers #layers-drawer ~ .drawer,
-#export:target ~ #export-ui {
+#places:target ~ #drawers #places-drawer ~ .drawer {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -31,13 +30,78 @@
 
 #fonts:target ~ #drawers > *,
 #docs:target ~ #drawers > *,
+#places:target ~ #places > *,
 #layers:target ~ #drawers > *,
 #fonts:target ~ #drawers #fonts-drawer > *,
 #docs:target ~ #drawers #docs-drawer > *,
-#layers:target ~ #drawers #layers-drawer > * { display:block; }
+#layers:target ~ #drawers #layers-drawer > *
+  { display:block; }
 
-#export { opacity: 0; z-index: -1;}
-#export:target { opacity: 1; z-index: 100;}
+#export-ui { opacity: 0; z-index: -1;}
+#export:target ~ #export-ui { opacity: 1; z-index: 100;}
+
+/* places
+------------------------------------------------------- */
+#places {
+  visibility:hidden;
+  overflow: hidden;
+  opacity: 0;
+}
+
+#places:target ~ #full #places{
+  visibility:visible;
+  opacity: 1;
+}
+
+.places-list {
+  top: 40px;
+  display: flex;
+  flex-flow: row wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.places-entry {
+  background:#ddd url(canvas.png);
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  flex-grow: 1;
+  min-height: 33.3333%;
+  min-width: 25%;
+}
+
+.entry-label { opacity: 0; }
+
+.entry-label h2,
+.entry-label h2:hover {
+  color: white;
+  top: 50%;
+  -webkit-transform:translateY(-50%);
+     -moz-transform:translateY(-50%);
+      -ms-transform:translateY(-50%);
+          transform:translateY(-50%);
+}
+
+.places-entry:hover .entry-label {
+  margin: 0;
+  opacity: 1;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.places-toggle {
+  right: 40px;
+}
+
+.show-search-button {
+  top: 5px;
+  left: 5px;
+}
+
+.places-search-container .button {
+  top: 5px;
+  right: 45px;
+}
 
 /* Code pane
 ------------------------------------------------------- */
@@ -162,6 +226,7 @@
   background-color:transparent;
   background-position:10px 50%;
   background-repeat:no-repeat;
+  background-size: 250px 30px;
   /* render but hide text for copying */
   color: transparent;
 }
@@ -226,7 +291,6 @@ body.demo .demo-fallback,
 body.demo #home:target ~ #style-ui .demo-popup,
 body.demo #full:target ~ #style-ui .demo-popup,
 body.demo #search:target ~ #style-ui .demo-popup,
-body.demo #bookmark:target ~ #style-ui .demo-popup,
 body.demo #xray:target ~ #full .demo-popup,
 body.demo #docs:target ~ #docs-popup.demo-popup,
 body.demo #fonts:target ~ #fonts-popup.demo-popup,
@@ -241,7 +305,6 @@ body.demo #user:target ~ #user-popup.demo-popup {
 #full:target ~ .demo-fallback,
 #home:target ~ .demo-fallback,
 #search:target ~ .demo-fallback,
-#bookmark:target ~ .demo-fallback,
 #docs:target ~ .demo-fallback,
 #fonts:target ~ .demo-fallback,
 #layers:target ~ .demo-fallback,
@@ -263,7 +326,6 @@ body.demo #xray:target ~ #full,
 body.demo #home:target ~ #style-ui,
 body.demo #full:target ~ #style-ui,
 body.demo #search:target ~ #style-ui,
-body.demo #bookmark:target ~ #style-ui,
 body.demo #docs:target ~ #drawers,
 body.demo #fonts:target ~ #drawers,
 body.demo #layers:target ~ #drawers,

@@ -93,8 +93,29 @@ test('source.normalize', function(t) {
         }]
     });
     t.deepEqual(n.Layer.length, 2, 'raster source contains two layers');
-    t.deepEqual(n.vector_layers.length, 1, 'raster source contains one vector_layers');
-    t.deepEqual(n.vector_layers[0].id, 'raster_local', 'raster source vector_layer is called raster_local');
+    t.deepEqual(n.vector_layers, undefined, 'raster source contains no vector_layers');
+
+    // Test normalizing metadata for a remote vector source.
+    n = source.normalize({
+        id: 'mapbox:///mapbox.remote-vector',
+        format: 'pbf',
+        vector_layers: [{
+            id: 'water',
+        }, {
+            id: 'landuse'
+        }]
+    });
+    t.deepEqual(n.format, 'pbf', 'remote vector source is pbf');
+    t.deepEqual(n.vector_layers.length, 2, 'remote vector source preserves vector_layers key');
+
+    // Test normalizing metadata for a remote raster source.
+    n = source.normalize({
+        id: 'mapbox:///mapbox.remote-raster',
+        format: 'webp'
+    });
+    t.deepEqual(n.format, 'webp', 'remote raster source is webp');
+    t.deepEqual(n.vector_layers, undefined, 'remote raster source contains no vector_layers');
+
 
     // @TODO check postgis auto srs extent generation ... without postgis.
 
@@ -117,6 +138,18 @@ test('remote: loads', function(t) {
         t.equal('Mapbox Streets V2', source.data.name);
         t.equal(0, source.data.minzoom);
         t.equal(14, source.data.maxzoom);
+        t.ok(!!source.style);
+        t.end();
+    });
+});
+
+test('remote: loads raster', function(t) {
+    source('mapbox:///mapbox.satellite', function(err, source) {
+        t.ifError(err);
+        t.equal('Mapbox Satellite', source.data.name);
+        t.equal(0, source.data.minzoom);
+        t.equal(19, source.data.maxzoom);
+        t.equal(source.data.vector_layers, undefined);
         t.ok(!!source.style);
         t.end();
     });

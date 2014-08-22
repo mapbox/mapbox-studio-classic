@@ -297,6 +297,22 @@ test('style.toXML: compiles data params', function(t) {
     });
 });
 
+test('style.toXML: compiles raster', function(t) {
+    style.toXML({
+        id:'tmstyle:///tmp-1234',
+        source:'mapbox:///mapbox.satellite',
+        styles:{'style.mss': '#_image { raster-opacity:1; }'}
+    }, function(err, xml) {
+        t.ifError(err);
+        t.ok(/<Map srs/.test(xml));
+        t.ok(/<Layer name="_image"/.test(xml), 'includes _image layer');
+        t.ok(/<Style name="_image"/.test(xml), 'includes style for _image layer');
+        t.ok(/<RasterSymbolizer opacity="1"/.test(xml), 'includes raster opacity');
+        t.ok(/<Parameter name="source"><\!\[CDATA\[mapbox:\/\/\/mapbox.satellite\]\]>/.test(xml));
+        t.end();
+    });
+});
+
 test('style.upload: uploads stylesheet', function(t) {
     var id = 'tmstyle://' + __dirname + '/fixtures-upload';
     var cache = path.join(tmppath, 'cache');
