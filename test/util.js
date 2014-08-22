@@ -1,6 +1,6 @@
 var tm = require('../lib/tm');
 var fs = require('fs');
-var tmp = require('os').tmpdir();
+var tmp = tm.join(require('os').tmpdir(), 'mapbox-studio');
 var path = require('path');
 var libs = {};
 libs.style = require('../lib/style');
@@ -8,7 +8,6 @@ libs.source = require('../lib/source');
 
 module.exports = {};
 module.exports.createTmpProject = createTmpProject;
-module.exports.cleanup = cleanup;
 
 var tests = {};
 
@@ -16,7 +15,7 @@ var tests = {};
 function createTmpProject(testname, id, callback) {
     if (typeof testname !== 'string') throw new Error('testname must be a string');
 
-    testname = 'tm2-' + testname;
+    testname = testname;
 
     var key = testname + '-' + id;
     var lib = id.indexOf('tmsource') === 0 ? libs.source : libs.style;
@@ -52,15 +51,5 @@ function createTmpProject(testname, id, callback) {
             });
         });
     });
-}
-
-function cleanup() {
-    for (var key in tests) {
-        var tmpdir = tm.parse(tests[key].id).dirname;
-        ['data.xml','data.yml','project.xml','project.yml','style.mss','.thumb.png'].forEach(function(f) {
-            try { fs.unlinkSync(path.join(tmpdir, f)); } catch(err) {}
-        });
-        try { fs.rmdirSync(tmpdir); } catch(err) {}
-    }
 }
 

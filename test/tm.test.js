@@ -4,13 +4,14 @@ var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
 var dirty = require('dirty');
-var tmppath = path.join(require('os').tmpdir(), 'tm2-lib-' + +new Date);
+var tmppath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'tm-' + +new Date);
 var stream = require('stream');
 var progress = require('progress-stream');
 var UPDATE = process.env.UPDATE;
 
 test('setup: config', function(t) {
     tm.config({
+        log: false,
         db: path.join(tmppath, 'app.db'),
         fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
@@ -291,15 +292,44 @@ test('tm copydir filter', function(t) {
     });
 });
 
-test('cleanup', function(t) {
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v2.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v3.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'cache', 'font-dbad83a6.png')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
-    t.end();
+test('tm applog noop', function(t) {
+    tm.applog(false, 1, function(err) {
+        t.ifError(err, 'noop on no filepath');
+        t.end();
+    });
 });
 
+test('tm applog err: not a file', function(t) {
+    tm.applog(tmppath, 1, function(err) {
+        t.ok(/is not a file$/.test(err.toString()), 'error when filepath is not a file');
+        t.end();
+    });
+});
+
+test('tm applog', function(t) {
+    var filepath = tm.join(tmppath + '/app.log');
+    t.ok(!fs.existsSync(filepath), 'app.log does not exist');
+    tm.applog(filepath, 10, function(err) {
+        t.ifError(err);
+        process.stdout.write('      stdout\n');
+        process.stderr.write('      stderr\n');
+        setTimeout(function() {
+            t.ok(fs.existsSync(filepath), 'creates app.log');
+            t.equal(fs.readFileSync(filepath,'utf8'), '      stdout\n      stderr\n', 'writes stdout/stderr to app.log');
+            rotates();
+        }, 100);
+    });
+
+    function rotates() {
+        tm.applog(filepath, 10, function(err) {
+            t.ifError(err);
+            t.ok(fs.existsSync(filepath + '.0.gz'), 'rotates app log to app.log.0.gz');
+            process.stdout.write('      stdout\n');
+            process.stderr.write('      stderr\n');
+            setTimeout(function() {
+                t.equal(fs.readFileSync(filepath,'utf8'), '      stdout\n      stderr\n', 'writes stdout/stderr to app.log');
+                t.end();
+            }, 100);
+        });
+    }
+});
