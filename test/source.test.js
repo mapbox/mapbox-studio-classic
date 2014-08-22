@@ -14,15 +14,16 @@ var creds = {
     account: 'test',
     accesstoken: 'testaccesstoken'
 };
-var tmp = require('os').tmpdir();
+var tmp = tm.join(require('os').tmpdir(),'mapbox-studio');
 var UPDATE = !!process.env.UPDATE;
 var server;
 
 var localsource = 'tmsource://' + path.join(__dirname,'fixtures-localsource');
-var tmppath = path.join(tmp, 'tm2-sourceTest-' + +new Date);
+var tmppath = tm.join(tmp, 'sourceTest-' + +new Date);
 
 test('setup: config', function(t) {
     tm.config({
+        log: false,
         db: path.join(tmppath, 'app.db'),
         tmp: path.join(tmppath, 'tmp'),
         fonts: path.join(tmppath, 'fonts'),
@@ -486,12 +487,5 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
 });
 
 test('cleanup', function(t) {
-    testutil.cleanup();
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'tmp')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
-    server.close(function() {
-        t.end();
-    });
+    server.close(function() { t.end(); });
 });
