@@ -125,7 +125,7 @@ test('packages style to tm2z', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
 
-    var tmptm2z = tm.parse(tmpid).dirname + '.tm2z';
+    var tmptm2z = tm.join(tmppath, 'package.tm2z');
     style.toPackage(tmpid, tmptm2z, function(err) {
         t.ifError(err);
         var stat = fs.statSync(tmptm2z);
@@ -334,9 +334,7 @@ test('style.upload: errors on unsaved id', function(t) {
 
 test('cleanup', function(t) {
     testutil.cleanup();
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
+    require('wrench').rmdirSyncRecursive(tmppath, true);
     server.close(function() {
         t.end();
     });

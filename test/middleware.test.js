@@ -129,10 +129,7 @@ test('writeStyle: makes persistent styles', function(t) {
 
 test('writeStyle: cleanup', function(t) {
     setTimeout(function() {
-        ['project.xml','project.yml','a.mss','.thumb.png'].forEach(function(file) {
-            try { fs.unlinkSync(path.join(tmpId,file)) } catch(err) {};
-        });
-        try { fs.rmdirSync(tmpId) } catch(err) {};
+        require('wrench').rmdirSyncRecursive(tmpId, true);
         t.end();
     }, 250);
 });
@@ -254,10 +251,7 @@ test('writeSource: makes persistent sources', function(t) {
 
 test('writeSource: cleanup', function(t) {
     setTimeout(function() {
-        ['data.xml', 'data.yml'].forEach(function(file) {
-            try { fs.unlinkSync(path.join(tmpId,file)) } catch(err) {};
-        });
-        try { fs.rmdirSync(tmpId) } catch(err) {};
+        require('wrench').rmdirSyncRecursive(tmpId, true);
         t.end();
     }, 250);
 });
@@ -367,9 +361,8 @@ test('cleanup', function(t) {
     tm.db.rm('oauth');
     tm.history(sourceId, true);
     tm.history(styleId, true);
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
+    require('wrench').rmdirSyncRecursive(tmppath, true);
+    source.clearAll();
     server.close(function() {
         t.end();
     });

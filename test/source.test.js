@@ -487,10 +487,8 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
 
 test('cleanup', function(t) {
     testutil.cleanup();
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'tmp')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
+    require('wrench').rmdirSyncRecursive(tmppath, true);
+    source.clearAll();
     server.close(function() {
         t.end();
     });

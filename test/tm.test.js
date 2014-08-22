@@ -292,14 +292,7 @@ test('tm copydir filter', function(t) {
 });
 
 test('cleanup', function(t) {
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v2.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'schema-v3.db')); } catch(err) {}
-    try { fs.unlinkSync(path.join(tmppath, 'cache', 'font-dbad83a6.png')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
+    require('wrench').rmdirSyncRecursive(tmppath, true);
     t.end();
 });
 
