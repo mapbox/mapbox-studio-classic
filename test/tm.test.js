@@ -338,6 +338,8 @@ test('tm applog', function(t) {
 
 test('cleanup', function(t) {
     try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'app.log')); } catch(err) {}
+    try { fs.unlinkSync(path.join(tmppath, 'app.log.0.gz')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'noncompact.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'schema-v1.db')); } catch(err) {}
     try { fs.unlinkSync(path.join(tmppath, 'schema-v2.db')); } catch(err) {}
