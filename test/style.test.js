@@ -12,7 +12,7 @@ var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var Vector = require('tilelive-vector');
 var testutil = require('./util');
 var UPDATE = !!process.env.UPDATE;
-var tmp = require('os').tmpdir();
+var tmp = tm.join(require('os').tmpdir(), 'mapbox-studio');
 var creds = {
     account: 'test',
     accesstoken: 'testaccesstoken'
@@ -20,7 +20,7 @@ var creds = {
 
 var server;
 var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
-var tmppath = tm.join(tmp, 'tm2-styleTest-' + (+new Date));
+var tmppath = tm.join(tmp, 'styleTest-' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({
@@ -333,12 +333,6 @@ test('style.upload: errors on unsaved id', function(t) {
 });
 
 test('cleanup', function(t) {
-    testutil.cleanup();
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
-    server.close(function() {
-        t.end();
-    });
+    server.close(function() { t.end(); });
 });
 
