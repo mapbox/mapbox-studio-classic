@@ -197,15 +197,12 @@ tape('places: search results', function(t) {
     $('.js-show-search').click();
     $('#places-dosearch').attr('value','osm data');
     $('.js-places-search').click();
-    onajax(function() {
-        t.notEqual($('.js-places-list').children().length, 0, 'are in list');
-        $('#places-dosearch').attr('value','testingemptystate');;
-        $('.js-places-search').click();
-        onajax(function() {
-            t.equal($('.js-places-list').children().length, 1, 'empty state appears');
-            t.end();
-        });
-    });
+    t.notEqual($('.js-places-list').children().length, 0, 'are in list');
+
+    $('#places-dosearch').attr('value','testingemptystate');;
+    $('.js-places-search').click();
+    t.equal($('.js-places-list').children().length, 1, 'empty state appears');
+    t.end();
 });
 
 // TODO: add geocoding support so these tests work
