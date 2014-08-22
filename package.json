@@ -49,7 +49,8 @@
     "mapbox-upload": "1.1.0",
     "mapnik-omnivore": "1.2.10",
     "abaculus": "0.0.4",
-    "progress-stream": "0.5.0"
+    "progress-stream": "0.5.0",
+    "gazetteer": "0.0.x"
   },
   "devDependencies": {
     "tape": "2.13.x",
