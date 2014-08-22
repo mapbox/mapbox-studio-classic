@@ -1,8 +1,6 @@
 {
   "_prefs": {
-    "saveCenter": true,
-    "bookmarks": [],
-    "mapid": ""
+    "saveCenter": true
   },
   "_properties": {
     "bridge": {
@@ -34,5 +32,6 @@
   },
   "template": "",
   "id": "tmpstyle://[BASEPATH]",
-  "_tmp": "tmpstyle://[BASEPATH]"
+  "_tmp": "tmpstyle://[BASEPATH]",
+  "_bookmarks": []
 }
