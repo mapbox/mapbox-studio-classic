@@ -178,18 +178,13 @@ Editor.prototype.renderPlaces = function(filter) {
   var view = this;
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
 
-  if (filter === 'userbookmark' && list.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.</h1></div>');
-    return false;
-  }
-
   // Filter list
   var filtered = _.filter(list, function(d) {
     return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
   });
 
   if (filtered.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Results.</h1></div>');
+    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 

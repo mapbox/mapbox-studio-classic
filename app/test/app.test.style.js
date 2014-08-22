@@ -189,11 +189,8 @@ tape('initializes export ui', function(t) {
 
 tape('places: list', function(t) {
     $('.js-places.js-toolbar-places').click();
-    // initial ajax call for the gazetteer, only can be called once
-    onajax(function() {
-        t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
-        t.end();
-    });
+    t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
+    t.end();
 });
 
 tape('places: search results', function(t) {
