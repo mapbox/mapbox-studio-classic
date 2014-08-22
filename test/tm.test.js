@@ -323,8 +323,6 @@ test('tm applog', function(t) {
     function rotates() {
         tm.applog(filepath, 10, function(err) {
             t.ifError(err);
-            t.ok(fs.existsSync(filepath), 'creates app.log');
-            t.equal(fs.statSync(filepath).size, 0, 'app.log is truncated');
             t.ok(fs.existsSync(filepath + '.0.gz'), 'rotates app log to app.log.0.gz');
             process.stdout.write('      stdout\n');
             process.stderr.write('      stderr\n');
