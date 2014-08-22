@@ -19,7 +19,8 @@ Center the map preview around New York City and increase the zoom level of the m
 
 Mapbox Studio includes a vector source inspector that will show you all layers and features for the vector source. Like the DOM inspector in web browsers, the vector source inspector shows you details about the fields and features in vector tiles that can be styled. Click a __building polygon__ on the map to see its properties.
 
-![Inspector](https://cloud.githubusercontent.com/assets/83384/3870292/efa59dbe-20c6-11e4-935e-4617c0f16019.png)
+![Inspector](https://cloud.githubusercontent.com/assets/3952537/4005631/de34440e-2995-11e4-8907-33905a36a73b.png)
+
 
 Toggle the <span class='icon eye'></span> icon again to return to the normal map preview.
 
