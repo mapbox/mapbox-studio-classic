@@ -76,17 +76,7 @@ function ready(err) {
         return !only || t.name === only;
     });
     function runTest() {
-        if (!tests.length) {
-            testutil.cleanup();
-            try { fs.unlinkSync(path.join(tmp, 'app.db')); } catch(err) {}
-            try { fs.rmdirSync(path.join(tmp, 'tmp')); } catch(err) {}
-            try { fs.rmdirSync(path.join(tmp, 'cache')); } catch(err) {}
-            try { fs.rmdirSync(tmp); } catch(err) {}
-            setTimeout(function() {
-                process.exit(exit);
-            }, 1000);
-            return;
-        }
+        if (!tests.length) process.exit(exit);
         var test = tests.shift();
         testutil.createTmpProject(test.name, test.src, function(err, tmpid) {
             if (err) throw err;
