@@ -24,6 +24,7 @@ var tmppath = tm.join(tmp, 'styleTest-' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({
+        log: false,
         db: path.join(tmppath, 'app.db'),
         fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')

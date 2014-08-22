@@ -12,6 +12,8 @@
     "url": "git://github.com/mapbox/mapbox-studio.git"
   },
   "dependencies": {
+    "log-rotate": "0.2.x",
+    "through": "2.3.x",
     "queue-async": "1.0.x",
     "rimraf": "2.2.x",
     "getport": "0.1.x",
