@@ -3,7 +3,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
-var https = require('http');
+var https = require('https');
 var shell = require('shell');
 
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
