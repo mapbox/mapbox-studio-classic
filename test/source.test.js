@@ -23,6 +23,7 @@ var tmppath = path.join(tmp, 'tm2-sourceTest-' + +new Date);
 
 test('setup: config', function(t) {
     tm.config({
+        log: false,
         db: path.join(tmppath, 'app.db'),
         tmp: path.join(tmppath, 'tmp'),
         fonts: path.join(tmppath, 'fonts'),

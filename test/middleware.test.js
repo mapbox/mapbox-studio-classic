@@ -22,6 +22,7 @@ var server;
 
 test('setup: config', function(t) {
     tm.config({
+        log: false,
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
         fonts: path.join(tmppath, 'fonts'),
