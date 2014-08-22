@@ -72,32 +72,32 @@ function loadURL() {
     if (!mainWindow) return;
     if (!serverPort) return;
     versionCheck(function(update, current, latest){
-      update = update ? '/update?current='+current+'&latest='+latest : '';
-      mainWindow.loadUrl('http://localhost:'+serverPort + update);
+        update = update ? '/update?current='+current+'&latest='+latest : '';
+        mainWindow.loadUrl('http://localhost:'+serverPort + update);
     });
 }
 
 function versionCheck(callback) {
-  var update = false;
-  https.request({
-    host:'mapbox.s3.amazonaws.com',
-    path: '/mapbox-studio/latest'
-  }, function(response){
-    var latest = '';
-    response.on('data', function (chunk) {
-      latest += chunk;
-    });
-    response.on('end', function () {
-      var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
-      latest = latest.replace(/^\s+|\s+$/g, '');
-      if (latest !== current) {
-        update = true;
-      }
-      return callback(update, current, latest);
-    });
-  })
+    var update = false;
+    https.request({
+        host: 'mapbox.s3.amazonaws.com',
+        path: '/mapbox-studio/latest'
+    }, function(response){
+        var latest = '';
+        response.on('data', function (chunk) {
+            latest += chunk;
+        });
+        response.on('end', function () {
+            var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
+            latest = latest.replace(/^\s+|\s+$/g, '');
+            if (latest !== current) {
+                update = true;
+            }
+            return callback(update, current, latest);
+        });
+    })
     .on('error', function(){
-      return callback(false);
+        return callback(false);
     })
     .end();
 }
