@@ -6,7 +6,7 @@ var tiles;
 var xray;
 var grids;
 var gridc;
-var bookmarks = style.bookmarks;
+var bookmarks = style._prefs.bookmarks;
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
