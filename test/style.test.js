@@ -70,6 +70,17 @@ test('saves style (invalid)', function(t) {
     });
 });
 
+test('saves style (invalid bookmarks)', function(t) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+        t.ifError(err);
+        style.save(_({id:style.tmpid(),_bookmarks:'asdf'}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: bookmarks must be an array', 'style.save() errors on invalid style');
+            t.end();
+        });
+    });
+});
+
+
 test('saves style to disk', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
@@ -208,6 +219,14 @@ test('style.info: invalid yaml (non-object)', function(t) {
     style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-nonobj'), function(err, source) {
         t.ok(err);
         t.ok(/^Error: Invalid YAML/.test(err.toString()));
+        t.end();
+    });
+});
+
+test('style.info: invalid bookmarks', function(t) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-badbookmarks'), function(err, source) {
+        t.ok(err);
+        t.ok(/^JS-YAML: end of the stream or a document separator is expected/.test(err.toString()));
         t.end();
     });
 });
