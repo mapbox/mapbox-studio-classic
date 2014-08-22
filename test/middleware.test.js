@@ -12,10 +12,8 @@ var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
-var tmp = os.tmpdir();
-var tmppath = tm.join(tmp, 'tm2-middleware-' + (+new Date));
-
-var tmpId = tm.join(tmp, 'tm2-middlewareProject-' + (+new Date));
+var tmppath = tm.join(os.tmpdir(), 'mapbox-studio', 'middleware-' + (+new Date));
+var tmpId = tm.join(os.tmpdir(), 'mapbox-studio', 'middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var server;
@@ -125,16 +123,6 @@ test('writeStyle: makes persistent styles', function(t) {
         t.equal(data.styles['a.mss'], fs.readFileSync(tmpId + '/a.mss', 'utf8'), 'saves a.mss');
         t.end();
     });
-});
-
-test('writeStyle: cleanup', function(t) {
-    setTimeout(function() {
-        ['project.xml','project.yml','a.mss','.thumb.png'].forEach(function(file) {
-            try { fs.unlinkSync(path.join(tmpId,file)) } catch(err) {};
-        });
-        try { fs.rmdirSync(tmpId) } catch(err) {};
-        t.end();
-    }, 250);
 });
 
 test('loadStyle: loads a tmp style', function(t) {
@@ -252,16 +240,6 @@ test('writeSource: makes persistent sources', function(t) {
     });
 });
 
-test('writeSource: cleanup', function(t) {
-    setTimeout(function() {
-        ['data.xml', 'data.yml'].forEach(function(file) {
-            try { fs.unlinkSync(path.join(tmpId,file)) } catch(err) {};
-        });
-        try { fs.rmdirSync(tmpId) } catch(err) {};
-        t.end();
-    }, 250);
-});
-
 test('loadSource: loads a tmp source', function(t) {
     var writeReq = { body: {} };
     var req = { query: { id: source.tmpid() } };
@@ -367,10 +345,5 @@ test('cleanup', function(t) {
     tm.db.rm('oauth');
     tm.history(sourceId, true);
     tm.history(styleId, true);
-    try { fs.unlinkSync(path.join(tmppath, 'app.db')); } catch(err) {}
-    try { fs.rmdirSync(path.join(tmppath, 'cache')); } catch(err) {}
-    try { fs.rmdirSync(tmppath); } catch(err) {}
-    server.close(function() {
-        t.end();
-    });
+    server.close(function() { t.end(); });
 });
