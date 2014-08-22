@@ -219,18 +219,18 @@ templates.xraypopup = <%= this.xraypopup.source %>;
 templates.modalsourcenewstyle = <%= this.modalsourcenewstyle.source %>;
 
 var tm = {};
-tm.srs = <%= JSON.stringify(tm.srs) %>;
+tm.srs = <%= saferstringify(tm.srs, null, 2) %>;
 
-var cwd = <%= JSON.stringify(cwd) %>;
-var source = <%= JSON.stringify(source) %>;
-var examples = <%= JSON.stringify(examples) %>;
-var revlayers = <%= JSON.stringify(revlayers) %>;
+var cwd = <%= saferstringify(cwd, null, 2) %>;
+var source = <%= saferstringify(source, null, 2) %>;
+var examples = <%= saferstringify(examples, null, 2) %>;
+var revlayers = <%= saferstringify(revlayers, null, 2) %>;
 
 Source(templates, cwd, tm, source, revlayers, examples);
 </script>
 
 <% if (test) { %>
-  <script>window.testParams = <%= JSON.stringify(test) %>;</script>
+  <script>window.testParams = <%= saferstringify(test, null, 0) %>;</script>
   <script src='/app/test/tape.js'></script>
   <script src='/app/test/app.test.source.js'></script>
 <% } %>

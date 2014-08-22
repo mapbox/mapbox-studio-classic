@@ -62,15 +62,15 @@
 var templates = {};
 templates.exportsize = <%= this.exportsize.source %>;
 
-var source = <%= JSON.stringify(source) %>;
-var job = <%= JSON.stringify(job) %>;
+var source = <%= saferstringify(source, null, 2) %>;
+var job = <%= saferstringify(job, null, 2) %>;
 
 Export(templates, source , job);
 
 </script>
 
 <% if (test) { %>
-<script>window.testParams = <%= JSON.stringify(test) %>;</script>
+<script>window.testParams = <%= saferstringify(test, null, 0) %>;</script>
 <script src='/app/test/tape.js'></script>
 <script src='/app/test/app.test.<%= job.type %>.js'></script>
 <% } %>

@@ -503,11 +503,13 @@
 </div>
 
 <script>
-var gazetteer = <%= JSON.stringify(gazetteer) %>; 
-var cwd = <%= JSON.stringify(cwd) %>;
-var style = <%= JSON.stringify(style) %>;
-var examples = <%= JSON.stringify(examples) %>;
+
+var gazetteer = <%= saferstringify(gazetteer, null, 2) %>; 
+var cwd = <%= saferstringify(cwd, null, 2) %>;
+var style = <%= saferstringify(style, null, 2) %>;
+var examples = <%= saferstringify(examples, null, 2) %>;
 var templates = {};
+
 templates.modalbrowser = <%= this.modalbrowser.source %>;
 templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
 templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;
@@ -526,7 +528,7 @@ Style(templates, cwd, style, examples, gazetteer);
 </script>
 
 <% if (test) { %>
-  <script>window.testParams = <%= JSON.stringify(test) %>;</script>
+  <script>window.testParams = <%= saferstringify(test, null, 0) %>;</script>
   <script src='/app/test/tape.js'></script>
   <script src='/app/test/app.test.style.js'></script>
 <% } %>
