@@ -2,6 +2,13 @@ For developers
 --------------
 Notes for developers.
 
+### Documentation
+
+Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the Mapbox Studio website. Rules!
+
+- Keep docs consolidated and sustainable. Let's add docs sparingly and focus on improving what we have.
+- Do not commit doc images (screenshots, diagrams, etc.) to the mapbox-studio repo. Host them externally, either on github's issue image hosting or elsewhere.
+
 ### Tagging + releasing
 
 Tagging flow is like this:
@@ -36,3 +43,4 @@ To package:
         https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{GITSHA}.zip
         https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{GITSHA}.zip
         https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-ia32-{GITSHA}.exe
+3. **If a tagged release, update _config.yml, _config.mb-pages.yml.** Update the `release` key in `_config.yml, _config.mb-pages.yml` to be the name of the tag.
