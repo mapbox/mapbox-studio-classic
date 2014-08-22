@@ -1,0 +1,115 @@
+---
+layout: default
+title: Mapbox
+options: full bleed
+head: |
+    <script src='index.js'></script>
+    <link href='index.css' rel='stylesheet' />
+---
+<a id='win32' class='fixed'></a>
+<a id='linux' class='fixed'></a>
+<a id='darwin' class='fixed'></a>
+
+<section class='fill-navy-dark studio-1 pad8y'>
+<div class='pad8y'>
+    <div class='limiter pad8y clearfix contain dark'>
+        <h2 class='fancy center dark z1 contain'>Mapbox Studio</h2>
+        <h2 class='center dark space-bottom2'>Vector tile driven map design</h2>
+        <div class='clearfix space-bottom1'><div class='device device-browser col6 margin3'>
+            <div class='device-content'><div class='clearfix contain clip row6 mobile-cols studio-editor'>
+                <!-- TODO map image in app chrome -->
+                <div class='fill-dark pin-left pad1 animate offcanvas-left-onhover'>
+                    <div class='block icon dot fill-darken1 space-bottom1'></div>
+                    <div class='block icon dot fill-darken1 space-bottom1'></div>
+                    <div class='block icon dot fill-darken1 space-bottom1'></div>
+                    <div class='block icon dot fill-darken1 space-bottom1'></div>
+                    <div class='pin-bottomleft pad1'>
+                        <div class='block icon dot fill-darken1'></div>
+                    </div>
+                </div>
+                <div class='fill-white pin-right col4 animate offcanvas-right-onhover'>
+                    <div class='contain mobile-cols'>
+                        <div class='col3 pad1 keyline-right fill-white'></div>
+                        <div class='col3 pad1 keyline-right fill-light keyline-bottom'></div>
+                        <div class='col6 pad1 fill-light keyline-bottom'></div>
+                    </div>
+                    <div class='pad1y pad2x clip mobile-cols'>
+                        <div class='textline col5'></div>
+                        <div class='textline col7'></div>
+                        <div class='textline col7'></div>
+                        <div class='textline col2'></div>
+                        <div class='textline col2'></div>
+                        <div class='textline col7'></div>
+                        <div class='textline col2'></div>
+                        <div class='textline col2'></div>
+                        <div class='textline col7'></div>
+                        <div class='textline col7'></div>
+                    </div>
+                </div>
+            </div></div>
+            <div class='device-details'></div>
+        </div></div>
+
+        {% include download.html %}
+
+        <div class='small center'>
+            <span class='quiet pad0'>Available for</span>
+            <span class='pill mobile-cols'>
+                <a class='inline pad0y pad1x fill-darken1' href='#darwin'>OS X</a><!--
+             --><a class='inline pad0y pad1x fill-darken1' href='#win32'>Windows</a><!--
+             --><a class='inline pad0y pad1x fill-darken1' href='#linux'>Linux</a>
+            </span>
+            <span class='quiet pad0'>with code on</span>
+            <a class='inline icon github pad0 round fill-darken1' href='https://github.com/mapbox/mapbox-studio' target='_blank'>GitHub</a>
+        </div>
+    </div>
+</div>
+</section>
+
+<section class='pad8y fill-purple studio-2'>
+<div class='row12 clearfix limiter'>
+    <div class='fill-purple pad4 col6 dark prose'>
+        <h2><span class='inline icon pad0 polygon dot fill-darken1'></span> Powered by vector tiles</h2>
+        <p>Mapbox Studio gives you instant streaming access to massive global datasets like Mapbox Streets, Mapbox Terrain, and Mapbox Satellite without importing any data onto your computer.</p>
+        <p><strong>Create your own vector tiles</strong> using Mapbox Studio. Convert data from traditional formats (Shapefile, GeoJSON, KML, GPX) and upload directly to Mapbox to deploy your vector tiles at scale.</p>
+    </div>
+</div>
+</section>
+
+<section class='pad8y fill-blue studio-3'>
+<div class='row12 clearfix limiter'>
+    <div class='fill-blue pad4 margin6 col6 dark prose'>
+        <h2><span class='inline icon pad0 font dot fill-darken1'></span> Typography</h2>
+        <p>Mapbox Studio comes bundled with over 300 pro fonts selected for use with digital cartography thanks to our friends at <strong>FontFont</strong>. You'll find a variety of fonts ranging from clean, highly readable sans-serifs to expressive, stylized scripts.</p>
+    </div>
+</div>
+</section>
+
+<section class='pad8y fill-yellow studio-4'>
+<div class='row12 clearfix limiter'>
+    <div class='fill-yellow pad4 col6 prose'>
+        <h2><span class='inline icon pad0 sun dot fill-darken1'></span> Imagery &amp; effects</h2>
+        <p>Take full control of the visual impact of your maps by leveraging aerial imagery, textures, and compositing effects, built directly into the Mapbox Studio style editor.</p>
+    </div>
+</div>
+</section>
+
+<section class='pad8y fill-green studio-5'>
+<div class='row12 clearfix limiter'>
+    <div class='fill-green pad4 margin6 col6 dark prose'>
+        <h2><span class='inline icon pad0 search dot fill-darken1'></span> Resolution independence</h2>
+        <p>Every Mapbox Studio project adapts automatically to HiDPI and Retina displays making it possible to design maps for multiple screens and devices at once.</p>
+        <p><strong>Prepare print-ready images</strong> of your maps at up to 600dpi using the image export UI.</p>
+    </div>
+</div>
+</section>
+
+<section class='fill-navy-dark pad8y dark'>
+<div class='clearfix limiter'>
+    <div class='pad4y clearfix'>
+        <h3 class='fancy center space-bottom'>Start designing</h3>
+        {% include download.html %}
+        {% include docnav.html %}
+    </div>
+</div>
+</section>
