@@ -35,7 +35,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
 <a id='settings'></a>
 <a id='layers'></a>
 <a id='fonts'></a>
@@ -68,6 +68,8 @@
         <div class='rounded-toggle js-places-toggle'>
           <input id='road' type='radio' name='rtoggle' value='road' checked='checked' class='js-places'>
           <label for='road'>Roads</label>
+          <input id='landuse' type='radio' name='rtoggle' value='landuse' class='js-places'>
+          <label for='landuse'>Landuse</label>
           <input id='natural' type='radio' name='rtoggle' value='natural' class='js-places'>
           <label for='natural'>Natural</label>
           <input id='park' type='radio' name='rtoggle' value='park' class='js-places'>

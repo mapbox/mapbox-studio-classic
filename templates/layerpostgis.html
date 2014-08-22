@@ -23,22 +23,28 @@
       </section>
       <section class='pad1 keyline-bottom'>
         <label class='pad1x'>PostGIS</label>
-        <div class='pad0x contain clearfix'>
-          <div class='pad0x col3 contain'>
-            <input type='text' class='short stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
-            <label class='micro ghost'>user</label>
-          </div>
-          <div class='pad0x col3 contain'>
+        <div class='pad0x contain clearfix space-bottom1'>
+          <div class='pad0x col4 contain'>
             <input type='text' class='short stretch' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' />
             <label class='micro ghost'>db</label>
           </div>
-          <div class='pad0x col3 contain'>
+          <div class='pad0x col4 contain'>
             <input type='text' class='short stretch' name='Datasource-host' value='<%= obj.Datasource.host %>' />
             <label class='micro ghost'>host</label>
           </div>
-          <div class='pad0x col3 contain'>
+          <div class='pad0x col4 contain'>
             <input type='text' class='short stretch' name='Datasource-port' value='<%= obj.Datasource.port %>' />
             <label class='micro ghost'>port</label>
+          </div>
+        </div>
+        <div class='pad0x contain clearfix'>
+          <div class='pad0x col4 contain'>
+            <input type='text' class='short stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
+            <label class='micro ghost'>user</label>
+          </div>
+          <div class='pad0x col4 contain'>
+            <input type='password' class='short stretch' name='Datasource-password' value='<%= obj.Datasource.password %>' />
+            <label class='micro ghost'>pw</label>
           </div>
         </div>
         <input type='hidden' name='Datasource-type' value='postgis' />

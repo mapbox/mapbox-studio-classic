@@ -3,7 +3,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
-
+var shell = require('shell');
 
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
@@ -40,6 +40,8 @@ function makeWindow() {
     mainWindow = new BrowserWindow({
         width: 960,
         height: 600,
+        'min-width': 720,
+        'min-height': 480,
         title: 'Mapbox Studio',
         'node-integration': 'all',
         'web-preferences': {

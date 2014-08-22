@@ -1,0 +1,21 @@
+source: website 
+api: https://122e4e-mapbox.global.ssl.fastly.net
+url: https://122e4e-mapbox.global.ssl.fastly.net
+permalink: /:title
+baseurl: /mapbox-studio
+highlighter: true
+mapboxjs: v2.0.0
+tileapi: 'https://api.tiles.mapbox.com'
+rdiscount:
+  extensions: [smart]
+defaults:
+- scope:
+    path: ""
+    type: post
+  values:
+    layout: studiodoc
+    date: 0000-01-01
+
+### latest release
+release: v0.0.3
+
