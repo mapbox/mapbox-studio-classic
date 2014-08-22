@@ -1,0 +1,26 @@
+---
+layout: default
+options: full bleed
+---
+<style>
+.doc-content h1 { text-align:center; }
+</style>
+<section class='fill-navy-dark pad8y'>
+    <div class='pad8y'>
+        <div class='limiter clearfix contain dark'>
+            <h3 class='fancy dark contain center'>
+                <a href='{{site.baseurl}}/'>Mapbox Studio</a>
+            </h3>
+        </div>
+        <div class='limiter clearfix contain dark'>
+            <div class='col8 margin2 prose doc-content'>
+            {{content}}
+            </div>
+        </div>
+    </div>
+    <div class='limiter clearfix contain dark'>
+        <h3 class='fancy center space-bottom'>Documentation</h3>
+        {% include docnav.html %}
+    </div>
+</section>
+

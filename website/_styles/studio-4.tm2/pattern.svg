@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="pattern.svg"
+   inkscape:export-filename="/home/mapbox/studio-4.tm2/pattern.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="12.434498"
+     inkscape:cx="12.42511"
+     inkscape:cy="19.964618"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:snap-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1020.3622)">
+    <path
+       style="color:#000000;fill:#f1f075;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 0 0 L 0 7 C 0 6.4477153 0.44771525 6 1 6 C 1.5522847 6 2 6.4477153 2 7 C 2 7.5522847 1.5522847 8 1 8 C 0.44771525 8 0 7.5522847 0 7 L 0 15 C 0 14.447715 0.44771525 14 1 14 C 1.5522847 14 2 14.447715 2 15 C 2 15.552285 1.5522847 16 1 16 C 0.44771525 16 0 15.552285 0 15 L 0 23 C 0 22.447715 0.44771525 22 1 22 C 1.5522847 22 2 22.447715 2 23 C 2 23.552285 1.5522847 24 1 24 C 0.44771525 24 0 23.552285 0 23 L 0 31 C 0 30.447715 0.44771525 30 1 30 C 1.5522847 30 2 30.447715 2 31 C 2 31.552285 1.5522847 32 1 32 L 9 32 C 8.4477153 32 8 31.552285 8 31 C 8 30.447715 8.4477153 30 9 30 C 9.5522847 30 10 30.447715 10 31 C 10 31.552285 9.5522847 32 9 32 L 17 32 C 16.447715 32 16 31.552285 16 31 C 16 30.447715 16.447715 30 17 30 C 17.552285 30 18 30.447715 18 31 C 18 31.552285 17.552285 32 17 32 L 25 32 C 24.447715 32 24 31.552285 24 31 C 24 30.447715 24.447715 30 25 30 C 25.552285 30 26 30.447715 26 31 C 26 31.552285 25.552285 32 25 32 L 32 32 L 32 0 L 0 0 z M 1 32 C 0.44771525 32 0 31.552285 0 31 L 0 32 L 1 32 z M 9 6 C 9.5522847 6 10 6.4477153 10 7 C 10 7.5522847 9.5522847 8 9 8 C 8.4477153 8 8 7.5522847 8 7 C 8 6.4477153 8.4477153 6 9 6 z M 17 6 C 17.552285 6 18 6.4477153 18 7 C 18 7.5522847 17.552285 8 17 8 C 16.447715 8 16 7.5522847 16 7 C 16 6.4477153 16.447715 6 17 6 z M 25 6 C 25.552285 6 26 6.4477153 26 7 C 26 7.5522847 25.552285 8 25 8 C 24.447715 8 24 7.5522847 24 7 C 24 6.4477153 24.447715 6 25 6 z M 9 14 C 9.5522847 14 10 14.447715 10 15 C 10 15.552285 9.5522847 16 9 16 C 8.4477153 16 8 15.552285 8 15 C 8 14.447715 8.4477153 14 9 14 z M 17 14 C 17.552285 14 18 14.447715 18 15 C 18 15.552285 17.552285 16 17 16 C 16.447715 16 16 15.552285 16 15 C 16 14.447715 16.447715 14 17 14 z M 25 14 C 25.552285 14 26 14.447715 26 15 C 26 15.552285 25.552285 16 25 16 C 24.447715 16 24 15.552285 24 15 C 24 14.447715 24.447715 14 25 14 z M 9 22 C 9.5522847 22 10 22.447715 10 23 C 10 23.552285 9.5522847 24 9 24 C 8.4477153 24 8 23.552285 8 23 C 8 22.447715 8.4477153 22 9 22 z M 17 22 C 17.552285 22 18 22.447715 18 23 C 18 23.552285 17.552285 24 17 24 C 16.447715 24 16 23.552285 16 23 C 16 22.447715 16.447715 22 17 22 z M 25 22 C 25.552285 22 26 22.447715 26 23 C 26 23.552285 25.552285 24 25 24 C 24.447715 24 24 23.552285 24 23 C 24 22.447715 24.447715 22 25 22 z "
+       transform="translate(0,1020.3622)"
+       id="rect2987" />
+  </g>
+</svg>
