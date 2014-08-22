@@ -1,12 +1,11 @@
 
-window.Style = function(templates, cwd, style, examples) {
+window.Style = function(templates, cwd, style, examples, gazetteer) {
 
 var map;
 var tiles;
 var xray;
 var grids;
 var gridc;
-var gazetteer = [];
 var bookmarks = localStorage.getItem(this.style.id + '.bookmarks') ? JSON.parse(localStorage.getItem(this.style.id + '.bookmarks')) : [];
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
@@ -184,42 +183,31 @@ Editor.prototype.renderPlaces = function(filter) {
     return false;
   }
 
-  if (list.length === 0) {
-    $.getJSON('../ext/gazetteer.json', function(data) {
-      list = data;
-      render(filter);
-    });
-  } else {
-    render(filter);
+  // Filter list
+  var filtered = _.filter(list, function(d) {
+    return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+  });
+
+  if (filtered.length === 0) {
+    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Results.</h1></div>');
+    return false;
   }
 
-  function render(filter) {
-    // Filter list
-    var filtered = _.filter(list, function(d) {
-      return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
-    });
+  // Print template
+  $('#placeslist').html(_.map(filtered, function(d, i) {
+    d.index = i;
+    return _.template(placeentry, d);
+  }));
 
-    if (filtered.length === 0) {
-      $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Results.</h1></div>');
-      return false;
-    }
-
-    // Print template
-    $('#placeslist').html(_.map(filtered, function(d, i) {
-      d.index = i;
-      return _.template(placeentry, d);
-    }));
-
-    // Render maps
-    _.each($('.js-places-entry'), function(d) {
-      var $this = $(d);
-      var id = $this.attr('id');
-      var lat = $this.attr('lat');
-      var lng = $this.attr('lng');
-      var zoom = $this.attr('zoom');
-      buildMap(id, lat, lng, zoom, view);
-    });
-  };
+  // Render maps
+  _.each($('.js-places-entry'), function(d) {
+    var $this = $(d);
+    var id = $this.attr('id');
+    var lat = $this.attr('lat');
+    var lng = $this.attr('lng');
+    var zoom = $this.attr('zoom');
+    buildMap(id, lat, lng, zoom, view);
+  });
 
   function buildMap(container, lat, lng, zoom, view) {
     var tiles = L.mapbox.tileLayer({
