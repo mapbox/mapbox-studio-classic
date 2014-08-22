@@ -57,10 +57,7 @@ function createTmpProject(testname, id, callback) {
 function cleanup() {
     for (var key in tests) {
         var tmpdir = tm.parse(tests[key].id).dirname;
-        ['data.xml','data.yml','project.xml','project.yml','style.mss','.thumb.png'].forEach(function(f) {
-            try { fs.unlinkSync(path.join(tmpdir, f)); } catch(err) {}
-        });
-        try { fs.rmdirSync(tmpdir); } catch(err) {}
+        require('wrench').rmdirSyncRecursive(tmpdir, true);
     }
 }
 

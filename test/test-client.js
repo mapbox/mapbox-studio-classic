@@ -78,10 +78,7 @@ function ready(err) {
     function runTest() {
         if (!tests.length) {
             testutil.cleanup();
-            try { fs.unlinkSync(path.join(tmp, 'app.db')); } catch(err) {}
-            try { fs.rmdirSync(path.join(tmp, 'tmp')); } catch(err) {}
-            try { fs.rmdirSync(path.join(tmp, 'cache')); } catch(err) {}
-            try { fs.rmdirSync(tmp); } catch(err) {}
+            require('wrench').rmdirSyncRecursive(tmp, true);
             setTimeout(function() {
                 process.exit(exit);
             }, 1000);
