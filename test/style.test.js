@@ -215,6 +215,24 @@ test('style.info: reads style YML (tmp)', function(t) {
     });
 });
 
+test('style.info: reads style YML (bookmarks)', function(t) {
+    style.info(localstyle, function(err, info) {
+        t.ifError(err);
+        t.equal(info.id, localstyle, 'style.info adds id key');
+        t.equal(info._tmp, false, 'style info adds _tmp=false');
+
+        var basepath = tm.parse(localstyle).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
+
+        var filepath = path.join(__dirname,'expected','style-info-bookmarks.json');
+        if (UPDATE) {
+            fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+        }
+        t.deepEqual(info, require(filepath));
+        t.end();
+    });
+});
+
 test('style.info: invalid yaml (non-object)', function(t) {
     style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-nonobj'), function(err, source) {
         t.ok(err);
