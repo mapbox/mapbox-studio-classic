@@ -220,6 +220,27 @@
     <div class='pin-left top1 scroll-styled col12'>
       <div class='pad2y pad1x'><a href='#' class='js-modalsources col12 button short icon point-line'>Change source</a></div>
       <div id='sources' class='js-layer-content'>
+        <% 
+
+        if (style.layers) {
+          // Build object of vector tiles from layer list in project settings
+          style.layers = _.map(style.layers, function(value, key) { 
+            var layerClass = value.split('.')[1];
+            var layerId = value.split('.').shift();
+            _.each(sources, function(d, i) {
+              var match = _.find(d.vector_layers, function(d) {
+                return d.id === layerId;
+              });
+              return value = match;
+            });
+            value.layer_class = layerClass;
+            return value;
+          });
+          // hacky for now, assume only one source
+          sources[0].vector_layers = style.layers;
+        };
+
+        %>
         <%= _(sources).map(_(this.sourcelayers).bind(this)).join('\n') %>
       </div>
     </div>
@@ -503,7 +524,6 @@
 </div>
 
 <script>
-
 var gazetteer = <%= saferstringify(gazetteer, null, 2) %>; 
 var cwd = <%= saferstringify(cwd, null, 2) %>;
 var style = <%= saferstringify(style, null, 2) %>;
