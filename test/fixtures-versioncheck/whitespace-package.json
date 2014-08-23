@@ -1,0 +1,26 @@
+{
+  "name": "mapbox-studio",
+  "version": "0.0.3  ",
+  "main": "./index",
+  "author": "Mapbox (https://www.mapbox.com)",
+  "engineStrict": true,
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mapbox/mapbox-studio.git"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "tape": "2.13.x",
+    "phantomjs": "1.9.x",
+    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.0.1-98e4e5f4d94979576d4fff22c8e447a3a5048302.tgz"
+  },
+  "scripts": {
+    "start": "./index.js",
+    "preinstall": "node scripts/run.js scripts/vendor-node.sh",
+    "test": "tape test/*.test.js"
+  }
+}
