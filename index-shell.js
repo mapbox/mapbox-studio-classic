@@ -3,8 +3,8 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
-var https = require('https');
 var shell = require('shell');
+var versionCheck = require('./lib/version-check');
 
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
@@ -71,35 +71,14 @@ function makeWindow() {
 function loadURL() {
     if (!mainWindow) return;
     if (!serverPort) return;
-    versionCheck(function(update, current, latest){
+    versionCheck({
+        host: 'mapbox.s3.amazonaws.com',
+        path: '/mapbox-studio/latest',
+        pckge: require('./package.json')
+    }, function(update, current, latest){
         update = update ? '/update?current='+current+'&latest='+latest : '';
         mainWindow.loadUrl('http://localhost:'+serverPort + update);
     });
-}
-
-function versionCheck(callback) {
-    var update = false;
-    https.request({
-        host: 'mapbox.s3.amazonaws.com',
-        path: '/mapbox-studio/latest'
-    }, function(response){
-        var latest = '';
-        response.on('data', function (chunk) {
-            latest += chunk;
-        });
-        response.on('end', function () {
-            var current = require('./package.json').version.replace(/^\s+|\s+$/g, '');
-            latest = latest.replace(/^\s+|\s+$/g, '');
-            if (latest !== current) {
-                update = true;
-            }
-            return callback(update, current, latest);
-        });
-    })
-    .on('error', function(){
-        return callback(false);
-    })
-    .end();
 }
 
 function createMenu() {
