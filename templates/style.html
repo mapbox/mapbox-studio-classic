@@ -223,7 +223,7 @@
         <% 
 
         if (style.layers) {
-          // Build object of vector tiles from layer list in project settings
+          // Add vector tiles metadata to each layer in layers list in project settings
           style.layers = _.map(style.layers, function(value, key) { 
             var layerClass = value.split('.')[1];
             var layerId = value.split('.').shift();
@@ -236,6 +236,8 @@
             value.layer_class = layerClass;
             return value;
           });
+          // replace vector_layers from source with 
+          // user-created layers list
           // hacky for now, assume only one source
           sources[0].vector_layers = style.layers;
         };
