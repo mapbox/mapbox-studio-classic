@@ -2,6 +2,14 @@ For developers
 --------------
 Notes for developers.
 
+### Dependencies to know
+
+Mapbox Studio relies on its dependencies for key parts of its functionality. When reporting an issue or looking into fixing/improving functionality Mapbox Studio know that a dependent module may be the right place to focus your efforts.
+
+- [carto](https://github.com/mapbox/carto) parses and interprets CartoCSS
+- [mapnik](https://github.com/mapnik/mapnik) and [node-mapnik](https://github.com/mapnik/node-mapnik) provide core tile rendering functionality
+- [mapnik-omnivore](https://github.com/mapbox/mapnik-omnivore) does the dirty work when autodetecting projection and other metadata of datasources
+
 ### Documentation
 
 Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the Mapbox Studio website. Rules!
