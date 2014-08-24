@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/base/base.css' rel='stylesheet' />
+  <link href='/app/app.css' rel='stylesheet' />
+  <link href='/app/welcome.css' rel='stylesheet' />
+  <script src='/ext/jquery-2.0.3.min.js'></script>
+  <script src='/app/atom.js?_=<%= +new Date %>'></script>
+  <%= this.analytics(obj) %>
+  <title>Mapbox Studio Update Available</title>
+</head>
+
+<body id='view pin-left col12'>
+
+<div class='fill-blue pin-left col12'>
+    <div class='dark pad8y clearfix pin-left col12 fill-darken0 gradient'>
+    <div class='limiter'>
+    <div class='col6 margin3 pad8y center'>
+        <div class='mb-logo white row1 space-bottom'></div>
+        <h2 class='space-bottom2'>
+            A&nbsp;new&nbsp;version&nbsp;of&nbsp;Mapbox&nbsp;Studio&nbsp;is&nbsp;available.<br/>
+        </h2>
+        <p>
+            Your&nbsp;version:&nbsp;<span class='code'><%= current %></span><br/>
+            Latest&nbsp;version:&nbsp;<span class='code'><%= latest %></span>
+        </p>
+        <a href='https://www.mapbox.com/mapbox-studio/' class='button icon star col8 margin2 space-bottom1'>Download the update</a>
+        <a href='/' class='button quiet icon prev col8 margin2'>Return to Mapbox Studio</a>
+    </div>
+    </div></div>
+</div>
+
+</body>
+
+</html>

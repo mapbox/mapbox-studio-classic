@@ -4,6 +4,7 @@ var spawn = require('child_process').spawn;
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
 var shell = require('shell');
+var versionCheck = require('./lib/version-check');
 
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
@@ -70,7 +71,14 @@ function makeWindow() {
 function loadURL() {
     if (!mainWindow) return;
     if (!serverPort) return;
-    mainWindow.loadUrl('http://localhost:'+serverPort);
+    versionCheck({
+        host: 'mapbox.s3.amazonaws.com',
+        path: '/mapbox-studio/latest',
+        pckge: require('./package.json')
+    }, function(update, current, latest){
+        update = update ? '/update?current='+current+'&latest='+latest : '';
+        mainWindow.loadUrl('http://localhost:'+serverPort + update);
+    });
 }
 
 function createMenu() {
