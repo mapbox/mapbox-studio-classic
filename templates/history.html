@@ -47,7 +47,7 @@
       <% if (obj.source) { %>
       <%= this.emptystate({message:'You don\'t have any saved styles yet. <a href="/new/style"> Create one now to see it appear in this list</a>.'}) %>
       <% } else { %>
-      <%= this.emptystate({message:'You don\'t have any saved styles yet. <a class="saveas"> Save your currently active style</a> to see it appear in this list.'}) %>
+      <%= this.emptystate({message:'You don\'t have any saved styles yet. <a href="#" class="js-saveas"> Save your currently active style</a> to see it appear in this list.'}) %>
       <% } %>
 
     </div>

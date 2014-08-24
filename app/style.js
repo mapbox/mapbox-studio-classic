@@ -6,7 +6,7 @@ var tiles;
 var xray;
 var grids;
 var gridc;
-var bookmarks = localStorage.getItem(this.style.id + '.bookmarks') ? JSON.parse(localStorage.getItem(this.style.id + '.bookmarks')) : [];
+var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
@@ -147,7 +147,6 @@ Editor.prototype.addBookmark = function(ev) {
       ]
     };
     bookmarks.push(bookmark);
-    localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(bookmarks));
 
     // tell user the bookmark has been added
     button.text('Added!').removeClass('spinner');
@@ -168,7 +167,6 @@ Editor.prototype.removeBookmark = function(ev) {
     return d.index === target;
   });
 
-  localStorage.setItem(view.model.id + '.bookmarks', JSON.stringify(removed));
   bookmarks = removed;
   window.editor.renderPlaces('userbookmark');
   return false;

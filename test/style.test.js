@@ -70,6 +70,17 @@ test('saves style (invalid)', function(t) {
     });
 });
 
+test('saves style (invalid bookmarks)', function(t) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+        t.ifError(err);
+        style.save(_({id:style.tmpid(),_bookmarks:'asdf'}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: bookmarks must be an array', 'style.save() errors on invalid style');
+            t.end();
+        });
+    });
+});
+
+
 test('saves style to disk', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
@@ -204,10 +215,36 @@ test('style.info: reads style YML (tmp)', function(t) {
     });
 });
 
+test('style.info: reads style YML (bookmarks)', function(t) {
+    style.info(localstyle, function(err, info) {
+        t.ifError(err);
+        t.equal(info.id, localstyle, 'style.info adds id key');
+        t.equal(info._tmp, false, 'style info adds _tmp=false');
+
+        var basepath = tm.parse(localstyle).dirname;
+        info.id = info.id.replace(basepath, '[BASEPATH]');
+
+        var filepath = path.join(__dirname,'expected','style-info-bookmarks.json');
+        if (UPDATE) {
+            fs.writeFileSync(filepath, JSON.stringify(info, null, 2));
+        }
+        t.deepEqual(info, require(filepath));
+        t.end();
+    });
+});
+
 test('style.info: invalid yaml (non-object)', function(t) {
     style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-nonobj'), function(err, source) {
         t.ok(err);
         t.ok(/^Error: Invalid YAML/.test(err.toString()));
+        t.end();
+    });
+});
+
+test('style.info: invalid bookmarks', function(t) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-badbookmarks'), function(err, source) {
+        t.ok(err);
+        t.ok(/^JS-YAML: end of the stream or a document separator is expected/.test(err.toString()));
         t.end();
     });
 });

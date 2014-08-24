@@ -1,0 +1,47 @@
+{
+  "styles": {
+    "a.mss": "#water { polygon-fill:#fff }\n",
+    "b.mss": "#landuse { polygon-fill:#000 }\n"
+  },
+  "source": "mapbox:///mapbox.mapbox-streets-v2",
+  "name": "tmp-1234",
+  "center": [
+    0,
+    0,
+    3
+  ],
+  "minzoom": 0,
+  "maxzoom": 22,
+  "_prefs": {
+    "mapid": "",
+    "saveCenter": true
+  },
+  "attribution": "",
+  "description": "",
+  "bounds": [
+    -180,
+    -85.0511,
+    180,
+    85.0511
+  ],
+  "id": "tmstyle://[BASEPATH]",
+  "_tmp": false,
+  "_bookmarks": [
+    {
+      "place_name": "Syracuse, 13202, New York, United States",
+      "zoom": 17,
+      "center": [
+        43.04788286932469,
+        -76.14571452140808
+      ],
+      "tags": [
+        "userbookmark"
+      ]
+    }
+  ],
+  "format": "png8:m=h",
+  "template": "",
+  "interactivity_layer": "",
+  "layers": null,
+  "_properties": {}
+}
