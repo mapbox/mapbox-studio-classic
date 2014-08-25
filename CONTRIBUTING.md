@@ -2,12 +2,29 @@ For developers
 --------------
 Notes for developers.
 
+### Dependencies to know
+
+Mapbox Studio relies on its dependencies for key parts of its functionality. When reporting an issue or looking into fixing/improving functionality Mapbox Studio know that a dependent module may be the right place to focus your efforts.
+
+- [carto](https://github.com/mapbox/carto) parses and interprets CartoCSS
+- [mapnik](https://github.com/mapnik/mapnik) and [node-mapnik](https://github.com/mapnik/node-mapnik) provide core tile rendering functionality
+- [mapnik-omnivore](https://github.com/mapbox/mapnik-omnivore) does the dirty work when autodetecting projection and other metadata of datasources
+
+### Pull requests
+
+Use PRs for everything but trivial changes and typos. Goals to strive for:
+
+1. Is the change sustainable,
+2. Is it tested (including error/corner cases),
+3. Is it documented (CHANGELOG.md, docs/)
+
 ### Documentation
 
 Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the Mapbox Studio website. Rules!
 
 - Keep docs consolidated and sustainable. Let's add docs sparingly and focus on improving what we have.
 - Do not commit doc images (screenshots, diagrams, etc.) to the mapbox-studio repo. Host them externally, either on github's issue image hosting or elsewhere.
+- Could the need to document be eliminated by improving the software (UI/UX/code)?
 
 ### Tagging + releasing
 
