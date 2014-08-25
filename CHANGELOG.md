@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.0.5
+
+- Exported mbtiles/serialtiles uploads compress PBFs with gzip instead of deflate.
+
 ### 0.0.4
 
 - Changes default config dir from ~/.tilemill/v2 to ~/.mapbox-studio.
