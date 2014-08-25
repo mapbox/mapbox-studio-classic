@@ -224,22 +224,19 @@
 
         if (style.layers) {
           // Add vector tiles metadata to each layer in layers list in project settings
-          style.layers = _.map(style.layers, function(value, key) { 
+          style.layers =_.map(style.layers, function(value, i) {
             var layerClass = value.split('.')[1];
             var layerId = value.split('.').shift();
-            _.each(sources, function(d, i) {
-              var match = _.find(d.vector_layers, function(d) {
-                return d.id === layerId;
-              });
-              return value = match;
+            // for each source layer, look for a matching user layer 
+            var match = _.find(sources[0].vector_layers, function(layer) {
+              return layer.id === layerId;
             });
-            value.layer_class = layerClass;
-            return value;
+
+            // Add class field if specified by user
+            if (layerClass) { match.layer_class = layerClass; }
+          
+            return match;
           });
-          // replace vector_layers from source with 
-          // user-created layers list
-          // hacky for now, assume only one source
-          sources[0].vector_layers = style.layers;
         };
 
         %>
