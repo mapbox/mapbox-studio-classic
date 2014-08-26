@@ -4,6 +4,7 @@ Changelog
 ### 0.0.5
 
 - Exported mbtiles/serialtiles uploads compress PBFs with gzip instead of deflate.
+- Source UI: allow datasource filenames that include whitespace characters.
 
 ### 0.0.4
 
