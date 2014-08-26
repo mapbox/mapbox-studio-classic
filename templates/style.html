@@ -218,9 +218,30 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled col12'>
-      <div class='pad2y pad1x'><a href='#' class='js-modalsources col12 button short icon point-line'>Change source</a></div>
+      <div class='pad2y pad1x'>
+        <% if (style.layers) { %>
+          <a class='col12 button short icon point-line disabled hover-tooltip'>Change source</a>
+          <div class='pin-top fill-disable layer-change-disable'>
+            <div class='z10 pad0y pad1x micro center pin-top fill-dark keyline-top'>
+              Source change disabled due to custom layer order.
+            </div>
+          </div>
+        <% } else { %>
+          <a href='#' class='js-modalsources col12 button short icon point-line'>Change source</a>
+        <% } %>
+      </div>
       <div id='sources' class='js-layer-content'>
-        <%= _(sources).map(_(this.sourcelayers).bind({view:this, userlayers:style.layers})).join('\n') %>
+        <%
+          var sourcelayers = this.sourcelayers({
+            id: sources[0].id,
+            name: sources[0].name,
+            vector_layers: sources[0].vector_layers,
+            xraycolor:this.xraycolor,
+            userlayers:style.layers
+          });
+
+        %>
+        <%= sourcelayers %>
       </div>
     </div>
 

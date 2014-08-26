@@ -369,16 +369,22 @@ Editor.prototype.modalsources = function(ev) {
   return false;
 };
 Editor.prototype.adddata = function(ev) {
-  var view = this;
   var target = $(ev.currentTarget);
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
+      console.log(resp);
+      $('.js-layers .js-layer-content').html(templates.sourcelayers({
+          id: resp.id,
+          name: resp.name,
+          vector_layers: resp.vector_layers,
+          xraycolor: templates.xraycolor,
+        })
+      );
       this.model.set({source:id});
       this.changed();
       Modal.close();
-    }).bind({view:view, userlayers:style.layers}),
+    }).bind(this),
     error: _(this.error).bind(this)
   });
   return false;
@@ -395,7 +401,13 @@ Editor.prototype.addmapbox = function(ev) {
   }
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers({
+          id: resp.id,
+          name: resp.name,
+          vector_layers: resp.vector_layers,
+          xraycolor: templates.xraycolor,
+        })
+      );
       this.model.set({source:id});
       this.changed();
       Modal.close();

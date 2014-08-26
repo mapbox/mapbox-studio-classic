@@ -17,13 +17,11 @@
   </div>
 
 </div>
-
-<% console.log(this);%>
-
 <%
-if (this.userlayers) {
+
+if (obj.userlayers) {
   // Add vector tiles metadata to each layer in layers list in project settings
-  var userlayers = _.map(this.userlayers, function(value, i) {
+  var userlayers = _.map(obj.userlayers, function(value, i) {
     var layerClass = value.split('.')[1];
     var layerId = value.split('.').shift();
 
@@ -47,7 +45,7 @@ if (this.userlayers) {
     if (layerClass) { userlayer.layer_class = layerClass; }
 
     return userlayer;
-  });
+  }).filter(function(l) { return l.id });
   var listlayers = userlayers;
 } else {
   var listlayers = obj.vector_layers;
@@ -61,7 +59,7 @@ if (this.userlayers) {
   <div class='col12 contain clip layer' id='sources-<%=l.id%><% if (l.layer_class) { %><%=l.layer_class%><% }; %>'>
     <a href='#sources-<%=l.id%><% if (l.layer_class) { %><%=l.layer_class%><% }; %>' class='pin-left pin-right js-tab'></a>
     <div class='space small pad1x pad0y keyline-bottom <%=l.geometry ? l.geometry + 'icon' : ''%>'>
-      <span class='icon round' style='background-color:<%=this.view.xraycolor(l.id)%>'></span>
+      <span class='icon round' style='background-color:<%=obj.xraycolor(l.id)%>'></span>
       <span>#<%=l.id%><% if (l.layer_class) { %>.<%=l.layer_class%><% }; %></span>
     </div>
 

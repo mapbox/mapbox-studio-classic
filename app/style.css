@@ -265,6 +265,8 @@
   display: block;
 }
 
+.layer-change-disable { height: 60px;}
+
 /* Button toggles
 ------------------------------------------------------- */
 a.layers-y,
