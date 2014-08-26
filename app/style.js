@@ -377,7 +377,7 @@ Editor.prototype.adddata = function(ev) {
       this.model.set({source:id});
       this.changed();
       Modal.close();
-    }).bind(this),
+    }).bind({style:this, userlayers:style.layers}),
     error: _(this.error).bind(this)
   });
   return false;
@@ -397,7 +397,7 @@ Editor.prototype.addmapbox = function(ev) {
       this.model.set({source:id});
       this.changed();
       Modal.close();
-    }).bind(this),
+    }).bind({style:this, userlayers:style.layers}),
     error: _(this.error).bind(this)
   });
   return false;
