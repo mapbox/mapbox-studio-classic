@@ -143,6 +143,12 @@
     <div class='pin-left top1 scroll-styled'>
       <fieldset class='keyline-bottom clearfix pad2y pad1x contain'>
         <div class='z10 pin-top pin-bottom col12 pad1x pad2y fill-disable on-local on-tmp on-changed'></div>
+        <div class='on-tmp on-changed z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
+          <strong class='icon floppy'>Save project</strong> to share
+        </div>
+        <div class='on-local z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
+          Use <strong class='icon cloud'>remote source</strong> to share
+        </div>
         <section class='space-bottom1'>
           <div id='mapstatus' class='contain clip'>
             <div id='mapstatus-mapid' class='pin-top pad0y pad1x center truncate round-top space small animate fill-darken1'>
@@ -155,11 +161,8 @@
           </div>
           <a href='#settings' class='js-upload col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
-        <section class='space-bottom1'>
-          <a href='#export' id='export-style' class='col12 short button picture icon'>Export image</a>
-        </section>
-        <section>
-          <a href='/style.tm2z?id=<%= style.id %>' class='col12 short button icon package'>Download package</a>
+        <section class='small center'>
+          <a href='/style.tm2z?id=<%= style.id %>' class='icon package'>or download package</a>
         </section>
       </fieldset>
       <fieldset class='pad1x'>

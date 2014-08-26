@@ -1,6 +1,12 @@
 Changelog
 =========
 
+### 0.0.5
+
+- Exported mbtiles/serialtiles uploads compress PBFs with gzip instead of deflate.
+- Source UI: allow datasource filenames that include whitespace characters.
+- Style UI: display helptext if share actions are disabled.
+
 ### 0.0.4
 
 - Changes default config dir from ~/.tilemill/v2 to ~/.mapbox-studio.
