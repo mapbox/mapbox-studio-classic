@@ -233,16 +233,22 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         return false;
     };
     Editor.prototype.addlayerSubmit = function(ev, filepath) {
+        // Set map in loading state
+        $('#full').addClass('loading');
         var filepath = filepath || $('#addlayer input[name=Datasource-file]').val();
         var extension = filepath.split('.').pop().toLowerCase();
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
+                // Clear loading state
+                $('#full').removeClass('loading');
                 if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
                 else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
                 window.editor.changed();
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                // Clear loading state
+                $('#full').removeClass('loading');
                 Modal.show('error', jqXHR.responseText);
             }
         });
@@ -345,8 +351,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             var center = metadata.center;
             map.setView([center[1], center[0]], metadata.maxzoom);
 
-            Modal.close();
-
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
                 window.location.hash = '#';
@@ -375,6 +379,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
     //This only applies to single-layer sources at the moment
     Editor.prototype.refreshSource = function(ev) {
+        // Set map in loading state
+        $('#full').addClass('loading');
+
         // 'id' will remain consistent between the old and the new, since 'id' comes from the name of the actual file. So var 'id'
         // and var 'new_layer.id' will be the same thing in this function.
         // A source's 'id' is set in mapnik-omnivore here: https://github.com/mapbox/mapnik-omnivore/blob/master/lib/datasourceProcessor.js#L32
@@ -391,6 +398,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $.ajax({
           url: '/metadata?file=' + filepath,
           success: function(metadata) {
+            // Clear loading state
+            $('#full').removeClass('loading');
             //Transfer new maxzoom, if relevant
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -413,6 +422,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             window.editor.save();
           },
           error: function(jqXHR, textStatus, errorThrown) {
+            // Clear loading state
+            $('#full').removeClass('loading');
             Modal.show('error', 'Cannot refresh source. ' + jqXHR.responseText);
           }
         });
@@ -577,6 +588,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                     target.val(filepath);
                     var form = $(target).parents('form');
                     if (form.is('#addlayer')) {
+                        Modal.close();
                         window.editor.addlayerSubmit(null, filepath);
                     } else {
                         Modal.close();
@@ -591,11 +603,22 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
         var filepath = layers[id].get().Datasource.file;
+        
+        // Set map in loading state
+        $('#full').addClass('loading');
+        
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
+                // Clear loading state
+                $('#full').removeClass('loading');
                 var center = metadata.center;
                 map.setView([center[1], center[0]], metadata.maxzoom);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Clear loading state
+                $('#full').removeClass('loading');
+                Modal.show('error', 'Cannot access source metadata. ' + jqXHR.responseText);
             }
         });
     };
