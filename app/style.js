@@ -369,6 +369,7 @@ Editor.prototype.modalsources = function(ev) {
   return false;
 };
 Editor.prototype.adddata = function(ev) {
+  var view = this;
   var target = $(ev.currentTarget);
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
@@ -377,12 +378,13 @@ Editor.prototype.adddata = function(ev) {
       this.model.set({source:id});
       this.changed();
       Modal.close();
-    }).bind({style:this, userlayers:style.layers}),
+    }).bind({view:view, userlayers:style.layers}),
     error: _(this.error).bind(this)
   });
   return false;
 };
 Editor.prototype.addmapbox = function(ev) {
+  var view = this;
   var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
@@ -397,7 +399,7 @@ Editor.prototype.addmapbox = function(ev) {
       this.model.set({source:id});
       this.changed();
       Modal.close();
-    }).bind({style:this, userlayers:style.layers}),
+    }).bind({view:view, userlayers:style.layers}),
     error: _(this.error).bind(this)
   });
   return false;
