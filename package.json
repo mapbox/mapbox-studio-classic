@@ -1,6 +1,6 @@
 {
   "name": "mapbox-studio",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./index",
   "author": "Mapbox (https://www.mapbox.com)",
   "engineStrict": true,
