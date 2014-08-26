@@ -256,7 +256,7 @@ Editor.prototype.placesJump = function(ev) {
 
 Editor.prototype.changed = function() {
   $('body').addClass('changed');
-  if (this.model.get('source').split(':')[0] === 'tmsource') {
+  if (this.model.get('source').indexOf('tmsource:') === 0) {
     $('body').addClass('local');
   } else {
     $('body').removeClass('local');
