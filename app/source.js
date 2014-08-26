@@ -351,8 +351,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             var center = metadata.center;
             map.setView([center[1], center[0]], metadata.maxzoom);
 
-            Modal.close();
-
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
                 window.location.hash = '#';
@@ -590,6 +588,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                     target.val(filepath);
                     var form = $(target).parents('form');
                     if (form.is('#addlayer')) {
+                        Modal.close();
                         window.editor.addlayerSubmit(null, filepath);
                     } else {
                         Modal.close();
@@ -615,7 +614,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('#full').removeClass('loading');
                 var center = metadata.center;
                 map.setView([center[1], center[0]], metadata.maxzoom);
-            }
+            },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
                 $('#full').removeClass('loading');
