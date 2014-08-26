@@ -224,21 +224,34 @@
 
         if (style.layers) {
           // Add vector tiles metadata to each layer in layers list in project settings
-          style.layers =_.map(style.layers, function(value, i) {
+          style.layers = _.map(style.layers, function(value, i) {
             var layerClass = value.split('.')[1];
             var layerId = value.split('.').shift();
+
             // for each source layer, look for a matching user layer 
             var match = _.find(sources[0].vector_layers, function(layer) {
               return layer.id === layerId;
             });
 
-            // Add class field if specified by user
-            if (layerClass) { match.layer_class = layerClass; }
-          
-            return match;
-          });
-        };
+            // To avoid overwriting duplicate layers, create
+            // new objects for each match
+            function copyObject(obj) {
+              var newObj = {};
+              for (var key in obj) {
+                //copy all the fields
+                newObj[key] = obj[key];
+              }
+              return newObj;
+            };
 
+            var userlayer = copyObject(match);
+            if (layerClass) { userlayer.layer_class = layerClass; }
+
+            return userlayer;
+          });
+          
+          sources[0].vector_layers = style.layers;
+        };
         %>
         <%= _(sources).map(_(this.sourcelayers).bind(this)).join('\n') %>
       </div>
