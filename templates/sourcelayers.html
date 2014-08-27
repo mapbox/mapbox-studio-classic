@@ -56,8 +56,8 @@ if (obj.userlayers) {
 <div class='keyline-top'>
   <% if (listlayers) { %>
   <% _(listlayers).chain().clone().reverse().each(_(function(l) { %>
-  <div class='col12 contain clip layer' id='sources-<%=l.id%><% if (l.layer_class) { %><%=(l.layer_class).replace(/[^-0-9a-z]/g, "")%><% }; %>'>
-    <a href='#sources-<%=l.id%><% if (l.layer_class) { %><%=(l.layer_class).replace(/[^-0-9a-z]/g, "")%><% }; %>' class='pin-left pin-right js-tab'></a>
+  <div class='col12 contain clip layer' id='sources-<%=l.id%><% if (l.layer_class) { %><%=l.layer_class%><% }; %>'>
+    <a href='#sources-<%=l.id%><% if (l.layer_class) { %><%=l.layer_class%><% }; %>' class='pin-left pin-right js-tab'></a>
     <div class='space small pad1x pad0y keyline-bottom <%=l.geometry ? l.geometry + 'icon' : ''%>'>
       <span class='icon round' style='background-color:<%=obj.xraycolor(l.id)%>'></span>
       <span>#<%=l.id%><% if (l.layer_class) { %>.<%=l.layer_class%><% }; %></span>
