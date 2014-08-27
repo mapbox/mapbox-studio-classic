@@ -356,9 +356,9 @@ tape('keybindings', function(t) {
 
     e = $.Event('keydown');
     e.ctrlKey = true;
-    e.which = 72; // h
+    e.which = 191; // /
     $('body').trigger(e);
-    t.equal(window.location.hash, '#docs', 'ctrl+h => #help');
+    t.equal(window.location.hash, '#docs', 'ctrl+/ => #help');
 
     e = $.Event('keydown');
     e.ctrlKey = true;
@@ -374,21 +374,16 @@ tape('keybindings', function(t) {
 
     e = $.Event('keydown');
     e.ctrlKey = true;
-    e.which = 66; // b
-    $('body').trigger(e);
-    t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
-
-    e = $.Event('keydown');
-    e.ctrlKey = true;
-    e.which = 69; // e
-    $('body').trigger(e);
-    t.equal(window.location.hash, '#export', 'ctrl+e => #export');
-
-    e = $.Event('keydown');
-    e.ctrlKey = true;
     e.which = 80; // b
     $('body').trigger(e);
     t.equal(window.location.hash, '#places', 'ctrl+p => #places');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.altKey = true; // alt
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#export', 'ctrl+alt+s => #export');
 
     var e;
     e = $.Event('keydown');
@@ -399,6 +394,15 @@ tape('keybindings', function(t) {
     onajax(function() {
         t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
         t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+    });
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 66; // b
+    $('body').trigger(e);
+    t.ok($('.js-add-bookmark').hasClass('spinner'), 'ctrl+b => #add-bookmark.spinner');
+    onajax(function() {
         t.end();
     });
 });
