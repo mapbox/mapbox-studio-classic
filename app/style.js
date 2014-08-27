@@ -416,7 +416,7 @@ Editor.prototype.addmapbox = function(ev) {
       this.model.set({source:id});
       this.changed();
       Modal.close();
-    }).bind({view:view, userlayers:style.layers}),
+    }).bind(this),
     error: _(this.error).bind(this)
   });
   return false;
