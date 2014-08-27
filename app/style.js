@@ -11,7 +11,7 @@ var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
                       '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
-                    '</a>' +
+                      '<p class="prose"><% _.each(tags, function(currenttag) { %> <span class="placetag button short quiet micro"> <%= currenttag %></span> <% }); %></p>' +    
                     '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1 quiet"></a><% }; %>' +
                   '</div>';
 
@@ -187,6 +187,8 @@ Editor.prototype.renderPlaces = function(filter) {
   }
 
   // Print template
+  
+
   $('#placeslist').html(_.map(filtered, function(d, i) {
     d.index = i;
     return _.template(placeentry, d);
