@@ -8,7 +8,7 @@ GITSHA=$(echo "$COMMIT_MESSAGE" | grep -oE '\[publish [a-z0-9\.\-]+\]' | grep -o
 
 if [ $PLATFORM == "linux" ] && [ -n "$GITSHA" ]; then
     echo "Publishing $GITSHA"
-    sudo apt-get install -qqy curl unzip nsis python-pip
+    sudo apt-get install -qqy curl unzip nsis python-pip mono-devel expect
     sudo pip install -q awscli
     ./scripts/build-atom.sh "$GITSHA" linux
     ./scripts/build-atom.sh "$GITSHA" win32
