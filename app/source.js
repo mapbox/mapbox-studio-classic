@@ -114,8 +114,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.keys = function(ev) {
         // Escape. Collapses windows, dialogs, modals, etc.
         if (ev.which === 27) {
-            if (Modal.active) Modal.close();
-            window.location.href = '#';
+            if (Modal.active) {
+              Modal.close();
+            } else {
+              window.location.href = '#';
+            }
         }
         if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
         var which = ev.which;
@@ -127,23 +130,16 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 ev.preventDefault();
                 this.togglePane('full');
                 break;
-            case (which === 72): // h for help
-                ev.preventDefault();
-                this.togglePane('docs');
-                break;
             case (which === 220): // \ for settings
                 ev.preventDefault();
                 this.togglePane('settings');
-                break;
-            case (which === 66): // b for bookmarks
-                ev.preventDefault();
-                this.togglePane('bookmark');
                 break;
             default:
                 return true;
         }
         return false;
     };
+
     Editor.prototype.saveModal = function() {
         Modal.show('browsersave', {
             type: 'source',
@@ -603,10 +599,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
         var filepath = layers[id].get().Datasource.file;
-        
+
         // Set map in loading state
         $('#full').addClass('loading');
-        
+
         $.ajax({
             url: '/metadata?file=' + filepath,
             success: function(metadata) {
