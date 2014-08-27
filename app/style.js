@@ -11,7 +11,7 @@ var mtime = (+new Date).toString(36);
 var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
                     '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
                       '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
-                      '<p class="prose"><% _.each(tags, function(currenttag) { %> <span class="placetag button short quiet micro"> <%= currenttag %></span> <% }); %></p>' +    
+                      '<p class="prose"><% _.each(tags, function(currenttag) { %> <span class="placetag button short quiet micro" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p>' +    
                     '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1 quiet"></a><% }; %>' +
                   '</div>';
 
@@ -120,6 +120,7 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
+  'click .placetag': 'tagPlacesSearch'
 };
 
 Editor.prototype.addBookmark = function(ev) {
@@ -175,9 +176,9 @@ Editor.prototype.removeBookmark = function(ev) {
 Editor.prototype.renderPlaces = function(filter) {
   var view = this;
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
-
   // Filter list
   var filtered = _.filter(list, function(d) {
+    console.log(d.tags, filter);
     return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
   });
 
@@ -243,6 +244,13 @@ Editor.prototype.hidePlacesSearch = function(ev) {
 
 Editor.prototype.placesSearch = function(ev) {
   var filter = $('#places-dosearch').val().toLowerCase();
+  window.editor.renderPlaces(filter);
+  return false;
+};
+
+// New search based on clicked tag
+Editor.prototype.tagPlacesSearch = function(ev) {
+  var filter = $(ev.currentTarget).attr("tag").toLowerCase();
   window.editor.renderPlaces(filter);
   return false;
 };
