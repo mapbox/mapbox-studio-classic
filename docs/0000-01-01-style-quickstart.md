@@ -1,9 +1,9 @@
 Style quickstart
 ================
 
-Mapbox Studio uses a language called CartoCSS to determine the look of a map. Colors, sizes, and shapes can all be manipulated by applying their relative CartoCSS parameters in the stylesheet panel to the right of the map. Read the [CartoCSS manual](https://www.mapbox.com/carto/) for a more detailed introduction to the language.
+Mapbox Studio uses a language called CartoCSS to determine the look of a map. Colors, sizes, and shapes can all be manipulated by applying their specific CartoCSS parameters in the stylesheet panel to the right of the map. Read the [CartoCSS manual](https://www.mapbox.com/carto/) for a more detailed introduction to the language.
 
-In this tutorial we’ll create a custom style by writing Carto for buildings, roads, and parks.
+In this tutorial we’ll create a custom style by writing CartoCSS for buildings, roads, and parks.
 
 Create a style project
 ----------------------
@@ -15,7 +15,7 @@ Create a new style by clicking on __Projects__ in the lower left, and click __Ne
 Inspecting the vector source
 ----------------------------
 
-Center the map preview around New York City and increase the zoom level of the map to z17. Click the <span class='icon eye'></span> icon on the map preview pane. While the map currently looks empty there are a lot of features available for styling in this area.
+Center the map preview around New York City and increase the zoom level of the map to z17. Click the <span class='icon eye'></span> icon on the map preview pane. Although the map currently looks empty, there are many features available for styling in this area.
 
 Mapbox Studio includes a vector source inspector that will show you all layers and features for the vector source. Like the DOM inspector in web browsers, the vector source inspector shows you details about the fields and features in vector tiles that can be styled. Click a __building polygon__ on the map to see its properties.
 
@@ -116,7 +116,7 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 Uploading
 ---------
 
-Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/) and you may be prompted if you aren't yet on one.
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/): may be prompted if you aren't yet on one.
 
 ![Upload style](https://cloud.githubusercontent.com/assets/83384/3870412/70cc4fb8-20cd-11e4-89e6-0012952df580.png)
 
