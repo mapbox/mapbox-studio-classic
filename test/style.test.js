@@ -354,6 +354,20 @@ test('style.toXML: compiles raster', function(t) {
     });
 });
 
+test('style.layervalidate: fails on invalid characters', function(t) {
+    style.layervalidate(['foo','foo.bar','foo/bar'], function(err) {
+        t.ok(err);
+        t.end();
+    });
+});
+
+test('style.layervalidate: saves with valid layer properties', function(t) {
+    style.layervalidate(['foo','foo.bar', 'foo.bar-bar'], function(err) {
+        t.ifError(err);
+        t.end();
+    });
+});
+
 test('style.upload: uploads stylesheet', function(t) {
     var id = 'tmstyle://' + __dirname + '/fixtures-upload';
     var cache = path.join(tmppath, 'cache');
