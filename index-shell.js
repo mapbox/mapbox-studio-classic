@@ -137,6 +137,11 @@ function createMenu() {
             label: 'Paste',
             accelerator: 'Command+V',
             selector: 'paste:'
+          },
+          {
+            label: 'Select All',
+            accelerator: 'Command+A',
+            selector: 'selectAll:'
           }
         ]
       },
