@@ -3,7 +3,7 @@ Changelog
 
 ### 0.0.5
 
-- Fixes for conflicting keybindings
+- Fixes for conflicting keybindings.
 
 ### 0.0.5
 
