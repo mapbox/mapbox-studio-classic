@@ -5,6 +5,7 @@ Changelog
 
 - Fixes for conflicting keybindings.
 - Windows installer is now signed with the Mapbox cert.
+- Style UI: Display user modifications to layer list if present.
 
 ### 0.0.5
 
