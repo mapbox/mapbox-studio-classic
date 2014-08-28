@@ -80,10 +80,13 @@ var Tab = function(id, value) {
 
 var code = _(style.styles).reduce(function(memo, value, k) {
   memo[k] = Tab(k, value);
+  if (!memo._first) {
+    memo[k].getWrapperElement().className += ' active';
+    memo._first = true;
+  }
   return memo;
 }, {});
-
-if (style.styles.length) code[style.styles[0]].getWrapperElement().className += ' active';
+delete code._first;
 
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
