@@ -107,7 +107,7 @@ if [ $platform == "win32" ]; then
     # uses mono `signcode` and `expect` because signcode prompts for
     # secret key password without option for supplying it otherwise.
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.pvk
-    aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.spc
+    aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.spc authenticode.spc
     echo "
         spawn signcode \
         -spc authenticode.spc \
