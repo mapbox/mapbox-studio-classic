@@ -64,6 +64,9 @@ tape('.js-newstyle => newstyle modal', function(t) {
 });
 
 tape('#style-ui creates a new tab', function(t) {
+    t.equal($('#tabs .js-tab:eq(0)').is('.active'), true, 'first tab is active');
+    t.equal($('.CodeMirror:eq(0)').is('.active'), true, 'first CodeMirror is active');
+
     $('.js-addtab:eq(0)').click();
     t.ok(hasModal('form#addtab'));
 
