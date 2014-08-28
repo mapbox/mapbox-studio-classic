@@ -61,27 +61,45 @@
   flex-wrap: wrap;
 }
 
-.places-entry {
+.places-entry-container {
   background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
   flex-grow: 1;
   min-height: 33.3333%;
   min-width: 25%;
+  position: relative;
+}
+
+.places-entry-container .trash:before {
+  color: #404040;
+}
+
+.places-entry {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .entry-label { opacity: 0; }
 
-.entry-label h4,
-.entry-label h4:hover {
+.entry-label small,
+.entry-label small:hover {
   color: #404040;
 }
 
-.places-entry:hover .entry-label {
-  margin: 0;
+.places-entry-container:hover .entry-label {
   opacity: 1;
-  font-size: 22px;
-  line-height: 30px;
+}
+
+.placetag {
+  border-radius: 2px;
+  color: #fff;
+  display: inline-block;
+}
+
+.placetag:hover {
+  background-color: #616161;
 }
 
 .places-toggle {
@@ -96,19 +114,6 @@
 .places-search-container .button {
   top: 5px;
   right: 45px;
-}
-
-.placetag {
-  padding: 0 5px;
-  margin-top: 5px;
-  border-radius: 2px;
-  color: #fff;
-  font-family: 'Open Sans Bold', sans-serif;
-  display: inline-block;
-}
-
-.placetag:hover {
-  background-color: #616161;
 }
 
 /* Code pane

@@ -8,11 +8,12 @@ var grids;
 var gridc;
 var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
-var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
-                    '<a href="#" class="z1 block entry-label fill-lighten3 dark pin-bottom pin-top">' +
-                    '<p class="pad1x"><% _.each(tags, function(currenttag) { %> <span class="placetag micro fill-dark" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p>' +
-                    '<h4 class="pad1x pin-bottom"><%= place_name %></h4>' +    
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1 quiet"></a><% }; %>' +
+var placeentry = '<div class="col4 places-entry-container animate">' +
+                    '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry"></div>' +
+                    '<a href="#" class="z1 block entry-label fill-lighten3 dark pin-bottom pin-top js-place-jump">' +
+                    '<p class="pad1x pad0y"><% _.each(tags, function(currenttag) { %> <span class="js-placetag placetag pad0x micro strong fill-dark" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p>' +
+                    '<small class="pad1x pad0y pin-bottom strong"><%= place_name %></small>' +    
+                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1"></a><% }; %>' +
                   '</div>';
 
 statHandler('drawtime')();
@@ -98,7 +99,7 @@ Editor.prototype.events = {
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
   'click .js-places': 'places',
-  'click .js-places-entry': 'placesJump',
+  'click .js-place-jump': 'placesJump',
   'click .js-show-search': 'showPlacesSearch',
   'click .js-hide-search': 'hidePlacesSearch',
   'click .js-places-search': 'placesSearch',
@@ -120,7 +121,7 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
-  'click .placetag': 'tagPlacesSearch'
+  'click .js-placetag': 'tagPlacesSearch'
 };
 
 Editor.prototype.addBookmark = function(ev) {
@@ -178,7 +179,6 @@ Editor.prototype.renderPlaces = function(filter) {
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
   // Filter list
   var filtered = _.filter(list, function(d) {
-    console.log(d.tags, filter);
     return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
   });
 
@@ -256,10 +256,12 @@ Editor.prototype.tagPlacesSearch = function(ev) {
 };
 
 Editor.prototype.placesJump = function(ev) {
+  console.log(ev.currentTarget);
   var target = $(ev.currentTarget);
-  var lat = target.attr('lat');
-  var lng = target.attr('lng');
-  var zoom = target.attr('zoom');
+  var mapcontainer = target.siblings('.js-places-entry');
+  var lat = mapcontainer.attr('lat');
+  var lng = mapcontainer.attr('lng');
+  var zoom = mapcontainer.attr('zoom');
   map.setView([lat, lng], zoom);
   window.location.href = '#';
 };
