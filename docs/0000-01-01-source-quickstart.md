@@ -95,7 +95,7 @@ Click on __Layers__ to open the layers pane and then click __Change source__ to 
 
 ![Change source](https://cloud.githubusercontent.com/assets/83384/3870136/1cd60c56-20bd-11e4-9b7d-e20599c7003b.png)
 
-Add a command and the Mapbox __Map ID__ of your vector source to the end of the list of sources in the input field. The Mapbox API will automatically composite the existing sources (Mapbox Satellite, Mapbox Terrain, Mapbox Streets) with your new source. Click __Update__ after you have entered the full map ID.
+Add a comma and the Mapbox __Map ID__ of your vector source to the end of the list of sources in the input field. The Mapbox API will automatically composite the existing sources (Mapbox Satellite, Mapbox Terrain, Mapbox Streets) with your new source. Click __Update__ after you have entered the full map ID.
 
     mapbox.satellite,mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5,[Map ID]
 

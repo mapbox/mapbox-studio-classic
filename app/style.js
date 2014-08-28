@@ -266,23 +266,23 @@ Editor.prototype.changed = function() {
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
-    if (Modal.active) Modal.close();
-    window.location.href = '#';
+    if (Modal.active) {
+      Modal.close();
+    } else {
+      window.location.href = '#';
+    }
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
 
   var which = ev.which;
   switch (true) {
-  case (which === 83): // s
-    this.save();
-    break;
-  case (which === 72): // h for help
-    ev.preventDefault();
-    this.togglePane('docs');
-    break;
   case (which === 190): // . for fullscreen
     ev.preventDefault();
     this.togglePane('full');
+    break;
+  case (which === 191): // / for help
+    ev.preventDefault();
+    this.togglePane('docs');
     break;
   case (which === 73): // i for layers/data
     ev.preventDefault();
@@ -292,27 +292,31 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('settings');
     break;
-  case (which === 66): // b for bookmarks
-    ev.preventDefault();
-    this.togglePane('bookmark');
-    break;
-    case (which === 69): // e for export-pane
-    ev.preventDefault();
-    this.togglePane('export');
-    break;
-  case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
-    var tab = $('#tabs a.tab')[(which-48)-1];
-    if (tab) $(tab).click();
-    break;
   case (which === 80): // p for places
     ev.preventDefault();
     this.togglePane('places');
+    break;
+  case (which === 83 && ev.altKey): // alt + s for export
+    ev.preventDefault();
+    this.togglePane('export');
+    break;
+  case (which === 83): // s for save
+    this.save();
+    break;
+  case (which === 66): // b for bookmarks
+    ev.preventDefault();
+    window.editor.addBookmark(ev);
+    break;
+  case ((which > 48 && which < 58) && ev.altKey): // 1-9
+    var tab = $('#tabs a.tab')[(which-48)-1];
+    if (tab) $(tab).click();
     break;
   default:
     return true;
   }
   return false;
 };
+
 Editor.prototype.saveModal = function() {
   Modal.show('browsersave', {type:'style', cwd:cwd});
   new views.Browser({

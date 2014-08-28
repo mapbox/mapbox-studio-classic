@@ -3,6 +3,11 @@ Changelog
 
 ### 0.0.5
 
+- Fixes for conflicting keybindings.
+- Windows installer is now signed with the Mapbox cert.
+
+### 0.0.5
+
 - Exported mbtiles/serialtiles uploads compress PBFs with gzip instead of deflate.
 - Source UI: allow datasource filenames that include whitespace characters.
 - Style UI: display helptext if share actions are disabled.
