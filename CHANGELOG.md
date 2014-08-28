@@ -4,6 +4,7 @@ Changelog
 ### 0.0.5
 
 - Fixes for conflicting keybindings.
+- Windows installer is now signed with the Mapbox cert.
 
 ### 0.0.5
 
