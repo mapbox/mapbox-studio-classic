@@ -354,13 +354,19 @@ test('style.toXML: compiles raster', function(t) {
     });
 });
 
-test('style.layervalidate: fails on invalid characters', function(t) {
-    var err = style.layervalidate(['foo','foo.bar','foo/bar']);
-    t.ok(err);
+test('style.layervalidate: fails if layers is not an array', function(t) {
+    var err = style.layervalidate('foo');
+    t.equal(err.toString(), 'Error: Layers must be an array')
     t.end();
 });
 
-test('style.layervalidate: saves with valid layer properties', function(t) {
+test('style.layervalidate: fails on invalid characters', function(t) {
+    var err = style.layervalidate(['foo','foo.bar','foo/bar']);
+    t.equal(err.toString(), 'Error: Invalid characters in layer foo/bar')
+    t.end();
+});
+
+test('style.layervalidate: saves with valid layer names', function(t) {
     var err = style.layervalidate(['foo','foo.bar', 'foo.bar-bar']);
     t.ifError(err);
     t.end();
