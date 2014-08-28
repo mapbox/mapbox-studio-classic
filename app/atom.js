@@ -22,7 +22,7 @@ $(document).ready(function() {
         }
 
         // File saving.
-        var extensions = /(\.tm2z|\.mbtiles|\.png|\.jpg)$/;
+        var extensions = /(\.tm2z|\.mbtiles|\.png|\.jpg|\.jpeg)$/;
         var ext = extensions.exec(uri.pathname);
         if (ext) {
             var filepath = remote.require('dialog').showSaveDialog({
