@@ -72,14 +72,9 @@
 
 .entry-label { opacity: 0; }
 
-.entry-label h2,
-.entry-label h2:hover {
-  color: white;
-  top: 50%;
-  -webkit-transform:translateY(-50%);
-     -moz-transform:translateY(-50%);
-      -ms-transform:translateY(-50%);
-          transform:translateY(-50%);
+.entry-label h4,
+.entry-label h4:hover {
+  color: #404040;
 }
 
 .places-entry:hover .entry-label {
@@ -101,6 +96,19 @@
 .places-search-container .button {
   top: 5px;
   right: 45px;
+}
+
+.placetag {
+  padding: 0 5px;
+  margin-top: 5px;
+  border-radius: 2px;
+  color: #fff;
+  font-family: 'Open Sans Bold', sans-serif;
+  display: inline-block;
+}
+
+.placetag:hover {
+  background-color: #616161;
 }
 
 /* Code pane
