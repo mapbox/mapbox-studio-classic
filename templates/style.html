@@ -221,16 +221,14 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled col12'>
-      <div class='pad2y pad1x'>
+      <div class='pad2y pad1x contain'>
+        <a href='#' class='js-modalsources col12 button short icon polygon'>Change source</a>
         <% if (style.layers) { %>
-          <a class='col12 button short icon point-line'>Change source</a>
-          <div class='pin-top fill-disable layer-change-disable'>
+          <div class='pin-top pin-bottom fill-disable'>
             <div class='z10 pad0y pad1x micro center pin-top fill-dark keyline-top'>
               <span class='icon lock'></span><strong>Source locked</strong> (custom layer order)
             </div>
           </div>
-        <% } else { %>
-          <a href='#' class='js-modalsources col12 button short icon point-line'>Change source</a>
         <% } %>
       </div>
       <div id='sources' class='js-layer-content'>
@@ -242,7 +240,6 @@
             xraycolor:this.xraycolor,
             userlayers:style.layers
           });
-
         %>
         <%= sourcelayers %>
       </div>

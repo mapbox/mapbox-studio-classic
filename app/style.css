@@ -265,7 +265,7 @@
   display: block;
 }
 
-.layer-change-disable { height: 60px;}
+.sourceid { word-break: break-all; }
 
 /* Button toggles
 ------------------------------------------------------- */
