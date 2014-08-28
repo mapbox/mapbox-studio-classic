@@ -7,31 +7,27 @@
   </h4>
   <div class='quiet micro code space-bottom1 sourceid icon <%= obj.id.indexOf('tmsource:') === 0 ? 'harddrive' : 'cloud' %>'><%= obj.id %></div>
 </div>
+
 <%
 
 if (obj.userlayers) {
   // Add vector tiles metadata to each layer in layers list in project settings
-  var userlayers = _.map(obj.userlayers, function(value, i) {
+  var userlayers = _(obj.userlayers).map(function(value, i) {
     var layerClass = value.split('.')[1];
     var layerId = value.split('.').shift();
 
     // for each source layer, look for a matching user layer
-    var match = _.find(obj.vector_layers, function(layer) {
+    var match = _(obj.vector_layers).find(function(layer) {
       return layer.id === layerId;
     });
 
     // To avoid overwriting duplicate layers, create
     // new objects for each match
-    function copyObject(obj) {
-      var newObj = {};
-      for (var key in obj) {
-        //copy all the fields
-        newObj[key] = obj[key];
-      }
-      return newObj;
-    };
+    var userlayer = {};
+    if (match) for (var k in match) {
+      userlayer[k] = match[k];
+    }
 
-    var userlayer = copyObject(match);
     if (layerClass) { userlayer.layer_class = layerClass; }
 
     return userlayer;
@@ -39,7 +35,7 @@ if (obj.userlayers) {
   var listlayers = userlayers;
 } else {
   var listlayers = obj.vector_layers;
-};
+}
 
 %>
 
