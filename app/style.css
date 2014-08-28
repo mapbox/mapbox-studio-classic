@@ -265,6 +265,8 @@
   display: block;
 }
 
+.sourceid { word-break: break-all; }
+
 /* Button toggles
 ------------------------------------------------------- */
 a.layers-y,

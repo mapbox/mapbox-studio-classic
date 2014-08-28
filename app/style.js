@@ -83,7 +83,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   return memo;
 }, {});
 
-_(code).toArray().shift().getWrapperElement().className += ' active';
+if (style.styles.length) code[style.styles[0]].getWrapperElement().className += ' active';
 
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
@@ -382,7 +382,14 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
+      console.log(resp);
+      $('.js-layers .js-layer-content').html(templates.sourcelayers({
+          id: resp.id,
+          name: resp.name,
+          vector_layers: resp.vector_layers,
+          xraycolor: templates.xraycolor,
+        })
+      );
       this.model.set({source:id});
       this.changed();
       Modal.close();
@@ -392,6 +399,7 @@ Editor.prototype.adddata = function(ev) {
   return false;
 };
 Editor.prototype.addmapbox = function(ev) {
+  var view = this;
   var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
@@ -402,7 +410,13 @@ Editor.prototype.addmapbox = function(ev) {
   }
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers({
+          id: resp.id,
+          name: resp.name,
+          vector_layers: resp.vector_layers,
+          xraycolor: templates.xraycolor,
+        })
+      );
       this.model.set({source:id});
       this.changed();
       Modal.close();
