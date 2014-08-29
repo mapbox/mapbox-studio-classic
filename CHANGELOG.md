@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 0.0.6
+
+- Fixes for conflicting keybindings.
+- Windows installer is now signed with the Mapbox cert.
+- Windows installer now bundles Visual C++ (2013) runtimes.
+- Style UI: Display user modifications to layer list if present.
+- Shell: fix for export/saveas dialog of jpeg images.
+
 ### 0.0.5
 
 - Exported mbtiles/serialtiles uploads compress PBFs with gzip instead of deflate.

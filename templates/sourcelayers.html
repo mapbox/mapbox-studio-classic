@@ -1,30 +1,52 @@
 <div id='<%= obj.id %>' class='js-layer'>
 
-<div class='pad1x'>
-  <h3><%= obj.name || 'Untitled' %></h3>
-  <div class='clearfix small pad1y'>
-    <div class='pad0y col6'>
-    <% if (obj.id.indexOf('tmsource://') === 0) { %>
-    <span class='quiet icon harddrive'>Local</span>
-    <% } else {%>
-    <span class='quiet icon cloud'>Remote</span>
-    <% } %>
-    </div>
-    <div class='fr col6 text-right'>
-      <a href='#sources-<%=obj.id%>' class='button col12 short quiet js-recache icon refresh'>Refresh</a>
-    </div>
-  </div>
-
+<div class='pad1'>
+  <h4 class='contain mobile-cols clearfix'>
+    <span class='col10 truncate'><%= obj.name || 'Untitled' %></span>
+    <a href='#sources-<%=obj.id%>' class='pin-right js-recache icon refresh fill-darken1 dot'></a>
+  </h4>
+  <div class='quiet micro code space-bottom1 sourceid icon <%= obj.id.indexOf('tmsource:') === 0 ? 'harddrive' : 'cloud' %>'><%= obj.id %></div>
 </div>
 
+<%
+
+if (obj.userlayers) {
+  // Add vector tiles metadata to each layer in layers list in project settings
+  var userlayers = _(obj.userlayers).map(function(value, i) {
+    var layerClass = value.split('.')[1];
+    var layerId = value.split('.').shift();
+
+    // for each source layer, look for a matching user layer
+    var match = _(obj.vector_layers).find(function(layer) {
+      return layer.id === layerId;
+    });
+
+    // To avoid overwriting duplicate layers, create
+    // new objects for each match
+    var userlayer = {};
+    if (match) for (var k in match) {
+      userlayer[k] = match[k];
+    }
+
+    if (layerClass) { userlayer.layer_class = layerClass; }
+
+    return userlayer;
+  }).filter(function(l) { return l.id });
+  var listlayers = userlayers;
+} else {
+  var listlayers = obj.vector_layers;
+}
+
+%>
+
 <div class='keyline-top'>
-  <% if (obj.vector_layers) { %>
-  <% _(obj.vector_layers).chain().clone().reverse().each(_(function(l) { %>
-  <div class='col12 contain clip layer' id='sources-<%=l.id%>'>
-    <a href='#sources-<%=l.id%>' class='pin-left pin-right js-tab'></a>
+  <% if (listlayers) { %>
+  <% _(listlayers).chain().clone().reverse().each(_(function(l) { %>
+  <div class='col12 contain clip layer' id='sources-<%=l.id%><% if (l.layer_class) { %><%=l.layer_class%><% }; %>'>
+    <a href='#sources-<%=l.id%><% if (l.layer_class) { %><%=l.layer_class%><% }; %>' class='pin-left pin-right js-tab'></a>
     <div class='space small pad1x pad0y keyline-bottom <%=l.geometry ? l.geometry + 'icon' : ''%>'>
-      <span class='icon round' style='background-color:<%=this.xraycolor(l.id)%>'></span>
-      <span>#<%=l.id%></span>
+      <span class='icon round' style='background-color:<%=obj.xraycolor(l.id)%>'></span>
+      <span>#<%=l.id%><% if (l.layer_class) { %>.<%=l.layer_class%><% }; %></span>
     </div>
 
     <div class='small center pin-right'>

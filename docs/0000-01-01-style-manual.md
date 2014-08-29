@@ -23,7 +23,7 @@ The components of the style project are:
 Referencing vector tile sources
 -------------------------------
 
-In order to design a Mapbox Studio style you will need to have a vector tile source to pull data from. Styles will use the [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/) source by default, but can also use custom sources you've uploaded to your Mapbox account.
+In order to design a Mapbox Studio style, you will need to have a vector tile source to supply data. Styles use the [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/) source by default, but can also use custom sources you've uploaded to your Mapbox account.
 
 If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, Mapbox Studio will download the vector tiles on-the-fly as you pan over to France. Mapbox Studio caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
 

@@ -58,6 +58,11 @@ function ready(err) {
             src: 'tmstyle://'+basePath+'/node_modules/mapbox-studio-default-style'
         },
         {
+            name: 'style-userlayers',
+            url: 'http://localhost:3001/style?id={id}&test[userlayers]=true',
+            src: 'tmstyle://'+basePath+'/test/fixtures-localstyle-userlayers'
+        },
+        {
             name: 'source',
             url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'

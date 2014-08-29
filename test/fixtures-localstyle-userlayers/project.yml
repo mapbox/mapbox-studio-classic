@@ -1,0 +1,24 @@
+styles: []
+source: mapbox:///mapbox.mapbox-streets-v5
+name: tmp-1234
+center: 
+  - 0
+  - 0
+  - 3
+minzoom: 0
+maxzoom: 22
+_prefs: 
+  mapid: ""
+  saveCenter: true
+layers:
+  - water
+  - water.class1
+  - water.class2
+  - landuse
+attribution: ""
+description: ""
+bounds: 
+  - -180
+  - -85.0511
+  - 180
+  - 85.0511

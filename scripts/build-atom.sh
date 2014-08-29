@@ -97,9 +97,37 @@ cd /tmp
 # win32: installer using nsis
 if [ $platform == "win32" ]; then
     if ! which makensis > /dev/null; then echo "makensis command not found"; exit 1; fi;
+    if ! which signcode > /dev/null; then echo "signcode command not found"; exit 1; fi;
+    if ! which expect > /dev/null; then echo "expect command not found"; exit 1; fi;
+    curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
     makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
+
+    # windows code signing
+    # uses mono `signcode` and `expect` because signcode prompts for
+    # secret key password without option for supplying it otherwise.
+    aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.pvk
+    aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.spc authenticode.spc
+    echo "
+        spawn signcode \
+        -spc authenticode.spc \
+        -v authenticode.pvk \
+        -a sha1 -$ commercial \
+        -n Mapbox\ Studio \
+        -i https://www.mapbox.com/ \
+        -t http://timestamp.verisign.com/scripts/timstamp.dll \
+        -tr 10 \
+        $build_dir.exe
+
+        expect \"Enter password for authenticode.pvk:\"
+        send -- \"$WINCERT_PASSWORD\r\"
+        expect eof
+        lassign [wait] pid spawnid os_error_flag value
+        exit \$value" | expect > /dev/null && echo "Signed $build_dir.exe"
+    rm -f authenticode.pvk
+    rm -f authenticode.spc
+
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
     rm -f $build_dir.exe

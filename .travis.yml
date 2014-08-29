@@ -14,6 +14,7 @@ env:
   global:
   - secure: "EXgVgtayyyxt7flmPhwKZIvkqfkpX1TnrX/EX7ZEQ36TuZGYYX5OXjLTtXWk9sSE6l6O3wRewpkou2PvQQpX25yOI8XYD8vBjx3ymt1lg5RS8nTDZO0XHsd0aTV7JxJCyZGCkIYXvVRPpVbLDbGwULhJe55p8YYKx/lohDB3FYM="
   - secure: "YvtR+B6yC+MxsU7tP6FCEHKLZoRfvlfwX5HSs8eAYWxqrZmIqJTbavSlj4bQ919szyQ1vZ8wTMkXd/8tCqWARTyWA8tLOHgXm/ZAlxdtdtotyZzNsbC0FmtJHF/wmaQcJ4lX2vcWWhOwtEetEULO6Hv0xGiW26aK+Jp240f6NJE="
+  - secure: "FxiGeOfdx5gi6F9axPog/9ErQN7ekvSpWTLgkX5ELJGhYncl0jOyvpkJhQan/hqf6kk4SG8+JVB+R4YyN2pwh2CYZ0jNEuLvApFrIt9YRKcnMbeBkjDbAq8ZcOVm2Zjtl22N0qLWLbvUsf71AM1S9s7a8yJL/Ux62IJQxA6HDic="
 
 # http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
 # addons:

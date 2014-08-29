@@ -21,6 +21,11 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
+(function() {
+
+// test[userlayers]=true => test style with user layer list.
+if (window.testParams.userlayers) return testUserLayers();
+
 tape('#settings-form', function(t) {
     t.ok(!$('body').hasClass('changed'), 'body');
     $('#settings-drawer').change();
@@ -59,6 +64,9 @@ tape('.js-newstyle => newstyle modal', function(t) {
 });
 
 tape('#style-ui creates a new tab', function(t) {
+    t.equal($('#tabs .js-tab:eq(0)').is('.active'), true, 'first tab is active');
+    t.equal($('.CodeMirror:eq(0)').is('.active'), true, 'first CodeMirror is active');
+
     $('.js-addtab:eq(0)').click();
     t.ok(hasModal('form#addtab'));
 
@@ -356,9 +364,9 @@ tape('keybindings', function(t) {
 
     e = $.Event('keydown');
     e.ctrlKey = true;
-    e.which = 72; // h
+    e.which = 191; // /
     $('body').trigger(e);
-    t.equal(window.location.hash, '#docs', 'ctrl+h => #help');
+    t.equal(window.location.hash, '#docs', 'ctrl+/ => #help');
 
     e = $.Event('keydown');
     e.ctrlKey = true;
@@ -374,21 +382,16 @@ tape('keybindings', function(t) {
 
     e = $.Event('keydown');
     e.ctrlKey = true;
-    e.which = 66; // b
-    $('body').trigger(e);
-    t.equal(window.location.hash, '#bookmark', 'ctrl+b => #bookmark');
-
-    e = $.Event('keydown');
-    e.ctrlKey = true;
-    e.which = 69; // e
-    $('body').trigger(e);
-    t.equal(window.location.hash, '#export', 'ctrl+e => #export');
-
-    e = $.Event('keydown');
-    e.ctrlKey = true;
     e.which = 80; // b
     $('body').trigger(e);
     t.equal(window.location.hash, '#places', 'ctrl+p => #places');
+
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.altKey = true; // alt
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.equal(window.location.hash, '#export', 'ctrl+alt+s => #export');
 
     var e;
     e = $.Event('keydown');
@@ -399,7 +402,44 @@ tape('keybindings', function(t) {
     onajax(function() {
         t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
         t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+    });
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 66; // b
+    $('body').trigger(e);
+    t.ok($('.js-add-bookmark').hasClass('spinner'), 'ctrl+b => #add-bookmark.spinner');
+    onajax(function() {
         t.end();
     });
 });
 
+})();
+
+function testUserLayers() {
+    tape('user layers', function(t) {
+        var html;
+
+        t.equal(/Source locked/.test($('#layers-drawer').html()), true, 'adds "Source locked" disabled mask');
+        t.equal($('.layer').size(), 4, 'shows entries from user layer list');
+
+        html = $('.layer:eq(0)').html();
+        t.equal(/#landuse/.test(html), true, '#landuse');
+        t.equal(/One of: cemetery, hospital/.test(html), true, '#landuse description');
+
+        html = $('.layer:eq(1)').html();
+        t.equal(/#water\.class2/.test(html), true, '#water.class2');
+        t.equal(/Unique OSM ID number/.test(html), true, '#water.class2 description');
+
+        html = $('.layer:eq(2)').html();
+        t.equal(/#water\.class1/.test(html), true, '#water.class1');
+        t.equal(/Unique OSM ID number/.test(html), true, '#water.class1 description');
+
+        html = $('.layer:eq(3)').html();
+        t.equal(/#water/.test(html), true, '#water');
+        t.equal(/Unique OSM ID number/.test(html), true, '#water description');
+
+        t.end();
+    });
+}

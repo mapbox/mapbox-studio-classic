@@ -81,10 +81,13 @@ var Tab = function(id, value) {
 
 var code = _(style.styles).reduce(function(memo, value, k) {
   memo[k] = Tab(k, value);
+  if (!memo._first) {
+    memo[k].getWrapperElement().className += ' active';
+    memo._first = true;
+  }
   return memo;
 }, {});
-
-_(code).toArray().shift().getWrapperElement().className += ' active';
+delete code._first;
 
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
@@ -278,23 +281,23 @@ Editor.prototype.changed = function() {
 Editor.prototype.keys = function(ev) {
   // Escape. Collapses windows, dialogs, modals, etc.
   if (ev.which === 27) {
-    if (Modal.active) Modal.close();
-    window.location.href = '#';
+    if (Modal.active) {
+      Modal.close();
+    } else {
+      window.location.href = '#';
+    }
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
 
   var which = ev.which;
   switch (true) {
-  case (which === 83): // s
-    this.save();
-    break;
-  case (which === 72): // h for help
-    ev.preventDefault();
-    this.togglePane('docs');
-    break;
   case (which === 190): // . for fullscreen
     ev.preventDefault();
     this.togglePane('full');
+    break;
+  case (which === 191): // / for help
+    ev.preventDefault();
+    this.togglePane('docs');
     break;
   case (which === 73): // i for layers/data
     ev.preventDefault();
@@ -304,27 +307,31 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     this.togglePane('settings');
     break;
-  case (which === 66): // b for bookmarks
-    ev.preventDefault();
-    this.togglePane('bookmark');
-    break;
-    case (which === 69): // e for export-pane
-    ev.preventDefault();
-    this.togglePane('export');
-    break;
-  case ((which > 48 && which < 58) && ev.altKey): // 1-9 + alt
-    var tab = $('#tabs a.tab')[(which-48)-1];
-    if (tab) $(tab).click();
-    break;
   case (which === 80): // p for places
     ev.preventDefault();
     this.togglePane('places');
+    break;
+  case (which === 83 && ev.altKey): // alt + s for export
+    ev.preventDefault();
+    this.togglePane('export');
+    break;
+  case (which === 83): // s for save
+    this.save();
+    break;
+  case (which === 66): // b for bookmarks
+    ev.preventDefault();
+    window.editor.addBookmark(ev);
+    break;
+  case ((which > 48 && which < 58) && ev.altKey): // 1-9
+    var tab = $('#tabs a.tab')[(which-48)-1];
+    if (tab) $(tab).click();
     break;
   default:
     return true;
   }
   return false;
 };
+
 Editor.prototype.saveModal = function() {
   Modal.show('browsersave', {type:'style', cwd:cwd});
   new views.Browser({
@@ -390,7 +397,14 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
+      console.log(resp);
+      $('.js-layers .js-layer-content').html(templates.sourcelayers({
+          id: resp.id,
+          name: resp.name,
+          vector_layers: resp.vector_layers,
+          xraycolor: templates.xraycolor,
+        })
+      );
       this.model.set({source:id});
       this.changed();
       Modal.close();
@@ -400,6 +414,7 @@ Editor.prototype.adddata = function(ev) {
   return false;
 };
 Editor.prototype.addmapbox = function(ev) {
+  var view = this;
   var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
@@ -410,7 +425,13 @@ Editor.prototype.addmapbox = function(ev) {
   }
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers(resp));
+      $('.js-layers .js-layer-content').html(templates.sourcelayers({
+          id: resp.id,
+          name: resp.name,
+          vector_layers: resp.vector_layers,
+          xraycolor: templates.xraycolor,
+        })
+      );
       this.model.set({source:id});
       this.changed();
       Modal.close();
