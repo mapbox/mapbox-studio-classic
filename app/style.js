@@ -9,7 +9,7 @@ var gridc;
 var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 places-entry-container animate">' +
-                    '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry"></div>' +
+                    '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry pin-left col12"></div>' +
                     '<a href="#" class="z1 block entry-label dark pin-bottom pin-top js-place-jump">' +
                     '<% if (tags.indexOf("userbookmark")) { %><p class="pad1"><% _.each(tags, function(currenttag) { %> <span class="js-placetag placetag pad0x micro strong fill-dark truncate" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p><% }; %>' +
                     '<small class="pad1x pad0y pin-bottom strong"><%= place_name %></small>' +    
