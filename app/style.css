@@ -71,10 +71,6 @@
   position: relative;
 }
 
-.places-entry-container .trash:before {
-  color: #404040;
-}
-
 .entry-label { 
   opacity: 0;
   background:rgba(255,255,255,0.625);
@@ -85,24 +81,13 @@
   color: rgba(0,0,0,0.75);
 }
 
-.places-entry-container:hover .entry-label {
-  opacity: 1;
-}
+.places-entry-container:hover .entry-label { opacity: 1; }
 
-.placetag {
-  border-radius: 2px;
-  color: #fff;
-  display:inline-block;
-  max-width: 120px;
-}
+.placetag { max-width: 170px; }
 
-.placetag:hover {
-  background-color: #616161;
-}
+.placetag:hover { background-color: #616161; }
 
-.places-toggle {
-  right: 40px;
-}
+.places-toggle { right: 40px; }
 
 .show-search-button {
   top: 5px;
