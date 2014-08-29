@@ -85,7 +85,7 @@
 
 .entry-label small,
 .entry-label small:hover {
-  color: #404040;
+  color: rgba(0,0,0,0.75);
 }
 
 .places-entry-container:hover .entry-label {
@@ -95,7 +95,8 @@
 .placetag {
   border-radius: 2px;
   color: #fff;
-  display: inline-block;
+  display:inline-block;
+  max-width: 120px;
 }
 
 .placetag:hover {
@@ -114,6 +115,16 @@
 .places-search-container .button {
   top: 5px;
   right: 45px;
+}
+
+/* Media queries for Places
+------------------------------------------------------- */
+@media (max-width:900px) {
+  .places-entry-container {
+    float:left; 
+    width:50.0000%; 
+    max-width:600px;
+  }
 }
 
 /* Code pane

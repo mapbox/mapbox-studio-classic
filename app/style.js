@@ -11,7 +11,7 @@ var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry"></div>' +
                     '<a href="#" class="z1 block entry-label fill-lighten3 dark pin-bottom pin-top js-place-jump">' +
-                    '<p class="pad1x pad0y"><% _.each(tags, function(currenttag) { %> <span class="js-placetag placetag pad0x micro strong fill-dark" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p>' +
+                    '<p class="pad0"><% _.each(tags, function(currenttag) { %> <span class="js-placetag placetag pad0x micro strong fill-dark truncate" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p>' +
                     '<small class="pad1x pad0y pin-bottom strong"><%= place_name %></small>' +    
                     '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1"></a><% }; %>' +
                   '</div>';
