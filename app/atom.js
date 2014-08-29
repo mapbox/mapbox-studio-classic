@@ -23,30 +23,15 @@ $(document).ready(function() {
 
         // File saving.
         var fileTypes = {
-            'Package': [
-                'tm2z'
-            ],
-            'Tiles': [
-                'mbtiles'
-            ],
-            'Image': [
-                'png',
-                'jpg',
-                'jpeg'
-            ]
+            tm2z: 'Package',
+            mbtiles: 'Tiles',
+            png: 'Image',
+            jpg: 'Image',
+            jpeg: 'Image'
         }
-        var typeLabel = '';
-        var typeExtension = '';
-        for (var label in fileTypes) {
-            for (var i in fileTypes[label]) {
-                if (uri.pathname.split('.').pop().toLowerCase() == fileTypes[label][i]) {
-                    typeLabel = label;
-                    typeExtension = fileTypes[label][i];
-                    break;
-                }
-            }
-        }
-        if (typeExtension) {
+        var typeExtension = uri.pathname.split('.').pop().toLowerCase();
+        var typeLabel = fileTypes[typeExtension];
+        if (typeLabel) {
             var filePath = remote.require('dialog').showSaveDialog({
                 title: 'Save ' + typeLabel,
                 defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension
