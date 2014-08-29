@@ -81,7 +81,10 @@
   height: 100%;
 }
 
-.entry-label { opacity: 0; }
+.entry-label { 
+  opacity: 0;
+  background:rgba(255,255,255,0.625);
+  }
 
 .entry-label small,
 .entry-label small:hover {
@@ -119,7 +122,7 @@
 
 /* Media queries for Places
 ------------------------------------------------------- */
-@media (max-width:900px) {
+@media (max-width:1200px) {
   .places-entry-container {
     float:left; 
     width:50.0000%; 
