@@ -201,6 +201,12 @@ tape('places: list', function(t) {
     t.end();
 });
 
+tape('places: tag filter', function(t) {
+    $('.places-entry-container:first-child span[tag="osm data"]').click();
+    t.notEqual($('.js-places-list').children().size(), 0, 'updates places list');
+    t.end();
+});
+
 tape('places: search results', function(t) {
     $('.js-show-search').click();
     $('#places-dosearch').attr('value','osm data');
