@@ -346,7 +346,8 @@ tape('.js-upload', function(t) {
     $('.js-upload').click();
     t.equal($('#mapstatus').hasClass('loading'), true, '#mapstatus.loading');
     onajax(function() {
-        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'has mapid');
+        t.equal(/^test\.[0-9a-z]+$/.test(window.editor.model.get('_prefs').mapid), true, 'model has mapid');
+        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'UI has mapid');
         t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
         t.end();
     });
