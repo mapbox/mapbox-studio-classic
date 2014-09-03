@@ -21,7 +21,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         var layer = {
             code: code,
             form: $('#layers-' + id),
-            item: $('#layers #' + id)
+            item: $('#layers [data-layer=' + id + ']')
         };
         layer.refresh = function() {
             var l = _(editor.model.get('vector_layers')).find(function(l) {
