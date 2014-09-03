@@ -71,12 +71,24 @@ var sections = {
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
     </a>
     <div class='pad1 details'>
-    <% if (p['default-value'] && p['default-value']!=='none') { %>
-    <span class='space-bottom1 code quiet inline value'><%=p['default-value']%></span><br/>
-    <% } %>
-    <% if (_(p.type).isArray()) { %><span class='space-bottom1 inline code options'><%= p.type.join(' ') %></span><br/><% } %>
-    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
+    <div class='quiet'>
+      <div class='space-bottom0'>Default:</div>
+      <!-- 'false' and 'none' are valid default values, so show those. Only hide if default is empty.' -->
+      <% if (!(p['default-value'] === '')) { %>
+      <span class='space-bottom1 code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
+      <% } else { %>
+      <span class='space-bottom1 code pad0x round inline fill-darken1'>no default value</span>
+      <% } %>
+      <% if (_(p.type).isArray()) { %>
+      <div class='space-bottom0'>Options:</div>
+      <div class='space-bottom1'>
+        <% _(p.type).each(function(option, i) { %>
+          <span class='pad0x reference-option code inline fill-darken1 quiet round'><%= option %></span>
+        <% }); %>
+      </div>
+      <% } %>
     </div>
+    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
   </section>
   <% }); %>
   <% }); %>
