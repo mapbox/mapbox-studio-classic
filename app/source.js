@@ -21,7 +21,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         var layer = {
             code: code,
             form: $('#layers-' + id),
-            item: $('#layers #' + id)
+            item: $('#layers [data-layer=' + id + ']')
         };
         layer.refresh = function() {
             var l = _(editor.model.get('vector_layers')).find(function(l) {
@@ -63,7 +63,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     }, {});
     function orderLayers() {
         var ids = $('#layers .js-layer-content .js-layer').map(function() {
-            return $(this).attr('id');
+            return $(this).attr('data-layer');
         }).get();
         layers = _(ids).reduce(function(memo, id) {
             memo[id] = layers[id];
@@ -429,6 +429,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.updateLayername = function(ev) {
       //Retain current settings to copy over
       var current_id = $('#current_id').val();
+      console.log(current_id);
       var layer = layers[current_id].get();
       var new_id = $('#newLayername').val();
 
@@ -441,6 +442,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
       // Replace old layer/form
       layer.id = new_id;
       layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
+      $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
       layers[current_id].item.replaceWith(templates.layeritem(layer));
       delete layers[current_id];
       layers[layer.id] = Layer(layer.id, layer.Datasource);
@@ -489,7 +491,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             attr.center = [lon, map.getCenter().lat, zoom];
         }
         attr._prefs.disabled = _($('#layers .layer').map(function(v) {
-            return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
+            return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('data-layer') : false;
         })).compact();
         // New mtime querystring.
         mtime = (+new Date).toString(36);
