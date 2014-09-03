@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.0.7
+
+- Windows: fix for OAuth templating error.
+
 ### 0.0.6
 
 - Fixes for conflicting keybindings.
