@@ -4,6 +4,7 @@ Changelog
 ### 0.0.7
 
 - Windows: fix for OAuth templating error.
+- Upgrade to node-mapnik 1.4.14 which fixes some possible vt generation artifacts.
 
 ### 0.0.6
 
