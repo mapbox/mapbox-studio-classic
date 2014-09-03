@@ -16,7 +16,7 @@
 
 <div class='fill-blue'><div class='dark pad8y clearfix fill-darken0 gradient'><div class='limiter'>
     <div class='col6 margin3 pad8y center'>
-        <% if (obj.user) { %>
+        <% if (obj.user && obj.oauth) { %>
         <div class='space-bottom'>
             <div class='inline small-graphic avatar dot' style='background-image:url(<%= obj.user.avatar %>)' /></div>
         </div>
