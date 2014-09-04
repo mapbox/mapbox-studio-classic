@@ -191,27 +191,11 @@
   border-top: 1px solid rgba(0,0,0,0.25);
 }
 
-#reference .code.value,
-#reference .code.options {
-  color:rgba(0,0,0,.75);
-  padding:2px 5px;
-  border-radius: 3px;
-  background: rgba(241, 240, 117, 1);
-}
-
-#reference .code.value:before {
-  content:'default: ';
-  color: rgba(0,0,0,.5);
-  }
-
-#reference .code.options:before {
-  content:'options: ';
-  color: rgba(0,0,0,.5);
-}
-
 #reference section.carto-ref:not(.active):hover {
   background: rgba(0,0,0,.05);
 }
+
+.reference-entry { margin-bottom: 3px;}
 
 #reference section.active a,
 #reference .details { display: none;}
