@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.0.8
+
+- Fix MBTiles handling for paths that contain spaces.
+
 ### 0.0.7
 
 - Windows: fix for OAuth templating error.
