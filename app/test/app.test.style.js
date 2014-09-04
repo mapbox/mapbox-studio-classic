@@ -394,6 +394,10 @@ tape('keybindings', function(t) {
     $('body').trigger(e);
     t.equal(window.location.hash, '#export', 'ctrl+alt+s => #export');
 
+    t.end();
+});
+
+tape('keybindings save', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
@@ -403,8 +407,11 @@ tape('keybindings', function(t) {
     onajax(function() {
         t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
         t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
     });
+});
 
+tape('keybindings bookmark', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
