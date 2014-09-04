@@ -195,7 +195,7 @@
   background: rgba(0,0,0,.05);
 }
 
-.reference-option { margin-bottom: 3px;}
+.reference-entry { margin-bottom: 3px;}
 
 #reference section.active a,
 #reference .details { display: none;}

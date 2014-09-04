@@ -87,7 +87,7 @@ var sections = {
       <div class='space-bottom0'>Options:</div>
       <div class='micro space-bottom1'>
         <% _(p.type).each(function(option, i) { %>
-          <span class='pad0x reference-option code inline fill-darken1 quiet round'><%= option %></span>
+          <span class='pad0x reference-entry code inline fill-darken1 quiet round'><%= option %></span>
         <% }); %>
       </div>
       <% } %>
@@ -103,11 +103,11 @@ var sections = {
       <div class='space-bottom1'>
         <div class='space-bottom0'>Examples:</div>
         <% if (p.serialization==='content') { %>
-          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "[name]";</span></div>
-          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "'zoo'";</span></div>
+          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "[name]";</span></div>
+          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "'zoo'";</span></div>
         <% } else { %>
-          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: [scalerank];</span></div>
-          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 5;</span></div>
+          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: [scalerank];</span></div>
+          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 5;</span></div>
         <% } %>
       </div>
       <% } %>
@@ -116,14 +116,15 @@ var sections = {
           <div class='space-bottom0'>Example:</div>
           <span class='space-bottom1 micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 2,2;</span>
       <% } %>
+
       <% if (p.type==='color') { %>
           <div class='space-bottom1'>
           <div class='space-bottom0'>Examples:</div>
-            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: #ffff00;</span></div>
-            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgb(255, 255, 0);</span></div>
-            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgba(255, 255, 0, 1);</span></div>
-            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: hsl(100, 50%, 50%);</span></div>
-            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: yellow;</span></div>
+            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: #ffff00;</span></div>
+            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgb(255, 255, 0);</span></div>
+            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgba(255, 255, 0, 1);</span></div>
+            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: hsl(100, 50%, 50%);</span></div>
+            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: yellow;</span></div>
           </div>
       <% } %>
 
@@ -131,11 +132,10 @@ var sections = {
         <div class='space-bottom1'>
           <div class='space-bottom0'>Examples:</div>
          <% _(p.functions).each(function(option, i) { %>
-            <div><span class='micro inline pad0x code fill-darken1 quiet round'><%= p['css'] %>: <%= option[0] %>(<% for (var i=0;i<option[1];i++) {%>2<%= (option[1]===(i+1)) ? '' : ',' %><% } %>);</span></div>
+          <div class='reference-entry'><span class='micro inline pad0x code fill-darken1 quiet round'><%= p['css'] %>:<%= option[0] %>(<% if (option[0] === 'colorize-alpha') { %>blue, yellow, red<% } else if (option[0] === 'color-to-alpha') { %>blue<% } else { %><% for (var i=0;i<option[1];i++) {%>2<%= (option[1]===(i+1)) ? '' : ',' %><% } %><% } %>);</span></div>
           <% }); %>
         </div>
       <% }; %>
-
     </div>
     <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
   </section>
