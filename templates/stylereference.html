@@ -68,25 +68,74 @@ var sections = {
   <section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
     <a href='#reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
     <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
-    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'option block' : p.type%></span>
+    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
     </a>
     <div class='pad1 details'>
     <div class='quiet'>
       <div class='space-bottom0'>Default:</div>
+
       <!-- 'false' and 'none' are valid default values, so show those. Only hide if default is empty.' -->
+      <div class='space-bottom1'>
       <% if (!(p['default-value'] === '')) { %>
-      <span class='space-bottom1 code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
+        <span class='micro code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
       <% } else { %>
-      <span class='space-bottom1 code pad0x round inline fill-darken1'>no default value</span>
+        <span class='micro code pad0x round inline fill-darken1'>no default value</span>
       <% } %>
+      </div>
+
       <% if (_(p.type).isArray()) { %>
       <div class='space-bottom0'>Options:</div>
-      <div class='space-bottom1'>
+      <div class='micro space-bottom1'>
         <% _(p.type).each(function(option, i) { %>
           <span class='pad0x reference-option code inline fill-darken1 quiet round'><%= option %></span>
         <% }); %>
       </div>
       <% } %>
+
+      <% if (p.type==='uri') { %>
+      <div class='space-bottom1'>
+        <div class='space-bottom0'>Example:</div>
+        <span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: url("image.png");</span>
+      </div>
+      <% } %>
+
+      <% if (p.type==='expression') { %>
+      <div class='space-bottom1'>
+        <div class='space-bottom0'>Examples:</div>
+        <% if (p.serialization==='content') { %>
+          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "[name]";</span></div>
+          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "'zoo'";</span></div>
+        <% } else { %>
+          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: [scalerank];</span></div>
+          <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 5;</span></div>
+        <% } %>
+      </div>
+      <% } %>
+
+      <% if (p.type==='numbers') { %>
+          <div class='space-bottom0'>Example:</div>
+          <span class='space-bottom1 micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 2,2;</span>
+      <% } %>
+      <% if (p.type==='color') { %>
+          <div class='space-bottom1'>
+          <div class='space-bottom0'>Examples:</div>
+            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: #ffff00;</span></div>
+            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgb(255, 255, 0);</span></div>
+            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgba(255, 255, 0, 1);</span></div>
+            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: hsl(100, 50%, 50%);</span></div>
+            <div><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: yellow;</span></div>
+          </div>
+      <% } %>
+
+      <% if (p.functions) { %>
+        <div class='space-bottom1'>
+          <div class='space-bottom0'>Examples:</div>
+         <% _(p.functions).each(function(option, i) { %>
+            <div><span class='micro inline pad0x code fill-darken1 quiet round'><%= p['css'] %>: <%= option[0] %>(<% for (var i=0;i<option[1];i++) {%>2<%= (option[1]===(i+1)) ? '' : ',' %><% } %>);</span></div>
+          <% }); %>
+        </div>
+      <% }; %>
+
     </div>
     <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
   </section>
