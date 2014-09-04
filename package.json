@@ -32,7 +32,7 @@
     "tar": "0.1.x",
     "mapnik": "1.4.15",
     "mapnik-reference": "~5.0.8",
-    "carto": "0.12.1",
+    "carto": "0.13.0",
     "speedometer": "0.1.2",
     "tilelive": "5.2.1",
     "tilelive-bridge": "0.6.0",
