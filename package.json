@@ -1,6 +1,6 @@
 {
   "name": "mapbox-studio",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "./index",
   "author": "Mapbox (https://www.mapbox.com)",
   "engineStrict": true,
@@ -30,7 +30,7 @@
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "0.1.x",
     "tar": "0.1.x",
-    "mapnik": "1.4.13",
+    "mapnik": "1.4.15",
     "mapnik-reference": "~5.0.8",
     "carto": "0.12.1",
     "speedometer": "0.1.2",

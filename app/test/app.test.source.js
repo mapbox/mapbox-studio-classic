@@ -52,7 +52,7 @@ tape('Setting maxzoom: sets maxzoom to higher value than 6 (tests logic preferen
 });
 
 tape('#addlayer-shape: adds new shapefile and checks input values', function(t) {
-    t.equal($('#10m-900913-bounding-box').size(), 0, 'has no bbox layer');
+    t.equal($('[data-layer=10m-900913-bounding-box]').size(), 0, 'has no bbox layer');
     //Browse for file and add new shape layer
     $('.js-addlayer').click();
     $('.js-browsefile').click();
@@ -64,7 +64,7 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
     $('#browsefile .col8').val(shpFile);
     $('#browsefile .col4').submit();
     onajax(function() {
-        t.equal($('#10m-900913-bounding-box').size(), 1, 'has bbox layer');
+        t.equal($('[data-layer=10m-900913-bounding-box]').size(), 1, 'has bbox layer');
         var maxzoomTarget = $('#settings-drawer #maxzoom');
         var maxzoom = maxzoomTarget.val();
         var projTarget = $('.js-metadata-projection');
@@ -121,14 +121,23 @@ tape('#raster and nonraster mix error', function(t) {
     t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
     $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/shp/dc_bus_lines/DCGIS_BusLineLn.shp');
     $('#addlayer').submit();
-    $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
-    $('#addlayer').submit();
     onajax(function() {
-        t.ok(hasModal('#error'), 'shows error modal');
-        $('#error a.js-close').click();
-        $('#del-DCGIS_BusLineLn').click();
-        $('#confirm a.js-confirm').click();
-        t.end();
+        t.equal($('#layers-DCGIS_BusLineLn').size(), 1, 'adds #layers-DCGIS_BusLineLn form');
+        $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
+        $('#addlayer').submit();
+        onajax(function() {
+            t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
+            t.ok(hasModal('#error'), 'shows error modal');
+            $('#error a.js-close').click();
+            t.ok(!hasModal('#error'), 'removes error modal');
+
+            $('#del-DCGIS_BusLineLn').click();
+            t.ok(hasModal('#confirm'), 'shows confirm modal');
+            $('#confirm a.js-confirm').click();
+            t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
+
+            t.end();
+        });
     });
 });
 
@@ -238,7 +247,7 @@ for (var name in datatests) (function(name, info) {
             //Delete all current layers to avoid raster/non-raster error message
             for(var i = 0; i < layerLength; i++){
                 var layername;
-                layername = $('.js-layer')[i].id;
+                layername = $('.js-layer')[i].getAttribute('data-layer');
                 $('#del-' + layername).click();
                 $('#confirm a.js-confirm').click();
             };
