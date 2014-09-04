@@ -4,6 +4,7 @@ Changelog
 ### 0.0.8
 
 - Fix MBTiles handling for paths that contain spaces.
+- Style UI: improved carto/styling reference UI.
 
 ### 0.0.7
 
