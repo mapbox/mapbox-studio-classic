@@ -19,7 +19,7 @@ var UPDATE = !!process.env.UPDATE;
 var server;
 
 var localsource = 'tmsource://' + path.join(__dirname,'fixtures-localsource');
-var tmppath = tm.join(tmp, 'sourceTest-' + +new Date);
+var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
 test('setup: config', function(t) {
     tm.config({
@@ -397,7 +397,7 @@ test('source.mbtilesExport: verify export', function(t) {
     var MBTiles = require('mbtiles');
     source.toHash(id, function(err, hash) {
         t.ifError(err);
-        new MBTiles(hash, function(err, src) {
+        new MBTiles({ pathname: hash }, function(err, src) {
             t.ifError(err);
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
