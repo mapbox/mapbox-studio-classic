@@ -121,14 +121,23 @@ tape('#raster and nonraster mix error', function(t) {
     t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
     $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/shp/dc_bus_lines/DCGIS_BusLineLn.shp');
     $('#addlayer').submit();
-    $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
-    $('#addlayer').submit();
     onajax(function() {
-        t.ok(hasModal('#error'), 'shows error modal');
-        $('#error a.js-close').click();
-        $('#del-DCGIS_BusLineLn').click();
-        $('#confirm a.js-confirm').click();
-        t.end();
+        t.equal($('#layers-DCGIS_BusLineLn').size(), 1, 'adds #layers-DCGIS_BusLineLn form');
+        $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
+        $('#addlayer').submit();
+        onajax(function() {
+            t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
+            t.ok(hasModal('#error'), 'shows error modal');
+            $('#error a.js-close').click();
+            t.ok(!hasModal('#error'), 'removes error modal');
+
+            $('#del-DCGIS_BusLineLn').click();
+            t.ok(hasModal('#confirm'), 'shows confirm modal');
+            $('#confirm a.js-confirm').click();
+            t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
+
+            t.end();
+        });
     });
 });
 
