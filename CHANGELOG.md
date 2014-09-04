@@ -4,6 +4,7 @@ Changelog
 ### 0.0.7
 
 - Windows: fix for OAuth templating error.
+- Upgrade to node-mapnik 1.4.15 with fixes for raster overzooming performance and potential artifacts when exporting vector tiles.
 
 ### 0.0.6
 
