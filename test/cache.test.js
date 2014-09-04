@@ -3,8 +3,8 @@ var fs = require('fs');
 var path = require('path');
 var tm = require('../lib/tm');
 var mkdirp = require('mkdirp');
-var tmppath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'cache-' + +new Date);
-var badpath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'bad-' + +new Date);
+var tmppath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'Cache ШЖФ - ' + +new Date);
+var badpath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'Bad ШЖФ - ' + +new Date);
 
 mkdirp.sync(tmppath);
 
