@@ -626,6 +626,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+    this.map = map;
 
     map.on('zoomend', function() {
       var visible = '';
