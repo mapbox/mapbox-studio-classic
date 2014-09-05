@@ -14,6 +14,8 @@
   width: auto;
 }
 
+.code { word-break: break-all;}
+
 /* Hover/acive fills */
 .fill-lighten0-onhover:hover { background:rgba(255,255,255,0.10); }
 .fill-blue-onactive.active { background:#3887be; }

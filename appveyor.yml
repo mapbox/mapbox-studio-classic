@@ -13,7 +13,6 @@ platform:
   - x86
 
 install:
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   - node --version
   - node -e "console.log(process.arch)"
   - node -e "console.log(process.env.HOME)"

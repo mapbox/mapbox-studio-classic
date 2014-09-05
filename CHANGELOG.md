@@ -1,6 +1,18 @@
 Changelog
 =========
 
+### 0.0.8
+
+- Fix MBTiles handling for paths that contain spaces.
+- Style UI: improved carto/styling reference UI.
+
+### 0.0.7
+
+- Windows: fix for OAuth templating error.
+- Upgrade to node-mapnik 1.4.15 with fixes for raster overzooming performance and potential artifacts when exporting vector tiles.
+- Fix bug where source.invalidate() was called on every refresh clearing the cache too aggressively.
+- Fix for cache singleton logic and better debug messages to help track down Windows issues.
+
 ### 0.0.6
 
 - Fixes for conflicting keybindings.

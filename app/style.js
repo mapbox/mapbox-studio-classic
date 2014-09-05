@@ -588,6 +588,7 @@ Editor.prototype.cartoError = function(ln, e) {
 };
 
 Editor.prototype.upload = function(ev) {
+  var model = this.model;
   var style = this.model.get('id');
   $('#mapstatus').addClass('loading');
   $.ajax({
@@ -595,6 +596,7 @@ Editor.prototype.upload = function(ev) {
     method: 'PUT'
   })
     .done(function(info) {
+      model.set(info);
       $('.js-mapid').text(info._prefs.mapid);
       $('#mapstatus').removeClass('loading');
       $('#mapstatus').addClass('uploaded');

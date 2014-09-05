@@ -352,7 +352,8 @@ tape('.js-upload', function(t) {
     $('.js-upload').click();
     t.equal($('#mapstatus').hasClass('loading'), true, '#mapstatus.loading');
     onajax(function() {
-        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'has mapid');
+        t.equal(/^test\.[0-9a-z]+$/.test(window.editor.model.get('_prefs').mapid), true, 'model has mapid');
+        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'UI has mapid');
         t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
         t.end();
     });
@@ -399,6 +400,10 @@ tape('keybindings', function(t) {
     $('body').trigger(e);
     t.equal(window.location.hash, '#export', 'ctrl+alt+s => #export');
 
+    t.end();
+});
+
+tape('keybindings save', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
@@ -408,8 +413,11 @@ tape('keybindings', function(t) {
     onajax(function() {
         t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
         t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
     });
+});
 
+tape('keybindings bookmark', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
