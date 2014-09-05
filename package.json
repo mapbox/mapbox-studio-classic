@@ -38,7 +38,7 @@
     "tilelive-bridge": "0.6.0",
     "tilelive-vector": "2.1.0",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
-    "mapbox-studio-default-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-default-fonts-0.0.1-d14108c11fc92b6b2894cad73f36924bc1ccfa4c.tgz",
+    "mapbox-studio-default-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-default-fonts-0.0.2-20941da92fd3b9957de949df96f5fce856c3ad01.tgz",
     "mapbox-studio-default-style": "1.0.0",
     "mapbox-studio-default-source": "1.0.0",
     "mapbox-outdoors": "1.0.0",
