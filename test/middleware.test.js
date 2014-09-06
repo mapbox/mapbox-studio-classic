@@ -78,9 +78,14 @@ test('examples: gets style info', function(t) {
         t.ifError(err);
         t.equal(typeof req.examples.style, 'object');
         t.equal(typeof req.examples.source, 'object');
-        t.deepEqual(Object.keys(req.examples.style), ['mapbox-studio-default-style', 'osm-bright', 'mapbox-outdoors', 'satellite-afternoon'], 'has example styles');
+        t.deepEqual(Object.keys(req.examples.style), [
+            'mapbox-studio-default-style',
+            'mapbox-studio-osm-bright',
+            'mapbox-studio-mapbox-outdoors',
+            'mapbox-studio-satellite-afternoon'
+        ], 'has example styles');
         t.equal(req.examples.style['mapbox-studio-default-style'].name, '');
-        t.equal(req.examples.style['osm-bright'].name, 'OSM Bright 2');
+        t.equal(req.examples.style['mapbox-studio-osm-bright'].name, 'OSM Bright 2');
         t.end();
     });
 });
