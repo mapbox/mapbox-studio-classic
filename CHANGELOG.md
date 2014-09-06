@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 0.0.9
+
+- Style UI: tags displayed and clickable to filter places UI.
+- Upgrade mapbox-upload to 1.1.1.
+
 ### 0.0.8
 
 - Fix MBTiles handling for paths that contain spaces.
