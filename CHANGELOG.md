@@ -5,6 +5,7 @@ Changelog
 
 - Style UI: tags displayed and clickable to filter places UI.
 - Upgrade mapbox-upload to 1.1.1.
+- Upgrade mapbox-studio-default-fonts to 0.0.2 (adds Komika fonts).
 
 ### 0.0.8
 
