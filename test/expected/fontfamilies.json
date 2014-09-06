@@ -11,89 +11,43 @@
     "Brokenscript Rough OT Bold",
     "Brokenscript Rough OT Cond Bold"
   ],
-  "Call Eight Negative OT": [
-    "Call Eight Negative OT Regular"
-  ],
-  "Call Eight OT": [
+  "Call": [
+    "Call Eight Negative OT Regular",
+    "Call Eight OT Italic",
     "Call Eight OT Regular",
-    "Call Eight OT Italic"
-  ],
-  "Call Five L Negative OT": [
-    "Call Five L Negative OT Regular"
-  ],
-  "Call Five L OT": [
+    "Call Five L Negative OT Regular",
+    "Call Five L OT Italic",
     "Call Five L OT Regular",
-    "Call Five L OT Italic"
-  ],
-  "Call Five S Negative OT": [
-    "Call Five S Negative OT Regular"
-  ],
-  "Call Five S OT": [
+    "Call Five S Negative OT Regular",
+    "Call Five S OT Italic",
     "Call Five S OT Regular",
-    "Call Five S OT Italic"
-  ],
-  "Call Four L Negative OT": [
-    "Call Four L Negative OT Regular"
-  ],
-  "Call Four L OT": [
+    "Call Four L Negative OT Regular",
+    "Call Four L OT Italic",
     "Call Four L OT Regular",
-    "Call Four L OT Italic"
-  ],
-  "Call Four S Negative OT": [
-    "Call Four S Negative OT Regular"
-  ],
-  "Call Four S OT": [
+    "Call Four S Negative OT Regular",
+    "Call Four S OT Italic",
     "Call Four S OT Regular",
-    "Call Four S OT Italic"
-  ],
-  "Call Nine L Negative OT": [
-    "Call Nine L Negative OT Regular"
-  ],
-  "Call Nine L OT": [
+    "Call Nine L Negative OT Regular",
+    "Call Nine L OT Italic",
     "Call Nine L OT Regular",
-    "Call Nine L OT Italic"
-  ],
-  "Call Nine S Negative OT": [
-    "Call Nine S Negative OT Regular"
-  ],
-  "Call Nine S OT": [
+    "Call Nine S Negative OT Regular",
+    "Call Nine S OT Italic",
     "Call Nine S OT Regular",
-    "Call Nine S OT Italic"
-  ],
-  "Call One Negative OT": [
-    "Call One Negative OT Regular"
-  ],
-  "Call One OT": [
+    "Call One Negative OT Regular",
+    "Call One OT Italic",
     "Call One OT Regular",
-    "Call One OT Italic"
-  ],
-  "Call Seven Negative OT": [
-    "Call Seven Negative OT Regular"
-  ],
-  "Call Seven OT": [
+    "Call Seven Negative OT Regular",
+    "Call Seven OT Italic",
     "Call Seven OT Regular",
-    "Call Seven OT Italic"
-  ],
-  "Call Six Negative OT": [
-    "Call Six Negative OT Regular"
-  ],
-  "Call Six OT": [
+    "Call Six Negative OT Regular",
+    "Call Six OT Italic",
     "Call Six OT Regular",
-    "Call Six OT Italic"
-  ],
-  "Call Three Negative OT": [
-    "Call Three Negative OT Regular"
-  ],
-  "Call Three OT": [
+    "Call Three Negative OT Regular",
+    "Call Three OT Italic",
     "Call Three OT Regular",
-    "Call Three OT Italic"
-  ],
-  "Call Two Negative OT": [
-    "Call Two Negative OT Regular"
-  ],
-  "Call Two OT": [
-    "Call Two OT Regular",
-    "Call Two OT Italic"
+    "Call Two Negative OT Regular",
+    "Call Two OT Italic",
+    "Call Two OT Regular"
   ],
   "Clan Offc Pro": [
     "Clan Offc Pro Medium",
