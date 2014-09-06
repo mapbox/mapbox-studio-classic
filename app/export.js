@@ -15,6 +15,7 @@ window.Export = function(templates, source, job) {
     'click .js-cancel': 'cancel',
     'click .js-recache': 'recache'
   };
+  var retry = 0;
   Exporter.prototype.poll = function() {
     var model = this.model;
     var view = this;
@@ -26,7 +27,13 @@ window.Export = function(templates, source, job) {
           view.timeout = setTimeout(view.poll, 200);
         }
       },
-      error:function() {}
+      error:function() {
+        if (retry < 5){
+          console.log('retry')
+          view.poll();
+          retry += 1;
+        }
+      }
     });
   };
   Exporter.prototype.initialize = function() {
