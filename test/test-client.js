@@ -63,11 +63,6 @@ function ready(err) {
             src: 'tmstyle://'+basePath+'/test/fixtures-localstyle-userlayers'
         },
         {
-            name: 'source',
-            url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
-            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
-        },
-        {
             name: 'source-export',
             url: 'http://localhost:3001/mbtiles?id={id}&test=true',
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
@@ -75,6 +70,11 @@ function ready(err) {
         {
             name: 'source-upload',
             url: 'http://localhost:3001/upload?id={id}&test=true',
+            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+        },
+        {
+            name: 'source',
+            url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
         }
     ].filter(function(t) {
