@@ -1,0 +1,34 @@
+<% var rand = Math.random().toString(16).split('.')[1]; %>
+
+<form id='newproject' class='modal margin1 round col10 pin-top top1 dark fill-dark'>
+    <a href='#' class='z1 pad1 quiet icon x pin-topright close js-close'></a>
+    <div class='clearfix contain'>
+        <div class='col9 clearfix pad1'>
+            <div class='pad1'>
+                <strong class='block'>New style</strong>
+                <span class='block small truncate'>Use CartoCSS to style vector tiles</span>
+            </div>
+            <% _(obj.style).chain().toArray().each(function(item, i) { %>
+            <a class='col4 pad1' href='/new/style?id=<%=item.id%>'>
+                <span class='block contain row3 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
+                    <strong class='pin-bottom micro center pad0 fill-darken2 round-bottom'><%- item.name || 'Basic' %></strong>
+                </span>
+            </a>
+            <% }); %>
+        </div>
+        <div class='col3 pin-right pad1 keyline-left fill-darken1 hide-mobile' href='/new/source'>
+            <div class='pad1'>
+                <strong class='block'>New source</strong>
+                <span class='block small truncate'>Create custom vector tiles</span>
+            </div>
+            <a class='col12 pad1' href='/new/source'>
+                <span class='block contain row3 fill-darken2 round center pad2y'>
+                    <span class='block pad1y'>
+                        <span class='big icon quiet plus'></span>
+                    </span>
+                    <strong class='pin-bottom micro center pad0 fill-darken1 round-bottom'>Blank source</strong>
+                </span>
+            </a>
+        </div>
+    </div>
+</form>

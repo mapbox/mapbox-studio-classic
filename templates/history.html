@@ -9,19 +9,19 @@
 
   <div class='col12 pin-left top1 bottom1 scroll-styled'>
 
-  <div class='pad1x pad2y center'>
+  <div class='clearfix pad2y pad1x'>
+    <a class='short js-newproject button col12 icon plus space-bottom1' href='/authorize'>New project</a>
+    <a class='short js-browseproject button col12 icon folder'>Browse</a>
+  </div>
+
+  <div class='center pad1x space-bottom1'>
     <div class='inline col12 rounded-toggle'><!--
     --><a class='js-tab strong col6 <%= obj.style  ? 'active' : '' %>' href='#history-style'>Styles</a><!--
     --><a class='js-tab strong col6 <%= obj.source ? 'active' : '' %>' href='#history-source'>Sources</a>
     </div>
   </div>
 
-  <div id='history-style' class='pad1x <% if (obj.style) { %>active<% } %>'>
-    <div class='pill clearfix space-bottom1 col12'>
-        <a class='short js-newstyle button col6 icon plus' href='/new/style'>New style</a>
-        <a class='short js-browsestyle button col6 icon folder'>Browse</a>
-    </div>
-    <div class='clearfix col12'>
+  <div id='history-style' class='pad1x clearfix col12 <% if (obj.style) { %>active<% } %>'>
       <% _(obj.history.style).chain()
         .sortBy(function(item) { return item.id })
         .each(function(item) {
@@ -49,16 +49,9 @@
       <% } else { %>
       <%= this.emptystate({message:'You don\'t have any saved styles yet. <a href="#" class="js-saveas"> Save your currently active style</a> to see it appear in this list.'}) %>
       <% } %>
-
-    </div>
   </div>
 
-  <div id='history-source' class='pad1x <% if (obj.source) { %>active<% } %>'>
-    <div class='pill clearfix space-bottom1 col12'>
-        <a class='short button col6 icon plus' href='/new/source'>New source</a>
-        <a class='short js-browsesource button col6 icon folder'>Browse</a>
-    </div>
-    <div class='clearfix col12'>
+  <div id='history-source' class='pad1x clearfix col12 <% if (obj.source) { %>active<% } %>'>
       <%
       var sourceitem = this.sourceitem;
       _(obj.history.source).chain()
@@ -77,8 +70,6 @@
       <% } else { %>
       <%= this.emptystate({message:'You don\'t have any saved sources. <a href="/new/source"> Create a new local source now</a>'}) %>
       <% } %>
-
-    </div>
   </div>
 
 </div>
