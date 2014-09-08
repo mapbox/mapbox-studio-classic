@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.1.0
+
+- Add several free fonts as part of upgrade to mapbox-studio-default-fonts@0.0.3.
+
 ### 0.0.9
 
 - Style UI: tags displayed and clickable to filter places UI.
