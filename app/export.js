@@ -28,8 +28,10 @@ window.Export = function(templates, source, job) {
         }
       },
       error:function() {
+        // Tolerate timing errors between client and server
+        // to create breathing room for error to pass.
+        // See https://github.com/mapbox/mapbox-studio/issues/773
         if (retry < 5){
-          console.log('retry')
           view.poll();
           retry += 1;
         }
