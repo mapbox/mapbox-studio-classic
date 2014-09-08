@@ -148,7 +148,7 @@ Next we will add labels so that earthquakes with a large magnitude are labeled c
       text-allow-overlap:true;
       text-size:14;
       text-name:'[mag]';
-      text-face-name:'BentonGraphicsSansCond BlackIt';
+      text-face-name:'Open Sans Regular';
       text-fill:#fff;
     }
 
