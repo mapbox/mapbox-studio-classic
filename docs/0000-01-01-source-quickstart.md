@@ -37,7 +37,7 @@ Adding your first layer
 
 4. Set the __Buffer size__ slider to __32__. The vector tile buffer determines how much extra data is included around the edges of each tile and can be used to prevent visual clipping artifacts when styling data.
 
-5. Click __Done__ to add your new layer, then __Save as__ to choose a location for the source package. After saving, the data is automatically given a color and style in the data preview. You may have to zoom and pan a little to see your data in the preview. 
+5. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
 
     ![Layer settings](https://cloud.githubusercontent.com/assets/83384/3870117/ccf6bd8a-20bb-11e4-8000-5c0401a62292.png)
 
