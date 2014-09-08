@@ -8,9 +8,9 @@
         </div>
         <% _(obj.style).chain().toArray().each(function(item, i) { %>
         <a class='col4 pad1' href='/new/style?id=<%=item.id%>'>
-            <span class='block contain row3 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
-                <strong class='pin-bottom micro center pad0 fill-darken2 round-bottom'><%- item.name || 'Basic' %></strong>
+            <span class='block contain row2 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
             </span>
+            <strong class='block center micro'><%- item.name || 'Basic' %></strong>
         </a>
         <% }); %>
     </div>
@@ -20,12 +20,12 @@
             <span class='block small truncate'>Create custom vector tiles</span>
         </div>
         <a class='col12 pad1' href='/new/source'>
-            <span class='block contain row3 fill-darken2 round center pad2y'>
+            <span class='block contain row2 fill-darken2 round center pad1y'>
                 <span class='block pad1y'>
                     <span class='big icon quiet plus'></span>
                 </span>
-                <strong class='pin-bottom micro center pad0 fill-darken1 round-bottom'>Blank source</strong>
             </span>
+            <strong class='block center micro'>Blank source</strong>
         </a>
     </div>
 </div>
