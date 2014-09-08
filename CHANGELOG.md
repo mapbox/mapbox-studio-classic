@@ -7,6 +7,7 @@ Changelog
 - Upgrade mapbox-upload to 1.1.1.
 - Upgrade mapbox-studio-default-fonts to 0.0.2 (adds Komika fonts).
 - Style UI: reduce spam of font UI from Call fonts.
+- Add error handling for source upload bug where client and server were not in sync causing UI to hang at 100%.
 
 ### 0.0.8
 
