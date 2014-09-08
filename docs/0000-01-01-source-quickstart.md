@@ -66,7 +66,7 @@ Click on the __Settings__ button to bring up the project settings panel. You can
 
 ![Settings pane](https://cloud.githubusercontent.com/assets/83384/3869969/13aeada4-20b3-11e4-821f-6cd084cf791f.png)
 
-Save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on OS X).
+Save your project. Click the __Save As__ button at the top of the window to give your source project a name and a save location.
 
 Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 
