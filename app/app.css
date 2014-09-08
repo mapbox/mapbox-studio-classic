@@ -595,15 +595,15 @@ a.project.proj-active .proj-status { display: block;}
   padding: 0px;
   overflow-x: hidden;
   overflow-y: auto;
+  width: 240px;
   max-height: 300px;
 }
 .leaflet-popup .leaflet-popup-content .xray-listing {
-  width:240px;
   /* leaflet overrides */
-  font-size: 11px;
   line-height: 20px;
   font-family:'Open Sans', sans-serif;
 }
+
 .leaflet-popup-close-button { opacity: .5;}
 
 .leaflet-popup-close-button:hover {
