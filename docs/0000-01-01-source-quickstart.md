@@ -1,7 +1,7 @@
 Source quickstart
 =================
 
-Mapbox Studio does not apply visual styles to geospatial data files directly. Instead, raw data is converted into mapnik vector tiles. The *Source editor* transforms traditional geodata formats into vector tiles containing the appropriate layers and configurations needed for styling.
+Mapbox Studio does not apply visual styles to geospatial data files directly. Instead, raw data is converted into Mapbox Vector Tiles. The *Source editor* transforms traditional geodata formats into vector tiles containing the appropriate layers and configurations needed for styling.
 
 In this tutorial we'll create vector tiles from geodata and use it to create a custom map style showing our data on a map.
 
@@ -66,7 +66,7 @@ Click on the __Settings__ button to bring up the project settings panel. You can
 
 ![Settings pane](https://cloud.githubusercontent.com/assets/83384/3869969/13aeada4-20b3-11e4-821f-6cd084cf791f.png)
 
-Save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on Mac OS X).
+Save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on OS X).
 
 Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 

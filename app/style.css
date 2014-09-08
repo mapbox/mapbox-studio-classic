@@ -61,37 +61,33 @@
   flex-wrap: wrap;
 }
 
-.places-entry {
+.places-entry-container {
   background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
   flex-grow: 1;
   min-height: 33.3333%;
   min-width: 25%;
+  position: relative;
 }
 
-.entry-label { opacity: 0; }
+.entry-label { 
+  opacity: 0;
+  background:rgba(255,255,255,0.625);
+  }
 
-.entry-label h2,
-.entry-label h2:hover {
-  color: white;
-  top: 50%;
-  -webkit-transform:translateY(-50%);
-     -moz-transform:translateY(-50%);
-      -ms-transform:translateY(-50%);
-          transform:translateY(-50%);
+.entry-label small,
+.entry-label small:hover {
+  color: rgba(0,0,0,0.75);
 }
 
-.places-entry:hover .entry-label {
-  margin: 0;
-  opacity: 1;
-  font-size: 22px;
-  line-height: 30px;
-}
+.places-entry-container:hover .entry-label { opacity: 1; }
 
-.places-toggle {
-  right: 40px;
-}
+.placetag { max-width: 170px; }
+
+.placetag:hover { background-color: #616161; }
+
+.places-toggle { right: 40px; }
 
 .show-search-button {
   top: 5px;
@@ -101,6 +97,16 @@
 .places-search-container .button {
   top: 5px;
   right: 45px;
+}
+
+/* Media queries for Places
+------------------------------------------------------- */
+@media (max-width:1200px) {
+  .places-entry-container {
+    float:left; 
+    width:50.0000%; 
+    max-width:600px;
+  }
 }
 
 /* Code pane

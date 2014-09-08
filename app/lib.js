@@ -43,6 +43,7 @@ var statHandler = function(key) {
   return _(function() {
     if (document.cookie.indexOf(key) === -1) return;
     var max = 300;
+
     var stats = _(document.cookie
       .split(key + '=').pop()
       .split(';').shift()
