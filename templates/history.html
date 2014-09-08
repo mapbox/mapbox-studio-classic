@@ -1,5 +1,3 @@
-<% var rand = Math.random().toString(16).split('.')[1]; %>
-
 <div id='history' class='js-history'>
 
   <div class='pin-bottom row1 pad1y pad2x keyline-top'>
@@ -22,28 +20,18 @@
   </div>
 
   <div id='history-style' class='pad1x clearfix col12 <% if (obj.style) { %>active<% } %>'>
-      <% _(obj.history.style).chain()
+      <%
+      var styleitem = this.styleitem;
+      _(obj.history.style).chain()
         .sortBy(function(item) { return item.id })
         .each(function(item) {
-          %>
-        <%
-        var isactive = '';
-        if (obj.style) { (obj.style.id === item.id) ? (isactive = 'proj-active') : '' }
-        %>
-
-        <div class='space-bottom1 contain'>
-          <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
-            <div class='pin-left fill-dark round-left small-graphic z1' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
-            <div class='pin-left small-graphic fallback-graphic fill-lighten1 round-left style'><div class='icon big paint'></div></div>
-            <div class='pad1 truncate'>
-              <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
-              <code class='quiet'><%= item.id.split('/').pop().replace('.tm2', '') %></code>
-            </div>
-            <div class='z10 pad1x pad2y proj-status hidden pin-right fill-green round-right'><span class='inline strong dot dark icon check'></span></div>
-          </a>
-          <a href='style?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
-        </div>
-      <% }); %>
+          print(styleitem({
+            item: item,
+            withdel: true,
+            classes: (obj.style && obj.style.id === item.id) ? 'proj-active' : ''
+          }));
+        });
+      %>
       <% if (obj.source) { %>
       <%= this.emptystate({message:'You don\'t have any saved styles yet. <a href="/new/style"> Create one now to see it appear in this list</a>.'}) %>
       <% } else { %>
