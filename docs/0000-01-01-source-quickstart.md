@@ -62,7 +62,7 @@ Enter descriptions for each field and then click __Done__. Field descriptions ar
 Project settings & saving
 -------------------------
 
-Click on the __Settings__ button to bring up the project settings panel. You can set information about your project as a whole, such as a name, description, and attributing your data sources. Change the name of the project to *Earthquakes* so when it's uploaded you will be able to find it.
+Click on the __Settings__ button to bring up the project settings panel. You can set information about your project as a whole, such as a name, description, and attribution info for your data sources. Change the name of the project to *Earthquakes* so when it's uploaded you will be able to find it.
 
 ![Settings pane](https://cloud.githubusercontent.com/assets/83384/3869969/13aeada4-20b3-11e4-821f-6cd084cf791f.png)
 
