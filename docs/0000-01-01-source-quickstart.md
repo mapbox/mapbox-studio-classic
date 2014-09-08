@@ -37,7 +37,7 @@ Adding your first layer
 
 4. Set the __Buffer size__ slider to __32__. The vector tile buffer determines how much extra data is included around the edges of each tile and can be used to prevent visual clipping artifacts when styling data.
 
-5. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview.
+5. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview. You may need to zoom and pan a little to see your data in the preview. 
 
     ![Layer settings](https://cloud.githubusercontent.com/assets/83384/3870117/ccf6bd8a-20bb-11e4-8000-5c0401a62292.png)
 
@@ -62,11 +62,11 @@ Enter descriptions for each field and then click __Done__. Field descriptions ar
 Project settings & saving
 -------------------------
 
-Click on the __Settings__ button to bring up the project settings panel. You can set information about your project as a whole, such as a name, description, and attributing your data sources. Change the name of the project to *Earthquakes* so when it's uploaded you will be able to find it.
+Click on the __Settings__ button to bring up the project settings panel. You can set information about your project as a whole, such as a name, description, and attribution info for your data sources. Change the name of the project to *Earthquakes* so when it's uploaded you will be able to find it.
 
 ![Settings pane](https://cloud.githubusercontent.com/assets/83384/3869969/13aeada4-20b3-11e4-821f-6cd084cf791f.png)
 
-Save your project. Click the __Save As__ button at the top of the window, or use the keyboard shortcut `Control+S` (`Command+S` on OS X).
+Save your project. Click the __Save As__ button at the top of the window to give your source project a name and a save location.
 
 Mapbox Studio source projects are saved as a directory of files with a suffix of `.tm2source` automatically appended to the name.
 
@@ -148,7 +148,7 @@ Next we will add labels so that earthquakes with a large magnitude are labeled c
       text-allow-overlap:true;
       text-size:14;
       text-name:'[mag]';
-      text-face-name:'BentonGraphicsSansCond BlackIt';
+      text-face-name:'Open Sans Regular';
       text-fill:#fff;
     }
 
