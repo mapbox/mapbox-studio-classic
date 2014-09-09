@@ -397,7 +397,8 @@ Editor.prototype.modalsources = function(ev) {
     success: function(history) {
       Modal.show('sources', {
         style: style,
-        history: history
+        history: history,
+        templates: templates
       });
     }
   });
@@ -766,6 +767,7 @@ window.onhashchange = function(ev) {
     break;
   case 'places':
     window.editor.places(ev);
+    break;
   case !'export':
     window.exporter.boundingBox.disable();
     statHandler('drawtime')();

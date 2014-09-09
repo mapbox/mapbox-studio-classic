@@ -63,12 +63,15 @@
 }
 
 .places-entry-container {
-  background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
   flex-grow: 1;
   min-height: 33.3333%;
   min-width: 25%;
+}
+
+.places-entry-container .leaflet-container {
+  background:#ddd url(canvas.png);
 }
 
 .places-entry-container .entry-actions { opacity: 0;}
@@ -231,6 +234,11 @@
 /* History pane
 ------------------------------------------------------- */
 #history .rounded-toggle { margin: 0;}
+
+#modalsources .empty-state:only-child {
+  display: block;
+  padding: 10px;
+}
 
 /* Layers pane
 ------------------------------------------------------- */

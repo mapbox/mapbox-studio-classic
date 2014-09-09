@@ -65,7 +65,7 @@
         <a href='#' class='icon js-hide-search x pin-right keyline-left pad1 quiet'></a>
       </form>
       <div class='dark pad0x pin-topleft places-toggle'>
-        <div class='rounded-toggle col12 clearfix center micro truncate js-places-toggle'>
+        <div class='rounded-toggle col12 clearfix strong center micro truncate js-places-toggle'>
           <input id='road' type='radio' name='rtoggle' value='road' checked='checked' class='js-places'>
           <label class='col2' for='road'>Roads</label>
           <input id='landuse' type='radio' name='rtoggle' value='landuse' class='js-places'>
@@ -530,6 +530,7 @@ var style = <%= saferstringify(style, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var templates = {};
 
+templates.emptystate = <%= this.emptystate.source %>;
 templates.modalbrowser = <%= this.modalbrowser.source %>;
 templates.modalbrowsersave = <%= this.modalbrowsersave.source %>;
 templates.modalbrowseropen = <%= this.modalbrowseropen.source %>;

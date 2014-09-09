@@ -28,6 +28,8 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       }).bind(this))
       .value().join(''));
   %>
+
+  <%= templates.emptystate({message:'Create a new source to see it appear in this list.'}) %>
   </div>
   <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
     <div class='pin-top pin-bottom pad1 scroll-styled bottom3'>
