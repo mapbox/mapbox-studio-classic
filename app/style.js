@@ -392,6 +392,7 @@ Editor.prototype.tabbed = tabbedHandler;
 
 Editor.prototype.modalsources = function(ev) {
   var style = this.model.attributes;
+  $(ev.currentTarget).addClass('spinner');
   $.ajax({
     url: '/history.json',
     success: function(history) {
@@ -400,6 +401,7 @@ Editor.prototype.modalsources = function(ev) {
         history: history,
         templates: templates
       });
+      $(ev.currentTarget).removeClass('spinner');
     }
   });
   return false;
