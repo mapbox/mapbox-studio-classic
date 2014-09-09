@@ -163,7 +163,11 @@ views.Browser.prototype.render = function() {
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
-          var targetFile = view.isFile(f.basename) ? '' : 'quiet';
+          var fileExt = f.basename.split('.').pop();
+          console.log(fileExt);
+          if (fileExt === 'tm2') type = 'paint';
+          if (fileExt === 'tm2source') type = 'polygon';
+          var targetFile = view.isFile(f.basename) ? 'quiet' : '';
           return "<a class='icon " + targetFile + " " + type + " small truncate round block fill-lighten0-onhover fill-blue-onactive' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
