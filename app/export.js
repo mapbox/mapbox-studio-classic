@@ -15,6 +15,7 @@ window.Export = function(templates, source, job) {
     'click .js-cancel': 'cancel',
     'click .js-recache': 'recache'
   };
+  var retry = 0;
   Exporter.prototype.poll = function() {
     var model = this.model;
     var view = this;
@@ -26,7 +27,19 @@ window.Export = function(templates, source, job) {
           view.timeout = setTimeout(view.poll, 200);
         }
       },
-      error:function() {}
+      error:function(job, response) {
+        // Tolerate timing errors between client and server
+        // to create breathing room for error to pass.
+        // See https://github.com/mapbox/mapbox-studio/issues/773
+        if (retry < 5){
+          view.poll();
+          retry += 1;
+        } else {
+          Modal.show('error', response.status + ' ' +
+            response.statusText + '&#10;&#10;' +
+            JSON.parse(response.responseText).message);
+        }
+      }
     });
   };
   Exporter.prototype.initialize = function() {
