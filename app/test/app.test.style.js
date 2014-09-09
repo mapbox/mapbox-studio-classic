@@ -33,15 +33,10 @@ tape('#settings-form', function(t) {
     t.end();
 });
 
-tape('.js-history browses sources', function(t) {
-    $('.js-history .js-browsesource').click();
-    t.ok(hasModal('#browsesource'));
-    t.end();
-});
-
-tape('.js-history browses styles', function(t) {
-    $('.js-history .js-browsestyle').click();
-    t.ok(hasModal('#browsestyle'));
+tape('.js-history browses projects', function(t) {
+    t.ok(!hasModal('#browseproject'));
+    $('.js-history .js-browseproject').click();
+    t.ok(hasModal('#browseproject'));
     t.end();
 });
 
@@ -56,10 +51,10 @@ tape('.js-history removes history style', function(t) {
     });
 });
 
-tape('.js-newstyle => newstyle modal', function(t) {
-    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
-    $('.js-newstyle').click();
-    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+tape('.js-newproject => newproject modal', function(t) {
+    t.equal(hasModal('#newproject'), false, 'no newproject modal');
+    $('.js-newproject').click();
+    t.equal(hasModal('#newproject'), true, 'shows newproject modal');
     t.end();
 });
 

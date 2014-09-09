@@ -80,10 +80,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     });
     var Editor = Backbone.View.extend({});
     Editor.prototype.events = {
-        'click .js-newstyle': 'newStyle',
+        'click .js-newproject': 'newProject',
         'click .js-sourcenewstyle': 'sourceNewStyle',
-        'click .js-browsesource': 'browseSource',
-        'click .js-browsestyle': 'browseStyle',
+        'click .js-browseproject': 'browseProject',
         'click .js-save': 'save',
         'click .js-saveas': 'saveModal',
         'click .js-reset-mode': 'resetmode',
@@ -168,9 +167,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
         return false;
     };
-    Editor.prototype.newStyle = function() { return Modal.show('newstyle', examples) || false; };
-    Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
-    Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
+    Editor.prototype.newProject = function() { return Modal.show('newproject', examples) || false; };
+    Editor.prototype.browseProject = views.Browser.projectHandler(Modal, cwd);
     Editor.prototype.user = function() {
         window.location.href = window.location.origin + '/unauthorize';
         return false;
