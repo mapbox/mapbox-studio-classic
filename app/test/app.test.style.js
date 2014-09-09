@@ -164,9 +164,16 @@ tape('.js-layers opens layer description', function(t) {
 
 tape('.js-layers shows sources modal', function(t) {
     $('.js-layers .js-modalsources:eq(0)').click();
+    t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),true, ' has loading state');
     onajax(function() {
+        t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),false, ' doesn\'t have loading state');
         t.ok(hasModal('#modalsources'));
         $('#modalsources-remote .js-adddata:eq(0)').click();
+
+        var selected = $('#modalsources-remote .js-adddata:eq(0)').attr('href');
+        var input = $('#applydata input[type=text]').val();
+
+        t.notEqual(selected.indexOf(input),-1,' and selected layer matches form input.');
         $('#applydata input[type=submit]').click();
         onajax(function() {
             t.ok(!hasModal('#modalsources'));
