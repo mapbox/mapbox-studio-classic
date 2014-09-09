@@ -167,6 +167,7 @@ tape('.js-layers shows sources modal', function(t) {
     onajax(function() {
         t.ok(hasModal('#modalsources'));
         $('#modalsources-remote .js-adddata:eq(0)').click();
+        $('#applydata input[type=submit]').click();
         onajax(function() {
             t.ok(!hasModal('#modalsources'));
             t.end();
@@ -189,20 +190,20 @@ tape('places: list', function(t) {
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container span[tag="path"]').click();
+    $('.places-entry-container a[tag="path"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('span[tag="path"]', item).size(), 1, 'item has 1 path tag');
+        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
     };
     t.end();
 });
 
 tape('places: search results', function(t) {
-    t.equal($('#places-dosearch').is(':visible'), false, 'search bar is not visible');
+    t.equal($('.js-places-container').hasClass('active'), false, 'search bar is not active');
     $('.js-show-search').click();
-    t.equal($('#places-dosearch').is(':visible'), true, 'search bar is visible');
+    t.equal($('.js-places-container').hasClass('active'), true, 'search bar is active');
     // search should have no results
     $('#places-dosearch').val('testingemptystate');
     $('.js-places-search').click();
@@ -216,7 +217,7 @@ tape('places: search results', function(t) {
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
         var inName = $('small', item).text().toLowerCase().indexOf('park') >-1;
-        var inTags = $('span[tag*="park"]', item).size() >=1;
+        var inTags = $('a[tag*="park"]', item).size() >=1;
         t.ok(inTags || inName, 'item has park in tags or name');
     };
     var placeItem = $('.js-places-list').children()[0];
