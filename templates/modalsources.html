@@ -29,7 +29,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       .value().join(''));
   %>
 
-  <%= templates.emptystate({message:'Create a new source to see it appear in this list.'}) %>
+  <%= templates.emptystate({message:'Looks like you don\'t have any local vector tile sources. To create a source, open the projects drawer and click the new project button.'}) %>
   </div>
   <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
     <div class='pin-top pin-bottom pad1 scroll-styled bottom3'>
