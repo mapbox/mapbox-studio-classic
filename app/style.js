@@ -122,11 +122,11 @@ Editor.prototype.events = {
   'submit #settings-drawer': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
-  'submit #addmapbox': 'addmapbox',
+  'click .js-adddata': 'adddata',
+  'submit #applydata': 'applydata',
   'click #tabs .js-deltab': 'deltab',
   'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
-  'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
@@ -406,27 +406,13 @@ Editor.prototype.modalsources = function(ev) {
 };
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  var id = target.attr('href').split('?id=').pop();
-  (new Source({id:id})).fetch({
-    success: _(function(model, resp) {
-      $('.js-layers .js-layer-content').html(templates.sourcelayers({
-          id: resp.id,
-          name: resp.name,
-          vector_layers: resp.vector_layers,
-          xraycolor: templates.xraycolor,
-        })
-      );
-      this.model.set({source:id});
-      this.changed();
-      Modal.close();
-    }).bind(this),
-    error: _(this.error).bind(this)
-  });
+  var id = target.attr('href').split('?id=').pop().replace('mapbox:///','');
+  $('#applydata input[type=text]').val(id).focus();
   return false;
 };
-Editor.prototype.addmapbox = function(ev) {
+Editor.prototype.applydata = function(ev) {
   var view = this;
-  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
+  var attr = _($('#applydata').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
   }, {});

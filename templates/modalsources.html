@@ -47,10 +47,10 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
         .value().join(''));
     %>
     </div>
-    <form id='addmapbox' class='pin-bottom pad2 keyline-top row3'>
+    <form id='applydata' class='pin-bottom pad2 keyline-top row3'>
       <div class='input-pill clearfix'><!--
         --><input class='col9' type='text' placeholder='Mapbox map ID' title='Use "username.project" syntax for map IDs. No spaces between map IDs.' size='20' name='id' pattern='(([\w+-]+\.[\w+-]+,?)+|(https?:\/\/.*))' value='<%= style.source.replace('mapbox:///','') %>'/><!--
-        --><input class='col3' type='submit' value='Update'/>
+        --><input class='col3' type='submit' value='Apply'/>
       </div>
       <p class='small quiet center pad1y'>
         <strong>Mapbox map IDs</strong> (comma separated) or a <strong>TileJSON URL</strong> for other sources
