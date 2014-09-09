@@ -32,16 +32,16 @@
         %>
 
         <div class='space-bottom1 contain'>
-          <a class='<%=isactive%> project col12 round small fill-lighten0 strong contain' href='/style?id=<%=item.id%>'>
+          <div class='<%=isactive%> history-project col12 round small fill-lighten0 strong contain'>
             <div class='pin-left fill-dark round-left small-graphic z1' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
             <div class='pin-left small-graphic fallback-graphic fill-lighten1 round-left style'><div class='icon big paint'></div></div>
-            <div class='pad1 truncate'>
-              <strong class='style-name'><%= item.name || 'Untitled' %></strong><br />
-              <code class='quiet'><%= item.id.split('/').pop().replace('.tm2', '') %></code>
+            <div class='pad1'>
+              <a href='/style?id=<%=item.id%>' class='block style-name'><%= item.name || 'Untitled' %></a>
+              <span class='micro code quiet'><%= item.id.split('/').pop().replace('.tm2', '') %></span>
             </div>
             <div class='z10 pad1x pad2y proj-status hidden pin-right fill-green round-right'><span class='inline strong dot dark icon check'></span></div>
-          </a>
-          <a href='style?id=<%=item.id%>' class='js-ref-delete trash round-right icon pad1x pad2y pin-topright quiet'></a>
+          </div>
+          <a href='style?id=<%=item.id%>' class='js-ref-delete round-right pad1x pad2y pin-topright'><span class='minus fill-darken1 icon dot'></span></a>
         </div>
       <% }); %>
       <% if (obj.source) { %>

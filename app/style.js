@@ -8,12 +8,21 @@ var grids;
 var gridc;
 var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
-var placeentry = '<div class="col4 places-entry-container animate">' +
+var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry pin-left col12"></div>' +
-                    '<a href="#" class="z1 block entry-label dark pin-bottom pin-top js-place-jump">' +
-                    '<% if (tags.indexOf("userbookmark")) { %><p class="pad1"><% _.each(tags, function(currenttag) { %> <span class="js-placetag placetag pad0x micro strong fill-dark round inline truncate" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p><% }; %>' +
-                    '<small class="pad1x pad0y pin-bottom strong"><%= place_name %></small>' +    
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1"></a><% }; %>' +
+                    '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
+                      '<a href="#" class="block pin-bottom pin-top js-place-jump"></a>' +
+                      '<% if (tags.indexOf("userbookmark")) { %>' +
+                      '<div class="pin-top z10 dark pad1">' +
+                        '<% _.each(tags, function(currenttag) { %>' +
+                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
+                        '<% }); %>' +
+                      '</div>' +
+                      '<% } else { %>' +
+                      '<span index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></span>' +
+                      '<% } %>' +
+                      '<small class="pad1 pin-bottom strong"><%= place_name %></small>' +
+                    '</div>'
                   '</div>';
 
 statHandler('drawtime')();
@@ -186,12 +195,12 @@ Editor.prototype.renderPlaces = function(filter) {
   });
 
   if (filtered.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.</h1></div>');
+    $('#placeslist').html('<div class="dark empty-places col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 
   // Print template
-  
+
 
   $('#placeslist').html(_.map(filtered, function(d, i) {
     d.index = i;
@@ -234,13 +243,13 @@ Editor.prototype.places = function(ev) {
 };
 
 Editor.prototype.showPlacesSearch = function(ev) {
-  $('.js-places-container').removeClass('hidden');
+  $('.js-places-container').addClass('active');
   $('#places-dosearch').focus();
   return false;
 };
 
 Editor.prototype.hidePlacesSearch = function(ev) {
-  $('.js-places-container').addClass('hidden');
+  $('.js-places-container').removeClass('active');
   window.editor.places(ev);
   return false;
 };
@@ -259,7 +268,6 @@ Editor.prototype.tagPlacesSearch = function(ev) {
 };
 
 Editor.prototype.placesJump = function(ev) {
-  console.log(ev.currentTarget);
   var target = $(ev.currentTarget);
   var mapcontainer = target.siblings('.js-places-entry');
   var lat = mapcontainer.attr('lat');
@@ -753,6 +761,8 @@ window.onhashchange = function(ev) {
   case 'xray':
     window.editor.refresh();
     break;
+  case 'places':
+    window.editor.places(ev);
   case !'export':
     window.exporter.boundingBox.disable();
     statHandler('drawtime')();
