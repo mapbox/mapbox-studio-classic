@@ -11,7 +11,9 @@ var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry pin-left col12"></div>' +
                     '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
-                      '<a href="#" class="block pin-bottom pin-top js-place-jump"></a>' +
+                      '<a href="#" class="block pin-bottom pin-top js-place-jump">' +
+                        '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
+                      '</a>' +
                       '<% if (tags.indexOf("userbookmark")) { %>' +
                       '<div class="pin-top z10 dark pad1">' +
                         '<% _.each(tags, function(currenttag) { %>' +
@@ -19,9 +21,8 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
-                      '<span index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></span>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
                       '<% } %>' +
-                      '<small class="pad1 pin-bottom strong"><%= place_name %></small>' +
                     '</div>'
                   '</div>';
 
@@ -263,6 +264,10 @@ Editor.prototype.placesSearch = function(ev) {
 Editor.prototype.tagPlacesSearch = function(ev) {
   var filter = $(ev.currentTarget).attr("tag").toLowerCase();
   window.editor.renderPlaces(filter);
+
+  // clear filter
+  $('.js-places-toggle input').prop( "checked", false );
+
   return false;
 };
 
