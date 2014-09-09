@@ -409,7 +409,6 @@ Editor.prototype.adddata = function(ev) {
   var id = target.attr('href').split('?id=').pop();
   (new Source({id:id})).fetch({
     success: _(function(model, resp) {
-      console.log(resp);
       $('.js-layers .js-layer-content').html(templates.sourcelayers({
           id: resp.id,
           name: resp.name,
@@ -726,7 +725,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.tm.db.rm('user');
   $('title, .js-name').text(this.model.get('name') || 'Untitled');
-  $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
+  $('.proj-active .js-style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (xray && window.location.hash === '#xray') {
