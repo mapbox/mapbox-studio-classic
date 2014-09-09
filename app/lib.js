@@ -164,7 +164,6 @@ views.Browser.prototype.render = function() {
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
           var fileExt = f.basename.split('.').pop();
-          console.log(fileExt);
           if (fileExt === 'tm2') type = 'paint';
           if (fileExt === 'tm2source') type = 'polygon';
           var targetFile = view.isFile(f.basename) ? 'quiet' : '';
