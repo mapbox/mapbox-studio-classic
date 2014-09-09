@@ -168,13 +168,36 @@ tape('.js-layers shows sources modal', function(t) {
     onajax(function() {
         t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),false, ' doesn\'t have loading state');
         t.ok(hasModal('#modalsources'));
+
+        // form validity tests
+
+        // disallow spaces between composite sources
+        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+
+        // allow remote composite sources
+        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // disallow local compositing
+        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+
+        // allow single local source
+        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // now test the user clicking a real source
         $('#modalsources-remote .js-adddata:eq(0)').click();
 
         var selected = $('#modalsources-remote .js-adddata:eq(0)').attr('href');
         var input = $('#applydata input[type=text]').val();
 
         t.notEqual(selected.indexOf(input),-1,' and selected layer matches form input.');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
         $('#applydata input[type=submit]').click();
+
         onajax(function() {
             t.ok(!hasModal('#modalsources'));
             t.end();
