@@ -702,7 +702,7 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#places') {
     // if search is active, use search value,
     // otherwise use toggle value
-    if ($('.js-places-container').hasClass('hidden')) {
+    if ($('.js-places-container').hasClass('hidden') && $('input','.js-places-toggle').is(':checked')) {
       var container = $('.js-places-toggle');
       var filter = $('input:checked',container).attr('value').toLowerCase();
     } else {
@@ -753,7 +753,9 @@ window.onhashchange = function(ev) {
     window.editor.refresh();
     break;
   case 'places':
-    window.editor.places(ev);
+    if ($('input','.js-places-toggle').is(':checked')) {
+      window.editor.renderPlaces(filter);
+    }
     break;
   case !'export':
     window.exporter.boundingBox.disable();
