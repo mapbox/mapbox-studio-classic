@@ -516,6 +516,11 @@ body.local .on-local { display:block; }
   display:block;
   }
 
+#zoomedto:target .zoom-display {
+  background: transparent;
+  width: 30px;
+}
+
 /* override confusing a element hover effects */
 #zoomedto:target:hover .zoom {
   cursor: default;

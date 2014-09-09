@@ -360,7 +360,7 @@ Printer.prototype.imageSizeStats = function() {
       perc ? "<span class='strong perc quiet " : '',
       perc > 100 ? "warning'" : '',
       perc > 1000 ? "'> >1000%</span>" : perc ? "'>"+perc+"%</span>" : '',
-      "<span class='round pad0 fill-darken1 strong'>z",z,"</span>",
+      "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
       "</a>"
     ].join('');
   }

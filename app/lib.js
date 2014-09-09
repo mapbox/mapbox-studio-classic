@@ -72,7 +72,7 @@ var statHandler = function(key) {
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
         s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
         s ? "</span>" : '',
-        "<span class='round pad0 fill-darken1 strong'>z",z,"</span>",
+        "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
         "</a>"
       ].join('');
     }
