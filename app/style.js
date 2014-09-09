@@ -335,7 +335,7 @@ Editor.prototype.saveModal = function() {
   Modal.show('browsersave', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #saveas'),
-    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
+    filter: function(file) { return file.type === 'dir'},
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.replace(/\.tm2/,'') + '.tm2';
