@@ -87,7 +87,10 @@ test('examples: gets style info', function(t) {
             'mapbox-studio-light',
             'mapbox-studio-run-bike-and-hike',
             'mapbox-studio-highcontrast',
-            'mapbox-studio-wheatpaste'
+            'mapbox-studio-wheatpaste',
+            'mapbox-studio-pencil',
+            'mapbox-studio-pirates',
+            'mapbox-studio-looseleaf'
         ], 'has example styles');
         t.equal(req.examples.style['mapbox-studio-default-style'].name, '');
         t.equal(req.examples.style['mapbox-studio-osm-bright'].name, 'OSM Bright 2');
