@@ -318,7 +318,7 @@ Printer.prototype.updateurl = function() {
   // update the link for 'download static map'
   if (!this.boundingBox.isEnabled()) return;
   var coords = window.exporter.model.get('coordinates');
-  var url = 'http://localhost:3000/static/' +
+  var url = window.location.origin + '/static/' +
     map.getZoom() + '/' +
     coords.bbox.toString() +
     '@' + coords.scale + 'x' +
