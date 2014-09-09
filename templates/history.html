@@ -1,5 +1,3 @@
-<% var rand = Math.random().toString(16).split('.')[1]; %>
-
 <div id='history' class='js-history'>
 
   <div class='pin-bottom row1 pad1y pad2x keyline-top'>
@@ -9,56 +7,39 @@
 
   <div class='col12 pin-left top1 bottom1 scroll-styled'>
 
-  <div class='pad1x pad2y center'>
+  <div class='clearfix pad2y pad1x'>
+    <a class='short js-newproject button col12 icon plus space-bottom1' href='/authorize'>New project</a>
+    <a class='short js-browseproject button col12 icon folder'>Browse</a>
+  </div>
+
+  <div class='center pad1x space-bottom1'>
     <div class='inline col12 rounded-toggle'><!--
     --><a class='js-tab strong col6 <%= obj.style  ? 'active' : '' %>' href='#history-style'>Styles</a><!--
     --><a class='js-tab strong col6 <%= obj.source ? 'active' : '' %>' href='#history-source'>Sources</a>
     </div>
   </div>
 
-  <div id='history-style' class='pad1x <% if (obj.style) { %>active<% } %>'>
-    <div class='pill clearfix space-bottom1 col12'>
-        <a class='short js-newstyle button col6 icon plus' href='/new/style'>New style</a>
-        <a class='short js-browsestyle button col6 icon folder'>Browse</a>
-    </div>
-    <div class='clearfix col12'>
-      <% _(obj.history.style).chain()
+  <div id='history-style' class='pad1x clearfix col12 <% if (obj.style) { %>active<% } %>'>
+      <%
+      var styleitem = this.styleitem;
+      _(obj.history.style).chain()
         .sortBy(function(item) { return item.id })
         .each(function(item) {
-          %>
-        <%
-        var isactive = '';
-        if (obj.style) { (obj.style.id === item.id) ? (isactive = 'proj-active') : '' }
-        %>
-
-        <div class='space-bottom1 contain'>
-          <div class='<%=isactive%> history-project col12 round small fill-lighten0 strong contain'>
-            <div class='pin-left fill-dark round-left small-graphic z1' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div>
-            <div class='pin-left small-graphic fallback-graphic fill-lighten1 round-left style'><div class='icon big paint'></div></div>
-            <div class='pad1'>
-              <a href='/style?id=<%=item.id%>' class='block style-name'><%= item.name || 'Untitled' %></a>
-              <span class='micro code quiet'><%= item.id.split('/').pop().replace('.tm2', '') %></span>
-            </div>
-            <div class='z10 pad1x pad2y proj-status hidden pin-right fill-green round-right'><span class='inline strong dot dark icon check'></span></div>
-          </div>
-          <a href='style?id=<%=item.id%>' class='js-ref-delete round-right pad1x pad2y pin-topright'><span class='minus fill-darken1 icon dot'></span></a>
-        </div>
-      <% }); %>
+          print(styleitem({
+            item: item,
+            withdel: true,
+            classes: (obj.style && obj.style.id === item.id) ? 'proj-active' : ''
+          }));
+        });
+      %>
       <% if (obj.source) { %>
       <%= this.emptystate({message:'You don\'t have any saved styles yet. <a href="/new/style"> Create one now to see it appear in this list</a>.'}) %>
       <% } else { %>
       <%= this.emptystate({message:'You don\'t have any saved styles yet. <a href="#" class="js-saveas"> Save your currently active style</a> to see it appear in this list.'}) %>
       <% } %>
-
-    </div>
   </div>
 
-  <div id='history-source' class='pad1x <% if (obj.source) { %>active<% } %>'>
-    <div class='pill clearfix space-bottom1 col12'>
-        <a class='short button col6 icon plus' href='/new/source'>New source</a>
-        <a class='short js-browsesource button col6 icon folder'>Browse</a>
-    </div>
-    <div class='clearfix col12'>
+  <div id='history-source' class='pad1x clearfix col12 <% if (obj.source) { %>active<% } %>'>
       <%
       var sourceitem = this.sourceitem;
       _(obj.history.source).chain()
@@ -77,8 +58,6 @@
       <% } else { %>
       <%= this.emptystate({message:'You don\'t have any saved sources. <a href="/new/source"> Create a new local source now</a>'}) %>
       <% } %>
-
-    </div>
   </div>
 
 </div>

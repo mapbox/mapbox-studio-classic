@@ -28,10 +28,10 @@ tape('#settings-form', function(t) {
     t.end();
 });
 
-tape('.js-newstyle => newstyle modal', function(t) {
-    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
-    $('.js-newstyle').click();
-    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+tape('.js-newproject => newproject modal', function(t) {
+    t.equal(hasModal('#newproject'), false, 'no newproject modal');
+    $('.js-newproject').click();
+    t.equal(hasModal('#newproject'), true, 'shows newproject modal');
     t.end();
 });
 

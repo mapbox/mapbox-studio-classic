@@ -205,49 +205,28 @@ views.Browser.prototype.browse = function(ev) {
   target.siblings().removeClass('active');
   return false;
 };
-// Shared helper for generating a browseSource event handler.
-views.Browser.sourceHandler = function(Modal, cwd) {
+// Shared helper for generating a browseProject event handler.
+views.Browser.projectHandler = function(Modal, cwd) {
   return function() {
     Modal.show('browseropen', {
-      type: 'source',
+      type: 'project',
       cwd: cwd
     });
     new views.Browser({
-      el: $('.modal-content #browsesource'),
+      el: $('.modal-content #browseproject'),
       filter: function(file) {
         return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename));
       },
       isFile: function(file) {
-        return (/\.tm2source$/.test(file) || /\.tm2$/.test(file.basename));
+        return (/\.tm2source$/.test(file) || /\.tm2$/.test(file));
       },
       callback: function(err, filepath) {
         if (err) return false; // @TODO
-        window.location = '/source?id=tmsource://' + filepath;
-        return false;
-      }
-    });
-    return false;
-  }
-};
-// Shared helper for generating a browseStyle event handler.
-views.Browser.styleHandler = function(Modal, cwd) {
-  return function() {
-    Modal.show('browseropen', {
-      type: 'style',
-      cwd: cwd
-    });
-    new views.Browser({
-      el: $('.modal-content #browsestyle'),
-      filter: function(file) {
-        return file.type === 'dir' || /\.tm2$/.test(file.basename);
-      },
-      isFile: function(file) {
-        return /\.tm2$/.test(file);
-      },
-      callback: function(err, filepath) {
-        if (err) return false; // @TODO
-        filepath = filepath.replace(/\.tm2/, '') + '.tm2';
-        window.location = '/style?id=tmstyle://' + filepath;
+        if (/\.tm2source$/.test(filepath)) {
+            window.location = '/source?id=tmsource://' + filepath;
+        } else if (/\.tm2$/.test(filepath)) {
+            window.location = '/style?id=tmstyle://' + filepath;
+        }
         return false;
       }
     });
