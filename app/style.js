@@ -416,8 +416,8 @@ Editor.prototype.applydata = function(ev) {
     memo[field.name] = field.value;
     return memo;
   }, {});
-  var id = attr.id;
-  if (!(/^(https?:\/\/)|(mapbox:\/\/)/).test(id)) {
+  var id = attr.id.replace(', ',',');
+  if (!(/^(https?:\/\/)|(mapbox:\/\/)|(tmsource:\/\/)/).test(id)) {
     id = 'mapbox:///' + id;
   }
   (new Source({id:id})).fetch({
