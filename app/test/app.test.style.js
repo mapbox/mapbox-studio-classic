@@ -41,7 +41,7 @@ tape('.js-history browses projects', function(t) {
 });
 
 tape('.js-history removes history style', function(t) {
-    var count = $('#history-style .project').size();
+    var count = $('#history-style .history-project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
     t.ok(hasModal('#confirm'), 'shows confirm modal');
     $('#confirm a.js-confirm').click();

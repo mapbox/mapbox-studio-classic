@@ -8,7 +8,7 @@ if (item.id.indexOf('mapbox://') === 0) {
 %>
 <div class='space-bottom1 contain'>
   <div class='history-project col12 fill-lighten0 round small strong contain'>
-    <div class='pin-left round-left small-graphic z1 fill-darken2' style='background-image:url("<%=thumburl%>")'></div>
+    <div class='pin-left round-left small-graphic z1 fill-canvas'><div class='pin-left pin-right round-left fill-darken2' style='background-image:url("<%=thumburl%>")'></div></div>
     <div class='pad1'>
       <a class='<%=obj.classes||''%> block' href='/source?id=<%=item.id%>'><%= item.name || 'Untitled' %></a>
       <span class='micro code quiet'><%= item.id.split('/').pop() %></span>

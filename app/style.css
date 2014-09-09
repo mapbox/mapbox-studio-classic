@@ -70,10 +70,6 @@
   min-width: 25%;
 }
 
-.places-entry-container .leaflet-container {
-  background:#ddd url(canvas.png);
-}
-
 .places-entry-container .entry-actions { opacity: 0;}
 .places-entry-container:hover .entry-actions { opacity: 1; }
 
