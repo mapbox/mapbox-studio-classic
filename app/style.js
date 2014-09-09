@@ -273,7 +273,7 @@ Editor.prototype.tagPlacesSearch = function(ev) {
 
 Editor.prototype.placesJump = function(ev) {
   var target = $(ev.currentTarget);
-  var mapcontainer = target.siblings('.js-places-entry');
+  var mapcontainer = target.parent('div').siblings('.js-places-entry');
   var lat = mapcontainer.attr('lat');
   var lng = mapcontainer.attr('lng');
   var zoom = mapcontainer.attr('zoom');
