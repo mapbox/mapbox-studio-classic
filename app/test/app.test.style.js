@@ -46,7 +46,7 @@ tape('.js-history removes history style', function(t) {
     t.ok(hasModal('#confirm'), 'shows confirm modal');
     $('#confirm a.js-confirm').click();
     onajax(function() {
-        t.equal(count - 1, $('#history-style .project').size());
+        t.equal(count - 1, $('#history-style .history-project').size());
         t.end();
     });
 });

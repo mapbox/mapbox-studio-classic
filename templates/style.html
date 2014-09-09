@@ -90,7 +90,7 @@
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
     <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
-  <div class='map-controls pin-top text-right dark fill-dark row1'>
+  <div class='map-controls pin-top dark fill-dark row1'>
     <div class='pin-left fill-dark z1 pad0 row1 truncate'>
       <div class='pill inline align-top'>
         <a href='#search' class='search-n search-button button short icon search quiet'></a><!--
@@ -113,9 +113,9 @@
         --><a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
       </div>
     </div>
-    <div class='pin-top fill-dark z0 pad0 row1 text-right'>
-      <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
-      <div id='zoomedto' class='align-top inline contain zoom<%=style.center[2]%>'></div>
+    <div class='pin-top text-right fill-dark z0 pad0 row1'>
+      <span id='map-center' class='quiet inline micro strong pad0y align-top'></span>
+      <div id='zoomedto' class='align-top text-right inline contain zoom<%=style.center[2]%>'></div>
     </div>
   </div>
 
