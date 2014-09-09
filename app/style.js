@@ -754,6 +754,7 @@ window.onhashchange = function(ev) {
     break;
   case 'places':
     if ($('input','.js-places-toggle').is(':checked')) {
+      var filter = $('.js-places-toggle input:checked').attr('value').toLowerCase();
       window.editor.renderPlaces(filter);
     }
     break;
