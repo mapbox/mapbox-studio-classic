@@ -72,8 +72,6 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
         t.equal(expectedValue, projTarget.val());
         t.equal(maxzoom, '12');
 
-        // Ensure configure is active tab
-
         t.end();
     });
 });
@@ -267,6 +265,14 @@ for (var name in datatests) (function(name, info) {
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
         onajax(function() {
+
+            // Check that correct panel is active
+            t.equal($('body').hasClass('fields') || $('body').hasClass('sql'), false, ' config panel is visible');
+
+            $('.js-tab.mode-fields').click();
+
+            t.equal($('body').hasClass('fields'), true, ' fields panel is visible after toggle click');
+
             t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
             var values = _($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
                 memo[field.name] = field.value;
