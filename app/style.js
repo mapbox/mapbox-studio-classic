@@ -145,8 +145,6 @@ Editor.prototype.addBookmark = function(ev) {
       lng = map.getCenter().wrap().lng,
       zoom = map.getZoom();
 
-  console.log(lat);
-  console.log(lng);
   // Reverse geocode to get name
   $.ajax({
     url: '/geocode?search=' + lng + ',' + lat,
