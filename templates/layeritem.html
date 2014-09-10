@@ -10,7 +10,7 @@ var refreshable = (obj.Datasource.type === 'shape' || obj.Datasource.type === 'c
   <a class='<%=(obj.Datasource && obj.Datasource.type) ? "js-reset-mode" : "js-tab" %> block col8 contain pad0y pad1x quiet' href='#layers-<%=obj.id%>'>
     <%=obj.id%>
     <input type='hidden' class='datasourceType' value='<%=obj.Datasource.type%>' />
-    <span><code><%= (obj.Datasource.type) %></code></span>
+    <span class='code quiet'><%= (obj.Datasource.type) %></span>
   </a>
 
   <div class='center col6 pin-right small'>

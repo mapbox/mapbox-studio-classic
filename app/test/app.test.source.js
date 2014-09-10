@@ -71,6 +71,9 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
         var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
         t.equal(expectedValue, projTarget.val());
         t.equal(maxzoom, '12');
+
+        // Ensure configure is active tab
+
         t.end();
     });
 });
