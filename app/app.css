@@ -293,6 +293,10 @@ body.local .on-local { display:block; }
   height: auto;
 }
 
+.history-thumbnail {
+  background-size: cover;
+}
+
 /* Flag active project */
 .proj-active ~ .proj-status { display: block;}
 
