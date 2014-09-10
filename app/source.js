@@ -146,8 +146,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
         new views.Browser({
             el: $('.modal-content #saveas'),
-            filter: function(file) {
-                return file.type === 'dir' && !(/\.tm2$/).test(file.basename);
+            filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) },
+            isProject: function(file) {
+              return (/\.tm2source$/.test(file) || /\.tm2$/.test(file));
             },
             callback: function(err, filepath) {
                 if (err) return false; // @TODO
