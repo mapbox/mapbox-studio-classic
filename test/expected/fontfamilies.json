@@ -217,12 +217,17 @@
     "Kievit SC Offc Pro Extralight",
     "Kievit SC Offc Pro Extralight Italic"
   ],
-  "Komika Hand": [
-    "Komika Hand Italic"
-  ],
-  "Komika Title": [
-    "Komika Title Regular",
-    "Komika Title Bold"
+  "Komika": [
+    "Komika Hand Bold",
+    "Komika Hand Bold Italic",
+    "Komika Hand Italic",
+    "Komika Hand Regular",
+    "Komika Parch Regular",
+    "Komika Title - Axis Regular",
+    "Komika Title - Kaps Regular",
+    "Komika Title - Paint Regular",
+    "Komika Title - Wide Regular",
+    "Komika Title Regular"
   ],
   "Lato": [
     "Lato Regular",
