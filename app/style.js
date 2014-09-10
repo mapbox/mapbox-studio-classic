@@ -333,16 +333,11 @@ Editor.prototype.keys = function(ev) {
 
 Editor.prototype.saveModal = function() {
   Modal.show('browsersave', {type:'style', cwd:cwd});
-  var pattern = /[\w\d\s\.-]+\.tm2|[\w\d\s\.-]+\.tmsource/;
   new views.Browser({
     el: $('.modal-content #saveas'),
-    filter: function(file) { return file.type === 'dir'},
-    isFile: function(file) {
-      if (pattern) {
-          return pattern.test(file);
-      } else {
-          return file.type === 'dir';
-      }
+    filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) },
+    isProject: function(file) {
+      return (/\.tm2source$/.test(file) || /\.tm2$/.test(file));
     },
     callback: function(err, filepath) {
       if (err) return false; // @TODO

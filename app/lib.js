@@ -143,6 +143,7 @@ views.Browser.prototype.initialize = function(options, initCallback) {
   this.callback = options.callback || function() {};
   this.filter = options.filter || function(f) { return true; };
   this.isFile = options.isFile || function() {};
+  this.isProject = options.isProject || function() {};
   this.cwd = this.$('input[name=cwd]').val();
   return this.render();
 };
@@ -197,6 +198,8 @@ views.Browser.prototype.browse = function(ev) {
   var target = $(ev.currentTarget);
   if (target.is('.document') || this.isFile(target.attr('href').split('#').pop())) {
     this.$('input[name=basename]').val(target.text());
+  } else if (target.is('.document') || this.isProject(target.attr('href').split('#').pop())) {
+    // do nothing
   } else if (target.is('.folder.active') || target.is('.prev')) {
     this.cwd = target.attr('href').split('#').pop();
     this.render();
