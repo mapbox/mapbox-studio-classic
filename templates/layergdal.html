@@ -1,15 +1,15 @@
 <form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
   <nav class='text-right pad1 keyline-bottom'>
-    <span class='inline rounded-toggle'><!--
+    <span class='inline rounded-toggle strong'><!--
       --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
       --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
  --></span>
     <a href='#' class='quiet inline pad1 icon close'></a>
   </nav>
-  <section class='pad2 pin-topleft'>
+  <section class='pad1y pad2x pin-topleft'>
     <h3>
       <%= obj.id %>
-      <a href='#' id='updatename-<%=obj.id%>' class='icon pencil inline round js-updatename'></a>
+      <a href='#' id='updatename-<%=obj.id%>' class='micro block js-updatename'>rename</a>
     </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
     <input type='hidden' name='nodata' value='<%=obj.nodata%>' />
@@ -34,7 +34,7 @@
         <label class='col3 inline'>Projection</label>
         <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' readonly />
       </section>
-      <section class='pad2'>
+      <section class='clearfix pad2'>
         <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
       </section>
     </fieldset>

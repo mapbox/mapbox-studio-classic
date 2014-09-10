@@ -71,6 +71,7 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
         var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
         t.equal(expectedValue, projTarget.val());
         t.equal(maxzoom, '12');
+
         t.end();
     });
 });
@@ -264,6 +265,14 @@ for (var name in datatests) (function(name, info) {
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
         onajax(function() {
+
+            // Check that correct panel is active
+            t.equal($('body').hasClass('fields') || $('body').hasClass('sql'), false, ' config panel is visible');
+
+            $('.js-tab.mode-fields').click();
+
+            t.equal($('body').hasClass('fields'), true, ' fields panel is visible after toggle click');
+
             t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
             var values = _($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
                 memo[field.name] = field.value;

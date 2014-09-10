@@ -85,7 +85,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'click .js-browseproject': 'browseProject',
         'click .js-save': 'save',
         'click .js-saveas': 'saveModal',
-        'click .js-reset-mode': 'resetmode',
         'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
         'click .layer .js-refresh-source': 'refreshSource',
@@ -206,10 +205,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         }
         tabbedHandler(ev);
         return false;
-    };
-    Editor.prototype.resetmode = function(ev) {
-        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
-        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
     Editor.prototype.togglelayer = function(ev) {
         var $target = $(ev.currentTarget);
@@ -428,7 +423,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.updateLayername = function(ev) {
       //Retain current settings to copy over
       var current_id = $('#current_id').val();
-      console.log(current_id);
       var layer = layers[current_id].get();
       var new_id = $('#newLayername').val();
 
@@ -446,10 +440,17 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
       delete layers[current_id];
       layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-      //Close
+      // Close modal
       Modal.close();
       $('#layers .js-layer-content').sortable('destroy').sortable();
+
+      // Remove animation for more elegant panel refresh
+      $('#layers-' + new_id).removeClass('animate');
+
       window.location.href = '#layers-' + new_id;
+
+      // Bring back animation after panel has been replaced
+      $('#layers-' + new_id).addClass('animate');
 
       return false;
 
@@ -630,6 +631,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
     window.onhashchange = function(ev) {
         analytics.page({hash:window.location.hash});
+
+        // clear mode panel state.
+        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
+        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
 
     // Sortable layers for local sources.
