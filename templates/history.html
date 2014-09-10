@@ -54,9 +54,9 @@
         });
       %>
       <% if (obj.source) { %>
-      <%= this.emptystate({message:'You don\'t have any saved sources yet. <a class="saveas"> Save your currently active source</a>'}) %>
+      <%= this.emptystate({message:'You don\'t have any saved local sources yet. <a class="saveas"> Save your currently active source.</a>'}) %>
       <% } else { %>
-      <%= this.emptystate({message:'You don\'t have any saved sources. <a href="/new/source"> Create a new local source now</a>'}) %>
+      <%= this.emptystate({message:'You don\'t have any saved local sources. <a href="/new/source"> Create a new one now.</a>'}) %>
       <% } %>
   </div>
 

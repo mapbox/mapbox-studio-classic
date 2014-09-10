@@ -9,7 +9,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
   <a class='pad1 quiet icon close pin-topright js-close'></a>
   <div class='row1 keyline-bottom pad1x space'>
     <h3 class='inline'>Sources</h3>
-    <span class='rounded-toggle inline'>
+    <span class='rounded-toggle inline strong'>
       <a href='#modalsources-local' class='js-tab <%= activeType === 'local' ? 'active' : ''%>'>Local</a>
       <a href='#modalsources-remote' class='js-tab <%= activeType === 'remote' ? 'active' : ''%>'>Remote</a>
     </span>
@@ -28,6 +28,8 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       }).bind(this))
       .value().join(''));
   %>
+
+  <%= templates.emptystate({message:'Looks like you don\'t have any local vector tile sources. To create a source, open the projects drawer and click the new project button.'}) %>
   </div>
   <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
     <div class='pin-top pin-bottom pad1 scroll-styled bottom3'>
@@ -45,14 +47,14 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
         .value().join(''));
     %>
     </div>
-    <form id='addmapbox' class='pin-bottom pad2 keyline-top row3'>
-      <div class='input-pill clearfix'><!--
-        --><input class='col9' type='text' placeholder='Mapbox map ID' title='Use "username.project" syntax for map IDs. No spaces between map IDs.' size='20' name='id' pattern='(([\w-]+\.[\w-]+,?)+|(https?:\/\/.*))' value='<%= style.source.replace('mapbox:///','') %>'/><!--
-        --><input class='col3' type='submit' value='Update'/>
-      </div>
-      <p class='small quiet center pad1y'>
-        <strong>Mapbox map IDs</strong> (comma separated) or a <strong>TileJSON URL</strong> for other sources
-      </p>
-    </form>
   </div>
+  <form id='applydata' class='pin-bottom pad2 keyline-top row3'>
+    <div class='input-pill clearfix'><!--
+      --><input class='col9' type='text' placeholder='Mapbox map ID' title='Must use valid mapbox map ID, path to local source, or tilejson source. Compositing local sources or tilejson sources is not allowed. No spaces allowed.' size='20' name='id' pattern='(([\w-]+\.[\w-]+,?)+|(https?:\/\/.*))|(tmsource?:\/\/[\w\/\/.]*)' value='<%= style.source.replace('mapbox:///','') %>'/><!--
+      --><input class='col3' type='submit' value='Apply'/>
+    </div>
+    <div class='micro quiet center pad1y'>
+      To use a composite source, string together comma-separated map IDs. Accepts <strong>TileJSON URLs</strong> for sources not hosted by Mapbox.
+    </div>
+  </form>
 </div>

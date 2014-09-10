@@ -53,8 +53,9 @@
   opacity: 1;
 }
 
+.places-toggle { right: 70px; }
+
 .places-list {
-  top: 40px;
   display: flex;
   flex-flow: row wrap;
   flex-direction: row;
@@ -62,36 +63,31 @@
 }
 
 .places-entry-container {
-  background:#ddd url(canvas.png);
   border-right: 1px solid #404040;
   border-bottom: 1px solid #404040;
   flex-grow: 1;
   min-height: 33.3333%;
   min-width: 25%;
-  position: relative;
 }
 
-.entry-label { 
-  opacity: 0;
-  background:rgba(255,255,255,0.625);
-  }
+.places-entry-container .entry-actions { opacity: 0;}
+.places-entry-container:hover .entry-actions { opacity: 1; }
 
-.entry-label small,
-.entry-label small:hover {
-  color: rgba(0,0,0,0.75);
+.place-label,
+.place-label:hover {
+  color: rgba(0,0,0,.75);
 }
 
-.places-entry-container:hover .entry-label { opacity: 1; }
-
-.placetag { max-width: 170px; }
-
-.placetag:hover { background-color: #616161; }
-
-.places-toggle { right: 40px; }
+.entry-placetag {
+  /* Truncate full-width tags */
+  max-width: 100%;
+  /* match bottom margin */
+  margin-right: 4px;
+}
 
 .show-search-button {
   top: 5px;
-  left: 5px;
+  right: 40px;
 }
 
 .places-search-container .button {
@@ -99,12 +95,10 @@
   right: 45px;
 }
 
-/* Media queries for Places
-------------------------------------------------------- */
 @media (max-width:1200px) {
   .places-entry-container {
-    float:left; 
-    width:50.0000%; 
+    float:left;
+    width:50.0000%;
     max-width:600px;
   }
 }
@@ -130,9 +124,9 @@
   background:#f8f8f8;
 }
 
-.carto-tabs a.tab .trash {display:none;}
-.carto-tabs a.tab.active .trash { display:block;}
-.carto-tabs a.tab .trash:hover:before { opacity:1; }
+.carto-tabs a.tab .deltab {display:none;}
+.carto-tabs a.tab.active .deltab { display:block;}
+.carto-tabs a.tab .deltab:hover { color:rgba(0,0,0,.75); }
 
 .carto-tabs a.tab:first-child:nth-last-child(5),
 .carto-tabs a.tab:first-child:nth-last-child(5) ~ a.tab  { width:20.00%; padding-left: 3px; padding-right: 3px; font-size:10px; }
@@ -236,6 +230,11 @@
 /* History pane
 ------------------------------------------------------- */
 #history .rounded-toggle { margin: 0;}
+
+#modalsources .empty-state:only-child {
+  display: block;
+  padding: 10px;
+}
 
 /* Layers pane
 ------------------------------------------------------- */

@@ -5,6 +5,7 @@ Changelog
 
 - Add several free fonts as part of upgrade to mapbox-studio-default-fonts@0.0.3.
 - Add 8 additional example styles.
+- Style UI: various design improvements.
 
 ### 0.0.9
 

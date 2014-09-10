@@ -8,12 +8,22 @@ var grids;
 var gridc;
 var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
-var placeentry = '<div class="col4 places-entry-container animate">' +
-                    '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry places-entry pin-left col12"></div>' +
-                    '<a href="#" class="z1 block entry-label dark pin-bottom pin-top js-place-jump">' +
-                    '<% if (tags.indexOf("userbookmark")) { %><p class="pad1"><% _.each(tags, function(currenttag) { %> <span class="js-placetag placetag pad0x micro strong fill-dark round inline truncate" tag="<%= currenttag %>"><%= currenttag %></span> <% }); %></p><% }; %>' +
-                    '<small class="pad1x pad0y pin-bottom strong"><%= place_name %></small>' +    
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1"></a><% }; %>' +
+var placeentry = '<div class="col4 contain places-entry-container animate">' +
+                    '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry fill-canvas places-entry pin-left col12"></div>' +
+                    '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
+                      '<a href="#" class="block pin-bottom pin-top js-place-jump">' +
+                        '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
+                      '</a>' +
+                      '<% if (tags.indexOf("userbookmark")) { %>' +
+                      '<div class="pin-top z10 dark pad1">' +
+                        '<% _.each(tags, function(currenttag) { %>' +
+                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
+                        '<% }); %>' +
+                      '</div>' +
+                      '<% } else { %>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
+                      '<% } %>' +
+                    '</div>'
                   '</div>';
 
 statHandler('drawtime')();
@@ -112,11 +122,11 @@ Editor.prototype.events = {
   'submit #settings-drawer': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
-  'submit #addmapbox': 'addmapbox',
+  'click .js-adddata': 'adddata',
+  'submit #applydata': 'applydata',
   'click #tabs .js-deltab': 'deltab',
   'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
-  'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
@@ -185,12 +195,12 @@ Editor.prototype.renderPlaces = function(filter) {
   });
 
   if (filtered.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.</h1></div>');
+    $('#placeslist').html('<div class="dark empty-places col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 
   // Print template
-  
+
 
   $('#placeslist').html(_.map(filtered, function(d, i) {
     d.index = i;
@@ -233,13 +243,13 @@ Editor.prototype.places = function(ev) {
 };
 
 Editor.prototype.showPlacesSearch = function(ev) {
-  $('.js-places-container').removeClass('hidden');
+  $('.js-places-container').addClass('active');
   $('#places-dosearch').focus();
   return false;
 };
 
 Editor.prototype.hidePlacesSearch = function(ev) {
-  $('.js-places-container').addClass('hidden');
+  $('.js-places-container').removeClass('active');
   window.editor.places(ev);
   return false;
 };
@@ -254,13 +264,16 @@ Editor.prototype.placesSearch = function(ev) {
 Editor.prototype.tagPlacesSearch = function(ev) {
   var filter = $(ev.currentTarget).attr("tag").toLowerCase();
   window.editor.renderPlaces(filter);
+
+  // clear filter
+  $('.js-places-toggle input').prop( "checked", false );
+
   return false;
 };
 
 Editor.prototype.placesJump = function(ev) {
-  console.log(ev.currentTarget);
   var target = $(ev.currentTarget);
-  var mapcontainer = target.siblings('.js-places-entry');
+  var mapcontainer = target.parent('div').siblings('.js-places-entry');
   var lat = mapcontainer.attr('lat');
   var lng = mapcontainer.attr('lng');
   var zoom = mapcontainer.attr('zoom');
@@ -379,46 +392,34 @@ Editor.prototype.tabbed = tabbedHandler;
 
 Editor.prototype.modalsources = function(ev) {
   var style = this.model.attributes;
+  $(ev.currentTarget).addClass('spinner');
   $.ajax({
     url: '/history.json',
     success: function(history) {
       Modal.show('sources', {
         style: style,
-        history: history
+        history: history,
+        templates: templates
       });
+      $(ev.currentTarget).removeClass('spinner');
     }
   });
   return false;
 };
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  var id = target.attr('href').split('?id=').pop();
-  (new Source({id:id})).fetch({
-    success: _(function(model, resp) {
-      console.log(resp);
-      $('.js-layers .js-layer-content').html(templates.sourcelayers({
-          id: resp.id,
-          name: resp.name,
-          vector_layers: resp.vector_layers,
-          xraycolor: templates.xraycolor,
-        })
-      );
-      this.model.set({source:id});
-      this.changed();
-      Modal.close();
-    }).bind(this),
-    error: _(this.error).bind(this)
-  });
+  var id = target.attr('href').split('?id=').pop().replace('mapbox:///','');
+  $('#applydata input[type=text]').val(id).focus();
   return false;
 };
-Editor.prototype.addmapbox = function(ev) {
+Editor.prototype.applydata = function(ev) {
   var view = this;
-  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
+  var attr = _($('#applydata').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
   }, {});
-  var id = attr.id;
-  if (!(/^(https?:\/\/)|(mapbox:\/\/)/).test(id)) {
+  var id = attr.id.replace(', ',',');
+  if (!(/^(https?:\/\/)|(mapbox:\/\/)|(tmsource:\/\/)/).test(id)) {
     id = 'mapbox:///' + id;
   }
   (new Source({id:id})).fetch({
@@ -701,7 +702,7 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#places') {
     // if search is active, use search value,
     // otherwise use toggle value
-    if ($('.js-places-container').hasClass('hidden')) {
+    if ($('.js-places-container').hasClass('hidden') && $('input','.js-places-toggle').is(':checked')) {
       var container = $('.js-places-toggle');
       var filter = $('input:checked',container).attr('value').toLowerCase();
     } else {
@@ -712,7 +713,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.tm.db.rm('user');
   $('title, .js-name').text(this.model.get('name') || 'Untitled');
-  $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
+  $('.proj-active .js-style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (xray && window.location.hash === '#xray') {
@@ -750,6 +751,12 @@ window.onhashchange = function(ev) {
   case 'home':
   case 'xray':
     window.editor.refresh();
+    break;
+  case 'places':
+    if ($('input','.js-places-toggle').is(':checked')) {
+      var filter = $('.js-places-toggle input:checked').attr('value').toLowerCase();
+      window.editor.renderPlaces(filter);
+    }
     break;
   case !'export':
     window.exporter.boundingBox.disable();
