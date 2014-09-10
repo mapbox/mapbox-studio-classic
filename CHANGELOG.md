@@ -3,6 +3,10 @@ Changelog
 
 ### 0.1.0
 
+- Include full set of Komika fonts.
+
+### 0.1.0
+
 - Add several free fonts as part of upgrade to mapbox-studio-default-fonts@0.0.3.
 - Add 8 additional example styles.
 - Style UI: various design improvements.
