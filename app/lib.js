@@ -143,7 +143,7 @@ views.Browser.prototype.initialize = function(options, initCallback) {
   this.callback = options.callback || function() {};
   this.filter = options.filter || function(f) { return true; };
   this.isFile = options.isFile || function() {};
-  this.isProject = options.isProject || function() {};
+  this.isProject = options.isProject || function(f) { return true; };
   this.cwd = this.$('input[name=cwd]').val();
   return this.render();
 };
@@ -167,8 +167,11 @@ views.Browser.prototype.render = function() {
           var fileExt = f.basename.split('.').pop();
           if (fileExt === 'tm2') type = 'paint';
           if (fileExt === 'tm2source') type = 'polygon';
+          // if browsing for a project, emphasize .tm2 & .tmsource files
           var targetFile = view.isFile(f.basename) ? 'quiet' : '';
-          return "<a class='icon " + targetFile + " " + type + " small truncate round block fill-lighten0-onhover fill-blue-onactive' href='#" + f.path + "'>" + f.basename + "</a>";
+          // if saving a file, emphasize directories
+          var targetDir = view.isProject(f.basename) ? '' : 'quiet';
+          return "<a class='icon " + targetFile + " " + targetDir + " " + type + " small truncate round block fill-lighten0-onhover fill-blue-onactive' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()
         .join('\n'));
