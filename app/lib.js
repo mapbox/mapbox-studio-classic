@@ -143,7 +143,7 @@ views.Browser.prototype.initialize = function(options, initCallback) {
   this.callback = options.callback || function() {};
   this.filter = options.filter || function(f) { return true; };
   this.isFile = options.isFile || function() {};
-  this.isProject = options.isProject || function(f) { return true; };
+  this.isProject = options.isProject || function() {};
   this.cwd = this.$('input[name=cwd]').val();
   return this.render();
 };
