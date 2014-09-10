@@ -66,13 +66,13 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
       html += [
-        "<a href='#zoomedto' class='clip contain strong micro col12 zoom zoom",z,"'>",
-        "<span class='col3 center strong'>z",z,"</span>",
-        s ? "<span class='strong col3 pad0x avg'>"+s[1]+unit+"</span>" : '',
+        "<a href='#zoomedto' class='pad0y quiet clip contain strong micro col12 zoom zoom",z,"'>",
+        s ? "<span class='strong avg quiet'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
         s ? "<span class='marker' style='margin-left:"+a+"%'></span>" : '',
         s ? "</span>" : '',
+        "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
         "</a>"
       ].join('');
     }
@@ -164,7 +164,10 @@ views.Browser.prototype.render = function() {
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
-          var targetFile = view.isFile(f.basename) ? '' : 'quiet';
+          var fileExt = f.basename.split('.').pop();
+          if (fileExt === 'tm2') type = 'paint';
+          if (fileExt === 'tm2source') type = 'polygon';
+          var targetFile = view.isFile(f.basename) ? 'quiet' : '';
           return "<a class='icon " + targetFile + " " + type + " small truncate round block fill-lighten0-onhover fill-blue-onactive' href='#" + f.path + "'>" + f.basename + "</a>";
         })
         .value()

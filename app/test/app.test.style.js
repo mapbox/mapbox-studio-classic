@@ -41,12 +41,12 @@ tape('.js-history browses projects', function(t) {
 });
 
 tape('.js-history removes history style', function(t) {
-    var count = $('#history-style .project').size();
+    var count = $('#history-style .history-project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
     t.ok(hasModal('#confirm'), 'shows confirm modal');
     $('#confirm a.js-confirm').click();
     onajax(function() {
-        t.equal(count - 1, $('#history-style .project').size());
+        t.equal(count - 1, $('#history-style .history-project').size());
         t.end();
     });
 });
@@ -164,9 +164,40 @@ tape('.js-layers opens layer description', function(t) {
 
 tape('.js-layers shows sources modal', function(t) {
     $('.js-layers .js-modalsources:eq(0)').click();
+    t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),true, ' has loading state');
     onajax(function() {
+        t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),false, ' doesn\'t have loading state');
         t.ok(hasModal('#modalsources'));
+
+        // form validity tests
+
+        // disallow spaces between composite sources
+        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+
+        // allow remote composite sources
+        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // disallow local compositing
+        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+
+        // allow single local source
+        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // now test the user clicking a real source
         $('#modalsources-remote .js-adddata:eq(0)').click();
+
+        var selected = $('#modalsources-remote .js-adddata:eq(0)').attr('href');
+        var input = $('#applydata input[type=text]').val();
+
+        t.notEqual(selected.indexOf(input),-1,' and selected layer matches form input.');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        $('#applydata input[type=submit]').click();
+
         onajax(function() {
             t.ok(!hasModal('#modalsources'));
             t.end();
@@ -189,20 +220,20 @@ tape('places: list', function(t) {
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container span[tag="path"]').click();
+    $('.places-entry-container a[tag="path"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('span[tag="path"]', item).size(), 1, 'item has 1 path tag');
+        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
     };
     t.end();
 });
 
 tape('places: search results', function(t) {
-    t.equal($('#places-dosearch').is(':visible'), false, 'search bar is not visible');
+    t.equal($('.js-places-container').hasClass('active'), false, 'search bar is not active');
     $('.js-show-search').click();
-    t.equal($('#places-dosearch').is(':visible'), true, 'search bar is visible');
+    t.equal($('.js-places-container').hasClass('active'), true, 'search bar is active');
     // search should have no results
     $('#places-dosearch').val('testingemptystate');
     $('.js-places-search').click();
@@ -216,7 +247,7 @@ tape('places: search results', function(t) {
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
         var inName = $('small', item).text().toLowerCase().indexOf('park') >-1;
-        var inTags = $('span[tag*="park"]', item).size() >=1;
+        var inTags = $('a[tag*="park"]', item).size() >=1;
         t.ok(inTags || inName, 'item has park in tags or name');
     };
     var placeItem = $('.js-places-list').children()[0];

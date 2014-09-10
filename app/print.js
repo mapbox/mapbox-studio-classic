@@ -356,11 +356,11 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#export' class='js-zoomedto export clip strong micro col12 zoom zoom",z,"'>",
-      "<span class='col3 center strong keyline-right'>z",z,"</span>",
-      perc ? "<span class='truncate col9 strong perc pad0x " : '',
+      "<a href='#export' class='js-zoomedto export pad0y quiet clip contain strong micro col12 zoom zoom",z,"'>",
+      perc ? "<span class='strong perc quiet " : '',
       perc > 100 ? "warning'" : '',
       perc > 1000 ? "'> >1000%</span>" : perc ? "'>"+perc+"%</span>" : '',
+      "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
       "</a>"
     ].join('');
   }

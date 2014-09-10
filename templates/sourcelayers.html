@@ -3,9 +3,12 @@
 <div class='pad1'>
   <h4 class='contain mobile-cols clearfix'>
     <span class='col10 truncate'><%= obj.name || 'Untitled' %></span>
-    <a href='#sources-<%=obj.id%>' class='pin-right js-recache icon refresh fill-darken1 dot'></a>
+    <div class='pin-right'>
+      <span class='fl inline icon round-left fill-lighten0 <%= obj.id.indexOf('tmsource:') === 0 ? 'harddrive' : 'cloud' %>'></span>
+      <a href='#sources-<%=obj.id%>' class='fl round-right fill-darken1 js-recache icon refresh'></a>
+    </div>
   </h4>
-  <div class='quiet micro code space-bottom1 sourceid icon <%= obj.id.indexOf('tmsource:') === 0 ? 'harddrive' : 'cloud' %>'><%= obj.id %></div>
+  <div class='quiet micro code sourceid'><%= obj.id %></div>
 </div>
 
 <%
@@ -61,7 +64,7 @@ if (obj.userlayers) {
       <div class='clearfix pad1y'>
         <% _(l.fields||{}).each(function(desc,name) { %>
         <div class='clearfix field'>
-          <span class='col3 truncate'><%=name%> </span>
+          <span class='col3'><%=name%> </span>
           <span class='col9 quiet'><%=desc||'No description.'%></span>
         </div>
         <% }); %>
