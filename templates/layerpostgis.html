@@ -1,6 +1,6 @@
 <form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
   <nav class='text-right pad1 keyline-bottom'>
-    <span class='inline rounded-toggle'><!--
+    <span class='inline rounded-toggle strong'><!--
       --><a href='#editor-conf' class='js-tab mode-conf active '>Configure</a><!--
       --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
       --><a href='#editor-sql' class='js-tab mode-sql'>SQL</a>
@@ -10,7 +10,7 @@
   <section class='pad2 pin-topleft'>
     <h3>
       <%= obj.id %>
-      <a href='#' id='updatename-<%=obj.id%>' class='icon pencil inline round js-updatename'></a>
+      <a href='#' id='updatename-<%=obj.id%>' class='micro pad0x inline js-updatename'>Rename</a>
     </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
   </section>
