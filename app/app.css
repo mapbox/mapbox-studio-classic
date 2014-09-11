@@ -577,6 +577,22 @@ body.local .on-local { display:block; }
   color: white;
   padding: 10px;
 }
+
+.leaflet-popup .leaflet-popup-content::-webkit-scrollbar {
+  width: 8px;
+  border-left-color: rgba(0,0,0,0.25);
+  background: transparent;
+  border-radius: 0;
+}
+
+.leaflet-popup .leaflet-popup-content::-webkit-scrollbar:hover {
+  background:rgba(255,255,255,0.15);
+}
+
+.leaflet-popup .leaflet-popup-content::-webkit-scrollbar-thumb {
+  background:rgba(255,255,255,0.1);
+}
+
 .leaflet-popup .leaflet-popup-content {
   border: none;
   padding: 0px;
@@ -585,6 +601,7 @@ body.local .on-local { display:block; }
   width: 240px;
   max-height: 300px;
 }
+
 .leaflet-popup .leaflet-popup-content .xray-listing {
   /* leaflet overrides */
   line-height: 20px;
