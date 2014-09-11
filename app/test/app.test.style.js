@@ -33,33 +33,28 @@ tape('#settings-form', function(t) {
     t.end();
 });
 
-tape('.js-history browses sources', function(t) {
-    $('.js-history .js-browsesource').click();
-    t.ok(hasModal('#browsesource'));
-    t.end();
-});
-
-tape('.js-history browses styles', function(t) {
-    $('.js-history .js-browsestyle').click();
-    t.ok(hasModal('#browsestyle'));
+tape('.js-history browses projects', function(t) {
+    t.ok(!hasModal('#browseproject'));
+    $('.js-history .js-browseproject').click();
+    t.ok(hasModal('#browseproject'));
     t.end();
 });
 
 tape('.js-history removes history style', function(t) {
-    var count = $('#history-style .project').size();
+    var count = $('#history-style .history-project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
     t.ok(hasModal('#confirm'), 'shows confirm modal');
     $('#confirm a.js-confirm').click();
     onajax(function() {
-        t.equal(count - 1, $('#history-style .project').size());
+        t.equal(count - 1, $('#history-style .history-project').size());
         t.end();
     });
 });
 
-tape('.js-newstyle => newstyle modal', function(t) {
-    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
-    $('.js-newstyle').click();
-    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+tape('.js-newproject => newproject modal', function(t) {
+    t.equal(hasModal('#newproject'), false, 'no newproject modal');
+    $('.js-newproject').click();
+    t.equal(hasModal('#newproject'), true, 'shows newproject modal');
     t.end();
 });
 
@@ -169,9 +164,40 @@ tape('.js-layers opens layer description', function(t) {
 
 tape('.js-layers shows sources modal', function(t) {
     $('.js-layers .js-modalsources:eq(0)').click();
+    t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),true, ' has loading state');
     onajax(function() {
+        t.equal($('.js-layers .js-modalsources:eq(0)').hasClass('spinner'),false, ' doesn\'t have loading state');
         t.ok(hasModal('#modalsources'));
+
+        // form validity tests
+
+        // disallow spaces between composite sources
+        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+
+        // allow remote composite sources
+        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // disallow local compositing
+        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+
+        // allow single local source
+        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // now test the user clicking a real source
         $('#modalsources-remote .js-adddata:eq(0)').click();
+
+        var selected = $('#modalsources-remote .js-adddata:eq(0)').attr('href');
+        var input = $('#applydata input[type=text]').val();
+
+        t.notEqual(selected.indexOf(input),-1,' and selected layer matches form input.');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        $('#applydata input[type=submit]').click();
+
         onajax(function() {
             t.ok(!hasModal('#modalsources'));
             t.end();
@@ -187,29 +213,58 @@ tape('#reference tabs through CartoCSS reference', function(t) {
     t.end();
 });
 
-tape('initializes export ui', function(t) {
-    // for some reason clicking on .js-export doesn't
-    // initialize the bounding box
-    window.exporter.refresh();
-    t.ok(window.exporter.boundingBox);
-    t.end();
-});
-
 tape('places: list', function(t) {
     $('.js-places.js-toolbar-places').click();
     t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
     t.end();
 });
 
-tape('places: search results', function(t) {
-    $('.js-show-search').click();
-    $('#places-dosearch').attr('value','osm data');
-    $('.js-places-search').click();
-    t.notEqual($('.js-places-list').children().length, 0, 'are in list');
+tape('places: tag filter', function(t) {
+    $('.places-entry-container a[tag="path"]').click();
+    var placeCount = $('.js-places-list').children().size();
+    t.notEqual(placeCount, 0, 'updates places list');
+    for (var i = 0; i<placeCount; i++) {
+        var item = $('.js-places-list').children()[i];
+        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
+    };
+    t.end();
+});
 
-    $('#places-dosearch').attr('value','testingemptystate');;
+tape('places: search results', function(t) {
+    t.equal($('.js-places-container').hasClass('active'), false, 'search bar is not active');
+    $('.js-show-search').click();
+    t.equal($('.js-places-container').hasClass('active'), true, 'search bar is active');
+    // search should have no results
+    $('#places-dosearch').val('testingemptystate');
     $('.js-places-search').click();
     t.equal($('.js-places-list').children().length, 1, 'empty state appears');
+    // search for 'park' which is different than 'osm data'
+    $('#places-dosearch').val('park');
+    $('.js-places-search').click();
+    // check search results
+    var placeCount = $('.js-places-list').children().size();
+    t.notEqual(placeCount, 0, 'are in list');
+    for (var i = 0; i<placeCount; i++) {
+        var item = $('.js-places-list').children()[i];
+        var inName = $('small', item).text().toLowerCase().indexOf('park') >-1;
+        var inTags = $('a[tag*="park"]', item).size() >=1;
+        t.ok(inTags || inName, 'item has park in tags or name');
+    };
+    var placeItem = $('.js-places-list').children()[0];
+    var jumpZoom = parseInt($('.js-places-entry', placeItem).attr('zoom'), 10);
+    var jumpLat = parseFloat($('.js-places-entry', placeItem).attr('lat'));
+    var jumpLng = parseFloat($('.js-places-entry', placeItem).attr('lng'));
+    var originalZoom = (window.editor.map.getZoom());
+    var originalLat = (window.editor.map.getCenter().lat);
+    var originalLng = (window.editor.map.getCenter().lng);
+    t.notEqual(jumpZoom, originalZoom, 'original zoom not equal to jump zoom');
+    t.notEqual(jumpLat, originalLat, 'original lat not equal to jump lat');
+    t.notEqual(jumpLng, originalLng, 'original lng not equal to jump lng');
+    $('.js-place-jump', placeItem).click();
+    t.equal(window.editor.map.getZoom(), jumpZoom, 'map is at jump zoom');
+    t.equal(window.editor.map.getCenter().lat, jumpLat, 'map is at jump lat');
+    t.equal(window.editor.map.getCenter().lng, jumpLng, 'map is at jump lng');
+    window.editor.map.setView([originalLat, originalLng], originalZoom);
     t.end();
 });
 
@@ -252,6 +307,14 @@ tape('bookmarks: save', function(t) {
 //     t.equal($('#js-places-list').children().length, 0, 'bookmark is not in list');
 //     t.end();
 // });
+
+tape('initializes export ui', function(t) {
+    // for some reason clicking on .js-export doesn't
+    // initialize the bounding box
+    window.exporter.refresh();
+    t.ok(window.exporter.boundingBox);
+    t.end();
+});
 
 tape('export-ui: .js-coordinates recalculates center', function(t) {
     $('#bboxInputW').prop('value', -2.5);
@@ -346,7 +409,8 @@ tape('.js-upload', function(t) {
     $('.js-upload').click();
     t.equal($('#mapstatus').hasClass('loading'), true, '#mapstatus.loading');
     onajax(function() {
-        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'has mapid');
+        t.equal(/^test\.[0-9a-z]+$/.test(window.editor.model.get('_prefs').mapid), true, 'model has mapid');
+        t.equal(/^test\.[0-9a-z]+$/.test($('.js-mapid').text()), true, 'UI has mapid');
         t.equal($('#mapstatus').hasClass('loading'), false, '#mapstatus');
         t.end();
     });
@@ -393,6 +457,10 @@ tape('keybindings', function(t) {
     $('body').trigger(e);
     t.equal(window.location.hash, '#export', 'ctrl+alt+s => #export');
 
+    t.end();
+});
+
+tape('keybindings save', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
@@ -402,8 +470,11 @@ tape('keybindings', function(t) {
     onajax(function() {
         t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
         t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
     });
+});
 
+tape('keybindings bookmark', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;

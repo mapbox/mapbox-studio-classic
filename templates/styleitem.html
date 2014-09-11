@@ -1,0 +1,12 @@
+<% var rand = Math.random().toString(16).split('.')[1]; %>
+<div class='space-bottom1 contain'>
+  <div class='history-project col12 round small fill-lighten0 strong contain'>
+    <div class='pin-left round-left small-graphic z1'><div class='history-thumbnail pin-left pin-right round-left fill-darken2' style='background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'></div></div>
+    <div class='pad1'>
+      <a class='<%=obj.classes||''%> block js-style-name' href='/style?id=<%=item.id%>'><%= item.name || 'Untitled' %></a>
+      <span class='micro code quiet'><%= item.id.split('/').pop().replace('.tm2', '') %></span>
+      <div class='z10 pad1x pad2y proj-status hidden pin-right fill-green round-right'><span class='inline strong dot dark icon check'></span></div>
+    </div>
+  </div>
+  <a href='style?id=<%=item.id%>' class='js-ref-delete round-right pad1x pad2y pin-topright'><span class='minus fill-darken1 icon dot'></span></a>
+</div>

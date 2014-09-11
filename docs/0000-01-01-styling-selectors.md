@@ -28,7 +28,7 @@ You can also assign classes to layers to select multiple layers more simply. In 
 
 You can modify selections with _filters_ that reduce the number of objects a style applies to based on certain criteria. Filters let your style read into the various text and numeric properties attached to each object in a layer. For example, you might have all your roads in a single layer, but you could use filters to specify different line colors for different road classifications.
 
-Filters shoudl be written written inside square brackets after a layer selector or nested inside a larger style block.
+Filters should be written inside square brackets after a layer selector or nested inside a larger style block.
 
 ### Zoom level filters
 

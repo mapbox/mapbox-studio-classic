@@ -8,11 +8,22 @@ var grids;
 var gridc;
 var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
-var placeentry = '<div lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" id="place-sentry-<%= index %>" class="js-places-entry col4 places-entry animate">' +
-                    '<a href="#" class="z1 block entry-label fill-darken1 dark pin-bottom center pin-top">' +
-                      '<h2 class="pin-top pad2x"><%= place_name %></h2>' +
-                    '</a>' +
-                    '<% if (!tags.indexOf("userbookmark")) { %><a href="#" index="<%= index %>" class="js-del-bookmark zoomedto-close icon trash pin-topright pad1 quiet"></a><% }; %>' +
+var placeentry = '<div class="col4 contain places-entry-container animate">' +
+                    '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry fill-canvas places-entry pin-left col12"></div>' +
+                    '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
+                      '<a href="#" class="block pin-bottom pin-top js-place-jump">' +
+                        '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
+                      '</a>' +
+                      '<% if (tags.indexOf("userbookmark")) { %>' +
+                      '<div class="pin-top z10 dark pad1">' +
+                        '<% _.each(tags, function(currenttag) { %>' +
+                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
+                        '<% }); %>' +
+                      '</div>' +
+                      '<% } else { %>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
+                      '<% } %>' +
+                    '</div>'
                   '</div>';
 
 statHandler('drawtime')();
@@ -95,13 +106,12 @@ var Source = Backbone.Model.extend({});
 Source.prototype.url = function() { return '/source.json?id=' + this.get('id'); };
 
 Editor.prototype.events = {
-  'click .js-newstyle': 'newStyle',
-  'click .js-browsestyle': 'browseStyle',
-  'click .js-browsesource': 'browseSource',
+  'click .js-newproject': 'newProject',
+  'click .js-browseproject': 'browseProject',
   'click .js-tab': 'tabbed',
   'click .js-save': 'save',
   'click .js-places': 'places',
-  'click .js-places-entry': 'placesJump',
+  'click .js-place-jump': 'placesJump',
   'click .js-show-search': 'showPlacesSearch',
   'click .js-hide-search': 'hidePlacesSearch',
   'click .js-places-search': 'placesSearch',
@@ -112,17 +122,18 @@ Editor.prototype.events = {
   'submit #settings-drawer': 'save',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
-  'submit #addmapbox': 'addmapbox',
+  'click .js-adddata': 'adddata',
+  'submit #applydata': 'applydata',
   'click #tabs .js-deltab': 'deltab',
   'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
-  'click .js-adddata': 'adddata',
   'click .js-upload': 'upload',
   'click .js-selectall': 'selectall',
   'click .js-demo': 'demo',
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
+  'click .js-placetag': 'tagPlacesSearch'
 };
 
 Editor.prototype.addBookmark = function(ev) {
@@ -130,8 +141,8 @@ Editor.prototype.addBookmark = function(ev) {
 
   var view = this,
       button = $('.js-add-bookmark'),
-      lat = map.getCenter().lat,
-      lng = map.getCenter().lng,
+      lat = map.getCenter().wrap().lat,
+      lng = map.getCenter().wrap().lng,
       zoom = map.getZoom();
 
   // Reverse geocode to get name
@@ -178,18 +189,19 @@ Editor.prototype.removeBookmark = function(ev) {
 Editor.prototype.renderPlaces = function(filter) {
   var view = this;
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
-
   // Filter list
   var filtered = _.filter(list, function(d) {
     return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
   });
 
   if (filtered.length === 0) {
-    $('#placeslist').html('<div class="empty-places quiet col12 pad4 center"><h1>No Places.</h1></div>');
+    $('#placeslist').html('<div class="dark empty-places col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 
   // Print template
+
+
   $('#placeslist').html(_.map(filtered, function(d, i) {
     d.index = i;
     return _.template(placeentry, d);
@@ -231,13 +243,13 @@ Editor.prototype.places = function(ev) {
 };
 
 Editor.prototype.showPlacesSearch = function(ev) {
-  $('.js-places-container').removeClass('hidden');
+  $('.js-places-container').addClass('active');
   $('#places-dosearch').focus();
   return false;
 };
 
 Editor.prototype.hidePlacesSearch = function(ev) {
-  $('.js-places-container').addClass('hidden');
+  $('.js-places-container').removeClass('active');
   window.editor.places(ev);
   return false;
 };
@@ -248,11 +260,23 @@ Editor.prototype.placesSearch = function(ev) {
   return false;
 };
 
+// New search based on clicked tag
+Editor.prototype.tagPlacesSearch = function(ev) {
+  var filter = $(ev.currentTarget).attr("tag").toLowerCase();
+  window.editor.renderPlaces(filter);
+
+  // clear filter
+  $('.js-places-toggle input').prop( "checked", false );
+
+  return false;
+};
+
 Editor.prototype.placesJump = function(ev) {
   var target = $(ev.currentTarget);
-  var lat = target.attr('lat');
-  var lng = target.attr('lng');
-  var zoom = target.attr('zoom');
+  var mapcontainer = target.parent('div').siblings('.js-places-entry');
+  var lat = mapcontainer.attr('lat');
+  var lng = mapcontainer.attr('lng');
+  var zoom = mapcontainer.attr('zoom');
   map.setView([lat, lng], zoom);
   window.location.href = '#';
 };
@@ -324,7 +348,10 @@ Editor.prototype.saveModal = function() {
   Modal.show('browsersave', {type:'style', cwd:cwd});
   new views.Browser({
     el: $('.modal-content #saveas'),
-    filter: function(file) { return file.type === 'dir' && !(/\.tm2$/).test(file.basename); },
+    filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) },
+    isProject: function(file) {
+      return (/\.tm2source$/.test(file) || /\.tm2$/.test(file));
+    },
     callback: function(err, filepath) {
       if (err) return false; // @TODO
       filepath = filepath.replace(/\.tm2/,'') + '.tm2';
@@ -339,9 +366,8 @@ Editor.prototype.saveModal = function() {
   });
   return false;
 };
-Editor.prototype.newStyle = function() { return Modal.show('newstyle', examples) || false; };
-Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
-Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
+Editor.prototype.newProject = function() { return Modal.show('newproject', examples) || false; };
+Editor.prototype.browseProject = views.Browser.projectHandler(Modal, cwd);
 Editor.prototype.togglePane = function(name) {
   var loc = location.href;
   if (loc.indexOf('#'+name) === -1) {
@@ -369,46 +395,34 @@ Editor.prototype.tabbed = tabbedHandler;
 
 Editor.prototype.modalsources = function(ev) {
   var style = this.model.attributes;
+  $(ev.currentTarget).addClass('spinner');
   $.ajax({
     url: '/history.json',
     success: function(history) {
       Modal.show('sources', {
         style: style,
-        history: history
+        history: history,
+        templates: templates
       });
+      $(ev.currentTarget).removeClass('spinner');
     }
   });
   return false;
 };
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
-  var id = target.attr('href').split('?id=').pop();
-  (new Source({id:id})).fetch({
-    success: _(function(model, resp) {
-      console.log(resp);
-      $('.js-layers .js-layer-content').html(templates.sourcelayers({
-          id: resp.id,
-          name: resp.name,
-          vector_layers: resp.vector_layers,
-          xraycolor: templates.xraycolor,
-        })
-      );
-      this.model.set({source:id});
-      this.changed();
-      Modal.close();
-    }).bind(this),
-    error: _(this.error).bind(this)
-  });
+  var id = target.attr('href').split('?id=').pop().replace('mapbox:///','');
+  $('#applydata input[type=text]').val(id).focus();
   return false;
 };
-Editor.prototype.addmapbox = function(ev) {
+Editor.prototype.applydata = function(ev) {
   var view = this;
-  var attr = _($('#addmapbox').serializeArray()).reduce(function(memo, field) {
+  var attr = _($('#applydata').serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
   }, {});
-  var id = attr.id;
-  if (!(/^(https?:\/\/)|(mapbox:\/\/)/).test(id)) {
+  var id = attr.id.replace(', ',',');
+  if (!(/^(https?:\/\/)|(mapbox:\/\/)|(tmsource:\/\/)/).test(id)) {
     id = 'mapbox:///' + id;
   }
   (new Source({id:id})).fetch({
@@ -576,6 +590,7 @@ Editor.prototype.cartoError = function(ln, e) {
 };
 
 Editor.prototype.upload = function(ev) {
+  var model = this.model;
   var style = this.model.get('id');
   $('#mapstatus').addClass('loading');
   $.ajax({
@@ -583,6 +598,7 @@ Editor.prototype.upload = function(ev) {
     method: 'PUT'
   })
     .done(function(info) {
+      model.set(info);
       $('.js-mapid').text(info._prefs.mapid);
       $('#mapstatus').removeClass('loading');
       $('#mapstatus').addClass('uploaded');
@@ -612,6 +628,7 @@ Editor.prototype.refresh = function(ev) {
   if (!map) {
     map = L.mapbox.map('map');
     map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+    this.map = map;
 
     map.on('zoomend', function() {
       var visible = '';
@@ -688,7 +705,7 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#places') {
     // if search is active, use search value,
     // otherwise use toggle value
-    if ($('.js-places-container').hasClass('hidden')) {
+    if ($('.js-places-container').hasClass('hidden') && $('input','.js-places-toggle').is(':checked')) {
       var container = $('.js-places-toggle');
       var filter = $('input:checked',container).attr('value').toLowerCase();
     } else {
@@ -699,7 +716,7 @@ Editor.prototype.refresh = function(ev) {
 
   // Refresh map title.tm.db.rm('user');
   $('title, .js-name').text(this.model.get('name') || 'Untitled');
-  $('.proj-active .style-name').text(this.model.get('name') || 'Untitled');
+  $('.proj-active .js-style-name').text(this.model.get('name') || 'Untitled');
 
   // Set canvas background color.
   if (xray && window.location.hash === '#xray') {
@@ -737,6 +754,12 @@ window.onhashchange = function(ev) {
   case 'home':
   case 'xray':
     window.editor.refresh();
+    break;
+  case 'places':
+    if ($('input','.js-places-toggle').is(':checked')) {
+      var filter = $('.js-places-toggle input:checked').attr('value').toLowerCase();
+      window.editor.renderPlaces(filter);
+    }
     break;
   case !'export':
     window.exporter.boundingBox.disable();

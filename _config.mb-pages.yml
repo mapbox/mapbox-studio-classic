@@ -1,6 +1,7 @@
-source: website 
-api: https://www.mapbox.com
 url: https://www.mapbox.com
+api: https://www.mapbox.com
+tileApi: https://api.tiles.mapbox.com
+source: website
 permalink: /:title
 baseurl: /mapbox-studio
 highlighter: true
@@ -17,5 +18,5 @@ defaults:
     date: 0000-01-01
 
 ### latest release
-release: v0.0.5
+release: v0.1.0
 

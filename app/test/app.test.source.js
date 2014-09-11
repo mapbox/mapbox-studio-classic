@@ -28,10 +28,10 @@ tape('#settings-form', function(t) {
     t.end();
 });
 
-tape('.js-newstyle => newstyle modal', function(t) {
-    t.equal(hasModal('#newstyle'), false, 'no newstyle modal');
-    $('.js-newstyle').click();
-    t.equal(hasModal('#newstyle'), true, 'shows newstyle modal');
+tape('.js-newproject => newproject modal', function(t) {
+    t.equal(hasModal('#newproject'), false, 'no newproject modal');
+    $('.js-newproject').click();
+    t.equal(hasModal('#newproject'), true, 'shows newproject modal');
     t.end();
 });
 
@@ -52,7 +52,7 @@ tape('Setting maxzoom: sets maxzoom to higher value than 6 (tests logic preferen
 });
 
 tape('#addlayer-shape: adds new shapefile and checks input values', function(t) {
-    t.equal($('#10m-900913-bounding-box').size(), 0, 'has no bbox layer');
+    t.equal($('[data-layer=10m-900913-bounding-box]').size(), 0, 'has no bbox layer');
     //Browse for file and add new shape layer
     $('.js-addlayer').click();
     $('.js-browsefile').click();
@@ -64,13 +64,14 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
     $('#browsefile .col8').val(shpFile);
     $('#browsefile .col4').submit();
     onajax(function() {
-        t.equal($('#10m-900913-bounding-box').size(), 1, 'has bbox layer');
+        t.equal($('[data-layer=10m-900913-bounding-box]').size(), 1, 'has bbox layer');
         var maxzoomTarget = $('#settings-drawer #maxzoom');
         var maxzoom = maxzoomTarget.val();
         var projTarget = $('.js-metadata-projection');
         var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
         t.equal(expectedValue, projTarget.val());
         t.equal(maxzoom, '12');
+
         t.end();
     });
 });
@@ -121,14 +122,23 @@ tape('#raster and nonraster mix error', function(t) {
     t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
     $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/shp/dc_bus_lines/DCGIS_BusLineLn.shp');
     $('#addlayer').submit();
-    $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
-    $('#addlayer').submit();
     onajax(function() {
-        t.ok(hasModal('#error'), 'shows error modal');
-        $('#error a.js-close').click();
-        $('#del-DCGIS_BusLineLn').click();
-        $('#confirm a.js-confirm').click();
-        t.end();
+        t.equal($('#layers-DCGIS_BusLineLn').size(), 1, 'adds #layers-DCGIS_BusLineLn form');
+        $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
+        $('#addlayer').submit();
+        onajax(function() {
+            t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
+            t.ok(hasModal('#error'), 'shows error modal');
+            $('#error a.js-close').click();
+            t.ok(!hasModal('#error'), 'removes error modal');
+
+            $('#del-DCGIS_BusLineLn').click();
+            t.ok(hasModal('#confirm'), 'shows confirm modal');
+            $('#confirm a.js-confirm').click();
+            t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
+
+            t.end();
+        });
     });
 });
 
@@ -238,7 +248,7 @@ for (var name in datatests) (function(name, info) {
             //Delete all current layers to avoid raster/non-raster error message
             for(var i = 0; i < layerLength; i++){
                 var layername;
-                layername = $('.js-layer')[i].id;
+                layername = $('.js-layer')[i].getAttribute('data-layer');
                 $('#del-' + layername).click();
                 $('#confirm a.js-confirm').click();
             };
@@ -255,6 +265,14 @@ for (var name in datatests) (function(name, info) {
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
         onajax(function() {
+
+            // Check that correct panel is active
+            t.equal($('body').hasClass('fields') || $('body').hasClass('sql'), false, ' config panel is visible');
+
+            $('.js-tab.mode-fields').click();
+
+            t.equal($('body').hasClass('fields'), true, ' fields panel is visible after toggle click');
+
             t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
             var values = _($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
                 memo[field.name] = field.value;

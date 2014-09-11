@@ -101,7 +101,7 @@
 </div>
 
 <div id='full' class='clip animate pin-left'>
-  <div id='map' class='animate dark' style='background-color:<%=source.background%>;'></div>
+  <div id='map' class='animate fill-canvas dark' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
 
@@ -109,7 +109,7 @@
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
     <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
-  <div class='map-controls pin-top text-right col12 dark fill-dark row1'>
+  <div class='map-controls pin-top dark fill-dark row1'>
     <div class='pin-left fill-dark z1 pad0 row1 truncate'>
       <a href='#search' class='search-n button short icon search quiet'></a>
       <a href='#' class='search-y button short icon active icon search quiet'></a>
@@ -122,9 +122,9 @@
    --><a id='zoom-out' class='button short icon minus quiet'></a>
       </div>
     </div>
-    <div class='pin-top fill-dark z0 pad0 row1 text-right'>
-      <span id='map-center' class='inline quiet micro strong pad0y align-top'></span>
-      <div id='zoomedto' class='align-top inline contain zoom<%=source.center[2]%>'></div>
+    <div class='pin-top text-right fill-dark z0 pad0 row1'>
+      <span id='map-center' class='quiet inline micro strong pad0y align-top'></span>
+      <div id='zoomedto' class='align-top text-right inline contain zoom<%=source.center[2]%>'></div>
     </div>
   </div>
   <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
@@ -205,7 +205,8 @@ templates.modaladdlayer = <%= this.modaladdlayer.source %>;
 templates.modalupdatename = <%= this.modalupdatename.source %>;
 templates.modalconfirm = <%= this.modalconfirm.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
-templates.modalnewstyle = <%= this.modalnewstyle.source %>;
+templates.modalnewproject = <%= this.modalnewproject.source %>;
+templates.newproject = <%= this.newproject.source %>;
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerfields = <%= this.layerfields.source %>;
 templates.layershape = <%= this.layershape.source %>;

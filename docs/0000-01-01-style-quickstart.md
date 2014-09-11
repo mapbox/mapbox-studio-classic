@@ -116,7 +116,7 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 Uploading
 ---------
 
-Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/): may be prompted if you aren't yet on one.
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/). You may be prompted if you aren't yet on one.
 
 ![Upload style](https://cloud.githubusercontent.com/assets/83384/3870412/70cc4fb8-20cd-11e4-89e6-0012952df580.png)
 

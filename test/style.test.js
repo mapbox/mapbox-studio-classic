@@ -20,7 +20,7 @@ var creds = {
 
 var server;
 var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
-var tmppath = tm.join(tmp, 'styleTest-' + (+new Date));
+var tmppath = tm.join(tmp, 'Style ШЖФ -' + (+new Date));
 
 test('setup: config', function(t) {
     tm.config({

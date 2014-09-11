@@ -21,7 +21,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         var layer = {
             code: code,
             form: $('#layers-' + id),
-            item: $('#layers #' + id)
+            item: $('#layers [data-layer=' + id + ']')
         };
         layer.refresh = function() {
             var l = _(editor.model.get('vector_layers')).find(function(l) {
@@ -63,7 +63,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     }, {});
     function orderLayers() {
         var ids = $('#layers .js-layer-content .js-layer').map(function() {
-            return $(this).attr('id');
+            return $(this).attr('data-layer');
         }).get();
         layers = _(ids).reduce(function(memo, id) {
             memo[id] = layers[id];
@@ -80,13 +80,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     });
     var Editor = Backbone.View.extend({});
     Editor.prototype.events = {
-        'click .js-newstyle': 'newStyle',
+        'click .js-newproject': 'newProject',
         'click .js-sourcenewstyle': 'sourceNewStyle',
-        'click .js-browsesource': 'browseSource',
-        'click .js-browsestyle': 'browseStyle',
+        'click .js-browseproject': 'browseProject',
         'click .js-save': 'save',
         'click .js-saveas': 'saveModal',
-        'click .js-reset-mode': 'resetmode',
         'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
         'click .layer .js-refresh-source': 'refreshSource',
@@ -147,8 +145,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
         new views.Browser({
             el: $('.modal-content #saveas'),
-            filter: function(file) {
-                return file.type === 'dir' && !(/\.tm2$/).test(file.basename);
+            filter: function(file) { return file.type === 'dir' || (/\.tm2source$/.test(file.basename) || /\.tm2$/.test(file.basename)) },
+            isProject: function(file) {
+              return (/\.tm2source$/.test(file) || /\.tm2$/.test(file));
             },
             callback: function(err, filepath) {
                 if (err) return false; // @TODO
@@ -168,9 +167,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
         return false;
     };
-    Editor.prototype.newStyle = function() { return Modal.show('newstyle', examples) || false; };
-    Editor.prototype.browseSource = views.Browser.sourceHandler(Modal, cwd);
-    Editor.prototype.browseStyle = views.Browser.styleHandler(Modal, cwd);
+    Editor.prototype.newProject = function() { return Modal.show('newproject', examples) || false; };
+    Editor.prototype.browseProject = views.Browser.projectHandler(Modal, cwd);
     Editor.prototype.user = function() {
         window.location.href = window.location.origin + '/unauthorize';
         return false;
@@ -207,10 +205,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         }
         tabbedHandler(ev);
         return false;
-    };
-    Editor.prototype.resetmode = function(ev) {
-        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
-        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
     Editor.prototype.togglelayer = function(ev) {
         var $target = $(ev.currentTarget);
@@ -441,14 +435,22 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
       // Replace old layer/form
       layer.id = new_id;
       layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
+      $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
       layers[current_id].item.replaceWith(templates.layeritem(layer));
       delete layers[current_id];
       layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-      //Close
+      // Close modal
       Modal.close();
       $('#layers .js-layer-content').sortable('destroy').sortable();
+
+      // Remove animation for more elegant panel refresh
+      $('#layers-' + new_id).removeClass('animate');
+
       window.location.href = '#layers-' + new_id;
+
+      // Bring back animation after panel has been replaced
+      $('#layers-' + new_id).addClass('animate');
 
       return false;
 
@@ -489,7 +491,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             attr.center = [lon, map.getCenter().lat, zoom];
         }
         attr._prefs.disabled = _($('#layers .layer').map(function(v) {
-            return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('id') : false;
+            return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('data-layer') : false;
         })).compact();
         // New mtime querystring.
         mtime = (+new Date).toString(36);
@@ -629,6 +631,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
     window.onhashchange = function(ev) {
         analytics.page({hash:window.location.hash});
+
+        // clear mode panel state.
+        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
+        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
 
     // Sortable layers for local sources.
