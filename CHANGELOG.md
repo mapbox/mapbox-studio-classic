@@ -5,6 +5,7 @@ Changelog
 
 - Include full set of Komika fonts.
 - Source UI: Fix bug where incorrect active panel would show when adding new source
+- Updates and bugfixes for example styles.
 
 ### 0.1.0
 
