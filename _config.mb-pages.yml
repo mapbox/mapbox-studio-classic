@@ -1,6 +1,7 @@
-source: website 
-api: https://www.mapbox.com
 url: https://www.mapbox.com
+api: https://www.mapbox.com
+tileApi: https://api.tiles.mapbox.com
+source: website
 permalink: /:title
 baseurl: /mapbox-studio
 highlighter: true
