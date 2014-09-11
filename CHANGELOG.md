@@ -1,9 +1,10 @@
 Changelog
 =========
 
-### 0.1.0
+### 0.1.1
 
 - Include full set of Komika fonts.
+- Source UI: Fix bug where incorrect active panel would show when adding new source
 
 ### 0.1.0
 
