@@ -6,7 +6,7 @@ arch="x64"
 # @TODO 0.10.30 must be added to https://github.com/mapbox/node-pre-gyp/blob/master/lib/util/abi_crosswalk.json
 # and available in all our node-pre-gyp modules.
 node_version="0.10.26"
-atom_version="0.15.4"
+atom_version="0.16.2"
 
 if [ -z "$1" ]; then
     gitsha="master"
