@@ -141,8 +141,8 @@ Editor.prototype.addBookmark = function(ev) {
 
   var view = this,
       button = $('.js-add-bookmark'),
-      lat = map.getCenter().lat,
-      lng = map.getCenter().lng,
+      lat = map.getCenter().wrap().lat,
+      lng = map.getCenter().wrap().lng,
       zoom = map.getZoom();
 
   // Reverse geocode to get name
