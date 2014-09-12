@@ -184,6 +184,13 @@ function createMenu() {
           {
             label: 'Online Resources',
             click: function() { shell.openExternal('https://www.mapbox.com/mapbox-studio/'); }
+          },
+          {
+            label: 'Application Log',
+            click: function() {
+                var cp = require("child_process");
+                cp.exec("open -a /Applications/Utilities/Console.app ~/.mapbox-studio/app.log");
+            }
           }
         ]
       }
