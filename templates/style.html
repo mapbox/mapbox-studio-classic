@@ -546,8 +546,8 @@ templates.sourcelayers = <%= this.sourcelayers.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 
-analytics.track('Version', {
-  version: "<%= version %>"
+analytics.identify({
+  Version: "<%= version %>"
 });
 
 Style(templates, cwd, style, examples, gazetteer);

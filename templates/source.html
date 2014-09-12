@@ -222,8 +222,8 @@ templates.modalsourcenewstyle = <%= this.modalsourcenewstyle.source %>;
 var tm = {};
 tm.srs = <%= saferstringify(tm.srs, null, 2) %>;
 
-analytics.track('Version', {
-  version: "<%= version %>"
+analytics.identify({
+  Version: "<%= version %>"
 });
 
 var cwd = <%= saferstringify(cwd, null, 2) %>;
