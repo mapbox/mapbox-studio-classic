@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.1.2
+
+- Windows: Sign atom.exe when bundling to prevent antivirus software from detecting false positives.
+
 ### 0.1.1
 
 - Include full set of Komika fonts.
