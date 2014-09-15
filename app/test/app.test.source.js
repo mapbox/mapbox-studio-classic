@@ -39,13 +39,13 @@ tape('.js-mapCenter', function(t) {
     t.end();
 });
 
-tape('.js-saveCenter unlocked', function(t) {
+tape('.js-lockCenter unlocked', function(t) {
     var z = (window.editor.map.getZoom());
     var x = (window.editor.map.getCenter().lng);
     var y = (window.editor.map.getCenter().lat);
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
-    t.equal($('.js-saveCenter').is('.active'), false, '.js-saveCenter is unlocked');
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
     window.editor.map.setView([40,-40],6);
     t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,6', '.js-savedCenter text: -40.0000,40.0000,6');
     window.editor.save();
@@ -61,23 +61,23 @@ tape('.js-saveCenter unlocked', function(t) {
     });
 });
 
-tape('.js-saveCenter locked', function(t) {
+tape('.js-lockCenter locked', function(t) {
     var z = (window.editor.map.getZoom());
     var x = (window.editor.map.getCenter().lng);
     var y = (window.editor.map.getCenter().lat);
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
-    t.equal($('.js-saveCenter').is('.active'), false, '.js-saveCenter is unlocked');
-    $('.js-saveCenter').click();
-    t.equal($('.js-saveCenter').is('.active'), true, '.js-saveCenter is locked');
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    $('.js-lockCenter').click();
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
     window.editor.map.setView([40,-40],6);
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
     window.editor.save();
     onajax(function() {
         t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
         window.editor.map.setView([y,x],z);
-        $('.js-saveCenter').click();
-        t.equal($('.js-saveCenter').is('.active'), false, '.js-saveCenter is unlocked');
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
         t.end();
     });
 });

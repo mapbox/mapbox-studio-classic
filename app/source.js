@@ -105,7 +105,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'submit #settings-drawer': 'save',
         'keydown': 'keys',
         'click .js-zoom-to': 'zoomToLayer',
-        'click .js-saveCenter': 'saveCenter'
+        'click .js-lockCenter': 'lockCenter'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -486,7 +486,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
         // Grab map center which is dependent upon the "last saved" value.
         attr._prefs = attr._prefs || this.model.attributes._prefs || {};
-        attr._prefs.saveCenter = !$('.js-saveCenter').is('.active');
+        attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
         attr.center = $('.js-savedCenter').text().split(',');
         attr.center[0] = parseFloat(attr.center[0]);
         attr.center[1] = parseFloat(attr.center[1]);
@@ -520,7 +520,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             function setCenter(e) {
                 $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
-                if (!$('.js-saveCenter').is('.active')) $('.js-savedCenter').text(
+                if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
                     map.getCenter().wrap().lng.toFixed(4) + ',' +
                     map.getCenter().wrap().lat.toFixed(4) + ',' +
                     map.getZoom()
@@ -635,8 +635,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.sourceNewStyle = function(){
         Modal.show('sourcenewstyle', {source:source});
     };
-    Editor.prototype.saveCenter = function(ev) {
-        $(ev.currentTarget).toggleClass('active fill-darken2');
+    Editor.prototype.lockCenter = function(ev) {
+        $(ev.currentTarget).toggleClass('active');
         return false;
     };
 

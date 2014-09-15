@@ -78,7 +78,7 @@
             <label class='micro inline col4'>Center</label>
             <div class='micro fill-darken1 pad0x clip col8 contain round'>
               <span class='js-savedCenter'><%= source.center[0].toFixed(4) %>,<%= source.center[1].toFixed(4) %>,<%= source.center[2] %></span>
-              <a href='#settings' class='js-saveCenter icon lock pin-right round-right <%= source._prefs.saveCenter ? '' : 'active fill-darken2' %>'></a>
+              <a href='#settings' class='js-lockCenter icon lock pin-right round-right fill-darken2-onactive <%= !source._prefs.saveCenter ? 'active' : '' %>'></a>
             </div>
           </section>
           <section class='space-bottom0 clearfix'>

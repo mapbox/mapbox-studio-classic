@@ -134,7 +134,7 @@ Editor.prototype.events = {
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
   'click .js-placetag': 'tagPlacesSearch',
-  'click .js-saveCenter': 'saveCenter'
+  'click .js-lockCenter': 'lockCenter'
 };
 
 Editor.prototype.addBookmark = function(ev) {
@@ -521,7 +521,7 @@ Editor.prototype.save = function(ev, options) {
 
   // Grab map center which is dependent upon the "last saved" value.
   attr._prefs = attr._prefs || this.model.attributes._prefs || {};
-  attr._prefs.saveCenter = !$('.js-saveCenter').is('.active');
+  attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
   attr.center = $('.js-savedCenter').text().split(',');
   attr.center[0] = parseFloat(attr.center[0]);
   attr.center[1] = parseFloat(attr.center[1]);
@@ -622,8 +622,8 @@ Editor.prototype.demo = function(ev) {
   $('body').toggleClass('demo');
 };
 
-Editor.prototype.saveCenter = function(ev) {
-  $(ev.currentTarget).toggleClass('active fill-darken2');
+Editor.prototype.lockCenter = function(ev) {
+  $(ev.currentTarget).toggleClass('active');
   return false;
 };
 
@@ -647,7 +647,7 @@ Editor.prototype.refresh = function(ev) {
 
     function setCenter(e) {
         $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
-        if (!$('.js-saveCenter').is('.active')) $('.js-savedCenter').text(
+        if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
             map.getCenter().wrap().lng.toFixed(4) + ',' +
             map.getCenter().wrap().lat.toFixed(4) + ',' +
             map.getZoom()
