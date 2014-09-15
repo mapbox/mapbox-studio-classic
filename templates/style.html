@@ -114,7 +114,7 @@
       </div>
     </div>
     <div class='pin-top text-right fill-dark z0 pad0 row1'>
-      <span id='map-center' class='quiet inline micro strong pad0y align-top'></span>
+      <span id='map-center' class='quiet js-mapCenter inline micro strong pad0y align-top'></span>
       <div id='zoomedto' class='align-top text-right inline contain zoom<%=style.center[2]%>'></div>
     </div>
   </div>
@@ -179,11 +179,17 @@
           <input class='short small stretch' name='attribution' type='text' value='<%= _(style.attribution).escape() %>'></input>
         </section>
       </fieldset>
-      <div class='pad1x'>
-        <fieldset class='pad1 space-bottom2 keyline-all round'>
+      <div class='pad1x pad2y keyline-top'>
           <section class='space-bottom1 clearfix'>
-            <label class='inline col4'>Image format</label>
-            <select name='format'>
+            <label class='micro inline col4'>Center</label>
+            <div class='micro fill-darken1 pad0x clip col8 contain round'>
+              <span class='js-savedCenter'><%= style.center[0].toFixed(4) %>,<%= style.center[1].toFixed(4) %>,<%= style.center[2] %></span>
+              <a href='#settings' class='js-saveCenter icon lock pin-right round-right <%= style._prefs.saveCenter ? '' : 'active fill-darken2' %>'></a>
+            </div>
+          </section>
+          <section class='space-bottom1 clearfix'>
+            <label class='micro inline col4'>Format</label>
+            <select class='col8' name='format'>
               <% _({
                 'png24': 'png (24-bit)',
                 'png8:m=h': 'png (256 colors)',
@@ -201,16 +207,19 @@
             </select>
           </section>
           <section class='space-bottom0 clearfix'>
-            <label class='inline col4'>Minzoom</label>
-            <input id='minzoom' name='minzoom' class='min' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-            <span class='small quiet code inline range' id='minzoom-val'><%= style.minzoom %></span>
+            <label class='micro inline col4'>Minzoom</label>
+            <div class='col8'>
+              <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+              <span class='micro quiet inline range' id='minzoom-val'><%= style.minzoom %></span>
+            </div>
           </section>
           <section class='space-bottom0 clearfix'>
-            <label class='inline col4'>Maxzoom</label>
-            <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-            <span class='small quiet code inline range' id='maxzoom-val'><%= style.maxzoom %></span>
+            <label class='micro inline col4'>Maxzoom</label>
+            <div class='col8'>
+              <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+              <span class='micro quiet inline range' id='maxzoom-val'><%= style.maxzoom %></span>
+            </div>
           </section>
-        </fieldset>
       </div>
     </div>
   </form>

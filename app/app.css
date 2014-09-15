@@ -155,6 +155,11 @@ label.ghost {
   right: 10px;
   }
 
+input[type=range].zoomrange {
+  width:75%;
+  min-width:40px;
+  }
+
 /* General styles
 ------------------------------------------------------- */
 pre,
