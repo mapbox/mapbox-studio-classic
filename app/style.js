@@ -133,7 +133,8 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
-  'click .js-placetag': 'tagPlacesSearch'
+  'click .js-placetag': 'tagPlacesSearch',
+  'click .js-lockCenter': 'lockCenter'
 };
 
 Editor.prototype.addBookmark = function(ev) {
@@ -518,12 +519,13 @@ Editor.prototype.save = function(ev, options) {
     return $(this).attr('id').split('layer-').pop();
   }).get().shift();
 
-  if (this.model.get('_prefs').saveCenter) {
-    var zoom = Math.min(Math.max(map.getZoom(),attr.minzoom),attr.maxzoom);
-    var lon = map.getCenter().lng % 360;
-    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr.center = [lon , map.getCenter().lat, zoom];
-  }
+  // Grab map center which is dependent upon the "last saved" value.
+  attr._prefs = attr._prefs || this.model.attributes._prefs || {};
+  attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
+  attr.center = $('.js-savedCenter').text().split(',');
+  attr.center[0] = parseFloat(attr.center[0]);
+  attr.center[1] = parseFloat(attr.center[1]);
+  attr.center[2] = parseInt(attr.center[2], 10);
 
   // New mtime querystring
   mtime = (+new Date).toString(36);
@@ -620,6 +622,12 @@ Editor.prototype.demo = function(ev) {
   $('body').toggleClass('demo');
 };
 
+Editor.prototype.lockCenter = function(ev) {
+  $(ev.currentTarget).toggleClass('active');
+  this.changed();
+  return false;
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
   $('#full').removeClass('loading');
@@ -638,10 +646,16 @@ Editor.prototype.refresh = function(ev) {
       $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible);
     });
 
-    $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
-    map.on('moveend', function(e) {
-        $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));
-    });
+    function setCenter(e) {
+        $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
+        if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
+            map.getCenter().wrap().lng.toFixed(4) + ',' +
+            map.getCenter().wrap().lat.toFixed(4) + ',' +
+            map.getZoom()
+        );
+    }
+    setCenter();
+    map.on('moveend', setCenter);
     map.on('click', inspectFeature({
       id: this.model.id,
       type: 'style',

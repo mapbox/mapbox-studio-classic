@@ -19,6 +19,7 @@
 /* Hover/acive fills */
 .fill-lighten0-onhover:hover { background:rgba(255,255,255,0.10); }
 .fill-blue-onactive.active { background:#3887be; }
+.fill-darken2-onactive.active { background:rgba(0,0,0,0.50); }
 
 /* FIX IN BASE - inputs in dark pills lose their border */
 .dark.fill-dark .pill > input {
@@ -153,6 +154,11 @@ label.ghost {
 .short ~ label.ghost {
   line-height: 30px;
   right: 10px;
+  }
+
+input[type=range].zoomrange {
+  width:75%;
+  min-width:40px;
   }
 
 /* General styles
