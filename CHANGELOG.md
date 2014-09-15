@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.1.2
+
+- Update to mapnik-omnivore@1.3.13. Addresses some app crashes.
+
 ### 0.1.1
 
 - Include full set of Komika fonts.
