@@ -512,6 +512,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         if (!map) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+            this.map = map;
+
             map.on('zoomend', function() {
                 $('#zoomedto').attr('class', 'align-top inline contain zoom' + (map.getZoom() | 0));
             });
