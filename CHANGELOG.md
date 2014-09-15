@@ -5,6 +5,7 @@ Changelog
 
 - Update to mapnik-omnivore@1.3.13. Addresses some app crashes.
 - Windows: Sign atom.exe when bundling to prevent antivirus software from detecting false positives.
+- Style/source UI: show project center, add toggle for saveCenter flag.
 
 ### 0.1.1
 
