@@ -624,6 +624,7 @@ Editor.prototype.demo = function(ev) {
 
 Editor.prototype.lockCenter = function(ev) {
   $(ev.currentTarget).toggleClass('active');
+  this.changed();
   return false;
 };
 

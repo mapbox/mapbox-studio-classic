@@ -73,7 +73,9 @@ tape('.js-lockCenter locked', function(t) {
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
     t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
     $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
     t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
     window.editor.map.setView([40,-40],6);
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
@@ -83,7 +85,11 @@ tape('.js-lockCenter locked', function(t) {
         window.editor.map.setView([y,x],z);
         $('.js-lockCenter').click();
         t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
-        t.end();
+        window.editor.save();
+            onajax(function() {
+            t.ok(!$('body').hasClass('changed'), 'body');
+            t.end();
+        });
     });
 });
 

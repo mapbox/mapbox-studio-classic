@@ -637,6 +637,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
     Editor.prototype.lockCenter = function(ev) {
         $(ev.currentTarget).toggleClass('active');
+        this.changed();
         return false;
     };
 
