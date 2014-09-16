@@ -390,3 +390,37 @@ tape('keybindings', function(t) {
     t.end();
 });
 
+tape('keybindings refresh', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 32; // space
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+space => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), true, 'body.changed (noop)');
+        t.end();
+    });
+});
+
+tape('keybindings save', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
+    });
+});
+
