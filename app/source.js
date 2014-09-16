@@ -162,6 +162,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 });
                 window.editor.save(null, {
                     success: function() {
+                        $('body').removeClass('changed');
                         window.location = '/source?id=' + id;
                     },
                     error: _(window.editor.error).bind(window.editor)

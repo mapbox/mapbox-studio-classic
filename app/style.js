@@ -362,7 +362,10 @@ Editor.prototype.saveModal = function() {
       var id = 'tmstyle://' + filepath;
       window.editor.model.set({id:id});
       window.editor.save(null, {
-        success: function() { window.location = '/style?id=' + id; },
+        success: function() {
+            $('body').removeClass('changed');
+            window.location = '/style?id=' + id;
+        },
         error: _(window.editor.error).bind(window.editor)
       });
       return false;
