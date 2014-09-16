@@ -17,11 +17,17 @@ UTFGrid interactivity
 Example values for adding UTFGrid interactivity to [OSM Bright 2](https://github.com/mapbox/mapbox-studio-osm-bright.tm2):
 
     interactivity_layer: poi_label
-    template: |
-      <div style='text-align:center; font-size:12px;'>
-        <strong>{{name}}</strong><br/>
-        <em style='font-size:10px; text-case:capitalize;'>{{maki}}</em>
-      </div>
+    template: |-
+        <strong>{{name}}</strong>
+        {{#type}}
+        <br /><small>{{type}}</small>
+        {{/type}}
+        {{#address}}
+        <br /><small>{{address}}</small>
+        {{/address}}
+        {{#website}}
+        <br /><small><a href='{{website}}'>Website</a></small>
+        {{/website}}
 
 _Note: After making edits to the `project.yml` file in a text editor you should quit and restart Mapbox Studio to see your changes. Studio loads up your project into memory and currently does not detect changes from other text editors._
 
