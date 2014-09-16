@@ -331,6 +331,9 @@ Editor.prototype.keys = function(ev) {
   case (which === 83): // s for save
     this.save();
     break;
+  case (which === 32): // space for refresh
+    this.save(null, null, true);
+    break;
   case (which === 66): // b for bookmarks
     ev.preventDefault();
     window.editor.addBookmark(ev);
@@ -491,8 +494,11 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
-Editor.prototype.save = function(ev, options) {
+Editor.prototype.save = function(ev, options, refresh) {
   var editor = this;
+
+  // If map is temporary and permanent save is requested go into saveas flow.
+  if (this.model.id.indexOf('tmpstyle:') === 0 && !refresh) return this.saveModal();
 
   // Set map in loading state.
   $('#full').addClass('loading');
@@ -534,6 +540,10 @@ Editor.prototype.save = function(ev, options) {
     success:_(this.refresh).bind(this),
     error: _(this.error).bind(this)
   };
+
+  // Set refresh option in querystring.
+  if (refresh) options.url = this.model.url() + '&refresh=1';
+
   this.model.save(attr, options);
 
   return ev && !!$(ev.currentTarget).is('a');
