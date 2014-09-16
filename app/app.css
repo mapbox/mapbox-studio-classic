@@ -780,12 +780,20 @@ a.toolbar-button  {
   width: 60px;
 }
 
-a.toolbar-button.save  {
+a.toolbar-button.save,
+a.toolbar-button.save:hover {
+  background: rgba(255,255,255,.1);
+  color:rgba(255,255,255,0.5);
+}
+
+body.changed a.toolbar-button.save,
+a.toolbar-button.saveas {
   color: white;
   background: #3887be;
 }
 
-a.toolbar-button.save:hover {
+body.changed a.toolbar-button.save:hover,
+a.toolbar-button.saveas:hover {
   background: #3bb2d0;
 }
 

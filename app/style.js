@@ -537,7 +537,10 @@ Editor.prototype.save = function(ev, options, refresh) {
   mtime = (+new Date).toString(36);
 
   options = options || {
-    success:_(this.refresh).bind(this),
+    success:_(function() {
+      if (!refresh) $('body').removeClass('changed');
+      this.refresh();
+    }).bind(this),
     error: _(this.error).bind(this)
   };
 
@@ -641,7 +644,6 @@ Editor.prototype.lockCenter = function(ev) {
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
   $('#full').removeClass('loading');
-  $('body').removeClass('changed');
 
   if (!map) {
     map = L.mapbox.map('map');
