@@ -125,6 +125,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             case (which === 83): // s
                 this.save();
                 break;
+            case (which === 32): // space for refresh
+                this.save(null, null, true);
+                break;
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
                 this.togglePane('full');
@@ -468,7 +471,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             Modal.show('error', 'Could not save source "' + model.id + '"');
         }
     };
-    Editor.prototype.save = function(ev, options) {
+    Editor.prototype.save = function(ev, options, refresh) {
+        // If map is temporary and permanent save is requested go into saveas flow.
+        if (this.model.id.indexOf('tmpsource:') === 0 && !refresh) return this.saveModal();
+
         // Set map in loading state.
         $('#full').addClass('loading');
         // Clear focus from any fields.
@@ -499,16 +505,22 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         // New mtime querystring.
         mtime = (+new Date).toString(36);
         options = options || {
-            success: _(this.refresh).bind(this),
+            success: _(function() {
+                if (!refresh) $('body').removeClass('changed');
+                this.refresh();
+            }).bind(this),
             error: _(this.error).bind(this)
         };
+
+        // Set refresh option in querystring.
+        if (refresh) options.url = this.model.url() + '&refresh=1';
+
         this.model.save(attr, options);
         return ev && !! $(ev.currentTarget).is('a');
     };
 
     Editor.prototype.refresh = function(ev) {
         $('#full').removeClass('loading');
-        $('body').removeClass('changed');
         if (!map) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
