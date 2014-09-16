@@ -667,6 +667,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
 
+    if ('onbeforeunload' in window) window.onbeforeunload = function() {
+        if ($('body').hasClass('changed')) return 'Save your changes?';
+    };
+
     // Sortable layers for local sources.
     if (source.id.indexOf('tmsource://' === 0)) {
         $('#layers .js-layer-content').sortable();
