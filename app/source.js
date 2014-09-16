@@ -125,7 +125,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             case (which === 83): // s
                 this.save();
                 break;
-            case (which === 32): // space for refresh
+            case (which === 82): // r for refresh
                 this.save(null, null, true);
                 break;
             case (which === 190): // . for fullscreen

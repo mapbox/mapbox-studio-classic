@@ -303,6 +303,7 @@ Editor.prototype.keys = function(ev) {
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
 
   var which = ev.which;
+
   switch (true) {
   case (which === 190): // . for fullscreen
     ev.preventDefault();
@@ -331,7 +332,7 @@ Editor.prototype.keys = function(ev) {
   case (which === 83): // s for save
     this.save();
     break;
-  case (which === 32): // space for refresh
+  case (which === 82): // r for refresh
     this.save(null, null, true);
     break;
   case (which === 66): // b for bookmarks

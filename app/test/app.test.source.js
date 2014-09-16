@@ -397,7 +397,7 @@ tape('keybindings refresh', function(t) {
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
-    e.which = 32; // space
+    e.which = 82; // r
     $('body').trigger(e);
     t.ok($('#full').hasClass('loading'), 'ctrl+space => #full.loading');
     onajax(function() {
