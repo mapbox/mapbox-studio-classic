@@ -303,6 +303,7 @@ Editor.prototype.keys = function(ev) {
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
 
   var which = ev.which;
+
   switch (true) {
   case (which === 190): // . for fullscreen
     ev.preventDefault();
@@ -330,6 +331,9 @@ Editor.prototype.keys = function(ev) {
     break;
   case (which === 83): // s for save
     this.save();
+    break;
+  case (which === 82): // r for refresh
+    this.save(null, null, true);
     break;
   case (which === 66): // b for bookmarks
     ev.preventDefault();
@@ -359,7 +363,10 @@ Editor.prototype.saveModal = function() {
       var id = 'tmstyle://' + filepath;
       window.editor.model.set({id:id});
       window.editor.save(null, {
-        success: function() { window.location = '/style?id=' + id; },
+        success: function() {
+            $('body').removeClass('changed');
+            window.location = '/style?id=' + id;
+        },
         error: _(window.editor.error).bind(window.editor)
       });
       return false;
@@ -491,8 +498,11 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
-Editor.prototype.save = function(ev, options) {
+Editor.prototype.save = function(ev, options, refresh) {
   var editor = this;
+
+  // If map is temporary and permanent save is requested go into saveas flow.
+  if (this.model.id.indexOf('tmpstyle:') === 0 && !refresh) return this.saveModal();
 
   // Set map in loading state.
   $('#full').addClass('loading');
@@ -531,9 +541,16 @@ Editor.prototype.save = function(ev, options) {
   mtime = (+new Date).toString(36);
 
   options = options || {
-    success:_(this.refresh).bind(this),
+    success:_(function() {
+      if (!refresh) $('body').removeClass('changed');
+      this.refresh();
+    }).bind(this),
     error: _(this.error).bind(this)
   };
+
+  // Set refresh option in querystring.
+  if (refresh) options.url = this.model.url() + '&refresh=1';
+
   this.model.save(attr, options);
 
   return ev && !!$(ev.currentTarget).is('a');
@@ -631,7 +648,6 @@ Editor.prototype.lockCenter = function(ev) {
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
   $('#full').removeClass('loading');
-  $('body').removeClass('changed');
 
   if (!map) {
     map = L.mapbox.map('map');

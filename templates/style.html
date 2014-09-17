@@ -35,7 +35,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp changed' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
 <a id='settings'></a>
 <a id='layers'></a>
 <a id='fonts'></a>
@@ -438,7 +438,7 @@
 
 <div id='toolbar' class='center pad1 dark z10'>
   <% if (style._tmp) { %>
-  <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
+  <a class='toolbar-button strong icon saveas js-saveas floppy' href='#'>Save as</a>
   <% } else { %>
   <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
   <% } %>
