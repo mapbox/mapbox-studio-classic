@@ -237,11 +237,12 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         if (ev.shiftKey) {
             $siblings.hasClass('disabled') ? $siblings.removeClass('disabled') : $siblings.addClass('disabled');
             $target.removeClass('disabled');
+            this.update();
             return false;
         } else {
             $target.toggleClass('disabled');
+            this.update();
         }
-        this.update();
     };
     Editor.prototype.addlayerModal = function(ev) {
         Modal.show('addlayer');
@@ -471,7 +472,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
       $('#layers .js-layer-content').sortable('destroy').sortable();
 
       // Remove animation for more elegant panel refresh
-      $('#layers-' + new_id).removeClass('animate').addClass('target');
+      $('#layers-' + new_id).removeClass('animate');
 
       // Bring back animation after panel has been replaced
       $('#layers-' + new_id).addClass('animate');
