@@ -34,7 +34,8 @@ $(document).ready(function() {
         if (typeLabel) {
             var filePath = remote.require('dialog').showSaveDialog({
                 title: 'Save ' + typeLabel,
-                defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension
+                defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension,
+                filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
             });
             if (filePath) {
                 uri.method = 'GET';
