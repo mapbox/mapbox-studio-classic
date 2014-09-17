@@ -10,6 +10,8 @@
 
 /* Data list pane
 ------------------------------------------------------- */
+.offpane-button { margin-left: 5px;}
+
 .layer-content {
   top: 90px;
 }
@@ -48,9 +50,6 @@
 /* Editor pane
 ------------------------------------------------------- */
 .editor .field-key {
-  padding:0 5px;
-  border-radius: 3px;
-  color: rgba(0,0,0,.75);
   vertical-align: top;
 }
 
