@@ -780,6 +780,12 @@ a.toolbar-button  {
   width: 60px;
 }
 
+/* base override to center icon */
+a.toolbar-button:not(.big):before {
+  display: block;
+  margin: auto;
+}
+
 a.toolbar-button.save,
 a.toolbar-button.save:hover {
   background: rgba(255,255,255,.1);
