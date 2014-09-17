@@ -98,14 +98,14 @@ test('examples: gets style info', function(t) {
     });
 });
 
-test('writeStyle: makes tmp styles', function(t) {
+test('writeStyle: makes tmp styles (refresh)', function(t) {
     var data = {
         id:'tmpstyle://' + tm.parse(styleId).dirname,
         name:'tmp-1234',
         source:'mapbox:///mapbox.mapbox-streets-v2',
         styles:{ 'a.mss': '#water { polygon-fill:#fff }' }
     };
-    var req = { body: data };
+    var req = { body: data, query: { refresh: 1 } };
     middleware.writeStyle(req, {}, function(err) {
         t.ifError(err);
         t.ok(req.style, 'appends style to req');

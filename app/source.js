@@ -104,7 +104,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'change #settings-drawer': 'changed',
         'submit #settings-drawer': 'save',
         'keydown': 'keys',
-        'click .js-zoom-to': 'zoomToLayer'
+        'click .js-zoom-to': 'zoomToLayer',
+        'click .js-lockCenter': 'lockCenter'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -123,6 +124,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         switch (true) {
             case (which === 83): // s
                 this.save();
+                break;
+            case (which === 82): // r for refresh
+                this.save(null, null, true);
                 break;
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
@@ -158,6 +162,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 });
                 window.editor.save(null, {
                     success: function() {
+                        $('body').removeClass('changed');
                         window.location = '/source?id=' + id;
                     },
                     error: _(window.editor.error).bind(window.editor)
@@ -467,7 +472,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             Modal.show('error', 'Could not save source "' + model.id + '"');
         }
     };
-    Editor.prototype.save = function(ev, options) {
+    Editor.prototype.save = function(ev, options, refresh) {
+        // If map is temporary and permanent save is requested go into saveas flow.
+        if (this.model.id.indexOf('tmpsource:') === 0 && !refresh) return this.saveModal();
+
         // Set map in loading state.
         $('#full').addClass('loading');
         // Clear focus from any fields.
@@ -482,40 +490,57 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             return l.get();
         });
         attr.Layer.reverse();
-        // Save center, disabled layers.
-        attr._prefs = attr._prefs || {};
-        if (this.model.get('_prefs').saveCenter) {
-            var zoom = Math.min(Math.max(map.getZoom(),attr.minzoom),attr.maxzoom);
-            var lon = map.getCenter().lng % 360;
-            lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-            attr.center = [lon, map.getCenter().lat, zoom];
-        }
+
+        // Grab map center which is dependent upon the "last saved" value.
+        attr._prefs = attr._prefs || this.model.attributes._prefs || {};
+        attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
+        attr.center = $('.js-savedCenter').text().split(',');
+        attr.center[0] = parseFloat(attr.center[0]);
+        attr.center[1] = parseFloat(attr.center[1]);
+        attr.center[2] = parseInt(attr.center[2], 10);
+
+        // Save disabled layers.
         attr._prefs.disabled = _($('#layers .layer').map(function(v) {
             return $('.js-xrayswatch.disabled', this).size() ? $(this).attr('data-layer') : false;
         })).compact();
         // New mtime querystring.
         mtime = (+new Date).toString(36);
         options = options || {
-            success: _(this.refresh).bind(this),
+            success: _(function() {
+                if (!refresh) $('body').removeClass('changed');
+                this.refresh();
+            }).bind(this),
             error: _(this.error).bind(this)
         };
+
+        // Set refresh option in querystring.
+        if (refresh) options.url = this.model.url() + '&refresh=1';
+
         this.model.save(attr, options);
         return ev && !! $(ev.currentTarget).is('a');
     };
 
     Editor.prototype.refresh = function(ev) {
         $('#full').removeClass('loading');
-        $('body').removeClass('changed');
         if (!map) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
+            this.map = map;
+
             map.on('zoomend', function() {
                 $('#zoomedto').attr('class', 'align-top inline contain zoom' + (map.getZoom() | 0));
             });
-            $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
-            map.on('moveend', function(e) {
-                $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));
-            });
+
+            function setCenter(e) {
+                $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
+                if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
+                    map.getCenter().wrap().lng.toFixed(4) + ',' +
+                    map.getCenter().wrap().lat.toFixed(4) + ',' +
+                    map.getZoom()
+                );
+            }
+            setCenter();
+            map.on('moveend', setCenter);
             map.on('click', inspectFeature({
                 id: this.model.id,
                 type: 'source',
@@ -623,6 +648,12 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.sourceNewStyle = function(){
         Modal.show('sourcenewstyle', {source:source});
     };
+    Editor.prototype.lockCenter = function(ev) {
+        $(ev.currentTarget).toggleClass('active');
+        this.changed();
+        return false;
+    };
+
     window.editor = new Editor({
         el: document.body,
         model: new Source(source)
@@ -635,6 +666,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         // clear mode panel state.
         $('body').removeClass('fields').removeClass('sql').removeClass('conf');
         $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
+    };
+
+    if ('onbeforeunload' in window) window.onbeforeunload = function() {
+        if ($('body').hasClass('changed')) return 'Save your changes?';
     };
 
     // Sortable layers for local sources.

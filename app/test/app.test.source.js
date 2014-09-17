@@ -21,6 +21,78 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
+(function() {
+
+// test[tmp]=true => test tmp styles.
+if (window.testParams.tmp) return testTmp();
+
+tape('.js-mapCenter', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xy = x.toFixed(4) + ', ' + y.toFixed(4);
+    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: '+xy);
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-mapCenter').text(),'-40.0000, 40.0000', '.js-mapCenter text: -40.0000, 40.0000');
+    t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
+
+    window.editor.map.setView([y,x],z);
+    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: ' + xy);
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.end();
+});
+
+tape('.js-lockCenter unlocked', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,6', '.js-savedCenter text: -40.0000,40.0000,6');
+    window.editor.save();
+    onajax(function() {
+        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        window.editor.map.setView([y,x],z);
+        t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+        window.editor.save();
+        onajax(function() {
+            t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+            t.end();
+        });
+    });
+});
+
+tape('.js-lockCenter locked', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    window.editor.save();
+    onajax(function() {
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        window.editor.map.setView([y,x],z);
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+        window.editor.save();
+            onajax(function() {
+            t.ok(!$('body').hasClass('changed'), 'body');
+            t.end();
+        });
+    });
+});
+
 tape('#settings-form', function(t) {
     t.ok(!$('body').hasClass('changed'), 'body');
     $('#settings-drawer').change();
@@ -322,4 +394,53 @@ tape('keybindings', function(t) {
 
     t.end();
 });
+
+tape('keybindings refresh', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 82; // r
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+space => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), true, 'body.changed (noop)');
+        t.end();
+    });
+});
+
+tape('keybindings save', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
+    });
+});
+
+})();
+
+function testTmp() {
+    tape('tmp ctrl+s => Save As modal', function(t) {
+        t.ok($('body').hasClass('changed'), 'tmp project is considered unsaved');
+        var e;
+        e = $.Event('keydown');
+        e.ctrlKey = true;
+        e.which = 83; // s
+        $('body').trigger(e);
+        t.equal(hasModal('#saveas'), true, '#saveas modal');
+        t.end();
+    });
+}
 

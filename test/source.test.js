@@ -197,9 +197,17 @@ test('remote: error bad protocol', function(t) {
     });
 });
 
-test('remote: noop remote write', function(t) {
-    source.save({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
+test('remote: noop refresh', function(t) {
+    source.refresh({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
         t.ifError(err);
+        t.end();
+    });
+});
+
+test('remote: save error', function(t) {
+    source.save({id:'mapbox:///mapbox.mapbox-streets-v2'}, function(err, source) {
+        t.ok(err);
+        t.ok(/^Error: Cannot save remote source/.test(err.toString()));
         t.end();
     });
 });
@@ -242,29 +250,37 @@ test('local: loads via tilelive', function(t) {
     });
 });
 
-test('local: saves source in memory', function(t) {
+test('local: refresh source in memory', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
-    assert.ifError(err);
-
-    source.save(_({id:source.tmpid()}).defaults(info), function(err, source) {
-        t.ifError(err);
-        t.ok(source);
-        t.end();
-    });
-
+        assert.ifError(err);
+        source.refresh(_({id:source.tmpid()}).defaults(info), function(err, source) {
+            t.ifError(err);
+            t.ok(source);
+            t.end();
+        });
     });
 });
 
-test('local: saves source (invalid)', function(t) {
+test('local: refresh source (invalid)', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
         assert.ifError(err);
-        source.save(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
+        source.refresh(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
             assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.save() errors on invalid style');
             t.end();
         });
     });
 });
 
+test('local: save temporary errors', function(t) {
+    testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
+        assert.ifError(err);
+        source.save(_({id:source.tmpid()}).defaults(info), function(err, source) {
+            t.ok(err);
+            t.ok(/^Error: Cannot save temporary source/.test(err.toString()));
+            t.end();
+        });
+    });
+});
 
 test('local: saves source to disk', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, data) {
