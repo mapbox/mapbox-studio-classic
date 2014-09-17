@@ -91,6 +91,11 @@
   border-color: rgba(0,0,0,0.5);
 }
 
+.dark textarea[readonly], .dark input[type='text'][readonly] {
+  border-color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.5);
+}
+
 .fixed-bottomright { position:fixed; bottom:0; right:0; }
 
 kbd {

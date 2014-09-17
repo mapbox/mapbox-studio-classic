@@ -470,12 +470,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
       // Close modal
       Modal.close();
       $('#layers .js-layer-content').sortable('destroy').sortable();
-
-      // Remove animation for more elegant panel refresh
-      $('#layers-' + new_id).removeClass('animate');
-
-      // Bring back animation after panel has been replaced
-      $('#layers-' + new_id).addClass('animate');
+      $('#layers-' + new_id).addClass('target');
 
       return false;
 
