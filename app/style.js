@@ -29,7 +29,7 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if ($('body').hasClass('changed')) return 'Save your changes?';
+  if ($('body').hasClass('changed')) return 'You have unsaved changes.';
 };
 
 var Editor = Backbone.View.extend({});

@@ -669,7 +669,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     if ('onbeforeunload' in window) window.onbeforeunload = function() {
-        if ($('body').hasClass('changed')) return 'Save your changes?';
+        if ($('body').hasClass('changed')) return 'You have unsaved changes.';
     };
 
     // Sortable layers for local sources.
