@@ -138,6 +138,25 @@ test('saves style to disk', function(t) {
     });
 });
 
+test('save as tmp => perm', function(t) {
+    // Uses an example style with assets to test pre-save dir copy.
+    style.info(style.examples['mapbox-studio-comic'], function(err, data) {
+        t.ifError(err);
+        var tmpid = style.examples['mapbox-studio-comic'];
+        var permid = path.join(tmp, 'style-saveas-' + Math.random().toString(36).split('.').pop());
+        style.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+            t.ifError(err);
+            t.ok(source);
+            var tmpdir = tm.parse(permid).dirname;
+            t.ok(fs.existsSync(tm.join(tmpdir,'img')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'project.yml')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'project.xml')));
+            t.ok(!fs.existsSync(tm.join(tmpdir,'_gfx')));
+            t.end();
+        });
+    });
+});
+
 test('saves style with space', function(t) {
     testutil.createTmpProject('style-save space', localstyle, function(err, tmpid, data) {
         t.ifError(err);

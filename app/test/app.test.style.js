@@ -26,6 +26,9 @@ function hasModal(selector) {
 // test[userlayers]=true => test style with user layer list.
 if (window.testParams.userlayers) return testUserLayers();
 
+// test[tmp]=true => test tmp styles.
+if (window.testParams.tmp) return testTmp();
+
 tape('.js-mapCenter', function(t) {
     var z = (window.editor.map.getZoom());
     var x = (window.editor.map.getCenter().lng);
@@ -601,3 +604,17 @@ function testUserLayers() {
         t.end();
     });
 }
+
+function testTmp() {
+    tape('tmp ctrl+s => Save As modal', function(t) {
+        t.ok($('body').hasClass('changed'), 'tmp project is considered unsaved');
+        var e;
+        e = $.Event('keydown');
+        e.ctrlKey = true;
+        e.which = 83; // s
+        $('body').trigger(e);
+        t.equal(hasModal('#saveas'), true, '#saveas modal');
+        t.end();
+    });
+}
+
