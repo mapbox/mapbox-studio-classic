@@ -26,7 +26,7 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= source._tmp ? 'tmp changed' : '' %> clip dark'><div id='app' class='pin-top pin-bottom mobile-cols'>
+<body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> clip dark'><div id='app' class='pin-top pin-bottom mobile-cols'>
 
 <a id='settings'></a>
 <a id='user'></a>
@@ -136,10 +136,6 @@
       <div id='zoomedto' class='align-top text-right inline contain zoom<%=source.center[2]%>'></div>
     </div>
   </div>
-  <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
-    <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
-  </div>
 </div>
 
 <%
@@ -192,7 +188,7 @@
   <% if (source._tmp) { %>
   <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
   <% } else { %>
-  <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
+  <a class='toolbar-button strong icon save js-save floppy' href='#'><span class='saved-y'>Save</span><span class='saved-n'>Saved</span></a>
   <% } %>
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>

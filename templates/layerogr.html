@@ -1,20 +1,20 @@
-<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
-  <nav class='text-right pad1 keyline-bottom'>
-    <span class='inline rounded-toggle strong'><!--
-      --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
-      --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
- --></span>
-    <a href='#' class='quiet inline pad1 icon close'></a>
-  </nav>
-  <section class='pad1y pad2x pin-topleft'>
+<form class='animate pane editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
+  <nav class='pin-top pad1y pad2x keyline-bottom'>
     <h3>
       <%= obj.id %>
-      <a href='#' id='updatename-<%=obj.id%>' class='micro block js-updatename'>rename</a>
+      <a href='#' id='updatename-<%=obj.id%>' class='micro block js-updatename'>Rename</a>
     </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
-  </section>
+    <div class='pin-right pad1'>
+      <span class='inline rounded-toggle strong'>
+        <a href='#editor-conf' class='js-tab mode-conf active'>Configure</a>
+        <a href='#editor-fields' class='js-tab mode-fields'>Fields</a>
+      </span>
+      <a href='#' class='js-update button short quiet icon check'>Done</a>
+    </div>
+  </nav>
 
-  <div class='conf'>
+  <div class='conf col12 pin-right top1 space-top2 scroll-styled'>
     <fieldset>
       <section class='pad2x pad1y keyline-bottom'>
         <label>Description</label>
@@ -41,11 +41,8 @@
         <span class='space-top0 small quiet code inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
         <% } %>
       </section>
-      <section class='clearfix pad2'>
-        <a href='#' class='js-save quiet button short margin6 col6'>Done</a>
-      </section>
     </fieldset>
   </div>
 
-  <div class='fields'><%= this.layerfields(obj.fields) %></div>
+  <div class='fields col12 pin-right top1 space-top2 scroll-styled'><%= this.layerfields(obj.fields) %></div>
 </form>

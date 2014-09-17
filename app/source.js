@@ -84,6 +84,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'click .js-sourcenewstyle': 'sourceNewStyle',
         'click .js-browseproject': 'browseProject',
         'click .js-save': 'save',
+        'click .js-update': 'update',
         'click .js-saveas': 'saveModal',
         'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
@@ -126,7 +127,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 this.save();
                 break;
             case (which === 82): // r for refresh
-                this.save(null, null, true);
+                this.update();
                 break;
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
@@ -217,11 +218,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         if (ev.shiftKey) {
             $siblings.hasClass('disabled') ? $siblings.removeClass('disabled') : $siblings.addClass('disabled');
             $target.removeClass('disabled');
-            window.location.href === '#refresh';
             return false;
         } else {
             $target.toggleClass('disabled');
         }
+        this.update();
     };
     Editor.prototype.addlayerModal = function(ev) {
         Modal.show('addlayer');
@@ -357,8 +358,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
+        this.update();
     };
     Editor.prototype.deletelayer = function(ev) {
+        var view = this;
         var id = $(ev.currentTarget).attr('id').split('del-').pop();
         if (!layers[id]) return false;
         Modal.show('confirm', 'Remove layer "' + id + '"?', function(err, confirm) {
@@ -368,7 +371,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
-            window.location.href = '#';
+            view.update();
         });
         return false;
     };
@@ -472,6 +475,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             Modal.show('error', 'Could not save source "' + model.id + '"');
         }
     };
+
+    Editor.prototype.update = function(ev) {
+      this.save(null, null, true);
+    };
+
     Editor.prototype.save = function(ev, options, refresh) {
         // If map is temporary and permanent save is requested go into saveas flow.
         if (this.model.id.indexOf('tmpsource:') === 0 && !refresh) return this.saveModal();

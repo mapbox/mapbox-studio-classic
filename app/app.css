@@ -97,6 +97,9 @@ kbd {
   box-shadow:none;
   padding:0 1px;
   }
+  kbd.prefixed:before {
+    font-family: Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
+  }
   .mac kbd.prefixed:before { content:'⌘'; }
   .windows kbd.prefixed:before,
   .linux kbd.prefixed:before { content:'Ctrl '; }
@@ -797,6 +800,11 @@ a.toolbar-button.saveas {
   color: white;
   background: #3887be;
 }
+
+body .saved-n,
+body.changed .saved-y { display: block;}
+body .saved-y,
+body.changed .saved-n { display: none;}
 
 body.changed a.toolbar-button.save:hover,
 a.toolbar-button.saveas:hover {

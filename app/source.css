@@ -58,6 +58,16 @@ nav a.button.title:active { background-color:#333; }
 
 #layers .disable-mask { height: 50px; }
 
+.editor.pane {
+  opacity: 0;
+  z-index: -1;
+}
+
+.editor.pane:target {
+  opacity: 1;
+  z-index: 100;
+}
+
 /* Conf pane
 ------------------------------------------------------- */
 .editor > div.conf { display:block; }
@@ -102,8 +112,4 @@ section:not(.field) + .empty-state { margin: 20px;display: block;}
 ------------------------------------------------------- */
 
 .map-control-center { background: #333;}
-
-/* Refresh alerts */
-#refresh        { opacity:0; z-index:-1;}
-#refresh:target { opacity:1; z-index:100;}
 

@@ -333,7 +333,7 @@ Editor.prototype.keys = function(ev) {
     this.save();
     break;
   case (which === 82): // r for refresh
-    this.save(null, null, true);
+    this.update();
     break;
   case (which === 66): // b for bookmarks
     ev.preventDefault();
@@ -498,6 +498,11 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
+
+Editor.prototype.update = function(ev) {
+  this.save(null, null, true);
+};
+
 Editor.prototype.save = function(ev, options, refresh) {
   var editor = this;
 
