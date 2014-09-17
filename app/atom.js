@@ -22,25 +22,32 @@ $(document).ready(function() {
         }
 
         // File saving.
-        var extensions = /(\.tm2z|\.mbtiles|\.png|\.jpg|\.jpeg)$/;
-        var ext = extensions.exec(uri.pathname);
-        if (ext) {
-            var filepath = remote.require('dialog').showSaveDialog({
-                title: 'Save file',
-                defaultPath: ext[0]
+        var fileTypes = {
+            tm2z: 'Package',
+            mbtiles: 'Tiles',
+            png: 'Image',
+            jpg: 'Image',
+            jpeg: 'Image'
+        }
+        var typeExtension = uri.pathname.split('.').pop().toLowerCase();
+        var typeLabel = fileTypes[typeExtension];
+        if (typeLabel) {
+            var filePath = remote.require('dialog').showSaveDialog({
+                title: 'Save ' + typeLabel,
+                defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension,
+                filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
             });
-            if (filepath) {
+            if (filePath) {
                 uri.method = 'GET';
-                var writestream = fs.createWriteStream(filepath);
+                var writeStream = fs.createWriteStream(filePath);
                 var req = http.request(uri, function(res) {
                     if (res.statusCode !== 200) return;
-                    res.pipe(writestream);
+                    res.pipe(writeStream);
                 });
                 req.end();
             }
             return false;
         }
-
-        // Passthrough evthing else.
+        // Passthrough everything else.
     });
 });
