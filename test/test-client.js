@@ -63,6 +63,11 @@ function ready(err) {
             src: 'tmstyle://'+basePath+'/test/fixtures-localstyle-userlayers'
         },
         {
+            name: 'style-tmp',
+            url: 'http://localhost:3001/style?id={id}&test[tmp]=true',
+            src: 'tmpstyle://'+basePath+'/node_modules/mapbox-studio-default-style'
+        },
+        {
             name: 'source-export',
             url: 'http://localhost:3001/mbtiles?id={id}&test=true',
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
@@ -76,6 +81,11 @@ function ready(err) {
             name: 'source',
             url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+        },
+        {
+            name: 'source-tmp',
+            url: 'http://localhost:3001/source?id={id}&test[tmp]=true',
+            src: 'tmpsource://'+basePath+'/test/fixtures-localsource'
         }
     ].filter(function(t) {
         return !only || t.name === only;
@@ -83,9 +93,17 @@ function ready(err) {
     function runTest() {
         if (!tests.length) process.exit(exit);
         var test = tests.shift();
-        testutil.createTmpProject(test.name, test.src, function(err, tmpid) {
-            if (err) throw err;
-            var testURL = test.url.replace('{id}', tmpid);
+        if (test.src.indexOf('tmp') === 0) {
+            var testURL = test.url.replace('{id}', test.src);
+            run(testURL);
+        } else {
+            testutil.createTmpProject(test.name, test.src, function(err, tmpid) {
+                if (err) throw err;
+                var testURL = test.url.replace('{id}', tmpid);
+                run(testURL);
+            });
+        }
+        function run(testURL) {
             execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
                 if (err && err.code) {
                     exit = err.code;
@@ -95,7 +113,7 @@ function ready(err) {
                 console.warn(stderr);
                 runTest();
             });
-        });
+        }
     }
     runTest();
 }
