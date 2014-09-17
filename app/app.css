@@ -362,6 +362,7 @@ body.local .on-local { display:block; }
 .pane { height:100%;}
 .pane > * { display:none; }
 .pane:target > *,
+.pane.target > *,
 *:target > .pane > * { display:block; }
 
 /* Map

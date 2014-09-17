@@ -14,8 +14,6 @@
   top: 90px;
 }
 
-nav a.button.title:active { background-color:#333; }
-
 [draggable='true'] {
   cursor: -webkit-grab;
   cursor: -moz-grab;
@@ -63,7 +61,7 @@ nav a.button.title:active { background-color:#333; }
   z-index: -1;
 }
 
-.editor.pane:target {
+.editor.pane.target {
   opacity: 1;
   z-index: 100;
 }

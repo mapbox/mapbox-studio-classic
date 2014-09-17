@@ -84,7 +84,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'click .js-sourcenewstyle': 'sourceNewStyle',
         'click .js-browseproject': 'browseProject',
         'click .js-save': 'save',
-        'click .js-update': 'update',
+        'click .js-offpane': 'offPane',
+        'click .js-onpane': 'onPane',
         'click .js-saveas': 'saveModal',
         'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
@@ -141,6 +142,24 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 return true;
         }
         return false;
+    };
+
+    Editor.prototype.onPane = function(ev) {
+        var id = $(ev.currentTarget).attr('href').split('-').pop();
+        $('form.pane').removeClass('target');
+        $('#layers-' + id).addClass('target');
+        return false;
+    };
+
+    Editor.prototype.offPane = function() {
+        $('form.pane').removeClass('target');
+
+        // clear panel tab state.
+        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
+        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
+
+        // refresh map.
+        this.update();
     };
 
     Editor.prototype.saveModal = function() {
@@ -275,7 +294,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         layers[id] = Layer(id, layer.Datasource);
         orderLayers();
         Modal.close();
-        window.location.hash = '#layers-' + id;
+        $('#layers-' + id).addClass('target');
         $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
     };
@@ -349,10 +368,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
-                window.location.hash = '#';
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                window.location.hash = '#layers-' + layersArray[0].id;
+                $('#layers-' + layersArray[0].id).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
 
@@ -453,9 +471,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
       $('#layers .js-layer-content').sortable('destroy').sortable();
 
       // Remove animation for more elegant panel refresh
-      $('#layers-' + new_id).removeClass('animate');
-
-      window.location.href = '#layers-' + new_id;
+      $('#layers-' + new_id).removeClass('animate').addClass('target');
 
       // Bring back animation after panel has been replaced
       $('#layers-' + new_id).addClass('animate');
@@ -670,10 +686,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
     window.onhashchange = function(ev) {
         analytics.page({hash:window.location.hash});
-
-        // clear mode panel state.
-        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
-        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
 
     if ('onbeforeunload' in window) window.onbeforeunload = function() {
