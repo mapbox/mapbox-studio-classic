@@ -260,7 +260,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('#full').removeClass('loading');
                 if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
                 else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
-                window.editor.changed();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
@@ -377,6 +376,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
+        $('.layer-content ~ .empty-state').removeClass('visible');
         this.update();
     };
     Editor.prototype.deletelayer = function(ev) {
@@ -390,8 +390,16 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
+
+            // set layer empty state if there are no layers
+            if ($('.layer-content:has(div)').length === 0) {
+                $('.layer-content ~ .empty-state').addClass('visible');
+            }
+
+            // refresh map
             view.update();
         });
+
         return false;
     };
     //This only applies to single-layer sources at the moment
@@ -583,10 +591,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map);
         // Refresh map title.
         $('title, .js-name').text(this.model.get('name') || 'Untitled');
-        // Clear save notice.
-        if (window.location.hash === '#refresh') {
-            window.location.hash = '#';
-        }
+
         // Rerender fields forms.
         _(layers).each(function(l) {
             l.refresh();
@@ -688,9 +693,12 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         if ($('body').hasClass('changed')) return 'You have unsaved changes.';
     };
 
-    // Sortable layers for local sources.
-    if (source.id.indexOf('tmsource://' === 0)) {
-        $('#layers .js-layer-content').sortable();
-        $('#layers .js-layer-content').bind('sortupdate', orderLayers);
+    // Set empty state for layer list
+    if ($('.layer-content:has(div)').length === 0) {
+        $('.layer-content ~ .empty-state').addClass('visible');
     }
+
+    // Sortable layers for local sources.
+    $('#layers .js-layer-content').sortable();
+    $('#layers .js-layer-content').bind('sortupdate', orderLayers);
 };

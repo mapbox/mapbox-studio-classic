@@ -40,8 +40,7 @@
   border-radius: 0;
 }
 
-.layer-content:empty ~ .empty-state {
-  cursor: default;
+.empty-state.visible {
   display: block;
   padding: 10px;
   position: relative;
