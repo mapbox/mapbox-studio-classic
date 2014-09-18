@@ -646,7 +646,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('#full').removeClass('loading');
                 var center = metadata.center,
                     zoom = Math.max(metadata.minzoom, metadata.maxzoom - 1);
-
                 map.setView([center[1], center[0]], zoom);
             },
             error: function(jqXHR, textStatus, errorThrown) {

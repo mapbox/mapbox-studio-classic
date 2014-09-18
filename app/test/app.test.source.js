@@ -257,7 +257,9 @@ tape('#updatename-shape: updates the layer name and checks that input values and
     t.equal(expectedBuffer, newBufferTarget.text());
     $('#del-hey').click();
     $('#confirm a.js-confirm').click();
-    t.end();
+    onajax(function() {
+        t.end();
+    });
 });
 
 tape('#raster and nonraster mix error', function(t) {
@@ -275,6 +277,7 @@ tape('#raster and nonraster mix error', function(t) {
         $('#addlayer').submit();
         onajax(function() {
             t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
+
             t.ok(hasModal('#error'), 'shows error modal');
             $('#error a.js-close').click();
             t.ok(!hasModal('#error'), 'removes error modal');
@@ -282,9 +285,10 @@ tape('#raster and nonraster mix error', function(t) {
             $('#del-DCGIS_BusLineLn').click();
             t.ok(hasModal('#confirm'), 'shows confirm modal');
             $('#confirm a.js-confirm').click();
-            t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
-
-            t.end();
+            onajax(function() {
+                t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
+                t.end();
+            });
         });
     });
 });
@@ -432,11 +436,16 @@ for (var name in datatests) (function(name, info) {
                 }
             }
 
-            $('#del-' + info.expected.id).click();
-            t.ok(hasModal('#confirm'), 'shows confirm modal');
-            $('#confirm a.js-confirm').click();
-            t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
-            t.end();
+            $('.pane.target .js-offpane').click();
+            onajax(function() {
+                $('#del-' + info.expected.id).click();
+                t.ok(hasModal('#confirm'), 'shows confirm modal');
+                $('#confirm a.js-confirm').click();
+                onajax(function() {
+                    t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
+                    t.end();
+                });
+            })
         });
     });
 })(name, datatests[name]);
