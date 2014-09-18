@@ -530,7 +530,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.refresh = function(ev) {
-        $('#full').removeClass('loading');
         if (!map) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
@@ -569,7 +568,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime],
             minzoom: this.model.get('minzoom'),
             maxzoom: 22
-        }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map);
+        }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map).on('ready',$('#full').removeClass('loading'));
         // Refresh map title.
         $('title, .js-name').text(this.model.get('name') || 'Untitled');
 
