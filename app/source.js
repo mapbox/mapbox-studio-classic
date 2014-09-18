@@ -660,8 +660,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                var center = metadata.center;
-                map.setView([center[1], center[0]], metadata.maxzoom - 1);
+                var center = metadata.center,
+                    zoom = Math.max(metadata.minzoom, metadata.maxzoom - 1);
+
+                map.setView([center[1], center[0]], zoom);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
