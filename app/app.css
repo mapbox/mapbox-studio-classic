@@ -124,15 +124,8 @@ kbd {
   transition:all .1s, z-index 0 0;
 }
 
-#modal .modal-mask {
-  opacity: 0;
-}
-
-#modal.active .modal-mask {
-  opacity: 1;
-}
-
-#modal .close { cursor: pointer; }
+#modal .modal-mask { opacity: 0; }
+#modal.active .modal-mask { opacity: 1;}
 
 input.readonly {
   background:transparent;
