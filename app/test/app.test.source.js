@@ -175,10 +175,10 @@ tape('#updatename-shape: updates the layer name and checks that input values and
     $('#newLayername').val('hey');
     $('#updatename').submit();
 
-    var currentUrl = window.location.toString();
+    var targetPane = $('.pane.target').attr('id');
     var newBufferTarget = $('#hey-buffer-size-val');
 
-    t.equal(currentUrl.slice(-10),'layers-hey');
+    t.equal(targetPane,'layers-hey');
     t.equal(expectedBuffer, newBufferTarget.text());
     $('#del-hey').click();
     $('#confirm a.js-confirm').click();
@@ -338,6 +338,11 @@ for (var name in datatests) (function(name, info) {
         $('#addlayer').submit();
         onajax(function() {
 
+
+            t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
+
+            t.equal($('.pane.target').length,1,'only current layer pane is targeted');
+
             // Check that correct panel is active
             t.equal($('body').hasClass('fields') || $('body').hasClass('sql'), false, ' config panel is visible');
 
@@ -357,6 +362,9 @@ for (var name in datatests) (function(name, info) {
                     t.equal(values[k], info.expected[k], 'sets form value for ' + k);
                 }
             }
+
+            $('.pane.target .js-offpane').click();
+
             $('#del-' + info.expected.id).click();
             t.ok(hasModal('#confirm'), 'shows confirm modal');
             $('#confirm a.js-confirm').click();
