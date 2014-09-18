@@ -656,7 +656,6 @@ Editor.prototype.lockCenter = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
-  $('#full').removeClass('loading');
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -705,7 +704,9 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', function(){
     if (window.location.hash !== '#export') statHandler('drawtime')();
   })
-  .on('load', errorHandler);
+  .on('load', errorHandler)
+  .on('ready', $('#full').removeClass('loading'));
+
   if (window.location.hash !== '#xray') {
     $('.xray-toggle').removeClass('active');
     tiles.addTo(map);
