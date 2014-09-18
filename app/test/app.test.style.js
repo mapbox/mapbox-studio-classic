@@ -607,7 +607,7 @@ function testUserLayers() {
 
 function testTmp() {
     tape('tmp ctrl+s => Save As modal', function(t) {
-        t.ok($('body').hasClass('changed'), 'tmp project is considered unsaved');
+        t.ok(!$('body').hasClass('changed'));
         var e;
         e = $.Event('keydown');
         e.ctrlKey = true;
