@@ -87,7 +87,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'click .js-offpane': 'offPane',
         'click .js-onpane': 'onPane',
         'click .js-saveas': 'saveModal',
-        'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
         'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
@@ -154,10 +153,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     Editor.prototype.offPane = function() {
         $('form.pane').removeClass('target');
 
-        // clear panel tab state.
-        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
-        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
-
         // refresh map.
         this.update();
     };
@@ -214,22 +209,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         } else {
             location.href = loc.replace('#' + name, '#');
         }
-    };
-    Editor.prototype.togglemode = function(ev) {
-        var target = $(ev.currentTarget);
-        switch (target.attr('href').split('#editor-').pop()) {
-            case 'sql':
-                $('body').addClass('sql').removeClass('conf').removeClass('fields');
-                break;
-            case 'conf':
-                $('body').addClass('conf').removeClass('sql').removeClass('fields');
-                break;
-            case 'fields':
-                $('body').addClass('fields').removeClass('sql').removeClass('conf');
-                break;
-        }
-        tabbedHandler(ev);
-        return false;
     };
     Editor.prototype.togglelayer = function(ev) {
         var $target = $(ev.currentTarget);
