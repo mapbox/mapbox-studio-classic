@@ -338,17 +338,11 @@ for (var name in datatests) (function(name, info) {
         $('#addlayer').submit();
         onajax(function() {
 
-
             t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
 
             t.equal($('.pane.target').length,1,'only current layer pane is targeted');
 
-            // Check that correct panel is active
-            t.equal($('body').hasClass('fields') || $('body').hasClass('sql'), false, ' config panel is visible');
-
             $('.js-tab.mode-fields').click();
-
-            t.equal($('body').hasClass('fields'), true, ' fields panel is visible after toggle click');
 
             t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
             var values = _($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
@@ -362,8 +356,6 @@ for (var name in datatests) (function(name, info) {
                     t.equal(values[k], info.expected[k], 'sets form value for ' + k);
                 }
             }
-
-            $('.pane.target .js-offpane').click();
 
             $('#del-' + info.expected.id).click();
             t.ok(hasModal('#confirm'), 'shows confirm modal');
