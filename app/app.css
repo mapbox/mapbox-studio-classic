@@ -382,8 +382,6 @@ body.local .on-local { display:block; }
 .dark #map { background-color: #222;}
 #full:target #map { left:0% !important;}
 
-#map.map-clickable { cursor: pointer;}
-
 .map-controls,
 .map-controls .fill-dark,
 .search-results { background: #525252;}

@@ -15,13 +15,13 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
                         '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
                       '</a>' +
                       '<% if (tags.indexOf("userbookmark")) { %>' +
-                      '<div class="pin-top z10 dark pad1">' +
+                      '<div class="pin-top z10 pad1">' +
                         '<% _.each(tags, function(currenttag) { %>' +
                         '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
-                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark fill-darken1 icon quiet trash pin-topright pad1"></a>' +
                       '<% } %>' +
                     '</div>'
                   '</div>';
@@ -196,7 +196,7 @@ Editor.prototype.renderPlaces = function(filter) {
   });
 
   if (filtered.length === 0) {
-    $('#placeslist').html('<div class="dark empty-places col12 pad4 center"><h1>No Places.</h1></div>');
+    $('#placeslist').html('<div class="empty-places col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 
