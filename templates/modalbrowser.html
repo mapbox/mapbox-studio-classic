@@ -5,21 +5,25 @@
 // - placeholder, optional input field placeholder
 // - pattern, optional input field pattern
 // - label, optional defaults to 'Save'
+// - Title, optional defaults to 'Browse'
 %>
 
 <form id='<%=obj.id%>' class='modal round browser col6 margin3 pin-top top2 dark fill-dark'>
-  <a class='pad1 quiet icon pin-topright close js-close'></a>
-  <div class='cwd row1 truncate z1'>
-    <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 quiet icon prev unround'></a><!--
-    --><strong class='small'><%=cwd%></strong>
+  <h4 class='pad1'><%=obj.title || 'Browse'%></h4>
+  <div>
+    <a href='#' class='quiet pad1 icon pin-topright close js-close'></a>
+    <div class='keyline-top quiet cwd z1'>
+      <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 icon prev unround'></a><!--
+      --><strong class='align-top inline pad1y micro'><%=cwd%></strong>
+    </div>
   </div>
-  <div class='list scroll-styled fill-darken1 row6 pad2'></div>
+  <div class='list scroll-styled fill-darken1 pad1 pin-top space-top8'></div>
 
-  <div class='clearfix pad1y pad2x'>
+  <div class='clearfix pad1 pin-bottom'>
     <div class='pill clearfix input-pill'><!--
       --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
-      --><input class='col8' title='<%=obj.hint||obj.placeholder||''%>' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
-      --><input class='col4' type='submit' value='<%=obj.label||'Save'%>'/>
+      --><input class='col8 short small' title='<%=obj.hint||obj.placeholder||''%>' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
+      --><input class='col4 short' type='submit' value='<%=obj.label||'Save'%>'/>
     </div>
   </div>
 </form>
