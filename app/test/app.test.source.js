@@ -386,11 +386,18 @@ var datatests = {
     },
 };
 
-//Delete old layers from yml
-$('#del-box').click();
-$('#confirm a.js-confirm').click();
-$('#del-solid').click();
-$('#confirm a.js-confirm').click();
+tape('Clear layers', function(t) {
+    //Delete old layers from yml
+    $('#del-box').click();
+    $('#confirm a.js-confirm').click();
+    onajax(function() {
+        $('#del-solid').click();
+        $('#confirm a.js-confirm').click();
+        onajax(function() {
+            t.end();
+        });
+    });
+});
 
 for (var name in datatests) (function(name, info) {
     tape('data test: ' + name, function(t) {
