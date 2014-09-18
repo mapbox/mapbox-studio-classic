@@ -661,7 +661,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 // Clear loading state
                 $('#full').removeClass('loading');
                 var center = metadata.center;
-                map.setView([center[1], center[0]], metadata.maxzoom);
+                map.setView([center[1], center[0]], metadata.maxzoom - 1);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
