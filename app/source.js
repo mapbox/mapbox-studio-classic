@@ -507,6 +507,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         attr.center[0] = parseFloat(attr.center[0]);
         attr.center[1] = parseFloat(attr.center[1]);
         attr.center[2] = parseInt(attr.center[2], 10);
+        // Force center zoom to be within min/max zoom range.
+        if (attr._prefs.saveCenter) {
+            attr.center[2] = Math.min(Math.max(attr.center[2],attr.minzoom),attr.maxzoom);
+        }
 
         // Save disabled layers.
         attr._prefs.disabled = _($('#layers .layer').map(function(v) {

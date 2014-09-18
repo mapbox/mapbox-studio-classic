@@ -18,6 +18,7 @@ var tmp = tm.join(require('os').tmpdir(),'mapbox-studio');
 var UPDATE = !!process.env.UPDATE;
 var server;
 
+var defaultsource = 'tmsource://' + tm.join(path.dirname(require.resolve('mapbox-studio-default-source')));
 var localsource = 'tmsource://' + path.join(__dirname,'fixtures-localsource');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
@@ -261,11 +262,21 @@ test('local: refresh source in memory', function(t) {
     });
 });
 
-test('local: refresh source (invalid)', function(t) {
-    testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
+test('local: refresh source (invalid minzoom)', function(t) {
+    testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
         assert.ifError(err);
         source.refresh(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
-            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.save() errors on invalid style');
+            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.refresh() errors on invalid source');
+            t.end();
+        });
+    });
+});
+
+test('local: refresh source (invalid center)', function(t) {
+    testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
+        assert.ifError(err);
+        source.refresh(_({id:source.tmpid(), minzoom:3, center:[0,0,0]}).defaults(info), function(err, source) {
+            assert.equal(err.toString(), 'Error: center zoom value must be greater than or equal to minzoom 3', 'source.refresh() errors on invalid source');
             t.end();
         });
     });
@@ -320,6 +331,23 @@ test('local: saves source to disk', function(t) {
         }, 1000);
     });
 
+    });
+});
+
+test('local: save as tmp => perm', function(t) {
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
+    source.info(tmpid, function(err, data) {
+        t.ifError(err);
+        var permid = path.join(tmp, 'source-saveas-' + Math.random().toString(36).split('.').pop());
+        source.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+            t.ifError(err);
+            t.ok(source);
+            t.equal(source.data._tmp, false);
+            var tmpdir = tm.parse(permid).dirname;
+            t.ok(fs.existsSync(tm.join(tmpdir,'data.yml')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'data.xml')));
+            t.end();
+        });
     });
 });
 
