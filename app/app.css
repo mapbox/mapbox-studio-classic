@@ -127,6 +127,13 @@ kbd {
 #modal .modal-mask { opacity: 0; }
 #modal.active .modal-mask { opacity: 1;}
 
+#modal .browser {
+  top: 80px;
+  bottom: 80px;
+}
+
+#modal .browser .list { bottom: 60px; }
+
 input.readonly {
   background:transparent;
   font-size:12px;

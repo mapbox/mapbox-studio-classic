@@ -13,9 +13,9 @@
     <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 quiet icon prev unround'></a><!--
     --><strong class='small'><%=cwd%></strong>
   </div>
-  <div class='list scroll-styled fill-darken1 row6 pad2'></div>
+  <div class='list scroll-styled fill-darken1 pad2 pin-top space-top4'></div>
 
-  <div class='clearfix pad1y pad2x'>
+  <div class='clearfix pad1y pin-bottom pad2x'>
     <div class='pill clearfix input-pill'><!--
       --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
       --><input class='col8' title='<%=obj.hint||obj.placeholder||''%>' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
