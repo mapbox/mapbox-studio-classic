@@ -132,7 +132,7 @@ kbd {
   bottom: 80px;
 }
 
-#modal .browser .list { bottom: 60px; }
+#modal .browser .list { bottom: 50px; }
 
 input.readonly {
   background:transparent;
