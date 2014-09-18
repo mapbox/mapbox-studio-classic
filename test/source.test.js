@@ -334,6 +334,23 @@ test('local: saves source to disk', function(t) {
     });
 });
 
+test('local: save as tmp => perm', function(t) {
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
+    source.info(tmpid, function(err, data) {
+        t.ifError(err);
+        var permid = path.join(tmp, 'source-saveas-' + Math.random().toString(36).split('.').pop());
+        source.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+            t.ifError(err);
+            t.ok(source);
+            t.equal(source.data._tmp, false);
+            var tmpdir = tm.parse(permid).dirname;
+            t.ok(fs.existsSync(tm.join(tmpdir,'data.yml')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'data.xml')));
+            t.end();
+        });
+    });
+});
+
 test('local: saves source with space', function(t) {
     // proxy assertion via createTmpProject stat check of project saves.
     testutil.createTmpProject('source-save space', localsource, function(err, tmpid, data) {
