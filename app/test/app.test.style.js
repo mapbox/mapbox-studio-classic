@@ -69,6 +69,41 @@ tape('.js-lockCenter unlocked', function(t) {
     });
 });
 
+tape('.js-lockCenter unlocked zoomrange', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var minzoom = $('#minzoom').prop('value');
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    window.editor.map.setView([40,-40],4);
+    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,4', '.js-savedCenter text: -40.0000,40.0000,4');
+    $('#minzoom').prop('value', 6);
+    window.editor.save();
+    onajax(a);
+    function a() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.minzoom,6,'saves minzoom @ 6');
+        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        $('#minzoom').prop('value', minzoom);
+        window.editor.save();
+        onajax(b);
+    }
+    function b() {
+        t.ok(!hasModal('#error'));
+        window.editor.map.setView([y,x],z);
+        t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+        window.editor.save();
+        onajax(c);
+    }
+    function c() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        t.end();
+    }
+});
+
 tape('.js-lockCenter locked', function(t) {
     var z = (window.editor.map.getZoom());
     var x = (window.editor.map.getCenter().lng);
@@ -94,6 +129,46 @@ tape('.js-lockCenter locked', function(t) {
             t.end();
         });
     });
+});
+
+tape('.js-lockCenter locked zoomrange', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var minzoom = $('#minzoom').prop('value');
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
+    window.editor.map.setView([40,-40],4);
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    $('#minzoom').prop('value', 6);
+    window.editor.save();
+    onajax(a);
+    function a() {
+        t.ok(hasModal('#error'), 'errors on center z outside min/maxzoom');
+        $('#error a.js-close').click();
+        $('#minzoom').prop('value', minzoom);
+        window.editor.save();
+        onajax(b);
+    }
+    function b() {
+        t.ok(!hasModal('#error'));
+        window.editor.map.setView([y,x],z);
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+        window.editor.save();
+        onajax(c);
+    }
+    function c() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        t.ok(!$('body').hasClass('changed'), 'body');
+        t.end();
+    }
 });
 
 tape('#settings-form', function(t) {
