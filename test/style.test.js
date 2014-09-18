@@ -147,6 +147,7 @@ test('save as tmp => perm', function(t) {
         style.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
             t.ifError(err);
             t.ok(source);
+            t.equal(source.data._tmp, false);
             var tmpdir = tm.parse(permid).dirname;
             t.ok(fs.existsSync(tm.join(tmpdir,'img')));
             t.ok(fs.existsSync(tm.join(tmpdir,'project.yml')));
