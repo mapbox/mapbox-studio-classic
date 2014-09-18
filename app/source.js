@@ -288,6 +288,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
+        var view = this;
         var consistent = consistentSourceType(metadata);
 
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
@@ -337,6 +338,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
+            view.update();
+
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -356,7 +359,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
         $('.layer-content ~ .empty-state').removeClass('visible');
-        this.update();
     };
     Editor.prototype.deletelayer = function(ev) {
         var view = this;
