@@ -377,6 +377,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('.layer-content ~ .empty-state').addClass('visible');
             }
 
+            this.changed();
+
             // refresh map
             view.update();
         });
@@ -424,8 +426,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             //Add new layer and replace old in the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-            //Save
-            window.editor.save();
+            //Update
+            window.editor.changed();
+            window.editor.update();
+
           },
           error: function(jqXHR, textStatus, errorThrown) {
             // Clear loading state
@@ -437,31 +441,33 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
     //This only applies to single-layer sources and PostGIS/SQLite
     Editor.prototype.updateLayername = function(ev) {
-      //Retain current settings to copy over
-      var current_id = $('#current_id').val();
-      var layer = layers[current_id].get();
-      var new_id = $('#newLayername').val();
+        //Retain current settings to copy over
+        var current_id = $('#current_id').val();
+        var layer = layers[current_id].get();
+        var new_id = $('#newLayername').val();
 
-      // No-op.
-      if (current_id === new_id) {
+        // No-op.
+        if (current_id === new_id) {
         Modal.close();
         return false;
-      }
+        }
 
-      // Replace old layer/form
-      layer.id = new_id;
-      layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
-      $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
-      layers[current_id].item.replaceWith(templates.layeritem(layer));
-      delete layers[current_id];
-      layers[layer.id] = Layer(layer.id, layer.Datasource);
+        // Replace old layer/form
+        layer.id = new_id;
+        layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
+        $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
+        layers[current_id].item.replaceWith(templates.layeritem(layer));
+        delete layers[current_id];
+        layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-      // Close modal
-      Modal.close();
-      $('#layers .js-layer-content').sortable('destroy').sortable();
-      $('#layers-' + new_id).addClass('target');
+        // Close modal
+        Modal.close();
+        $('#layers .js-layer-content').sortable('destroy').sortable();
+        $('#layers-' + new_id).addClass('target');
 
-      return false;
+        window.editor.changed();
+
+        return false;
 
     };
     Editor.prototype.error = function(model, resp) {
@@ -478,7 +484,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.update = function(ev) {
-      this.changed();
       this.save(null, null, true);
     };
 
