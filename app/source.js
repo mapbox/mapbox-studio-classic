@@ -478,6 +478,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.update = function(ev) {
+      this.changed();
       this.save(null, null, true);
     };
 
