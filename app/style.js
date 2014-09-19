@@ -29,7 +29,7 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if ($('body').hasClass('changed')) return 'Save your changes?';
+  if ($('body').hasClass('changed')) return 'You have unsaved changes.';
 };
 
 var Editor = Backbone.View.extend({});
@@ -333,7 +333,7 @@ Editor.prototype.keys = function(ev) {
     this.save();
     break;
   case (which === 82): // r for refresh
-    this.save(null, null, true);
+    this.update();
     break;
   case (which === 66): // b for bookmarks
     ev.preventDefault();
@@ -498,6 +498,11 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
+
+Editor.prototype.update = function(ev) {
+  this.save(null, null, true);
+};
+
 Editor.prototype.save = function(ev, options, refresh) {
   var editor = this;
 
@@ -651,7 +656,6 @@ Editor.prototype.lockCenter = function(ev) {
 
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
-  $('#full').removeClass('loading');
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -700,7 +704,9 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', function(){
     if (window.location.hash !== '#export') statHandler('drawtime')();
   })
-  .on('load', errorHandler);
+  .on('load', errorHandler)
+  .on('ready', $('#full').removeClass('loading'));
+
   if (window.location.hash !== '#xray') {
     $('.xray-toggle').removeClass('active');
     tiles.addTo(map);

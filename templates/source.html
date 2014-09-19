@@ -38,7 +38,7 @@
   <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
-<div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
+<div id='drawers' class='animate fill-dark col3 offcanvas-left animate pin-left z10 clip'>
 
   <form id='settings-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
@@ -136,10 +136,6 @@
       <div id='zoomedto' class='align-top text-right inline contain zoom<%=source.center[2]%>'></div>
     </div>
   </div>
-  <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
-    <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
-  </div>
 </div>
 
 <%
@@ -165,34 +161,36 @@
         <span class='pad0x pad1y keyline-left col4 source-label'>Delete</span>
       </div>
     </nav>
-    <div class='js-layer-content layer-content pin-left col12 scroll-styled'><!--
-      --><%
+
+    <div class='col12' id='editor'>
+    <%
+      _(revlayers).each(_(function(l) {
+        var type = (l.Datasource && l.Datasource.type);
+        var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
+        if (this['layer' + type]) print(this['layer' + type](_({
+            tm: tm,
+            fields: vlayer ? vlayer.fields : null
+        }).extend(l)));
+      }).bind(this));
+    %>
+    </div>
+
+    <div class='js-layer-content layer-content pin-left col12 scroll-styled'>
+    <%
        _(revlayers).each(_(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
-      }).bind(this)); %><!--
-    --></div>
+      }).bind(this));
+    %>
+    </div>
     <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
   </div>
-</div>
-
-<div class='z10' id='editor'>
-<%
-  _(revlayers).each(_(function(l) {
-    var type = (l.Datasource && l.Datasource.type);
-    var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
-    if (this['layer' + type]) print(this['layer' + type](_({
-        tm: tm,
-        fields: vlayer ? vlayer.fields : null
-    }).extend(l)));
-  }).bind(this));
-%>
 </div>
 
 <div id='toolbar' class='center pad1 dark z10'>
   <% if (source._tmp) { %>
   <a class='toolbar-button strong icon saveas js-saveas floppy' href='#'>Save as</a>
   <% } else { %>
-  <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
+  <a class='toolbar-button strong icon save js-save floppy' href='#'><span class='saved-y'>Save</span><span class='saved-n'>Saved</span></a>
   <% } %>
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>

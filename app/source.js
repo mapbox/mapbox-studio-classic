@@ -84,8 +84,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'click .js-sourcenewstyle': 'sourceNewStyle',
         'click .js-browseproject': 'browseProject',
         'click .js-save': 'save',
+        'click .js-offpane': 'offPane',
+        'click .js-onpane': 'onPane',
         'click .js-saveas': 'saveModal',
-        'click .editor .js-tab': 'togglemode',
         'click .layer .js-delete': 'deletelayer',
         'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
@@ -126,7 +127,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 this.save();
                 break;
             case (which === 82): // r for refresh
-                this.save(null, null, true);
+                this.update();
                 break;
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
@@ -140,6 +141,20 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 return true;
         }
         return false;
+    };
+
+    Editor.prototype.onPane = function(ev) {
+        var id = $(ev.currentTarget).attr('href').split('-').pop();
+        $('form.pane').removeClass('target');
+        $('#layers-' + id).addClass('target');
+        return false;
+    };
+
+    Editor.prototype.offPane = function() {
+        $('form.pane').removeClass('target');
+
+        // refresh map.
+        this.update();
     };
 
     Editor.prototype.saveModal = function() {
@@ -195,32 +210,17 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             location.href = loc.replace('#' + name, '#');
         }
     };
-    Editor.prototype.togglemode = function(ev) {
-        var target = $(ev.currentTarget);
-        switch (target.attr('href').split('#editor-').pop()) {
-            case 'sql':
-                $('body').addClass('sql').removeClass('conf').removeClass('fields');
-                break;
-            case 'conf':
-                $('body').addClass('conf').removeClass('sql').removeClass('fields');
-                break;
-            case 'fields':
-                $('body').addClass('fields').removeClass('sql').removeClass('conf');
-                break;
-        }
-        tabbedHandler(ev);
-        return false;
-    };
     Editor.prototype.togglelayer = function(ev) {
         var $target = $(ev.currentTarget);
         var $siblings = $('.js-xrayswatch');
         if (ev.shiftKey) {
             $siblings.hasClass('disabled') ? $siblings.removeClass('disabled') : $siblings.addClass('disabled');
             $target.removeClass('disabled');
-            window.location.href === '#refresh';
+            this.update();
             return false;
         } else {
             $target.toggleClass('disabled');
+            this.update();
         }
     };
     Editor.prototype.addlayerModal = function(ev) {
@@ -239,7 +239,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('#full').removeClass('loading');
                 if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
                 else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
-                window.editor.changed();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
@@ -274,7 +273,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         layers[id] = Layer(id, layer.Datasource);
         orderLayers();
         Modal.close();
-        window.location.hash = '#layers-' + id;
+        $('#layers-' + id).addClass('target');
         $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
     };
@@ -289,6 +288,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
+        var view = this;
         var consistent = consistentSourceType(metadata);
 
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
@@ -338,6 +338,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
+            view.changed();
+            view.update();
+
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -348,17 +351,18 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
-                window.location.hash = '#';
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                window.location.hash = '#layers-' + layersArray[0].id;
+                $('#layers-' + layersArray[0].id).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
+        $('.layer-content ~ .empty-state').removeClass('visible');
     };
     Editor.prototype.deletelayer = function(ev) {
+        var view = this;
         var id = $(ev.currentTarget).attr('id').split('del-').pop();
         if (!layers[id]) return false;
         Modal.show('confirm', 'Remove layer "' + id + '"?', function(err, confirm) {
@@ -368,12 +372,21 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
-            window.location.href = '#';
+
+            // set layer empty state if there are no layers
+            if ($('.layer-content:has(div)').length === 0) {
+                $('.layer-content ~ .empty-state').addClass('visible');
+            }
+
+            view.changed();
+            view.update();
         });
+
         return false;
     };
     //This only applies to single-layer sources at the moment
     Editor.prototype.refreshSource = function(ev) {
+        var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
 
@@ -413,8 +426,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             //Add new layer and replace old in the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-            //Save
-            window.editor.save();
+            //Update
+            view.changed();
+            view.update();
+
           },
           error: function(jqXHR, textStatus, errorThrown) {
             // Clear loading state
@@ -426,38 +441,33 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
     //This only applies to single-layer sources and PostGIS/SQLite
     Editor.prototype.updateLayername = function(ev) {
-      //Retain current settings to copy over
-      var current_id = $('#current_id').val();
-      var layer = layers[current_id].get();
-      var new_id = $('#newLayername').val();
+        //Retain current settings to copy over
+        var current_id = $('#current_id').val();
+        var layer = layers[current_id].get();
+        var new_id = $('#newLayername').val();
 
-      // No-op.
-      if (current_id === new_id) {
+        // No-op.
+        if (current_id === new_id) {
         Modal.close();
         return false;
-      }
+        }
 
-      // Replace old layer/form
-      layer.id = new_id;
-      layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
-      $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
-      layers[current_id].item.replaceWith(templates.layeritem(layer));
-      delete layers[current_id];
-      layers[layer.id] = Layer(layer.id, layer.Datasource);
+        // Replace old layer/form
+        layer.id = new_id;
+        layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
+        $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
+        layers[current_id].item.replaceWith(templates.layeritem(layer));
+        delete layers[current_id];
+        layers[layer.id] = Layer(layer.id, layer.Datasource);
 
-      // Close modal
-      Modal.close();
-      $('#layers .js-layer-content').sortable('destroy').sortable();
+        // Close modal
+        Modal.close();
+        $('#layers .js-layer-content').sortable('destroy').sortable();
+        $('#layers-' + new_id).addClass('target');
 
-      // Remove animation for more elegant panel refresh
-      $('#layers-' + new_id).removeClass('animate');
+        this.changed();
 
-      window.location.href = '#layers-' + new_id;
-
-      // Bring back animation after panel has been replaced
-      $('#layers-' + new_id).addClass('animate');
-
-      return false;
+        return false;
 
     };
     Editor.prototype.error = function(model, resp) {
@@ -472,6 +482,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             Modal.show('error', 'Could not save source "' + model.id + '"');
         }
     };
+
+    Editor.prototype.update = function(ev) {
+      this.save(null, null, true);
+    };
+
     Editor.prototype.save = function(ev, options, refresh) {
         // If map is temporary and permanent save is requested go into saveas flow.
         if (this.model.id.indexOf('tmpsource:') === 0 && !refresh) return this.saveModal();
@@ -525,7 +540,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.refresh = function(ev) {
-        $('#full').removeClass('loading');
         if (!map) {
             map = L.mapbox.map('map');
             map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
@@ -564,13 +578,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime],
             minzoom: this.model.get('minzoom'),
             maxzoom: 22
-        }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map);
+        }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map).on('ready',$('#full').removeClass('loading'));
         // Refresh map title.
         $('title, .js-name').text(this.model.get('name') || 'Untitled');
-        // Clear save notice.
-        if (window.location.hash === '#refresh') {
-            window.location.hash = '#';
-        }
+
         // Rerender fields forms.
         _(layers).each(function(l) {
             l.refresh();
@@ -640,8 +651,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                var center = metadata.center;
-                map.setView([center[1], center[0]], metadata.maxzoom);
+                var center = metadata.center,
+                    zoom = Math.max(metadata.minzoom, metadata.maxzoom - 1);
+                map.setView([center[1], center[0]], zoom);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
@@ -667,19 +679,18 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
     window.onhashchange = function(ev) {
         analytics.page({hash:window.location.hash});
-
-        // clear mode panel state.
-        $('body').removeClass('fields').removeClass('sql').removeClass('conf');
-        $('.editor a.js-tab[href=#editor-conf]').addClass('active').siblings('a').removeClass('active');
     };
 
     if ('onbeforeunload' in window) window.onbeforeunload = function() {
-        if ($('body').hasClass('changed')) return 'Save your changes?';
+        if ($('body').hasClass('changed')) return 'You have unsaved changes.';
     };
 
-    // Sortable layers for local sources.
-    if (source.id.indexOf('tmsource://' === 0)) {
-        $('#layers .js-layer-content').sortable();
-        $('#layers .js-layer-content').bind('sortupdate', orderLayers);
+    // Set empty state for layer list
+    if ($('.layer-content:has(div)').length === 0) {
+        $('.layer-content ~ .empty-state').addClass('visible');
     }
+
+    // Sortable layers for local sources.
+    $('#layers .js-layer-content').sortable();
+    $('#layers .js-layer-content').bind('sortupdate', orderLayers);
 };
