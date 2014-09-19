@@ -1,6 +1,9 @@
 <%
 var sections = {
-    intro: null,
+    map: {
+        icon: 'home',
+        map: symbolizers.map,
+    },
     points: {
         icon: 'marker',
         markers: symbolizers.markers,
@@ -55,11 +58,9 @@ var sections = {
 <div id='reference'>
 <% _(sections).each(function(symbolizers, name) { %>
 <article id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
-  <% if (name !== 'intro') { %>
   <div class='row pad1 contain section-name'>
     <span class='<%= symbolizers.icon %> icon quiet strong'><%= name %></span>
   </div>
-  <% } %>
   <% _(symbolizers).each(function(symbolizer) { %>
   <% _(symbolizer).chain()
       .filter(function(p) { return p.css; })
