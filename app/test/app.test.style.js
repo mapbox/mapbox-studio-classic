@@ -332,6 +332,10 @@ tape('.js-layers shows sources modal', function(t) {
         $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
         t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
 
+        // allow a local source with c:/ in source (win)
+        $('#applydata input[type=text]').val('tmsource://c:/Users/foo/bar.tm2source');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
         // now test the user clicking a real source
         $('#modalsources-remote .js-adddata:eq(0)').click();
 
