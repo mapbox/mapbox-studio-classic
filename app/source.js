@@ -586,6 +586,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
     Editor.prototype.browsefile = function(ev) {
         Modal.show('browser', {
+            title: 'Browse files',
             id: 'browsefile',
             cwd: cwd,
             label: 'Select'
