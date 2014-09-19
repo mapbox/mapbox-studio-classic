@@ -338,6 +338,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
+            view.changed();
             view.update();
 
             //set maxzoom, if needed
@@ -377,9 +378,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('.layer-content ~ .empty-state').addClass('visible');
             }
 
-            this.changed();
-
-            // refresh map
+            view.changed();
             view.update();
         });
 
@@ -387,6 +386,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
     //This only applies to single-layer sources at the moment
     Editor.prototype.refreshSource = function(ev) {
+        var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
 
@@ -427,8 +427,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
 
             //Update
-            window.editor.changed();
-            window.editor.update();
+            view.changed();
+            view.update();
 
           },
           error: function(jqXHR, textStatus, errorThrown) {
@@ -465,7 +465,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $('#layers .js-layer-content').sortable('destroy').sortable();
         $('#layers-' + new_id).addClass('target');
 
-        window.editor.changed();
+        this.changed();
 
         return false;
 
