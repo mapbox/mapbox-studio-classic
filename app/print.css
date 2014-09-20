@@ -48,3 +48,25 @@ div.leaflet-marker-icon.location-filter.move-marker.leaflet-drag-target {
 .warning, input.warning  { color: #ee8a65 !important; }
 
 .js-info { right: 40px;}
+
+#exportDownloaded-downloaded { height: 30px; }
+
+#exportDownload-div { height:50px; }
+#exportDownload-downloaded {
+  -webkit-transform:translateY(100%);
+     -moz-transform:translateY(100%);
+      -ms-transform:translateY(100%);
+          transform:translateY(100%);
+}
+.downloaded #exportDownload {
+  -webkit-transform:translateY(200%);
+     -moz-transform:translateY(200%);
+      -ms-transform:translateY(200%);
+          transform:translateY(200%);
+}
+.downloaded #exportDownload-downloaded {
+  -webkit-transform:translateY(-100%);
+     -moz-transform:translateY(-100%);
+      -ms-transform:translateY(-100%);
+          transform:translateY(-100%);
+}

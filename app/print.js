@@ -26,7 +26,8 @@ Printer.prototype.events = {
   'change #format': 'updateformat',
   'change .js-dimensions': 'modifydimensions',
   'change .js-coordinates': 'modifycoordinates',
-  'change #lock': 'lockdimensions'
+  'change #lock': 'lockdimensions',
+  'click #exportDownload': 'imageStatus'
 };
 
 Printer.prototype.toggleInfo = function(ev) {
@@ -326,6 +327,19 @@ Printer.prototype.updateurl = function() {
     '?id='+window.exporter.model.get('id');
 
   $('#exportDownload').attr('href', url);
+};
+
+Printer.prototype.imageStatus = function(){
+  $('#export-ui').addClass('loading');
+  $.ajax({
+    url: '/static/status',
+    method: 'GET'
+  })
+  .done(function(info) {
+    $('#export-ui').removeClass('loading');
+    $('#exportDownload-div').addClass('downloaded');
+    setTimeout(function() { $('#exportDownload-div').removeClass('downloaded'); }, 1000);
+  });
 };
 
 Printer.prototype.imageSizeStats = function() {
