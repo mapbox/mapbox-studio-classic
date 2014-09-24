@@ -70,6 +70,41 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             return memo;
         }, {});
     };
+    var Processor = function(id, processors) {
+        var processor = {
+            form: $('#processor-' + id),
+            item: $('#layers [data-layer=' + id + ']')
+        };
+        processor.refresh = function() {
+            var p = {};
+            p.id = id;
+            p.value = editor.model.get('processors');
+            $('div.processors', processor.form).html(templates.layerprocessors(p));
+        };
+        processor.get = function() {
+            var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
+                // @TODO determine what causes empty field names.
+                if (!field.name) return memo;
+                var group = field.name.split('-')[0];
+                var name = field.name.split('-').slice(1).join('-');
+                switch (group) {
+                    case 'processor':
+                        memo[group] = memo[group] || {};
+                        memo[group][name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+                        break;
+                    default:
+                        break;
+                }
+                return memo;
+            }, {});
+            return attr;
+        };
+        return processor;
+    };
+    var processors = _(revlayers).reduce(function(memo, l) {
+        memo[l.id] = Processor(l.id, source.processors);
+        return memo;
+    }, {});
     var Source = Backbone.Model.extend({});
     Source.prototype.url = function() {
         return '/source.json?id=' + this.get('id');
@@ -506,6 +541,12 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
         attr.Layer.reverse();
 
+        attr.processors = {};
+        _(processors).each(function(p, k) {
+            attr.processors[k] = p.get().processor[k];
+        });
+        attr.processors = JSON.stringify(attr.processors);
+
         // Grab map center which is dependent upon the "last saved" value.
         attr._prefs = attr._prefs || this.model.attributes._prefs || {};
         attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
@@ -585,6 +626,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         // Rerender fields forms.
         _(layers).each(function(l) {
             l.refresh();
+        });
+        _(processors).each(function(p) {
+            p.refresh();
         });
 
         return false;

@@ -80,15 +80,18 @@
 
 input.toggle-conf:checked   ~ nav label.toggle-conf,
 input.toggle-fields:checked ~ nav label.toggle-fields,
+input.toggle-processors:checked ~ nav label.toggle-processors,
 input.toggle-sql:checked    ~ nav label.toggle-sql {
   background: #404040;
 }
 
 .pane.target div.conf,
-.pane.target div.fields { display:none; }
+.pane.target div.fields,
+.pane.target div.processors { display:none; }
 
 input.toggle-conf:checked ~ div.conf { display: block; }
 input.toggle-fields:checked ~ div.fields { display: block; }
+input.toggle-processors:checked ~ div.processors { display: block; }
 
 /* Fields pane
 ------------------------------------------------------- */
