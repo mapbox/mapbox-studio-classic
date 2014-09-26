@@ -14,25 +14,36 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
       <a href='#modalsources-remote' class='js-tab <%= activeType === 'remote' ? 'active' : ''%>'>Remote</a>
     </span>
   </div>
-  <div id='modalsources-local' class='pin-top pin-bottom pad1 scroll-styled top1 <%= activeType === 'local' ? 'active' : ''%>'>
-  <%
-    print(_(history.source).chain()
-      .filter(function(item) { return item.id.indexOf('tmsource://') === 0 })
-      .sortBy(function(item) { return (item.name||'').toLowerCase(); })
-      .map(_(function(item) {
-        return this.sourceitem({
-          classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
-          withdel: true,
-          item: item
-        });
-      }).bind(this))
-      .value().join(''));
-  %>
+  <div id='modalsources-local' class='js-sources-list pin-top pin-bottom top1 <%= activeType === 'local' ? 'active' : ''%>'>
+    <div class='scroll-styled bottom3 pin-top pad1 pin-bottom'>
+    <%
+      print(_(history.source).chain()
+        .filter(function(item) { return item.id.indexOf('tmsource://') === 0 })
+        .sortBy(function(item) { return (item.name||'').toLowerCase(); })
+        .map(_(function(item) {
+          return this.sourceitem({
+            classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
+            withdel: true,
+            item: item
+          });
+        }).bind(this))
+        .value().join(''));
+    %>
 
-  <%= templates.emptystate({message:'Looks like you don\'t have any local vector tile sources. To create a source, open the projects drawer and click the new project button.'}) %>
+    <%= templates.emptystate({message:'Looks like you don\'t have any local vector tile sources. To create a source, open the projects drawer and click the new project button.'}) %>
+    </div>
+    <form class='js-localdata js-applydata pin-bottom pad2 keyline-top row3'>
+      <div class='input-pill clearfix'><!--
+        --><input class='col9' type='text' placeholder='tmsource:///example.tm2source' title='Must use valid path to local source. No spaces allowed.' size='20' name='id' pattern='((([\w/\/:-]+\.tm2source),?)+)' value='<% if (style.source.indexOf('.tm2source') > -1) { %><%= style.source %><% } %>'/><!--
+        --><input class='col3' type='submit' value='Apply'/>
+      </div>
+      <div class='micro quiet center pad1y'>
+        To use a composite source, string together comma-separated map IDs.
+      </div>
+    </form>
   </div>
-  <div id='modalsources-remote' class='pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
-    <div class='pin-top pin-bottom pad1 scroll-styled bottom3'>
+  <div id='modalsources-remote' class='js-sources-list pin-top pin-bottom top1 <%= activeType === 'remote' ? 'active' : ''%>'>
+    <div class='scroll-styled bottom3 pin-top pad1 pin-bottom'>
     <%
       print(_(history.source).chain()
         .filter(function(item) { return item.id.indexOf('tmsource://') === -1 })
@@ -47,14 +58,14 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
         .value().join(''));
     %>
     </div>
+    <form class='js-remotedata js-applydata pin-bottom pad2 keyline-top row3'>
+      <div class='input-pill clearfix'><!--
+        --><input class='col9' type='text' placeholder='Mapbox map ID' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' size='20' name='id' pattern='((([\w-]+\.[\w-]+),?)+)|((https:\/\/)+[\w\\\/\-./\:]*)' value='<% if (style.source.indexOf('mapbox://') > -1) { %><%= style.source.replace('mapbox:///','') %><% } %>'/><!--
+        --><input class='col3' type='submit' value='Apply'/>
+      </div>
+      <div class='micro quiet center pad1y'>
+        To use a composite source, string together comma-separated map IDs. Accepts <strong>TileJSON URLs</strong> for sources not hosted by Mapbox.
+      </div>
+    </form>
   </div>
-  <form id='applydata' class='pin-bottom pad2 keyline-top row3'>
-    <div class='input-pill clearfix'><!--
-      --><input class='col9' type='text' placeholder='Mapbox map ID' title='Must use valid mapbox map ID, path to local source, or tilejson source. Compositing local sources or tilejson sources is not allowed. No spaces allowed.' size='20' name='id' pattern='(([\w-]+\.[\w-]+,?)+|(https?:\/\/.*))|(tmsource?:\/\/[\w\/\/./\:]*)' value='<%= style.source.replace('mapbox:///','') %>'/><!--
-      --><input class='col3' type='submit' value='Apply'/>
-    </div>
-    <div class='micro quiet center pad1y'>
-      To use a composite source, string together comma-separated map IDs. Accepts <strong>TileJSON URLs</strong> for sources not hosted by Mapbox.
-    </div>
-  </form>
 </div>
