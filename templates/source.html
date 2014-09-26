@@ -38,7 +38,7 @@
   <div id='modal-content' class='limiter contain modal-content animate'></div>
 </div>
 
-<div id='drawers' class='animate fill-dark dark col3 offcanvas-left animate pin-left z10 clip'>
+<div id='drawers' class='animate fill-dark col3 offcanvas-left animate pin-left z10 clip'>
 
   <form id='settings-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='pin-top pad1 keyline-bottom'>
@@ -73,19 +73,28 @@
           <input class='stretch short small' name='attribution' type='text' value='<%= _(source.attribution).escape() %>'></textarea>
         </section>
       </fieldset>
-      <fieldset class='pad1x'>
-        <div class='pad1 keyline-all round'>
-          <section class='space-bottom0 clearfix'>
-            <label class='inline col4'>Minzoom</label>
-            <input id='minzoom' name='minzoom' class='min' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
-            <span class='small quiet code inline range' id='minzoom-val'><%= source.minzoom %></span>
+      <fieldset class='pad1x pad2y keyline-top'>
+          <section class='space-bottom1 clearfix'>
+            <label class='micro inline col4'>Center</label>
+            <div class='micro fill-darken1 pad0x clip col8 contain round'>
+              <span class='js-savedCenter'><%= source.center[0].toFixed(4) %>,<%= source.center[1].toFixed(4) %>,<%= source.center[2] %></span>
+              <a href='#settings' class='js-lockCenter icon lock pin-right round-right fill-darken2-onactive <%= !source._prefs.saveCenter ? 'active' : '' %>'></a>
+            </div>
           </section>
           <section class='space-bottom0 clearfix'>
-            <label class='inline col4'>Maxzoom</label>
-            <input id='maxzoom' name='maxzoom' class='max' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
-            <span class='small quiet code inline range' id='maxzoom-val'><%= source.maxzoom %></span>
+            <label class='micro inline col4'>Minzoom</label>
+            <div class='col8'>
+              <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+              <span class='micro quiet inline range' id='minzoom-val'><%= source.minzoom %></span>
+            </div>
           </section>
-        </div>
+          <section class='space-bottom0 clearfix'>
+            <label class='micro inline col4'>Maxzoom</label>
+            <div class='col8'>
+              <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+              <span class='micro quiet inline range' id='maxzoom-val'><%= source.maxzoom %></span>
+            </div>
+          </section>
       </fieldset>
     </div>
   </form>
@@ -100,17 +109,17 @@
 
 </div>
 
-<div id='full' class='clip animate pin-left'>
-  <div id='map' class='animate fill-canvas dark' style='background-color:<%=source.background%>;'></div>
+<div id='full' class='clip dark fill-dark animate pin-left'>
+  <div id='map' class='animate fill-canvas' style='background-color:<%=source.background%>;'></div>
   <div id='map-overlay'></div>
   <div id='map-errors'></div>
 
-  <form id='search' class='z10 contain dark round animate search-results'>
+  <form id='search' class='z10 contain round animate search-results'>
     <input id='dosearch' type='text' class='col12 clean small round' value='' placeholder='Search' autocomplete='off' />
     <ul id='search-results' class='clip scroll-styled round-bottom'></ul>
   </form>
-  <div class='map-controls pin-top dark fill-dark row1'>
-    <div class='pin-left fill-dark z1 pad0 row1 truncate'>
+  <div class='map-controls pin-top row1'>
+    <div class='pin-left z1 pad0 row1 truncate'>
       <a href='#search' class='search-n button short icon search quiet'></a>
       <a href='#' class='search-y button short icon active icon search quiet'></a>
 
@@ -123,13 +132,9 @@
       </div>
     </div>
     <div class='pin-top text-right fill-dark z0 pad0 row1'>
-      <span id='map-center' class='quiet inline micro strong pad0y align-top'></span>
+      <span id='map-center' class='quiet inline micro strong pad0y align-top js-mapCenter'></span>
       <div id='zoomedto' class='align-top text-right inline contain zoom<%=source.center[2]%>'></div>
     </div>
-  </div>
-  <div id='refresh' class='animate fill-darken2 col12 pad2 pin-bottom'>
-    <span class='icon info'>To view visibility adjustments, <a href='#' class='js-save'>Save now</a>.</span>
-    <a href='#' class='quiet pin-topright inline pad1 icon close'></a>
   </div>
 </div>
 
@@ -156,34 +161,36 @@
         <span class='pad0x pad1y keyline-left col4 source-label'>Delete</span>
       </div>
     </nav>
-    <div class='js-layer-content layer-content pin-left col12 scroll-styled'><!--
-      --><%
+
+    <div class='col12' id='editor'>
+    <%
+      _(revlayers).each(_(function(l) {
+        var type = (l.Datasource && l.Datasource.type);
+        var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
+        if (this['layer' + type]) print(this['layer' + type](_({
+            tm: tm,
+            fields: vlayer ? vlayer.fields : null
+        }).extend(l)));
+      }).bind(this));
+    %>
+    </div>
+
+    <div class='js-layer-content layer-content pin-left col12 scroll-styled'>
+    <%
        _(revlayers).each(_(function(l) {
         print(this.layeritem(_({_prefs:source._prefs}).extend(l)));
-      }).bind(this)); %><!--
-    --></div>
+      }).bind(this));
+    %>
+    </div>
     <%= this.emptystate({message:'You haven\'t imported any data layers yet. <a href="#" class="js-addlayer">Add one now</a>.'}) %>
   </div>
 </div>
 
-<div class='z10' id='editor'>
-<%
-  _(revlayers).each(_(function(l) {
-    var type = (l.Datasource && l.Datasource.type);
-    var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
-    if (this['layer' + type]) print(this['layer' + type](_({
-        tm: tm,
-        fields: vlayer ? vlayer.fields : null
-    }).extend(l)));
-  }).bind(this));
-%>
-</div>
-
 <div id='toolbar' class='center pad1 dark z10'>
   <% if (source._tmp) { %>
-  <a class='toolbar-button strong icon save js-saveas floppy' href='#'>Save as</a>
+  <a class='toolbar-button strong icon saveas js-saveas floppy' href='#'>Save as</a>
   <% } else { %>
-  <a class='toolbar-button strong icon save js-save floppy' href='#'>Save</a>
+  <a class='toolbar-button strong icon save js-save floppy' href='#'><span class='saved-y'>Save</span><span class='saved-n'>Saved</span></a>
   <% } %>
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>

@@ -1,21 +1,25 @@
-<form class='animate offcanvas-top pane scroll-styled editor dark fill-dark col6 pin-right z10' id='layers-<%=obj.id%>'>
-  <nav class='text-right pad1 keyline-bottom'>
-    <span class='inline rounded-toggle strong'><!--
-      --><a href='#editor-conf' class='js-tab mode-conf active'>Configure</a><!--
-      --><a href='#editor-fields' class='js-tab mode-fields'>Fields</a><!--
- --></span>
-    <a href='#' class='quiet inline pad1 icon close'></a>
-  </nav>
-  <section class='pad1y pad2x pin-topleft'>
-    <h3>
+<form class='pane editor dark fill-dark col12 pin-right z10' id='layers-<%=obj.id%>'>
+
+  <input id='conf-<%=obj.id%>'   class='hidden toggle-conf' type='radio' name='toggle' checked='true'>
+  <input id='fields-<%=obj.id%>' class='hidden toggle-fields' type='radio' name='toggle'>
+
+  <nav class='pin-top pad1y pad2x keyline-bottom'>
+    <h3 class='fl'>
       <%= obj.id %>
-      <a href='#' id='updatename-<%=obj.id%>' class='micro block js-updatename'>rename</a>
+      <a href='#' id='updatename-<%=obj.id%>' class='micro block js-updatename'>Rename</a>
     </h3>
     <input type='hidden' name='id' value='<%=obj.id%>' />
     <input type='hidden' name='nodata' value='<%=obj.nodata%>' />
-  </section>
+    <div class='pin-right pad1'>
+      <div class='pane-pager rounded-toggle inline strong'>
+        <label class='toggle-conf' for='conf-<%=obj.id%>'>Configure</label>
+        <label class='toggle-fields' for='fields-<%=obj.id%>'>Fields</label>
+      </div>
+      <a href='#' class='js-offpane offpane-button button short quiet icon check'>Done</a>
+    </div>
+  </nav>
 
-  <div class='conf'>
+  <div class='conf col12 pin-right top1 space-top2 scroll-styled'>
     <fieldset>
       <section class='pad2x pad1y keyline-bottom'>
         <label>Description</label>
@@ -34,11 +38,8 @@
         <label class='col3 inline'>Projection</label>
         <input class='js-metadata-projection stretch' name='srs' type='text' value='<%= obj.srs %>' readonly />
       </section>
-      <section class='clearfix pad2'>
-        <a href='#' class='js-save quiet button submit margin6 col6'>Done</a>
-      </section>
     </fieldset>
   </div>
 
-  <div class='fields'><%= this.layerfields(obj.fields) %></div>
+  <div class='fields col12 pin-right top1 space-top2 scroll-styled'><%= this.layerfields(obj.fields) %></div>
 </form>

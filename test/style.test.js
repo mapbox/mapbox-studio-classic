@@ -47,11 +47,11 @@ test('loads default style from disk', function(t) {
     });
 });
 
-test('saves style in memory', function(t) {
+test('refresh style in memory', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
 
-    style.save(_({id:style.tmpid()}).defaults(data), function(err, source) {
+    style.refresh(_({id:style.tmpid()}).defaults(data), function(err, source) {
         t.ifError(err);
         t.ok(source);
         t.end();
@@ -60,26 +60,35 @@ test('saves style in memory', function(t) {
     });
 });
 
-test('saves style (invalid)', function(t) {
+test('refresh style (invalid)', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
         t.ifError(err);
-        style.save(_({id:style.tmpid(),minzoom:-1}).defaults(data), function(err, source) {
-            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.save() errors on invalid style');
+        style.refresh(_({id:style.tmpid(),minzoom:-1}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.refresh() errors on invalid style');
             t.end();
         });
     });
 });
 
-test('saves style (invalid bookmarks)', function(t) {
+test('refresh style (invalid bookmarks)', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
         t.ifError(err);
-        style.save(_({id:style.tmpid(),_bookmarks:'asdf'}).defaults(data), function(err, source) {
-            assert.equal(err.toString(), 'Error: bookmarks must be an array', 'style.save() errors on invalid style');
+        style.refresh(_({id:style.tmpid(),_bookmarks:'asdf'}).defaults(data), function(err, source) {
+            assert.equal(err.toString(), 'Error: bookmarks must be an array', 'style.refresh() errors on invalid style');
             t.end();
         });
     });
 });
 
+test('save temporary', function(t) {
+    testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
+        t.ifError(err);
+        style.save(_({id:style.tmpid()}).defaults(data), function(err) {
+            t.equal(/^Error: Cannot save temporary style/.test(err.toString()), true, 'style.save() errors on temporary style');
+            t.end();
+        });
+    });
+});
 
 test('saves style to disk', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
@@ -126,6 +135,26 @@ test('saves style to disk', function(t) {
         // }, 500);
     });
 
+    });
+});
+
+test('save as tmp => perm', function(t) {
+    // Uses an example style with assets to test pre-save dir copy.
+    style.info(style.examples['mapbox-studio-comic'], function(err, data) {
+        t.ifError(err);
+        var tmpid = style.examples['mapbox-studio-comic'];
+        var permid = path.join(tmp, 'style-saveas-' + Math.random().toString(36).split('.').pop());
+        style.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+            t.ifError(err);
+            t.ok(source);
+            t.equal(source.data._tmp, false);
+            var tmpdir = tm.parse(permid).dirname;
+            t.ok(fs.existsSync(tm.join(tmpdir,'img')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'project.yml')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'project.xml')));
+            t.ok(!fs.existsSync(tm.join(tmpdir,'_gfx')));
+            t.end();
+        });
     });
 });
 

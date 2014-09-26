@@ -19,6 +19,7 @@
 /* Hover/acive fills */
 .fill-lighten0-onhover:hover { background:rgba(255,255,255,0.10); }
 .fill-blue-onactive.active { background:#3887be; }
+.fill-darken2-onactive.active { background:rgba(0,0,0,0.50); }
 
 /* FIX IN BASE - inputs in dark pills lose their border */
 .dark.fill-dark .pill > input {
@@ -90,11 +91,19 @@
   border-color: rgba(0,0,0,0.5);
 }
 
+.dark textarea[readonly], .dark input[type='text'][readonly] {
+  border-color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.5);
+}
+
 .fixed-bottomright { position:fixed; bottom:0; right:0; }
 
 kbd {
   box-shadow:none;
   padding:0 1px;
+  }
+  kbd.prefixed:before {
+    font-family: Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
   }
   .mac kbd.prefixed:before { content:'⌘'; }
   .windows kbd.prefixed:before,
@@ -123,15 +132,15 @@ kbd {
   transition:all .1s, z-index 0 0;
 }
 
-#modal .modal-mask {
-  opacity: 0;
+#modal .modal-mask { opacity: 0; }
+#modal.active .modal-mask { opacity: 1;}
+
+#modal .browser {
+  top: 80px;
+  bottom: 80px;
 }
 
-#modal.active .modal-mask {
-  opacity: 1;
-}
-
-#modal .close { cursor: pointer; }
+#modal .browser .list { bottom: 50px; }
 
 input.readonly {
   background:transparent;
@@ -153,6 +162,11 @@ label.ghost {
 .short ~ label.ghost {
   line-height: 30px;
   right: 10px;
+  }
+
+input[type=range].zoomrange {
+  width:75%;
+  min-width:40px;
   }
 
 /* General styles
@@ -349,12 +363,6 @@ body.local .on-local { display:block; }
           transform:translateY(0);
 }
 
-/* Panes for display:none on hidden content */
-.pane { height:100%;}
-.pane > * { display:none; }
-.pane:target > *,
-*:target > .pane > * { display:block; }
-
 /* Map
 ------------------------------------------------------- */
 #map {
@@ -366,8 +374,6 @@ body.local .on-local { display:block; }
   }
 .dark #map { background-color: #222;}
 #full:target #map { left:0% !important;}
-
-#map.map-clickable { cursor: pointer;}
 
 .map-controls,
 .map-controls .fill-dark,
@@ -774,12 +780,31 @@ a.toolbar-button  {
   width: 60px;
 }
 
-a.toolbar-button.save  {
+/* base override to center icon */
+a.toolbar-button:not(.big):before {
+  display: block;
+  margin: auto;
+}
+
+a.toolbar-button.save,
+a.toolbar-button.save:hover {
+  background: rgba(255,255,255,.1);
+  color:rgba(255,255,255,0.5);
+}
+
+body.changed a.toolbar-button.save,
+a.toolbar-button.saveas {
   color: white;
   background: #3887be;
 }
 
-a.toolbar-button.save:hover {
+body .saved-n,
+body.changed .saved-y { display: block;}
+body .saved-y,
+body.changed .saved-n { display: none;}
+
+body.changed a.toolbar-button.save:hover,
+a.toolbar-button.saveas:hover {
   background: #3bb2d0;
 }
 

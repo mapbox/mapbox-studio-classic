@@ -26,6 +26,151 @@ function hasModal(selector) {
 // test[userlayers]=true => test style with user layer list.
 if (window.testParams.userlayers) return testUserLayers();
 
+// test[tmp]=true => test tmp styles.
+if (window.testParams.tmp) return testTmp();
+
+tape('.js-mapCenter', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xy = x.toFixed(4) + ', ' + y.toFixed(4);
+    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: '+xy);
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-mapCenter').text(),'-40.0000, 40.0000', '.js-mapCenter text: -40.0000, 40.0000');
+    t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
+
+    window.editor.map.setView([y,x],z);
+    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: ' + xy);
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.end();
+});
+
+tape('.js-lockCenter unlocked', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,6', '.js-savedCenter text: -40.0000,40.0000,6');
+    window.editor.save();
+    onajax(function() {
+        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        window.editor.map.setView([y,x],z);
+        t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+        window.editor.save();
+        onajax(function() {
+            t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+            t.end();
+        });
+    });
+});
+
+tape('.js-lockCenter unlocked zoomrange', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var minzoom = $('#minzoom').prop('value');
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    window.editor.map.setView([40,-40],4);
+    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,4', '.js-savedCenter text: -40.0000,40.0000,4');
+    $('#minzoom').prop('value', 6);
+    window.editor.save();
+    onajax(a);
+    function a() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.minzoom,6,'saves minzoom @ 6');
+        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        $('#minzoom').prop('value', minzoom);
+        window.editor.save();
+        onajax(b);
+    }
+    function b() {
+        t.ok(!hasModal('#error'));
+        window.editor.map.setView([y,x],z);
+        t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+        window.editor.save();
+        onajax(c);
+    }
+    function c() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        t.end();
+    }
+});
+
+tape('.js-lockCenter locked', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    window.editor.save();
+    onajax(function() {
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        window.editor.map.setView([y,x],z);
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+        window.editor.save();
+            onajax(function() {
+            t.ok(!$('body').hasClass('changed'), 'body');
+            t.end();
+        });
+    });
+});
+
+tape('.js-lockCenter locked zoomrange', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var minzoom = $('#minzoom').prop('value');
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
+    window.editor.map.setView([40,-40],4);
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    $('#minzoom').prop('value', 6);
+    window.editor.save();
+    onajax(a);
+    function a() {
+        t.ok(hasModal('#error'), 'errors on center z outside min/maxzoom');
+        $('#error a.js-close').click();
+        $('#minzoom').prop('value', minzoom);
+        window.editor.save();
+        onajax(b);
+    }
+    function b() {
+        t.ok(!hasModal('#error'));
+        window.editor.map.setView([y,x],z);
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+        window.editor.save();
+        onajax(c);
+    }
+    function c() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        t.ok(!$('body').hasClass('changed'), 'body');
+        t.end();
+    }
+});
+
 tape('#settings-form', function(t) {
     t.ok(!$('body').hasClass('changed'), 'body');
     $('#settings-drawer').change();
@@ -185,6 +330,10 @@ tape('.js-layers shows sources modal', function(t) {
 
         // allow single local source
         $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
+        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+
+        // allow a local source with c:/ in source (win)
+        $('#applydata input[type=text]').val('tmsource://c:/Users/foo/bar.tm2source');
         t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
 
         // now test the user clicking a real source
@@ -460,7 +609,27 @@ tape('keybindings', function(t) {
     t.end();
 });
 
+tape('keybindings refresh', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 82; // r
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+space => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), true, 'body.changed (noop)');
+        t.end();
+    });
+});
+
 tape('keybindings save', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
     var e;
     e = $.Event('keydown');
     e.ctrlKey = true;
@@ -514,3 +683,17 @@ function testUserLayers() {
         t.end();
     });
 }
+
+function testTmp() {
+    tape('tmp ctrl+s => Save As modal', function(t) {
+        t.ok(!$('body').hasClass('changed'));
+        var e;
+        e = $.Event('keydown');
+        e.ctrlKey = true;
+        e.which = 83; // s
+        $('body').trigger(e);
+        t.equal(hasModal('#saveas'), true, '#saveas modal');
+        t.end();
+    });
+}
+

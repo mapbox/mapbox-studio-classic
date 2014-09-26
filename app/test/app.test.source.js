@@ -21,6 +21,153 @@ function hasModal(selector) {
     return $('#modal-content ' + selector).size() > 0;
 }
 
+(function() {
+
+// test[tmp]=true => test tmp styles.
+if (window.testParams.tmp) return testTmp();
+
+tape('.js-mapCenter', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xy = x.toFixed(4) + ', ' + y.toFixed(4);
+    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: '+xy);
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-mapCenter').text(),'-40.0000, 40.0000', '.js-mapCenter text: -40.0000, 40.0000');
+    t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
+
+    window.editor.map.setView([y,x],z);
+    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: ' + xy);
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.end();
+});
+
+tape('.js-lockCenter unlocked', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,6', '.js-savedCenter text: -40.0000,40.0000,6');
+    window.editor.save();
+    onajax(function() {
+        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        window.editor.map.setView([y,x],z);
+        t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+        window.editor.save();
+        onajax(function() {
+            t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+            t.end();
+        });
+    });
+});
+
+tape('.js-lockCenter unlocked zoomrange', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var minzoom = $('#minzoom').prop('value');
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    window.editor.map.setView([40,-40],4);
+    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,4', '.js-savedCenter text: -40.0000,40.0000,4');
+    $('#minzoom').prop('value', 6);
+    window.editor.save();
+    onajax(a);
+    function a() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.minzoom,6,'saves minzoom @ 6');
+        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        $('#minzoom').prop('value', minzoom);
+        window.editor.save();
+        onajax(b);
+    }
+    function b() {
+        t.ok(!hasModal('#error'));
+        window.editor.map.setView([y,x],z);
+        t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+        window.editor.save();
+        onajax(c);
+    }
+    function c() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        t.end();
+    }
+});
+
+tape('.js-lockCenter locked', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
+    window.editor.map.setView([40,-40],6);
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    window.editor.save();
+    onajax(function() {
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        window.editor.map.setView([y,x],z);
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+        window.editor.save();
+            onajax(function() {
+            t.ok(!$('body').hasClass('changed'), 'body');
+            t.end();
+        });
+    });
+});
+
+tape('.js-lockCenter locked zoomrange', function(t) {
+    var z = (window.editor.map.getZoom());
+    var x = (window.editor.map.getCenter().lng);
+    var y = (window.editor.map.getCenter().lat);
+    var minzoom = $('#minzoom').prop('value');
+    var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+    t.ok(!$('body').hasClass('changed'), 'body');
+    $('.js-lockCenter').click();
+    t.ok($('body').hasClass('changed'), 'body.changed');
+    t.equal($('.js-lockCenter').is('.active'), true, '.js-lockCenter is locked');
+    window.editor.map.setView([40,-40],4);
+    t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
+    $('#minzoom').prop('value', 6);
+    window.editor.save();
+    onajax(a);
+    function a() {
+        t.ok(hasModal('#error'), 'errors on center z outside min/maxzoom');
+        $('#error a.js-close').click();
+        $('#minzoom').prop('value', minzoom);
+        window.editor.save();
+        onajax(b);
+    }
+    function b() {
+        t.ok(!hasModal('#error'));
+        window.editor.map.setView([y,x],z);
+        $('.js-lockCenter').click();
+        t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
+        window.editor.save();
+        onajax(c);
+    }
+    function c() {
+        t.ok(!hasModal('#error'));
+        t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
+        t.ok(!$('body').hasClass('changed'), 'body');
+        t.end();
+    }
+});
+
 tape('#settings-form', function(t) {
     t.ok(!$('body').hasClass('changed'), 'body');
     $('#settings-drawer').change();
@@ -103,14 +250,16 @@ tape('#updatename-shape: updates the layer name and checks that input values and
     $('#newLayername').val('hey');
     $('#updatename').submit();
 
-    var currentUrl = window.location.toString();
+    var targetPane = $('.pane.target').attr('id');
     var newBufferTarget = $('#hey-buffer-size-val');
 
-    t.equal(currentUrl.slice(-10),'layers-hey');
+    t.equal(targetPane,'layers-hey');
     t.equal(expectedBuffer, newBufferTarget.text());
     $('#del-hey').click();
     $('#confirm a.js-confirm').click();
-    t.end();
+    onajax(function() {
+        t.end();
+    });
 });
 
 tape('#raster and nonraster mix error', function(t) {
@@ -128,6 +277,7 @@ tape('#raster and nonraster mix error', function(t) {
         $('#addlayer').submit();
         onajax(function() {
             t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
+
             t.ok(hasModal('#error'), 'shows error modal');
             $('#error a.js-close').click();
             t.ok(!hasModal('#error'), 'removes error modal');
@@ -135,9 +285,10 @@ tape('#raster and nonraster mix error', function(t) {
             $('#del-DCGIS_BusLineLn').click();
             t.ok(hasModal('#confirm'), 'shows confirm modal');
             $('#confirm a.js-confirm').click();
-            t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
-
-            t.end();
+            onajax(function() {
+                t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
+                t.end();
+            });
         });
     });
 });
@@ -235,11 +386,18 @@ var datatests = {
     },
 };
 
-//Delete old layers from yml
-$('#del-box').click();
-$('#confirm a.js-confirm').click();
-$('#del-solid').click();
-$('#confirm a.js-confirm').click();
+tape('Clear layers', function(t) {
+    //Delete old layers from yml
+    $('#del-box').click();
+    $('#confirm a.js-confirm').click();
+    onajax(function() {
+        $('#del-solid').click();
+        $('#confirm a.js-confirm').click();
+        onajax(function() {
+            t.end();
+        });
+    });
+});
 
 for (var name in datatests) (function(name, info) {
     tape('data test: ' + name, function(t) {
@@ -266,12 +424,11 @@ for (var name in datatests) (function(name, info) {
         $('#addlayer').submit();
         onajax(function() {
 
-            // Check that correct panel is active
-            t.equal($('body').hasClass('fields') || $('body').hasClass('sql'), false, ' config panel is visible');
+            t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
+
+            t.equal($('.pane.target').length,1,'only current layer pane is targeted');
 
             $('.js-tab.mode-fields').click();
-
-            t.equal($('body').hasClass('fields'), true, ' fields panel is visible after toggle click');
 
             t.equal($('#layers-' + info.expected.id).size(), 1, 'adds #layers-' + info.expected.id + ' form');
             var values = _($('#layers-' + info.expected.id).serializeArray()).reduce(function(memo, field) {
@@ -285,11 +442,17 @@ for (var name in datatests) (function(name, info) {
                     t.equal(values[k], info.expected[k], 'sets form value for ' + k);
                 }
             }
-            $('#del-' + info.expected.id).click();
-            t.ok(hasModal('#confirm'), 'shows confirm modal');
-            $('#confirm a.js-confirm').click();
-            t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
-            t.end();
+
+            $('.pane.target .js-offpane').click();
+            onajax(function() {
+                $('#del-' + info.expected.id).click();
+                t.ok(hasModal('#confirm'), 'shows confirm modal');
+                $('#confirm a.js-confirm').click();
+                onajax(function() {
+                    t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
+                    t.end();
+                });
+            })
         });
     });
 })(name, datatests[name]);
@@ -322,4 +485,53 @@ tape('keybindings', function(t) {
 
     t.end();
 });
+
+tape('keybindings refresh', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 82; // r
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+space => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), true, 'body.changed (noop)');
+        t.end();
+    });
+});
+
+tape('keybindings save', function(t) {
+    $('#settings-drawer input[name=name]').change();
+    t.equal($('body').hasClass('changed'), true, 'body.changed');
+
+    var e;
+    e = $.Event('keydown');
+    e.ctrlKey = true;
+    e.which = 83; // s
+    $('body').trigger(e);
+    t.ok($('#full').hasClass('loading'), 'ctrl+s => #full.loading');
+    onajax(function() {
+        t.ok(!$('#full').hasClass('loading'), 'ctrl+s => #full');
+        t.equal($('body').hasClass('changed'), false, 'ctrl+s => saved style');
+        t.end();
+    });
+});
+
+})();
+
+function testTmp() {
+    tape('tmp ctrl+s => Save As modal', function(t) {
+        t.ok(!$('body').hasClass('changed'));
+        var e;
+        e = $.Event('keydown');
+        e.ctrlKey = true;
+        e.which = 83; // s
+        $('body').trigger(e);
+        t.equal(hasModal('#saveas'), true, '#saveas modal');
+        t.end();
+    });
+}
 

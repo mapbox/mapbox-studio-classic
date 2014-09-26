@@ -15,13 +15,13 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
                         '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
                       '</a>' +
                       '<% if (tags.indexOf("userbookmark")) { %>' +
-                      '<div class="pin-top z10 dark pad1">' +
+                      '<div class="pin-top z10 pad1">' +
                         '<% _.each(tags, function(currenttag) { %>' +
                         '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
-                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark fill-darken1 icon quiet trash pin-topright pad1"></a>' +
                       '<% } %>' +
                     '</div>'
                   '</div>';
@@ -29,7 +29,7 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
 statHandler('drawtime')();
 
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
-  if ($('body').hasClass('changed')) return 'Save your changes?';
+  if ($('body').hasClass('changed')) return 'You have unsaved changes.';
 };
 
 var Editor = Backbone.View.extend({});
@@ -133,7 +133,8 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
-  'click .js-placetag': 'tagPlacesSearch'
+  'click .js-placetag': 'tagPlacesSearch',
+  'click .js-lockCenter': 'lockCenter'
 };
 
 Editor.prototype.addBookmark = function(ev) {
@@ -195,7 +196,7 @@ Editor.prototype.renderPlaces = function(filter) {
   });
 
   if (filtered.length === 0) {
-    $('#placeslist').html('<div class="dark empty-places col12 pad4 center"><h1>No Places.</h1></div>');
+    $('#placeslist').html('<div class="empty-places col12 pad4 center"><h1>No Places.</h1></div>');
     return false;
   }
 
@@ -302,6 +303,7 @@ Editor.prototype.keys = function(ev) {
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
 
   var which = ev.which;
+
   switch (true) {
   case (which === 190): // . for fullscreen
     ev.preventDefault();
@@ -329,6 +331,9 @@ Editor.prototype.keys = function(ev) {
     break;
   case (which === 83): // s for save
     this.save();
+    break;
+  case (which === 82): // r for refresh
+    this.update();
     break;
   case (which === 66): // b for bookmarks
     ev.preventDefault();
@@ -358,7 +363,10 @@ Editor.prototype.saveModal = function() {
       var id = 'tmstyle://' + filepath;
       window.editor.model.set({id:id});
       window.editor.save(null, {
-        success: function() { window.location = '/style?id=' + id; },
+        success: function() {
+            $('body').removeClass('changed');
+            window.location = '/style?id=' + id;
+        },
         error: _(window.editor.error).bind(window.editor)
       });
       return false;
@@ -490,8 +498,16 @@ Editor.prototype.recache = function(ev) {
   this.save(ev);
   return false;
 };
-Editor.prototype.save = function(ev, options) {
+
+Editor.prototype.update = function(ev) {
+  this.save(null, null, true);
+};
+
+Editor.prototype.save = function(ev, options, refresh) {
   var editor = this;
+
+  // If map is temporary and permanent save is requested go into saveas flow.
+  if (this.model.id.indexOf('tmpstyle:') === 0 && !refresh) return this.saveModal();
 
   // Set map in loading state.
   $('#full').addClass('loading');
@@ -518,20 +534,32 @@ Editor.prototype.save = function(ev, options) {
     return $(this).attr('id').split('layer-').pop();
   }).get().shift();
 
-  if (this.model.get('_prefs').saveCenter) {
-    var zoom = Math.min(Math.max(map.getZoom(),attr.minzoom),attr.maxzoom);
-    var lon = map.getCenter().lng % 360;
-    lon += (lon < -180) ? 360 : (lon > 180) ? -360 : 0;
-    attr.center = [lon , map.getCenter().lat, zoom];
+  // Grab map center which is dependent upon the "last saved" value.
+  attr._prefs = attr._prefs || this.model.attributes._prefs || {};
+  attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
+  attr.center = $('.js-savedCenter').text().split(',');
+  attr.center[0] = parseFloat(attr.center[0]);
+  attr.center[1] = parseFloat(attr.center[1]);
+  attr.center[2] = parseInt(attr.center[2], 10);
+  // Force center zoom to be within min/max zoom range.
+  if (attr._prefs.saveCenter) {
+    attr.center[2] = Math.min(Math.max(attr.center[2],attr.minzoom),attr.maxzoom);
   }
 
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
   options = options || {
-    success:_(this.refresh).bind(this),
+    success:_(function() {
+      if (!refresh) $('body').removeClass('changed');
+      this.refresh();
+    }).bind(this),
     error: _(this.error).bind(this)
   };
+
+  // Set refresh option in querystring.
+  if (refresh) options.url = this.model.url() + '&refresh=1';
+
   this.model.save(attr, options);
 
   return ev && !!$(ev.currentTarget).is('a');
@@ -620,10 +648,14 @@ Editor.prototype.demo = function(ev) {
   $('body').toggleClass('demo');
 };
 
+Editor.prototype.lockCenter = function(ev) {
+  $(ev.currentTarget).toggleClass('active');
+  this.changed();
+  return false;
+};
+
 Editor.prototype.refresh = function(ev) {
   this.messageclear();
-  $('#full').removeClass('loading');
-  $('body').removeClass('changed');
 
   if (!map) {
     map = L.mapbox.map('map');
@@ -638,10 +670,16 @@ Editor.prototype.refresh = function(ev) {
       $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible);
     });
 
-    $('#map-center').text([this.model.get('center')[1].toFixed(4) + ', ' + this.model.get('center')[0].toFixed(4)]);
-    map.on('moveend', function(e) {
-        $('#map-center').text(map.getCenter().lat.toFixed(4) + ', ' + map.getCenter().lng.toFixed(4));
-    });
+    function setCenter(e) {
+        $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
+        if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
+            map.getCenter().wrap().lng.toFixed(4) + ',' +
+            map.getCenter().wrap().lat.toFixed(4) + ',' +
+            map.getZoom()
+        );
+    }
+    setCenter();
+    map.on('moveend', setCenter);
     map.on('click', inspectFeature({
       id: this.model.id,
       type: 'style',
@@ -666,7 +704,9 @@ Editor.prototype.refresh = function(ev) {
   .on('tileload', function(){
     if (window.location.hash !== '#export') statHandler('drawtime')();
   })
-  .on('load', errorHandler);
+  .on('load', errorHandler)
+  .on('ready', $('#full').removeClass('loading'));
+
   if (window.location.hash !== '#xray') {
     $('.xray-toggle').removeClass('active');
     tiles.addTo(map);

@@ -1,11 +1,18 @@
 Changelog
 =========
 
+### 0.1.2
+
+- Update to mapnik-omnivore@1.3.13. Addresses some app crashes.
+- Windows: Sign atom.exe when bundling to prevent antivirus software from detecting false positives.
+- Style/source UI: show project center, add toggle for saveCenter flag.
+
 ### 0.1.1
 
 - Include full set of Komika fonts.
 - Source UI: Fix bug where incorrect active panel would show when adding new source
 - Updates and bugfixes for example styles.
+- Update atom-shell to 0.16.2.
 
 ### 0.1.0
 
