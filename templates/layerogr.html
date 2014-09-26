@@ -2,6 +2,7 @@
 
   <input id='conf-<%=obj.id%>'   class='hidden toggle-conf' type='radio' name='toggle' checked='true'>
   <input id='fields-<%=obj.id%>' class='hidden toggle-fields' type='radio' name='toggle'>
+  <input id='vtfx-<%=obj.id%>' class='hidden toggle-vtfx' type='radio' name='toggle'>
 
   <nav class='pin-top pad1y pad2x keyline-bottom'>
     <h3 class='fl'>
@@ -13,6 +14,7 @@
       <div class='pane-pager rounded-toggle inline strong'>
         <label class='toggle-conf' for='conf-<%=obj.id%>'>Configure</label>
         <label class='toggle-fields' for='fields-<%=obj.id%>'>Fields</label>
+        <label class='toggle-vtfx' for='vtfx-<%=obj.id%>'>VTFX</label>
       </div>
       <a href='#' class='js-offpane offpane-button button short quiet icon check'>Done</a>
     </div>
@@ -49,4 +51,5 @@
   </div>
 
   <div class='fields col12 pin-right top1 space-top2 scroll-styled'><%= this.layerfields(obj.fields) %></div>
+  <div class='vtfx col12 pin-right top1 space-top2 scroll-styled'><%= this.layerprocessors(obj) %></div>
 </form>

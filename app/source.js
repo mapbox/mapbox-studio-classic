@@ -43,6 +43,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                         memo[group] = memo[group] || {};
                         memo[group][name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
                         break;
+                    case 'vtfx':
+                        memo[group] = field.value;
                     default:
                         memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
                         break;
@@ -92,8 +94,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 var name = field.name.split('-').slice(1).join('-');
                 switch (group) {
                     case 'vtfx':
-                        memo[group] = memo[group] || {};
-                        memo[group][name] = field.value;
+                        memo = memo || {};
+                        memo[name] = field.value;
                         break;
                     default:
                         break;
@@ -377,6 +379,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
+            //Add new layer to the project's processors/vtfx array
+            vtfx[layer.id] = VTFX(layer.id);
+
             view.changed();
             view.update();
 
@@ -411,6 +416,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[id].item.remove();
             $('#layers .js-layer-content').sortable('destroy').sortable();
             delete layers[id];
+            delete vtfx[id];
 
             // set layer empty state if there are no layers
             if ($('.layer-content:has(div)').length === 0) {
@@ -420,7 +426,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             view.changed();
             view.update();
         });
-
         return false;
     };
     //This only applies to single-layer sources at the moment
@@ -465,6 +470,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             //Add new layer and replace old in the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
+            vtfx[layer.id] = VTFX(layer.id);
 
             //Update
             view.changed();
@@ -485,6 +491,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         var current_id = $('#current_id').val();
         var layer = layers[current_id].get();
         var new_id = $('#newLayername').val();
+        var processor = vtfx[current_id].get();
 
         // No-op.
         if (current_id === new_id) {
@@ -499,6 +506,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         layers[current_id].item.replaceWith(templates.layeritem(layer));
         delete layers[current_id];
         layers[layer.id] = Layer(layer.id, layer.Datasource);
+
+        // Replace old processor/vtfx
+        var v = {};
+            v.id = new_id;
+            v.vtfx = processor[current_id];
+        delete vtfx[current_id];
+        vtfx[v.id] = VTFX(v.id);
 
         // Close modal
         Modal.close();
@@ -548,7 +562,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
         attr.vtfx = {};
         _(vtfx).each(function(p, k) {
-            attr.vtfx[k] = p.get().vtfx[k];
+            attr.vtfx[k] = p.get()[k];
         });
 
         // Grab map center which is dependent upon the "last saved" value.
@@ -576,7 +590,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             }).bind(this),
             error: _(this.error).bind(this)
         };
-
         // Set refresh option in querystring.
         if (refresh) options.url = this.model.url() + '&refresh=1';
 
