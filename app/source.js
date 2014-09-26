@@ -70,16 +70,19 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             return memo;
         }, {});
     };
-    var Processor = function(id, processors) {
+    var VTFX = function(id, vtfx) {
         var processor = {
-            form: $('#processor-' + id),
+            form: $('#layers-' + id),
             item: $('#layers [data-layer=' + id + ']')
         };
         processor.refresh = function() {
-            var p = {};
-            p.id = id;
-            p.value = editor.model.get('processors');
-            $('div.processors', processor.form).html(templates.layerprocessors(p));
+            var p = _(editor.model.get('vtfx')).find(function(v, k) {
+                if (k === id) return true;
+            });
+            var v = {};
+            v.id = id;
+            v.vtfx = p;
+            $('div.vtfx', processor.form).html(templates.layerprocessors(v));
         };
         processor.get = function() {
             var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
@@ -88,9 +91,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 var group = field.name.split('-')[0];
                 var name = field.name.split('-').slice(1).join('-');
                 switch (group) {
-                    case 'processor':
+                    case 'vtfx':
                         memo[group] = memo[group] || {};
-                        memo[group][name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
+                        memo[group][name] = field.value;
                         break;
                     default:
                         break;
@@ -101,8 +104,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         };
         return processor;
     };
-    var processors = _(revlayers).reduce(function(memo, l) {
-        memo[l.id] = Processor(l.id, source.processors);
+    var vtfx = _(revlayers).reduce(function(memo, l) {
+        memo[l.id] = VTFX(l.id, source.vtfx);
         return memo;
     }, {});
     var Source = Backbone.Model.extend({});
@@ -301,7 +304,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             tm: tm,
             id: id,
             properties: { 'buffer-size': 8 },
-            Datasource: { type: type }
+            Datasource: { type: type },
+            vtfx: vtfx
         };
         $('#editor').prepend(templates['layer' + type](layer));
         $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -454,6 +458,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
               if(current_fields.field !== undefined) new_fields[field] = current_fields[field];
             };
             layer.fields = new_fields;
+            layer.vtfx = vtfx;
 
             //Transfer new projection
             layer.srs = metadata.projection;
@@ -541,11 +546,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
         attr.Layer.reverse();
 
-        attr.processors = {};
-        _(processors).each(function(p, k) {
-            attr.processors[k] = p.get().processor[k];
+        attr.vtfx = {};
+        _(vtfx).each(function(p, k) {
+            attr.vtfx[k] = p.get().vtfx[k];
         });
-        attr.processors = JSON.stringify(attr.processors);
 
         // Grab map center which is dependent upon the "last saved" value.
         attr._prefs = attr._prefs || this.model.attributes._prefs || {};
@@ -627,7 +631,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         _(layers).each(function(l) {
             l.refresh();
         });
-        _(processors).each(function(p) {
+        _(vtfx).each(function(p) {
             p.refresh();
         });
 
