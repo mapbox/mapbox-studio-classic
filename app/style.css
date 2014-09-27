@@ -270,6 +270,48 @@ a.docs-y { display:none; }
 #fonts:target     ~ * a.fonts-n,
 #layers:target    ~ * a.layers-n { display:none; }
 
+/* Picker
+------------------------------------------------------- */
+.sp-dd { display: none;}
+.sp-replacer {
+  display: inline-block;
+  margin:0 5px 3px 5px;
+  vertical-align:middle;
+  box-sizing:border-box;
+  border-radius: 50%;
+  box-shadow:0 0 0 2px #fcfcfc,
+             0 0 0 3px #ddd;
+  height: 10px;
+  padding: 0;
+  border: none;
+  width: 10px;
+}
+.sp-replacer:hover, .sp-replacer.sp-active {
+  border: none;
+  cursor: pointer;
+}
+
+.sp-preview {
+  height: 10px;
+  width: 10px;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+}
+
+/* CodeMirror Addon: palette swatch */
+.CodeMirror .cm-palette-hint {
+  display:inline-block;
+  box-sizing:border-box;
+  margin:0 5px 3px 5px;
+  border-radius:50%;
+  vertical-align:middle;
+  width:10px;
+  height:10px;
+  box-shadow:0 0 0 2px #fcfcfc,
+             0 0 0 3px #ddd;
+  }
+
 /* Demo
 ------------------------------------------------------- */
 #demo { display:none; }
