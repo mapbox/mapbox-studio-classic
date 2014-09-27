@@ -2,23 +2,6 @@
 // bookmarks next to color values with a background matching the
 // value.
 
-// function initializePicker(el, currentColor) {
-//   $(el).spectrum({
-//       color: currentColor,
-//       preferredFormat: "hex",
-//       showPallete: true,
-//       showInitial: true,
-//       change: function(color) {
-//         $(el).parent().next().text(color);
-//       }
-//     });
-// };
-
-// $('.cm-palette-hint').each(function(i,el) {
-//   var currentColor = $(el).css('background-color');
-//   initializePicker(el,currentColor);
-// });
-
 (function () {
 
     var PALETTE_TOKEN = 'palette';
@@ -35,7 +18,6 @@
             } if (color.indexOf('rgb') > -1) {
                 return 'rgb';
             } if (color.indexOf('#') > -1) {
-                if (color.length > 4) return 'hex3';
                 return 'hex';
             } if (color.indexOf('hsl') > -1) {
                 return 'hsl';
@@ -44,8 +26,8 @@
             } else {
                 return 'hex';
             }
-        }
-        // TODO identify preferred format and send it along
+        };
+
         $(hint).spectrum({
             color: color,
             preferredFormat: oldformat(oldcolor),
