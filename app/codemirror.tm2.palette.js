@@ -29,10 +29,26 @@
         hint.className = 'cm-palette-hint';
         hint.style.background = color;
         var oldcolor = color;
-        // identify preferred format and send it along
+        var oldformat = function(color) {
+            if (color.indexOf('rgba') > -1) {
+                return 'rgba';
+            } if (color.indexOf('rgb') > -1) {
+                return 'rgb';
+            } if (color.indexOf('#') > -1) {
+                if (color.length > 4) return 'hex3';
+                return 'hex';
+            } if (color.indexOf('hsl') > -1) {
+                return 'hsl';
+            } if (color.indexOf('hsla') > -1) {
+                return 'hsla';
+            } else {
+                return 'hex';
+            }
+        }
+        // TODO identify preferred format and send it along
         $(hint).spectrum({
             color: color,
-            preferredFormat: "rgb",
+            preferredFormat: oldformat(oldcolor),
             showPallete: true,
             showInitial: true,
             change: function(color) {
