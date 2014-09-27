@@ -312,6 +312,10 @@ a.docs-y { display:none; }
              0 0 0 3px #ddd;
   }
 
+.CodeMirror .cm-palette-hint:hover {
+  cursor: pointer;
+}
+
 /* Demo
 ------------------------------------------------------- */
 #demo { display:none; }

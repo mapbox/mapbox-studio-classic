@@ -99,23 +99,6 @@ var code = _(style.styles).reduce(function(memo, value, k) {
 }, {});
 delete code._first;
 
-function initializePicker(el, currentColor) {
-  $(el).spectrum({
-      color: currentColor,
-      preferredFormat: "hex",
-      showPallete: true,
-      showInitial: true,
-      change: function(color) {
-        $(el).parent().next().text(color);
-      }
-    });
-};
-
-$('.cm-palette-hint').each(function(i,el) {
-  var currentColor = $(el).css('background-color');
-  initializePicker(el,currentColor);
-});
-
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
 
