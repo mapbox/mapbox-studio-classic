@@ -37,11 +37,11 @@
             showAlpha: isAlpha(oldcolor),
             chooseText: 'Choose',
             cancelText: 'Cancel',
-            containerClassName: 'fill-dark dark clip round',
+            containerClassName: 'dark clip',
             showPalette: true,
             showSelectionPalette: true,
             palette: [ ],
-            maxSelectionSize: 26, // size that fits in two columsn
+            maxSelectionSize: 28, // size that fits in two columns
             localStorageKey: "spectrum." + style.id,
             hideAfterPaletteSelect:true,
             change: function(color) {
