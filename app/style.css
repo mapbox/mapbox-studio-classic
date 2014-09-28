@@ -301,11 +301,19 @@ a.docs-y { display:none; }
   margin-bottom: 0;
   border-width: 0;
 }
+.sp-palette-container {
+  background: #313131;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
 .sp-palette {
   max-width: 30px;
 }
 .sp-palette .sp-thumb-el {
-  border-color: #404040;
+  border-color: #313131;
   border-right-width: 0;
   border-bottom-width: 0;
   width: 15px;
@@ -320,20 +328,19 @@ a.docs-y { display:none; }
   box-shadow:inset 0 0 0 1px #ff0000,
              inset 0 0 0 2px white;
 }
-
 .sp-button-container {
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
+  right: 50px;
   padding: 10px;
   text-align: right;
   border-top: 1px solid rgba(0,0,0,0.25);
   background: rgba(0,0,0,.1);
 }
 .sp-picker-container {
-  width: 200px;
-  border-left: 1px solid rgba(0,0,0,0.25);
+  width: 260px;
+  padding-right: 60px;
 }
 .sp-initial, .sp-color, .sp-hue, .sp-clear { border: 1px solid #313131; }
 .sp-slider {
