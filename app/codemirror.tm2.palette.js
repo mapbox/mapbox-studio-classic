@@ -12,27 +12,38 @@
         hint.className = 'cm-palette-hint';
         hint.style.background = color;
         var oldcolor = color;
-        var oldformat = function(color) {
-            if (color.indexOf('rgba') > -1) {
-                return 'rgba';
-            } if (color.indexOf('rgb') > -1) {
+        var isFormat = function(color) {
+            if (color.indexOf('rgb') > -1) {
                 return 'rgb';
-            } if (color.indexOf('#') > -1) {
-                return 'hex';
-            } if (color.indexOf('hsl') > -1) {
+            } else if (color.indexOf('hsl') > -1) {
                 return 'hsl';
-            } if (color.indexOf('hsla') > -1) {
-                return 'hsla';
             } else {
                 return 'hex';
             }
         };
 
+        var isAlpha = function(color) {
+            if (color.indexOf('rgba') > -1 || (color.indexOf('hsla') > -1)) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         $(hint).spectrum({
             color: color,
-            preferredFormat: oldformat(oldcolor),
-            showPallete: true,
+            preferredFormat: isFormat(oldcolor),
             showInitial: true,
+            showAlpha: isAlpha(oldcolor),
+            chooseText: 'Choose',
+            cancelText: 'Cancel',
+            containerClassName: 'fill-dark dark clip round',
+            showPalette: true,
+            showSelectionPalette: true,
+            palette: [ ],
+            maxSelectionSize: 26, // size that fits in two columsn
+            localStorageKey: "spectrum." + style.id,
+            hideAfterPaletteSelect:true,
             change: function(color) {
                 var linenum = editor.getDoc().getLineNumber(line);
                 var start = line.text.indexOf(oldcolor);
