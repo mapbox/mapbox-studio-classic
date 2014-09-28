@@ -339,7 +339,7 @@ a.docs-y { display:none; }
   background: rgba(0,0,0,.1);
 }
 .sp-picker-container {
-  width: 260px;
+  width: 245px;
   padding-right: 60px;
 }
 .sp-initial, .sp-color, .sp-hue, .sp-clear { border: 1px solid #313131; }
