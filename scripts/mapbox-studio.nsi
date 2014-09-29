@@ -53,13 +53,13 @@ OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
 InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
 
 Function .onInit
-  ReadRegStr $R0 HKLM \
-  "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_NAME}" \
+  ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
+  "${PRODUCT_UNINST_KEY}" \
   "UninstallString"
   StrCmp $R0 "" done
 
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  "${PROGRAM_NAME} is already installed. $\n$\nClick `OK` to remove the \
+  "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the \
   previous version or `Cancel` to cancel this upgrade." \
   IDOK uninst
   Abort
