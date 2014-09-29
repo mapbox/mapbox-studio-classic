@@ -35,7 +35,7 @@
     "carto": "0.14.0",
     "speedometer": "0.1.2",
     "tilelive": "5.2.1",
-    "tilelive-bridge": "0.6.0",
+    "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/postprocessor",
     "tilelive-vector": "2.1.0",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
     "mapbox-studio-default-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-default-fonts-0.0.4-4afb5235f457bd1c1a5a70fce6c2aa83bf7a851e.tgz",
