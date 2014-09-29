@@ -85,7 +85,7 @@ node_modules/mapnik-omnivore/node_modules/gdal"
 for module in $modules; do
     rm -r $app_dir/$module/lib/binding
     cd $app_dir/$module
-    ./node_modules/.bin/node-pre-gyp install \
+    $app_dir/node_modules/.bin/node-pre-gyp install \
         --target_platform=$platform \
         --target=$node_version \
         --target_arch=$arch \
