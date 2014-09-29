@@ -31,8 +31,8 @@
     "fstream": "0.1.x",
     "tar": "0.1.x",
     "mapnik": "1.4.15",
-    "mapnik-reference": "~5.0.8",
-    "carto": "0.13.0",
+    "mapnik-reference": "~6.0.1",
+    "carto": "0.14.0",
     "speedometer": "0.1.2",
     "tilelive": "5.2.1",
     "tilelive-bridge": "0.6.0",
@@ -55,11 +55,11 @@
     "cors": "~2.3.1",
     "request": "~2.36.0",
     "mapbox-upload": "1.1.1",
-    "mapnik-omnivore": "1.3.13",
+    "mapnik-omnivore": "1.3.15",
     "abaculus": "0.0.5",
     "progress-stream": "0.5.0",
     "safer-stringify": "0.0.1",
-    "gazetteer": "0.1.x"
+    "gazetteer": "0.1.2"
   },
   "devDependencies": {
     "tape": "2.13.x",

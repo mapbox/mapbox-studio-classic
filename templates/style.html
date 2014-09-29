@@ -306,6 +306,31 @@
         <a href='#export' class='inline js-export export-n icon picture keyline-left quiet pad1'></a>
       </div>
     </div>
+    <div class='CodeMirror-dialog offcanvas-top animate fill-white keyline-bottom pin-top z100'>
+      <div class='fill-white z10'>
+        <fieldset class='keyline-left contain'>
+          <input type='text' placeholder='Search stylesheet' value='' class='search-input small js-search-input clean stretch'>
+          <div class='pin-topright pad0y pill search-buttons js-search-buttons'>
+            <a href='#' class='js-cm-reset-button button short icon small quiet alert reset-button hidden'>No results</a><!--
+            --><a href='#' class='js-cm-search-button button short icon small quiet search'>Find</a>
+          </div>
+        </fieldset>
+      </div>
+      <div id="search-info" class="clearfix keyline-top small fill-white search-info hidden">
+        <div class="pad1 col6">
+          <div class="code"><kbd class="prefixed">F</kbd> Find</div>
+          <div class="code"><kbd class="prefixed">G</kbd> Next result</div>
+        </div>
+        <div class="pad1 col6">
+          <div class="quiet">use /re/ syntax for regex search.</div>
+          <div class="code"><kbd class="prefixed">Shift+G</kbd> Previous result</div>
+        </div>
+      </div>
+      <a href='#search-info' class='js-cm-dialog-info pin-topleft pad1 inline icon info quiet dialog-n'></a>
+      <a href='#' class='js-cm-dialog-info pin-topleft pad1 inline icon info quiet active dialog-y'></a>
+      <a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a>
+
+    </div>
     <div id='stylesheets'></div>
   </div>
 

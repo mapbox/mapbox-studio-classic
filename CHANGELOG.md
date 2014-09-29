@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.1.3
+
+- Style UI: Improved code search.
+
 ### 0.1.2
 
 - Update to mapnik-omnivore@1.3.13. Addresses some app crashes.

@@ -695,16 +695,25 @@ body.local .on-local { display:block; }
         .CodeMirror-gutter-wrapper .error > a:target ~ .message { display:inline-block; }
 
 /* CodeMirror Addon: Search Dialog */
-.CodeMirror-dialog,
-.CodeMirror-dialog * {
-  box-sizing:border-box;
-  }
-.CodeMirror .CodeMirror-dialog { top:-40px; }
-.CodeMirror .hidden:target { display:block; }
+.CodeMirror-dialog input {
+  padding-left: 40px;
+  padding-right: 40px;
+}
 
-.CodeMirror #search-info ~ .dialog-y,
-.CodeMirror #search-info:target ~ .dialog-n { display: none;}
-.CodeMirror #search-info:target ~ .dialog-y { display: block;}
+.CodeMirror-dialog .search-buttons {
+  right: 40px;
+}
+
+.CodeMirror-dialog .search-buttons a:last-child { border-radius: 3px; }
+.CodeMirror-dialog .search-buttons.reset a:last-child { border-radius: 0 3px 3px 0;}
+.CodeMirror-dialog .search-buttons.reset a { display: inline-block;}
+
+#search-info ~ .dialog-y,
+#search-info:target ~ .dialog-n { display: none;}
+#search-info:target ~ .dialog-y { display: block;}
+
+.CodeMirror-dialog .hidden:target { display:block; }
+
 /* CodeMirror Addon: palette swatch */
 .CodeMirror .cm-palette-hint {
   display:inline-block;
