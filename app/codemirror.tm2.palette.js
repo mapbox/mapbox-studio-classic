@@ -38,12 +38,6 @@
             chooseText: 'Choose',
             cancelText: 'Cancel',
             containerClassName: 'dark clip',
-            showPalette: true,
-            showSelectionPalette: true,
-            palette: [ ],
-            maxSelectionSize: 28, // size that fits in two columns
-            localStorageKey: "spectrum." + style.id,
-            hideAfterPaletteSelect:true,
             change: function(color) {
                 var linenum = editor.getDoc().getLineNumber(line);
                 var start = line.text.indexOf(oldcolor);

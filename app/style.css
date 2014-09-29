@@ -299,48 +299,18 @@ a.docs-y { display:none; }
   border-width: 0;
 }
 .sp-container * { box-sizing: border-box; }
-.sp-picker-container,
-.sp-palette-container {
+.sp-picker-container {
   border-width: 0;
   padding: 10px;
   margin-bottom: 0;
   border-width: 0;
-}
-.sp-palette-container {
-  background: #313131;
-  position: absolute;
-  z-index: 1;
-  right: 0;
-  border-radius: 0 3px 3px 0;
-  bottom: 5px;
-  top: 5px;
-}
-.sp-palette {
-  max-width: 30px;
-}
-.sp-palette .sp-thumb-el {
-  border-color: #313131;
-  border-right-width: 0;
-  border-bottom-width: 0;
-  width: 15px;
-  height: 15px;
-  margin: 0;
-}
-.sp-palette .sp-thumb-el:hover, .sp-palette .sp-thumb-el.sp-thumb-active {
-  border-color: #404040;
-}
-.sp-palette .sp-thumb-active .sp-thumb-inner {
-  background-image: none !important;
-  box-shadow:inset 0 0 0 1px #ff0000,
-             inset 0 0 0 2px white;
 }
 .sp-picker-container {
   background: #404040;
   border-radius: 3px;
   margin-top: 5px;
   margin-bottom: 5px;
-  width: 245px;
-  padding-right: 60px;
+  width: 200px;
 }
 .sp-initial, .sp-color, .sp-hue, .sp-clear { border: 1px solid #313131; }
 .sp-slider {
@@ -355,8 +325,6 @@ a.docs-y { display:none; }
 .sp-initial {
   z-index: 1;
   position: relative;
-  margin-top: 10px;
-  margin-top: 10px;
   border-radius: 3px;
   overflow: hidden;
 }
@@ -368,11 +336,9 @@ a.docs-y { display:none; }
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 50px;
-  padding: 10px;
+  right: 0;
+  padding: 0 10px 10px 10px;
   text-align: right;
-  border-top: 1px solid rgba(0,0,0,0.25);
-  background: rgba(0,0,0,.1);
 }
 .sp-cancel,
 .sp-container button {
