@@ -52,6 +52,28 @@ Name "${PRODUCT_DIR}"
 OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
 InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
 
+Function .onInit
+  ReadRegStr $R0 HKLM \
+  "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_NAME}" \
+  "UninstallString"
+  StrCmp $R0 "" done
+
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+  "${PROGRAM_NAME} is already installed. $\n$\nClick `OK` to remove the \
+  previous version or `Cancel` to cancel this upgrade." \
+  IDOK uninst
+  Abort
+
+;Run the uninstaller
+uninst:
+  ClearErrors
+  ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
+  IfErrors no_remove_uninstaller done
+  no_remove_uninstaller:
+
+done:
+
+FunctionEnd
 
 Section "MainSection" SEC01
   SetOverwrite try
