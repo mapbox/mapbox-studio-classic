@@ -422,8 +422,17 @@ for (var name in datatests) (function(name, info) {
         $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + info.filepath);
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
-        onajax(function() {
 
+        onajax(afterOmnivore);
+        onajax(afterUpdate);
+        onajax(afterUpdate2);
+        onajax(afterDelete);
+
+        function afterOmnivore() {
+            t.ok(!hasModal('#error'), 'no error');
+        }
+
+        function afterUpdate() {
             t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
 
             t.equal($('.pane.target').length,1,'only current layer pane is targeted');
@@ -444,16 +453,18 @@ for (var name in datatests) (function(name, info) {
             }
 
             $('.pane.target .js-offpane').click();
-            onajax(function() {
-                $('#del-' + info.expected.id).click();
-                t.ok(hasModal('#confirm'), 'shows confirm modal');
-                $('#confirm a.js-confirm').click();
-                onajax(function() {
-                    t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
-                    t.end();
-                });
-            })
-        });
+        }
+
+        function afterUpdate2() {
+            $('#del-' + info.expected.id).click();
+            t.ok(hasModal('#confirm'), 'shows confirm modal');
+            $('#confirm a.js-confirm').click();
+        }
+
+        function afterDelete() {
+            t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
+            t.end();
+        }
     });
 })(name, datatests[name]);
 
