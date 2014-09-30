@@ -362,6 +362,18 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
+    'topojson/topo.json': {
+        filepath: '/topojson/topo.json',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/topojson/topo.json',
+            'Datasource-layer': 'escaped',
+            'Datasource-type': 'ogr',
+            'description': '',
+            'id': 'escaped',
+            'properties-buffer-size': '8',
+            'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+        }
+    },
     'shp/dc_bus_lines': {
         filepath: '/shp/dc_bus_lines/DCGIS_BusLineLn.shp',
         expected: {
