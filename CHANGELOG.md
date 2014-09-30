@@ -3,7 +3,12 @@ Changelog
 
 ### 0.1.3
 
+- Fixed bug where source data not in WGS84 or web mercator would not export correctly.
+- Save + refresh functionality of projects refactored and split to Cmd+S and Cmd+R respectively.
 - Style UI: Improved code search.
+- Source UI: Improved flow of actions into refreshed state.
+- Windows: install now prompts to uninstall previous installations of Mapbox Studio.
+- Windows: install now uses a flatter directory structure for easier removal of long paths.
 
 ### 0.1.2
 
