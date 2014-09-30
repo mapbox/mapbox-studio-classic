@@ -1,0 +1,8 @@
+<section class='col6 margin1 tmpvtfx <%= obj.id %>'>
+	<% _(obj.parameters).each(function(field) { %>
+	<div class='space-bottom1'>
+		<label class='micro col2 inline pad0y'><%= field.field %></label>
+		<input type='text' class='short vtfx' name='tmpvtfx-<%= obj.name %>-<%= field.field %>' value='<%= field.default %>'/>
+	</div>
+	<% }); %>
+</section>

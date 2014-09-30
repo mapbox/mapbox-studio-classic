@@ -128,3 +128,6 @@ input.toggle-sql:checked ~ div.sql .CodeMirror { visibility:visible; }
 /* Miscellaneous
 ------------------------------------------------------- */
 
+/* vtfx */
+input.vtfx { width: 60%; }
+

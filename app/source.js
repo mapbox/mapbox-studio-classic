@@ -1,4 +1,4 @@
-window.Source = function(templates, cwd, tm, source, revlayers, examples) {
+window.Source = function(templates, cwd, tm, source, revlayers, examples, filters) {
     var map;
     var tiles;
     var mtime = (+new Date).toString(36);
@@ -44,7 +44,20 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                         memo[group][name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
                         break;
                     case 'vtfx':
-                        memo[group] = field.value;
+                        memo = memo || {};
+                        memo[group] = memo[group] || [];
+                        var vtfx = name.split('-')[0];
+                        var filter = name.split('-')[1];
+                        var hash = name.split('-')[2];
+                        if (memo[group][memo[group].length -1] && memo[group][memo[group].length -1].hash === hash){
+                            memo[group][memo[group].length -1][filter] = field.value;
+                            break;
+                        }
+                        var entry = {};
+                        entry.id = vtfx;
+                        entry[filter] = field.value;
+                        memo[group].push(entry);
+                        break;
                     default:
                         memo[field.name] = parseInt(field.value, 10).toString() === field.value ? parseInt(field.value, 10) : field.value;
                         break;
@@ -72,7 +85,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             return memo;
         }, {});
     };
-    var VTFX = function(id, vtfx) {
+    var VTFX = function(id) {
         var processor = {
             form: $('#layers-' + id),
             item: $('#layers [data-layer=' + id + ']')
@@ -81,21 +94,38 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             var p = _(editor.model.get('vtfx')).find(function(v, k) {
                 if (k === id) return true;
             });
-            var v = {};
-            v.id = id;
-            v.vtfx = p;
-            $('div.vtfx', processor.form).html(templates.layerprocessors(v));
+
+            var v = {
+                id: id,
+                vtfx: p,
+                filters: filters
+            };
+
+            $('div.vtfx', processor.form).html(templates.layervtfx(v));
         };
         processor.get = function() {
             var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
                 // @TODO determine what causes empty field names.
                 if (!field.name) return memo;
-                var group = field.name.split('-')[0];
-                var name = field.name.split('-').slice(1).join('-');
+                var fields = field.name.split('-');
+                var group = fields[0];
+                var vtfx = fields[1];
+                var filter = fields[2];
+                var hash = fields[3];
+                var name = fields.slice(4).join('-');
                 switch (group) {
                     case 'vtfx':
                         memo = memo || {};
-                        memo[name] = field.value;
+                        memo[name] = memo[name] || [];
+                        if (memo[name][memo[name].length -1] && memo[name][memo[name].length -1].hash === hash){
+                            memo[name][memo[name].length -1][filter] = field.value;
+                            break;
+                        }
+                        var entry = {};
+                        entry.id = vtfx;
+                        entry.hash = hash;
+                        entry[filter] = field.value;
+                        memo[name].push(entry);
                         break;
                     default:
                         break;
@@ -107,7 +137,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         return processor;
     };
     var vtfx = _(revlayers).reduce(function(memo, l) {
-        memo[l.id] = VTFX(l.id, source.vtfx);
+        memo[l.id] = VTFX(l.id);
         return memo;
     }, {});
     var Source = Backbone.Model.extend({});
@@ -146,7 +176,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'submit #settings-drawer': 'save',
         'keydown': 'keys',
         'click .js-zoom-to': 'zoomToLayer',
-        'click .js-lockCenter': 'lockCenter'
+        'click .js-lockCenter': 'lockCenter',
+        'change .filter-select': 'refreshFilters',
+        'click .js-addfilter': 'addFilter',
+        'click .js-removefilter': 'removeFilter'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -307,8 +340,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             id: id,
             properties: { 'buffer-size': 8 },
             Datasource: { type: type },
+            filters: filters,
             vtfx: vtfx
         };
+
         $('#editor').prepend(templates['layer' + type](layer));
         $('#layers .js-layer-content').prepend(templates.layeritem(layer));
         layers[id] = Layer(id, layer.Datasource);
@@ -363,7 +398,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                     type: metadata.dstype,
                     file: filepath,
                     layer: layername
-                }
+                },
+                filters: filters
             };
 
             if (metadata.dstype === 'gdal') {
@@ -501,6 +537,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
         // Replace old layer/form
         layer.id = new_id;
+        layer.filters = filters;
+
         layers[current_id].form.replaceWith(templates['layer' + layer.Datasource.type](layer));
         $('.js-layer[data-layer=' + current_id + ']').replaceWith(templates.layeritem(layer));
         layers[current_id].item.replaceWith(templates.layeritem(layer));
@@ -508,9 +546,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         layers[layer.id] = Layer(layer.id, layer.Datasource);
 
         // Replace old processor/vtfx
-        var v = {};
-            v.id = new_id;
-            v.vtfx = processor[current_id];
+        var v = {
+            id: new_id,
+            vtfx: processor[current_id],
+            filters: filters
+        };
         delete vtfx[current_id];
         vtfx[v.id] = VTFX(v.id);
 
@@ -562,7 +602,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
         attr.vtfx = {};
         _(vtfx).each(function(p, k) {
-            attr.vtfx[k] = p.get()[k];
+            p = p.get()[k];
+            if (p) {
+                delete p[0].hash;
+            }
+            attr.vtfx[k] = p;
         });
 
         // Grab map center which is dependent upon the "last saved" value.
@@ -730,6 +774,49 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $(ev.currentTarget).toggleClass('active');
         this.changed();
         return false;
+    };
+    Editor.prototype.refreshFilters = function(ev) {
+        var id = ev.currentTarget.attributes.getNamedItem('layer').value;
+
+        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id}));
+        // $(ev.currentTarget).toggleClass('active');
+        this.changed();
+        // return false;
+    };
+
+    Editor.prototype.addFilter = function(ev) {
+        var id = ev.currentTarget.attributes.getNamedItem('layer').value;
+
+        var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
+            // @TODO determine what causes empty field names.
+            if (!field.name) return memo;
+            var fields = field.name.split('-');
+            var group = fields[0];
+            var vtfx = fields[1];
+            var filter = fields[2];
+            switch (group) {
+                case 'tmpvtfx':
+                    memo = memo || {};
+                    memo.id = vtfx;
+                    memo[filter] = field.value;
+                    break;
+                default:
+                    break;
+            }
+            return memo;
+        }, {});
+
+        $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], id: id}));
+
+        //Add new layer to the project's processors/vtfx array
+        vtfx[id] = VTFX(id);
+
+        this.changed();
+    };
+
+    Editor.prototype.removeFilter = function(ev) {
+        var id = ev.currentTarget.attributes.getNamedItem('layer').value;
+        $(ev.currentTarget.parentElement).empty();
     };
 
     window.editor = new Editor({

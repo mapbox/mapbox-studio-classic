@@ -169,7 +169,8 @@
         var vlayer = _(source.vector_layers).find(function(v) { return v.id === l.id; });
         if (this['layer' + type]) print(this['layer' + type](_({
             tm: tm,
-            fields: vlayer ? vlayer.fields : null
+            fields: vlayer ? vlayer.fields : null,
+            filters: filters
         }).extend(l)));
       }).bind(this));
     %>
@@ -216,7 +217,9 @@ templates.modalnewproject = <%= this.modalnewproject.source %>;
 templates.newproject = <%= this.newproject.source %>;
 templates.layeritem = <%= this.layeritem.source %>;
 templates.layerfields = <%= this.layerfields.source %>;
-templates.layerprocessors = <%= this.layerprocessors.source %>;
+templates.layervtfx = <%= this.layervtfx.source %>;
+templates.layervtfxfields = <%= this.layervtfxfields.source %>;
+templates.layervtfxsaved = <%= this.layervtfxsaved.source %>;
 templates.layershape = <%= this.layershape.source %>;
 templates.layerpostgis = <%= this.layerpostgis.source %>;
 templates.layersqlite = <%= this.layersqlite.source %>;
@@ -234,8 +237,9 @@ var cwd = <%= saferstringify(cwd, null, 2) %>;
 var source = <%= saferstringify(source, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var revlayers = <%= saferstringify(revlayers, null, 2) %>;
+var filters = <%= saferstringify(filters, null, 2) %>;
 
-Source(templates, cwd, tm, source, revlayers, examples);
+Source(templates, cwd, tm, source, revlayers, examples, filters);
 </script>
 
 <% if (test) { %>

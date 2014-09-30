@@ -1,0 +1,22 @@
+<% 
+_(obj.vtfx).each(function(field) { %>
+  <section class='space-bottom1 clearfix keyline-bottom'>
+    <section class='col4'>
+      <%= field.id %>
+    </section>
+  <section class='col6'>
+  <% 
+  var hash = Math.floor(Math.random() * 1e6) + Date.now();
+  _(field).each(function(value, key){ %>   
+    <% if (key !== 'id' && key !== 'hash') {%>
+        <div class='space-bottom1'>
+        <label class='micro col2 inline pad0y'><%= key %></label>
+        <input type='text' class='short vtfx' name='vtfx-<%=field.id%>-<%=key%>-<%=hash%>-<%=obj.id%>' value='<%= value %>'/>
+      </div>
+  <% } 
+}) %>
+</section>
+
+    <a href='#' value='Remove filter' layer='<%=obj.id%>' class='js-removefilter button loud short icon minus'></a>
+</section>
+<% }); %>
