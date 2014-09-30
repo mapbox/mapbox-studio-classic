@@ -11,6 +11,9 @@ Changelog
 - Windows: install now uses a flatter directory structure for easier removal of long paths.
 
 ### 0.1.2
+- Style UI: Add color picker.
+
+### 0.1.2
 
 - Update to mapnik-omnivore@1.3.13. Addresses some app crashes.
 - Windows: Sign atom.exe when bundling to prevent antivirus software from detecting false positives.
