@@ -338,9 +338,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
-            view.changed();
-            view.update();
-
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -356,6 +353,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 $('#layers-' + layersArray[0].id).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
+
+            //mark changed state and refresh
+            view.changed();
+            view.update();
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
