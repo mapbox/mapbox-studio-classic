@@ -6,12 +6,11 @@ Changelog
 - Fixed bug where source data not in WGS84 or web mercator would not export correctly.
 - Save + refresh functionality of projects refactored and split to Cmd+S and Cmd+R respectively.
 - Style UI: Improved code search.
+- Style UI: Add color picker.
 - Source UI: Improved flow of actions into refreshed state.
+- Source editor: support for topojson files (via mapnik-omnivore@1.4.15)
 - Windows: install now prompts to uninstall previous installations of Mapbox Studio.
 - Windows: install now uses a flatter directory structure for easier removal of long paths.
-
-### 0.1.2
-- Style UI: Add color picker.
 
 ### 0.1.2
 
