@@ -276,9 +276,12 @@ tape('#raster and nonraster mix error', function(t) {
     onajax(afterOmnivore2);
     onajax(afterDelete);
 
-    function afterOmnivore1() { t.ok(!hasModal('#error'), 'no errors'); }
+    function afterOmnivore1() {
+        t.ok(!hasModal('#error'), 'no errors');
+    }
 
     function afterUpdate1() {
+        t.ok(!hasModal('#error'), 'no errors');
         t.equal($('#layers-DCGIS_BusLineLn').size(), 1, 'adds #layers-DCGIS_BusLineLn form');
         $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
         $('#addlayer').submit();
