@@ -714,19 +714,6 @@ body.local .on-local { display:block; }
 
 .CodeMirror-dialog .hidden:target { display:block; }
 
-/* CodeMirror Addon: palette swatch */
-.CodeMirror .cm-palette-hint {
-  display:inline-block;
-  box-sizing:border-box;
-  margin:0 5px 3px 5px;
-  border-radius:50%;
-  vertical-align:middle;
-  width:10px;
-  height:10px;
-  box-shadow:0 0 0 2px #fcfcfc,
-             0 0 0 3px #ddd;
-  }
-
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
