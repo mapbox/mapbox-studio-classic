@@ -28,7 +28,7 @@
           <option value='<%= filter %>' <% if (filter === 'drop') { %> selected='selected' <% } %>><%= filter %></option>
           <% }); %>
         </select>
-        <%= this.layerprocessorsfields({parameters: obj.filters.drop, name: 'drop', id: obj.id}) %>
+        <%= this.layervtfxfields({parameters: obj.filters.drop, name: 'drop', id: obj.id}) %>
         <section class='col1'>
           <a href='#' value='Add filter' layer='<%=obj.id%>' class='js-addfilter button loud short icon plus'></a>
         </section>

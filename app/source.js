@@ -779,9 +779,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
 
         $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id}));
-        // $(ev.currentTarget).toggleClass('active');
         this.changed();
-        // return false;
     };
 
     Editor.prototype.addFilter = function(ev) {
@@ -816,7 +814,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
 
     Editor.prototype.removeFilter = function(ev) {
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
-        $(ev.currentTarget.parentElement).empty();
+        $(ev.currentTarget.parentElement).remove();
     };
 
     window.editor = new Editor({
