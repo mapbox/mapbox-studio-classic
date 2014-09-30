@@ -123,7 +123,8 @@ Editor.prototype.events = {
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'click .js-adddata': 'adddata',
-  'submit #applydata': 'applydata',
+  'submit .js-remotedata': 'applydata',
+  'submit .js-localdata': 'applydata',
   'click #tabs .js-deltab': 'deltab',
   'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
@@ -420,12 +421,14 @@ Editor.prototype.modalsources = function(ev) {
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
   var id = target.attr('href').split('?id=').pop().replace('mapbox:///','');
-  $('#applydata input[type=text]').val(id).focus();
+  var input = target.parents('.js-sources-list').find('input[type=text]');
+  $(input).val(id).focus();
   return false;
 };
 Editor.prototype.applydata = function(ev) {
   var view = this;
-  var attr = _($('#applydata').serializeArray()).reduce(function(memo, field) {
+  var form = $(ev.currentTarget)
+  var attr = _(form.serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
   }, {});
