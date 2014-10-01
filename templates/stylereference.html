@@ -95,9 +95,13 @@ var sections = {
       <% } %>
 
       <% if (p.type==='uri') { %>
+      <%
+      var exampleuri = 'url("image.png")';
+      if (p.css === 'font-directory') exampleuri = 'url("fonts/")';
+      %>
       <div class='space-bottom1'>
         <div class='space-bottom0'>Example:</div>
-        <span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: url("image.png");</span>
+        <span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: <%= exampleuri %>;</span>
       </div>
       <% } %>
 
