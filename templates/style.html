@@ -295,10 +295,10 @@
 <div id='style-ui' class='animate z1 col6 pin-right'>
 
   <div id='code' class='animate pin-right fill-light col12'>
-    <div class='row1 fill-white pin-top'>
+    <div class='row1 fill-gray pin-top'>
       <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
         <% _(style.styles).keys().forEach(function(k,i) { %>
-        --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='js-deltab deltab quiet pin-topright pad1y pad0x'><span class='icon minus dot fill-darken0 inline'></span></a><!--
+        --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='js-deltab deltab quiet pin-topright pad1y keyline-left'><span class='icon minus inline'></span></a><!--
         <% }); %>
       --></nav>
       <div class='pin-right row1 z1'><!--

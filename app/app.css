@@ -643,7 +643,6 @@ body.local .on-local { display:block; }
   top:40px; bottom:0;
   width:100%; height:auto;
   visibility:hidden;
-  overflow: visible;
   }
 .CodeMirror.active { visibility:visible; }
 .CodeMirror .CodeMirror-vscrollbar { overflow-y: hidden;}
@@ -651,17 +650,17 @@ body.local .on-local { display:block; }
 .CodeMirror .CodeMirror-hscrollbar { overflow-x: hidden;}
 .CodeMirror.active .CodeMirror-hscrollbar { overflow-x: scroll;}
 
-.CodeMirror-lines { padding:0 10px; }
-.CodeMirror pre { padding:0; }
 .CodeMirror-linenumber {
   z-index: 50!important;
   pointer-events: none;
 }
+.CodeMirror-linenumbers {
+  width: 30px!important;
+  }
 
 .CodeMirror-gutters {
-  border:none;
-  background:#fcfcfc;
-  width:40px!important;
+  background:#f8f8f8;
+  width:35px!important;
   }
   .CodeMirror-gutters .errors {
     position:absolute;
