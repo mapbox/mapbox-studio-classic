@@ -1,6 +1,11 @@
 Changelog
 =========
 
+
+### 0.1.4
+
+- Style/source UI: fix scrollbar overflow problems.
+
 ### 0.1.3
 
 - Fixed bug where source data not in WGS84 or web mercator would not export correctly.
