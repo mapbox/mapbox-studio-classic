@@ -1,22 +1,23 @@
 <% 
 _(obj.vtfx).each(function(field) { %>
-  <section class='space-bottom1 clearfix keyline-bottom'>
-    <section class='col4'>
-      <%= field.id %>
-    </section>
-  <section class='col6'>
-  <% 
-  var hash = Math.floor(Math.random() * 1e6) + Date.now();
-  _(field).each(function(value, key){ %>   
-    <% if (key !== 'id' && key !== 'hash') {%>
-        <div class='space-bottom1'>
-        <label class='micro col2 inline pad0y'><%= key %></label>
-        <input type='text' class='short vtfx' name='vtfx-<%=field.id%>-<%=key%>-<%=hash%>-<%=obj.id%>' value='<%= value %>'/>
-      </div>
-  <% } 
-}) %>
-</section>
-
-    <a href='#' value='Remove filter' layer='<%=obj.id%>' class='js-removefilter button loud short icon minus'></a>
-</section>
+  <div class='space-bottom1 clearfix col12 contain fill-lighten0 round pad1'>
+    <div class='col4 strong pad1y truncate'>
+      <% if (obj.filters[field.id]){
+        var name = obj.filters[field.id].display;
+      } %>
+      <%=name || field.id%>
+    </div>
+    <div class='col6'>
+    <% var hash = Math.floor(Math.random() * 1e6) + Date.now();
+    _(field).each(function(value, key){ %>
+      <% if (key !== 'id' && key !== 'hash') {%>
+          <div class='pad0y'>
+            <label class='micro col2 inline pad0y'><%= key %></label>
+            <input type='text' class='short vtfx' readonly='true' name='vtfx-<%=field.id%>-<%=key%>-<%=hash%>-<%=obj.id%>' value='<%= value %>'/>
+        </div>
+    <% }
+  }) %>
+  </div>
+    <a href='#' value='Remove filter' layer='<%=obj.id%>' class='js-removefilter button icon dot minus quiet'></a>
+</div>
 <% }); %>

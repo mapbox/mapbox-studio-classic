@@ -781,11 +781,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id}));
         this.changed();
     };
-
     Editor.prototype.addFilter = function(ev) {
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
 
-        var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
+        var attr = _($('.vtfx-' + id).serializeArray()).reduce(function(memo, field) {
             // @TODO determine what causes empty field names.
             if (!field.name) return memo;
             var fields = field.name.split('-');
@@ -804,14 +803,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             return memo;
         }, {});
 
-        $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], id: id}));
+        $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], filters: filters, id: id}));
+        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[attr.id], name: attr.id, id: id}));
 
         //Add new layer to the project's processors/vtfx array
         vtfx[id] = VTFX(id);
 
         this.changed();
     };
-
     Editor.prototype.removeFilter = function(ev) {
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
         $(ev.currentTarget.parentElement).remove();
