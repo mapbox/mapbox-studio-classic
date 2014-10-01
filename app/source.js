@@ -803,7 +803,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             return memo;
         }, {});
 
-        $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], filters: filters, id: id}));
+        $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], filters: filters, id: id, status: 'notapplied'}));
         $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[attr.id], name: attr.id, id: id}));
 
         //Add new layer to the project's processors/vtfx array
