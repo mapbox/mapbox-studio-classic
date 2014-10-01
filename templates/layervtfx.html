@@ -1,8 +1,7 @@
 <section class='pad2x pad1y small clearfix keyline-bottom'>
   <div class='col9 space space-bottom1'>
     <h4 class='vtfx clearfix'>Data post processing</h4>
-    <span class='block quiet'>Modify data density of source data by applying filters. <br>
-      Filters are destructive and are applied when Done is selected.</span>
+    <span class='block quiet'>Modify data density of source data by applying filters. </span>
   </div>
   <div class='col12'>
       <div class='col4 strong'>
@@ -18,7 +17,7 @@
   <fieldset class='vtfx-<%=obj.id%> '>
       <div class='saved clearfix pad1'>
       <% if (obj.vtfx) { %>
-        <%= this.layervtfxsaved({vtfx: obj.vtfx, filters: obj.filters, id: obj.id}) %>
+        <%= this.layervtfxsaved({vtfx: obj.vtfx, filters: obj.filters, id: obj.id }) %>
       <% } %>
       </div>
       <div class='space-bottom1 pad1 clearfix'>

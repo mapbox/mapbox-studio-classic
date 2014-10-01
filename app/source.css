@@ -131,16 +131,11 @@ input.toggle-sql:checked ~ div.sql .CodeMirror { visibility:visible; }
 /* vtfx */
 input.vtfx { width: 60%; }
 
-.status, .status.applied {
+.status {
   display: block;
 }
 
-.js-removefilter.notapplied {
-  visibility: visible;
-}
-
-.notapplied.status, .js-removefilter.applied {
+.notapplied.status {
   display: none;
-  visibility: hidden;
 }
 

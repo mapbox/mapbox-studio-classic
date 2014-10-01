@@ -814,6 +814,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
     Editor.prototype.removeFilter = function(ev) {
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
         $(ev.currentTarget.parentElement).remove();
+        this.changed();
     };
 
     window.editor = new Editor({
