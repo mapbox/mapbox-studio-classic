@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.1.5
+
+- Fix bugs in atom-shell integration.
+
 ### 0.1.4
 
 - Update to tilelive@5.2.3 to some vector tile rendering artifacts.
