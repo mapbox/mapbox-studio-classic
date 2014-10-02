@@ -35,7 +35,7 @@
     "mapnik-reference": "~6.0.1",
     "carto": "0.14.0",
     "speedometer": "0.1.2",
-    "tilelive": "5.2.1",
+    "tilelive": "5.2.3",
     "tilelive-bridge": "0.6.0",
     "tilelive-vector": "2.1.0",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
