@@ -186,6 +186,7 @@ tape('.js-history browses projects', function(t) {
 });
 
 tape('stylesheet error ', function(t) {
+    t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' not visible initially' );
     window.code["style.mss"].setValue('Map { backgroundcolor: #333; }');
     window.editor.update();
     onajax(function() {
