@@ -169,7 +169,7 @@ test('remote: loads via tilelive', function(t) {
 });
 
 test('remote: loads via http', function(t) {
-    source('http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets-v4.json', function (err, source) {
+    source('http://localhost:3001/v4/mapbox.mapbox-streets-v4.json?access_token=testaccesstoken', function (err, source) {
         t.ifError(err);
         t.equal('Mapbox Streets V4', source.data.name);
         t.equal(0, source.data.minzoom);
@@ -179,8 +179,8 @@ test('remote: loads via http', function(t) {
     });
 });
 
-test('remote: loads via https', function(t) {
-    source('https://a.tiles.mapbox.com/v3/mapbox.mapbox-streets-v4.json', function (err, source) {
+test.skip('remote: loads via https', function(t) {
+    source('https://localhost:3001/v4/mapbox.mapbox-streets-v4.json', function (err, source) {
         t.ifError(err);
         t.equal('Mapbox Streets V4', source.data.name);
         t.equal(0, source.data.minzoom);
