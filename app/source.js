@@ -179,7 +179,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         'click .js-lockCenter': 'lockCenter',
         'change .filter-select': 'refreshFilters',
         'click .js-addfilter': 'addFilter',
-        'click .js-removefilter': 'removeFilter'
+        'click .js-removefilter': 'removeFilter',
+        'click .js-info': 'toggleInfo'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -815,6 +816,17 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
         $(ev.currentTarget.parentElement).remove();
         this.changed();
+    };
+    Editor.prototype.toggleInfo = function(ev) {
+        var $el = $(ev.currentTarget);
+        if ($el.is('.fill-darken1')) {
+            $el.removeClass('fill-darken1 dark').addClass('quiet');
+            $($el.attr('href')).addClass('hidden');
+        } else {
+            $el.addClass('fill-darken1 dark').removeClass('quiet');
+            $($el.attr('href')).removeClass('hidden');
+         }
+        return false;
     };
 
     window.editor = new Editor({

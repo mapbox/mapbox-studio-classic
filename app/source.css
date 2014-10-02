@@ -80,7 +80,7 @@
 
 input.toggle-conf:checked   ~ nav label.toggle-conf,
 input.toggle-fields:checked ~ nav label.toggle-fields,
-input.toggle-vtfx:checked ~ nav label.toggle-vtfx,
+input.toggle-vtfx:checked   ~ nav label.toggle-vtfx,
 input.toggle-sql:checked    ~ nav label.toggle-sql {
   background: #404040;
 }
@@ -125,17 +125,14 @@ input.toggle-sql:checked ~ div.sql .CodeMirror { visibility:visible; }
 .xrayinspector:hover::before { visibility:visible; }
 .xrayinspector.active::before { visibility:visible; }
 
+/* VTFX
+------------------------------------------------------- */
+input.vtfx { width: 60%; }
+
+.status { display: block; }
+.notapplied.status { display: none; }
+
 /* Miscellaneous
 ------------------------------------------------------- */
 
-/* vtfx */
-input.vtfx { width: 60%; }
-
-.status {
-  display: block;
-}
-
-.notapplied.status {
-  display: none;
-}
 

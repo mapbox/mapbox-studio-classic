@@ -21,13 +21,24 @@
       <% } %>
       </div>
       <div class='space-bottom1 pad1 clearfix'>
-        <select class='col3 <%=obj.id%> filter-select truncate' layer='<%=obj.id%>' name='filtername'>
-          <% _(obj.filters).each(function(parameters, filter) { %>
-          <option value='<%= filter %>' <% if (filter === 'drop') { %> selected='selected' <% } %>><%= parameters.display %></option>
-          <% }); %>
-        </select>
+        <div class='col3 pad0'>
+          <select class='col12 <%=obj.id%> filter-select truncate' layer='<%=obj.id%>' name='filtername'>
+            <% var info = '<p class="strong">Filter descriptions:</p>';
+              _(obj.filters).each(function(parameters, filter) {
+                info += "<p> <span class='strong'>" + parameters.display + ":</span>&nbsp&nbsp&nbsp" + parameters.description + "</p>";
+              %>
+            <option value='<%= filter %>' <% if (filter === 'drop') { %> selected='selected' <% } %>><%= parameters.display %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class='col1 pad0y'>
+          <a href='#vtfx-info-<%=obj.id%>' class='js-info round info icon quiet pad0'></a>
+        </div>
         <%= this.layervtfxfields({parameters: obj.filters.drop, name: 'drop', id: obj.id}) %>
         <a href='#' value='Add filter' layer='<%=obj.id%>' class='js-addfilter button quiet dot icon plus'></a>
+      </div>
+      <div id='vtfx-info-<%=obj.id%>' class='clearfix z10 pad1 fill-darken1 hidden prose'>
+        <%= info %>
       </div>
   </fieldset>
 </section>
