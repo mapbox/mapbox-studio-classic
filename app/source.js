@@ -144,7 +144,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.onPane = function(ev) {
-        var id = $(ev.currentTarget).attr('href').split('-').pop();
+        var id = $(ev.currentTarget).attr('href').split('#layers-').pop();
         $('form.pane').removeClass('target');
         $('#layers-' + id).addClass('target');
         return false;
@@ -485,7 +485,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     };
 
     Editor.prototype.update = function(ev) {
-      this.save(null, null, true);
+        this.save(null, null, true);
     };
 
     Editor.prototype.save = function(ev, options, refresh) {

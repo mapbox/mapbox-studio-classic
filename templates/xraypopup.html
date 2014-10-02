@@ -9,12 +9,12 @@ var last = i === (_(obj).size() - 1);
     <span class='icon round' style='background-color:<%=xraycolor(feature.layer)%>'></span>
     <strong><%= feature.layer %></strong>
   </div>
-  <% _(feature.attributes).each(function(val, key) { %>
+  <% for (var key in feature.attributes) { %>
   <div class='xray-listing space xray-list-item'>
     <span><%=key%></span>
-    <span class='quiet'><%=val%></span>
+    <span class='quiet'><%=feature.attributes[key]%></span>
   </div>
-  <% }); %>
+  <% } %>
   </div>
 <%
 });

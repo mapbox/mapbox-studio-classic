@@ -1,6 +1,20 @@
 Changelog
 =========
 
+### 0.1.5
+
+- Fix bugs in atom-shell integration.
+
+### 0.1.4
+
+- Update to tilelive@5.2.3 to some vector tile rendering artifacts.
+- Source UI: fix bug with layers with dashes in IDs.
+- Style/source UI: fix scrollbar overflow problems.
+- Style UI: Image export indication in atom-shell.
+- Fix bug in xray popup template that affected features with a 'length' property.
+- Fix carto docs example for font-directory.
+- Cache busting querystring added to js/css assets to avoid stale caches on updates.
+
 ### 0.1.3
 
 - Fixed bug where source data not in WGS84 or web mercator would not export correctly.

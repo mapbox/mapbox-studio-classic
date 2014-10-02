@@ -1,6 +1,6 @@
 {
   "name": "mapbox-studio",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "main": "./index",
   "author": "Mapbox (https://www.mapbox.com)",
   "engineStrict": true,
@@ -35,7 +35,7 @@
     "mapnik-reference": "~6.0.3",
     "carto": "0.14.0",
     "speedometer": "0.1.2",
-    "tilelive": "5.2.1",
+    "tilelive": "5.2.3",
     "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/archive/mapnik3.tar.gz",
     "tilelive-vector": "https://github.com/mapbox/tilelive-vector/archive/mapnik3.tar.gz",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
