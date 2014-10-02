@@ -185,15 +185,15 @@ tape('.js-history browses projects', function(t) {
     t.end();
 });
 
-tape('stylesheet errors ', function(t) {
+tape('stylesheet error ', function(t) {
     window.code["style.mss"].setValue('Map { backgroundcolor: #333; }');
     window.editor.update();
     onajax(function() {
-        t.ok($('[rel="style.mss"] .js-error-alert').length, ' Error appears with faulty stylesheet');
+        t.ok($('[rel="style.mss"] .js-error-alert').length, ' appears with faulty stylesheet');
         window.code["style.mss"].setValue('Map { background-color: #333; }');
         window.editor.update();
         onajax(function() {
-            t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' Error dismissed with good stylesheet');
+            t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' dismissed with good stylesheet');
             t.end();
         })
     })
