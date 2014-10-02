@@ -8,6 +8,7 @@ Common questions
 - [What can/can't I do with pro fonts?](#what-cancant-i-do-with-pro-fonts)
 - [How is Mapbox Studio related to TileMill?](#how-is-mapbox-studio-related-to-tilemill)
 - [How is Mapbox Studio related to Mapbox GL?](#how-is-mapbox-studio-related-to-mapbox-gl)
+- [What are the file size upload limits?](#what-are-the-file-size-upload-limits)
 
 What are vector tiles?
 ----------------------
@@ -104,3 +105,7 @@ Mapbox Studio is a predecessor to Mapbox GL in terms of rendering technology. Bo
 
 The vector tiles created by Mapbox Studio in the _Source editor_ can be used directly with Mapbox GL. As Mapbox GL rendering matures expect Mapbox Studio to begin transitioning its rendering to leverage GL as well.
 
+What are the file size upload limits?
+------------------------------------------
+
+If you receive an error such as `Error: Tile exceeds maximum size of 500k at zoom ...`, this means that there is too much data in some of your uploaded vector tiles and that your style is complex enough that it takes too long to render your vector tiles as .png tiles. An individual tile cannot exceed 500k in size at any zoom level. As a workaround, you can increase your source's minzoom so that at the lowest zoom levels, each vector tile contains less data.

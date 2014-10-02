@@ -8,7 +8,7 @@
 // - Title, optional defaults to 'Browse'
 %>
 
-<form id='<%=obj.id%>' class='modal round browser col6 margin3 pin-top top2 dark fill-dark'>
+<form id='<%=obj.id%>' class='modal-body round browser col6 margin3 pin-top top1 bottom2 dark fill-dark'>
   <h4 class='pad1'><%=obj.title || 'Browse'%></h4>
   <div>
     <a href='#' class='quiet pad1 icon pin-topright close js-close'></a>
@@ -17,13 +17,13 @@
       --><strong class='align-top inline pad1y micro'><%=cwd%></strong>
     </div>
   </div>
-  <div class='list scroll-styled fill-darken1 pad1 pin-top space-top8'></div>
+  <div class='list scroll-styled fill-darken1 pad1 pin-top bottom2 space-top8'></div>
 
-  <div class='clearfix pad1 pin-bottom'>
+  <div class='clearfix pad1x pad2y pin-bottom'>
     <div class='pill clearfix input-pill'><!--
       --><input type='hidden' name='cwd' value='<%=obj.cwd%>' /><!--
-      --><input class='col8 short small' title='<%=obj.hint||obj.placeholder||''%>' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
-      --><input class='col4 short' type='submit' value='<%=obj.label||'Save'%>'/>
+      --><input class='col8 small' title='<%=obj.hint||obj.placeholder||''%>' type='text' placeholder='<%=obj.placeholder||''%>' size='20' name='basename' pattern='<%=obj.pattern||''%>'/><!--
+      --><input class='col4' type='submit' value='<%=obj.label||'Save'%>'/>
     </div>
   </div>
 </form>

@@ -271,26 +271,38 @@ tape('#raster and nonraster mix error', function(t) {
     t.equal($('#addlayer').size(), 1, 'shows #addlayer modal');
     $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/shp/dc_bus_lines/DCGIS_BusLineLn.shp');
     $('#addlayer').submit();
-    onajax(function() {
+    onajax(afterOmnivore1);
+    onajax(afterUpdate1);
+    onajax(afterOmnivore2);
+    onajax(afterDelete);
+
+    function afterOmnivore1() {
+        t.ok(!hasModal('#error'), 'no errors');
+    }
+
+    function afterUpdate1() {
+        t.ok(!hasModal('#error'), 'no errors');
         t.equal($('#layers-DCGIS_BusLineLn').size(), 1, 'adds #layers-DCGIS_BusLineLn form');
         $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + '/geotiff/sample.tif');
         $('#addlayer').submit();
-        onajax(function() {
-            t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
+    }
 
-            t.ok(hasModal('#error'), 'shows error modal');
-            $('#error a.js-close').click();
-            t.ok(!hasModal('#error'), 'removes error modal');
+    function afterOmnivore2() {
+        t.equal($('#layers-sample').size(), 0, 'no #layers-sample form');
 
-            $('#del-DCGIS_BusLineLn').click();
-            t.ok(hasModal('#confirm'), 'shows confirm modal');
-            $('#confirm a.js-confirm').click();
-            onajax(function() {
-                t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
-                t.end();
-            });
-        });
-    });
+        t.ok(hasModal('#error'), 'shows error modal');
+        $('#error a.js-close').click();
+        t.ok(!hasModal('#error'), 'removes error modal');
+
+        $('#del-DCGIS_BusLineLn').click();
+        t.ok(hasModal('#confirm'), 'shows confirm modal');
+        $('#confirm a.js-confirm').click();
+    }
+
+    function afterDelete() {
+        t.equal($('#layers-DCGIS_BusLineLn').size(), 0, 'removes #layers-DCGIS_BusLineLn form');
+        t.end();
+    }
 });
 
 var datatests = {
@@ -434,8 +446,17 @@ for (var name in datatests) (function(name, info) {
         $('#addlayer input[name=Datasource-file]').val(window.testParams.dataPath + info.filepath);
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
-        onajax(function() {
 
+        onajax(afterOmnivore);
+        onajax(afterUpdate);
+        onajax(afterUpdate2);
+        onajax(afterDelete);
+
+        function afterOmnivore() {
+            t.ok(!hasModal('#error'), 'no error');
+        }
+
+        function afterUpdate() {
             t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
 
             t.equal($('.pane.target').length,1,'only current layer pane is targeted');
@@ -456,16 +477,18 @@ for (var name in datatests) (function(name, info) {
             }
 
             $('.pane.target .js-offpane').click();
-            onajax(function() {
-                $('#del-' + info.expected.id).click();
-                t.ok(hasModal('#confirm'), 'shows confirm modal');
-                $('#confirm a.js-confirm').click();
-                onajax(function() {
-                    t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
-                    t.end();
-                });
-            })
-        });
+        }
+
+        function afterUpdate2() {
+            $('#del-' + info.expected.id).click();
+            t.ok(hasModal('#confirm'), 'shows confirm modal');
+            $('#confirm a.js-confirm').click();
+        }
+
+        function afterDelete() {
+            t.equal($('#layers-' + info.expected.id).size(), 0, 'removes #layers-' + info.expected.id + ' form');
+            t.end();
+        }
     });
 })(name, datatests[name]);
 

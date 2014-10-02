@@ -18,5 +18,5 @@ defaults:
     date: 0000-01-01
 
 ### latest release
-release: v0.1.2
+release: v0.1.5
 

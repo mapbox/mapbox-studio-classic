@@ -252,8 +252,9 @@ views.Modal.prototype.close = function(ev) {
     // default, just close the modal
     // need to also accept a url and redirect there on close
     if (!this.active) return false;
+
     this.$el.empty();
-    this.$el.parent().removeClass('active');
+    this.$el.removeClass('active');
     this.active.callback(null, ev && $(ev.currentTarget).is('a.js-confirm'));
     this.active = false;
     return false;
@@ -275,7 +276,7 @@ views.Modal.prototype.show = function(id, options, callback) {
 
     var modal = { el: $(html), callback: callback };
     this.$el.append(modal.el);
-    this.$el.parent().addClass('active');
+    this.$el.addClass('active');
     this.active = modal;
 };
 

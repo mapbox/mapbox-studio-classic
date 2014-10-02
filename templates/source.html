@@ -3,25 +3,25 @@
 
 <head>
   <meta charset='UTF-8'/>
-  <link href='/app/icon.png' rel='apple-touch-icon' />
-  <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
-  <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/ext/base/base.css' rel='stylesheet' />
-  <link href='/app/app.css' rel='stylesheet' />
-  <link href='/app/source.css' rel='stylesheet' />
-  <script src='/ext/underscore-min.js'></script>
-  <script src='/ext/codemirror/codemirror.js'></script>
-  <script src='/ext/codemirror/runmode.js'></script>
-  <script src='/ext/codemirror/sql.js'></script>
-  <script src='/ext/jquery-2.0.3.min.js'></script>
-  <script src='/ext/jquery.sortable.js'></script>
-  <script src='/ext/sexagesimal.js'></script>
-  <script src='/ext/backbone.js'></script>
-  <script src='/ext/mapbox.js'></script>
-  <script src='/app/cartoref.js'></script>
-  <script src='/app/lib.js?_=<%= +new Date %>'></script>
-  <script src='/app/source.js?_=<%= +new Date %>'></script>
-  <script src='/app/atom.js?_=<%= +new Date %>'></script>
+  <link href='/app/icon.png?<%=obj.nocache%>' rel='apple-touch-icon' />
+  <link href='/ext/codemirror/codemirror.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/mapbox.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/source.css?<%=obj.nocache%>' rel='stylesheet' />
+  <script src='/ext/underscore-min.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/codemirror.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/runmode.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/sql.js?<%=obj.nocache%>'></script>
+  <script src='/ext/jquery-2.0.3.min.js?<%=obj.nocache%>'></script>
+  <script src='/ext/jquery.sortable.js?<%=obj.nocache%>'></script>
+  <script src='/ext/sexagesimal.js?<%=obj.nocache%>'></script>
+  <script src='/ext/backbone.js?<%=obj.nocache%>'></script>
+  <script src='/ext/mapbox.js?<%=obj.nocache%>'></script>
+  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>
+  <script src='/app/lib.js?<%=obj.nocache%>'></script>
+  <script src='/app/source.js?<%=obj.nocache%>'></script>
+  <script src='/app/atom.js?<%=obj.nocache%>'></script>
   <%= this.analytics(obj) %>
   <title><%= source.name %></title>
 </head>
@@ -33,10 +33,7 @@
 
 <div id='perf'></div>
 
-<div id='modal'>
-  <div class='modal-mask fill-darken2 animate'></div>
-  <div id='modal-content' class='limiter contain modal-content animate'></div>
-</div>
+<div id='modal-content' class='modal-content animate'></div>
 
 <div id='drawers' class='animate fill-dark col3 offcanvas-left animate pin-left z10 clip'>
 
@@ -239,8 +236,8 @@ Source(templates, cwd, tm, source, revlayers, examples);
 
 <% if (test) { %>
   <script>window.testParams = <%= saferstringify(test, null, 0) %>;</script>
-  <script src='/app/test/tape.js'></script>
-  <script src='/app/test/app.test.source.js'></script>
+  <script src='/app/test/tape.js?<%=obj.nocache%>'></script>
+  <script src='/app/test/app.test.source.js?<%=obj.nocache%>'></script>
 <% } %>
 
 </body>
