@@ -10,6 +10,7 @@
   <Parameter name="maxzoom">6</Parameter>
   <Parameter name="minzoom">0</Parameter>
   <Parameter name="name"><![CDATA[Test source]]></Parameter>
+  <Parameter name="vtfx"><![CDATA[{}]]></Parameter>
 </Parameters>
 
 
