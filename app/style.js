@@ -98,6 +98,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   return memo;
 }, {});
 delete code._first;
+window.code = code;
 
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
