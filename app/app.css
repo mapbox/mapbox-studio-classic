@@ -635,9 +635,10 @@ body.local .on-local { display:block; }
       left:-10px;
       }
       .CodeMirror-gutter-wrapper .error > a {
-        height:20px;
-        width:40px;
-        display:block;
+          padding-top: 60px;
+          width: 40px;
+          display: block;
+          margin-top: -40px;
         }
         .CodeMirror-gutter-wrapper .error > a:focus {
           -webkit-box-shadow:none;
@@ -645,6 +646,7 @@ body.local .on-local { display:block; }
           }
       .CodeMirror-gutter-wrapper .error .message {
         background-color:#f1f075;
+        padding-right: 20px;
         position:absolute;
         left:40px;
         top: 0;

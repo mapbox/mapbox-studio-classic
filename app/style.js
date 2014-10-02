@@ -574,6 +574,7 @@ Editor.prototype.error = function(model, resp) {
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
 
+
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
     .compact()
@@ -582,25 +583,29 @@ Editor.prototype.error = function(model, resp) {
       if (_(e).isArray()) {
         var id = e[2];
         var ln = parseInt(e[3]) - 1;
+        var tab = e[2];
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
+        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e, tab));
       } else {
         return Modal.show('error', e);
       }
     }).bind(this));
 };
 
-Editor.prototype.cartoError = function(ln, e) {
+Editor.prototype.cartoError = function(ln, e, tab) {
     var error = document.createElement('div');
     error.className = 'error';
 
-    if (!$('.js-error-alert').length) {
-      var alert = document.createElement('div');
-      alert.className = 'z100 truncate code small js-error-alert error-alert pin-bottom col12 pad0 fill-yellow';
-      alert.innerHTML = '<strong>Unable to save.</strong> Fix Carto errors and try again.';
-      document.getElementById('style-ui').appendChild(alert);
-    }
+      var alert = document.createElement('a');
+      alert.href = '#';
+      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-yellow';
+      alert.innerHTML = 'Error: Line ' + (ln+1) + '</span>';
+
+      // don't stack alerts on the same tab
+      if (!$('a[rel="' + tab + '"] .js-error-alert').length) {
+        $('a[rel="' + tab + '"]').append(alert);
+      }
 
     var link = document.createElement('a');
     link.id = 'error-' + ln;
