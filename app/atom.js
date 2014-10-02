@@ -29,7 +29,7 @@ $(document).ready(function() {
             jpg: 'Image',
             jpeg: 'Image'
         }
-        var typeExtension = uri.pathname.split('.').pop().toLowerCase();
+        var typeExtension = (uri.pathname || '').split('.').pop().toLowerCase();
         var typeLabel = fileTypes[typeExtension];
         if (typeLabel) {
             var filePath = remote.require('dialog').showSaveDialog({
