@@ -583,17 +583,16 @@ Editor.prototype.error = function(model, resp) {
       if (_(e).isArray()) {
         var id = e[2];
         var ln = parseInt(e[3]) - 1;
-        var tab = e[2];
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e, tab));
+        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e, id));
       } else {
         return Modal.show('error', e);
       }
     }).bind(this));
 };
 
-Editor.prototype.cartoError = function(ln, e, tab) {
+Editor.prototype.cartoError = function(ln, e, id) {
     var error = document.createElement('div');
     error.className = 'error';
 
@@ -603,8 +602,8 @@ Editor.prototype.cartoError = function(ln, e, tab) {
       alert.innerHTML = 'Error: Line ' + (ln+1) + '</span>';
 
       // don't stack alerts on the same tab
-      if (!$('a[rel="' + tab + '"] .js-error-alert').length) {
-        $('a[rel="' + tab + '"]').append(alert);
+      if (!$('a[rel="' + id + '"] .js-error-alert').length) {
+        $('a[rel="' + id + '"]').append(alert);
       }
 
     var link = document.createElement('a');
