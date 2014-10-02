@@ -375,13 +375,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
             //so this is just reversing that process in order to properly render the mapnikXML for Mapbox Studio
             //This only applies to files that have gone through mapnik-omnivore
-            var layername = metadata ? (current_layer.id).split('_').join(' ') : current_layer.id;
+            var layername = (metadata && filetype !== 'gpx') ? (current_layer.id).split('_').join(' ') : current_layer.id;
 
-            //mapnik-omnivore sets all geojson file id's to 'OGRGeojson' so that it's readable for mapnik.
+            //all geojson sources have the same layer name, 'OGRGeojson'.
             //To avoid all geojson layers having the same name, replace id with the filename.
             if (filetype === 'geojson') current_layer.id = metadata.filename;
 
-            //All gpx files have the same three layer names (wayponts, routes, tracks)
+            //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
             //Append filename to differentiate
             if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
 
