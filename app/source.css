@@ -1,21 +1,5 @@
 /* Base candidate */
 
-.rounded-toggle label,
-.rounded-toggle a {
-  cursor:pointer;
-  vertical-align: top;
-  display: inline-block;
-  border-radius: 16px;
-  padding: 3px 10px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.5);
-  line-height: 20px;
-}
-
-.dark .rounded-toggle label {
-  color: white;
-}
-
 /* Layout
 ------------------------------------------------------- */
 #source-ui {

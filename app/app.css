@@ -39,9 +39,7 @@
 }
 
 /* FIX IN BASE - to offset weird fieldset form label style */
-.rounded-toggle input[type=radio] + label {
-  margin: 0;
-}
+.rounded-toggle input[type=radio] + label { margin: 0; }
 
 .with-icon input[type=text].short,
 .with-icon input[type=email].short,
@@ -108,39 +106,6 @@ kbd {
   .mac kbd.prefixed:before { content:'⌘'; }
   .windows kbd.prefixed:before,
   .linux kbd.prefixed:before { content:'Ctrl '; }
-
-/* Modal popup */
-.modal { display:none; }
-.dark .fill-light.modal { background:#444; }
-
-#modal > div {
-  position:fixed;
-  left:0px;
-  right:0px;
-  top:0px;
-  height:100%;
-  z-index:-1;
-  overflow-y: auto;
-}
-
-#modal.active .modal {
-  display: block;
-}
-
-#modal.active > div {
-  z-index:99999;
-  transition:all .1s, z-index 0 0;
-}
-
-#modal .modal-mask { opacity: 0; }
-#modal.active .modal-mask { opacity: 1;}
-
-#modal .browser {
-  top: 80px;
-  bottom: 80px;
-}
-
-#modal .browser .list { bottom: 50px; }
 
 input.readonly {
   background:transparent;

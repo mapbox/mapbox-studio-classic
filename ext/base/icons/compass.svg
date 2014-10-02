@@ -11,12 +11,12 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="20"
    height="20"
-   id="svg5738"
+   id="svg4863"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="search.svg">
+   sodipodi:docname="compass.svg">
   <defs
-     id="defs5740" />
+     id="defs4865" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,27 +24,29 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16"
-     inkscape:cx="11.996171"
-     inkscape:cy="2.8901858"
+     inkscape:zoom="1"
+     inkscape:cx="10.110346"
+     inkscape:cy="15.350116"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1033"
-     inkscape:window-height="844"
-     inkscape:window-x="20"
-     inkscape:window-y="20"
+     inkscape:snap-bbox="true"
+     inkscape:snap-nodes="false"
+     inkscape:window-width="1608"
+     inkscape:window-height="970"
+     inkscape:window-x="181"
+     inkscape:window-y="0"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
-       id="grid5746"
+       id="grid4886"
        empspacing="5"
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
   <metadata
-     id="metadata5743">
+     id="metadata4868">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -60,10 +62,18 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1032.3622)">
-    <path
-       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 8.5 4 C 6.0147 4 4 6.0147 4 8.5 C 4 10.9853 6.0147 13 8.5 13 C 9.354 13 10.16355 12.75695 10.84375 12.34375 L 10.875 12.3125 L 14.28125 15.71875 C 14.462214 15.899714 14.723858 16 15 16 C 15.552285 16 16 15.552285 16 15 C 16 14.723858 15.899714 14.462214 15.71875 14.28125 L 12.3125 10.875 L 12.34375 10.84375 C 12.75695 10.16355 13 9.354 13 8.5 C 13 6.0147 10.9853 4 8.5 4 z M 8.5 5.5 C 10.1568 5.5 11.5 6.8431 11.5 8.5 C 11.5 10.1568 10.1568 11.5 8.5 11.5 C 6.8431 11.5 5.5 10.1568 5.5 8.5 C 5.5 6.8431 6.8431 5.5 8.5 5.5 z "
-       transform="translate(0,1032.3622)"
-       id="path3409" />
+    <g
+       transform="matrix(1.9999805,0,0,1.7500055,-539.99976,-1081.7773)"
+       id="g5863" />
+    <g
+       id="g6124"
+       transform="translate(0.1631665,-3.4e-5)">
+      <path
+         sodipodi:nodetypes="sscccsscs"
+         inkscape:connector-curvature="0"
+         id="path5985-4-5"
+         d="m 6.3368335,1047.3622 c -0.88543,0.7589 -1.9447207,6e-4 -1.4999978,-1 l 3.9999999,-9 c 0.1692243,-0.3808 0.583333,-0.75 0.9999995,-0.75 0.4166669,0 0.8307759,0.3692 0.9999999,0.75 l 4.000001,9 c 0.446096,1.0037 -0.614542,1.759 -1.500002,1 l -3.4999989,-3 z"
+         style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:11;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
   </g>
 </svg>
