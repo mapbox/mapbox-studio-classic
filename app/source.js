@@ -218,7 +218,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
     };
 
     Editor.prototype.onPane = function(ev) {
-        var id = $(ev.currentTarget).attr('href').split('-').pop();
+        var id = $(ev.currentTarget).attr('href').split('#layers-').pop();
         $('form.pane').removeClass('target');
         $('#layers-' + id).addClass('target');
         return false;
@@ -419,9 +419,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             //Add new layer to the project's processors/vtfx array
             vtfx[layer.id] = VTFX(layer.id);
 
-            view.changed();
-            view.update();
-
             //set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
@@ -437,6 +434,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
                 $('#layers-' + layersArray[0].id).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
+
+            //mark changed state and refresh
+            view.changed();
+            view.update();
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
@@ -579,7 +580,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
     };
 
     Editor.prototype.update = function(ev) {
-      this.save(null, null, true);
+        this.save(null, null, true);
     };
 
     Editor.prototype.save = function(ev, options, refresh) {

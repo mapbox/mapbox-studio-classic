@@ -315,37 +315,37 @@ tape('.js-layers shows sources modal', function(t) {
         t.ok(hasModal('#modalsources'));
 
         // form validity tests
+        var $localinput = $('.js-localdata input[type=text]');
+        var $remoteinput = $('.js-remotedata input[type=text]');
 
-        // disallow spaces between composite sources
-        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+        $remoteinput.val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
+        t.equal($remoteinput.get(0).validity.valid, false, ' remote form disallows spaces between composite sources');
 
-        // allow remote composite sources
-        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        $remoteinput.val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
+        t.equal($remoteinput.get(0).validity.valid, true, ' remote form allows remote composite sources');
 
-        // disallow local compositing
-        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+        $remoteinput.val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($remoteinput.get(0).validity.valid, false,' remote form disallows local+remote compositing');
 
-        // allow single local source
-        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        $localinput.val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($localinput.get(0).validity.valid, false, ' local form disallows local+remote compositing');
 
-        // allow a local source with c:/ in source (win)
-        $('#applydata input[type=text]').val('tmsource://c:/Users/foo/bar.tm2source');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        $localinput.val('tmsource:///Users/foo/bar.tm2source');
+        t.equal($localinput.get(0).validity.valid, true, ' local form allows single local source');
+
+        $localinput.val('tmsource://c:/Users/foo/bar.tm2source');
+        t.equal($localinput.get(0).validity.valid, true, ' local form allow a local source with c:/ in source (win)');
 
         // now test the user clicking a real source
         $('#modalsources-remote .js-adddata:eq(0)').click();
 
         var selected = $('#modalsources-remote .js-adddata:eq(0)').attr('href');
-        var input = $('#applydata input[type=text]').val();
+        var val = $remoteinput.val();
 
-        t.notEqual(selected.indexOf(input),-1,' and selected layer matches form input.');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        t.notEqual(selected.indexOf(val),-1,' and selected layer matches form input.');
+        t.equal($remoteinput.get(0).validity.valid, true);
 
-        $('#applydata input[type=submit]').click();
+        $('.js-remotedata input[type=submit]').click();
 
         onajax(function() {
             t.ok(!hasModal('#modalsources'));

@@ -643,25 +643,20 @@ body.local .on-local { display:block; }
   top:40px; bottom:0;
   width:100%; height:auto;
   visibility:hidden;
-  overflow: visible;
   }
 .CodeMirror.active { visibility:visible; }
-.CodeMirror .CodeMirror-vscrollbar { overflow-y: hidden;}
-.CodeMirror.active .CodeMirror-vscrollbar { overflow-y: scroll;}
-.CodeMirror .CodeMirror-hscrollbar { overflow-x: hidden;}
-.CodeMirror.active .CodeMirror-hscrollbar { overflow-x: scroll;}
 
-.CodeMirror-lines { padding:0 10px; }
-.CodeMirror pre { padding:0; }
 .CodeMirror-linenumber {
   z-index: 50!important;
   pointer-events: none;
 }
+.CodeMirror-linenumbers {
+  width: 30px!important;
+  }
 
 .CodeMirror-gutters {
-  border:none;
-  background:#fcfcfc;
-  width:40px!important;
+  background:#f8f8f8;
+  width:35px!important;
   }
   .CodeMirror-gutters .errors {
     position:absolute;
@@ -714,19 +709,6 @@ body.local .on-local { display:block; }
 
 .CodeMirror-dialog .hidden:target { display:block; }
 
-/* CodeMirror Addon: palette swatch */
-.CodeMirror .cm-palette-hint {
-  display:inline-block;
-  box-sizing:border-box;
-  margin:0 5px 3px 5px;
-  border-radius:50%;
-  vertical-align:middle;
-  width:10px;
-  height:10px;
-  box-shadow:0 0 0 2px #fcfcfc,
-             0 0 0 3px #ddd;
-  }
-
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
@@ -747,7 +729,7 @@ span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
 .dark .CodeMirror { background:transparent; border-top: 1px solid rgba(0,0,0,.2); }
-.dark .CodeMirror-gutters { background:rgba(0,0,0,.1); border-color:rgba(0,0,0,0.2); }
+.dark .CodeMirror-gutters { background:#404040; border-color:rgba(0,0,0,0.2); }
 .dark .CodeMirror pre { background: transparent;}
 .dark .CodeMirror .CodeMirror-cursor { border-color:#ccc; }
 .dark .CodeMirror-selected,
