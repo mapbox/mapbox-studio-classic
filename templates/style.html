@@ -3,36 +3,36 @@
 
 <head>
   <meta charset='UTF-8'/>
-  <link href='/app/icon.png' rel='apple-touch-icon' />
-  <link rel='stylesheet' href='../ext/spectrum/spectrum.css' />
-  <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
-  <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/ext/base/base.css' rel='stylesheet' />
-  <link href='/app/app.css' rel='stylesheet' />
-  <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
-  <link href='/app/style.css' rel='stylesheet' />
-  <link href='/app/print.css' rel='stylesheet' />
-  <script src='/ext/underscore-min.js'></script>
-  <script src='/ext/codemirror/codemirror.js'></script>
-  <script src='/ext/codemirror/runmode.js'></script>
-  <script src='/ext/codemirror/searchcursor.js'></script>
-  <script src='/ext/jquery-2.0.3.min.js'></script>
-  <script src='/ext/jquery.sortable.js'></script>
-  <script src='/ext/spectrum/spectrum.js'></script>
-  <script src='/ext/backbone.js'></script>
-  <script src='/ext/mapbox.js'></script>
-  <script src='/app/cartoref.js'></script>
-  <script src='/app/lib.js?_=<%= +new Date %>'></script>
-  <script src='/app/print.js?_=<%= +new Date %>'></script>
-  <script src='/app/style.js?_=<%= +new Date %>'></script>
-  <script src='/app/atom.js?_=<%= +new Date %>'></script>
-  <script src='/app/codemirror.carto.js'></script>
-  <script src='/app/codemirror.carto.complete.js'></script>
-  <script src='/app/codemirror.tm2.search.js'></script>
-  <script src='/app/codemirror.tm2.palette.js'></script>
-  <script src='/ext/sexagesimal.js'></script>
-  <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
-  <script src='/ext/sphericalmercator.js'></script>
+  <link href='/app/icon.png?<%=obj.nocache%>' rel='apple-touch-icon' />
+  <link href='/ext/spectrum/spectrum.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/codemirror/codemirror.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/mapbox.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/leaflet-locationfilter/locationfilter.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/style.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/print.css?<%=obj.nocache%>' rel='stylesheet' />
+  <script src='/ext/underscore-min.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/codemirror.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/runmode.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/searchcursor.js?<%=obj.nocache%>'></script>
+  <script src='/ext/jquery-2.0.3.min.js?<%=obj.nocache%>'></script>
+  <script src='/ext/jquery.sortable.js?<%=obj.nocache%>'></script>
+  <script src='/ext/spectrum/spectrum.js?<%=obj.nocache%>'></script>
+  <script src='/ext/backbone.js?<%=obj.nocache%>'></script>
+  <script src='/ext/mapbox.js?<%=obj.nocache%>'></script>
+  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>
+  <script src='/app/lib.js?<%=obj.nocache%>'></script>
+  <script src='/app/print.js?<%=obj.nocache%>'></script>
+  <script src='/app/style.js?<%=obj.nocache%>'></script>
+  <script src='/app/atom.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.carto.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.carto.complete.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.tm2.search.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.tm2.palette.js?<%=obj.nocache%>'></script>
+  <script src='/ext/sexagesimal.js?<%=obj.nocache%>'></script>
+  <script src='/ext/leaflet-locationfilter/locationfilter.js?<%=obj.nocache%>'></script>
+  <script src='/ext/sphericalmercator.js?<%=obj.nocache%>'></script>
 
   <%= this.analytics(obj) %>
   <title><%= style.name %></title>
@@ -588,8 +588,8 @@ Style(templates, cwd, style, examples, gazetteer);
 
 <% if (test) { %>
   <script>window.testParams = <%= saferstringify(test, null, 0) %>;</script>
-  <script src='/app/test/tape.js'></script>
-  <script src='/app/test/app.test.style.js'></script>
+  <script src='/app/test/tape.js?<%=obj.nocache%>'></script>
+  <script src='/app/test/app.test.style.js?<%=obj.nocache%>'></script>
 <% } %>
 
 </body>
