@@ -1,16 +1,22 @@
 <section class='col6 tmpvtfx <%= obj.id %>'>
-	<% _(obj.parameters.options).each(function(field) { %>
-		<div class='space-bottom1'>
-			<label class='micro col2 inline pad0y'><%= field.field %></label>
-			<% if (field.options){ %>
-			<select class='col3 <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= field.field %>'>
-				<% _(field.options).each(function(value, key) { %>
-		          <option value='<%= key %>'><%= value %></option>
-		          <% }); %>
-		       </select>
-			<% } else { %>
-			<input type='text' class='short vtfx' name='tmpvtfx-<%= obj.name %>-<%= field.field %>' value='<%= field.default %>'/>
-			<% } %>
-		</div>
-	<% }); %>
+    <% _(obj.parameters.options).each(function(field) { %>
+        <div class='space-bottom1'>
+            <label class='micro col2 inline pad0y'><%= field.field %></label>
+            <% if (field.options){ %>
+                <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= field.field %>'>
+                <% _(field.options).each(function(value, key) { %>
+                    <option value='<%= key %>'><%= value %></option>
+                <% }); %>
+               </select>
+            <% } else if (field.field === 'field') { %>
+                <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= field.field %>'>
+                <% _(obj.fields).each(function(value, key) { %>
+                    <option value='<%= key %>'><%= key %></option>
+                <% }); %>
+                </select>
+            <% } else { %>
+            <input type='text' class='short vtfx' name='tmpvtfx-<%= obj.name %>-<%= field.field %>' value='<%= field.default %>'/>
+            <% } %>
+        </div>
+    <% }); %>
 </section>

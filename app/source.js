@@ -98,7 +98,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             var v = {
                 id: id,
                 vtfx: p,
-                filters: filters
+                filters: filters,
+                fields: layers[id].get().fields
             };
 
             $('div.vtfx', processor.form).html(templates.layervtfx(v));
@@ -780,7 +781,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
     Editor.prototype.refreshFilters = function(ev) {
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
 
-        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id}));
+        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id, fields: layers[id].get().fields}));
         this.changed();
     };
     Editor.prototype.addFilter = function(ev) {
@@ -806,7 +807,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         }, {});
 
         $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], filters: filters, id: id, status: 'notapplied'}));
-        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[attr.id], name: attr.id, id: id}));
+        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[attr.id], name: attr.id, id: id, fields: layers[id].get().fields }));
 
         //Add new layer to the project's processors/vtfx array
         vtfx[id] = VTFX(id);
