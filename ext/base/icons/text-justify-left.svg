@@ -14,7 +14,7 @@
    id="svg4863"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="font.svg"
+   sodipodi:docname="text-justify-left.svg"
    inkscape:export-filename="/Users/saman/work_repos/base/latest/icons/text-vertical-center.png"
    inkscape:export-xdpi="180"
    inkscape:export-ydpi="180">
@@ -27,12 +27,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.1767767"
-     inkscape:cx="241.6521"
-     inkscape:cy="-254.13694"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="-18.953056"
+     inkscape:cy="58.419564"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-bbox="true"
      inkscape:snap-nodes="true"
      inkscape:window-width="1608"
@@ -85,24 +85,29 @@
     <g
        id="g7094" />
     <g
-       id="g7250"
-       transform="translate(-137,20)">
-      <g
-         id="g7164"
-         transform="translate(71,10)">
-        <path
-           sodipodi:nodetypes="cccccccccccccccccccc"
-           style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-           d="m 149,-25 0,3 1,0 1,-1 1,0 0,6 -1,1 0,1 4,0 0,-1 -1,-1 0.0312,-6 0.96875,0 1,1 1,0 0,-3 -2.9375,0 -2.0625,0 -3,0 z"
-           transform="translate(-81,1032.3622)"
-           id="path7166"
-           inkscape:connector-curvature="0" />
-      </g>
-      <path
-         sodipodi:nodetypes="sscssscsccssccssscss"
-         inkscape:connector-curvature="0"
-         id="path7168-2"
-         d="m 151,1017.3622 c -0.55228,0 -1,0.4477 -1,1 l 0,2 -1,0 c -0.55228,0 -1,0.4477 -1,1 0,0.5523 0.44772,1 1,1 l 1,0 0,3 c 0,1 1,2 2,2 l 1,0 c 0.55228,0 1,-0.4477 1,-1 0,-0.5523 -0.44772,-1 -1,-1 l -1,0 0,-3 1,0 c 0.55228,0 1,-0.4477 1,-1 0,-0.5523 -0.44772,-1 -1,-1 l -1,0 0,-2 c 0,-0.5523 -0.44772,-1 -1,-1 z"
+       transform="translate(-145,110.00003)"
+       id="g7285-6">
+      <rect
+         y="927.36218"
+         x="149"
+         height="2"
+         width="10"
+         id="rect6914-4"
+         style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect6916-0"
+         width="12"
+         height="2"
+         x="149"
+         y="931.36218" />
+      <rect
+         transform="matrix(1,5.7942708e-6,0,1,0,0)"
+         y="935.36127"
+         x="149"
+         height="2"
+         width="6"
+         id="rect6918-0"
          style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
   </g>
