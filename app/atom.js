@@ -55,10 +55,13 @@ $(document).ready(function() {
         // Passthrough everything else.
     });
 
-    window.Modal.options.templates.modalatomexporting = function() { return "\
-    <div id='atom-loading' class='modal round col6 margin3 pin-top top2 dark fill-dark'>\
-        <h3 class='center pad1y pad2x keyline-bottom'>Exporting</h3>\
-        <div class='row2 loading contain'></div>\
-    </div>";
-    };
+    if (window.Modal) {
+        window.Modal.options.templates.modalatomexporting = function() {
+            return "\
+            <div id='atom-loading' class='modal round col6 margin3 pin-top top2 dark fill-dark'>\
+                <h3 class='center pad1y pad2x keyline-bottom'>Exporting</h3>\
+                <div class='row2 loading contain'></div>\
+            </div>";
+        };
+    }
 });
