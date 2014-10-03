@@ -186,7 +186,7 @@ tape('.js-history browses projects', function(t) {
 });
 
 tape('stylesheet error ', function(t) {
-    t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' is not visible initially' );
+    t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' not visible initially' );
     window.code["style.mss"].setValue('Map { backgroundcolor: #333; }');
     window.editor.update();
     onajax(function() {
@@ -204,6 +204,24 @@ tape('stylesheet search ', function(t) {
     t.ok(!$('.CodeMirror-dialog.active').length, ' is not active initially' );
     window.code["style.mss"].execCommand('find');
     t.ok($('.CodeMirror-dialog.active').length, ' is active after command' );
+
+    $('.search-input').val('background');
+    t.ok(!$('.cm-searching').length, ' shows no results before initiated');
+
+    $('.js-cm-search-button').click();
+    t.equal($('.cm-searching').length,1, ' shows correct number of results');
+
+    $('.search-input').val('backgroundz');
+    $('.js-cm-search-button').click();
+    t.equal($('.js-search-buttons.reset').length,1,' shows fail state if no results');
+
+    $('.js-cm-reset-button').click();
+    t.equal($('.search-input').val(),'',' value is cleared on reset');
+    t.ok(!$('.cm-searching'),' search tokens are cleared on reset');
+
+    $('.js-cm-dialog-close').click();
+    t.ok(!$('.CodeMirror-dialog.active').length, ' is closed after clicking close button' );
+
     t.end();
 });
 
@@ -385,18 +403,20 @@ tape('#reference tabs through CartoCSS reference', function(t) {
 });
 
 tape('places: list', function(t) {
-    $('.js-places.js-toolbar-places').click();
-    t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
-    t.end();
+    window.location.hash = '#places';
+    setTimeout(function() {
+        t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
+        t.end();
+    }, 100);
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container a[tag="path"]').click();
+    $('.places-entry-container a[tag="road:main"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
+        t.equal($('a[tag="road:main"]', item).size(), 1, 'item has 1 road:main tag');
     };
     t.end();
 });
@@ -718,4 +738,3 @@ function testTmp() {
         t.end();
     });
 }
-
