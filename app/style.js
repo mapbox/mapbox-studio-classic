@@ -256,7 +256,7 @@ Editor.prototype.renderPlaces = function(filter, search) {
 Editor.prototype.places = function(ev) {
   var container = $('.js-places-toggle');
   var filter = $('input:checked',container).attr('value').toLowerCase();
-  window.editor.renderPlaces(filter);
+  window.editor.renderPlaces(filter, true);
 };
 
 Editor.prototype.showPlacesSearch = function(ev) {
@@ -770,7 +770,7 @@ Editor.prototype.refresh = function(ev) {
     } else {
       var filter = $('#places-dosearch').val().toLowerCase();
     }
-    window.editor.renderPlaces(filter);
+    window.editor.renderPlaces(filter, true);
   }
 
   // Refresh map title.tm.db.rm('user');
@@ -817,7 +817,7 @@ window.onhashchange = function(ev) {
   case 'places':
     if ($('input','.js-places-toggle').is(':checked')) {
       var filter = $('.js-places-toggle input:checked').attr('value').toLowerCase();
-      window.editor.renderPlaces(filter);
+      window.editor.renderPlaces(filter, true);
     }
     break;
   case !'export':

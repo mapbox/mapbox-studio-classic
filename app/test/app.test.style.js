@@ -384,12 +384,12 @@ tape('places: list', function(t) {
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container a[tag="path"]').click();
+    $('.places-entry-container a[tag="road:main"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
+        t.equal($('a[tag="road:main"]', item).size(), 1, 'item has 1 road:main tag');
     };
     t.end();
 });
