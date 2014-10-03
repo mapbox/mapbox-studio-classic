@@ -378,18 +378,20 @@ tape('#reference tabs through CartoCSS reference', function(t) {
 });
 
 tape('places: list', function(t) {
-    $('.js-places.js-toolbar-places').click();
-    t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
-    t.end();
+    window.location.hash = '#places';
+    setTimeout(function() {
+        t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
+        t.end();
+    }, 100);
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container a[tag="path"]').click();
+    $('.places-entry-container a[tag="road:main"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
+        t.equal($('a[tag="road:main"]', item).size(), 1, 'item has 1 road:main tag');
     };
     t.end();
 });
