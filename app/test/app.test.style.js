@@ -186,7 +186,7 @@ tape('.js-history browses projects', function(t) {
 });
 
 tape('stylesheet error ', function(t) {
-    t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' not visible initially' );
+    t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' is not visible initially' );
     window.code["style.mss"].setValue('Map { backgroundcolor: #333; }');
     window.editor.update();
     onajax(function() {
@@ -198,6 +198,13 @@ tape('stylesheet error ', function(t) {
             t.end();
         })
     })
+});
+
+tape('stylesheet search ', function(t) {
+    t.ok(!$('.CodeMirror-dialog.active').length, ' is not active initially' );
+    window.code["style.mss"].execCommand('find');
+    t.ok($('.CodeMirror-dialog.active').length, ' is active after command' );
+    t.end();
 });
 
 tape('.js-history removes history style', function(t) {
@@ -378,20 +385,18 @@ tape('#reference tabs through CartoCSS reference', function(t) {
 });
 
 tape('places: list', function(t) {
-    window.location.hash = '#places';
-    setTimeout(function() {
-        t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
-        t.end();
-    }, 100);
+    $('.js-places.js-toolbar-places').click();
+    t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
+    t.end();
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container a[tag="road:main"]').click();
+    $('.places-entry-container a[tag="path"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('a[tag="road:main"]', item).size(), 1, 'item has 1 road:main tag');
+        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
     };
     t.end();
 });
