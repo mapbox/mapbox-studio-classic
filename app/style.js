@@ -135,7 +135,7 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
-  'click .js-placetag': 'tagPlacesSearch',
+  'click .js-placetag': 'tagPlaces',
   'click .js-lockCenter': 'lockCenter'
 };
 
@@ -189,13 +189,20 @@ Editor.prototype.removeBookmark = function(ev) {
   return false;
 };
 
-Editor.prototype.renderPlaces = function(filter) {
+Editor.prototype.renderPlaces = function(filter, search) {
   var view = this;
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
 
   // Filter list
   var filtered = _.filter(list, function(d) {
-    return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+    if (search) {
+      return d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+    } else {
+      return _.find(d.tags, function(tag) {
+        if (tag === filter) return true;
+      });
+    }
+
   });
 
   if (filtered.length === 0) {
@@ -264,20 +271,17 @@ Editor.prototype.hidePlacesSearch = function(ev) {
   return false;
 };
 
-Editor.prototype.placesSearch = function(ev) {
-  var filter = $('#places-dosearch').val().toLowerCase();
+Editor.prototype.tagPlaces = function(ev) {
+  var filter = $(ev.currentTarget).attr('tag').toLowerCase();
   window.editor.renderPlaces(filter);
+  // clear filter
+  $('.js-places-toggle input').prop('checked', false);
   return false;
 };
 
-// New search based on clicked tag
-Editor.prototype.tagPlacesSearch = function(ev) {
-  var filter = $(ev.currentTarget).attr("tag").toLowerCase();
-  window.editor.renderPlaces(filter);
-
-  // clear filter
-  $('.js-places-toggle input').prop( "checked", false );
-
+Editor.prototype.placesSearch = function(ev) {
+  var filter = $('#places-dosearch').val().toLowerCase();
+  window.editor.renderPlaces(filter, true);
   return false;
 };
 
