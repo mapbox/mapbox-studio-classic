@@ -378,9 +378,11 @@ tape('#reference tabs through CartoCSS reference', function(t) {
 });
 
 tape('places: list', function(t) {
-    $('.js-places.js-toolbar-places').click();
-    t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
-    t.end();
+    window.location.hash = '#places';
+    setTimeout(function() {
+        t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
+        t.end();
+    }, 100);
 });
 
 tape('places: tag filter', function(t) {
