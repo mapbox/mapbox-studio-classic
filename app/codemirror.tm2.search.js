@@ -31,6 +31,7 @@
             dialog.classList.remove('active');
             clearSearch(me);
             inp.blur();
+            me.focus();
         }
 
         function fail() {
@@ -78,7 +79,6 @@
 
         inp.focus();
 
-        return close;
     });
 
     function searchOverlay(query, caseInsensitive) {

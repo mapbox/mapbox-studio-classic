@@ -225,6 +225,10 @@ tape('stylesheet search ', function(t) {
     t.end();
 });
 
+tape('stylesheet color picker ', function(t) {
+    t.end();
+});
+
 tape('.js-history removes history style', function(t) {
     var count = $('#history-style .history-project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
