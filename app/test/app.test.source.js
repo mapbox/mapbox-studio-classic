@@ -305,6 +305,15 @@ tape('#raster and nonraster mix error', function(t) {
     }
 });
 
+tape('vtfx data is saved to data.yml', function(t){
+    var id = source.Layer[0].id;
+    $('.vtfx-'+ id + ' input.vtfx').attr('value', 10);
+    $('.vtfx-'+ id + ' .js-addfilter').click();
+    $('#layers-'+ id + ' .js-offpane').click();
+    t.equal(JSON.stringify(window.editor.model.attributes.vtfx[id]), '[{"id":"test","limit":"10"}]');
+    t.end();
+});
+
 var datatests = {
     'geotiff/sample.tif': {
         filepath: '/geotiff/sample.tif',

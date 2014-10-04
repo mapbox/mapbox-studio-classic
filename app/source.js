@@ -105,7 +105,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             $('div.vtfx', processor.form).html(templates.layervtfx(v));
         };
         processor.get = function() {
-            var attr = _($('.vtfx-' + id).serializeArray()).reduce(function(memo, field) {
+            var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
                 // @TODO determine what causes empty field names.
                 if (!field.name) return memo;
                 var fields = field.name.split('-');
@@ -786,8 +786,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
     };
     Editor.prototype.addFilter = function(ev) {
         var id = ev.currentTarget.attributes.getNamedItem('layer').value;
-
-        var attr = _($('.vtfx-' + id).serializeArray()).reduce(function(memo, field) {
+        var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
             // @TODO determine what causes empty field names.
             if (!field.name) return memo;
             var fields = field.name.split('-');

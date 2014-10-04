@@ -1,0 +1,14 @@
+{
+    "test": {
+        "name": "test",
+        "display": "Test",
+        "description": "Test the vtfx filter ui",
+        "options": [
+            {
+                "field": "limit",
+                "type": "number"
+            }
+        ],
+        "chainable": false
+    }
+}
