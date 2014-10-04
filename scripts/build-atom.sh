@@ -129,7 +129,8 @@ if [ $platform == "win32" ]; then
     winsign $build_dir/atom.exe $WINCERT_PASSWORD
     rm $build_dir/atom.exe.bak
 
-    curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
+    # curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
+    curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_x86.exe
     makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
