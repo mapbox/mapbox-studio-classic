@@ -305,7 +305,7 @@ tape('#raster and nonraster mix error', function(t) {
     }
 });
 
-tape('vtfx data is saved to data.yml', function(t){
+tape('vtfx data is saved to model', function(t){
     var id = source.Layer[0].id;
     $('.vtfx-'+ id + ' input.vtfx').attr('value', 10);
     $('.vtfx-'+ id + ' .js-addfilter').click();
