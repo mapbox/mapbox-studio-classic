@@ -270,6 +270,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         };
         $('#editor').prepend(templates['layer' + type](layer));
         $('#layers .js-layer-content').prepend(templates.layeritem(layer));
+        $('.layer-content ~ .empty-state').removeClass('visible');
         layers[id] = Layer(id, layer.Datasource);
         orderLayers();
         Modal.close();
@@ -333,6 +334,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
+            $('.layer-content ~ .empty-state').removeClass('visible');
 
             //Add new layer to the project's layers array
             layers[layer.id] = Layer(layer.id, layer.Datasource);
@@ -360,7 +362,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
         });
-        $('.layer-content ~ .empty-state').removeClass('visible');
+
     };
     Editor.prototype.deletelayer = function(ev) {
         var view = this;
