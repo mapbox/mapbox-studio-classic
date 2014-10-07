@@ -237,7 +237,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
+                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [metadata.filename], filepath, metadata);
                 else window.editor.addlayer(extension, metadata.layers, filepath, metadata);
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -350,7 +350,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             if (layersArray.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                $('#layers-' + layersArray[0].id).addClass('target');
+                $('#layers-' + layersArray[0]).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
 
