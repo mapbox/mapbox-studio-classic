@@ -66,6 +66,7 @@
         CodeMirror.on(inp, 'keydown', function(e) {
             if (e.keyCode === 13 || (e.keyCode === 71 && e.metaKey) || (e.keyCode === 70 && e.metaKey)) {
                 search();
+                e.preventDefault();
             }
         });
 
@@ -78,8 +79,12 @@
         });
 
         inp.focus();
-
-        return close;
+        return {
+            close: close,
+            search: search,
+            fail: fail,
+            searchReset: searchReset
+        }
     });
 
     function searchOverlay(query, caseInsensitive) {

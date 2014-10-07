@@ -200,6 +200,33 @@ tape('stylesheet error ', function(t) {
     })
 });
 
+tape('stylesheet search ', function(t) {
+    t.ok(!$('.CodeMirror-dialog.active').length, ' is not active initially' );
+    window.code["style.mss"].execCommand('find');
+    t.ok($('.CodeMirror-dialog.active').length, ' is active after command' );
+
+    t.ok(!$('.cm-searching').length, ' shows no results before initiated');
+
+    window.code["style.mss"].openDialog().close();
+    t.ok(!$('.CodeMirror-dialog.active').length, ' is closed after clicking close button' );
+
+    t.end();
+});
+
+tape('stylesheet color ', function(t) {
+    window.code["style.mss"].setValue('Map { background-color: #333; }#water { polygon-fill: #2200ff;}');
+    t.equal($('.cm-palette-hint').length, 2, ' swatches are visible' );
+    t.ok($('.sp-container').length, ' palettes exist' );
+
+    $('.cm-palette-hint').eq(0).click();
+    t.equal($('.sp-container:not(.sp-hidden)').length, 1, ' picker appears on click');
+
+    $(' .sp-container:not(.sp-hidden) .sp-cancel').click();
+    t.equal($('.sp-container:not(.sp-hidden)').length, 0, ' picker disappears when cancelled');
+
+    t.end();
+});
+
 tape('.js-history removes history style', function(t) {
     var count = $('#history-style .history-project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
@@ -713,4 +740,3 @@ function testTmp() {
         t.end();
     });
 }
-
