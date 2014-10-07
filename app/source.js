@@ -237,8 +237,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [{'id':metadata.filename}], filepath, metadata);
-                else window.editor.addlayer(extension, metadata.json.vector_layers, filepath, metadata);
+                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [metadata.filename], filepath, metadata);
+                else window.editor.addlayer(extension, metadata.layers, filepath, metadata);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
@@ -295,26 +295,24 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
 
         layersArray.forEach(function(current_layer, index, array) {
-            //mapnik-omnivore replaces spaces with underscores for metadata.json.vector_layers[n].id
-            //so this is just reversing that process in order to properly render the mapnikXML for Mapbox Studio
-            //This only applies to files that have gone through mapnik-omnivore
-            var layername = (metadata && filetype !== 'gpx') ? (current_layer.id).split('_').join(' ') : current_layer.id;
+            //Replace spaces with underscores for cartocss
+            var layer_id = current_layer.replace(/[^\w+-]/gi, '_');
 
             //all geojson sources have the same layer name, 'OGRGeojson'.
             //To avoid all geojson layers having the same name, replace id with the filename.
-            if (filetype === 'geojson') current_layer.id = metadata.filename;
+            if (filetype === 'geojson') layer_id = metadata.filename;
 
             //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
             //Append filename to differentiate
-            if (filetype === 'gpx') current_layer.id = metadata.filename + '_' + current_layer.id;
+            if (filetype === 'gpx') layer_id = metadata.filename + '_' + current_layer;
 
             //checks that the layer doesn't already exist
-            if (layers[current_layer.id]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer.id + '"');
+            if (layers[current_layer]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer + '"');
 
             //Setup layer object
             var layer = {
                 tm: tm,
-                id: current_layer.id.replace(/[^\w+-]/gi, '_'),
+                id: layer_id,
                 srs: metadata.projection,
                 properties: {
                     'buffer-size': 8
@@ -322,7 +320,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
                 Datasource: {
                     type: metadata.dstype,
                     file: filepath,
-                    layer: layername
+                    layer: current_layer
                 }
             };
 
@@ -352,7 +350,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
             if (layersArray.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                $('#layers-' + layersArray[0].id).addClass('target');
+                $('#layers-' + layersArray[0]).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
 
