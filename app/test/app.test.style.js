@@ -205,27 +205,25 @@ tape('stylesheet search ', function(t) {
     window.code["style.mss"].execCommand('find');
     t.ok($('.CodeMirror-dialog.active').length, ' is active after command' );
 
-    $('.search-input').val('background');
     t.ok(!$('.cm-searching').length, ' shows no results before initiated');
 
-    $('.js-cm-search-button').click();
-    t.equal($('.cm-searching').length,1, ' shows correct number of results');
-
-    $('.search-input').val('backgroundz');
-    $('.js-cm-search-button').click();
-    t.equal($('.js-search-buttons.reset').length,1,' shows fail state if no results');
-
-    $('.js-cm-reset-button').click();
-    t.equal($('.search-input').val(),'',' value is cleared on reset');
-    t.ok(!$('.cm-searching'),' search tokens are cleared on reset');
-
-    $('.js-cm-dialog-close').click();
+    window.code["style.mss"].openDialog().close();
     t.ok(!$('.CodeMirror-dialog.active').length, ' is closed after clicking close button' );
 
     t.end();
 });
 
-tape('stylesheet color picker ', function(t) {
+tape('stylesheet color ', function(t) {
+    window.code["style.mss"].setValue('Map { background-color: #333; }#water { polygon-fill: #2200ff;}');
+    t.equal($('.cm-palette-hint').length, 2, ' swatches are visible' );
+    t.ok($('.sp-container').length, ' palettes exist' );
+
+    $('.cm-palette-hint').eq(0).click();
+    t.equal($('.sp-container:not(.sp-hidden)').length, 1, ' picker appears on click');
+
+    $(' .sp-container:not(.sp-hidden) .sp-cancel').click();
+    t.equal($('.sp-container:not(.sp-hidden)').length, 0, ' picker disappears when cancelled');
+
     t.end();
 });
 
