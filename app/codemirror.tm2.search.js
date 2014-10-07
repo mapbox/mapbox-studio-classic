@@ -31,6 +31,7 @@
             dialog.classList.remove('active');
             clearSearch(me);
             inp.blur();
+            me.focus();
         }
 
         function fail() {
