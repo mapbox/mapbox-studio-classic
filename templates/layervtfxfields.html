@@ -4,14 +4,16 @@
             <label class='micro col2 inline pad0y'><%= field.field %></label>
             <% if (field.options){ %>
                 <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= field.field %>'>
-                <% _(field.options).each(function(value, key) { %>
-                    <option value='<%= key %>'><%= value %></option>
-                <% }); %>
+                <% _(field.options).each(function(option, i) {
+                    for (var key in option){ %>
+                        <option value='<%= key %>'><%= option[key] %></option>
+                    <% }
+               }); %>
                </select>
             <% } else if (field.field === 'field') { %>
                 <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= field.field %>'>
                 <% _(obj.fields).each(function(value, key) { %>
-                    <option value='<%= key %>'><%= key %></option>
+                    <option value='<% key %>'><%= key %></option>
                 <% }); %>
                 </select>
             <% } else { %>
