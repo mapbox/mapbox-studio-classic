@@ -98,6 +98,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   return memo;
 }, {});
 delete code._first;
+window.code = code;
 
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
@@ -134,7 +135,7 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
-  'click .js-placetag': 'tagPlacesSearch',
+  'click .js-placetag': 'tagPlaces',
   'click .js-lockCenter': 'lockCenter'
 };
 
@@ -188,12 +189,20 @@ Editor.prototype.removeBookmark = function(ev) {
   return false;
 };
 
-Editor.prototype.renderPlaces = function(filter) {
+Editor.prototype.renderPlaces = function(filter, search) {
   var view = this;
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
+
   // Filter list
   var filtered = _.filter(list, function(d) {
-    return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+    if (search) {
+      return d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+    } else {
+      return _.find(d.tags, function(tag) {
+        if (tag === filter) return true;
+      });
+    }
+
   });
 
   if (filtered.length === 0) {
@@ -202,8 +211,6 @@ Editor.prototype.renderPlaces = function(filter) {
   }
 
   // Print template
-
-
   $('#placeslist').html(_.map(filtered, function(d, i) {
     d.index = i;
     return _.template(placeentry, d);
@@ -216,7 +223,17 @@ Editor.prototype.renderPlaces = function(filter) {
     var lat = $this.attr('lat');
     var lng = $this.attr('lng');
     var zoom = $this.attr('zoom');
-    buildMap(id, lat, lng, zoom, view);
+
+    // check if entry is within range of current map
+    var maxzoom = window.editor.map.getMaxZoom();
+    var minzoom = window.editor.map.getMinZoom();
+
+    if ($this.attr('zoom') > maxzoom || $this.attr('zoom') < minzoom) {
+      $this.attr('class','small quiet fill-disable pin-left col12 center strong pad4y').text('Outside of map zoom range.');
+    } else {
+      buildMap(id, lat, lng, zoom, view);
+    }
+
   });
 
   function buildMap(container, lat, lng, zoom, view) {
@@ -237,11 +254,9 @@ Editor.prototype.renderPlaces = function(filter) {
 };
 
 Editor.prototype.places = function(ev) {
-  var isToolbarButton = (ev !== undefined) ? $(ev.currentTarget).hasClass('js-toolbar-places') : false;
   var container = $('.js-places-toggle');
   var filter = $('input:checked',container).attr('value').toLowerCase();
-  if (isToolbarButton && filter !== 'userbookmark' && $('.js-places-list').children().size() > 0) return;
-  window.editor.renderPlaces(filter);
+  window.editor.renderPlaces(filter, true);
 };
 
 Editor.prototype.showPlacesSearch = function(ev) {
@@ -256,20 +271,17 @@ Editor.prototype.hidePlacesSearch = function(ev) {
   return false;
 };
 
-Editor.prototype.placesSearch = function(ev) {
-  var filter = $('#places-dosearch').val().toLowerCase();
+Editor.prototype.tagPlaces = function(ev) {
+  var filter = $(ev.currentTarget).attr('tag').toLowerCase();
   window.editor.renderPlaces(filter);
+  // clear filter
+  $('.js-places-toggle input').prop('checked', false);
   return false;
 };
 
-// New search based on clicked tag
-Editor.prototype.tagPlacesSearch = function(ev) {
-  var filter = $(ev.currentTarget).attr("tag").toLowerCase();
-  window.editor.renderPlaces(filter);
-
-  // clear filter
-  $('.js-places-toggle input').prop( "checked", false );
-
+Editor.prototype.placesSearch = function(ev) {
+  var filter = $('#places-dosearch').val().toLowerCase();
+  window.editor.renderPlaces(filter, true);
   return false;
 };
 
@@ -574,6 +586,7 @@ Editor.prototype.error = function(model, resp) {
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
 
+
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
     .compact()
@@ -584,23 +597,26 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
+        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e, id));
       } else {
         return Modal.show('error', e);
       }
     }).bind(this));
 };
 
-Editor.prototype.cartoError = function(ln, e) {
+Editor.prototype.cartoError = function(ln, e, id) {
     var error = document.createElement('div');
     error.className = 'error';
 
-    if (!$('.js-error-alert').length) {
-      var alert = document.createElement('div');
-      alert.className = 'z100 truncate code small js-error-alert error-alert pin-bottom col12 pad0 fill-yellow';
-      alert.innerHTML = '<strong>Unable to save.</strong> Fix Carto errors and try again.';
-      document.getElementById('style-ui').appendChild(alert);
-    }
+      var alert = document.createElement('a');
+      alert.href = '#';
+      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-yellow';
+      alert.innerHTML = 'Error: Line ' + (ln+1) + '</span>';
+
+      // don't stack alerts on the same tab
+      if (!$('a[rel="' + id + '"] .js-error-alert').length) {
+        $('a[rel="' + id + '"]').append(alert);
+      }
 
     var link = document.createElement('a');
     link.id = 'error-' + ln;
@@ -754,7 +770,7 @@ Editor.prototype.refresh = function(ev) {
     } else {
       var filter = $('#places-dosearch').val().toLowerCase();
     }
-    window.editor.renderPlaces(filter);
+    window.editor.renderPlaces(filter, true);
   }
 
   // Refresh map title.tm.db.rm('user');
@@ -801,7 +817,7 @@ window.onhashchange = function(ev) {
   case 'places':
     if ($('input','.js-places-toggle').is(':checked')) {
       var filter = $('.js-places-toggle input:checked').attr('value').toLowerCase();
-      window.editor.renderPlaces(filter);
+      window.editor.renderPlaces(filter, true);
     }
     break;
   case !'export':
