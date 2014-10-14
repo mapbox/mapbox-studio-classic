@@ -402,7 +402,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
                 },
                 filters: filters,
                 layer: current_layer
-                }
             };
 
             if (metadata.dstype === 'gdal') {
