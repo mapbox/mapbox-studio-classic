@@ -13,7 +13,7 @@
             <% } else if (field.field === 'field') { %>
                 <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= field.field %>'>
                 <% _(obj.fields).each(function(value, key) { %>
-                    <option value='<% key %>'><%= key %></option>
+                    <option value='<%= key %>'><%= key %></option>
                 <% }); %>
                 </select>
             <% } else { %>
