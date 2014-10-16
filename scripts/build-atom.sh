@@ -20,6 +20,11 @@ else
     platform=$2
 fi
 
+atom_arch=$arch
+if [ "$platform" == "win32" ]; then
+    atom_arch="ia32"
+fi
+
 set -e -u
 set -o pipefail
 
@@ -31,13 +36,13 @@ if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
 
 build_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha"
-shell_url="https://github.com/atom/atom-shell/releases/download/v$atom_version/atom-shell-v$atom_version-$platform-$arch.zip"
-shell_file="/tmp/atom-shell-v$atom_version-$platform-$arch.zip"
+shell_url="https://github.com/atom/atom-shell/releases/download/v$atom_version/atom-shell-v$atom_version-$platform-$atom_arch.zip"
+shell_file="/tmp/atom-shell-v$atom_version-$platform-$atom_arch.zip"
 
 if [ "$platform" == "darwin" ]; then
-    app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/Atom.app/Contents/Resources/app"
+    app_dir="/tmp/mapbox-studio-$platform-$atom_arch-$gitsha/Atom.app/Contents/Resources/app"
 else
-    app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/resources/app"
+    app_dir="/tmp/mapbox-studio-$platform-$atom_arch-$gitsha/resources/app"
 fi
 
 echo "Building bundle in $build_dir"
