@@ -138,8 +138,10 @@ if [ $platform == "win32" ]; then
 
     # curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
     echo "downloading c++ lib "
-    curl -Lsfo $build_dir/resources/app/vendor/vcredist_x64.exe https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_x64.exe
+    curl -Lfo $build_dir/resources/app/vendor/vcredist_x64.exe https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_x64.exe
+    echo "running makensis"
     makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
+    echo "cleaning up after makensis"
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
 
