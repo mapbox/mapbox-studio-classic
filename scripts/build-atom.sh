@@ -40,9 +40,9 @@ shell_url="https://github.com/atom/atom-shell/releases/download/v$atom_version/a
 shell_file="/tmp/atom-shell-v$atom_version-$platform-$atom_arch.zip"
 
 if [ "$platform" == "darwin" ]; then
-    app_dir="/tmp/mapbox-studio-$platform-$atom_arch-$gitsha/Atom.app/Contents/Resources/app"
+    app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/Atom.app/Contents/Resources/app"
 else
-    app_dir="/tmp/mapbox-studio-$platform-$atom_arch-$gitsha/resources/app"
+    app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/resources/app"
 fi
 
 echo "Building bundle in $build_dir"
