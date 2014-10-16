@@ -181,6 +181,9 @@ elif [ $platform == "darwin" ]; then
     rm signing-key.cer
     rm signing-key.p12
 
+    # update time to try to avoid occaisonal codesign error of "timestamps differ by N seconds - check your system clock"
+    sudo ntpdate -u time.apple.com
+
     # Sign .app file.
     codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
 
