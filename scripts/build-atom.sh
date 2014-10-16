@@ -47,15 +47,18 @@ if [ -d $build_dir ]; then
     exit 1
 fi
 
+echo "Downloading atom $shell_url"
 curl -Lsfo $shell_file $shell_url
 unzip -qq $shell_file -d $build_dir
 rm $shell_file
 
+echo "downloading studio"
 git clone https://github.com/mapbox/mapbox-studio.git $app_dir
 cd $app_dir
 git checkout $gitsha
 rm -rf $app_dir/.git
 
+echo "updating license"
 # Update LICENSE and version files from atom default.
 ver=$(node -e "var fs = require('fs'); console.log(JSON.parse(fs.readFileSync('$app_dir/package.json')).version);")
 echo $ver > $build_dir/version
@@ -63,6 +66,7 @@ cp $app_dir/LICENSE.md $build_dir/LICENSE
 mv $build_dir/version $build_dir/version.txt
 mv $build_dir/LICENSE $build_dir/LICENSE.txt
 
+echo "running npm install"
 BUILD_PLATFORM=$platform npm install --production
 
 # Remove extra deps dirs to save space
@@ -81,6 +85,7 @@ node_modules/mapnik-omnivore/node_modules/gdal"
 for module in $modules; do
     rm -r $app_dir/$module/lib/binding
     cd $app_dir/$module
+    echo "resbuilding $app_dir for $platform $node_version $arch"
     $app_dir/node_modules/.bin/node-pre-gyp install \
         --target_platform=$platform \
         --target=$node_version \
@@ -122,22 +127,26 @@ if [ $platform == "win32" ]; then
     }
 
     # sign atom.exe to avoid false positives with antivirus software
+    echo "running windows signing on atom.exe"
     winsign $build_dir/atom.exe $WINCERT_PASSWORD
     rm $build_dir/atom.exe.bak
 
     # curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
-    curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_x86.exe
+    echo "downloading c++ lib "
+    curl -Lsfo $build_dir/resources/app/vendor/vcredist_x64.exe https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_x64.exe
     makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
 
     # sign installer
+    echo "running windows signing on installer"
     winsign $build_dir.exe $WINCERT_PASSWORD
 
     # remove cert
     rm -f authenticode.pvk
     rm -f authenticode.spc
 
+    echo "uploading $build_dir.exe"
     aws s3 cp --acl=public-read $build_dir.exe s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.exe)"
     rm -f $build_dir.exe
