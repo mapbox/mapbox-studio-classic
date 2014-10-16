@@ -20,10 +20,6 @@ else
     platform=$2
 fi
 
-if [ "$platform" == "win32" ]; then
-    arch="ia32"
-fi
-
 set -e -u
 set -o pipefail
 

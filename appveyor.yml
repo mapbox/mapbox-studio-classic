@@ -10,7 +10,7 @@ environment:
 shallow_clone: true
 
 platform:
-  - x86
+  - x64
 
 install:
   - node --version
