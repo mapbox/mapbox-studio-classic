@@ -10,10 +10,12 @@ environment:
 shallow_clone: true
 
 platform:
+  - x86
   - x64
 
 install:
   - node --version
+  - echo %platform%
   - node -e "console.log(process.arch)"
   - node -e "console.log(process.env.HOME)"
   - node -e "console.log(!!process.env.AWS_ACCESS_KEY_ID)"
