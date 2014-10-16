@@ -79,7 +79,7 @@ Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
   File /r ..\..\..\*.*
-  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x86.exe /q /norestart"
+  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x64.exe /q /norestart"
 SectionEnd
 
 ; Add firewall rule
