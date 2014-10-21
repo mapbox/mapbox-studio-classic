@@ -21,7 +21,7 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
-                      '<a href="#" index="<%= index %>" class="js-del-bookmark fill-darken1 icon quiet trash pin-topright pad1"></a>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
                       '<% } %>' +
                     '</div>'
                   '</div>';
