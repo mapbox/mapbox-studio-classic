@@ -73,11 +73,6 @@
 .places-entry-container .entry-actions { opacity: 0;}
 .places-entry-container:hover .entry-actions { opacity: 1; }
 
-.place-label,
-.place-label:hover {
-  color: rgba(0,0,0,.75);
-}
-
 .entry-placetag {
   /* Truncate full-width tags */
   max-width: 100%;
