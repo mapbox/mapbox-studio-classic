@@ -10,14 +10,14 @@ var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry fill-canvas places-entry pin-left col12"></div>' +
-                    '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
+                    '<div class="z10 entry-actions pin-bottom pin-top fill-darken2">' +
                       '<a href="#" class="block pin-bottom pin-top js-place-jump">' +
                         '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
                       '</a>' +
                       '<% if (tags.indexOf("userbookmark")) { %>' +
                       '<div class="pin-top z10 pad1">' +
                         '<% _.each(tags, function(currenttag) { %>' +
-                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
+                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-lighten0 round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
@@ -764,11 +764,11 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#places') {
     // if search is active, use search value,
     // otherwise use toggle value
-    if ($('.js-places-container').hasClass('hidden') && $('input','.js-places-toggle').is(':checked')) {
+    if ($('.js-places-container').hasClass('active')) {
+      var filter = $('#places-dosearch').val().toLowerCase();
+    } else {
       var container = $('.js-places-toggle');
       var filter = $('input:checked',container).attr('value').toLowerCase();
-    } else {
-      var filter = $('#places-dosearch').val().toLowerCase();
     }
     window.editor.renderPlaces(filter, true);
   }
