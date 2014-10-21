@@ -164,8 +164,6 @@ Editor.prototype.addBookmark = function(ev) {
       ]
     };
     bookmarks.push(bookmark);
-
-    // tell user the bookmark has been added
     button.text('Added!').removeClass('spinner');
     view.changed();
     setTimeout(function() {

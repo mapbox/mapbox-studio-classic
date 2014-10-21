@@ -3,6 +3,11 @@ Changelog
 
 ### 0.1.5
 
+- Style UI: Fix bugs in places UI.
+- Source UI: Clarify "create style" action.
+
+### 0.1.5
+
 - Fix bugs in atom-shell integration.
 
 ### 0.1.4

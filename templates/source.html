@@ -44,7 +44,11 @@
     </div>
     <div class='pin-left top1 scroll-styled'>
       <fieldset class='clearfix pad1x pad2y keyline-bottom contain'>
-        <div class='z10 pin-top pin-bottom col12 pad1x fill-disable on-tmp on-changed'></div>
+        <div class='z10 pin-top pin-bottom col12 pad1x fill-disable on-tmp on-changed'>
+        </div>
+        <div class='on-tmp on-changed z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
+          <strong class='icon floppy'>Save source</strong> to enable upload
+        </div>
         <section class='space-bottom1'>
           <div id='mapstatus-mapid' class='pad0y pad1x center truncate round-top space small animate fill-darken1'>
             <strong>Map ID</strong>
@@ -53,7 +57,10 @@
           <a href='/upload?id=<%= source.id %>' class='col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
         <section class='small center'>
-          <a href='/mbtiles?id=<%= source.id %>' class='icon package'>or export to MBTiles</a>
+          <a href='#' class='js-sourcenewstyle inline pad0 small col12 icon paint'>Create style from source</a>
+        </section>
+        <section class='small center'>
+          <a href='/mbtiles?id=<%= source.id %>' class='icon package'>Export to MBTiles</a>
         </section>
       </fieldset>
       <fieldset class='pad1x'>
@@ -141,14 +148,8 @@
 %>
 <div id='source-ui' class='z1 animate fill-dark dark col6 pin-right'>
   <div id='layers'>
-    <div class='fill-darken1 clearfix'>
-      <div class='col6 pad1'>
-        <a href='#' class='js-addlayer short button col12 icon plus'>New layer</a>
-      </div>
-      <div class='col6 pad1 text-right contain'>
-        <div class='z10 pin-top pin-bottom inline fill-disable on-tmp on-changed'></div>
-        <a href='#' class='js-sourcenewstyle quiet inline pad0 small col12 rcon next'>Create style from this source</a>
-      </div>
+    <div class='fill-darken1 pad1 clearfix'>
+      <a href='#' class='js-addlayer short button col6 icon plus'>New layer</a>
     </div>
     <nav class='clip row1 col12 keyline-top keyline-bottom fill-dark contain z1'>
       <strong class='col6 pad1'>Layers</strong>
