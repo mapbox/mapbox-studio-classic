@@ -561,6 +561,8 @@ Editor.prototype.save = function(ev, options, refresh) {
     attr.center[2] = Math.min(Math.max(attr.center[2],attr.minzoom),attr.maxzoom);
   }
 
+  attr._bookmarks = bookmarks;
+
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
