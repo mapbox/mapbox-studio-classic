@@ -21,8 +21,8 @@ test('setup: mockserver', function(t) {
         account: 'test',
         accesstoken: 'testaccesstoken'
     });
-    tm._config.mapboxauth = 'http://localhost:3001',
-    tm._config.mapboxtile = 'http://localhost:3001/v4';
+    tm._config.MapboxAuth = 'http://localhost:3001',
+    tm._config.MapboxTile = 'http://localhost:3001/v4';
     server = mockOauth.listen(3001, t.end);
 });
 

@@ -35,8 +35,8 @@ tm.config({
     cache: path.join(tmp, 'cache'),
     cwd: testPath,
     port: 3001,
-    mapboxauth: 'http://localhost:3001',
-    mapboxtile: 'http://localhost:3001/v4'
+    MapboxAuth: 'http://localhost:3001',
+    MapboxTile: 'http://localhost:3001/v4'
 }, listen);
 
 // Test params
