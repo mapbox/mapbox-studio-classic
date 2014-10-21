@@ -167,6 +167,7 @@ Editor.prototype.addBookmark = function(ev) {
 
     // tell user the bookmark has been added
     button.text('Added!').removeClass('spinner');
+    view.changed();
     setTimeout(function() {
       button.text('Add');
     }, 1000);
@@ -186,6 +187,7 @@ Editor.prototype.removeBookmark = function(ev) {
 
   bookmarks = removed;
   window.editor.renderPlaces('userbookmark');
+  view.changed();
   return false;
 };
 
