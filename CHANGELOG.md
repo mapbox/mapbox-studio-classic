@@ -3,7 +3,7 @@ Changelog
 
 ### 0.1.6
 
-- Update to Mapnik 3.0.5.
+- Update to node-mapnik 3.0.5.
 - Style UI: Fix bugs in places UI.
 - Source UI: Clarify "create style" action.
 - Windows: run Mapbox Studio as a 64-bit application.
