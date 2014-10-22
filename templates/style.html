@@ -44,7 +44,7 @@
 <a id='fonts'></a>
 <a id='docs'></a>
 <a id='places'></a>
-
+<a id='config'></a>
 <a id='user'></a>
 
 <a id='home'></a>
@@ -277,12 +277,20 @@
   </div>
 
   <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <div class='pin-top pad1 keyline-bottom'>
       <h3>Projects</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <%= this.history(obj) %>
   </div>
+
+  <form id='config-drawer' class='drawer col12 animate offcanvas-left'>
+    <div class='pin-top pad1 keyline-bottom'>
+      <h3>Configure</h3>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
+    </div>
+    <%= this.config(obj) %>
+  </form>
 
   <div class='drawer col12 animate offcanvas-left'>
 
@@ -476,9 +484,15 @@
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
   <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
 
-  <div class='user-icon pad1 pin-bottom'>
-    <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
-    <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+  <div class='pin-bottom'>
+    <div class='pad1 user-icon'>
+      <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+      <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
+    </div>
+    <div class='pad1x'>
+      <a class='config-button quiet config-n' href='#config'>Configure</a>
+      <a class='config-button quiet config-y active fill-lighten1' href='#'>Configure</a>
+    </div>
   </div>
 </div>
 
@@ -574,6 +588,7 @@ templates.modalsources = <%= this.modalsources.source %>;
 templates.modalerror = <%= this.modalerror.source %>;
 templates.modalupgrade = <%= this.modalupgrade.source %>;
 templates.modalnewproject = <%= this.modalnewproject.source %>;
+templates.config = <%= this.config.source %>;
 templates.newproject = <%= this.newproject.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;

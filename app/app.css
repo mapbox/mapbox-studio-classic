@@ -218,8 +218,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #user:target ~ #drawers,
 #settings:target ~ #drawers,
+#config:target ~ #drawers,
 #user:target ~ #drawers #user-drawer,
-#settings:target ~ #drawers #settings-drawer {
+#settings:target ~ #drawers #settings-drawer,
+#config:target ~ #drawers #config-drawer {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -228,7 +230,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 }
 
 #user:target ~ #drawers #user-drawer ~ .drawer,
-#settings:target ~ #drawers #settings-drawer ~ .drawer {
+#settings:target ~ #drawers #settings-drawer ~ .drawer,
+#config:target ~ #drawers #config-drawer ~ .drawer  {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -237,8 +240,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #user:target ~ #drawers > *,
 #settings:target ~ #drawers > *,
+#config:target ~ #drawers > *,
 #user:target ~ #drawers #user-drawer > *,
-#settings:target ~ #drawers #settings-drawer > * { display:block; }
+#settings:target ~ #drawers #settings-drawer > *,
+#config:target ~ #drawers #config-drawer > *  { display:block; }
 
 /* Project state
 ------------------------------------------------------- */
@@ -798,6 +803,7 @@ a.user-y,
 a.search-y,
 a.settings-y,
 a.print-y,
+a.config-y,
 a.data-y { display:none; }
 
 .xray-toggle a.xray-n,
@@ -810,6 +816,7 @@ a.data-y { display:none; }
 #data:target      ~ * a.data-y,
 #bookmark:target  ~ * a.bookmark-y,
 #search:target    ~ * a.search-y,
+#config:target    ~ * a.config-y,
 #full:target      a.full-y { display:inline-block; }
 
 #user:target      ~ * a.user-n,
@@ -820,6 +827,7 @@ a.data-y { display:none; }
 #data:target      ~ * a.data-n,
 #bookmark:target  ~ * a.bookmark-n,
 #search:target    ~ * a.search-n,
+#config:target    ~ * a.config-n,
 #full:target      a.full-n { display:none; }
 
 /* Miscellaneous

@@ -112,6 +112,7 @@ Editor.prototype.events = {
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
   'submit #settings-drawer': 'save',
+  'submit #config-drawer': 'configChanged',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'click .js-adddata': 'adddata',
@@ -663,6 +664,25 @@ Editor.prototype.demo = function(ev) {
 Editor.prototype.lockCenter = function(ev) {
   $(ev.currentTarget).toggleClass('active');
   this.changed();
+  return false;
+};
+
+Editor.prototype.configChanged = function(ev) {
+  var attr = '';
+  // Grab config form values.
+  $('#config-drawer').serializeArray().reduce(function(memo, field) {
+      if (attr === '') attr = '?' + field.name + '=' + field.value;
+      else attr += '&' + field.name + '=' + field.value;
+      return attr;
+  }, attr);
+  console.log(attr)
+  $.ajax({
+    url: '/config' + attr,
+    method: 'GET'
+  })
+  .done(function() {})
+  .error(function() { });
+  this.refresh()
   return false;
 };
 
