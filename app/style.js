@@ -10,18 +10,18 @@ var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry fill-canvas places-entry pin-left col12"></div>' +
-                    '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
+                    '<div class="z10 entry-actions pin-bottom pin-top fill-darken2">' +
                       '<a href="#" class="block pin-bottom pin-top js-place-jump">' +
                         '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
                       '</a>' +
                       '<% if (tags.indexOf("userbookmark")) { %>' +
                       '<div class="pin-top z10 pad1">' +
                         '<% _.each(tags, function(currenttag) { %>' +
-                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
+                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-lighten0 round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
-                      '<a href="#" index="<%= index %>" class="js-del-bookmark fill-darken1 icon quiet trash pin-topright pad1"></a>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
                       '<% } %>' +
                     '</div>'
                   '</div>';
@@ -98,6 +98,7 @@ var code = _(style.styles).reduce(function(memo, value, k) {
   return memo;
 }, {});
 delete code._first;
+window.code = code;
 
 var Style = Backbone.Model.extend({});
 Style.prototype.url = function() { return '/style.json?id=' + this.get('id'); };
@@ -123,7 +124,8 @@ Editor.prototype.events = {
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'click .js-adddata': 'adddata',
-  'submit #applydata': 'applydata',
+  'submit .js-remotedata': 'applydata',
+  'submit .js-localdata': 'applydata',
   'click #tabs .js-deltab': 'deltab',
   'click .js-ref-delete': 'delstyle',
   'click .js-modalsources': 'modalsources',
@@ -133,7 +135,7 @@ Editor.prototype.events = {
   'keydown': 'keys',
   'click .js-add-bookmark': 'addBookmark',
   'click .js-del-bookmark': 'removeBookmark',
-  'click .js-placetag': 'tagPlacesSearch',
+  'click .js-placetag': 'tagPlaces',
   'click .js-lockCenter': 'lockCenter'
 };
 
@@ -162,9 +164,8 @@ Editor.prototype.addBookmark = function(ev) {
       ]
     };
     bookmarks.push(bookmark);
-
-    // tell user the bookmark has been added
     button.text('Added!').removeClass('spinner');
+    view.changed();
     setTimeout(function() {
       button.text('Add');
     }, 1000);
@@ -184,15 +185,24 @@ Editor.prototype.removeBookmark = function(ev) {
 
   bookmarks = removed;
   window.editor.renderPlaces('userbookmark');
+  view.changed();
   return false;
 };
 
-Editor.prototype.renderPlaces = function(filter) {
+Editor.prototype.renderPlaces = function(filter, search) {
   var view = this;
   var list = (filter === 'userbookmark') ? bookmarks : gazetteer;
+
   // Filter list
   var filtered = _.filter(list, function(d) {
-    return d.place_name.toLowerCase().indexOf(filter) !== -1 || d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+    if (search) {
+      return d.tags.toString().toLowerCase().indexOf(filter) !== -1;
+    } else {
+      return _.find(d.tags, function(tag) {
+        if (tag === filter) return true;
+      });
+    }
+
   });
 
   if (filtered.length === 0) {
@@ -201,8 +211,6 @@ Editor.prototype.renderPlaces = function(filter) {
   }
 
   // Print template
-
-
   $('#placeslist').html(_.map(filtered, function(d, i) {
     d.index = i;
     return _.template(placeentry, d);
@@ -215,7 +223,17 @@ Editor.prototype.renderPlaces = function(filter) {
     var lat = $this.attr('lat');
     var lng = $this.attr('lng');
     var zoom = $this.attr('zoom');
-    buildMap(id, lat, lng, zoom, view);
+
+    // check if entry is within range of current map
+    var maxzoom = window.editor.map.getMaxZoom();
+    var minzoom = window.editor.map.getMinZoom();
+
+    if ($this.attr('zoom') > maxzoom || $this.attr('zoom') < minzoom) {
+      $this.attr('class','small quiet fill-disable pin-left col12 center strong pad4y').text('Outside of map zoom range.');
+    } else {
+      buildMap(id, lat, lng, zoom, view);
+    }
+
   });
 
   function buildMap(container, lat, lng, zoom, view) {
@@ -236,11 +254,9 @@ Editor.prototype.renderPlaces = function(filter) {
 };
 
 Editor.prototype.places = function(ev) {
-  var isToolbarButton = (ev !== undefined) ? $(ev.currentTarget).hasClass('js-toolbar-places') : false;
   var container = $('.js-places-toggle');
   var filter = $('input:checked',container).attr('value').toLowerCase();
-  if (isToolbarButton && filter !== 'userbookmark' && $('.js-places-list').children().size() > 0) return;
-  window.editor.renderPlaces(filter);
+  window.editor.renderPlaces(filter, true);
 };
 
 Editor.prototype.showPlacesSearch = function(ev) {
@@ -255,20 +271,17 @@ Editor.prototype.hidePlacesSearch = function(ev) {
   return false;
 };
 
-Editor.prototype.placesSearch = function(ev) {
-  var filter = $('#places-dosearch').val().toLowerCase();
+Editor.prototype.tagPlaces = function(ev) {
+  var filter = $(ev.currentTarget).attr('tag').toLowerCase();
   window.editor.renderPlaces(filter);
+  // clear filter
+  $('.js-places-toggle input').prop('checked', false);
   return false;
 };
 
-// New search based on clicked tag
-Editor.prototype.tagPlacesSearch = function(ev) {
-  var filter = $(ev.currentTarget).attr("tag").toLowerCase();
-  window.editor.renderPlaces(filter);
-
-  // clear filter
-  $('.js-places-toggle input').prop( "checked", false );
-
+Editor.prototype.placesSearch = function(ev) {
+  var filter = $('#places-dosearch').val().toLowerCase();
+  window.editor.renderPlaces(filter, true);
   return false;
 };
 
@@ -420,12 +433,14 @@ Editor.prototype.modalsources = function(ev) {
 Editor.prototype.adddata = function(ev) {
   var target = $(ev.currentTarget);
   var id = target.attr('href').split('?id=').pop().replace('mapbox:///','');
-  $('#applydata input[type=text]').val(id).focus();
+  var input = target.parents('.js-sources-list').find('input[type=text]');
+  $(input).val(id).focus();
   return false;
 };
 Editor.prototype.applydata = function(ev) {
   var view = this;
-  var attr = _($('#applydata').serializeArray()).reduce(function(memo, field) {
+  var form = $(ev.currentTarget)
+  var attr = _(form.serializeArray()).reduce(function(memo, field) {
     memo[field.name] = field.value;
     return memo;
   }, {});
@@ -458,7 +473,7 @@ Editor.prototype.addtab = function(ev) {
   var field = $('.js-addtab-filename');
   var filename = field.val().replace(/.mss/,'') + '.mss';
   if (!code[filename]) {
-    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='keyline-right strong quiet tab js-tab pad1y pad0x truncate'>"+filename.replace(/.mss/,'')+" <span class='icon trash js-deltab pin-topright pad0'></span></a><!--");
+    $('.carto-tabs').append("<a rel='"+filename+"' href='#code-"+filename.replace(/[^\w+]/g,'_')+"' class='keyline-right strong quiet tab js-tab pad1y pad0x truncate'>"+filename.replace(/.mss/,'')+" <span class='js-deltab deltab quiet pin-topright pad1y keyline-left'><span class='icon minus inline'></span></span></a><!--");
     code[filename] = Tab(filename, '');
     this.changed();
   } else {
@@ -546,6 +561,8 @@ Editor.prototype.save = function(ev, options, refresh) {
     attr.center[2] = Math.min(Math.max(attr.center[2],attr.minzoom),attr.maxzoom);
   }
 
+  attr._bookmarks = bookmarks;
+
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
@@ -571,6 +588,7 @@ Editor.prototype.error = function(model, resp) {
   if (!resp.responseText)
     return Modal.show('error', 'Could not save style "' + model.id + '"');
 
+
     // Assume carto.js specific error array format response.
   _(JSON.parse(resp.responseText).message.toString().split('\n')).chain()
     .compact()
@@ -581,23 +599,26 @@ Editor.prototype.error = function(model, resp) {
         var ln = parseInt(e[3]) - 1;
         code[id]._cartoErrors = code[id]._cartoErrors || [];
         code[id]._cartoErrors.push(ln);
-        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e));
+        code[id].setGutterMarker(ln, 'errors', this.cartoError(ln, e, id));
       } else {
         return Modal.show('error', e);
       }
     }).bind(this));
 };
 
-Editor.prototype.cartoError = function(ln, e) {
+Editor.prototype.cartoError = function(ln, e, id) {
     var error = document.createElement('div');
     error.className = 'error';
 
-    if (!$('.js-error-alert').length) {
-      var alert = document.createElement('div');
-      alert.className = 'z100 truncate code small js-error-alert error-alert pin-bottom col12 pad0 fill-yellow';
-      alert.innerHTML = '<strong>Unable to save.</strong> Fix Carto errors and try again.';
-      document.getElementById('style-ui').appendChild(alert);
-    }
+      var alert = document.createElement('a');
+      alert.href = '#';
+      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-yellow';
+      alert.innerHTML = 'Error: Line ' + (ln+1) + '</span>';
+
+      // don't stack alerts on the same tab
+      if (!$('a[rel="' + id + '"] .js-error-alert').length) {
+        $('a[rel="' + id + '"]').append(alert);
+      }
 
     var link = document.createElement('a');
     link.id = 'error-' + ln;
@@ -745,13 +766,13 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#places') {
     // if search is active, use search value,
     // otherwise use toggle value
-    if ($('.js-places-container').hasClass('hidden') && $('input','.js-places-toggle').is(':checked')) {
+    if ($('.js-places-container').hasClass('active')) {
+      var filter = $('#places-dosearch').val().toLowerCase();
+    } else {
       var container = $('.js-places-toggle');
       var filter = $('input:checked',container).attr('value').toLowerCase();
-    } else {
-      var filter = $('#places-dosearch').val().toLowerCase();
     }
-    window.editor.renderPlaces(filter);
+    window.editor.renderPlaces(filter, true);
   }
 
   // Refresh map title.tm.db.rm('user');
@@ -798,7 +819,7 @@ window.onhashchange = function(ev) {
   case 'places':
     if ($('input','.js-places-toggle').is(':checked')) {
       var filter = $('.js-places-toggle input:checked').attr('value').toLowerCase();
-      window.editor.renderPlaces(filter);
+      window.editor.renderPlaces(filter, true);
     }
     break;
   case !'export':

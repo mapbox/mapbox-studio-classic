@@ -185,6 +185,48 @@ tape('.js-history browses projects', function(t) {
     t.end();
 });
 
+tape('stylesheet error ', function(t) {
+    t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' not visible initially' );
+    window.code["style.mss"].setValue('Map { backgroundcolor: #333; }');
+    window.editor.update();
+    onajax(function() {
+        t.ok($('[rel="style.mss"] .js-error-alert').length, ' appears with faulty stylesheet');
+        window.code["style.mss"].setValue('Map { background-color: #333; }');
+        window.editor.update();
+        onajax(function() {
+            t.ok(!$('[rel="style.mss"] .js-error-alert').length, ' dismissed with good stylesheet');
+            t.end();
+        })
+    })
+});
+
+tape('stylesheet search ', function(t) {
+    t.ok(!$('.CodeMirror-dialog.active').length, ' is not active initially' );
+    window.code["style.mss"].execCommand('find');
+    t.ok($('.CodeMirror-dialog.active').length, ' is active after command' );
+
+    t.ok(!$('.cm-searching').length, ' shows no results before initiated');
+
+    window.code["style.mss"].openDialog().close();
+    t.ok(!$('.CodeMirror-dialog.active').length, ' is closed after clicking close button' );
+
+    t.end();
+});
+
+tape('stylesheet color ', function(t) {
+    window.code["style.mss"].setValue('Map { background-color: #333; }#water { polygon-fill: #2200ff;}');
+    t.equal($('.cm-palette-hint').length, 2, ' swatches are visible' );
+    t.ok($('.sp-container').length, ' palettes exist' );
+
+    $('.cm-palette-hint').eq(0).click();
+    t.equal($('.sp-container:not(.sp-hidden)').length, 1, ' picker appears on click');
+
+    $(' .sp-container:not(.sp-hidden) .sp-cancel').click();
+    t.equal($('.sp-container:not(.sp-hidden)').length, 0, ' picker disappears when cancelled');
+
+    t.end();
+});
+
 tape('.js-history removes history style', function(t) {
     var count = $('#history-style .history-project').size();
     $('.js-history .js-ref-delete:eq(0)').click();
@@ -315,37 +357,37 @@ tape('.js-layers shows sources modal', function(t) {
         t.ok(hasModal('#modalsources'));
 
         // form validity tests
+        var $localinput = $('.js-localdata input[type=text]');
+        var $remoteinput = $('.js-remotedata input[type=text]');
 
-        // disallow spaces between composite sources
-        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+        $remoteinput.val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
+        t.equal($remoteinput.get(0).validity.valid, false, ' remote form disallows spaces between composite sources');
 
-        // allow remote composite sources
-        $('#applydata input[type=text]').val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        $remoteinput.val('mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5');
+        t.equal($remoteinput.get(0).validity.valid, true, ' remote form allows remote composite sources');
 
-        // disallow local compositing
-        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, false);
+        $remoteinput.val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($remoteinput.get(0).validity.valid, false,' remote form disallows local+remote compositing');
 
-        // allow single local source
-        $('#applydata input[type=text]').val('tmsource:///Users/foo/bar.tm2source');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        $localinput.val('tmsource:///Users/foo/bar.tm2source,mapbox.mapbox-streets-v5');
+        t.equal($localinput.get(0).validity.valid, false, ' local form disallows local+remote compositing');
 
-        // allow a local source with c:/ in source (win)
-        $('#applydata input[type=text]').val('tmsource://c:/Users/foo/bar.tm2source');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        $localinput.val('tmsource:///Users/foo/bar.tm2source');
+        t.equal($localinput.get(0).validity.valid, true, ' local form allows single local source');
+
+        $localinput.val('tmsource://c:/Users/foo/bar.tm2source');
+        t.equal($localinput.get(0).validity.valid, true, ' local form allow a local source with c:/ in source (win)');
 
         // now test the user clicking a real source
         $('#modalsources-remote .js-adddata:eq(0)').click();
 
         var selected = $('#modalsources-remote .js-adddata:eq(0)').attr('href');
-        var input = $('#applydata input[type=text]').val();
+        var val = $remoteinput.val();
 
-        t.notEqual(selected.indexOf(input),-1,' and selected layer matches form input.');
-        t.equal($('#applydata input[type=text]').get(0).validity.valid, true);
+        t.notEqual(selected.indexOf(val),-1,' and selected layer matches form input.');
+        t.equal($remoteinput.get(0).validity.valid, true);
 
-        $('#applydata input[type=submit]').click();
+        $('.js-remotedata input[type=submit]').click();
 
         onajax(function() {
             t.ok(!hasModal('#modalsources'));
@@ -363,18 +405,20 @@ tape('#reference tabs through CartoCSS reference', function(t) {
 });
 
 tape('places: list', function(t) {
-    $('.js-places.js-toolbar-places').click();
-    t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
-    t.end();
+    window.location.hash = '#places';
+    setTimeout(function() {
+        t.notEqual($('.js-places-list').children().size(), 0, 'is populated with places');
+        t.end();
+    }, 100);
 });
 
 tape('places: tag filter', function(t) {
-    $('.places-entry-container a[tag="path"]').click();
+    $('.places-entry-container a[tag="road:main"]').click();
     var placeCount = $('.js-places-list').children().size();
     t.notEqual(placeCount, 0, 'updates places list');
     for (var i = 0; i<placeCount; i++) {
         var item = $('.js-places-list').children()[i];
-        t.equal($('a[tag="path"]', item).size(), 1, 'item has 1 path tag');
+        t.equal($('a[tag="road:main"]', item).size(), 1, 'item has 1 road:main tag');
     };
     t.end();
 });
@@ -696,4 +740,3 @@ function testTmp() {
         t.end();
     });
 }
-

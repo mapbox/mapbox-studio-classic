@@ -39,9 +39,7 @@
 }
 
 /* FIX IN BASE - to offset weird fieldset form label style */
-.rounded-toggle input[type=radio] + label {
-  margin: 0;
-}
+.rounded-toggle input[type=radio] + label { margin: 0; }
 
 .with-icon input[type=text].short,
 .with-icon input[type=email].short,
@@ -108,39 +106,6 @@ kbd {
   .mac kbd.prefixed:before { content:'⌘'; }
   .windows kbd.prefixed:before,
   .linux kbd.prefixed:before { content:'Ctrl '; }
-
-/* Modal popup */
-.modal { display:none; }
-.dark .fill-light.modal { background:#444; }
-
-#modal > div {
-  position:fixed;
-  left:0px;
-  right:0px;
-  top:0px;
-  height:100%;
-  z-index:-1;
-  overflow-y: auto;
-}
-
-#modal.active .modal {
-  display: block;
-}
-
-#modal.active > div {
-  z-index:99999;
-  transition:all .1s, z-index 0 0;
-}
-
-#modal .modal-mask { opacity: 0; }
-#modal.active .modal-mask { opacity: 1;}
-
-#modal .browser {
-  top: 80px;
-  bottom: 80px;
-}
-
-#modal .browser .list { bottom: 50px; }
 
 input.readonly {
   background:transparent;
@@ -643,25 +608,20 @@ body.local .on-local { display:block; }
   top:40px; bottom:0;
   width:100%; height:auto;
   visibility:hidden;
-  overflow: visible;
   }
 .CodeMirror.active { visibility:visible; }
-.CodeMirror .CodeMirror-vscrollbar { overflow-y: hidden;}
-.CodeMirror.active .CodeMirror-vscrollbar { overflow-y: scroll;}
-.CodeMirror .CodeMirror-hscrollbar { overflow-x: hidden;}
-.CodeMirror.active .CodeMirror-hscrollbar { overflow-x: scroll;}
 
-.CodeMirror-lines { padding:0 10px; }
-.CodeMirror pre { padding:0; }
 .CodeMirror-linenumber {
   z-index: 50!important;
   pointer-events: none;
 }
+.CodeMirror-linenumbers {
+  width: 30px!important;
+  }
 
 .CodeMirror-gutters {
-  border:none;
-  background:#fcfcfc;
-  width:40px!important;
+  background:#f8f8f8;
+  width:35px!important;
   }
   .CodeMirror-gutters .errors {
     position:absolute;
@@ -675,9 +635,10 @@ body.local .on-local { display:block; }
       left:-10px;
       }
       .CodeMirror-gutter-wrapper .error > a {
-        height:20px;
-        width:40px;
-        display:block;
+          padding-top: 60px;
+          width: 40px;
+          display: block;
+          margin-top: -40px;
         }
         .CodeMirror-gutter-wrapper .error > a:focus {
           -webkit-box-shadow:none;
@@ -685,6 +646,7 @@ body.local .on-local { display:block; }
           }
       .CodeMirror-gutter-wrapper .error .message {
         background-color:#f1f075;
+        padding-right: 20px;
         position:absolute;
         left:40px;
         top: 0;
@@ -695,28 +657,24 @@ body.local .on-local { display:block; }
         .CodeMirror-gutter-wrapper .error > a:target ~ .message { display:inline-block; }
 
 /* CodeMirror Addon: Search Dialog */
-.CodeMirror-dialog,
-.CodeMirror-dialog * {
-  box-sizing:border-box;
-  }
-.CodeMirror .CodeMirror-dialog { top:-40px; }
-.CodeMirror .hidden:target { display:block; }
+.CodeMirror-dialog input {
+  padding-left: 40px;
+  padding-right: 40px;
+}
 
-.CodeMirror #search-info ~ .dialog-y,
-.CodeMirror #search-info:target ~ .dialog-n { display: none;}
-.CodeMirror #search-info:target ~ .dialog-y { display: block;}
-/* CodeMirror Addon: palette swatch */
-.CodeMirror .cm-palette-hint {
-  display:inline-block;
-  box-sizing:border-box;
-  margin:0 5px 3px 5px;
-  border-radius:50%;
-  vertical-align:middle;
-  width:10px;
-  height:10px;
-  box-shadow:0 0 0 2px #fcfcfc,
-             0 0 0 3px #ddd;
-  }
+.CodeMirror-dialog .search-buttons {
+  right: 40px;
+}
+
+.CodeMirror-dialog .search-buttons a:last-child { border-radius: 3px; }
+.CodeMirror-dialog .search-buttons.reset a:last-child { border-radius: 0 3px 3px 0;}
+.CodeMirror-dialog .search-buttons.reset a { display: inline-block;}
+
+#search-info ~ .dialog-y,
+#search-info:target ~ .dialog-n { display: none;}
+#search-info:target ~ .dialog-y { display: block;}
+
+.CodeMirror-dialog .hidden:target { display:block; }
 
 span.cm-keyword,
 span.cm-carto-variable           { color:#708; }
@@ -738,7 +696,7 @@ span.cm-carto-string             { color:#8010a0; }
 span.cm-carto-filter             { color:#66475B; }
 
 .dark .CodeMirror { background:transparent; border-top: 1px solid rgba(0,0,0,.2); }
-.dark .CodeMirror-gutters { background:rgba(0,0,0,.1); border-color:rgba(0,0,0,0.2); }
+.dark .CodeMirror-gutters { background:#404040; border-color:rgba(0,0,0,0.2); }
 .dark .CodeMirror pre { background: transparent;}
 .dark .CodeMirror .CodeMirror-cursor { border-color:#ccc; }
 .dark .CodeMirror-selected,

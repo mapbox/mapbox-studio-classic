@@ -3,34 +3,37 @@
 
 <head>
   <meta charset='UTF-8'/>
-  <link href='/app/icon.png' rel='apple-touch-icon' />
-  <link href='/ext/codemirror/codemirror.css' rel='stylesheet' />
-  <link href='/ext/mapbox.css' rel='stylesheet' />
-  <link href='/ext/base/base.css' rel='stylesheet' />
-  <link href='/app/app.css' rel='stylesheet' />
-  <link href='/ext/leaflet-locationfilter/locationfilter.css' rel='stylesheet' />
-  <link href='/app/style.css' rel='stylesheet' />
-  <link href='/app/print.css' rel='stylesheet' />
-  <script src='/ext/underscore-min.js'></script>
-  <script src='/ext/codemirror/codemirror.js'></script>
-  <script src='/ext/codemirror/runmode.js'></script>
-  <script src='/ext/codemirror/searchcursor.js'></script>
-  <script src='/ext/jquery-2.0.3.min.js'></script>
-  <script src='/ext/jquery.sortable.js'></script>
-  <script src='/ext/backbone.js'></script>
-  <script src='/ext/mapbox.js'></script>
-  <script src='/app/cartoref.js'></script>
-  <script src='/app/lib.js?_=<%= +new Date %>'></script>
-  <script src='/app/print.js?_=<%= +new Date %>'></script>
-  <script src='/app/style.js?_=<%= +new Date %>'></script>
-  <script src='/app/atom.js?_=<%= +new Date %>'></script>
-  <script src='/app/codemirror.carto.js'></script>
-  <script src='/app/codemirror.carto.complete.js'></script>
-  <script src='/app/codemirror.tm2.search.js'></script>
-  <script src='/app/codemirror.tm2.palette.js'></script>
-  <script src='/ext/sexagesimal.js'></script>
-  <script src='/ext/leaflet-locationfilter/locationfilter.js'></script>
-  <script src='/ext/sphericalmercator.js'></script>
+  <link href='/app/icon.png?<%=obj.nocache%>' rel='apple-touch-icon' />
+  <link href='/ext/spectrum/spectrum.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/codemirror/codemirror.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/mapbox.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/ext/leaflet-locationfilter/locationfilter.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/style.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/print.css?<%=obj.nocache%>' rel='stylesheet' />
+  <script src='/ext/underscore-min.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/codemirror.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/runmode.js?<%=obj.nocache%>'></script>
+  <script src='/ext/codemirror/searchcursor.js?<%=obj.nocache%>'></script>
+  <script src='/ext/jquery-2.0.3.min.js?<%=obj.nocache%>'></script>
+  <script src='/ext/jquery.sortable.js?<%=obj.nocache%>'></script>
+  <script src='/ext/spectrum/spectrum.js?<%=obj.nocache%>'></script>
+  <script src='/ext/backbone.js?<%=obj.nocache%>'></script>
+  <script src='/ext/mapbox.js?<%=obj.nocache%>'></script>
+  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>
+  <script src='/app/lib.js?<%=obj.nocache%>'></script>
+  <script src='/app/print.js?<%=obj.nocache%>'></script>
+  <script src='/app/style.js?<%=obj.nocache%>'></script>
+  <script src='/app/atom.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.carto.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.carto.complete.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.tm2.search.js?<%=obj.nocache%>'></script>
+  <script src='/app/codemirror.tm2.palette.js?<%=obj.nocache%>'></script>
+  <script src='/ext/sexagesimal.js?<%=obj.nocache%>'></script>
+  <script src='/ext/leaflet-locationfilter/locationfilter.js?<%=obj.nocache%>'></script>
+  <script src='/ext/sphericalmercator.js?<%=obj.nocache%>'></script>
+
   <%= this.analytics(obj) %>
   <title><%= style.name %></title>
 </head>
@@ -48,10 +51,7 @@
 <a id='xray'></a>
 <a id='export'></a>
 
-<div id='modal'>
-  <div class='modal-mask fill-darken2 animate'></div>
-  <div id='modal-content' class='limiter contain modal-content animate'></div>
-</div>
+<div id='modal-content' class='modal-content animate'></div>
 
 <div id='full' class='z1 clip animate pin-left dark fill-dark'>
   <div id='map' class='animate fill-canvas' style='background-color:<%=style.background%>;'></div>
@@ -101,11 +101,11 @@
      --><a id='zoom-out' class='button short icon minus quiet'></a>
       </div>
       <span class='align-top inline xray-toggle'>
-        <a href='#xray' class='xray-n button short icon eye quiet'></a>
-        <a href='#home' class='xray-y button short active icon eye quiet'></a>
+        <a href='#xray' class='xray-n button short icon inspect quiet'></a>
+        <a href='#home' class='xray-y button short active icon inspect quiet'></a>
       </span>
       <div class='pill inline align-top'>
-        <a class='button short icon places-button marker js-places quiet js-toolbar-places' title='places' href='#places'>Places</a><!--
+        <a class='button short icon places-button marker quiet' title='places' href='#places'>Places</a><!--
         --><a class='button js-add-bookmark add-bookmark short quiet'>Add</a>
       </div>
       <div class='pill inline align-top export-controls'>
@@ -124,7 +124,7 @@
     <a href='#' class='icon x pin-topright pad1 js-demo'></a>
     <h3>Inspecting data</h3>
     <small class='space-bottom4'>
-    Mapbox Studio styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon eye'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
+    Mapbox Studio styles are powered by vector tiles that contain feature data and attributes. Use the <strong class='icon inspect'>inspector</strong> to see a wireframe of the raw vector data. Click the map to view details about a feature.
     </small>
     <div class='pin-bottom clearfix center'><!--
     --><a href='#home' class='small fill-darken0 pad1 col6 icon prev quiet keyline-right'>Prev</a><!--
@@ -292,10 +292,10 @@
 <div id='style-ui' class='animate z1 col6 pin-right'>
 
   <div id='code' class='animate pin-right fill-light col12'>
-    <div class='row1 fill-white pin-top'>
+    <div class='row1 fill-gray pin-top'>
       <nav id='tabs' class='keyline-bottom carto-tabs row1 contain small'><!--
         <% _(style.styles).keys().forEach(function(k,i) { %>
-        --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='js-deltab deltab quiet pin-topright pad1y pad0x'><span class='icon minus dot fill-darken0 inline'></span></a><!--
+        --><a rel='<%=k%>' href='#code-<%=k.replace(/[^\w+]/g,'_')%>' class='keyline-right strong quiet tab js-tab pad0 truncate <%=!i?'active':''%>'><%=k.replace(/.mss/,'')%> <span class='js-deltab deltab quiet pin-topright pad1y keyline-left'><span class='icon minus inline'></span></a><!--
         <% }); %>
       --></nav>
       <div class='pin-right row1 z1'><!--
@@ -305,6 +305,31 @@
         -->
         <a href='#export' class='inline js-export export-n icon picture keyline-left quiet pad1'></a>
       </div>
+    </div>
+    <div class='CodeMirror-dialog offcanvas-top animate fill-white keyline-bottom pin-top z100'>
+      <div class='fill-white z10'>
+        <fieldset class='keyline-left contain'>
+          <input type='text' placeholder='Search stylesheet' value='' class='search-input small js-search-input clean stretch'>
+          <div class='pin-topright pad0y pill search-buttons js-search-buttons'>
+            <a href='#' class='js-cm-reset-button button short icon small quiet alert reset-button hidden'>No results</a><!--
+            --><a href='#' class='js-cm-search-button button short icon small quiet search'>Find</a>
+          </div>
+        </fieldset>
+      </div>
+      <div id="search-info" class="clearfix keyline-top small fill-white search-info hidden">
+        <div class="pad1 col6">
+          <div class="code"><kbd class="prefixed">F</kbd> Find</div>
+          <div class="code"><kbd class="prefixed">G</kbd> Next result</div>
+        </div>
+        <div class="pad1 col6">
+          <div class="quiet">use /re/ syntax for regex search.</div>
+          <div class="code"><kbd class="prefixed">Shift+G</kbd> Previous result</div>
+        </div>
+      </div>
+      <a href='#search-info' class='js-cm-dialog-info pin-topleft pad1 inline icon info quiet dialog-n'></a>
+      <a href='#' class='js-cm-dialog-info pin-topleft pad1 inline icon info quiet active dialog-y'></a>
+      <a href='#' id='js-cm-dialog-close' class='js-cm-dialog-close pin-right pad1 inline icon x quiet'></a>
+
     </div>
     <div id='stylesheets'></div>
   </div>
@@ -560,8 +585,8 @@ Style(templates, cwd, style, examples, gazetteer);
 
 <% if (test) { %>
   <script>window.testParams = <%= saferstringify(test, null, 0) %>;</script>
-  <script src='/app/test/tape.js'></script>
-  <script src='/app/test/app.test.style.js'></script>
+  <script src='/app/test/tape.js?<%=obj.nocache%>'></script>
+  <script src='/app/test/app.test.style.js?<%=obj.nocache%>'></script>
 <% } %>
 
 </body>

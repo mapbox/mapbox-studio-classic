@@ -1,6 +1,36 @@
 Changelog
 =========
 
+### 0.1.5
+
+- Style UI: Fix bugs in places UI.
+- Source UI: Clarify "create style" action.
+
+### 0.1.5
+
+- Fix bugs in atom-shell integration.
+
+### 0.1.4
+
+- Update to tilelive@5.2.3 to some vector tile rendering artifacts.
+- Source UI: fix bug with layers with dashes in IDs.
+- Style/source UI: fix scrollbar overflow problems.
+- Style UI: Image export indication in atom-shell.
+- Fix bug in xray popup template that affected features with a 'length' property.
+- Fix carto docs example for font-directory.
+- Cache busting querystring added to js/css assets to avoid stale caches on updates.
+
+### 0.1.3
+
+- Fixed bug where source data not in WGS84 or web mercator would not export correctly.
+- Save + refresh functionality of projects refactored and split to Cmd+S and Cmd+R respectively.
+- Style UI: Improved code search.
+- Style UI: Add color picker.
+- Source UI: Improved flow of actions into refreshed state.
+- Source editor: support for topojson files (via mapnik-omnivore@1.4.15)
+- Windows: install now prompts to uninstall previous installations of Mapbox Studio.
+- Windows: install now uses a flatter directory structure for easier removal of long paths.
+
 ### 0.1.2
 
 - Update to mapnik-omnivore@1.3.13. Addresses some app crashes.
