@@ -50,7 +50,7 @@ var ICONS_GROUP
 
 Name "${PRODUCT_DIR}"
 OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
-InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
+InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
 
 Function .onInit
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
@@ -79,7 +79,7 @@ Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
   File /r ..\..\..\*.*
-  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x86.exe /q /norestart"
+  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x64.exe /q /norestart"
 SectionEnd
 
 ; Add firewall rule
