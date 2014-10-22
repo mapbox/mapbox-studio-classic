@@ -94,4 +94,3 @@ Changelog
 - Logs to an app.log file in config dir by default.
 - Bookmarks are now saved to projects rather than localStorage.
 - Addition of password field to postgis datasource config.
-
