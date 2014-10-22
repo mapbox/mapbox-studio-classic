@@ -136,7 +136,7 @@ var sections = {
     <% if (p.expression===true) { %>
       <%
       var property = '[some_field]';
-      if (p.type === 'uri') property = 'url("[some_field]")';
+      if (p.type === 'uri') property = 'url("[some_field].svg")';
       if (p.type === 'functions') {
         property = p.functions[0][0] + '([some_field])';
       }
