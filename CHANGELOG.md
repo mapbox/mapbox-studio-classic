@@ -1,10 +1,12 @@
 Changelog
 =========
 
-### 0.1.5
+### 0.1.6
 
+- Update to Mapnik 3.0.5.
 - Style UI: Fix bugs in places UI.
 - Source UI: Clarify "create style" action.
+- Windows: run Mapbox Studio as a 64-bit application.
 
 ### 0.1.5
 
@@ -12,7 +14,7 @@ Changelog
 
 ### 0.1.4
 
-- Update to tilelive@5.2.3 to some vector tile rendering artifacts.
+- Update to tilelive@5.2.3 to fix some vector tile rendering artifacts.
 - Source UI: fix bug with layers with dashes in IDs.
 - Style/source UI: fix scrollbar overflow problems.
 - Style UI: Image export indication in atom-shell.
