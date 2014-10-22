@@ -19,7 +19,34 @@ Install [node v0.10.x](http://nodejs.org/download/). Then
     npm install
     npm start
 
-*Note: the binary dependencies of Mapbox Studio are now prebuilt for common platforms (64 bit Linux and OS X). This means that you do not need to install these dependencies externally. However if packages fail to install from a binary then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source.*
+### Depends
+
+Mapbox Studio ships with pre-built binaries for common platforms:
+
+  - 32 and 64 bit Windows
+  - 64 bit OS X
+  - 64 bit Linux
+
+The minimum platforms versions are:
+
+  - Windows >= 7
+  - OS X >= 10.9
+  - Ubuntu >= 14.04 (Trusty)
+  - RHEL/Centos >= 7
+
+Note: Ubuntu 12.04 (Precise) can be supported by upgrading libstdc++:
+
+    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+    sudo apt-get update -q
+    sudo apt-get install -y libstdc++6
+
+Note: if packages like `node-mapnik` fail to install then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source (Feel free to create a github issue to ask for help).
+
+You can do this like:
+
+
+    npm install --build-from-source
+
 
 ### Getting started
 
