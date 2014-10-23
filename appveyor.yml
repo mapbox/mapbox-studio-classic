@@ -11,13 +11,16 @@ shallow_clone: true
 
 platform:
   - x86
+  - x64
 
 install:
+  - ps: Install-Product node $env:nodejs_version $env:Platform
   - node --version
+  - echo %platform%
   - node -e "console.log(process.arch)"
   - node -e "console.log(process.env.HOME)"
-  - node -e "console.log(!!process.env.AWS_ACCESS_KEY_ID)"
-  - node -e "console.log(!!process.env.AWS_SECRET_ACCESS_KEY)"
+  - ps: Start-FileDownload "https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_$env:Platform.exe"
+  - .\vcredist_%platform%.exe /q /norestart
   - npm --version
   - npm install
   - npm test
