@@ -360,6 +360,15 @@ tape('.js-layers shows sources modal', function(t) {
         var $localinput = $('.js-localdata input[type=text]');
         var $remoteinput = $('.js-remotedata input[type=text]');
 
+        $remoteinput.val('https://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v5.json');
+        t.equal($remoteinput.get(0).validity.valid, true, ' remote form allows https tilejson source');
+
+        $remoteinput.val('http://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v5.json');
+        t.equal($remoteinput.get(0).validity.valid, true, ' remote form allows http tilejson source');
+
+        $remoteinput.val('ssh://invalid/remote-source.git');
+        t.equal($remoteinput.get(0).validity.valid, false, ' remote form disallows other protocols');
+
         $remoteinput.val('mapbox.mapbox-terrain-v1, mapbox.mapbox-streets-v5');
         t.equal($remoteinput.get(0).validity.valid, false, ' remote form disallows spaces between composite sources');
 
