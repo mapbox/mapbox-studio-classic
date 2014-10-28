@@ -67,7 +67,9 @@ Function .onInit
 ;Run the uninstaller
 uninst:
   ClearErrors
-  ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
+  StrCpy $R1 $R0
+  ${GetParent} "$R1" $R0
+  ExecWait '$R1 _?=$R0' ;Do not copy the uninstaller to a temp file
   IfErrors no_remove_uninstaller done
   no_remove_uninstaller:
 
