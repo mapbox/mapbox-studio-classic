@@ -72,16 +72,16 @@ var sections = {
     <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
     </a>
-    <div class='pad1 details'>
+    <div class='pad1 details clip'>
     <div class='quiet'>
       <div class='space-bottom0'>Default:</div>
 
       <!-- 'false' and 'none' are valid default values, so show those. Only hide if default is empty.' -->
       <div class='space-bottom1'>
       <% if (!(p['default-value'] === '')) { %>
-        <span class='micro code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
+        <span class='truncate micro code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
       <% } else { %>
-        <span class='micro code pad0x round inline fill-darken1'>no default value</span>
+        <span class='truncate micro code pad0x round inline fill-darken1'>no default value</span>
       <% } %>
       </div>
 
@@ -101,36 +101,23 @@ var sections = {
       %>
       <div class='space-bottom1'>
         <div class='space-bottom0'>Example:</div>
-        <span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: <%= exampleuri %>;</span>
-      </div>
-      <% } %>
-
-      <% if (p.type==='expression') { %>
-      <div class='space-bottom1'>
-        <div class='space-bottom0'>Examples:</div>
-        <% if (p.serialization==='content') { %>
-          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "[name]";</span></div>
-          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: "'zoo'";</span></div>
-        <% } else { %>
-          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: [scalerank];</span></div>
-          <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 5;</span></div>
-        <% } %>
+        <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: <%= exampleuri %>;</span>
       </div>
       <% } %>
 
       <% if (p.type==='numbers') { %>
           <div class='space-bottom0'>Example:</div>
-          <span class='space-bottom1 micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: 2,2;</span>
+          <span class='space-bottom1 micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: 2,2;</span>
       <% } %>
 
       <% if (p.type==='color') { %>
           <div class='space-bottom1'>
           <div class='space-bottom0'>Examples:</div>
-            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: #ffff00;</span></div>
-            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgb(255, 255, 0);</span></div>
-            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: rgba(255, 255, 0, 1);</span></div>
-            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: hsl(100, 50%, 50%);</span></div>
-            <div class='reference-entry'><span class='micro pad0x code inline fill-darken1 quiet round'><%= p['css'] %>: yellow;</span></div>
+            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: #ffff00;</span>
+            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: rgb(255, 255, 0);</span>
+            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: rgba(255, 255, 0, 1);</span>
+            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: hsl(100, 50%, 50%);</span>
+            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: yellow;</span>
           </div>
       <% } %>
 
@@ -138,12 +125,28 @@ var sections = {
         <div class='space-bottom1'>
           <div class='space-bottom0'>Examples:</div>
          <% _(p.functions).each(function(option, i) { %>
-          <div class='reference-entry'><span class='micro inline pad0x code fill-darken1 quiet round'><%= p['css'] %>:<%= option[0] %>(<% if (option[0] === 'colorize-alpha') { %>blue, yellow, red<% } else if (option[0] === 'color-to-alpha') { %>blue<% } else { %><% for (var i=0;i<option[1];i++) {%>2<%= (option[1]===(i+1)) ? '' : ',' %><% } %><% } %>);</span></div>
+          <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>:<%= option[0] %>(<% if (option[0] === 'colorize-alpha') { %>blue, yellow, red<% } else if (option[0] === 'color-to-alpha') { %>blue<% } else { %><% for (var i=0;i<option[1];i++) {%>2<%= (option[1]===(i+1)) ? '' : ',' %><% } %><% } %>);</span>
           <% }); %>
         </div>
       <% }; %>
+
+
     </div>
     <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
+    <% if (p.expression===true) { %>
+      <%
+      var property = '[some_field]';
+      if (p.type === 'uri') property = 'url("[some_field].svg")';
+      if (p.type === 'functions') {
+        property = p.functions[0][0] + '([some_field])';
+      }
+
+      %>
+      <div class='quiet keyline-top pad1y'>
+        <div class='space-bottom0'><strong>Accepts expressions</strong>: You can pass values from your data source to this property:</div>
+        <code class='truncate micro fill-darken1'><%= p['css'] %>: <%= property%>;</code>
+      </div>
+    <% } %>
   </section>
   <% }); %>
   <% }); %>

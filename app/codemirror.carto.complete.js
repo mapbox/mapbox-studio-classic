@@ -108,6 +108,27 @@
             // If this is not on a token that's autocompletable,
             // insert a tab.
             if (!/(@|#|\.)?[\w-$_]+$/.test(token.string)) {
+
+                if (e.which === 9 && !e.shiftKey) {
+                    // tab forwards
+                    editor.replaceRange('  ', {
+                        line: cur.line,
+                        ch: cur.ch
+                    }, {
+                        line: cur.line,
+                        ch: cur.ch
+                    });
+                } else {
+                    // tab backwards
+                    editor.replaceRange('', {
+                        line: cur.line,
+                        ch: cur.ch - 2
+                    }, {
+                        line: cur.line,
+                        ch: cur.ch
+                    });
+                }
+
                 editor.focus();
                 return !/^\s*$/.test(token.string);
             }
@@ -203,8 +224,8 @@
                     sel.selectedIndex = (--sel.selectedIndex === -1) ?
                         sel.size - 1 :
                         sel.selectedIndex;
-                // Escape
-                } else if (code === 27) {
+                // Escape & delete
+                } else if (code === 27 || code === 46) {
                     cancelEvent(event);
                     close();
                     editor.focus();
@@ -238,6 +259,7 @@
             onKeyEvent: function(i, e) {
                 // Hook into tab
                 if (e.which == 9 && !(e.ctrlKey || e.metaKey) && !e.altKey) {
+                    cancelEvent(e);
                     return complete(e);
                 }
             },

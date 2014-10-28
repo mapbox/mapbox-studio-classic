@@ -10,18 +10,18 @@ var bookmarks = style._bookmarks;
 var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry fill-canvas places-entry pin-left col12"></div>' +
-                    '<div class="z10 entry-actions pin-bottom pin-top fill-lighten2">' +
+                    '<div class="z10 entry-actions pin-bottom pin-top fill-darken2">' +
                       '<a href="#" class="block pin-bottom pin-top js-place-jump">' +
                         '<small class="place-label pad1 pin-bottom strong"><%= place_name %></small>' +
                       '</a>' +
                       '<% if (tags.indexOf("userbookmark")) { %>' +
                       '<div class="pin-top z10 pad1">' +
                         '<% _.each(tags, function(currenttag) { %>' +
-                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-dark round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
+                        '<a href="#" class="quiet truncate js-placetag entry-placetag pad0x micro strong fill-lighten0 round inline" tag="<%= currenttag %>"><%= currenttag %></a>' +
                         '<% }); %>' +
                       '</div>' +
                       '<% } else { %>' +
-                      '<a href="#" index="<%= index %>" class="js-del-bookmark fill-darken1 icon quiet trash pin-topright pad1"></a>' +
+                      '<a href="#" index="<%= index %>" class="js-del-bookmark icon quiet trash pin-topright pad1"></a>' +
                       '<% } %>' +
                     '</div>'
                   '</div>';
@@ -38,14 +38,6 @@ var Modal = window.Modal = new views.Modal({
   templates: templates
 });
 
-CodeMirror.keyMap.tabSpace = {
-  Tab: function(cm) {
-    var spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
-    cm.replaceSelection(spaces, 'end', '+input');
-  },
-  fallthrough: ['default']
-};
-
 var Tab = function(id, value) {
   var tab = CodeMirror(function(cm) {
     document.getElementById('stylesheets').appendChild(cm);
@@ -57,8 +49,7 @@ var Tab = function(id, value) {
     mode: {
       name: 'carto',
       reference: window.cartoRef
-    },
-    keyMap: 'tabSpace'
+    }
   });
 
   var completer = cartoCompletion(tab, window.cartoRef);
@@ -164,9 +155,8 @@ Editor.prototype.addBookmark = function(ev) {
       ]
     };
     bookmarks.push(bookmark);
-
-    // tell user the bookmark has been added
     button.text('Added!').removeClass('spinner');
+    view.changed();
     setTimeout(function() {
       button.text('Add');
     }, 1000);
@@ -186,6 +176,7 @@ Editor.prototype.removeBookmark = function(ev) {
 
   bookmarks = removed;
   window.editor.renderPlaces('userbookmark');
+  view.changed();
   return false;
 };
 
@@ -561,6 +552,8 @@ Editor.prototype.save = function(ev, options, refresh) {
     attr.center[2] = Math.min(Math.max(attr.center[2],attr.minzoom),attr.maxzoom);
   }
 
+  attr._bookmarks = bookmarks;
+
   // New mtime querystring
   mtime = (+new Date).toString(36);
 
@@ -764,11 +757,11 @@ Editor.prototype.refresh = function(ev) {
   if (window.location.hash === '#places') {
     // if search is active, use search value,
     // otherwise use toggle value
-    if ($('.js-places-container').hasClass('hidden') && $('input','.js-places-toggle').is(':checked')) {
+    if ($('.js-places-container').hasClass('active')) {
+      var filter = $('#places-dosearch').val().toLowerCase();
+    } else {
       var container = $('.js-places-toggle');
       var filter = $('input:checked',container).attr('value').toLowerCase();
-    } else {
-      var filter = $('#places-dosearch').val().toLowerCase();
     }
     window.editor.renderPlaces(filter, true);
   }

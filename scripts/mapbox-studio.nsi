@@ -50,7 +50,7 @@ var ICONS_GROUP
 
 Name "${PRODUCT_DIR}"
 OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
-InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
+InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
 
 Function .onInit
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
@@ -67,7 +67,9 @@ Function .onInit
 ;Run the uninstaller
 uninst:
   ClearErrors
-  ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
+  StrCpy $R1 $R0
+  ${GetParent} "$R1" $R0
+  ExecWait '$R1 _?=$R0' ;Do not copy the uninstaller to a temp file
   IfErrors no_remove_uninstaller done
   no_remove_uninstaller:
 
@@ -79,7 +81,7 @@ Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
   File /r ..\..\..\*.*
-  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x86.exe /q /norestart"
+  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x64.exe /q /norestart"
 SectionEnd
 
 ; Add firewall rule
