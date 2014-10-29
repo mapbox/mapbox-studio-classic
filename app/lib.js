@@ -446,7 +446,7 @@ var configChanged = function(ev) {
   }, attr);
 
   $.ajax({
-    url: '/config' + attr,
+    url: '/config/save' + attr,
     method: 'GET'
   })
   .done(function(e) {

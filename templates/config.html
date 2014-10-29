@@ -1,28 +1,43 @@
-<div class='pin-top pad1 keyline-bottom'>
-  <h3>Configure Mapbox Studio</h3>
-  <a href='#' class='icon x pin-right pad1 quiet'></a>
-</div>
-<div class='pin-left col12 pad1y top1 scroll-styled'>
-<% var server = (obj.user.id === 'AtlasUser') ? 'atlas' : null; %>
-  <section class='pad1 col12 space-bottom1 keyline-bottom'>
-    <p class='strong small'>Mapbox Studio is <% if (server) { %> in Atlas Server server mode <% } else { %> connected to Mapbox.com<% } %></p>
+<!DOCTYPE html>
+<html>
 
-    <div class='pad0 checkbox-pill'>
-      <input type='checkbox' id='enable-atlas' <% if (server) { %> checked='checked' <% } %> >
-      <label for='enable-atlas' class='button icon check quiet short'>Enable Atlas Server mode</label>
+<head>
+  <meta charset='UTF-8'/>
+  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/app/welcome.css?<%=obj.nocache%>' rel='stylesheet' />
+  <script src='/ext/jquery-2.0.3.min.js?<%=obj.nocache%>'></script>
+  <script src='/app/atom.js?<%=obj.nocache%>'></script>
+  <script src='/ext/underscore-min.js?<%=obj.nocache%>'></script>
+
+
+  <%= this.analytics(obj) %>
+  <title>Configuration for Mapbox Atlas</title>
+</head>
+
+<body class='col12 fill-blue'>
+
+  <div class='dark pad8y clearfix pin-left col12 fill-darken0 gradient'>
+    <div class='pad8y limiter'>
+        <div class='center'>
+          <div class='mb-logo white row1 space-bottom'></div>
+          <h2 class='space-bottom2'>
+              Configure Mapbox Studio for Atlas Server
+          </h2>
+        </div>
+        <div class='col4 margin4'>
+          <form action='/config/save' method='get' class='pad1x col12'>
+            <input type="hidden" name="redirect" value="/oauth/atlas" />
+            <section class='space-bottom1'>
+              <label for='location-input'>Atlas Server Location</label>
+              <input class='short small stretch' id='location-input' name='location' type='text' value='<%=obj.location%>'/>
+            </section>
+              <input type='submit' value='Connect' id='config-submit' class='col12 pad1 short quiet icon check'>
+          </form>
+        </div>
     </div>
+  </div>
 
-    <div class='micro pad1y pad0x'>Atlas Server is a dedicated map server that runs entirely on your own infrastructure. <a href='http://www.mapbox.com/enterprise/' target='_blank'> More information about Mapbox Enterprise and Atlas Server.<a> </div>
+</body>
 
-<!--     <p class='small'><a href='/unauthorize'>Logout </a> to use Mapbox Studio standard</p> -->
-  </section>
-  <fieldset class='pad1x'>
-    <section class='space-bottom1'>
-      <label>Atlas Server Location</label>
-      <input class='short small stretch' id='location-input' name='location' type='text' value='http://localhost:2999'/>
-    </section>
-  </fieldset>
-  <div class='pad1'>
-  <a href='#' id='config-submit' class='col12 button short quiet icon check'>Done</a>
-</div>
-</div>
+</html>
