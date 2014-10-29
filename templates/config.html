@@ -17,24 +17,29 @@
 
 <body class='col12 fill-blue'>
 
-  <div class='dark pad8y clearfix pin-left col12 fill-darken0 gradient'>
-    <div class='pad8y limiter'>
-        <div class='center'>
+  <div class='dark pad8y clearfix pin-left col12 gradient'>
+    <div class='limiter'>
+        <div class='pad8y col6 center margin3'>
           <div class='mb-logo white row1 space-bottom'></div>
           <h2 class='space-bottom2'>
               Configure Mapbox Studio for Atlas Server
           </h2>
-        </div>
-        <div class='col4 margin4'>
-          <form action='/config/save' method='get' class='pad1x col12'>
+        <div class='col8 margin2 text-left'>
+          <form action='/config/save' method='get' class=''>
             <input type="hidden" name="redirect" value="/oauth/atlas" />
             <section class='space-bottom1'>
               <label for='location-input'>Atlas Server Location</label>
-              <input class='short small stretch' id='location-input' name='location' type='text' value='<%=obj.location%>'/>
+              <input class='short stretch' id='location-input' name='location' type='text' value='<%=obj.location%>'/>
             </section>
-              <input type='submit' value='Connect' id='config-submit' class='col12 pad1 short quiet icon check'>
+              <button type='submit' value='Connect' id='config-submit' class='col12 pad1 quiet icon globe'>Connect to Atlas Server</button>
           </form>
+           <a class='col12 stroke quiet button space-top1 short icon undo' href='/authorize'>Connect to Mapbox.com</a>
+
+          <div class='small space-top2'>Atlas Server is a dedicated map server that runs entirely on your own infrastructure. <a href='http://www.mapbox.com/enterprise/' target='_blank'> More information about Mapbox Enterprise and Atlas Server.<a> </div>
         </div>
+
+        </div>
+
     </div>
   </div>
 
