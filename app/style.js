@@ -112,7 +112,7 @@ Editor.prototype.events = {
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
   'submit #settings-drawer': 'save',
-  'submit #config-drawer': 'configChanged',
+  'click #config-submit': 'configChanged',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'click .js-adddata': 'adddata',
@@ -675,15 +675,41 @@ Editor.prototype.configChanged = function(ev) {
       else attr += '&' + field.name + '=' + field.value;
       return attr;
   }, attr);
-  console.log(attr)
+
   $.ajax({
     url: '/config' + attr,
     method: 'GET'
   })
-  .done(function() {})
+  .done(function(e) {
+    if ($('#enable-atlas').prop('checked')) {
+      editor.oauthAtlas();
+    } else {
+      // find a better way to determine whether the user is on atlas or not
+      if (e.id === 'AtlasUser'){
+          $.ajax({
+            url: '/unauthorize',
+            method: 'GET'
+          })
+        location.reload();
+      }
+    }
+  })
   .error(function() { });
-  this.refresh()
+
+  editor.refresh();
   return false;
+};
+Editor.prototype.oauthAtlas = function() {
+  $.ajax({
+      url: '/oauth/atlas',
+      method: 'GET'
+  })
+  .done(function() {
+    location.reload();
+  })
+  .error(function(){
+    Modal.show('error', 'Atlas Server is not running at ' + $('#location-input').prop('value') + '.');
+  });
 };
 
 Editor.prototype.refresh = function(ev) {
