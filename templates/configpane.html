@@ -14,12 +14,11 @@
 
     <div class='micro pad1y pad0x'>Atlas Server is a dedicated map server that runs entirely on your own infrastructure. <a href='http://www.mapbox.com/enterprise/' target='_blank'> More information about Mapbox Enterprise and Atlas Server.<a> </div>
 
-<!--     <p class='small'><a href='/unauthorize'>Logout </a> to use Mapbox Studio standard</p> -->
   </section>
   <fieldset class='pad1x'>
     <section class='space-bottom1'>
       <label>Atlas Server Location</label>
-      <input class='short small stretch' id='location-input' name='location' type='text' value='<%= obj.atlas.location || "http://localhost:2999" %>'/>
+      <input class='short small stretch' id='MapboxTile-input' name='MapboxTile' type='text' value='<%= obj.MapboxTile || "http://localhost:2999" %>'/>
     </section>
   </fieldset>
   <div class='pad1'>
