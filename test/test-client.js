@@ -36,7 +36,7 @@ tm.config({
     cwd: testPath,
     port: 3001,
     MapboxAuth: 'http://localhost:3001',
-    MapboxTile: 'http://localhost:3001/v4'
+    MapboxTile: 'http://localhost:3001'
 }, listen);
 
 // Test params
