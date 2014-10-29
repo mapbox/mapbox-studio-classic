@@ -830,6 +830,17 @@ a.data-y { display:none; }
 #config:target    ~ * a.config-n,
 #full:target      a.full-n { display:none; }
 
+.config-button {
+  color: white;
+  text-align: center;
+  font-size: 10px;
+  display: block;
+  margin-bottom: 5px;
+  padding: 2px 0px;
+  border-radius: 3px;
+  width: 60px;
+}
+
 /* Miscellaneous
 ------------------------------------------------------- */
 

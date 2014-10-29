@@ -668,48 +668,7 @@ Editor.prototype.lockCenter = function(ev) {
 };
 
 Editor.prototype.configChanged = function(ev) {
-  var attr = '';
-  // Grab config form values.
-  $('#config-drawer').serializeArray().reduce(function(memo, field) {
-      if (attr === '') attr = '?' + field.name + '=' + field.value;
-      else attr += '&' + field.name + '=' + field.value;
-      return attr;
-  }, attr);
-
-  $.ajax({
-    url: '/config' + attr,
-    method: 'GET'
-  })
-  .done(function(e) {
-    if ($('#enable-atlas').prop('checked')) {
-      editor.oauthAtlas();
-    } else {
-      // find a better way to determine whether the user is on atlas or not
-      if (e.id === 'AtlasUser'){
-          $.ajax({
-            url: '/unauthorize',
-            method: 'GET'
-          })
-        location.reload();
-      }
-    }
-  })
-  .error(function() { });
-
-  editor.refresh();
-  return false;
-};
-Editor.prototype.oauthAtlas = function() {
-  $.ajax({
-      url: '/oauth/atlas',
-      method: 'GET'
-  })
-  .done(function() {
-    location.reload();
-  })
-  .error(function(){
-    Modal.show('error', 'Atlas Server is not running at ' + $('#location-input').prop('value') + '.');
-  });
+    configChanged();
 };
 
 Editor.prototype.refresh = function(ev) {
