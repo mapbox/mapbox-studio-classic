@@ -19,7 +19,7 @@
   <fieldset class='pad1x'>
     <section class='space-bottom1'>
       <label>Atlas Server Location</label>
-      <input class='short small stretch' id='location-input' name='location' type='text' value='http://localhost:2999'/>
+      <input class='short small stretch' id='location-input' name='location' type='text' value='<%= obj.atlas.location || "http://localhost:2999" %>'/>
     </section>
   </fieldset>
   <div class='pad1'>
