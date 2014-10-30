@@ -65,4 +65,10 @@ It's possible to use your own fonts in Mapbox Studio styles. First of all, inclu
     }
 ```
 
-Once you've included fonts in your project and defined a font directory, you can then use the fonts by name anywhere in your style and they will be packaged with the style when uploaded to Mapbox or exported as a `.tm2z`. Make sure you only use fonts that are licensed for web usage.
+Once you've included fonts in your project and defined a font directory, you can then use the fonts by name anywhere in your style. Make sure to reference the fonts using their name and qualifier (Regular, Italic, Medium, etc.), not their file name.
+
+``` CSS
+    @couture: 'Couture Bold';
+```
+
+They will be packaged with the style when uploaded to Mapbox or exported as a `.tm2z`. Make sure you only use fonts that are licensed for web usage. 
