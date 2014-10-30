@@ -844,6 +844,18 @@ a.data-y { display:none; }
 /* Miscellaneous
 ------------------------------------------------------- */
 
+/* OAUTH */
+
+#config.oauth {
+  position: relative;
+  top: 80px;
+}
+
+.config-cover {
+  position: relative;
+  top: -65px;
+}
+
 /* Media queries
 ------------------------------------------------------- */
 @media (max-width:800px) {

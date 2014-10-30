@@ -45,8 +45,20 @@
         account&nbsp;to&nbsp;get&nbsp;started.
         </h2>
         <a href='/oauth/mapbox' class='quiet button icon lock col8 margin2'>Connect</a>
-        <a href='/config' class='stroke quiet button space-top1 short icon globe col8 margin2'>Connect to Atlas Server</a>
-    </div>
+
+        <div id='config' class='oauth animate offcanvas-top col8 margin2 text-left'>
+          <form action='/config/save' method='get' class=''>
+              <input class='short stretch' id='MapboxTile-input' name='MapboxTile' type='text' value='<%=obj.MapboxTile%>'/>
+              <button type='submit' value='Connect' id='config-submit' class='stroke quiet button space-top0 short col12'>Save</button>
+          </form>
+        </div>
+
+        <div class='z10 fill-blue col10 margin1 row2 config-cover'>
+          <span class='row1 col12'></span>
+          <a href='#config' class='z10 row1 icon sprocket col10 config-n'>Configure Mapbox API URL</a>
+          <a href='#' class='z10 row1 icon sprocket col10 config-y'>Configure Mapbox API URL</a>
+        </div>
+
 </div></div>
 <% } %>
 
