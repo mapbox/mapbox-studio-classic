@@ -6,17 +6,21 @@ var path = require('path');
 var assert = require('assert');
 var tilelive = require('tilelive');
 var yaml = require('js-yaml');
+var url = require('url');
+var querystring = require('querystring');
 
 var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var mockAtlas = require('../lib/mapbox-mock').AtlasServer(require('express')());
 var tmppath = tm.join(os.tmpdir(), 'mapbox-studio', 'middleware-' + (+new Date));
 var tmpId = tm.join(os.tmpdir(), 'mapbox-studio', 'middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var server;
+var atlas;
 
 test('setup: config', function(t) {
     tm.config({
@@ -34,7 +38,9 @@ test('setup: mockserver', function(t) {
     });
     tm.db.set('MapboxAPIAuth', 'http://localhost:3001');
     tm.db.set('MapboxAPITile', 'http://localhost:3001');
-    server = mockOauth.listen(3001, t.end);
+    server = mockOauth.listen(3001, function(){
+        atlas = mockAtlas.listen(2999, t.end);
+    });
 });
 
 test('history: loads', function(t) {
@@ -355,9 +361,52 @@ test('latest: finds latest local project entry', function(t) {
     });
 });
 
+test('atlasConfig: bad url', function(t) {
+    tm.db.set('MapboxAPITile', 'http://localhost:2999/badurl');
+
+    var res = {};
+    res.redirect = function(qs){
+        qs = url.parse(qs);
+        qs.query = qs.query ? querystring.parse(qs.query) : null;
+        t.deepEqual(qs.query.error, 'not_found', 'errors correctly');
+        t.equal(tm.db.get('user'), undefined, 'does not set user');
+        t.end();
+    };
+    middleware.atlasConfig(null, res, function(){});
+});
+
+test('atlasConfig: bad location', function(t) {
+    tm.db.set('MapboxAPITile', 'http://localhost:2999/badlocation');
+
+    var res = {};
+    res.redirect = function(qs){
+        qs = url.parse(qs);
+        qs.query = qs.query ? querystring.parse(qs.query) : null;
+        t.deepEqual(qs.query.error, 'not_found', 'errors correctly');
+        t.equal(tm.db.get('user'), undefined, 'does not set user');
+        t.end();
+    };
+    middleware.atlasConfig(null, res, function(){});
+});
+
+test('atlasConfig: good url', function(t) {
+    tm.db.set('MapboxAPITile', 'http://localhost:2999');
+
+    var res = {};
+    res.redirect = function(qs){
+        t.equal(qs, '/authorize', 'redirects to /authorize');
+        t.equal(tm.db.get('user').id, 'AtlasUser', 'sets user correctly');
+        t.equal(tm.db.get('oauth').account, 'Atlas', 'sets oauth correctly');
+        t.equal(tm.db.get('oauth').accesstoken, 'AtlasToken', 'sets oauth correctly');
+        t.end();
+    };
+
+    middleware.atlasConfig(null, res, function(){});
+});
+
 test('cleanup', function(t) {
     tm.db.rm('oauth');
     tm.history(sourceId, true);
     tm.history(styleId, true);
-    server.close(function() { t.end(); });
+    server.close(function() { atlas.close(function(){ t.end(); }) });
 });
