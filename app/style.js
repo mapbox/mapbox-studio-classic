@@ -112,7 +112,6 @@ Editor.prototype.events = {
   'click .js-recache': 'recache',
   'change #settings-drawer': 'changed',
   'submit #settings-drawer': 'save',
-  'click #config-submit': 'configChanged',
   'click .js-addtab': 'addtabModal',
   'submit #addtab': 'addtab',
   'click .js-adddata': 'adddata',
@@ -665,10 +664,6 @@ Editor.prototype.lockCenter = function(ev) {
   $(ev.currentTarget).toggleClass('active');
   this.changed();
   return false;
-};
-
-Editor.prototype.configChanged = function(ev) {
-    configChanged();
 };
 
 Editor.prototype.refresh = function(ev) {

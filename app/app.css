@@ -228,7 +228,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 }
 
 #user:target ~ #drawers #user-drawer ~ .drawer,
-#settings:target ~ #drawers #settings-drawer ~ .drawer  {
+#settings:target ~ #drawers #settings-drawer ~ .drawer {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -828,7 +828,7 @@ a.data-y { display:none; }
 /* Miscellaneous
 ------------------------------------------------------- */
 
-/* OAUTH */
+/* oauth */
 
 #config.oauth {
   position: relative;

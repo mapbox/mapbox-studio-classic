@@ -106,8 +106,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         'submit #settings-drawer': 'save',
         'keydown': 'keys',
         'click .js-zoom-to': 'zoomToLayer',
-        'click .js-lockCenter': 'lockCenter',
-        'click #config-submit': 'configChanged'
+        'click .js-lockCenter': 'lockCenter'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -671,10 +670,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         $(ev.currentTarget).toggleClass('active');
         this.changed();
         return false;
-    };
-
-    Editor.prototype.configChanged = function(ev) {
-        configChanged();
     };
 
     window.editor = new Editor({
