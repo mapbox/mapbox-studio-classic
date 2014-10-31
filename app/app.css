@@ -245,9 +245,17 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 .on-tmp { display:none; }
 .on-changed { display:none; }
 .on-local { display:none; }
+
 body.tmp .on-tmp { display:block; }
 body.changed .on-changed { display:block; }
 body.local .on-local { display:block; }
+
+.on-atlas,
+body.atlas .on-tmp,
+body.atlas .on-changed,
+body.atlas .on-local { display: none; }
+
+body.atlas .on-atlas { display:block; }
 
 /* Project history
 ------------------------------------------------------- */
@@ -828,7 +836,7 @@ a.data-y { display:none; }
 /* Miscellaneous
 ------------------------------------------------------- */
 
-/* oauth */
+/* Atlas */
 
 #config.oauth {
   position: relative;
@@ -839,6 +847,8 @@ a.data-y { display:none; }
   position: relative;
   top: -50px;
 }
+
+.top-0 { top: -10px; }
 
 /* Media queries
 ------------------------------------------------------- */

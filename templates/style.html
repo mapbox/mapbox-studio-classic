@@ -38,7 +38,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> <%= atlas %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
 <a id='settings'></a>
 <a id='layers'></a>
 <a id='fonts'></a>
@@ -141,7 +141,7 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled'>
-      <fieldset class='keyline-bottom clearfix pad2y pad1x contain'>
+      <fieldset class='keyline-bottom clearfix pad1y contain'>
         <div class='z10 pin-top pin-bottom col12 pad1x pad2y fill-disable on-local on-tmp on-changed'></div>
         <div class='on-tmp on-changed z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
           <strong class='icon floppy'>Save project</strong> to share
@@ -149,7 +149,11 @@
         <div class='on-local z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
           Use <strong class='icon cloud'>remote source</strong> to share
         </div>
-        <section class='space-bottom1'>
+        <section class='space-bottom1 pad1 contain'>
+          <div class='on-atlas z10 top-0 pin-top pin-bottom col12 pad1x pad2y fill-disable'></div>
+          <div class='on-atlas z10 top-0 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
+            <strong class='icon floppy'>Connected to Atlas Server</strong>
+          </div>
           <div id='mapstatus' class='contain clip'>
             <div id='mapstatus-mapid' class='pin-top pad0y pad1x center truncate round-top space small animate fill-darken1'>
               <strong>Map ID</strong>
