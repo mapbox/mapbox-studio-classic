@@ -218,10 +218,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #user:target ~ #drawers,
 #settings:target ~ #drawers,
-#config:target ~ #drawers,
 #user:target ~ #drawers #user-drawer,
-#settings:target ~ #drawers #settings-drawer,
-#config:target ~ #drawers #config-drawer {
+#settings:target ~ #drawers #settings-drawer {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -230,8 +228,7 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 }
 
 #user:target ~ #drawers #user-drawer ~ .drawer,
-#settings:target ~ #drawers #settings-drawer ~ .drawer,
-#config:target ~ #drawers #config-drawer ~ .drawer  {
+#settings:target ~ #drawers #settings-drawer ~ .drawer  {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -240,10 +237,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #user:target ~ #drawers > *,
 #settings:target ~ #drawers > *,
-#config:target ~ #drawers > *,
 #user:target ~ #drawers #user-drawer > *,
-#settings:target ~ #drawers #settings-drawer > *,
-#config:target ~ #drawers #config-drawer > *  { display:block; }
+#settings:target ~ #drawers #settings-drawer > * { display:block; }
 
 /* Project state
 ------------------------------------------------------- */
@@ -829,17 +824,6 @@ a.data-y { display:none; }
 #search:target    ~ * a.search-n,
 #config:target    ~ * a.config-n,
 #full:target      a.full-n { display:none; }
-
-.config-button {
-  color: white;
-  text-align: center;
-  font-size: 10px;
-  display: block;
-  margin-bottom: 5px;
-  padding: 2px 0px;
-  border-radius: 3px;
-  width: 60px;
-}
 
 /* Miscellaneous
 ------------------------------------------------------- */

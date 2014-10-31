@@ -30,7 +30,6 @@
 
 <a id='settings'></a>
 <a id='user'></a>
-<a id='config'></a>
 
 <div id='perf'></div>
 
@@ -111,16 +110,6 @@
     </div>
     <%= this.history(obj) %>
   </div>
-
-  <form id='config-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top pad1 keyline-bottom'>
-      <h3>Configure</h3>
-      <a href='#' class='icon x pin-right pad1 quiet'></a>
-    </div>
-    <%= this.configpane(obj) %>
-  </form>
-
-
 </div>
 
 <div id='full' class='clip dark fill-dark animate pin-left'>
@@ -208,10 +197,6 @@
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
     <a class='toolbar-button strong user-y active fill-lighten1' href='#'><div class='inline icon avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Projects</a>
   </div>
-  <div class='pad1x'>
-      <a class='config-button quiet config-n' href='#config'>Configure</a>
-      <a class='config-button quiet config-y active fill-lighten1' href='#'>Configure</a>
-    </div>
   </div>
 </div>
 
@@ -239,7 +224,6 @@ templates.layergdal = <%= this.layergdal.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 templates.modalsourcenewstyle = <%= this.modalsourcenewstyle.source %>;
-templates.config = <%= this.configpane.source %>;
 
 var tm = {};
 tm.srs = <%= saferstringify(tm.srs, null, 2) %>;
