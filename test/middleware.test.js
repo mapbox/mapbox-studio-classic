@@ -23,8 +23,7 @@ test('setup: config', function(t) {
         log: false,
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
-        fonts: path.join(tmppath, 'fonts'),
-        MapboxAuth: 'http://localhost:3001'
+        fonts: path.join(tmppath, 'fonts')
     }, t.end);
 });
 
@@ -33,7 +32,8 @@ test('setup: mockserver', function(t) {
         account: 'test',
         accesstoken: 'testaccesstoken'
     });
-    tm._config.MapboxTile = 'http://localhost:3001';
+    tm.db.set('MapboxAuth', 'http://localhost:3001');
+    tm.db.set('MapboxTile', 'http://localhost:3001');
     server = mockOauth.listen(3001, t.end);
 });
 

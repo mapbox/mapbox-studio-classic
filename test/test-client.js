@@ -34,10 +34,11 @@ tm.config({
     tmp: path.join(tmp, 'tmp'),
     cache: path.join(tmp, 'cache'),
     cwd: testPath,
-    port: 3001,
-    MapboxAuth: 'http://localhost:3001',
-    MapboxTile: 'http://localhost:3001'
+    port: 3001
 }, listen);
+
+tm.db.set('MapboxAuth', 'http://localhost:3001');
+tm.db.set('MapboxTile', 'http://localhost:3001');
 
 // Test params
 var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data');

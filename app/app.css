@@ -836,7 +836,7 @@ a.data-y { display:none; }
 /* Miscellaneous
 ------------------------------------------------------- */
 
-/* Atlas */
+/* /authorize API Config */
 
 #config.oauth {
   position: relative;
@@ -847,6 +847,8 @@ a.data-y { display:none; }
   position: relative;
   top: -50px;
 }
+
+/* Atlas mode */
 
 .top-0 { top: -10px; }
 
