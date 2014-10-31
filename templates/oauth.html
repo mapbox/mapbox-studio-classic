@@ -48,7 +48,7 @@
           <button type='submit' value='Connect' id='connect' class='quiet button icon lock col8 margin2'>Connect</button>
 
           <div id='config' class='oauth animate offcanvas-top col8 margin2 text-left'>
-            <input class='short stretch' id='MapboxTile-input' name='MapboxTile' type='text' value='<%=obj.MapboxTile%>'/>
+            <input class='short stretch' id='MapboxAPITile-input' name='MapboxAPITile' type='text' value='<%=obj.MapboxAPITile%>'/>
             <a id='resetURL' class='quiet center micro col12'>Reset to Mapbox</a>
           </div>
 
@@ -63,7 +63,7 @@
 
 <script>
 $('#resetURL').on('click', function(){
-  $('#MapboxTile-input').prop('value','https://a.tiles.mapbox.com/');
+  $('#MapboxAPITile-input').prop('value','https://a.tiles.mapbox.com/');
 });
 </script>
 

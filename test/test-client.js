@@ -37,8 +37,8 @@ tm.config({
     port: 3001
 }, listen);
 
-tm.db.set('MapboxAuth', 'http://localhost:3001');
-tm.db.set('MapboxTile', 'http://localhost:3001');
+tm.db.set('MapboxAPIAuth', 'http://localhost:3001');
+tm.db.set('MapboxAPITile', 'http://localhost:3001');
 
 // Test params
 var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data');
