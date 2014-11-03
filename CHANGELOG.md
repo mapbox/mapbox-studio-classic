@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 0.1.7
+
+- Package user-provided font files with styles.
+- Style UI: fix bug where two spaces would be added after a successful carto autocomletion.
+
 ### 0.1.6
 
 - Update to node-mapnik 3.0.5.

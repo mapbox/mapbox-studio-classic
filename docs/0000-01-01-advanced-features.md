@@ -3,6 +3,7 @@ Advanced features
 
 - [UTFGrid interactivity](#utfgrid-interactivity)
 - [Custom layer order](#custom-layer-order)
+- [Custom fonts](#custom-fonts)
 
 UTFGrid interactivity
 ---------------------
@@ -51,3 +52,17 @@ Once the **layers** key is added to a style project the source can only be chang
 _This source is locked in the UI because of a custom layer order defined in `project.yml`_
 
 _Note: After making edits to the `project.yml` file in a text editor you should quit and restart Mapbox Studio to see your changes. Studio loads up your project into memory and currently does not detect changes from other text editors._
+
+Custom fonts
+------------------
+
+It's possible to use your own fonts in Mapbox Studio styles. First of all, include your `woff`, `.ttf`, `.otf` font file in a style's project directory. Secondly, create a reference to where the fonts are located in carto:
+
+``` CSS
+    Map {
+      /* assumes fonts are in the style project's base directory */
+      font-directory: url('');
+    }
+```
+
+Once you've included fonts in your project and defined a font directory, you can then use the fonts by name anywhere in your style and they will be packaged with the style when uploaded to Mapbox or exported as a `.tm2z`. Make sure you only use fonts that are licensed for web usage.
