@@ -410,6 +410,18 @@ var datatests = {
     },
 };
 
+tape('Drag and drop layer ', function(t) {
+    t.equal($('body.changed').size(), 1);
+    $('.js-save').click();
+    onajax(function() {
+        t.equal($('body.changed').size(), 0);
+        var layer1 = $('.js-layer:first-child');
+        layer1.trigger('sortupdate');
+        t.equal($('body.changed').size(), 1, ' triggers changed class on body');
+        t.end();
+    })
+});
+
 tape('Clear layers', function(t) {
     //Delete old layers from yml
     $('#del-box').click();
