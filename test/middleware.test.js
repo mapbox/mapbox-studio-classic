@@ -6,8 +6,6 @@ var path = require('path');
 var assert = require('assert');
 var tilelive = require('tilelive');
 var yaml = require('js-yaml');
-var url = require('url');
-var querystring = require('querystring');
 
 var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
@@ -366,13 +364,12 @@ test('atlasConfig: bad url', function(t) {
 
     var res = {};
     res.redirect = function(qs){
-        qs = url.parse(qs);
-        qs.query = qs.query ? querystring.parse(qs.query) : null;
-        t.deepEqual(qs.query.error, 'not_found', 'errors correctly');
+    };
+    middleware.atlasConfig(null, res, function(err){
+        t.deepEqual(err.message, 'Cannot find Atlas Server at http://localhost:2999/badurl', 'errors correctly');
         t.equal(tm.db.get('user'), undefined, 'does not set user');
         t.end();
-    };
-    middleware.atlasConfig(null, res, function(){});
+    });
 });
 
 test('atlasConfig: bad location', function(t) {
@@ -380,13 +377,12 @@ test('atlasConfig: bad location', function(t) {
 
     var res = {};
     res.redirect = function(qs){
-        qs = url.parse(qs);
-        qs.query = qs.query ? querystring.parse(qs.query) : null;
-        t.deepEqual(qs.query.error, 'not_found', 'errors correctly');
+    };
+    middleware.atlasConfig(null, res, function(err){
+        t.deepEqual(err.message, 'Cannot find Atlas Server at http://localhost:2999/badlocation', 'errors correctly');
         t.equal(tm.db.get('user'), undefined, 'does not set user');
         t.end();
-    };
-    middleware.atlasConfig(null, res, function(){});
+    });
 });
 
 test('atlasConfig: good url', function(t) {
