@@ -672,6 +672,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         return false;
     };
 
+    Editor.prototype.dragOrder = function(ev) {
+        orderLayers();
+        window.editor.changed();
+        window.editor.update();
+        return false;
+    };
+
     window.editor = new Editor({
         el: document.body,
         model: new Source(source)
@@ -693,5 +700,5 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
     // Sortable layers for local sources.
     $('#layers .js-layer-content').sortable();
-    $('#layers .js-layer-content').bind('sortupdate', orderLayers);
+    $('#layers .js-layer-content').bind('sortupdate', window.editor.dragOrder);
 };
