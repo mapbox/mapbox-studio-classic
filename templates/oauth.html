@@ -44,19 +44,16 @@
         Connect&nbsp;to&nbsp;your&nbsp;Mapbox<br/>
         account&nbsp;to&nbsp;get&nbsp;started.
         </h2>
-        <form action='/oauth/config' method='get' class='col12' >
-          <button type='submit' value='Connect' id='connect' class='quiet button icon lock col8 margin2'>Connect</button>
+        <form action='/oauth/config' method='get' class='col8 margin2' >
+          <button type='submit' value='Connect' id='connect' class='quiet space-bottom2 button icon lock col12'>Connect</button>
 
-          <div id='config' class='oauth animate offcanvas-top col8 margin2 text-left'>
-            <input class='short small stretch' id='MapboxAPITile-input' name='MapboxAPITile' type='text' value='<%=obj.MapboxAPITile%>'/>
-            <a id='resetURL' class='quiet center micro col12'>Reset to Mapbox</a>
-          </div>
-
-          <div class='z10 fill-blue col10 margin1 row2 config-cover'>
-            <span class='row1 col12'></span>
-            <a href='#config' class='z10 row1 icon sprocket col12 small config-n'>Configure Mapbox API URL</a>
-            <a href='#' class='z10 row1 icon sprocket col12 small config-y'>Configure Mapbox API URL</a>
-          </div>
+          <section class='pad1 fill-lighten0 '>
+            <span class='col12 z10 space-bottom1 icon sprocket small'>Configure Mapbox API URL</span>
+            <section id='config' class='text-left'>
+              <input class='short small stretch' id='MapboxAPITile-input' name='MapboxAPITile' type='text' value='<%=obj.MapboxAPITile%>'/>
+              <a id='resetURL' class='quiet center micro col12'>Reset to Mapbox</a>
+            </section>
+          </section>
         </form>
 </div></div>
 <% } %>

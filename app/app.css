@@ -836,18 +836,6 @@ a.data-y { display:none; }
 /* Miscellaneous
 ------------------------------------------------------- */
 
-/* /authorize API Config */
-
-#config.oauth {
-  position: relative;
-  top: 80px;
-}
-
-.config-cover {
-  position: relative;
-  top: -50px;
-}
-
 /* Atlas mode */
 
 .top-0 { top: -10px; }
