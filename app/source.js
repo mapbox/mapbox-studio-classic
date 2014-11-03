@@ -3,10 +3,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     var tiles;
     var mtime = (+new Date).toString(36);
     statHandler('srcbytes')();
-    // set initial page view to avoid #browsefile trap
-    $(function() {
-        if (window.location.hash === '#browsefile') window.location.hash = '#';
-    });
     var Layer = function(id, datasource) {
         var code;
         if (datasource && (datasource.type === 'postgis' || datasource.type === 'sqlite')) {
