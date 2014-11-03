@@ -418,8 +418,8 @@ tape('Drag and drop layer ', function(t) {
         t.equal($('body.changed').size(), 0);
         var layer1 = $('.js-layer:first-child');
         layer1.trigger('sortupdate');
-        t.equal($('body.changed').size(), 1, ' triggers changed class on body');
-        t.equal($('#full.loading').size(), 1, ' triggers update');
+        t.equal($('body.changed').size(), 1, ' triggers changed function');
+        t.equal($('#full.loading').size(), 1, ' triggers update function');
         t.end();
     })
 });
