@@ -1,0 +1,20 @@
+<div class='space-bottom1'>
+  <label class='micro col2 inline pad0y'><%= obj.field.field %></label>
+  <% if (obj.field.options){ %>
+    <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= obj.field.field %>'>
+    <% _(obj.field.options).each(function(option, i) {
+      for (var key in option){ %>
+        <option value='<%= key %>'><%= option[key] %></option>
+      <% }
+    }); %>
+    </select>
+    <% } else if (obj.field.field === 'field') { %>
+      <select class=' <%=obj.id%> truncate' layer='<%=obj.id%>' name='tmpvtfx-<%= obj.name %>-<%= obj.field.field %>'>
+      <% _(obj.fields).each(function(value, key) { %>
+        <option value='<%= key %>'><%= key %></option>
+      <% }); %>
+      </select>
+    <% } else { %>
+      <input type='text' class='short vtfx' name='tmpvtfx-<%= obj.name %>-<%= obj.field.field %>' value='<%= obj.field.default %>'/>
+    <% } %>
+</div>

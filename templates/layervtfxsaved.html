@@ -7,17 +7,25 @@ _(obj.vtfx).each(function(field) { %>
       } %>
       <%= name || field.id%>
       <span class='<%=obj.status%> status quiet emphasis'> Applied </span>
-
     </div>
     <div class='col6'>
     <% var hash = Math.floor(Math.random() * 1e6) + Date.now();
     _(field).each(function(value, key){ %>
-      <% if (key !== 'id' && key !== 'hash') {%>
+      <% if (key !== 'id' && key !== 'hash' && key !== 'options') {%>
           <div class='pad0y'>
             <label class='micro col2 inline pad0y'><%= key %></label>
             <input type='text' class='short vtfx' readonly='true' name='vtfx-<%=field.id%>-<%=key%>-<%=hash%>-<%=obj.id%>' value='<%= value %>'/>
         </div>
-    <% }
+    <% } else if (key === 'options') {
+      _(field[key]).each(function(object, i){
+        _(object).each(function(objValue, objKey){ %>
+          <div class='pad0y'>
+            <label class='micro col2 inline pad0y'><%= objKey %></label>
+            <input type='text' class='short vtfx' readonly='true' name='vtfx-<%=field.id%>-<%=objKey%>-<%=hash%>-<%=obj.id%>' value='<%= objValue %>'/>
+          </div>
+      <% })
+      })
+    }
   }) %>
   </div>
     <a href='#' value='Remove filter' layer='<%=obj.id%>' class='js-removefilter col2 button icon short minus quiet'>Remove</a>

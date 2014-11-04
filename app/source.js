@@ -49,8 +49,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
                         var vtfx = name.split('-')[0];
                         var filter = name.split('-')[1];
                         var hash = name.split('-')[2];
-                        if (memo[group][memo[group].length -1] && memo[group][memo[group].length -1].hash === hash){
-                            memo[group][memo[group].length -1][filter] = field.value;
+                        var i = memo[group].length - 1;
+                        if (memo[group][i] && memo[group][i].hash === hash){
+                            memo[group][i][filter] = field.value;
                             break;
                         }
                         var entry = {};
@@ -116,16 +117,30 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
                 var name = fields.slice(4).join('-');
                 switch (group) {
                     case 'vtfx':
+                        var i = memo[name] ? memo[name].length - 1 : 0;
                         memo = memo || {};
                         memo[name] = memo[name] || [];
-                        if (memo[name][memo[name].length -1] && memo[name][memo[name].length -1].hash === hash){
-                            memo[name][memo[name].length -1][filter] = field.value;
+                        if (memo[name][i] && memo[name][i].hash === hash){
+                            if (filters[vtfx].chainable) {
+                                var tmp = {};
+                                tmp[filter] = field.value;
+                                memo[name][i].options.push(tmp);
+                            } else {
+                                memo[name][i][filter] = field.value;
+                            }
                             break;
                         }
                         var entry = {};
                         entry.id = vtfx;
                         entry.hash = hash;
-                        entry[filter] = field.value;
+                        if (filters[vtfx].chainable) {
+                            entry.options = memo[name][i] && memo[name][i].options ? memo[name][i].options : [];
+                            var tmp = {};
+                            tmp[filter] = field.value;
+                            entry.options.push(tmp);
+                        } else {
+                            entry[filter] = field.value;
+                        }
                         memo[name].push(entry);
                         break;
                     default:
@@ -181,7 +196,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         'change .filter-select': 'refreshFilters',
         'click .js-addfilter': 'addFilter',
         'click .js-removefilter': 'removeFilter',
-        'click .js-info': 'toggleInfo'
+        'click .js-info': 'toggleInfo',
+        'click .js-addparams': 'addParams'
     };
     Editor.prototype.changed = function() {
         $('body').addClass('changed');
@@ -780,13 +796,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         return false;
     };
     Editor.prototype.refreshFilters = function(ev) {
-        var id = ev.currentTarget.attributes.getNamedItem('layer').value;
+        var id = $(ev.currentTarget).attr('layer');
 
-        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id, fields: layers[id].get().fields}));
+        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({fieldtemplate: templates.layervtfxfield, parameters: filters[ev.currentTarget.value], name: ev.currentTarget.value, id: id, fields: layers[id].get().fields}));
         this.changed();
     };
     Editor.prototype.addFilter = function(ev) {
-        var id = ev.currentTarget.attributes.getNamedItem('layer').value;
+        var id = $(ev.currentTarget).attr('layer');
         var attr = _($('#layers-' + id).serializeArray()).reduce(function(memo, field) {
             // @TODO determine what causes empty field names.
             if (!field.name) return memo;
@@ -798,7 +814,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
                 case 'tmpvtfx':
                     memo = memo || {};
                     memo.id = vtfx;
-                    memo[filter] = field.value;
+                    if (filters[vtfx].chainable) {
+                        memo.options = memo.options || [];
+                        var tmp = {};
+                        tmp[filter] = field.value;
+                        memo.options.push(tmp);
+                    } else {
+                        memo[filter] = field.value;
+                    }
                     break;
                 default:
                     break;
@@ -807,7 +830,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         }, {});
 
         $('.vtfx-'+id + ' .saved').append(templates.layervtfxsaved({vtfx: [attr], filters: filters, id: id, status: 'notapplied'}));
-        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({parameters: filters[attr.id], name: attr.id, id: id, fields: layers[id].get().fields }));
+        $('.tmpvtfx.'+id).replaceWith(templates.layervtfxfields({fieldtemplate: templates.layervtfxfield, parameters: filters[attr.id], name: attr.id, id: id, fields: layers[id].get().fields }));
 
         //Add new layer to the project's processors/vtfx array
         vtfx[id] = VTFX(id);
@@ -815,7 +838,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
         this.changed();
     };
     Editor.prototype.removeFilter = function(ev) {
-        var id = ev.currentTarget.attributes.getNamedItem('layer').value;
+        var id = $(ev.currentTarget).attr('layer');
         $(ev.currentTarget.parentElement).remove();
         this.changed();
     };
@@ -829,6 +852,15 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, filter
             $($el.attr('href')).removeClass('hidden');
          }
         return false;
+    };
+    Editor.prototype.addParams = function(ev) {
+        var id = $(ev.currentTarget).attr('layer');
+        var filter = $(ev.currentTarget).attr('filter');
+
+        for (var i = 0; i < filters[filter].options.length; i ++){
+            $(ev.currentTarget).before(templates.layervtfxfield({id: id, field: filters[filter].options[i], name: filter, fields: layers[id].get().fields}));
+        }
+        return false
     };
 
     window.editor = new Editor({
