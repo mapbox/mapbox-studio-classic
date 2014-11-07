@@ -199,6 +199,9 @@
 
 /* Font pane
 ------------------------------------------------------- */
+.font-heading {
+}
+
 #fonts-drawer .single-font {
   height:30px;
   display:block;
@@ -210,17 +213,23 @@
   color: transparent;
 }
 
+#fonts-drawer .font-family a {
+  height: 40px;
+  opacity: .5;
+}
+
+#fonts-drawer .font-family .your-font,
 #fonts-drawer .single-font:focus {
   background-image:none !important;
   color:#fff;
+  opacity: 1;
 }
 
+#fonts-drawer .font-family:hover { background: rgba(0,0,0,.05); }
 #fonts-drawer .font-family.active { background-color: rgba(0,0,0,.15); }
-
-#fonts-drawer .font-family .single-font { opacity:0.5; }
-#fonts-drawer .font-family.active input.single-font { opacity:1; }
 #fonts-drawer .font-family input.single-font { display:none; }
 #fonts-drawer .font-family.active input.single-font { display:block; }
+#fonts-drawer .font-family.active { padding-bottom: 10px;}
 
 /* History pane
 ------------------------------------------------------- */

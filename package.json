@@ -31,7 +31,7 @@
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "0.1.x",
     "tar": "0.1.x",
-    "mapnik": "3.0.5",
+    "mapnik": "^3.1.0",
     "mapnik-reference": "~6.0.3",
     "carto": "0.14.0",
     "speedometer": "0.1.2",
