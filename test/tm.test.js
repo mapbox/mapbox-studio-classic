@@ -261,15 +261,6 @@ test('tm copydir invalid from', function(t) {
     });
 });
 
-test('tm copydir does not overwrite dest', function(t) {
-    var dest = tm.join(tmppath, 'app.db');
-    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
-        t.equal(err.code, 'EEXIST', 'EEXIST');
-        t.equal(fs.statSync(dest).isDirectory(), false, 'dest is not a directory');
-        t.end();
-    });
-});
-
 test('tm copydir copies', function(t) {
     var dest = tm.join(tmppath, 'copydir');
     tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
