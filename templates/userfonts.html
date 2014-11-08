@@ -1,11 +1,16 @@
-<div class='font-family keyline-bottom' id='fontfamily-userfonts'>
   <% if (obj.fonts.length) { %>
+  <div class='font-family keyline-bottom' id='fontfamily-userfonts'>
     <a href='#fontfamily-userfonts' class='pad1 single-font your-font js-tab'><h4>Your fonts</h4></a>
     <div class='pin-right row1 micro pad1'><%= obj.fonts.length %> <%= obj.fonts.length > 1 ? 'fonts' : 'font' %></div>
     <% obj.fonts.forEach(function(font) { %>
     <input type='text' class='block pad0 col12 single-font user-font clean js-selectall small' style='background-image:url("/font.png?id=<%=font%>&style=<%=obj.id%>")' value='<%=font%>' />
+  </div>
     <% }); %>
   <% } else { %>
-    <div class='pad1 small quiet'>To use your own fonts, add them to this style's project folder and set a <code>font directory</code> on the <code>Map</code> element.</div>
+    <div class='pad1 small keyline-bottom quiet'>To use your own fonts, add them to this style's project folder and set a <code>font directory</code> on the <code>Map</code> element.
+    <div class='pad0y'>Example: </div>
+    <span class='micro inline pad0x code fill-darken1 quiet round truncate'>
+    Map { font-directory: url("fonts/"); }
+    </span>
+    </div>
   <% } %>
-</div>
