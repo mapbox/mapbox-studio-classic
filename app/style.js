@@ -778,7 +778,7 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Update fonts
-  $('.js-userfonts').html(templates.userfonts({fonts:this.model.get('fonts'),fontdir:this.model.get('fontdir')}))
+  $('.js-userfonts').html(templates.userfonts({fonts:this.model.get('fonts'),id:this.model.get('id')}))
 
   return false;
 };
