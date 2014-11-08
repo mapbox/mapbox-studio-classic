@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Map srs='+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs' <% if (obj.directory != undefined) { %>font-directory="<%=obj.directory%>"<% } %>>
+<Map srs='+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs' <% if (obj.fontdir != undefined) { %>font-directory="<%=obj.fontdir%>"<% } %>>
   <Style name='font'>
     <Rule>
       <TextSymbolizer

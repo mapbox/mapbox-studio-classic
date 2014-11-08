@@ -777,6 +777,9 @@ Editor.prototype.refresh = function(ev) {
     $('#map').css({'background-color':this.model.get('background')});
   }
 
+  // Update fonts
+  $('.js-userfonts').html(templates.userfonts({fonts:this.model.get('fonts'),fontdir:this.model.get('fontdir')}))
+
   return false;
 };
 
