@@ -3,10 +3,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
     var tiles;
     var mtime = (+new Date).toString(36);
     statHandler('srcbytes')();
-    // set initial page view to avoid #browsefile trap
-    $(function() {
-        if (window.location.hash === '#browsefile') window.location.hash = '#';
-    });
     var Layer = function(id, datasource) {
         var code;
         if (datasource && (datasource.type === 'postgis' || datasource.type === 'sqlite')) {
@@ -672,6 +668,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         return false;
     };
 
+    Editor.prototype.dragOrder = function(ev) {
+        orderLayers();
+        window.editor.changed();
+        window.editor.update();
+        return false;
+    };
+
     window.editor = new Editor({
         el: document.body,
         model: new Source(source)
@@ -693,5 +696,5 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
 
     // Sortable layers for local sources.
     $('#layers .js-layer-content').sortable();
-    $('#layers .js-layer-content').bind('sortupdate', orderLayers);
+    $('#layers .js-layer-content').bind('sortupdate', window.editor.dragOrder);
 };
