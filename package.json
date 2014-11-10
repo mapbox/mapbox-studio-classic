@@ -60,7 +60,8 @@
     "abaculus": "1.0.0",
     "progress-stream": "0.5.0",
     "safer-stringify": "0.0.1",
-    "gazetteer": "0.1.4"
+    "gazetteer": "0.1.4",
+    "request": "2.47.0"
   },
   "devDependencies": {
     "tape": "2.13.x",
