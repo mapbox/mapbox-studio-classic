@@ -360,44 +360,51 @@ test('latest: finds latest local project entry', function(t) {
 });
 
 test('atlasConfig: bad url', function(t) {
-    tm.db.set('MapboxAPITile', 'http://localhost:2999/badurl');
-
     var res = {};
     res.redirect = function(qs){
     };
-    middleware.atlasConfig(null, res, function(err){
-        t.deepEqual(err.message, 'Cannot find Atlas Server at http://localhost:2999/badurl', 'errors correctly');
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/badurl'}}, res, function(err){
+        t.deepEqual(err.message, 'Cannot find Mapbox API at http://localhost:2999/badurl', 'errors correctly');
         t.equal(tm.db.get('user'), undefined, 'does not set user');
         t.end();
     });
 });
 
 test('atlasConfig: bad location', function(t) {
-    tm.db.set('MapboxAPITile', 'http://localhost:2999/badlocation');
-
     var res = {};
     res.redirect = function(qs){
     };
-    middleware.atlasConfig(null, res, function(err){
-        t.deepEqual(err.message, 'Cannot find Atlas Server at http://localhost:2999/badlocation', 'errors correctly');
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/badlocation'}}, res, function(err){
+        t.deepEqual(err.message, 'Cannot find Mapbox API at http://localhost:2999/badlocation', 'errors correctly');
         t.equal(tm.db.get('user'), undefined, 'does not set user');
         t.end();
     });
 });
 
-test('atlasConfig: good url', function(t) {
-    tm.db.set('MapboxAPITile', 'http://localhost:2999');
-
+test('atlasConfig: good url - mapbox', function(t) {
     var res = {};
     res.redirect = function(qs){
-        t.equal(qs, '/authorize', 'redirects to /authorize');
-        t.equal(tm.db.get('user').id, 'AtlasUser', 'sets user correctly');
-        t.equal(tm.db.get('oauth').account, 'Atlas', 'sets oauth correctly');
-        t.equal(tm.db.get('oauth').accesstoken, 'AtlasToken', 'sets oauth correctly');
+        t.equal(qs, '/oauth/mapbox', 'redirects to /oauth/mapbox');
         t.end();
     };
 
-    middleware.atlasConfig(null, res, function(){});
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/mapbox'}}, res, function(){});
+});
+
+test('atlasConfig: good url - atlas', function(t) {
+    var res = {};
+    res.redirect = function(qs){
+        t.equal(qs, '/oauth/atlas', 'redirects to /oauth/atlas');
+        middleware.atlasConfig(null, {redirect: function(qs){
+                t.equal(qs, '/authorize', 'redirects to /authorize');
+                t.equal(tm.db.get('user').id, 'AtlasUser', 'sets user correctly');
+                t.equal(tm.db.get('oauth').account, 'Atlas', 'sets oauth correctly');
+                t.equal(tm.db.get('oauth').accesstoken, 'AtlasToken', 'sets oauth correctly');
+                t.end();
+        }}, function(){ });
+    };
+
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/atlas'}}, res, function(){});
 });
 
 test('cleanup', function(t) {
