@@ -161,28 +161,36 @@ test('tm history', function(t) {
 });
 
 test('tm font (invalid)', function(t) {
-    tm.font('doesnotexist', '', function(err) {
+    tm.font('doesnotexist', '', undefined, function(err) {
         t.equal('Invalid font doesnotexist', err.message);
         t.end();
     });
 });
 
 test('tm font (valid)', function(t) {
-    tm.font('Source Sans Pro Bold', '', function(err, buffer) {
+    tm.font('Source Sans Pro Bold', '', undefined, function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 1200 && buffer.length < 2000, ' valid font size');
         setTimeout(function() {
-            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-f574c8c3.png')));
+            t.ok(fs.existsSync(path.join(tm.config().cache, 'font-b4c92d28.png')));
             t.end();
         }, 2000);
     });
 });
 
 test('tm font (cache hit)', function(t) {
-    tm.font('Source Sans Pro Bold', '', function(err, buffer) {
+    tm.font('Source Sans Pro Bold', '', undefined, function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 1200 && buffer.length < 2000, ' valid font size');
         t.ok(buffer.hit);
+        t.end();
+    });
+});
+
+test('tm font (fontdir)', function(t) {
+    tm.font('Comic Neue Oblique', '', path.join(__dirname, 'fixtures-fontstyle'), function(err, buffer) {
+        t.ifError(err);
+        t.ok(buffer.length > 1200 && buffer.length < 2000, ' valid font size');
         t.end();
     });
 });
@@ -257,15 +265,6 @@ test('tm copydir invalid from', function(t) {
     tm.copydir(tm.join(__dirname, 'doesnotexist'), dest, null, function(err) {
         t.equal(err.code, 'ENOENT', 'ENOENT');
         t.equal(fs.existsSync(dest), false, 'dest does not exist');
-        t.end();
-    });
-});
-
-test('tm copydir does not overwrite dest', function(t) {
-    var dest = tm.join(tmppath, 'app.db');
-    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
-        t.equal(err.code, 'EEXIST', 'EEXIST');
-        t.equal(fs.statSync(dest).isDirectory(), false, 'dest is not a directory');
         t.end();
     });
 });

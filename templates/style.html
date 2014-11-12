@@ -7,7 +7,7 @@
   <link href='/ext/spectrum/spectrum.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/codemirror/codemirror.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/mapbox.css?<%=obj.nocache%>' rel='stylesheet' />
-  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/leaflet-locationfilter/locationfilter.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/app/style.css?<%=obj.nocache%>' rel='stylesheet' />
@@ -262,8 +262,8 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div id='fontfamily' class='pin-left col12 top1 scroll-styled'>
+      <div class='js-userfonts'><%= this['userfonts']({fonts:style.fonts,id:style.id}) %></div>
       <%= this['stylefonts'](fontsRef) %>
-      <div class='pad1 quiet small'>To use your own fonts, include them in your projects's directory and define a <code class='micro'>font-directory</code> on the <code class='micro'>Map</code> element.</div>
     </div>
   </div>
 
@@ -578,6 +578,7 @@ templates.modalnewproject = <%= this.modalnewproject.source %>;
 templates.newproject = <%= this.newproject.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
+templates.userfonts = <%= this.userfonts.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 
