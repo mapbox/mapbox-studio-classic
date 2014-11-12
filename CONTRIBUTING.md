@@ -10,6 +10,15 @@ Mapbox Studio relies on its dependencies for key parts of its functionality. Whe
 - [mapnik](https://github.com/mapnik/mapnik) and [node-mapnik](https://github.com/mapnik/node-mapnik) provide core tile rendering functionality
 - [mapnik-omnivore](https://github.com/mapbox/mapnik-omnivore) does the dirty work when autodetecting projection and other metadata of datasources
 
+### Atom shell
+
+The packaged desktop app version of Studio uses [atom shell](https://github.com/atom/atom-shell) as an app wrapper. To use atom shell to test studio in development:
+
+1. Download the latest release of atom shell from https://github.com/atom/atom-shell/releases
+2. Unzip it and run the `atom` binary pointing at your mapbox-studio repo:
+
+      ./atom /path/to/your/mapbox-studio
+
 ### Pull requests
 
 Use PRs for everything but trivial changes and typos. Goals to strive for:
