@@ -202,7 +202,7 @@ test('tm oauth', function(t) {
     t.throws(function() { tm.oauth(); }, /No active OAuth account/, 'throws without oauth info');
 
     tm.db.set('oauth', { account:'test' });
-    t.deepEqual(tm.oauth(), { account:'test' }, 'gets oauth info');
+    t.deepEqual(tm.oauth(), { account:'test', isMapboxAPI:true }, 'gets oauth info');
 
     tm.db.set('oauth', oauth);
 
