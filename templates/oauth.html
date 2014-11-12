@@ -45,21 +45,21 @@
         account&nbsp;to&nbsp;get&nbsp;started.
         </h2>
         <form action='/oauth/config' method='get' class='col8 margin2' >
-          <button type='submit' value='Connect' id='connect' class='quiet space-bottom2 button icon lock col12'>Connect</button>
+          <button type='submit' value='Connect' id='connect' class='quiet space-bottom4 button icon lock col12'>Connect</button>
 
-          <section class='pad1 fill-lighten0 '>
-            <span class='col12 z10 space-bottom1 icon sprocket small'>Configure Mapbox API URL</span>
-            <section id='config' class='text-left'>
-              <input class='short small stretch' id='MapboxAPITile-input' name='MapboxAPITile' type='text' value='<%=obj.MapboxAPITile%>'/>
-              <a id='resetURL' class='quiet center micro col12'>Reset to Mapbox</a>
-            </section>
+          <section class='space-bottom0 micro'>
+            <strong>Using Atlas Server?</strong> Enter its URL to connect Mapbox Studio.
+          </section>
+          <section id='config' class='contain'>
+            <a href='#' class='pin-right pad0y pad2x js-reseturl quiet micro fill-darken0 round-right'>Reset</a>
+            <input class='short small col12 clean round text-left space-bottom1' id='MapboxAPITile-input' name='MapboxAPITile' type='text' value='<%=obj.MapboxAPITile%>'/>
           </section>
         </form>
 </div></div>
 <% } %>
 
 <script>
-$('#resetURL').on('click', function(){
+$('.js-reseturl').on('click', function(){
   $('#MapboxAPITile-input').prop('value','https://a.tiles.mapbox.com/');
 });
 </script>
