@@ -397,6 +397,7 @@ test('config: good url - offline', function(t) {
         t.equal(qs, '/authorize', 'redirects to /authorize');
         t.equal(tm.db.get('user').id, 'offline', 'sets user correctly');
         t.equal(tm.db.get('user').name, 'Offline user', 'sets user correctly');
+        t.equal(tm.db.get('user').avatar, '/app/avatar.png', 'sets user correctly');
         t.equal(tm.db.get('oauth').account, 'offline', 'sets oauth correctly');
         t.equal(tm.db.get('oauth').accesstoken, '', 'sets oauth correctly');
         t.equal(tm.db.get('oauth').isMapboxAPI, false, 'sets oauth correctly');
