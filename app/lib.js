@@ -283,6 +283,8 @@ views.Modal.prototype.show = function(id, options, callback) {
 views.Maputils = Backbone.View.extend({});
 
 views.Maputils.prototype.events = {
+  'click #zoom-in': 'zoomin',
+  'click #zoom-out': 'zoomout',
   'submit #search': 'search',
   'click .search-n': 'focusSearch',
   'click .js-search-result': 'selectSearch',
@@ -301,6 +303,17 @@ views.Maputils.prototype.keys = function(ev) {
     return;
   }
   if ((!ev.ctrlKey && !ev.metaKey) || ev.shiftKey) return;
+  var which = ev.which;
+  switch (true) {
+  case (which === 187): // +
+    this.zoomin();
+    return false;
+    break;
+  case (which === 189): // -
+    this.zoomout();
+    return false;
+    break;
+  }
   return true;
 };
 

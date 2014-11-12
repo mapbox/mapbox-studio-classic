@@ -94,6 +94,8 @@
   color: rgba(255,255,255,0.5);
 }
 
+.fixed-bottomright { position:fixed; bottom:0; right:0; }
+
 kbd {
   box-shadow:none;
   padding:0 1px;
