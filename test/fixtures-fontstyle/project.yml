@@ -1,0 +1,20 @@
+styles:
+  - a.mss
+source: mapbox:///mapbox.mapbox-streets-v2
+name: tmp-1234
+center:
+  - 0
+  - 0
+  - 3
+minzoom: 0
+maxzoom: 22
+_prefs:
+  mapid: ""
+  saveCenter: true
+attribution: ""
+description: ""
+bounds:
+  - -180
+  - -85.0511
+  - 180
+  - 85.0511

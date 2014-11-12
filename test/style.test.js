@@ -20,6 +20,7 @@ var creds = {
 
 var server;
 var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
+var fontstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-fontstyle');
 var tmppath = tm.join(tmp, 'Style ШЖФ -' + (+new Date));
 
 test('setup: config', function(t) {
@@ -138,8 +139,56 @@ test('saves style to disk', function(t) {
     });
 });
 
+test('save to disk with fonts ', function(t) {
+    // Uses an example style with assets to test pre-save dir copy.
+    style.info(fontstyle, function(err, data) {
+        t.ifError(err);
+        var tmpid = fontstyle;
+        var permid = path.join(tmp, 'style-saveas-' + Math.random().toString(36).split('.').pop());
+        style.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+
+            t.ifError(err);
+            t.ok(source);
+            t.equal(source.data._tmp, false);
+            var tmpdir = tm.parse(permid).dirname;
+            t.deepEqual(source.data.fonts, ['Comic Neue Angular Bold Oblique', 'Comic Neue Oblique'], ' returns correct fonts');
+
+            // Remove one of the fonts
+            fs.unlink(tm.join(tmpdir,'ComicNeue-Regular-Oblique.ttf'), function(err) {
+                t.ifError(err);
+                style.refresh(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+                    t.ifError(err);
+                    t.deepEqual(source.data.fonts, ['Comic Neue Angular Bold Oblique'], ' returns correct fonts');
+                    t.end();
+                });
+            });
+        });
+    });
+});
+
 test('save as tmp => perm', function(t) {
     // Uses an example style with assets to test pre-save dir copy.
+    style.info(style.examples['mapbox-studio-comic'], function(err, data) {
+        t.ifError(err);
+        var tmpid = style.examples['mapbox-studio-comic'];
+        var permid = path.join(tmp, 'style-saveas-' + Math.random().toString(36).split('.').pop());
+        style.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
+            t.ifError(err);
+            t.ok(source);
+            t.equal(source.data._tmp, false);
+            var tmpdir = tm.parse(permid).dirname;
+            t.ok(fs.existsSync(tm.join(tmpdir,'img')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'project.yml')));
+            t.ok(fs.existsSync(tm.join(tmpdir,'project.xml')));
+            t.ok(!fs.existsSync(tm.join(tmpdir,'_gfx')));
+            t.end();
+        });
+    });
+});
+
+test('save as tmp => perm', function(t) {
+    // Uses an example style with assets to test pre-save dir copy.
+
     style.info(style.examples['mapbox-studio-comic'], function(err, data) {
         t.ifError(err);
         var tmpid = style.examples['mapbox-studio-comic'];
