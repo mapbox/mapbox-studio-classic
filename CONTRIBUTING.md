@@ -17,7 +17,7 @@ The packaged desktop app version of Studio uses [atom shell](https://github.com/
 1. Download the latest release of atom shell from https://github.com/atom/atom-shell/releases
 2. Unzip it and run the `atom` binary pointing at your mapbox-studio repo:
 
-      ./atom /path/to/your/mapbox-studio
+        ./atom /path/to/your/mapbox-studio
 
 ### Pull requests
 
