@@ -68,6 +68,11 @@ function ready(err) {
             src: 'tmpstyle://'+basePath+'/node_modules/mapbox-studio-default-style'
         },
         {
+            name: 'style-fonts',
+            url: 'http://localhost:3001/style?id={id}&test[fonts]=true',
+            src: 'tmpstyle://'+basePath+'/test/fixtures-fontstyle'
+        },
+        {
             name: 'source-export',
             url: 'http://localhost:3001/mbtiles?id={id}&test=true',
             src: 'tmsource://'+basePath+'/test/fixtures-localsource'

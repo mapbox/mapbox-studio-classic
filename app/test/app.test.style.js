@@ -29,6 +29,9 @@ if (window.testParams.userlayers) return testUserLayers();
 // test[tmp]=true => test tmp styles.
 if (window.testParams.tmp) return testTmp();
 
+// test[fonts]=true => test font styles.
+if (window.testParams.fonts) return testFonts();
+
 tape('.js-mapCenter', function(t) {
     var z = (window.editor.map.getZoom());
     var x = (window.editor.map.getCenter().lng);
@@ -746,6 +749,14 @@ function testTmp() {
         e.which = 83; // s
         $('body').trigger(e);
         t.equal(hasModal('#saveas'), true, '#saveas modal');
+        t.end();
+    });
+}
+
+
+function testFonts() {
+    tape('Custom fonts in list', function(t) {
+        t.ok($('.js-userfonts input:first-of-type').attr('value','Comic Neue Oblique'), true, ' includes correct fonts');
         t.end();
     });
 }
