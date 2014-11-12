@@ -38,7 +38,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> <%= isMapboxAPI ? 'api-mapbox' : '' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> <%= isMapboxAPI ? 'api-mapbox' : 'api-offline' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
 <a id='settings'></a>
 <a id='layers'></a>
 <a id='fonts'></a>
@@ -149,11 +149,7 @@
         <div class='on-local z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
           Use <strong class='icon cloud'>remote source</strong> to share
         </div>
-        <section class='pad1 contain'>
-          <div class='on-atlas z10 top-0 pin-top pin-bottom col12 pad1x pad2y fill-disable'></div>
-          <div class='on-atlas z10 top-0 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
-            <strong class='icon globe'>Connected to Atlas Server</strong>
-          </div>
+        <section class='pad1 contain on-api-mapbox'>
           <div id='mapstatus' class='contain clip'>
             <div id='mapstatus-mapid' class='pin-top pad0y pad1x center truncate round-top space small animate fill-darken1'>
               <strong>Map ID</strong>
@@ -165,8 +161,11 @@
           </div>
           <a href='#settings' class='js-upload col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
-        <section class='small center'>
+        <section class='small center on-api-mapbox'>
           <a href='/style.tm2z?id=<%= style.id %>' class='icon package'>or download package</a>
+        </section>
+        <section class='pad1 contain on-api-offline'>
+          <a href='/style.tm2z?id=<%= style.id %>' class='col12 short button icon package'>Download package</a>
         </section>
       </fieldset>
       <fieldset class='pad1x'>

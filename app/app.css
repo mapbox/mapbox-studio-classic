@@ -245,17 +245,13 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 .on-tmp { display:none; }
 .on-changed { display:none; }
 .on-local { display:none; }
-
+.on-api-mapbox { display:none; }
+.on-api-offline { display:none; }
 body.tmp .on-tmp { display:block; }
 body.changed .on-changed { display:block; }
 body.local .on-local { display:block; }
-
-.on-atlas,
-body.atlas .on-tmp,
-body.atlas .on-changed,
-body.atlas .on-local { display: none; }
-
-body.atlas .on-atlas { display:block; }
+body.api-mapbox .on-api-mapbox { display:block; }
+body.api-offline .on-api-offline { display:block; }
 
 /* Project history
 ------------------------------------------------------- */
@@ -806,7 +802,6 @@ a.user-y,
 a.search-y,
 a.settings-y,
 a.print-y,
-a.config-y,
 a.data-y { display:none; }
 
 .xray-toggle a.xray-n,
@@ -819,7 +814,6 @@ a.data-y { display:none; }
 #data:target      ~ * a.data-y,
 #bookmark:target  ~ * a.bookmark-y,
 #search:target    ~ * a.search-y,
-#config:target    ~ * a.config-y,
 #full:target      a.full-y { display:inline-block; }
 
 #user:target      ~ * a.user-n,
@@ -830,15 +824,10 @@ a.data-y { display:none; }
 #data:target      ~ * a.data-n,
 #bookmark:target  ~ * a.bookmark-n,
 #search:target    ~ * a.search-n,
-#config:target    ~ * a.config-n,
 #full:target      a.full-n { display:none; }
 
 /* Miscellaneous
 ------------------------------------------------------- */
-
-/* Atlas mode */
-
-.top-0 { top: -10px; }
 
 /* Media queries
 ------------------------------------------------------- */
