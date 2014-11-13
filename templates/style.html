@@ -7,7 +7,7 @@
   <link href='/ext/spectrum/spectrum.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/codemirror/codemirror.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/mapbox.css?<%=obj.nocache%>' rel='stylesheet' />
-  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/leaflet-locationfilter/locationfilter.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/app/style.css?<%=obj.nocache%>' rel='stylesheet' />
@@ -83,7 +83,7 @@
     </div>
     <div class='space-top4 col12 pin-left scroll-hide clearfix places-list unlimiter js-places-list' id='placeslist'></div>
   </div>
-  <div id='map-overlay' class='overlay'></div>
+  <div id='map-overlay' class='loading overlay'></div>
   <div id='map-errors'></div>
 
   <form id='search' class='z10 contain round animate search-results'>

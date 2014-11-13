@@ -94,8 +94,6 @@
   color: rgba(255,255,255,0.5);
 }
 
-.fixed-bottomright { position:fixed; bottom:0; right:0; }
-
 kbd {
   box-shadow:none;
   padding:0 1px;
@@ -521,20 +519,13 @@ body.local .on-local { display:block; }
   opacity:0;
   -webkit-transition:opacity 200ms ease-in 100ms, z-index 200ms ease-in 100ms;
   }
-#map-overlay:before {
-  content:'';
-  width:40px;
-  height:40px;
-  position:absolute; left:50%; top:50%;
-  margin:-20px 0px 0px -20px;
-  border-radius:50%;
-  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 10px;
-  background:#444 url(spinner.gif) 50% 50% no-repeat;
-  }
 .loading #map-overlay {
   z-index:1000;
   opacity:1;
   }
+
+/* Cancel out base loader from 'loading' class to rely on map-overlay */
+#full.loading:before, #full.loading:after { display: none;}
 
 #map-errors {
   position:absolute;
