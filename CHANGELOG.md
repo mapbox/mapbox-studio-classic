@@ -8,6 +8,7 @@ Changelog
 - Update to node-mapnik 3.1.0 and related libraries.
 - Style UI: Display fonts in a style's font directory.
 - Style UI: fix bug where two spaces would be added after a successful carto autocomletion.
+- Style UI: Clarify interface for saving new bookmarks
 
 ### 0.1.6
 
