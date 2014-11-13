@@ -10,7 +10,6 @@
 .export-controls { display: none;}
 #export:target ~ #full .map-controls .export-controls { display: inline-block;}
 #export:target ~ #full .map-controls .xray-toggle { display: none; }
-#export:target ~ #full .map-controls .add-bookmark { display: none; }
 #export:target ~ #full .map-controls .places-button { display: none;}
 
 /* locationfilter default overrides */

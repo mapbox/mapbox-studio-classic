@@ -77,7 +77,7 @@
           <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-places'>
           <label class='col2' for='Major cities'>Cities</label>
           <input id='bookmarks' type='radio' name='rtoggle' value='userbookmark' class='js-places'>
-          <label class='col2' for='bookmarks'></span>My places</label>
+          <label class='icon heart col2' for='bookmarks'></span>Saved</label>
         </div>
       </div>
     </div>
@@ -104,16 +104,15 @@
         <a href='#xray' class='xray-n button short icon inspect quiet'></a>
         <a href='#home' class='xray-y button short active icon inspect quiet'></a>
       </span>
-      <div class='pill inline align-top'>
-        <a class='button short icon places-button marker quiet' title='places' href='#places'>Places</a><!--
-        --><a class='button js-add-bookmark add-bookmark short quiet'>Add</a>
-      </div>
+      <a class='inline align-top button short icon places-button marker quiet' title='places' href='#places'>Places</a>
+
       <div class='pill inline align-top export-controls'>
         <a href='#export' title='Reselect crop area within view' id='reselect' class='quiet icon refresh button js-reselect short'>New</a><!--
         --><a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
       </div>
     </div>
     <div class='pin-top text-right z0 pad0 row1'>
+      <a href='#' tooltip='Save current view to places' class='align-top contain strong heart micro js-add-bookmark add-bookmark rcon short inline pad0'></a>
       <span id='map-center' class='quiet js-mapCenter inline micro strong pad0y align-top'></span>
       <div id='zoomedto' class='align-top text-right inline contain zoom<%=style.center[2]%>'></div>
     </div>
