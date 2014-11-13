@@ -2,6 +2,7 @@
 ------------------------------------------------------- */
 .top1 { top:40px; }
 .top2 { top:80px; }
+.top3 { top:120px; }
 .bottom1 { bottom:40px; }
 .bottom2 { bottom:80px; }
 .bottom3 { bottom:120px; }
@@ -341,10 +342,6 @@ body.local .on-local { display:block; }
   width:70px;
   display: inline-block;
   height: 30px;
-  -webkit-transition:height .125s;
-     -moz-transition:height .125s;
-      -ms-transition:height .125s;
-          transition:height .125s;
 }
 #zoomedto * {
   border-color: #525252;
@@ -454,8 +451,6 @@ body.local .on-local { display:block; }
 #zoomedto:target, #zoomedto.visible-y {
   position: absolute;
   display: block;
-  border-top: 1px solid rgba(0,0,0,0.25);
-  overflow:hidden;
   height:120px;
   background: #626262;
   z-index: 10;
@@ -476,6 +471,11 @@ body.local .on-local { display:block; }
   display:block;
   }
 
+/* zoomedto warning */
+#zoomedto.warning .zoom-display { background-color: #ee8a65;}
+#zoomedto .show-in-warning { display: none; }
+#zoomedto.warning:target .warning ~ .show-in-warning { display: block;}
+
 #zoomedto:target .zoom-display {
   background: transparent;
   width: 30px;
@@ -491,6 +491,7 @@ body.local .on-local { display:block; }
 #zoomedto.visible-y .close { display:block; }
 
 .zoomedto-close { z-index: 100; }
+
 
 .leaflet-container.dark .leaflet-bar,
 .leaflet-container.dark .leaflet-bar a { border-color:rgba(0,0,0,.2); }

@@ -53,11 +53,20 @@ var statHandler = function(key) {
       memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10); });
       return memo;
     }, {});
+
     var html = "<a href='#' class='zoomedto-close inline pad1 quiet pin-bottomright icon close'></a>";
 
     function round(v) { return Math.round(v * 0.001); }
 
+    // mapbox api limits
+    var limits = {
+          avgRender: 300,
+          maxRender: 1000,
+          tileSize: 500
+        }
+
     for (var z = 0; z < 23; z++) {
+      var warning = false;
       var s = stats[z];
       if (key === 'srcbytes' && s) {
         s = s.map(round);
@@ -65,8 +74,20 @@ var statHandler = function(key) {
       var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
+
+      switch(unit) {
+        case 'k':
+          if (s && s[1] > limits.tileSize) warning = true;
+          message = ' Tile size exceeds' limits.tileSize + unit ', the maximum allowed on mapbox.com.'
+        break;
+        case 'ms':
+          if (s && s[1] > limits.avgRender || w > limits.avgRender ) warning = true;
+          message = ' Tile render time exceeds maximum allowed on mapbox.com.'
+        break;
+      }
+
       html += [
-        "<a href='#zoomedto' class='pad0y quiet clip contain strong micro col12 zoom zoom",z,"'>",
+        "<a href='#zoomedto' class='pad0y quiet clip contain strong micro col12 zoom zoom",z + (warning ? ' warning' : ''),"'>",
         s ? "<span class='strong avg quiet'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
@@ -76,8 +97,18 @@ var statHandler = function(key) {
         "</a>"
       ].join('');
     }
-    $('#zoomedto').html(html);
+
+    var warningNote = $('<div>', {
+      class: 'text-left note show-in-warning top3 pin-top small fill-orange',
+      text: 'Warning:' + message
+    });
+
+    $('#zoomedto').html(html).append(warningNote);
+
+    if ($('.zoom.warning').length) $('#zoomedto').addClass('warning');
+
   }).throttle(50);
+
 };
 
 var delStyle = function(ev) {
