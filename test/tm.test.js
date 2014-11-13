@@ -344,6 +344,11 @@ test('tm api config MapboxAPITile', function(t) {
 
     tm.db.set('MapboxAPITile', MapboxAPITile);
 
+    var origEnv = process.env.MapboxAPITile;
+    process.env.MapboxAPITile = 'http://example-tile.com';
+    t.deepEqual(tm.apiConfig('MapboxAPITile'), 'http://example-tile.com', 'gets MapboxAPITile from env');
+    process.env.MapboxAPITile = origEnv;
+
     t.end();
 });
 
@@ -357,6 +362,11 @@ test('tm api config MapboxAPIAuth', function(t) {
     t.deepEqual(tm.apiConfig('MapboxAPIAuth'), 'http://localhost:2999', 'gets MapboxAPIAuth info');
 
     tm.db.set('MapboxAPIAuth', MapboxAPIAuth);
+
+    var origEnv = process.env.MapboxAPIAuth;
+    process.env.MapboxAPIAuth = 'http://example-auth.com';
+    t.deepEqual(tm.apiConfig('MapboxAPIAuth'), 'http://example-auth.com', 'gets MapboxAPIAuth from env');
+    process.env.MapboxAPIAuth = origEnv;
 
     t.end();
 });
