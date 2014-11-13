@@ -4,7 +4,10 @@ Changelog
 ### 0.1.7
 
 - Package user-provided font files with styles.
-- Style UI: Fix bug where two spaces would be added after a successful carto autocomletion.
+- Removes support for reading fonts from the `.mapbox-studio/fonts` -- use style-specific fonts instead.
+- Update to node-mapnik 3.1.0 and related libraries.
+- Style UI: Display fonts in a style's font directory.
+- Style UI: fix bug where two spaces would be added after a successful carto autocomletion.
 - Style UI: Clarify interface for saving new bookmarks
 
 ### 0.1.6
