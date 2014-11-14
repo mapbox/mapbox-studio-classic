@@ -104,9 +104,9 @@ var statHandler = function(key) {
         "</a>"
       ].join('');
 
-      if (warning && document.cookie.indexOf(warning) === -1) {
-        document.cookie = 'errors=Warning: at z' + z + ', ' + warning + '<a class="icon pad0x strong small info" href="#zoomedto">Details</a>' ;
-      }
+      // if (warning && document.cookie.indexOf(warning) === -1) {
+      //   document.cookie = 'errors=Warning: at z' + z + ', ' + warning + '<a class="icon pad0x strong small info" href="#zoomedto">Details</a>' ;
+      // }
     }
 
     $('#zoomedto').html(html);
