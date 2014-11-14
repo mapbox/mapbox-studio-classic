@@ -673,11 +673,18 @@ Editor.prototype.refresh = function(ev) {
     this.map = map;
 
     map.on('zoomend', function() {
-      var visible = '';
+      var visible = '',
+          warning = '';
+
       if (window.location.hash === '#export' && $('#zoomedto').hasClass('visible-y')){
         visible = 'visible-y';
       }
-      $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible);
+
+      if (window.location.hash !== '#export' && $('#zoomedto .warning').length) {
+        warning = 'warning';
+      }
+
+      $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible + ' ' + warning);
     });
 
     function setCenter(e) {
@@ -822,6 +829,7 @@ window.onhashchange = function(ev) {
     statHandler('drawtime')();
     break;
   case 'export':
+    $('#zoomedto').removeClass('warning');
     if ($('body').hasClass('local')) {
       window.location.hash = '#';
       break;

@@ -455,7 +455,7 @@ body.local .on-local { display:block; }
   display: block;
   height:120px;
   background: #626262;
-  z-index: 10;
+  z-index: 1;
   width: 100%;
   left: 0;
   right: 0;
@@ -488,7 +488,9 @@ body.local .on-local { display:block; }
 }
 
 /* zoomedto warning */
-#zoomedto .warning *  { color: #f1f075; }
+#zoomedto .note { background: #626262;}
+#zoomedto .warning .zoom-display,
+#zoomedto:not(:target).warning .zoom-display { background: #ee8a65; }
 
 #zoomedto:target .range,
 #zoomedto:target .close,

@@ -60,9 +60,9 @@ var statHandler = function(key) {
 
     // mapbox api limits
     var limits = {
-          avgRender: 300,
+          avgRender: 150,
           maxRender: 1000,
-          avgTile: 500
+          avgTile: 30
         }
 
     for (var z = 0; z < 23; z++) {
@@ -83,13 +83,13 @@ var statHandler = function(key) {
 
       if (unit === 'k') {
         if (s && s[1] > limits.avgTile) {
-          warning = 'tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
+          warning = 'Tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
         }
       } else if (unit === 'ms') {
           if (s && s[1] > limits.avgRender ) {
-            warning = 'average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
+            warning = 'Average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
           } else if (s && s[2] > limits.maxRender) {
-            warning = 'maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
+            warning = 'Maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
           }
       }
 
@@ -105,11 +105,14 @@ var statHandler = function(key) {
       ].join('');
 
       if (warning && document.cookie.indexOf(warning) === -1) {
-        document.cookie = 'errors=Warning: at z' + z + ', ' + warning + '<a class="icon pad0x strong small info" href="#zoomedto">Details</a>' ;
+        var note = $('<div>', {
+          class: 'text-left icon alert top3 pin-top small note',
+          text: warning
+        });
       }
     }
 
-    $('#zoomedto').html(html);
+    $('#zoomedto').html(html).append(note);
 
   }).debounce(100);
 
