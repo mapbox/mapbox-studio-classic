@@ -202,7 +202,7 @@ test('tm oauth', function(t) {
     t.throws(function() { tm.oauth(); }, /No active OAuth account/, 'throws without oauth info');
 
     tm.db.set('oauth', { account:'test' });
-    t.deepEqual(tm.oauth(), { account:'test' }, 'gets oauth info');
+    t.deepEqual(tm.oauth(), { account:'test', isMapboxAPI:true }, 'gets oauth info');
 
     tm.db.set('oauth', oauth);
 
@@ -331,4 +331,42 @@ test('tm applog', function(t) {
             }, 100);
         });
     }
+});
+
+test('tm api config MapboxAPITile', function(t) {
+    var MapboxAPITile = tm.db.get('MapboxAPITile');
+
+    tm.db.set('MapboxAPITile', null);
+    t.equals(tm.apiConfig('MapboxAPITile'), 'https://a.tiles.mapbox.com/');
+
+    tm.db.set('MapboxAPITile', 'http://localhost:2999');
+    t.deepEqual(tm.apiConfig('MapboxAPITile'), 'http://localhost:2999', 'gets MapboxAPITile info');
+
+    tm.db.set('MapboxAPITile', MapboxAPITile);
+
+    var origEnv = process.env.MapboxAPITile;
+    process.env.MapboxAPITile = 'http://example-tile.com';
+    t.deepEqual(tm.apiConfig('MapboxAPITile'), 'http://example-tile.com', 'gets MapboxAPITile from env');
+    process.env.MapboxAPITile = origEnv;
+
+    t.end();
+});
+
+test('tm api config MapboxAPIAuth', function(t) {
+    var MapboxAPIAuth = tm.db.get('MapboxAPIAuth');
+
+    tm.db.set('MapboxAPIAuth', null);
+    t.equals(tm.apiConfig('MapboxAPIAuth'), 'https://api.mapbox.com/');
+
+    tm.db.set('MapboxAPIAuth', 'http://localhost:2999');
+    t.deepEqual(tm.apiConfig('MapboxAPIAuth'), 'http://localhost:2999', 'gets MapboxAPIAuth info');
+
+    tm.db.set('MapboxAPIAuth', MapboxAPIAuth);
+
+    var origEnv = process.env.MapboxAPIAuth;
+    process.env.MapboxAPIAuth = 'http://example-auth.com';
+    t.deepEqual(tm.apiConfig('MapboxAPIAuth'), 'http://example-auth.com', 'gets MapboxAPIAuth from env');
+    process.env.MapboxAPIAuth = origEnv;
+
+    t.end();
 });

@@ -34,8 +34,8 @@ test('setup: config', function(t) {
 
 test('setup: mockserver', function(t) {
     tm.db.set('oauth', creds);
-    tm._config.mapboxauth = 'http://localhost:3001',
-    tm._config.mapboxtile = 'http://localhost:3001/v4';
+    tm.db.set('MapboxAPIAuth', 'http://localhost:3001');
+    tm.db.set('MapboxAPITile', 'http://localhost:3001');
     server = mockOauth.listen(3001, t.end);
 });
 
