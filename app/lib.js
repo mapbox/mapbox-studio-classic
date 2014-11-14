@@ -38,7 +38,7 @@ var errorHandler = _(function() {
   $('#map-errors').html(html);
 }).throttle(50);
 
-var statHandler = function(key, callback) {
+var statHandler = function(key) {
   var unit = key === 'srcbytes' ? 'k' : 'ms';
 
   return _(function() {
