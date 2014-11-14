@@ -111,7 +111,7 @@ var statHandler = function(key) {
 
     $('#zoomedto').html(html);
 
-  }).throttle(100);
+  }).debounce(100);
 
 };
 

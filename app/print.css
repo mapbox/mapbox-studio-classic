@@ -13,6 +13,8 @@
 #export:target ~ #full .map-controls .add-bookmark { display: none; }
 #export:target ~ #full .map-controls .places-button { display: none;}
 
+#zoomedto .note { background: #626262;}
+
 /* locationfilter default overrides */
 div.leaflet-marker-icon.location-filter.resize-marker {
   background: #3887be;
@@ -44,7 +46,5 @@ div.leaflet-marker-icon.location-filter.move-marker.leaflet-drag-target {
 
 .col-input input { border-right-width: 0;}
 .col-input:last-of-type input { border-right-width: 1px;}
-
-.warning, input.warning  { color: #ee8a65 !important; }
 
 .js-info { right: 40px;}

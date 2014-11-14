@@ -2,6 +2,7 @@
 ------------------------------------------------------- */
 .top1 { top:40px; }
 .top2 { top:80px; }
+.top3 { top:120px; }
 .bottom1 { bottom:40px; }
 .bottom2 { bottom:80px; }
 .bottom3 { bottom:120px; }
@@ -338,6 +339,7 @@ body.local .on-local { display:block; }
 .leaflet-control { z-index: 0; }
 
 #zoomedto {
+  overflow: hidden;
   width:70px;
   display: inline-block;
   height: 30px;
@@ -449,6 +451,7 @@ body.local .on-local { display:block; }
 #zoomedto:target .zoom.zoom23, #zoomedto.visible-y .export.zoom.zoom23 { left:75%;border-right-width: 0; }
 #zoomedto:target, #zoomedto.visible-y {
   position: absolute;
+  overflow: visible;
   display: block;
   height:120px;
   background: #626262;
@@ -458,7 +461,8 @@ body.local .on-local { display:block; }
   right: 0;
   top: 0;
   }
-#zoomedto:target .zoom, #zoomedto.visible-y .zoom {
+#zoomedto:target .zoom,
+#zoomedto.visible-y .zoom {
   width: 25%;
   padding: 0;
   height: 20px;
@@ -468,15 +472,16 @@ body.local .on-local { display:block; }
   border-radius:0px;
   position:absolute;
   display:block;
-  }
+}
 
-
+#zoomedto.visible-y .zoom-display,
 #zoomedto:target .zoom-display {
   background: transparent;
   width: 30px;
 }
 
 /* override confusing a element hover effects */
+#zoomedto.visible-y .zoom,
 #zoomedto:target:hover .zoom {
   cursor: default;
   color: white;
@@ -490,7 +495,6 @@ body.local .on-local { display:block; }
 #zoomedto.visible-y .close { display:block; }
 
 .zoomedto-close { z-index: 100; }
-
 
 .leaflet-container.dark .leaflet-bar,
 .leaflet-container.dark .leaflet-bar a { border-color:rgba(0,0,0,.2); }

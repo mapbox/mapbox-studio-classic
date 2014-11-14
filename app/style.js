@@ -26,8 +26,6 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '</div>'
                   '</div>';
 
-statHandler('drawtime')();
-
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
   if ($('body').hasClass('changed')) return 'You have unsaved changes.';
 };
