@@ -365,12 +365,12 @@ body.local .on-local { display:block; }
   left:0;
   right:70px;
   top:8px;
-  background:rgba(0,0,0,0.1);
+  background:rgba(0,0,0,0.25);
   }
 #zoomedto .minmax {
   height:4px;
   display:block;
-  background:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.5);
   position:absolute;
   }
 #zoomedto .marker {
@@ -378,7 +378,7 @@ body.local .on-local { display:block; }
   display:block;
   width:4px;
   height:4px;
-  background:#888;
+  background:white;
   }
 #zoomedto.zoom0 .zoom0,
 #zoomedto.zoom1 .zoom1,
@@ -471,10 +471,6 @@ body.local .on-local { display:block; }
   display:block;
   }
 
-/* zoomedto warning */
-#zoomedto.warning .zoom-display { background-color: #ee8a65;}
-#zoomedto .show-in-warning { display: none; }
-#zoomedto.warning:target .warning ~ .show-in-warning { display: block;}
 
 #zoomedto:target .zoom-display {
   background: transparent;
@@ -486,6 +482,10 @@ body.local .on-local { display:block; }
   cursor: default;
   color: white;
 }
+
+/* zoomedto warning */
+#zoomedto .warning *  { color: #f1f075; }
+
 #zoomedto:target .range,
 #zoomedto:target .close,
 #zoomedto.visible-y .close { display:block; }

@@ -33,16 +33,16 @@ var errorHandler = _(function() {
     .split('|')
     .filter(function(msg) { return msg; })
     .map(function(msg) {
-      return "<div class='msg pad1 fill-darken1'>" + decodeURIComponent(msg) + "</div>";
+      return "<div class='msg pad1 fill-darken2'>" + decodeURIComponent(msg) + "</div>";
     });
   $('#map-errors').html(html);
 }).throttle(50);
 
-var statHandler = function(key) {
+var statHandler = function(key, callback) {
   var unit = key === 'srcbytes' ? 'k' : 'ms';
+
   return _(function() {
     if (document.cookie.indexOf(key) === -1) return;
-    var max = 300;
 
     var stats = _(document.cookie
       .split(key + '=').pop()
@@ -60,29 +60,40 @@ var statHandler = function(key) {
 
     // mapbox api limits
     var limits = {
-          avgRender: 300,
+          avgRender: 200,
           maxRender: 1000,
-          tileSize: 500
+          avgTile: 30,
+          maxTile: 1000
         }
 
     for (var z = 0; z < 23; z++) {
-      var warning = false;
-      var s = stats[z];
+      var s = stats[z],
+          warning = undefined,
+          max;
+
       if (key === 'srcbytes' && s) {
         s = s.map(round);
+        max = limits.maxTile
+      } else {
+        max = limits.maxRender
       }
+
       var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
 
       switch(unit) {
         case 'k':
-          if (s && s[1] > limits.tileSize) warning = true;
-          message = ' Tile size exceeds' limits.tileSize + unit ', the maximum allowed on mapbox.com.'
+          if (s && s[1] > limits.avgTile) {
+            warning = 'tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
+          }
         break;
         case 'ms':
-          if (s && s[1] > limits.avgRender || w > limits.avgRender ) warning = true;
-          message = ' Tile render time exceeds maximum allowed on mapbox.com.'
+          if (s && s[1] > limits.avgRender ) {
+            warning = 'average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
+          } else if (s && s[2] > limits.maxRender) {
+            warning = 'maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
+          }
         break;
       }
 
@@ -96,18 +107,15 @@ var statHandler = function(key) {
         "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
         "</a>"
       ].join('');
+
+      if (warning && document.cookie.indexOf(warning) === -1) {
+        document.cookie = 'errors=Warning: at z' + z + ', ' + warning + '<a class="icon pad0x strong small info" href="#zoomedto">Details</a>' ;
+      }
     }
 
-    var warningNote = $('<div>', {
-      class: 'text-left note show-in-warning top3 pin-top small fill-orange',
-      text: 'Warning:' + message
-    });
+    $('#zoomedto').html(html);
 
-    $('#zoomedto').html(html).append(warningNote);
-
-    if ($('.zoom.warning').length) $('#zoomedto').addClass('warning');
-
-  }).throttle(50);
+  }).throttle(100);
 
 };
 
