@@ -141,6 +141,9 @@ FunctionEnd
 
 Section Uninstall
    SetShellVarContext all
+   ${If} $PREV_VER_DIR == ""
+    StrCpy $PREV_VER_DIR $INSTDIR
+   ${EndIf}
    ; Remove Node.js from the authorized list
    nsisFirewall::RemoveAuthorizedApplication "$PREV_VER_DIR\resources\app\vendor\node.exe"
    Pop $0
@@ -148,9 +151,6 @@ Section Uninstall
        MessageBox MB_OK "A problem happened while removing node.exe (used by Mapbox Studio) from the Firewall exception list (result=$0)" /SD IDOK
        Return
 
-  ${If} $PREV_VER_DIR == ""
-    StrCpy $PREV_VER_DIR $INSTDIR
-  ${EndIf}
   ; cd into parent directory, otherwise install dir cannot be deleted
   ${GetParent} $PREV_VER_DIR $PAR_DIR
   ;MessageBox MB_OK "PAR_DIR $PAR_DIR"
