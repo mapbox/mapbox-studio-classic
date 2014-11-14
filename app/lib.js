@@ -62,8 +62,7 @@ var statHandler = function(key) {
     var limits = {
           avgRender: 300,
           maxRender: 1000,
-          avgTile: 500,
-          maxTile: 1000
+          avgTile: 500
         }
 
     for (var z = 0; z < 23; z++) {
@@ -73,9 +72,9 @@ var statHandler = function(key) {
 
       if (key === 'srcbytes' && s) {
         s = s.map(round);
-        max = limits.maxTile
+        max = limits.avgTile
       } else {
-        max = limits.maxRender
+        max = limits.avgRender
       }
 
       var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
