@@ -36,7 +36,7 @@ var errorHandler = _(function() {
       return "<div class='msg pad1 fill-darken2'>" + decodeURIComponent(msg) + "</div>";
     });
   $('#map-errors').html(html);
-}).throttle(50);
+}).debounce(100);
 
 var statHandler = function(key) {
   var unit = key === 'srcbytes' ? 'k' : 'ms';
@@ -81,19 +81,16 @@ var statHandler = function(key) {
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
 
-      switch(unit) {
-        case 'k':
-          if (s && s[1] > limits.avgTile) {
-            warning = 'tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
-          }
-        break;
-        case 'ms':
+      if (unit === 'k') {
+        if (s && s[1] > limits.avgTile) {
+          warning = 'tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
+        }
+      } else if (unit === 'ms') {
           if (s && s[1] > limits.avgRender ) {
             warning = 'average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
           } else if (s && s[2] > limits.maxRender) {
             warning = 'maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
           }
-        break;
       }
 
       html += [
