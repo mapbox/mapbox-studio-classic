@@ -134,7 +134,7 @@ Editor.prototype.addBookmark = function(ev) {
   ev.preventDefault();
 
   var view = this,
-      button = $('.js-add-bookmark'),
+      button = $('.places-button'),
       lat = map.getCenter().wrap().lat,
       lng = map.getCenter().wrap().lng,
       zoom = map.getZoom();
@@ -158,7 +158,7 @@ Editor.prototype.addBookmark = function(ev) {
     button.text('Added!').removeClass('spinner');
     view.changed();
     setTimeout(function() {
-      button.text('Add');
+      button.text('Places');
     }, 1000);
 
   });
@@ -776,6 +776,12 @@ Editor.prototype.refresh = function(ev) {
   } else if (this.model.get('background')) {
     $('#map').css({'background-color':this.model.get('background')});
   }
+
+  // Refresh font list
+  $('.js-userfonts').html(templates.userfonts({
+      fonts:this.model.get('fonts'),
+      id:this.model.get('id')
+    }))
 
   return false;
 };

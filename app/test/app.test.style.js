@@ -29,6 +29,9 @@ if (window.testParams.userlayers) return testUserLayers();
 // test[tmp]=true => test tmp styles.
 if (window.testParams.tmp) return testTmp();
 
+// test[fonts]=true => test font styles.
+if (window.testParams.fonts) return testFonts();
+
 tape('.js-mapCenter', function(t) {
     var z = (window.editor.map.getZoom());
     var x = (window.editor.map.getCenter().lng);
@@ -471,15 +474,12 @@ tape('places: search results', function(t) {
 });
 
 // TODO: add geocoding support so these tests work
-tape('bookmarks: save', function(t) {
-
-    // Ensure nothing in localstorage
-    localStorage.clear();
+tape('bookmarks: ', function(t) {
 
     var target = $('.js-add-bookmark');
     // Add a bookmark
     target.click();
-    t.ok(target.hasClass('spinner'), 'button has spinner');
+    t.ok($('.places-button').hasClass('spinner'), 'button has spinner');
 
     onajax(function() {
 //         // Check that it is stored
@@ -702,7 +702,7 @@ tape('keybindings bookmark', function(t) {
     e.ctrlKey = true;
     e.which = 66; // b
     $('body').trigger(e);
-    t.ok($('.js-add-bookmark').hasClass('spinner'), 'ctrl+b => #add-bookmark.spinner');
+    t.ok($('.places-button').hasClass('spinner'), 'ctrl+b => #add-bookmark.spinner');
     onajax(function() {
         t.end();
     });
@@ -746,6 +746,14 @@ function testTmp() {
         e.which = 83; // s
         $('body').trigger(e);
         t.equal(hasModal('#saveas'), true, '#saveas modal');
+        t.end();
+    });
+}
+
+
+function testFonts() {
+    tape('Custom fonts in list', function(t) {
+        t.ok($('.js-userfonts input:first-of-type').attr('value','Comic Neue Oblique'), true, ' includes correct fonts');
         t.end();
     });
 }

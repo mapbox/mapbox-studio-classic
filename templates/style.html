@@ -7,7 +7,7 @@
   <link href='/ext/spectrum/spectrum.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/codemirror/codemirror.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/mapbox.css?<%=obj.nocache%>' rel='stylesheet' />
-  <link href='/ext/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
+  <link href='/base/base.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/app/app.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/ext/leaflet-locationfilter/locationfilter.css?<%=obj.nocache%>' rel='stylesheet' />
   <link href='/app/style.css?<%=obj.nocache%>' rel='stylesheet' />
@@ -77,13 +77,13 @@
           <input id='Major cities' type='radio' name='rtoggle' value='Major cities' class='js-places'>
           <label class='col2' for='Major cities'>Cities</label>
           <input id='bookmarks' type='radio' name='rtoggle' value='userbookmark' class='js-places'>
-          <label class='col2' for='bookmarks'></span>My places</label>
+          <label class='icon heart col2' for='bookmarks'></span>Saved</label>
         </div>
       </div>
     </div>
     <div class='space-top4 col12 pin-left scroll-hide clearfix places-list unlimiter js-places-list' id='placeslist'></div>
   </div>
-  <div id='map-overlay' class='overlay'></div>
+  <div id='map-overlay' class='loading overlay'></div>
   <div id='map-errors'></div>
 
   <form id='search' class='z10 contain round animate search-results'>
@@ -104,16 +104,15 @@
         <a href='#xray' class='xray-n button short icon inspect quiet'></a>
         <a href='#home' class='xray-y button short active icon inspect quiet'></a>
       </span>
-      <div class='pill inline align-top'>
-        <a class='button short icon places-button marker quiet' title='places' href='#places'>Places</a><!--
-        --><a class='button js-add-bookmark add-bookmark short quiet'>Add</a>
-      </div>
+      <a class='inline align-top button short icon places-button marker quiet' title='places' href='#places'>Places</a>
+
       <div class='pill inline align-top export-controls'>
         <a href='#export' title='Reselect crop area within view' id='reselect' class='quiet icon refresh button js-reselect short'>New</a><!--
         --><a href='#export' title='Center crop area based on view' id='recenter' class='quiet icon crosshair button js-recenter short'>Center</a>
       </div>
     </div>
     <div class='pin-top text-right z0 pad0 row1'>
+      <a href='#' tooltip='Save current view to places' class='align-top contain strong heart micro js-add-bookmark add-bookmark rcon short inline pad0'></a>
       <span id='map-center' class='quiet js-mapCenter inline micro strong pad0y align-top'></span>
       <div id='zoomedto' class='align-top text-right inline contain zoom<%=style.center[2]%>'></div>
     </div>
@@ -262,8 +261,8 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div id='fontfamily' class='pin-left col12 top1 scroll-styled'>
+      <div class='js-userfonts'><%= this['userfonts']({fonts:style.fonts,id:style.id}) %></div>
       <%= this['stylefonts'](fontsRef) %>
-      <div class='pad1 quiet small'>To use your own fonts, include them in your projects's directory and define a <code class='micro'>font-directory</code> on the <code class='micro'>Map</code> element.</div>
     </div>
   </div>
 
@@ -578,6 +577,7 @@ templates.modalnewproject = <%= this.modalnewproject.source %>;
 templates.newproject = <%= this.newproject.source %>;
 templates.sourceitem = <%= this.sourceitem.source %>;
 templates.sourcelayers = <%= this.sourcelayers.source %>;
+templates.userfonts = <%= this.userfonts.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 

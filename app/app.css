@@ -11,7 +11,6 @@
   top: 0;
   left: 0;
   margin: auto;
-  width: auto;
 }
 
 .code { word-break: break-all;}
@@ -93,8 +92,6 @@
   border-color: rgba(255,255,255,0.25);
   color: rgba(255,255,255,0.5);
 }
-
-.fixed-bottomright { position:fixed; bottom:0; right:0; }
 
 kbd {
   box-shadow:none;
@@ -279,26 +276,6 @@ body.local .on-local { display:block; }
 /* Flag active project */
 .proj-active ~ .proj-status { display: block;}
 
-/* Map bookmarks
-------------------------------------------------------- */
-#bookmark {
-  position:relative;
-  }
-
-.dark #bookmark { box-shadow:0 0 0 2px rgba(0,0,0,.5);}
-
-#bookmark > input { padding-right:50px }
-
-#bookmark:target {
-
-  }
-
-#bookmark-list {
-  max-height:200px;
-  overflow:auto;
-  }
-  #bookmark .bookmark-name { padding-right:30px; }
-
 /* Map search / geocode
 ------------------------------------------------------- */
 #search {
@@ -349,6 +326,14 @@ body.local .on-local { display:block; }
   border-left: 0;
   border-radius: 3px 0 0 3px;
 }
+
+.add-bookmark:hover:before {
+  content: attr(tooltip);
+  font-size: 10px;
+  width: 120px;
+  color: white;
+}
+
 .leaflet-control-zoom { display: none; }
 .leaflet-control { z-index: 0; }
 
@@ -521,20 +506,13 @@ body.local .on-local { display:block; }
   opacity:0;
   -webkit-transition:opacity 200ms ease-in 100ms, z-index 200ms ease-in 100ms;
   }
-#map-overlay:before {
-  content:'';
-  width:40px;
-  height:40px;
-  position:absolute; left:50%; top:50%;
-  margin:-20px 0px 0px -20px;
-  border-radius:50%;
-  box-shadow:rgba(0,0,0,0.1) 0px 0px 0px 10px;
-  background:#444 url(spinner.gif) 50% 50% no-repeat;
-  }
 .loading #map-overlay {
   z-index:1000;
   opacity:1;
   }
+
+/* Cancel out base loader from 'loading' class to rely on map-overlay */
+#full.loading:before, #full.loading:after { display: none;}
 
 #map-errors {
   position:absolute;
