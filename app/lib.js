@@ -60,9 +60,9 @@ var statHandler = function(key) {
 
     // mapbox api limits
     var limits = {
-          avgRender: 150,
+          avgRender: 300,
           maxRender: 1000,
-          avgTile: 30
+          avgTile: 500
         }
 
     for (var z = 0; z < 23; z++) {
