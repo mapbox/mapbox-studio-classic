@@ -19,6 +19,9 @@ Var PAR_DIR
 ; firewall extras
 !addplugindir "..\vendor\nsisFirewall-1.2\bin"
 !include "FileFunc.nsh"
+!include "WinVer.nsh"
+!include "x64.nsh"
+#!include "LogicLib.nsh"
 !insertmacro GetParent
 
 RequestExecutionLevel admin
@@ -63,6 +66,16 @@ InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
 Function .onInit
   StrCpy $PREV_VER_DIR ""
 
+  ${IfNot} ${AtLeastWin7}
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above and 64bit!"
+    Quit
+  ${EndIf}
+
+  ${IfNot} ${RunningX64}
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires a 64bit operating system!"
+    Quit
+  ${EndIf}
+  
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
   "${PRODUCT_UNINST_KEY}" \
   "UninstallString"
