@@ -10,6 +10,11 @@ if [ "$platform" == "win32" ]; then
     export INSTALL_NODE_URL=https://mapbox.s3.amazonaws.com/node-cpp11
 fi
 
+if [ -z $NODE_VERSION ]; then
+    echo "NOTICE: NODE_VERSION environment variable not defined, defaulting to 0.10.33"
+    NODE_VERSION=0.10.33
+fi
+
 set -e -u
 set -o pipefail
 
