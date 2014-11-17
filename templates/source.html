@@ -227,6 +227,8 @@ templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 templates.modalsourcenewstyle = <%= this.modalsourcenewstyle.source %>;
 
+var mapboxAPI = {isMapboxAPI: <%= isMapboxAPI %>, MapboxAPITile: '<%= tm.apiConfig("MapboxAPITile") %>'}
+
 var tm = {};
 tm.srs = <%= saferstringify(tm.srs, null, 2) %>;
 
@@ -235,7 +237,7 @@ var source = <%= saferstringify(source, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var revlayers = <%= saferstringify(revlayers, null, 2) %>;
 
-Source(templates, cwd, tm, source, revlayers, examples);
+Source(templates, cwd, tm, source, revlayers, examples, mapboxAPI);
 </script>
 
 <% if (test) { %>
