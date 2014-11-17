@@ -5,24 +5,25 @@ environment:
   AWS_SECRET_ACCESS_KEY:
     secure: "cqTj03yqur/yCYCrMI0+A2ttBJ5r7uA8Xb0i0prEcM7lDLczYssPdp3DnqUnvIPN"
   matrix:
-    - nodejs_version: 0.10
+    - NODE_VERSION: 0.10.33
 
 shallow_clone: true
 
 platform:
-  - x86
   - x64
 
 install:
-  - ps: Install-Product node $env:nodejs_version $env:Platform
-  - node --version
   - echo %platform%
-  - node -e "console.log(process.arch)"
-  - node -e "console.log(process.env.HOME)"
-  - ps: Start-FileDownload "https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_$env:Platform.exe"
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
   - .\vcredist_%platform%.exe /q /norestart
-  - npm --version
-  - npm install
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v$env:NODE_VERSION/$env:platform/node.exe"
+  # add local node to PATH
+  - SET PATH=%CD%;%PATH%;
+  # make sure we are running local node
+  - node -e "console.log(process.execPath)"
+  - node -e "console.log(process.arch)"
+  - node -v
+  - npm install --toolset=v140
   - npm test
   - node test/test-client.js
 
