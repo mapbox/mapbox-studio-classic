@@ -1,23 +1,14 @@
 <form id='sourcenewstyle' class='modal-body margin3 round col6 pad2 pin-top top1 dark fill-dark'>
   <a href='#' class="pad1 quiet icon x pin-topright close js-close"></a>
     <div class='col12'>
-        <% if (!obj.mapboxAPI.isMapboxAPI) { %>
+        <% if (!obj.isMapboxAPI) { %>
             <div class='center space-bottom2'>
             <h3>Create style with</h3>
             </div>
             <div class='clearfix margin1 col10'>
-                <a href='/new/style?source=<%=source.id%>' class='round-top col12 button quiet icon harddrive'>Local source</a>
-                <div class='quiet col12 center pad0 fill-darken1 space-bottom1 round-bottom small'>
-                    Recommended for development only. Styles using local sources cannot be uploaded to Mapbox or shared.
-                </div>
+                <a href='/authorize' class='js-newproject col12 round-bottom button icon space-bottom1 cloud'>Remote source</a>
 
-                <div class='quiet col12 center pad0'>
-                    or create style from <a href='<%= obj.mapboxAPI.MapboxAPITile %>/atlas/sources' class='strong' target='_blank'>Atlas Map ID</a>:
-                </div>
-                <form method='get' class='col8 margin2' class='pad0y pad1x center truncate round-top space small fill-darken1'>
-                    <input formaction='/new/style' type='text' name='atlasSource' class='col9' placeholder='mapid'>
-                    <button formaction='/new/style' type='submit' class='col3 round-right icon space-bottom1 cloud' value='create'>Create</button>
-                </form>
+                <a href='/new/style?source=<%=source.id%>' class='round-top col12 button quiet icon harddrive'>Local source</a>
             </div>
         <% } else { %> 
             <% if (!obj.source._prefs.mapid) { %>
@@ -42,8 +33,8 @@
             </div>
             <% } %>
         </div>
-        <div class='quiet col8 margin2 center pad0 fill-darken1 round-bottom small'>
-            Recommended for development only. Styles using local sources cannot be uploaded to Mapbox or shared.
-        </div>
     <% } %>
+    <div class='quiet col8 margin2 center pad0 fill-darken1 round-bottom small'>
+        Recommended for development only. Styles using local sources cannot be uploaded to Mapbox or shared.
+    </div>
 </form>

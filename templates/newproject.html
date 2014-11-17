@@ -13,6 +13,12 @@
             <strong class='block center micro'><%- item.name || 'Basic' %></strong>
         </a>
         <% }); %>
+        <div class='pad1'>
+            <strong class='block'>New style from remote source</strong>
+            <span class='block small truncate space-bottom1'>Use CartoCSS to style remote vector tiles</span>
+            <input formaction='/new/style' type='text' name='remote' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' class='col9 short' placeholder='mapbox.mapbox-streets-v5' pattern='((([\w-]+\.[\w-]+),?)+)|((https?:\/\/)+[\w\\\/\-./\:]*)'>
+            <button formaction='/new/style' type='submit' class='short col3 quiet round-right space-bottom1'>Create  style</button>
+        </div>
     </div>
     <div class='col3 pin-right pad1 keyline-left hide-mobile round-right'>
         <div class='pad1'>
