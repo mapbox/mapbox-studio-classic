@@ -33,7 +33,7 @@
     "fstream": "0.1.x",
     "tar": "0.1.x",
     "mapnik": "^3.1.1",
-    "mapnik-reference": "~6.0.3",
+    "mapnik-reference": "^6.0.4",
     "carto": "0.14.0",
     "speedometer": "0.1.2",
     "tilelive": "5.2.3",

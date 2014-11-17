@@ -12,19 +12,20 @@ var middleware = require('../lib/middleware');
 var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
+var mockAtlas = require('../lib/mapbox-mock').AtlasServer(require('express')());
 var tmppath = tm.join(os.tmpdir(), 'mapbox-studio', 'middleware-' + (+new Date));
 var tmpId = tm.join(os.tmpdir(), 'mapbox-studio', 'middlewareProject-' + (+new Date));
 var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
 var server;
+var atlas;
 
 test('setup: config', function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
         cache: path.join(tmppath, 'cache'),
-        fonts: path.join(tmppath, 'fonts'),
-        mapboxauth: 'http://localhost:3001'
+        fonts: path.join(tmppath, 'fonts')
     }, t.end);
 });
 
@@ -33,8 +34,11 @@ test('setup: mockserver', function(t) {
         account: 'test',
         accesstoken: 'testaccesstoken'
     });
-    tm._config.mapboxtile = 'http://localhost:3001/v4';
-    server = mockOauth.listen(3001, t.end);
+    tm.db.set('MapboxAPIAuth', 'http://localhost:3001');
+    tm.db.set('MapboxAPITile', 'http://localhost:3001');
+    server = mockOauth.listen(3001, function(){
+        atlas = mockAtlas.listen(2999, t.end);
+    });
 });
 
 test('history: loads', function(t) {
@@ -355,9 +359,57 @@ test('latest: finds latest local project entry', function(t) {
     });
 });
 
+test('config: bad url', function(t) {
+    var res = {};
+    res.redirect = function(qs){
+    };
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/badurl'}}, res, function(err){
+        t.deepEqual(err.message, 'Cannot find Mapbox API at http://localhost:2999/badurl', 'errors correctly');
+        t.equal(tm.db.get('user'), undefined, 'does not set user');
+        t.end();
+    });
+});
+
+test('config: bad location', function(t) {
+    var res = {};
+    res.redirect = function(qs){
+    };
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/badlocation'}}, res, function(err){
+        t.deepEqual(err.message, 'Cannot find Mapbox API at http://localhost:2999/badlocation', 'errors correctly');
+        t.equal(tm.db.get('user'), undefined, 'does not set user');
+        t.end();
+    });
+});
+
+test('config: good url - mapbox', function(t) {
+    var res = {};
+    res.redirect = function(qs){
+        t.equal(qs, '/oauth/mapbox', 'redirects to /oauth/mapbox');
+        t.end();
+    };
+
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/mapbox'}}, res, function(){});
+});
+
+test('config: good url - offline', function(t) {
+    var res = {};
+    res.redirect = function(qs){
+        t.equal(qs, '/authorize', 'redirects to /authorize');
+        t.equal(tm.db.get('user').id, 'offline', 'sets user correctly');
+        t.equal(tm.db.get('user').name, 'Offline user', 'sets user correctly');
+        t.equal(tm.db.get('user').avatar, '/app/avatar.png', 'sets user correctly');
+        t.equal(tm.db.get('oauth').account, 'offline', 'sets oauth correctly');
+        t.equal(tm.db.get('oauth').accesstoken, '', 'sets oauth correctly');
+        t.equal(tm.db.get('oauth').isMapboxAPI, false, 'sets oauth correctly');
+        t.end();
+    };
+
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/atlas'}}, res, function(){});
+});
+
 test('cleanup', function(t) {
     tm.db.rm('oauth');
     tm.history(sourceId, true);
     tm.history(styleId, true);
-    server.close(function() { t.end(); });
+    server.close(function() { atlas.close(function(){ t.end(); }) });
 });
