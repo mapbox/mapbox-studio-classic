@@ -11,9 +11,11 @@ function runscript() {
     var file = path.resolve(process.argv[2]);
     console.log('Running %s', file);
     execFile(file, [], {}, function(err, stdout, stderr) {
-        if (err && err.code) process.exit(err.code);
         console.log(stdout);
         console.warn(stderr);
+        if (err && err.code) {
+            process.exit(err.code);
+        }
         process.exit(0);
     });
 }
