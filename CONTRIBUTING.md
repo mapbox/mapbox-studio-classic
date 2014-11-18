@@ -19,6 +19,18 @@ The packaged desktop app version of Studio uses [atom shell](https://github.com/
 
         ./atom /path/to/your/mapbox-studio
 
+### Node.js Version
+
+Mapbox Studio targets the latest stable release of Node.js. When you install Mapbox Studio the target version of Node.js is vendorized locally at `./vendor/node`. The version is controlled via the `NODE_VERSION` environment variable.
+
+ - For packaged builds this variable is set in the `.travis.yml` config
+ - For local source installs the default node version is found in `scripts/vendor-node.sh` but it can be overriden by setting `NODE_VERSION` in your environment before running `npm install`.
+
+A note on Windows: Windows builds of Mapbox Studio target Visual Studio 2014 and depend on a custom node.exe available at https://github.com/mapbox/node-cpp11. This means that:
+
+ - The node installs from https://nodejs.org/download are not supported for Windows.
+ - To release a new Mapbox Studio version for Windows against a new Node.js version Windows binaries need to first be built via the toolchain at https://github.com/mapbox/node-cpp11.
+
 ### Pull requests
 
 Use PRs for everything but trivial changes and typos. Goals to strive for:
