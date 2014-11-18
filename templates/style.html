@@ -566,6 +566,8 @@ var cwd = <%= saferstringify(cwd, null, 2) %>;
 var style = <%= saferstringify(style, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var templates = {};
+var MapboxAPITile = "<%= MapboxAPITile %>";
+var oauth = <%= saferstringify(oauth, null, 2) %>;
 
 templates.emptystate = <%= this.emptystate.source %>;
 templates.modalbrowser = <%= this.modalbrowser.source %>;
@@ -584,7 +586,7 @@ templates.userfonts = <%= this.userfonts.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 
-Style(templates, cwd, style, examples, gazetteer);
+Style(templates, cwd, style, examples, gazetteer, MapboxAPITile, oauth);
 </script>
 
 <% if (test) { %>
