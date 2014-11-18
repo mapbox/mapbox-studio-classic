@@ -8,9 +8,9 @@ environment:
     - NODE_VERSION: 0.10.33
       msvs_toolset: 14
       platform: x64
-    #- NODE_VERSION: 0.10
-    #  msvs_toolset: 12
-    #  platform: x64
+    - NODE_VERSION: 0.10.32
+      msvs_toolset: 12
+      platform: x64
 
 shallow_clone: true
 
@@ -36,7 +36,7 @@ install:
   - if "%msvs_toolset%" == "12" npm install --fallback-to-build=false
   - if "%msvs_toolset%" == "14" npm install --fallback-to-build=false --toolset=v140
   - npm test
-  #- node test/test-client.js
+  - node test/test-client.js
 
 build: OFF
 test: OFF
