@@ -9,25 +9,45 @@ environment:
 
 shallow_clone: true
 
-platform:
-  - x64
+environment:
+  matrix:
+    - nodejs_version: 0.10.33
+      msvs_toolset: 14
+      platform: x64
+    - nodejs_version: 0.10
+      msvs_toolset: 12
+      platform: x64
 
 install:
-  - echo %platform%
-  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
-  - .\vcredist_%platform%.exe /q /norestart
-  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v$env:NODE_VERSION/$env:platform/node.exe"
-  # add local node to PATH
+  # find and remove default node.exe to avoid conflicts
+  - node -e "console.log(process.execPath)" > node_path.txt
+  - SET /p NODE_EXE_PATH=<node_path.txt
+  - del node_path.txt
+  - del /q /s "%NODE_EXE_PATH%"
+  # add local node to path (since we install it for msvs_toolset == 14)
   - SET PATH=%CD%;%PATH%;
-  # make sure we are running local node
-  - node -e "console.log(process.execPath)"
-  - node -e "console.log(process.arch)"
+  - SET ARCHPATH=
+  - if %platform% == x64 (SET ARCHPATH=x64/)
+  - if "%msvs_toolset%" == "12" powershell Install-Product node $env:nodejs_version $env:platform
+  - if "%msvs_toolset%" == "14" powershell Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v$env:nodejs_version/${env:ARCHPATH}node.exe"
+  - if "%msvs_toolset%" == "14" powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v$env:nodejs_version/${env:ARCHPATH}node.exe"
+  - powershell Write-Output "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - .\vcredist_%platform%.exe /q /norestart
   - node -v
-  - npm install --toolset=v140
+  - node -e "console.log(process.argv,process.execPath,process.arch)"
+  - npm -v
+  - if "%msvs_toolset%" == "12" npm install --fallback-to-build=false
+  - if "%msvs_toolset%" == "14" npm install --fallback-to-build=false --toolset=v140
+  - node -e "console.log(require('mapnik').settings.env.PROJ_LIB)" > PROJ_LIB.txt
+  - SET /p PROJ_LIB=<PROJ_LIB.txt
+  - node -e "console.log(require('mapnik').settings.env.GDAL_DATA)" > GDAL_DATA.txt
+  - SET /p GDAL_DATA=<GDAL_DATA.txt
+  - node -e "console.log(require('mapnik').settings.env.ICU_DATA)" > ICU_DATA.txt
+  - SET /p ICU_DATA=<ICU_DATA.txt
   - npm test
   - node test/test-client.js
 
 build: OFF
 test: OFF
-test_script: OFF
 deploy: OFF
