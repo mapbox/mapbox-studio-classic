@@ -337,7 +337,7 @@ test('tm api config MapboxAPITile', function(t) {
     var MapboxAPITile = tm.db.get('MapboxAPITile');
 
     tm.db.set('MapboxAPITile', null);
-    t.equals(tm.apiConfig('MapboxAPITile'), 'https://a.tiles.mapbox.com/');
+    t.equals(tm.apiConfig('MapboxAPITile'), 'https://a.tiles.mapbox.com');
 
     tm.db.set('MapboxAPITile', 'http://localhost:2999');
     t.deepEqual(tm.apiConfig('MapboxAPITile'), 'http://localhost:2999', 'gets MapboxAPITile info');
