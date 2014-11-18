@@ -25,8 +25,8 @@ install:
   - SET ARCHPATH=
   - if %platform% == x64 (SET ARCHPATH=x64/)
   - if "%msvs_toolset%" == "12" powershell Install-Product node $env:NODE_VERSION $env:platform
-  - if "%msvs_toolset%" == "14" powershell Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v$env:NODE_VERSION/${env:ARCHPATH}node.exe"
-  - if "%msvs_toolset%" == "14" powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v$env:NODE_VERSION/${env:ARCHPATH}node.exe"
+  - if "%msvs_toolset%" == "14" powershell Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}putenv/${env:ARCHPATH}node.exe"
+  - if "%msvs_toolset%" == "14" powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}putenv/${env:ARCHPATH}node.exe"
   - powershell Write-Output "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
   - powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
   - .\vcredist_%platform%.exe /q /norestart
