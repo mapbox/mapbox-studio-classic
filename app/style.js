@@ -1,5 +1,5 @@
 
-window.Style = function(templates, cwd, style, examples, gazetteer) {
+window.Style = function(templates, cwd, style, examples, gazetteer, MapboxAPITile, oauth) {
 
 var map;
 var tiles;
@@ -414,7 +414,9 @@ Editor.prototype.modalsources = function(ev) {
       Modal.show('sources', {
         style: style,
         history: history,
-        templates: templates
+        templates: templates,
+        MapboxAPITile: MapboxAPITile,
+        oauth: oauth
       });
       $(ev.currentTarget).removeClass('spinner');
     }
