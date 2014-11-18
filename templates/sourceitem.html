@@ -1,7 +1,7 @@
 <%
 var thumburl;
 if (item.id.indexOf('mapbox://') === 0) {
-  thumburl = 'http://a.tiles.mapbox.com/v3' + item.id.replace('mapbox://','') + '/thumb.png';
+  thumburl = obj.MapboxAPITile + '/v4' + item.id.replace('mapbox://','') + '/thumb.png?access_token=' + obj.oauth.accesstoken;
 } else {
   thumburl = '/thumb.png?id=' + item.id;
 }

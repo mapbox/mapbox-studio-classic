@@ -52,7 +52,9 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
           return this.sourceitem({
             classes: 'js-adddata ' + (item === active ? 'proj-active' : ''),
             withdel: true,
-            item: item
+            item: item,
+            MapboxAPITile: MapboxAPITile,
+            oauth: oauth
           });
         }).bind(this))
         .value().join(''));

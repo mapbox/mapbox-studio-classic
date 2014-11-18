@@ -407,6 +407,23 @@ test('config: good url - offline', function(t) {
     middleware.config({query: {MapboxAPITile: 'http://localhost:2999/atlas'}}, res, function(){});
 });
 
+test('config: trailing slash - offline', function(t) {
+    var res = {};
+    res.redirect = function(qs){
+        t.equal(qs, '/authorize', 'redirects to /authorize');
+        t.equal(tm.apiConfig('MapboxAPITile'), 'http://localhost:2999/atlas', 'strips trailing slash');
+        t.equal(tm.db.get('user').id, 'offline', 'sets user correctly');
+        t.equal(tm.db.get('user').name, 'Offline user', 'sets user correctly');
+        t.equal(tm.db.get('user').avatar, '/app/avatar.png', 'sets user correctly');
+        t.equal(tm.db.get('oauth').account, 'offline', 'sets oauth correctly');
+        t.equal(tm.db.get('oauth').accesstoken, '', 'sets oauth correctly');
+        t.equal(tm.db.get('oauth').isMapboxAPI, false, 'sets oauth correctly');
+        t.end();
+    };
+
+    middleware.config({query: {MapboxAPITile: 'http://localhost:2999/atlas/'}}, res, function(){});
+});
+
 test('cleanup', function(t) {
     tm.db.rm('oauth');
     tm.history(sourceId, true);
