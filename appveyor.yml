@@ -23,7 +23,7 @@ install:
   - node -e "console.log(process.execPath)"
   - node -e "console.log(process.arch)"
   - node -v
-  - npm install --toolset=v140
+  - npm install --toolset=v140 --target_arch=%platform%
   - npm test
   - node test/test-client.js
 
