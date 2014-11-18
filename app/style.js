@@ -1,5 +1,5 @@
 
-window.Style = function(templates, cwd, style, examples, gazetteer, MapboxAPITile, oauth) {
+window.Style = function(templates, cwd, style, examples, gazetteer, mapboxAPI, oauth) {
 
 var map;
 var tiles;
@@ -415,7 +415,7 @@ Editor.prototype.modalsources = function(ev) {
         style: style,
         history: history,
         templates: templates,
-        MapboxAPITile: MapboxAPITile,
+        MapboxAPITile: mapboxAPI.MapboxAPITile,
         oauth: oauth
       });
       $(ev.currentTarget).removeClass('spinner');
