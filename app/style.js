@@ -1,3 +1,4 @@
+
 window.Style = function(templates, cwd, style, examples, gazetteer, mapboxAPI, oauth) {
 
 var map;
