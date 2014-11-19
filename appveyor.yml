@@ -35,6 +35,9 @@ install:
   - npm -v
   - if "%msvs_toolset%" == "12" npm install --fallback-to-build=false
   - if "%msvs_toolset%" == "14" npm install --fallback-to-build=false --toolset=v140
+  # put dumpbin on path: required by check_shared_libs.py
+  - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin;%PATH%
+  - if "%msvs_toolset%" == "14" python test\check_shared_libs.py .\
   - npm test
   - node test/test-client.js
 
