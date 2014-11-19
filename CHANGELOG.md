@@ -9,6 +9,7 @@ Changelog
 - Style UI: Display fonts in a style's font directory.
 - Style UI: fix bug where two spaces would be added after a successful carto autocompletion.
 - Style UI: Clarify interface for saving new bookmarks
+- Uninstaller on Windows now cleanly removes previous version before installing
 - Restored support for OS X >= 10.8 (v0.1.6 only worked with >= 10.9)
 - Update to node-mapnik 3.1.1 and related libraries.
 - Update atom-shell to 0.19.2.
