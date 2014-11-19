@@ -30,7 +30,7 @@ Mapbox Studio ships with pre-built binaries for common platforms:
 The minimum platforms versions are:
 
   - Windows >= 7
-  - OS X >= 10.9
+  - OS X >= 10.8
   - Ubuntu >= 14.04 (Trusty)
   - RHEL/Centos >= 7
 
