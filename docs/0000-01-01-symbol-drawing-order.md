@@ -104,3 +104,7 @@ It's also possible to create multiple symbols of the same type within an attachm
     }
 
 Note that symbolizer ordering happens after all other types of ordering - so an outline might be on top of one polygon but beneath a neighboring polygon. If you want to ensure lines are always below fills, use separate attachments.
+
+## Layer Source Ordering
+
+The order in which your layer sources are specified also influences rendering order: data from sources are rendered in order. So if you click "Change source" under "Layers" and you see `you.id123,mapbox.mapbox-terrain-v1`, the layers from `mapbox.mapbox-terrain-v1` will render last, over the layers from `you.id123`. To ensure that your own data renders last, use `mapbox.mapbox-terrain-v1,you.id123`.

@@ -1,14 +1,19 @@
 Changelog
 =========
 
-### 0.1.7
+### 0.2.0
 
 - Package user-provided font files with styles.
 - Removes support for reading fonts from the `.mapbox-studio/fonts` -- use style-specific fonts instead.
-- Update to node-mapnik 3.1.0 and related libraries.
+- Fixed Windows startup crash by packaging node.exe and native modules build consistently against Visual Studio 2014
 - Style UI: Display fonts in a style's font directory.
-- Style UI: fix bug where two spaces would be added after a successful carto autocomletion.
+- Style UI: fix bug where two spaces would be added after a successful carto autocompletion.
 - Style UI: Clarify interface for saving new bookmarks
+- Uninstaller on Windows now cleanly removes previous version before installing
+- Restored support for OS X >= 10.8 (v0.1.6 only worked with >= 10.9)
+- Update to node-mapnik 3.1.1 and related libraries.
+- Update atom-shell to 0.19.2.
+- Update node.js to 0.10.33
 
 ### 0.1.6
 
