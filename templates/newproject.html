@@ -1,33 +1,36 @@
 <% var rand = Math.random().toString(16).split('.')[1]; %>
 
 <div class='clearfix contain'>
+    <div class='pad1y pad2x keyline-bottom'>
+    <h4>New Project</h4>
+    </div>
     <div class='col9 clearfix pad1'>
         <div class='pad1'>
-            <strong class='block'>New style</strong>
-            <span class='block small truncate'>Use CartoCSS to style vector tiles</span>
+            <h3 class='block truncate'>Style</h3>
+            <span class='block small truncate'>Use CartoCSS to style vector tiles. Pick a starter style or choose your own vector tile source.</span>
         </div>
-        <% _(obj.style).chain().toArray().each(function(item, i) { %>
-        <a class='col4 pad1' href='/new/style?id=<%=item.id%>'>
-            <span class='block contain row2 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
-            </span>
-            <strong class='block center micro'><%- item.name || 'Basic' %></strong>
-        </a>
-        <% }); %>
-        <div class='pad1'>
-            <form>
-                <strong class='block'>New style from custom source</strong>
-                <span class='block small truncate space-bottom1'>Use CartoCSS to style custom or remote vector tiles</span>
-                <input formaction='/new/style' type='text' name='remote' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' class='col9 short' value='mapbox.mapbox-streets-v5' pattern='((([\w-]+\.[\w-]+),?)+)|((https?:\/\/)+[\w\\\/\-./\:]*)'>
-                <button formaction='/new/style' type='submit' class='short col3 quiet round-right space-bottom1'>Create  style</button>
-            </form>
-            <div class='micro quiet center pad1y'>
+        <div class='clearfix'>
+            <% _(obj.style).chain().toArray().each(function(item, i) { %>
+            <a class='col4 pad1x space-top1' href='/new/style?id=<%=item.id%>'>
+                <span class='block contain row2 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
+                </span>
+                <strong class='block center micro'><%- item.name || 'Basic' %></strong>
+            </a>
+            <% }); %>
+        </div>
+        <div class='pad1 space-top1'>
+            <div class='pill input-pill clearfix'>
+                <input formaction='/new/style' type='text' name='remote' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' class='col9 small short' value='mapbox.mapbox-streets-v5' pattern='((([\w-]+\.[\w-]+),?)+)|((https?:\/\/)+[\w\\\/\-./\:]*)'>
+                <button formaction='/new/style' type='submit' class='short col3 quiet space-bottom1'>Create</button>
+            </div>
+            <div class='micro quiet center'>
                 To use a composite source, string together comma-separated map IDs. Accepts <strong>TileJSON URLs</strong> for sources not hosted by Mapbox.
             </div>
         </div>
     </div>
-    <div class='col3 pin-right pad1 keyline-left hide-mobile round-right'>
+    <div class='col3 pin-right top1 pad1 keyline-left hide-mobile round-right'>
         <div class='pad1'>
-            <strong class='block'>New source</strong>
+            <h3 class='block'>Source</h3>
             <span class='block small truncate'>Create custom vector tiles</span>
         </div>
         <a class='col12 pad1' href='/new/source'>
