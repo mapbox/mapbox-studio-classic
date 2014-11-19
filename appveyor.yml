@@ -6,10 +6,6 @@ environment:
     secure: "cqTj03yqur/yCYCrMI0+A2ttBJ5r7uA8Xb0i0prEcM7lDLczYssPdp3DnqUnvIPN"
   matrix:
     - NODE_VERSION: 0.10.33
-      msvs_toolset: 14
-      platform: x64
-    - NODE_VERSION: 0.10.32
-      msvs_toolset: 12
       platform: x64
 
 shallow_clone: true
@@ -20,25 +16,22 @@ install:
   - SET /p NODE_EXE_PATH=<node_path.txt
   - del node_path.txt
   - del /q /s "%NODE_EXE_PATH%"
-  # add local node to path (since we install it for msvs_toolset == 14)
+  # add local node to path
   - SET PATH=%CD%;%PATH%;
   - SET ARCHPATH=
   - if %platform% == x64 (SET ARCHPATH=x64/)
-  - if "%msvs_toolset%" == "12" powershell Install-Product node $env:NODE_VERSION $env:platform
-  - if "%msvs_toolset%" == "14" powershell Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
-  - if "%msvs_toolset%" == "14" powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
-  - powershell Write-Output "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
-  - powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - ps: Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
+  - ps: Write-Output "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
   - .\vcredist_%platform%.exe /q /norestart
   - node -v
   - node -e "console.log(process.argv,process.execPath,process.arch)"
   - npm -v
-  - if "%msvs_toolset%" == "12" npm install --fallback-to-build=false
-  - if "%msvs_toolset%" == "14" npm install --fallback-to-build=false --toolset=v140
+  - npm install --fallback-to-build=false --toolset=v140
   # put dumpbin on path: required by check_shared_libs.py
   - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin;%PATH%
-  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
-  - if "%msvs_toolset%" == "14" python test\check_shared_libs.py .\
+  - python test\check_shared_libs.py .\
   - npm test
   - node test/test-client.js
 
