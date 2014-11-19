@@ -36,7 +36,7 @@ var errorHandler = _(function() {
       return "<div class='msg pad1 fill-darken2'>" + decodeURIComponent(msg) + "</div>";
     });
   $('#map-errors').html(html);
-}).debounce(100);
+}).throttle(100);
 
 var statHandler = function(key) {
   var unit = key === 'srcbytes' ? 'k' : 'ms';
@@ -114,7 +114,7 @@ var statHandler = function(key) {
 
     $('#zoomedto').html(html).append(note);
 
-  }).debounce(100);
+  }).throttle(100);
 
 };
 
