@@ -32,6 +32,7 @@ tm.config({
     test: true,
     db: path.join(tmp, 'app.db'),
     tmp: path.join(tmp, 'tmp'),
+    log: path.join(tmp, 'app.log'),
     cache: path.join(tmp, 'cache'),
     cwd: testPath,
     port: 3001
