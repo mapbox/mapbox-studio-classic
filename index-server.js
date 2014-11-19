@@ -13,8 +13,8 @@ process.title = 'mapbox-studio';
 if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
-    // Add custom library paths to the PATH
-    process.env.PATH = path.join(__dirname,'node_modules/mapnik/lib/binding/');
+    // NULL out PATH to avoid potential conflicting dlls
+    process.env.PATH = '';
 }
 
 var tm = require('./lib/tm');
