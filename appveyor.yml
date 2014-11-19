@@ -30,7 +30,7 @@ install:
   - npm -v
   - npm install --fallback-to-build=false --toolset=v140
   # put dumpbin on path: required by check_shared_libs.py
-  - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin;%PATH%
+  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
   - python test\check_shared_libs.py .\
   - npm test
   - node test/test-client.js
