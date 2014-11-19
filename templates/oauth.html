@@ -16,7 +16,7 @@
 
 <% if (obj.user && obj.oauth) { %>
 <div class='dark pad8y clearfix'><div class='limiter clearfix'>
-    <div class='clearfix'><div class='margin1 col10 round-top fill-darken0'>
+    <div class='clearfix space-bottom4 round'><div class='margin1 col10 round-top fill-darken0'>
         <div class='col6 pad4'>
             <span class='inline icon big avatar dot align-top' style='background-image:url(<%= obj.user.avatar %>)' /></span>
             <div class='inline row1 space align-top pad0x'>
@@ -32,9 +32,9 @@
             </div>
         </div>
     </div></div>
-    <div class='clearfix'><div class='margin1 col10 round-bottom fill-lighten0'>
+    <div class='clearfix'><form class='margin1 col10 round fill-darken0'>
         <%= this.newproject(examples) %>
-    </div>
+    </form>
 </div></div>
 <% } else { %>
 <div class='dark pad8y clearfix'><div class='limiter'>

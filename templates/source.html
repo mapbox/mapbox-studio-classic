@@ -234,8 +234,9 @@ var cwd = <%= saferstringify(cwd, null, 2) %>;
 var source = <%= saferstringify(source, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var revlayers = <%= saferstringify(revlayers, null, 2) %>;
+var isMapboxAPI = <%= isMapboxAPI %>;
 
-Source(templates, cwd, tm, source, revlayers, examples);
+Source(templates, cwd, tm, source, revlayers, examples, isMapboxAPI);
 </script>
 
 <% if (test) { %>

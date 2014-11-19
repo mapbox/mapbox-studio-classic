@@ -1,4 +1,4 @@
-window.Source = function(templates, cwd, tm, source, revlayers, examples) {
+window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapboxAPI) {
     var map;
     var tiles;
     var mtime = (+new Date).toString(36);
@@ -660,7 +660,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples) {
         });
     };
     Editor.prototype.sourceNewStyle = function(){
-        Modal.show('sourcenewstyle', {source:source});
+        Modal.show('sourcenewstyle', {source: source, isMapboxAPI: isMapboxAPI});
     };
     Editor.prototype.lockCenter = function(ev) {
         $(ev.currentTarget).toggleClass('active');
