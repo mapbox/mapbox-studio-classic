@@ -366,7 +366,7 @@ Printer.prototype.imageSizeStats = function() {
 
   var note = $('<div>', {
     class: 'text-left note top3 pin-top small fill-dark',
-    text: 'Percent of max export size based on current crop area.'
+    text: 'Percent of max size at each zoom level.'
   });
 
   $('#zoomedto').html(html).append(note);

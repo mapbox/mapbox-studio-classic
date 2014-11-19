@@ -453,7 +453,7 @@ body.local .on-local { display:block; }
   position: absolute;
   overflow: visible;
   display: block;
-  height:120px;
+  height:160px;
   background: #626262;
   z-index: 1;
   width: 100%;
@@ -603,6 +603,7 @@ body.local .on-local { display:block; }
   width: 30px!important;
   }
 
+.CodeMirror-linenumber { color: rgba(0,0,0,.75);}
 .CodeMirror-gutters {
   background:#f8f8f8;
   width:35px!important;
@@ -614,7 +615,7 @@ body.local .on-local { display:block; }
     z-index:100;
     }
     .CodeMirror-gutter-wrapper .error {
-      background-color:#f1f075;
+      background-color:#ee8a65;
       position:absolute;
       left:-10px;
       }
@@ -629,7 +630,7 @@ body.local .on-local { display:block; }
                   box-shadow:none;
           }
       .CodeMirror-gutter-wrapper .error .message {
-        background-color:#f1f075;
+        background-color:#ee8a65;
         padding-right: 20px;
         position:absolute;
         left:40px;

@@ -601,7 +601,7 @@ Editor.prototype.cartoError = function(ln, e, id) {
 
       var alert = document.createElement('a');
       alert.href = '#';
-      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-yellow';
+      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-orange';
       alert.innerHTML = 'Error: Line ' + (ln+1) + '</span>';
 
       // don't stack alerts on the same tab
