@@ -1,7 +1,7 @@
 Changelog
 =========
 
-### 0.1.7
+### 0.2.0
 
 - Package user-provided font files with styles.
 - Removes support for reading fonts from the `.mapbox-studio/fonts` -- use style-specific fonts instead.
