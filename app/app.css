@@ -2,6 +2,7 @@
 ------------------------------------------------------- */
 .top1 { top:40px; }
 .top2 { top:80px; }
+.top3 { top:120px; }
 .bottom1 { bottom:40px; }
 .bottom2 { bottom:80px; }
 .bottom3 { bottom:120px; }
@@ -342,13 +343,10 @@ body.api-offline .on-api-offline { display:block; }
 .leaflet-control { z-index: 0; }
 
 #zoomedto {
+  overflow: hidden;
   width:70px;
   display: inline-block;
   height: 30px;
-  -webkit-transition:height .125s;
-     -moz-transition:height .125s;
-      -ms-transition:height .125s;
-          transition:height .125s;
 }
 #zoomedto * {
   border-color: #525252;
@@ -372,12 +370,12 @@ body.api-offline .on-api-offline { display:block; }
   left:0;
   right:70px;
   top:8px;
-  background:rgba(0,0,0,0.1);
+  background:rgba(0,0,0,0.25);
   }
 #zoomedto .minmax {
   height:4px;
   display:block;
-  background:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.5);
   position:absolute;
   }
 #zoomedto .marker {
@@ -385,7 +383,7 @@ body.api-offline .on-api-offline { display:block; }
   display:block;
   width:4px;
   height:4px;
-  background:#888;
+  background:white;
   }
 #zoomedto.zoom0 .zoom0,
 #zoomedto.zoom1 .zoom1,
@@ -457,9 +455,8 @@ body.api-offline .on-api-offline { display:block; }
 #zoomedto:target .zoom.zoom23, #zoomedto.visible-y .export.zoom.zoom23 { left:75%;border-right-width: 0; }
 #zoomedto:target, #zoomedto.visible-y {
   position: absolute;
+  overflow: visible;
   display: block;
-  border-top: 1px solid rgba(0,0,0,0.25);
-  overflow:hidden;
   height:120px;
   background: #626262;
   z-index: 10;
@@ -468,7 +465,8 @@ body.api-offline .on-api-offline { display:block; }
   right: 0;
   top: 0;
   }
-#zoomedto:target .zoom, #zoomedto.visible-y .zoom {
+#zoomedto:target .zoom,
+#zoomedto.visible-y .zoom {
   width: 25%;
   padding: 0;
   height: 20px;
@@ -478,18 +476,24 @@ body.api-offline .on-api-offline { display:block; }
   border-radius:0px;
   position:absolute;
   display:block;
-  }
+}
 
+#zoomedto.visible-y .zoom-display,
 #zoomedto:target .zoom-display {
   background: transparent;
   width: 30px;
 }
 
 /* override confusing a element hover effects */
+#zoomedto.visible-y .zoom,
 #zoomedto:target:hover .zoom {
   cursor: default;
   color: white;
 }
+
+/* zoomedto warning */
+#zoomedto .warning *  { color: #f1f075; }
+
 #zoomedto:target .range,
 #zoomedto:target .close,
 #zoomedto.visible-y .close { display:block; }

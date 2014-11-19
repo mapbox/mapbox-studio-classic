@@ -33,16 +33,16 @@ var errorHandler = _(function() {
     .split('|')
     .filter(function(msg) { return msg; })
     .map(function(msg) {
-      return "<div class='msg pad1 fill-darken1'>" + decodeURIComponent(msg) + "</div>";
+      return "<div class='msg pad1 fill-darken2'>" + decodeURIComponent(msg) + "</div>";
     });
   $('#map-errors').html(html);
-}).throttle(50);
+}).debounce(100);
 
 var statHandler = function(key) {
   var unit = key === 'srcbytes' ? 'k' : 'ms';
+
   return _(function() {
     if (document.cookie.indexOf(key) === -1) return;
-    var max = 300;
 
     var stats = _(document.cookie
       .split(key + '=').pop()
@@ -53,20 +53,48 @@ var statHandler = function(key) {
       memo[z[0]] = z.slice(1,4).map(function(v) { return parseInt(v,10); });
       return memo;
     }, {});
+
     var html = "<a href='#' class='zoomedto-close inline pad1 quiet pin-bottomright icon close'></a>";
 
     function round(v) { return Math.round(v * 0.001); }
 
+    // mapbox api limits
+    var limits = {
+          avgRender: 300,
+          maxRender: 1000,
+          avgTile: 500
+        }
+
     for (var z = 0; z < 23; z++) {
-      var s = stats[z];
+      var s = stats[z],
+          warning = undefined,
+          max;
+
       if (key === 'srcbytes' && s) {
         s = s.map(round);
+        max = limits.avgTile
+      } else {
+        max = limits.avgRender
       }
+
       var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
+
+      if (unit === 'k') {
+        if (s && s[1] > limits.avgTile) {
+          warning = 'tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
+        }
+      } else if (unit === 'ms') {
+          if (s && s[1] > limits.avgRender ) {
+            warning = 'average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
+          } else if (s && s[2] > limits.maxRender) {
+            warning = 'maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
+          }
+      }
+
       html += [
-        "<a href='#zoomedto' class='pad0y quiet clip contain strong micro col12 zoom zoom",z,"'>",
+        "<a href='#zoomedto' class='pad0y quiet clip contain strong micro col12 zoom zoom",z + (warning ? ' warning' : ''),"'>",
         s ? "<span class='strong avg quiet'>"+s[1]+unit+"</span>" : '',
         s ? "<span class='range'>" : '',
         s ? "<span class='minmax' style='margin-left:"+l+"%; width:"+w+"%;'></span>" : '',
@@ -75,9 +103,16 @@ var statHandler = function(key) {
         "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
         "</a>"
       ].join('');
+
+      if (warning && document.cookie.indexOf(warning) === -1) {
+        document.cookie = 'errors=Warning: at z' + z + ', ' + warning + '<a class="icon pad0x strong small info" href="#zoomedto">Details</a>' ;
+      }
     }
+
     $('#zoomedto').html(html);
-  }).throttle(50);
+
+  }).debounce(100);
+
 };
 
 var delStyle = function(ev) {

@@ -356,20 +356,20 @@ Printer.prototype.imageSizeStats = function() {
       }
     }
     html += [
-      "<a href='#export' class='js-zoomedto export pad0y quiet clip contain strong micro col12 zoom zoom",z,"'>",
+      "<a href='#export' class='js-zoomedto export pad0y quiet clip contain strong micro col12 zoom zoom",z + (perc > 100 ? ' warning' : ''),"'>",
       perc ? "<span class='strong perc quiet " : '',
-      perc > 100 ? "warning'" : '',
       perc > 1000 ? "'> >1000%</span>" : perc ? "'>"+perc+"%</span>" : '',
       "<span class='zoom-display round pad0 fill-darken1 strong'>z",z,"</span>",
       "</a>"
     ].join('');
   }
-  html += [
-      "<span class='clip export js-zoomedto strong micro col12 quiet zoom zoom23'>",
-      "<p class='truncate col12 pad1x'>% of image size limit</p>",
-      "</span>"
-    ].join('');
-  $('#zoomedto').html(html);
+
+  var note = $('<div>', {
+    class: 'text-left note top3 pin-top small fill-dark',
+    text: 'Percent of max export size based on current crop area.'
+  });
+
+  $('#zoomedto').html(html).append(note);
 };
 
 Printer.prototype.toggleStats = function(ev) {
