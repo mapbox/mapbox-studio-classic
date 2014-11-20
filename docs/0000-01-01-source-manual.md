@@ -66,7 +66,7 @@ If your polygons are in a file such as a shapefile (.shp), you can use QGIS, an 
 4. Import the new layer to your Mapbox Studio source project.
 
 ### PostGIS
-Using QGIS you can perform the centroid computation on the fly using `ST_PointOnSurface()`. Create a new layer, with an SQL query such as:
+Using PostGIS you can perform the centroid computation on the fly using `ST_PointOnSurface()`. Create a new layer, with an SQL query such as:
 
 ```sql
 ( SELECT ST_PointOnSurface(geom) AS geom, name
