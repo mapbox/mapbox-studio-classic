@@ -104,7 +104,7 @@ var statHandler = function(key) {
         "</a>"
       ].join('');
 
-      if (warning && document.cookie.indexOf(warning) === -1) {
+      if (warning) {
         var note = $('<div>', {
           class: 'text-left icon alert top3 pin-top small note',
           text: warning
