@@ -3,11 +3,6 @@
 cwd=$(pwd)
 arch="x64"
 
-# @TODO 0.10.30 must be added to https://github.com/mapbox/node-pre-gyp/blob/master/lib/util/abi_crosswalk.json
-# and available in all our node-pre-gyp modules.
-node_version="0.10.26"
-atom_version="0.16.2"
-
 if [ -z "$1" ]; then
     gitsha="master"
 else
@@ -21,8 +16,10 @@ else
 fi
 
 atom_arch=$arch
+extra_install_args=""
 if [ "$platform" == "win32" ]; then
     atom_arch="ia32"
+    extra_install_args="--toolset=v140"
 fi
 
 set -e -u
@@ -36,8 +33,8 @@ if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
 
 build_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha"
-shell_url="https://github.com/atom/atom-shell/releases/download/v$atom_version/atom-shell-v$atom_version-$platform-$atom_arch.zip"
-shell_file="/tmp/atom-shell-v$atom_version-$platform-$atom_arch.zip"
+shell_url="https://github.com/atom/atom-shell/releases/download/v$ATOM_VERSION/atom-shell-v$ATOM_VERSION-$platform-$atom_arch.zip"
+shell_file="/tmp/atom-shell-v$ATOM_VERSION-$platform-$atom_arch.zip"
 
 if [ "$platform" == "darwin" ]; then
     app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/Atom.app/Contents/Resources/app"
@@ -72,7 +69,11 @@ mv $build_dir/version $build_dir/version.txt
 mv $build_dir/LICENSE $build_dir/LICENSE.txt
 
 echo "running npm install"
-BUILD_PLATFORM=$platform npm install --production
+BUILD_PLATFORM=$platform npm install --production \
+--target_platform=$platform \
+--target=$NODE_VERSION \
+--target_arch=$arch \
+--fallback-to-build=false $extra_install_args
 
 # Remove extra deps dirs to save space
 deps="node_modules/mbtiles/node_modules/sqlite3/deps
@@ -82,22 +83,6 @@ for depdir in $deps; do
     rm -r $app_dir/$depdir
 done
 
-# Go through pre-gyp modules and rebuild for target platform/arch.
-modules="node_modules/mapnik
-node_modules/mbtiles/node_modules/sqlite3
-node_modules/mapnik-omnivore/node_modules/srs
-node_modules/mapnik-omnivore/node_modules/gdal"
-for module in $modules; do
-    rm -r $app_dir/$module/lib/binding
-    cd $app_dir/$module
-    echo "resbuilding $app_dir for $platform $node_version $arch"
-    $app_dir/node_modules/.bin/node-pre-gyp install \
-        --target_platform=$platform \
-        --target=$node_version \
-        --target_arch=$arch \
-        --fallback-to-build=false
-done
-
 cd /tmp
 
 # win32: installer using nsis
@@ -105,35 +90,17 @@ if [ $platform == "win32" ]; then
     if ! which makensis > /dev/null; then echo "makensis command not found"; exit 1; fi;
     if ! which signcode > /dev/null; then echo "signcode command not found"; exit 1; fi;
     if ! which expect > /dev/null; then echo "expect command not found"; exit 1; fi;
+    if ! which windowsign > /dev/null; then echo "windowsign command not found"; exit 1; fi;
 
     # windows code signing
-    # uses mono `signcode` and `expect` because signcode prompts for
-    # secret key password without option for supplying it otherwise.
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.pvk
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.spc authenticode.spc
 
-    function winsign() {
-        echo "
-            spawn signcode \
-            -spc authenticode.spc \
-            -v authenticode.pvk \
-            -a sha1 -$ commercial \
-            -n Mapbox\ Studio \
-            -i https://www.mapbox.com/ \
-            -t http://timestamp.verisign.com/scripts/timstamp.dll \
-            -tr 10 \
-            $1
-
-            expect \"Enter password for authenticode.pvk:\"
-            send -- \"$2\r\"
-            expect eof
-            lassign [wait] pid spawnid os_error_flag value
-            exit \$value" | expect > /dev/null && echo "Signed $1"
-    }
-
-    # sign atom.exe to avoid false positives with antivirus software
     echo "running windows signing on atom.exe"
-    winsign $build_dir/atom.exe $WINCERT_PASSWORD
+    N='Mapbox Studio' I='https://www.mapbox.com/' P=$WINCERT_PASSWORD \
+    SPC=authenticode.spc PVK=authenticode.pvk \
+    windowsign $build_dir/atom.exe
+
     rm $build_dir/atom.exe.bak
 
     # curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
@@ -145,9 +112,10 @@ if [ $platform == "win32" ]; then
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
 
-    # sign installer
     echo "running windows signing on installer"
-    winsign $build_dir.exe $WINCERT_PASSWORD
+    N='Mapbox Studio' I='https://www.mapbox.com/' P=$WINCERT_PASSWORD \
+    SPC=authenticode.spc PVK=authenticode.pvk \
+    windowsign $build_dir.exe
 
     # remove cert
     rm -f authenticode.pvk

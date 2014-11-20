@@ -32,11 +32,10 @@ tm.config({
     test: true,
     db: path.join(tmp, 'app.db'),
     tmp: path.join(tmp, 'tmp'),
+    log: path.join(tmp, 'app.log'),
     cache: path.join(tmp, 'cache'),
     cwd: testPath,
-    port: 3001,
-    mapboxauth: 'http://localhost:3001',
-    mapboxtile: 'http://localhost:3001/v4'
+    port: 3001
 }, listen);
 
 // Test params
@@ -44,6 +43,8 @@ var dataPath = path.join(path.dirname(require.resolve('mapnik-test-data')),'data
 
 function listen(err) {
     if (err) throw err;
+    tm.db.set('MapboxAPIAuth', 'http://localhost:3001');
+    tm.db.set('MapboxAPITile', 'http://localhost:3001');
     var server = require('../lib/server');
     server.listen(3001, ready);
 }

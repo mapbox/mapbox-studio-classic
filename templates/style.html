@@ -38,7 +38,7 @@
   <title><%= style.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
+<body id='view' class='<%= agent %> <%= style._tmp ? 'tmp' : '' %> <%= style.source.split(':')[0] === 'tmsource' ? 'local' : '' %> <%= mapboxAPI.isMapboxAPI ? 'api-mapbox' : 'api-offline' %> clip'><div id='app' class='pin-top pin-bottom mobile-cols'>
 <a id='settings'></a>
 <a id='layers'></a>
 <a id='fonts'></a>
@@ -140,7 +140,7 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled'>
-      <fieldset class='keyline-bottom clearfix pad2y pad1x contain'>
+      <fieldset class='keyline-bottom clearfix pad1y contain'>
         <div class='z10 pin-top pin-bottom col12 pad1x pad2y fill-disable on-local on-tmp on-changed'></div>
         <div class='on-tmp on-changed z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
           <strong class='icon floppy'>Save project</strong> to share
@@ -148,7 +148,7 @@
         <div class='on-local z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
           Use <strong class='icon cloud'>remote source</strong> to share
         </div>
-        <section class='space-bottom1'>
+        <section class='pad1 contain on-api-mapbox'>
           <div id='mapstatus' class='contain clip'>
             <div id='mapstatus-mapid' class='pin-top pad0y pad1x center truncate round-top space small animate fill-darken1'>
               <strong>Map ID</strong>
@@ -160,8 +160,11 @@
           </div>
           <a href='#settings' class='js-upload col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
-        <section class='small center'>
+        <section class='small center on-api-mapbox'>
           <a href='/style.tm2z?id=<%= style.id %>' class='icon package'>or download package</a>
+        </section>
+        <section class='pad1 contain on-api-offline'>
+          <a href='/style.tm2z?id=<%= style.id %>' class='col12 short button icon package'>Download package</a>
         </section>
       </fieldset>
       <fieldset class='pad1x'>
@@ -208,14 +211,14 @@
           <section class='space-bottom0 clearfix'>
             <label class='micro inline col4'>Minzoom</label>
             <div class='col8'>
-              <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+              <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= style.minzoom %>' min='0' max='22' step='1' oninput='rangeHandler(this, "max", "#maxzoom");' />
               <span class='micro quiet inline range' id='minzoom-val'><%= style.minzoom %></span>
             </div>
           </section>
           <section class='space-bottom0 clearfix'>
             <label class='micro inline col4'>Maxzoom</label>
             <div class='col8'>
-              <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+              <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= style.maxzoom %>' min='0' max='22' step='1' oninput='rangeHandler(this, "min", "#minzoom");' />
               <span class='micro quiet inline range' id='maxzoom-val'><%= style.maxzoom %></span>
             </div>
           </section>
@@ -277,7 +280,7 @@
   </div>
 
   <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
-    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+    <div class='pin-top pad1 keyline-bottom'>
       <h3>Projects</h3>
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
@@ -563,6 +566,8 @@ var cwd = <%= saferstringify(cwd, null, 2) %>;
 var style = <%= saferstringify(style, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var templates = {};
+var mapboxAPI = <%= saferstringify(mapboxAPI, null, 2) %>;
+var oauth = <%= saferstringify(oauth, null, 2) %>;
 
 templates.emptystate = <%= this.emptystate.source %>;
 templates.modalbrowser = <%= this.modalbrowser.source %>;
@@ -581,7 +586,7 @@ templates.userfonts = <%= this.userfonts.source %>;
 templates.xraycolor = <%= this.xraycolor.source %>;
 templates.xraypopup = <%= this.xraypopup.source %>;
 
-Style(templates, cwd, style, examples, gazetteer);
+Style(templates, cwd, style, examples, gazetteer, mapboxAPI, oauth);
 </script>
 
 <% if (test) { %>

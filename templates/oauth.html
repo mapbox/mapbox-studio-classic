@@ -12,29 +12,29 @@
   <title>Mapbox Studio Authorization</title>
 </head>
 
-<body id='view' class='fill-blue'>
+<body id='view' class='fill-blue <%= isMapboxAPI ? 'api-mapbox' : 'api-offline' %>'>
 
 <% if (obj.user && obj.oauth) { %>
 <div class='dark pad8y clearfix'><div class='limiter clearfix'>
-    <div class='clearfix'><div class='margin1 col10 round-top fill-darken0'>
+    <div class='clearfix space-bottom4 round'><div class='margin1 col10 round-top fill-darken0'>
         <div class='col6 pad4'>
             <span class='inline icon big avatar dot align-top' style='background-image:url(<%= obj.user.avatar %>)' /></span>
             <div class='inline row1 space align-top pad0x'>
                 <strong><%- obj.user.name || obj.user.id %></strong><br/>
-                <a class='small' href='https://www.mapbox.com/account/' target='_blank'>My account</a>
+                <a class='small on-api-mapbox' href='https://www.mapbox.com/account/' target='_blank'>My account</a>
                 <a class='small' href='/unauthorize'>Sign out</a>
             </div>
         </div>
         <div class='col6 pad2 row2'>
-            <div class='clearfix round pad1'>
+            <div class='clearfix round pad1 on-api-mapbox'>
                 <input class='col12 code clean round small' type='text' value='<%= obj.oauth.accesstoken %>' disabled readonly />
                 <span class='block micro pad0y text-right truncate icon check'><strong>Access token</strong> authorized to use the <a href='https://www.mapbox.com/developers/api/' target='_blank'>Mapbox API</a></span>
             </div>
         </div>
     </div></div>
-    <div class='clearfix'><div class='margin1 col10 round-bottom fill-lighten0'>
+    <div class='clearfix'><form class='margin1 col10 round fill-darken0'>
         <%= this.newproject(examples) %>
-    </div>
+    </form>
 </div></div>
 <% } else { %>
 <div class='dark pad8y clearfix'><div class='limiter'>
@@ -44,10 +44,25 @@
         Connect&nbsp;to&nbsp;your&nbsp;Mapbox<br/>
         account&nbsp;to&nbsp;get&nbsp;started.
         </h2>
-        <a href='/oauth/mapbox' class='quiet button icon lock col8 margin2'>Connect</a>
-    </div>
+        <form action='/oauth/config' method='get' class='col8 margin2' >
+          <button type='submit' value='Connect' id='connect' class='quiet space-bottom4 button icon lock col12'>Connect</button>
+
+          <section class='space-bottom0 micro'>
+            <strong>Using Atlas Server?</strong> Enter its URL to connect Mapbox Studio.
+          </section>
+          <section id='config' class='contain'>
+            <a href='#' class='pin-right pad0y pad2x js-reseturl quiet micro fill-darken0 round-right'>Reset</a>
+            <input class='short small col12 clean round text-left space-bottom1' id='MapboxAPITile-input' name='MapboxAPITile' type='text' value='<%=obj.MapboxAPITile%>'/>
+          </section>
+        </form>
 </div></div>
 <% } %>
+
+<script>
+$('.js-reseturl').on('click', function(){
+  $('#MapboxAPITile-input').prop('value','https://a.tiles.mapbox.com');
+});
+</script>
 
 </body>
 

@@ -1,6 +1,13 @@
 ; Mapbox Studio nsis installer script
 
+SetCompressor /SOLID /FINAL lzma
+SetCompressorDictSize 64
+
 ; HM NIS Edit Wizard helper defines
+; directory of previous install: needed because of ProgFiles86 -> ProgFiles
+Var PREV_VER_DIR
+; parent directory of install
+Var PAR_DIR
 !define PRODUCT_DIR "mapbox-studio"
 !define PRODUCT_NAME "Mapbox Studio"
 !define PRODUCT_PUBLISHER "Mapbox"
@@ -12,6 +19,10 @@
 ; firewall extras
 !addplugindir "..\vendor\nsisFirewall-1.2\bin"
 !include "FileFunc.nsh"
+!include "WinVer.nsh"
+!include "x64.nsh"
+#!include "LogicLib.nsh"
+!insertmacro GetParent
 
 RequestExecutionLevel admin
 
@@ -53,10 +64,24 @@ OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
 InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
 
 Function .onInit
+  StrCpy $PREV_VER_DIR ""
+
+  ${IfNot} ${AtLeastWin7}
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above and 64bit!"
+    Quit
+  ${EndIf}
+
+  ${IfNot} ${RunningX64}
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires a 64bit operating system!"
+    Quit
+  ${EndIf}
+  
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
   "${PRODUCT_UNINST_KEY}" \
   "UninstallString"
   StrCmp $R0 "" done
+
+  ${GetParent} $R0 $PREV_VER_DIR
 
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
   "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the \
@@ -67,11 +92,15 @@ Function .onInit
 ;Run the uninstaller
 uninst:
   ClearErrors
-  StrCpy $R1 $R0
-  ${GetParent} "$R1" $R0
-  ExecWait '$R1 _?=$R0' ;Do not copy the uninstaller to a temp file
+  ;Do not copy the uninstaller to a temp file
+  ;otherwise ExecWait will not wait
+  ExecWait '$R0 _?=$PREV_VER_DIR'
+  ;manually delete remaining install dir containing uninstall.exe
+  ;because it wasn't copied to a temp file
+  RMDir /r "$PREV_VER_DIR\*.*"
   IfErrors no_remove_uninstaller done
   no_remove_uninstaller:
+    MessageBox MB_OK "Error during uninstall"
 
 done:
 
@@ -125,16 +154,23 @@ FunctionEnd
 
 Section Uninstall
    SetShellVarContext all
+   ${If} $PREV_VER_DIR == ""
+    StrCpy $PREV_VER_DIR $INSTDIR
+   ${EndIf}
    ; Remove Node.js from the authorized list
-   nsisFirewall::RemoveAuthorizedApplication "$INSTDIR\resources\app\vendor\node.exe"
+   nsisFirewall::RemoveAuthorizedApplication "$PREV_VER_DIR\resources\app\vendor\node.exe"
    Pop $0
    IntCmp $0 0 +3
        MessageBox MB_OK "A problem happened while removing node.exe (used by Mapbox Studio) from the Firewall exception list (result=$0)" /SD IDOK
        Return
 
-  Delete "$INSTDIR\*.*"
-  RMDir /r "$INSTDIR\*.*"
-  RMDir "$INSTDIR"
+  ; cd into parent directory, otherwise install dir cannot be deleted
+  ${GetParent} $PREV_VER_DIR $PAR_DIR
+  ;MessageBox MB_OK "PAR_DIR $PAR_DIR"
+  SetOutPath "$PAR_DIR"
+  Delete "$PREV_VER_DIR\*.*"
+  RMDir /r "$PREV_VER_DIR\*.*"
+  RMDir "$PREV_VER_DIR"
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall ${PRODUCT_NAME}.lnk"

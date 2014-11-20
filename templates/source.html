@@ -26,7 +26,7 @@
   <title><%= source.name %></title>
 </head>
 
-<body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> clip dark'><div id='app' class='pin-top pin-bottom mobile-cols'>
+<body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> <%= isMapboxAPI ? 'api-mapbox' : 'api-offline' %> clip dark'><div id='app' class='pin-top pin-bottom mobile-cols'>
 
 <a id='settings'></a>
 <a id='user'></a>
@@ -43,23 +43,26 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='pin-left top1 scroll-styled'>
-      <fieldset class='clearfix pad1x pad2y keyline-bottom contain'>
+      <fieldset class='clearfix pad1y keyline-bottom contain'>
         <div class='z10 pin-top pin-bottom col12 pad1x fill-disable on-tmp on-changed'>
         </div>
         <div class='on-tmp on-changed z10 pad0y pad1x micro center truncate pin-top fill-dark keyline-top'>
           <strong class='icon floppy'>Save source</strong> to enable upload
         </div>
-        <section class='space-bottom1'>
+        <section class='pad1 contain on-api-mapbox'>
           <div id='mapstatus-mapid' class='pad0y pad1x center truncate round-top space small animate fill-darken1'>
             <strong>Map ID</strong>
             <a href='https://www.mapbox.com/data/' class='quiet js-mapid' target='_blank'><%= _(source._prefs.mapid).escape() || 'Source not uploaded' %></a>
           </div>
           <a href='/upload?id=<%= source.id %>' class='col12 short button round-bottom icon up'>Upload to Mapbox</a>
         </section>
+        <section class='pad1 contain on-api-offline'>
+          <a href='/mbtiles?id=<%= source.id %>' class='col12 short button icon package'>Export to MBTiles</a>
+        </section>
         <section class='small center'>
           <a href='#' class='js-sourcenewstyle inline pad0 small col12 icon paint'>Create style from source</a>
         </section>
-        <section class='small center'>
+        <section class='small center on-api-mapbox'>
           <a href='/mbtiles?id=<%= source.id %>' class='icon package'>Export to MBTiles</a>
         </section>
       </fieldset>
@@ -88,14 +91,14 @@
           <section class='space-bottom0 clearfix'>
             <label class='micro inline col4'>Minzoom</label>
             <div class='col8'>
-              <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "max", "#maxzoom");' />
+              <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= source.minzoom %>' min='0' max='22' step='1' oninput='rangeHandler(this, "max", "#maxzoom");' />
               <span class='micro quiet inline range' id='minzoom-val'><%= source.minzoom %></span>
             </div>
           </section>
           <section class='space-bottom0 clearfix'>
             <label class='micro inline col4'>Maxzoom</label>
             <div class='col8'>
-              <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' onchange='rangeHandler(this, "min", "#minzoom");' />
+              <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= source.maxzoom %>' min='0' max='22' step='1' oninput='rangeHandler(this, "min", "#minzoom");' />
               <span class='micro quiet inline range' id='maxzoom-val'><%= source.maxzoom %></span>
             </div>
           </section>
@@ -231,8 +234,9 @@ var cwd = <%= saferstringify(cwd, null, 2) %>;
 var source = <%= saferstringify(source, null, 2) %>;
 var examples = <%= saferstringify(examples, null, 2) %>;
 var revlayers = <%= saferstringify(revlayers, null, 2) %>;
+var isMapboxAPI = <%= isMapboxAPI %>;
 
-Source(templates, cwd, tm, source, revlayers, examples);
+Source(templates, cwd, tm, source, revlayers, examples, isMapboxAPI);
 </script>
 
 <% if (test) { %>
