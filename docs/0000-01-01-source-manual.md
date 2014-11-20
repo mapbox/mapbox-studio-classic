@@ -55,9 +55,18 @@ Also note that tile buffers get stretched along with the rest of the tile when o
 Labeling polygons
 -----------------
 
-Labeling polygons doesn't work quite like it could in TileMill. With vector tiles a polygon might be split across many vector tiles, so if you try to label it directly you will end up with lots of duplicate labels. Instead you willl need to derive a separate point layer and use that for polygon labeling.
+Placing text labels on polygons doesn't work quite like in TileMill. With vector tiles, a polygon might be split across many vector tiles, so if you use `text-placement: point`, you will end up with lots of duplicate labels. As a workaround, you will need to create a layer containing the centroid of each polygon, and use that for polygon labeling.
 
-You can do this beforehand with a tool like QGIS, or on-the-fly in a Mapbox Studio SQL query using PostGIS's `ST_PointOnSurface` function, eg:
+### Shapefile, GeoJSON
+If your polygons are in a file such as a shapefile (.shp), you can use QGIS, an open source desktop GIS tool, to generate an additional layer.
+
+1. Browse to the shapefile, then double-click it to view.
+2. From the menu select `Vector` > `Geometry Tools` > `Polygon centroids`
+3. Browse to where you want the output file to go, click `Ok`.
+4. Import the new layer to your Mapbox Studio source project.
+
+### PostGIS
+Using PostGIS you can perform the centroid computation on the fly using `ST_PointOnSurface()`. Create a new layer, with an SQL query such as:
 
 ```sql
 ( SELECT ST_PointOnSurface(geom) AS geom, name
