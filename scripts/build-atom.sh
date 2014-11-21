@@ -78,7 +78,7 @@ mv $build_dir/version $build_dir/version.txt
 mv $build_dir/LICENSE $build_dir/LICENSE.txt
 
 echo "running npm install"
-BUILD_PLATFORM=$platform npm install --production \
+BUILD_PLATFORM=$platform TARGET_ARCH=$arch npm install --production \
 --target_platform=$platform \
 --target=$NODE_VERSION \
 --target_arch=$arch \
