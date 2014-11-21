@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 cwd=$(pwd)
-arch="x64"
 
 if [ -z "$1" ]; then
     gitsha="master"
@@ -13,6 +12,12 @@ if [ -z "$2" ]; then
     platform=$(uname -s | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/")
 else
     platform=$2
+fi
+
+if [ -z "$2" ]; then
+    arch="x64"
+else
+    arch=$4
 fi
 
 atom_arch=$arch
