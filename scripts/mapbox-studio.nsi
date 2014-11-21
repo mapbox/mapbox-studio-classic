@@ -60,14 +60,15 @@ var ICONS_GROUP
 
 Name "${PRODUCT_DIR}"
 OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
-${If} ${TARGET_ARCH} == "x64"
-  InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
-${Else}
-  InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
-${EndIf}
+
 
 
 Function .onInit
+  StrCpy $INSTDIR $programfiles32
+  ${If} ${RunningX64}
+    StrCpy $INSTDIR $programfiles64
+  ${EndIf}
+
   StrCpy $PREV_VER_DIR ""
 
   ${IfNot} ${AtLeastWin7}
