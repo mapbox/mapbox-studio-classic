@@ -14,7 +14,7 @@ else
     platform=$2
 fi
 
-if [ -z "$2" ]; then
+if [ -z "$3" ]; then
     arch="x64"
 else
     arch=$4
