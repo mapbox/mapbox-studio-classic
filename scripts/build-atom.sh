@@ -115,7 +115,7 @@ if [ $platform == "win32" ]; then
     echo "downloading c++ lib vcredist_$arch_common_name.exe"
     curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$arch_common_name.exe"
     echo "running makensis"
-    makensis -V2 /DTARGET_ARCH=$arch_common_name $build_dir/resources/app/scripts/mapbox-studio.nsi
+    makensis -V2 -DTARGET_ARCH=$arch_common_name $build_dir/resources/app/scripts/mapbox-studio.nsi
     echo "cleaning up after makensis"
     rm -rf $build_dir
     mv /tmp/mapbox-studio.exe $build_dir.exe
