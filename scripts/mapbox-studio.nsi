@@ -21,7 +21,6 @@ Var PAR_DIR
 !include "FileFunc.nsh"
 !include "WinVer.nsh"
 !include "x64.nsh"
-#!include "LogicLib.nsh"
 !insertmacro GetParent
 
 RequestExecutionLevel admin
@@ -61,21 +60,32 @@ var ICONS_GROUP
 
 Name "${PRODUCT_DIR}"
 OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
-InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
+${If} ${TARGET_ARCH} == "x64"
+  InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
+${Else}
+  InstallDir "$PROGRAMFILES\${PRODUCT_DIR}"
+${EndIf}
+
 
 Function .onInit
   StrCpy $PREV_VER_DIR ""
 
   ${IfNot} ${AtLeastWin7}
-    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above and 64bit!"
-    Quit
-  ${EndIf}
-
-  ${IfNot} ${RunningX64}
-    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires a 64bit operating system!"
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above"
     Quit
   ${EndIf}
   
+  ${If} ${RunningX64}
+    ${If} ${TARGET_ARCH} == "x86"
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Warning: You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine"
+    ${EndIf}
+  ${Else}
+    ${If} ${TARGET_ARCH} == "x64"
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are installing the 64 bit ${PRODUCT_NAME} on a 32 bit machine"
+      Quit
+    ${EndIf}
+  ${EndIf}
+
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
   "${PRODUCT_UNINST_KEY}" \
   "UninstallString"
@@ -110,7 +120,7 @@ Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
   File /r ..\..\..\*.*
-  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x64.exe /q /norestart"
+  ExecWait "$INSTDIR\resources\app\vendor\vcredist_${TARGET_ARCH}.exe /q /norestart"
 SectionEnd
 
 ; Add firewall rule
