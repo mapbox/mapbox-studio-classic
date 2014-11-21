@@ -17,7 +17,7 @@ fi
 if [ -z "$3" ]; then
     arch="x64"
 else
-    arch=$4
+    arch=$3
 fi
 
 atom_arch=$arch
