@@ -47,6 +47,12 @@ Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the
 - Do not commit doc images (screenshots, diagrams, etc.) to the mapbox-studio repo. Host them externally, either on github's issue image hosting or elsewhere.
 - Could the need to document be eliminated by improving the software (UI/UX/code)?
 
+### Before Tagging
+
+ - Make sure the tests are passing, on both travis and appveyor
+ - Run `npm ls` and make sure it presents no errors
+ - Run `npm dedupe` and see if any of the `unavoidable conflicts` are actually avoidable, say by bumping the `node-pre-gyp` version kept in `package.json`
+
 ### Tagging + releasing
 
 Tagging flow is like this:
