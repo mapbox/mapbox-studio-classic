@@ -64,9 +64,9 @@ OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
 
 
 Function .onInit
-  StrCpy $INSTDIR $programfiles32
+  StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
   ${If} ${RunningX64}
-    StrCpy $INSTDIR $programfiles64
+    StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
   ${EndIf}
 
   StrCpy $PREV_VER_DIR ""
@@ -78,11 +78,11 @@ Function .onInit
   
   ${If} ${RunningX64}
     ${If} ${TARGET_ARCH} == "x86"
-      MessageBox MB_OK|MB_ICONEXCLAMATION "Warning: You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine"
+      MessageBox MB_OK|MB_ICONEXCLAMATION "You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine. This works, but for best performance it is recommended to instead install the 64 bit version."
     ${EndIf}
   ${Else}
     ${If} ${TARGET_ARCH} == "x64"
-      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are installing the 64 bit ${PRODUCT_NAME} on a 32 bit machine"
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are attempting to install the 64 bit ${PRODUCT_NAME} on a 32 bit machine. This will not work. Please install the 32 bit version instead."
       Quit
     ${EndIf}
   ${EndIf}
