@@ -4,9 +4,13 @@ switch (window.location.hash) {
 case '#darwin':
 case '#linux':
 case '#win32':
+case '#win64':
     break;
 default:
-    if (navigator.appVersion.indexOf('Win') != -1) {
+    // see http://stackoverflow.com/a/6866569
+    if ((navigator.appVersion.indexOf('Win') && navigator.userAgent.indexOf("WOW64") != -1) || navigator.userAgent.indexOf("Win64") != -1 ) {
+        window.location.hash = '#win64';
+    } else if (navigator.appVersion.indexOf('Win') != -1) {
         window.location.hash = '#win32';
     } else if (navigator.appVersion.indexOf('Mac') != -1) {
         window.location.hash = '#darwin';
@@ -19,3 +23,4 @@ default:
 }
 
 });
+}

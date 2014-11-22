@@ -1,13 +1,8 @@
 .fixed { position:fixed; }
 .on-linux,
-#darwin:target ~ * .on-win32 {
-    transform: translateX(101%);
-    -ms-transform: translateX(101%);
-    -moz-transform: translateX(101%);
-    -webkit-transform: translateX(101%);
-}
 .on-darwin,
-.on-win32 {
+.on-win32,
+.on-win64 {
     transform: translateX(-101%);
     -ms-transform: translateX(-101%);
     -moz-transform: translateX(-101%);
@@ -15,12 +10,14 @@
 }
 #linux:target ~ * .on-linux,
 #win32:target ~ * .on-win32,
+#win64:target ~ * .on-win64,
 #darwin:target ~ * .on-darwin {
     transform: translateX(0%);
     -ms-transform: translateX(0%);
     -moz-transform: translateX(0%);
     -webkit-transform: translateX(0%);
 }
+
 *:hover > .offcanvas-left-onhover {
     transform: translateX(-101%);
     -ms-transform: translateX(-101%);
@@ -33,6 +30,16 @@
     -moz-transform: translateX(101%);
     -webkit-transform: translateX(101%);
 }
+
+ #linux:target ~ * [href='#linux'],
+ #win32:target ~ * [href='#win32'],
+ #win64:target ~ * [href='#win64'],
+#darwin:target ~ * [href='#darwin'] {
+    background: rgba(0,0,0,.75);
+    color: white;
+}
+
+
 .textline {
     clear:left;
     display:block;
