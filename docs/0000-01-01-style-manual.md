@@ -56,7 +56,7 @@ Local sources will not work in packaged & uploaded styles. Make sure to export &
 CartoCSS
 --------
 
-Mapbox Studio styles are defined using CartoCSS. A quick introduction to the language and a full reference list of properties are built into Mapbox Studio - click on the help button (question mark icon) at the top-left of the code panel.
+Mapbox Studio styles are defined using CartoCSS. A quick introduction to the language and a full reference list of properties are built into Mapbox Studio - click on the *Docs* button in the left panel. 
 
 If you are new to CartoCSS, the following guides on Mapbox.com will be helpful:
 
