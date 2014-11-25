@@ -116,11 +116,13 @@ if [ $platform == "win32" ]; then
     echo "downloading c++ lib vcredist_$arch_common_name.exe"
     curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$arch_common_name.exe"
 
-    # alternative package for windows: no-installer / can be run from usb drive
-    zip -qr -9 $build_dir.zip $(basename $build_dir)
-    echo "uploading $build_dir.zip"
-    aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
-    echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
+    if [[ arch == "x64" ]]; then
+        # alternative package for windows: no-installer / can be run from usb drive
+        7z a -r -mx9 ${build_dir}.7z $(basename $build_dir) > /dev/null
+        echo "uploading ${build_dir}.7z"
+        aws s3 cp --acl=public-read ${build_dir}.7z s3://mapbox/mapbox-studio/
+        echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename ${build_dir}.7z)"
+    fi
 
     echo "running makensis"
     makensis -V2 \
