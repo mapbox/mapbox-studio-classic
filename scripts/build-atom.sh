@@ -119,6 +119,7 @@ if [ $platform == "win32" ]; then
       -DTARGET_ARCH=${arch_common_name} \
       -DSOURCE_ROOT=${build_dir}/ \
       -DOUTPUT_FILE=${build_dir}.exe \
+      -DVERSION=${ver} \
       ${build_dir}/resources/app/scripts/mapbox-studio.nsi
     echo "cleaning up after makensis"
     rm -rf $build_dir

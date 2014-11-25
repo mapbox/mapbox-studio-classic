@@ -7,5 +7,6 @@ CALL "C:\Program Files (x86)\NSIS\makensis" ^
  -DTARGET_ARCH=x64 ^
  -DSOURCE_ROOT=..\ ^
  -DOUTPUT_FILE=.\install-mapbox-studio.exe ^
+ -DVERSION=test ^
  mapbox-studio.nsi
 pause

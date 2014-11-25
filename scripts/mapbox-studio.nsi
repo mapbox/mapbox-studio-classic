@@ -21,6 +21,7 @@ Var PREV_VER_DIR
 Var PAR_DIR
 !define PRODUCT_DIR "mapbox-studio"
 !define PRODUCT_NAME "Mapbox Studio"
+!define PRODUCT_VERSION "${VERSION}"
 !define PRODUCT_PUBLISHER "Mapbox"
 !define PRODUCT_WEB_SITE "https://www.mapbox.com/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_DIR}"
