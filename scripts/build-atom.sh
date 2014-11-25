@@ -105,20 +105,34 @@ if [ $platform == "win32" ]; then
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.pvk
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.spc authenticode.spc
 
-    echo "running windows signing on atom.exe"
+    echo "running windows signing on mapbox-studio.exe"
+    mv $build_dir/atom.exe $build_dir/mapbox-studio.exe
     N='Mapbox Studio' I='https://www.mapbox.com/' P=$WINCERT_PASSWORD \
     SPC=authenticode.spc PVK=authenticode.pvk \
-    windowsign $build_dir/atom.exe
+    windowsign $build_dir/mapbox-studio.exe
 
-    rm $build_dir/atom.exe.bak
+    rm $build_dir/mapbox-studio.exe.bak
 
     echo "downloading c++ lib vcredist_$arch_common_name.exe"
     curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$arch_common_name.exe"
+
+    if [[ $arch == "x64" ]]; then
+        # alternative package for windows: no-installer / can be run from usb drive
+        7z a -r -mx9 ${build_dir}.7z $(basename $build_dir) > /dev/null
+        echo "uploading ${build_dir}.7z"
+        aws s3 cp --acl=public-read ${build_dir}.7z s3://mapbox/mapbox-studio/
+        echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename ${build_dir}.7z)"
+    fi
+
     echo "running makensis"
-    makensis -V2 -DTARGET_ARCH=$arch_common_name $build_dir/resources/app/scripts/mapbox-studio.nsi
+    makensis -V2 \
+      -DTARGET_ARCH=${arch_common_name} \
+      -DSOURCE_ROOT=${build_dir}/ \
+      -DOUTPUT_FILE=${build_dir}.exe \
+      -DVERSION=${ver} \
+      ${build_dir}/resources/app/scripts/mapbox-studio.nsi
     echo "cleaning up after makensis"
     rm -rf $build_dir
-    mv /tmp/mapbox-studio.exe $build_dir.exe
 
     echo "running windows signing on installer"
     N='Mapbox Studio' I='https://www.mapbox.com/' P=$WINCERT_PASSWORD \
@@ -177,7 +191,7 @@ elif [ $platform == "darwin" ]; then
     rm -f $build_dir.zip
 # linux: zip up
 else
-    zip -qr $build_dir.zip $(basename $build_dir)
+    zip -qr -9 $build_dir.zip $(basename $build_dir)
     rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"
