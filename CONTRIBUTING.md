@@ -47,6 +47,13 @@ Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the
 - Do not commit doc images (screenshots, diagrams, etc.) to the mapbox-studio repo. Host them externally, either on github's issue image hosting or elsewhere.
 - Could the need to document be eliminated by improving the software (UI/UX/code)?
 
+To running website locally:
+
+```sh
+gem install jekyll
+jekyll serve
+```
+
 ### Before Tagging
 
  - Make sure the tests are passing, on both travis and appveyor
