@@ -9,4 +9,4 @@ CALL "C:\Program Files (x86)\NSIS\makensis" ^
  -DOUTPUT_FILE=.\install-mapbox-studio.exe ^
  -DVERSION=test ^
  mapbox-studio.nsi
-pause
+::pause

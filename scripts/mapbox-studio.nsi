@@ -47,8 +47,6 @@ RequestExecutionLevel admin
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
-; Directory page
-!insertmacro MUI_PAGE_DIRECTORY
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
@@ -74,6 +72,7 @@ Name "${PRODUCT_DIR}"
 OutFile "${OUTPUT_FILE}"
 
 Function .onInit
+  SetShellVarContext all
   StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
   ${If} ${RunningX64}
     StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
@@ -105,9 +104,11 @@ Function .onInit
   ${GetParent} $R0 $PREV_VER_DIR
 
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the \
-  previous version or `Cancel` to cancel this upgrade." \
-  IDOK uninst
+    "${PRODUCT_NAME} is already installed at $PREV_VER_DIR. This entire directory \
+    will be removed before upgrading.\
+    $\n$\nClick 'OK' to remove \
+    $PREV_VER_DIR $\nor 'Cancel' to stop this upgrade." \
+    IDOK uninst
   Abort
 
 ;Run the uninstaller
@@ -119,9 +120,6 @@ uninst:
   ;manually delete remaining install dir containing uninstall.exe
   ;because it wasn't copied to a temp file
   RMDir /r "$PREV_VER_DIR\*.*"
-  IfErrors no_remove_uninstaller done
-  no_remove_uninstaller:
-    MessageBox MB_OK "Error during uninstall"
 
 done:
 
@@ -162,15 +160,10 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
-
 Function un.onUninstSuccess
+  SetShellVarContext all
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer." /SD IDOK
-FunctionEnd
-
-Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" /SD IDYES IDYES +2
-  Abort
 FunctionEnd
 
 Section Uninstall
