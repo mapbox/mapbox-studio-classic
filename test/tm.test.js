@@ -20,6 +20,7 @@ test('setup: config', function(t) {
 
 test('setup: db', function(t) {
     fs.writeFileSync(path.join(tmppath, 'noncompact.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'noncompact.db')));
+    fs.writeFileSync(path.join(tmppath, 'broken.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'broken.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v1.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v1.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v2.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v2.db')));
     fs.writeFileSync(path.join(tmppath, 'schema-v3.db'), fs.readFileSync(path.join(__dirname, 'fixtures-dirty', 'schema-v3.db')));
@@ -68,6 +69,17 @@ test('tm compacts nofile', function(t) {
             t.equal(23, fs.statSync(dbpath).size);
             t.end();
         });
+    });
+});
+
+test('tm compacts broken', function(t) {
+    var dbpath = path.join(tmppath, 'broken.db');
+    t.equal(277, fs.statSync(dbpath).size);
+    tm.dbcompact(dbpath, function(err, db) {
+        t.ifError(err);
+        t.equal(db.get('test'), 4, 'has right value');
+        t.equal(23, fs.statSync(dbpath).size);
+        t.end();
     });
 });
 
