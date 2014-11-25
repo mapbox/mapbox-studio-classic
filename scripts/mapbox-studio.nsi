@@ -1,5 +1,16 @@
 ; Mapbox Studio nsis installer script
 
+; block creating installer unless expected variables are provided
+!ifndef TARGET_ARCH
+  !error "You must define TARGET_ARCH variable via makensis"
+!endif
+!ifndef SOURCE_ROOT
+  !error "You must define SOURCE_ROOTF variable via makensis"
+!endif
+!ifndef OUTPUT_FILE
+  !error "You must define OUTPUT_FILE variable via makensis"
+!endif
+
 SetCompressor /SOLID /FINAL lzma
 SetCompressorDictSize 64
 
@@ -59,9 +70,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_DIR}"
-OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
-
-
+OutFile "${OUTPUT_FILE}"
 
 Function .onInit
   StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
@@ -120,7 +129,7 @@ FunctionEnd
 Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
-  File /r ..\..\..\*.*
+  File /r ${SOURCE_ROOT}*.*
   ExecWait "$INSTDIR\resources\app\vendor\vcredist_${TARGET_ARCH}.exe /q /norestart"
 SectionEnd
 
