@@ -34,13 +34,13 @@ The minimum platforms versions are:
   - Ubuntu >= 14.04 (Trusty)
   - RHEL/Centos >= 7
 
-Note: Ubuntu 12.04 (Precise) can be supported by upgrading libstdc++:
+Ubuntu 12.04 (Precise) can be supported by upgrading libstdc++:
 
     sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
     sudo apt-get update -q
     sudo apt-get install -y libstdc++6
 
-Note: if packages like `node-mapnik` fail to install then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source (Feel free to create a github issue to ask for help).
+If packages like `node-mapnik` fail to install then you are likely running a platform for which no binaries are available. In this case you will need to build these packages from source (Feel free to create a github issue to ask for help).
 
 You can do this like:
 
