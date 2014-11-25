@@ -34,6 +34,10 @@ Var PAR_DIR
 !include "WinVer.nsh"
 !include "x64.nsh"
 !insertmacro GetParent
+; nsprocess
+!addplugindir "..\vendor\nsProcess_1_6\Plugin"
+!include "..\vendor\nsProcess_1_6\Include\nsProcess.nsh"
+
 
 RequestExecutionLevel admin
 
@@ -73,6 +77,14 @@ OutFile "${OUTPUT_FILE}"
 
 Function .onInit
   SetShellVarContext all
+App_Running_Check:
+  ${nsProcess::FindProcess} "mapbox-studio.exe" $R0
+
+  ${If} $R0 == 0
+      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Please stop mapbox-studio.exe before continuing" /SD IDCANCEL IDRETRY App_Running_Check
+      Quit
+  ${EndIf}
+
   StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
   ${If} ${RunningX64}
     StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
