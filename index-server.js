@@ -18,12 +18,42 @@ if (process.platform === 'win32') {
 var tm = require('./lib/tm');
 var path = require('path');
 var getport = require('getport');
+var package_json = require('./package.json');
 var server;
 var config = require('minimist')(process.argv.slice(2));
 config.shell = config.shell || false;
 config.port = config.port || undefined;
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
+
+var usage = function usage() {
+  var str = [
+      ''
+    , '  Usage: mbstudio [options]'
+    , ''
+    , '  where [options] is any of:'
+    , '    --version - Returns running version then exits'
+    , '    --port - Port to run on (default: ' + config.port + ')'
+    , '    --cwd - Working directory to run within (default: ' + config.cwd + ')'
+    // TODO - are these used?
+    , '    --shell - (default: ' + config.shell + ')'
+    , '    --test - (default: ' + config.test + ')'
+    , ''
+    , 'mbstudio@' + package_json.version + '  ' + path.resolve(__dirname, '..')
+    , 'node@' + process.versions.node
+  ].join('\n')
+  return str
+}
+
+if (config.version) {
+    console.log(package_json.version);
+    process.exit(0);
+}
+
+if (config.help || config.h) {
+    console.log(usage());
+    process.exit(0);
+}
 
 if (!config.port) {
     getport(3000, 3999, configure);
