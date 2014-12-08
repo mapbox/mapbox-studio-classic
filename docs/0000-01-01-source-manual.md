@@ -35,7 +35,7 @@ Mapbox Studio supports several different types of data sources:
 Overzooming
 -----------
 
-In the settings pane, the __minzoom__ and __maxzoom__ are important - these define which [zoom levels](https://www.mapbox.com/foundations/how-web-maps-work/#tiles-and-zoom-levels) will be included in your source. The minzoom defines how far out users will be able to zoom and still see data, but maxzoom is a bit different. Maxzoom defines the maximum zoom level your source will *store* data for, but it's possible to *display* this data at even higher zoom levels. This is referred to as *overzooming* and allows for great efficiency in creating and storing vector tiles, reducing the number of tiles required by several orders of magnitude.
+In the settings pane, the __minzoom__ and __maxzoom__ are important - these define which [zoom levels](https://www.mapbox.com/guides/how-web-maps-work/#tiles-and-zoom-levels) will be included in your source. The minzoom defines how far out users will be able to zoom and still see data, but maxzoom is a bit different. Maxzoom defines the maximum zoom level your source will *store* data for, but it's possible to *display* this data at even higher zoom levels. This is referred to as *overzooming* and allows for great efficiency in creating and storing vector tiles, reducing the number of tiles required by several orders of magnitude.
 
 As a general rule, vector tiles are useful for about 4-6  levels of overzooming, eg the data in a zoom level 14 tile can be stretched out and look great up to zoom level 18 or 20.
 
