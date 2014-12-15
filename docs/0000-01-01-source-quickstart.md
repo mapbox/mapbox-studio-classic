@@ -22,7 +22,7 @@ Open Mapbox Studio and click on __Projects__ in the lower left - this will open 
 
 ![New Project](https://cloud.githubusercontent.com/assets/134753/5308558/0b6aaf06-7bcd-11e4-94e1-6c4494bb81b6.png)
 
-From this menu, create a New Source by selecting a __Blank __Sources__.
+From this menu, create a New Source by selecting a __Blank source__.
 
 ![Blank Source](https://cloud.githubusercontent.com/assets/134753/5308702/d99fd210-7bce-11e4-83a1-f7139e9e88c0.png)
 
