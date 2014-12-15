@@ -89,7 +89,7 @@ Your project now has been converted to vector tiles that can be read from the Ma
 Styling custom data
 ===================
 
-Click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Sources__ to __Styles__, then click the __New style__ button at the top.
+Click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Sources__ to __Styles__, then click the __New project__ button at the top.
 
 Select the __Satellite Afternoon__ style to use a starting point for your new style.
 
