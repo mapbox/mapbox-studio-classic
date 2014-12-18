@@ -40,15 +40,6 @@
 /* FIX IN BASE - to offset weird fieldset form label style */
 .rounded-toggle input[type=radio] + label { margin: 0; }
 
-.with-icon input[type=text].short,
-.with-icon input[type=email].short,
-.with-icon input[type=number].short { padding-left: 30px;}
-
-.with-icon .short + .icon {
-  top: 5px;
-  left: 5px;
-}
-
 .checkbox.short label { padding: 5px 10px 5px 5px;}
 
 .fill-disable {

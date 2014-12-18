@@ -58,7 +58,7 @@ $(document).ready(function() {
     if (window.Modal) {
         window.Modal.options.templates.modalatomexporting = function() {
             return "\
-            <div id='atom-loading' class='modal-body round col6 margin3 pin-top top2 dark fill-dark'>\
+            <div id='atom-loading' class='modal-body contain round col6 space-bottom4 dark fill-dark'>\
                 <h3 class='center pad1y pad2x keyline-bottom'>Exporting</h3>\
                 <div class='row2 loading contain'></div>\
             </div>";
