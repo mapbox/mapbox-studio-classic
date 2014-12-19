@@ -142,13 +142,17 @@ views.Browser.prototype.initialize = function(options, initCallback) {
   this.filter = options.filter || function(f) { return true; };
   this.isFile = options.isFile || function() {};
   this.isProject = options.isProject || function() {};
-  this.cwd = this.$('input[name=cwd]').val();
+  this.cwd = localStorage.getItem(window.location.pathname.split('/').pop() + $(this.el).attr('id')) || this.$('input[name=cwd]').val();
   return this.render();
 };
 views.Browser.prototype.render = function() {
   var view = this;
   var win = view.cwd.indexOf(':') === 1;
   var sep = win ? '\\' : '/';
+
+  // Store path for each modal type separately, with separate values saved for Source and Style.
+  localStorage.setItem(window.location.pathname.split('/').pop() + $(this.el).attr('id'), view.cwd);
+
   $.ajax({
     url: '/browse?path=' + view.cwd,
     dataType: 'json',
