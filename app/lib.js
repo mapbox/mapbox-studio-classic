@@ -180,8 +180,24 @@ views.Browser.prototype.render = function() {
       // Reset scroll position to top.
       view.$('.list').get(0).scrollTop = 0;
     },
-    // @TODO
-    error: function(resp) {}
+    error: function(resp) {
+
+      // If path is already set to root and errors, give up
+      if (view.cwd === '/') return Modal.show('error', resp.responseText);
+
+      // Assume localstorage path doesn't exist, try default path
+      var newPath = view.$('input[name=cwd]').val();
+
+      // If default path returned error, set path to root
+      if (view.cwd === newPath) {
+        newPath = '/';
+      }
+
+      // Try again
+      localStorage.setItem(window.location.pathname.split('/').pop() + $(this.el).attr('id'), newPath);
+      view.cwd = newPath;
+      view.render();
+    }
   });
 };
 
