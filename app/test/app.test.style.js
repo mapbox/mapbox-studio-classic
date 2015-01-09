@@ -184,7 +184,6 @@ tape('#settings-form', function(t) {
 tape('.js-history browses projects', function(t) {
     localStorage.clear();
     var path = cwd;
-    $('.js-history browses projects')
     t.ok(!hasModal('#browseproject'));
     $('.js-history .js-browseproject').click();
 
