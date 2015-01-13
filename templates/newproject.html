@@ -12,7 +12,7 @@
         <div class='clearfix'>
             <% _(obj.style).chain().toArray().each(function(item, i) { %>
             <a class='col4 pad1x space-top1' href='/new/style?id=<%=item.id%>'>
-                <span class='block contain row2 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
+                <span class='block contain row1 fill-darken round' style='background-size:cover; background-image:url("/thumb.png?id=<%=item.id%>&<%=rand%>")'>
                 </span>
                 <strong class='block center micro'><%- item.name || 'Basic' %></strong>
             </a>
