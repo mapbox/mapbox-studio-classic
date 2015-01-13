@@ -94,6 +94,7 @@ test('examples: gets style info', function(t) {
             'mapbox-studio-pencil',
             'mapbox-studio-pirates',
             'mapbox-studio-run-bike-hike',
+            'mapbox-studio-satellite-afternoon',
             'mapbox-studio-streets-basic',
             'mapbox-studio-streets-satellite',
             'mapbox-studio-streets',
