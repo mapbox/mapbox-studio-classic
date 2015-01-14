@@ -35,7 +35,7 @@
     "tar": "0.1.x",
     "mapnik": "^3.1.1",
     "mapnik-reference": "^6.0.4",
-    "carto": "https://github.com/mapbox/carto/tree/test-group",
+    "carto": "https://github.com/mapbox/carto/tarball/test-group",
     "tilelive": "5.2.3",
     "tilelive-bridge": "^1.2.1",
     "tilelive-vector": "^3.0.2",
