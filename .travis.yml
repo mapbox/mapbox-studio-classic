@@ -28,7 +28,9 @@ before_install:
 - nvm use $NODE_VERSION
 - node --version
 - npm --version
-- if [ $(uname -s) == "Linux" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get update -q && sudo apt-get install -y libstdc++6; fi
+# install c++11 capable libstdc++ without sudo
+- if [[ $(uname -s) == 'Linux' ]]; then wget https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test/+files/libstdc%2B%2B6_4.8.1-2ubuntu1~12.04_amd64.deb && dpkg -x libstdc++6_4.8.1-2ubuntu1~12.04_amd64.deb ./ && export LD_PRELOAD=$(pwd)/usr/lib/x86_64-linux-gnu/libstdc++.so.6; fi
+# TODO: attempt to make build-travis sudoless
 - ./scripts/build-travis.sh $TRAVIS_COMMIT
 
 install:
