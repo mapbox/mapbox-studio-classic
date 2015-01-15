@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.2.2
+
+- Update to node-mapnik 3.1.2.
+
 ### 0.2.1
 
 - Windows: Windows installer no longer supports customizing the installation path.
