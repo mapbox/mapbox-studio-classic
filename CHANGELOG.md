@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 0.2.1
+
+- Windows: support for 32-bit application.
+- Style UI for Atlas integration.
+- Update mapbox-upload to 2.0.0.
+- Update tilejson to 0.12.x.
+- Update Mapbox Outdoors to 2.0.0
+
 ### 0.2.0
 
 - Package user-provided font files with styles.
