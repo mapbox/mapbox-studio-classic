@@ -51,7 +51,8 @@
     "abaculus": "1.1.0",
     "progress-stream": "0.5.0",
     "safer-stringify": "0.0.1",
-    "gazetteer": "0.1.4"
+    "gazetteer": "0.1.4",
+    "fastlog": "1.0.0"
   },
   "devDependencies": {
     "retire": "0.3.x",
