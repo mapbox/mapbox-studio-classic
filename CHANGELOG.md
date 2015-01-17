@@ -1,6 +1,21 @@
 Changelog
 =========
 
+### 0.2.2
+
+- Update to node-mapnik 3.1.2.
+
+### 0.2.1
+
+- Windows: Windows installer no longer supports customizing the installation path.
+- Windows: Now providing both 32 and 64 bit Windows installers.
+- Style UI: Disable Mapbox.com paths for Atlas integration.
+- Update mapbox-upload to 2.0.0.
+- Update tilejson to 0.12.x.
+- Update Mapbox Outdoors to 2.0.0.
+- Update mapnik-omnivore to 2.2.4.
+- Add Retire to test for insecure dependencies.
+
 ### 0.2.0
 
 - Package user-provided font files with styles.

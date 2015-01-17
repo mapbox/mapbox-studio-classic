@@ -18,9 +18,14 @@ In this crash course, we’ll use [earthquake data from the USGS](http://earthqu
 Create a source project
 -----------------------
 
-Open Mapbox Studio and click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Styles__ to __Sources__, then click the __New source__ button at the top.
+Open Mapbox Studio and click on __Projects__ in the lower left - this will open up a listing of your projects. Click the __New project__ button to open the New Style and Source window.
 
-![New source](https://cloud.githubusercontent.com/assets/83384/3869854/8a6ee876-20ab-11e4-951f-4a67b8f41678.png)
+![New Project](https://cloud.githubusercontent.com/assets/134753/5308558/0b6aaf06-7bcd-11e4-94e1-6c4494bb81b6.png)
+
+From this menu, create a New Source by selecting a __Blank source__.
+
+![Blank Source](https://cloud.githubusercontent.com/assets/134753/5308702/d99fd210-7bce-11e4-83a1-f7139e9e88c0.png)
+
 
 Adding your first layer
 -----------------------
@@ -75,18 +80,21 @@ Uploading
 
 Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. 
 
-![Upload project](https://cloud.githubusercontent.com/assets/83384/3869977/bc77bc78-20b3-11e4-9adb-73a6e28d0171.png)
+![Upload source](https://cloud.githubusercontent.com/assets/134753/5309044/63eb2cae-7bd3-11e4-86d8-510db64f2e57.png)
+
+![Upload progress](https://cloud.githubusercontent.com/assets/83384/3869977/bc77bc78-20b3-11e4-9adb-73a6e28d0171.png)
 
 Your project now has been converted to vector tiles that can be read from the Mapbox API. Once the upload is done processing __Copy its Map ID__. You will use this to add your custom vector tiles to a custom map style.
 
 Styling custom data
 ===================
 
-Click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Sources__ to __Styles__, then click the __New style__ button at the top.
+Click on __Projects__ in the lower left - this will open up a listing of your projects. Switch the toggle at the top-right of the listing from __Sources__ to __Styles__, then click the __New project__ button at the top.
 
 Select the __Satellite Afternoon__ style to use a starting point for your new style.
 
-![New style](https://cloud.githubusercontent.com/assets/83384/3870122/501656c6-20bc-11e4-889b-83d51f840787.png)
+![New Style](https://cloud.githubusercontent.com/assets/134753/5309083/fee3ad94-7bd3-11e4-9781-1bd1ba9e3193.png)
+
 
 Changing the vector tile source
 -------------------------------
@@ -95,7 +103,7 @@ Click on __Layers__ to open the layers pane and then click __Change source__ to 
 
 ![Change source](https://cloud.githubusercontent.com/assets/83384/3870136/1cd60c56-20bd-11e4-9b7d-e20599c7003b.png)
 
-Add a comma and the Mapbox __Map ID__ of your vector source to the end of the list of sources in the input field. The Mapbox API will automatically composite the existing sources (Mapbox Satellite, Mapbox Terrain, Mapbox Streets) with your new source. Click __Update__ after you have entered the full map ID.
+Add a comma and the Mapbox __Map ID__ of your vector source to the end of the list of sources in the input field. The Mapbox API will automatically composite the existing sources (Mapbox Satellite, Mapbox Terrain, Mapbox Streets) with your new source. Click __Apply__ after you have entered the full map ID.
 
     mapbox.satellite,mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5,[Map ID]
 
@@ -161,9 +169,9 @@ Next we will add labels so that earthquakes with a large magnitude are labeled c
 Uploading
 ---------
 
-Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/) and you may be prompted if you aren't yet on one.
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. You can change settings here at anytime but you'll need to upload again to reflect changes.
 
-![Upload style](https://cloud.githubusercontent.com/assets/83384/3870219/d2d2ffe6-20c2-11e4-97b8-83bd1965a4ff.png)
+![Upload style](https://cloud.githubusercontent.com/assets/134753/5309187/219af670-7bd5-11e4-83a2-b0a42f32b0ed.png)
 
 Mission complete
 ----------------

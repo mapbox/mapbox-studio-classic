@@ -182,10 +182,24 @@ tape('#settings-form', function(t) {
 });
 
 tape('.js-history browses projects', function(t) {
+    localStorage.clear();
+    var path = cwd;
     t.ok(!hasModal('#browseproject'));
     $('.js-history .js-browseproject').click();
+
     t.ok(hasModal('#browseproject'));
-    t.end();
+    t.ok(localStorage.getItem('stylebrowseproject') === path, ' intial key/value in localstorage equals path.');
+
+    onajax(function() {
+        var destination = $('#browseproject .folder:eq(0)').attr('href').split('#').pop();
+        // requires double click
+        $('#browseproject .folder:eq(0)').click().click();
+        onajax(function() {
+            t.ok(localStorage.getItem('stylebrowseproject') === destination, ' new path saved to localstorage.');
+            localStorage.clear();
+            t.end();
+        });
+    });
 });
 
 tape('stylesheet error ', function(t) {

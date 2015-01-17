@@ -1,4 +1,4 @@
-<form id='sourcenewstyle' class='modal-body margin3 round col6 pad2 pin-top top1 dark fill-dark'>
+<form id='sourcenewstyle' class='modal-body contain round col6 pad2 space-bottom4 dark fill-dark'>
   <a href='#' class="pad1 quiet icon x pin-topright close js-close"></a>
     <div class='col12'>
         <% if (!obj.isMapboxAPI) { %>
@@ -6,7 +6,7 @@
             <h3>Create style with</h3>
             </div>
             <a href='/new/style?source=<%=source.id%>' class='round-top col12 button quiet icon harddrive'>Local source</a>
-        <% } else { %> 
+        <% } else { %>
             <% if (!obj.source._prefs.mapid) { %>
                 <div class='center space-bottom2'>
                 <h3>Your source has not been uploaded to Mapbox.</h3>

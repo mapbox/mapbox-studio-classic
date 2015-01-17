@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 cwd=$(pwd)
-arch="x64"
 
 if [ -z "$1" ]; then
     gitsha="master"
@@ -15,11 +14,21 @@ else
     platform=$2
 fi
 
+if [ -z "$3" ]; then
+    arch="x64"
+else
+    arch=$3
+fi
+
 atom_arch=$arch
+arch_common_name=$arch
 extra_install_args=""
 if [ "$platform" == "win32" ]; then
     atom_arch="ia32"
     extra_install_args="--toolset=v140"
+    if [[ $arch == "ia32" ]]; then
+        arch_common_name="x86"
+    fi
 fi
 
 set -e -u
@@ -32,14 +41,14 @@ if ! which tar > /dev/null; then echo "tar command not found"; exit 1; fi;
 if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
 
-build_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha"
+build_dir="/tmp/mapbox-studio-$platform-$arch_common_name-$gitsha"
 shell_url="https://github.com/atom/atom-shell/releases/download/v$ATOM_VERSION/atom-shell-v$ATOM_VERSION-$platform-$atom_arch.zip"
 shell_file="/tmp/atom-shell-v$ATOM_VERSION-$platform-$atom_arch.zip"
 
 if [ "$platform" == "darwin" ]; then
-    app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/Atom.app/Contents/Resources/app"
+    app_dir="/tmp/mapbox-studio-$platform-$arch_common_name-$gitsha/Atom.app/Contents/Resources/app"
 else
-    app_dir="/tmp/mapbox-studio-$platform-$arch-$gitsha/resources/app"
+    app_dir="/tmp/mapbox-studio-$platform-$arch_common_name-$gitsha/resources/app"
 fi
 
 echo "Building bundle in $build_dir"
@@ -69,7 +78,7 @@ mv $build_dir/version $build_dir/version.txt
 mv $build_dir/LICENSE $build_dir/LICENSE.txt
 
 echo "running npm install"
-BUILD_PLATFORM=$platform npm install --production \
+BUILD_PLATFORM=$platform TARGET_ARCH=$arch npm install --production \
 --target_platform=$platform \
 --target=$NODE_VERSION \
 --target_arch=$arch \
@@ -96,21 +105,34 @@ if [ $platform == "win32" ]; then
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.pvk
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.spc authenticode.spc
 
-    echo "running windows signing on atom.exe"
+    echo "running windows signing on mapbox-studio.exe"
+    mv $build_dir/atom.exe $build_dir/mapbox-studio.exe
     N='Mapbox Studio' I='https://www.mapbox.com/' P=$WINCERT_PASSWORD \
     SPC=authenticode.spc PVK=authenticode.pvk \
-    windowsign $build_dir/atom.exe
+    windowsign $build_dir/mapbox-studio.exe
 
-    rm $build_dir/atom.exe.bak
+    rm $build_dir/mapbox-studio.exe.bak
 
-    # curl -Lsfo $build_dir/resources/app/vendor/vcredist_x86.exe http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
-    echo "downloading c++ lib "
-    curl -Lfo "$build_dir/resources/app/vendor/vcredist_x64.exe" "https://mapnik.s3.amazonaws.com/dist/dev/VS-2014-runtime/vcredist_x64.exe"
+    echo "downloading c++ lib vcredist_$arch_common_name.exe"
+    curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$arch_common_name.exe"
+
+    if [[ $arch == "x64" ]]; then
+        # alternative package for windows: no-installer / can be run from usb drive
+        7z a -r -mx9 ${build_dir}.7z $(basename $build_dir) > /dev/null
+        echo "uploading ${build_dir}.7z"
+        aws s3 cp --acl=public-read ${build_dir}.7z s3://mapbox/mapbox-studio/
+        echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename ${build_dir}.7z)"
+    fi
+
     echo "running makensis"
-    makensis -V2 $build_dir/resources/app/scripts/mapbox-studio.nsi
+    makensis -V2 \
+      -DTARGET_ARCH=${arch_common_name} \
+      -DSOURCE_ROOT=${build_dir}/ \
+      -DOUTPUT_FILE=${build_dir}.exe \
+      -DVERSION=${ver} \
+      ${build_dir}/resources/app/scripts/mapbox-studio.nsi
     echo "cleaning up after makensis"
     rm -rf $build_dir
-    mv /tmp/mapbox-studio.exe $build_dir.exe
 
     echo "running windows signing on installer"
     N='Mapbox Studio' I='https://www.mapbox.com/' P=$WINCERT_PASSWORD \
@@ -169,7 +191,7 @@ elif [ $platform == "darwin" ]; then
     rm -f $build_dir.zip
 # linux: zip up
 else
-    zip -qr $build_dir.zip $(basename $build_dir)
+    zip -qr -9 $build_dir.zip $(basename $build_dir)
     rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
     echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename $build_dir.zip)"

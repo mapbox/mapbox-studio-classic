@@ -1,5 +1,16 @@
 ; Mapbox Studio nsis installer script
 
+; block creating installer unless expected variables are provided
+!ifndef TARGET_ARCH
+  !error "You must define TARGET_ARCH variable via makensis"
+!endif
+!ifndef SOURCE_ROOT
+  !error "You must define SOURCE_ROOTF variable via makensis"
+!endif
+!ifndef OUTPUT_FILE
+  !error "You must define OUTPUT_FILE variable via makensis"
+!endif
+
 SetCompressor /SOLID /FINAL lzma
 SetCompressorDictSize 64
 
@@ -10,6 +21,7 @@ Var PREV_VER_DIR
 Var PAR_DIR
 !define PRODUCT_DIR "mapbox-studio"
 !define PRODUCT_NAME "Mapbox Studio"
+!define PRODUCT_VERSION "${VERSION}"
 !define PRODUCT_PUBLISHER "Mapbox"
 !define PRODUCT_WEB_SITE "https://www.mapbox.com/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_DIR}"
@@ -21,8 +33,11 @@ Var PAR_DIR
 !include "FileFunc.nsh"
 !include "WinVer.nsh"
 !include "x64.nsh"
-#!include "LogicLib.nsh"
 !insertmacro GetParent
+; nsprocess
+!addplugindir "..\vendor\nsProcess_1_6\Plugin"
+!include "..\vendor\nsProcess_1_6\Include\nsProcess.nsh"
+
 
 RequestExecutionLevel admin
 
@@ -36,8 +51,6 @@ RequestExecutionLevel admin
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
-; Directory page
-!insertmacro MUI_PAGE_DIRECTORY
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
@@ -60,22 +73,41 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_DIR}"
-OutFile "..\..\..\..\${PRODUCT_DIR}.exe"
-InstallDir "$PROGRAMFILES64\${PRODUCT_DIR}"
+OutFile "${OUTPUT_FILE}"
 
 Function .onInit
+  SetShellVarContext all
+App_Running_Check:
+  ${nsProcess::FindProcess} "mapbox-studio.exe" $R0
+
+  ${If} $R0 == 0
+      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Please stop mapbox-studio.exe before continuing" /SD IDCANCEL IDRETRY App_Running_Check
+      Quit
+  ${EndIf}
+
+  StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
+  ${If} ${RunningX64}
+    StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
+  ${EndIf}
+
   StrCpy $PREV_VER_DIR ""
 
   ${IfNot} ${AtLeastWin7}
-    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above and 64bit!"
-    Quit
-  ${EndIf}
-
-  ${IfNot} ${RunningX64}
-    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires a 64bit operating system!"
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above"
     Quit
   ${EndIf}
   
+  ${If} ${RunningX64}
+    ${If} ${TARGET_ARCH} == "x86"
+      MessageBox MB_OK|MB_ICONEXCLAMATION "You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine. This works, but for best performance it is recommended to instead install the 64 bit version."
+    ${EndIf}
+  ${Else}
+    ${If} ${TARGET_ARCH} == "x64"
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are attempting to install the 64 bit ${PRODUCT_NAME} on a 32 bit machine. This will not work. Please install the 32 bit version instead."
+      Quit
+    ${EndIf}
+  ${EndIf}
+
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} \
   "${PRODUCT_UNINST_KEY}" \
   "UninstallString"
@@ -84,9 +116,11 @@ Function .onInit
   ${GetParent} $R0 $PREV_VER_DIR
 
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  "${PRODUCT_NAME} is already installed. $\n$\nClick `OK` to remove the \
-  previous version or `Cancel` to cancel this upgrade." \
-  IDOK uninst
+    "${PRODUCT_NAME} is already installed at $PREV_VER_DIR. This entire directory \
+    will be removed before upgrading.\
+    $\n$\nClick 'OK' to remove \
+    $PREV_VER_DIR $\nor 'Cancel' to stop this upgrade." \
+    IDOK uninst
   Abort
 
 ;Run the uninstaller
@@ -98,9 +132,6 @@ uninst:
   ;manually delete remaining install dir containing uninstall.exe
   ;because it wasn't copied to a temp file
   RMDir /r "$PREV_VER_DIR\*.*"
-  IfErrors no_remove_uninstaller done
-  no_remove_uninstaller:
-    MessageBox MB_OK "Error during uninstall"
 
 done:
 
@@ -109,8 +140,8 @@ FunctionEnd
 Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
-  File /r ..\..\..\*.*
-  ExecWait "$INSTDIR\resources\app\vendor\vcredist_x64.exe /q /norestart"
+  File /r ${SOURCE_ROOT}*.*
+  ExecWait "$INSTDIR\resources\app\vendor\vcredist_${TARGET_ARCH}.exe /q /norestart"
 SectionEnd
 
 ; Add firewall rule
@@ -128,7 +159,7 @@ Section -AdditionalIcons
   SetOutPath $INSTDIR
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\atom.exe" "" "$INSTDIR\resources\app\scripts\assets\mapbox-studio.ico"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\mapbox-studio.exe" "" "$INSTDIR\resources\app\scripts\assets\mapbox-studio.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall ${PRODUCT_NAME}.lnk" "$INSTDIR\uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -141,15 +172,10 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
-
 Function un.onUninstSuccess
+  SetShellVarContext all
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer." /SD IDOK
-FunctionEnd
-
-Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" /SD IDYES IDYES +2
-  Abort
 FunctionEnd
 
 Section Uninstall

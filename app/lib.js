@@ -180,13 +180,17 @@ views.Browser.prototype.initialize = function(options, initCallback) {
   this.filter = options.filter || function(f) { return true; };
   this.isFile = options.isFile || function() {};
   this.isProject = options.isProject || function() {};
-  this.cwd = this.$('input[name=cwd]').val();
+  this.cwd = localStorage.getItem(window.location.pathname.split('/').pop() + $(this.el).attr('id')) || this.$('input[name=cwd]').val();
   return this.render();
 };
 views.Browser.prototype.render = function() {
   var view = this;
   var win = view.cwd.indexOf(':') === 1;
   var sep = win ? '\\' : '/';
+
+  // Store path for each modal type separately, with separate values saved for Source and Style.
+  localStorage.setItem(window.location.pathname.split('/').pop() + $(this.el).attr('id'), view.cwd);
+
   $.ajax({
     url: '/browse?path=' + view.cwd,
     dataType: 'json',
@@ -214,8 +218,24 @@ views.Browser.prototype.render = function() {
       // Reset scroll position to top.
       view.$('.list').get(0).scrollTop = 0;
     },
-    // @TODO
-    error: function(resp) {}
+    error: function(resp) {
+
+      // If path is already set to root and errors, give up
+      if (view.cwd === '/') return Modal.show('error', resp.responseText);
+
+      // Assume localstorage path doesn't exist, try default path
+      var newPath = view.$('input[name=cwd]').val();
+
+      // If default path returned error, set path to root
+      if (view.cwd === newPath) {
+        newPath = '/';
+      }
+
+      // Try again
+      localStorage.setItem(window.location.pathname.split('/').pop() + $(this.el).attr('id'), newPath);
+      view.cwd = newPath;
+      view.render();
+    }
   });
 };
 
