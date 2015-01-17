@@ -74,23 +74,26 @@ var statHandler = function(key) {
         s = s.map(round);
         max = limits.avgTile
       } else {
-        max = limits.avgRender
+        max = limits.maxRender
       }
 
       var l = s ? Math.round(Math.min(s[0],max)/max*100) : null;
       var w = s ? Math.round((s[2]-s[0])/max*100) : null;
       var a = s ? Math.round(Math.min(s[1],max)/max*100) : null;
 
-      if (unit === 'k') {
+      if (key === 'srcbytes') {
         if (s && s[1] > limits.avgTile) {
           warning = 'Tile size exceeds ' + limits.avgTile + unit + ', the limit for mapbox.com uploads.'
         }
-      } else if (unit === 'ms') {
-          if (s && s[1] > limits.avgRender ) {
-            warning = 'Average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
-          } else if (s && s[2] > limits.maxRender) {
-            warning = 'Maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
-          }
+      } else {
+        // Disabling for now due to significant discrepancy between
+        // local render times and Mapbox server render times
+
+        // if (s && s[1] > limits.avgRender ) {
+        //   warning = 'Average tile render time exceeds the ' + limits.avgRender + unit + ' limit for mapbox.com uploads.'
+        // } else if (s && s[2] > limits.maxRender) {
+        //   warning = 'Maximum tile render time exceeds the ' + limits.maxRender + unit + ' limit for mapbox.com uploads.'
+        // }
       }
 
       html += [
