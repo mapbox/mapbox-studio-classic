@@ -543,7 +543,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             this.map = map;
 
             map.on('zoomend', function() {
-                $('#zoomedto').attr('class', 'align-top inline contain zoom' + (map.getZoom() | 0));
+                var warning = '';
+
+                if ($('#zoomedto .warning').length) {
+                    warning = 'warning';
+                }
+
+                $('#zoomedto').attr('class', 'align-top inline contain zoom' + ((map.getZoom() | 0) + ' ' + warning));
             });
 
             function setCenter(e) {

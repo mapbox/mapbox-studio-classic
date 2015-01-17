@@ -26,8 +26,6 @@ var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '</div>'
                   '</div>';
 
-statHandler('drawtime')();
-
 if ('onbeforeunload' in window) window.onbeforeunload = function() {
   if ($('body').hasClass('changed')) return 'You have unsaved changes.';
 };
@@ -605,7 +603,7 @@ Editor.prototype.cartoError = function(ln, e, id) {
 
       var alert = document.createElement('a');
       alert.href = '#';
-      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-yellow';
+      alert.className = 'z100 quiet truncate micro js-error-alert pin-left pin-right pad0x pad1y fill-orange';
       alert.innerHTML = 'Error: Line ' + (ln+1) + '</span>';
 
       // don't stack alerts on the same tab
@@ -677,11 +675,18 @@ Editor.prototype.refresh = function(ev) {
     this.map = map;
 
     map.on('zoomend', function() {
-      var visible = '';
+      var visible = '',
+          warning = '';
+
       if (window.location.hash === '#export' && $('#zoomedto').hasClass('visible-y')){
         visible = 'visible-y';
       }
-      $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible);
+
+      if (window.location.hash !== '#export' && $('#zoomedto .warning').length) {
+        warning = 'warning';
+      }
+
+      $('#zoomedto').attr('class', 'contain zoom' + (map.getZoom()|0) + ' ' + visible + ' ' + warning);
     });
 
     function setCenter(e) {
@@ -826,6 +831,7 @@ window.onhashchange = function(ev) {
     statHandler('drawtime')();
     break;
   case 'export':
+    $('#zoomedto').removeClass('warning');
     if ($('body').hasClass('local')) {
       window.location.hash = '#';
       break;

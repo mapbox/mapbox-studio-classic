@@ -602,7 +602,7 @@ tape('export-ui: .js-dimensions over limit triggers warning', function(t) {
     $('.js-dimensions').change();
 
     t.ok($('#pixelX').hasClass('warning'));
-    t.ok($('#zoomedto .zoom8 .perc').hasClass('warning'));
+    t.ok($('#zoomedto .zoom8').hasClass('warning'));
 
     t.end();
 });
