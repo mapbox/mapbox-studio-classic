@@ -96,8 +96,6 @@ function loadURL() {
 function createMenu() {
     var template;
 
-    console.log('logging menu creation');
-
     if (process.platform == 'darwin') {
     template = [
       {
