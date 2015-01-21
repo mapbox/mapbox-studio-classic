@@ -31,6 +31,12 @@ A note on Windows: Windows builds of Mapbox Studio target Visual Studio 2014 and
  - The node installs from https://nodejs.org/download are not supported for Windows.
  - To release a new Mapbox Studio version for Windows against a new Node.js version Windows binaries need to first be built via the toolchain at https://github.com/mapbox/node-cpp11.
 
+### Logs
+
+Mapbox Studio has an application log and a shell log for error reporting and application messages for the Mapbox Studio server and Atom shell, respectively. On Linux and OSX, `app.log` and `shell.log` are located in `~/.mapbox-studio/`. On Windows, `app.log` and `shell.log` can be found in `C:\Users\<YOUR-USER-NAME>\.mapbox-studio`.
+
+On OSX, the logs can also be accessed to through the Help dropdown on the top menu bar.
+
 ### Pull requests
 
 Use PRs for everything but trivial changes and typos. Goals to strive for:

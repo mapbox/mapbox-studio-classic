@@ -1,6 +1,9 @@
 Changelog
 =========
 
+- Add shell.log and document log location.
+- Add timestamps and stacktraces to logs.
+
 ### 0.2.2
 
 - Update to node-mapnik 3.1.2.
