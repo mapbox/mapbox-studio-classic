@@ -10,45 +10,40 @@ var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
 var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 var logger = require('fastlog')('', 'debug', '<${timestamp}>');
-
-log(shellLog, 10e6, function(err) {
-    if (err) throw err;
-});
-
-// Start the server child process.
-var server = spawn(node, [script, '--shell=true']);
-server.on('exit', process.exit);
-server.stdout.once('data', function(data) {
-    var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
-    if (!matches) {
-        console.warn('Server port not found');
-        process.exit(1);
-    }
-    var serverPort = matches[1];
-    loadURL();
-});
-server.stdout.pipe(process.stdout);
-server.stderr.pipe(process.stderr);
-
-process.on('exit', function(code) {
-    console.warn('Mapbox Studio exited with', code + '.');
-});
-
 var serverPort = null;
 var mainWindow = null;
+// set up shell.log and log rotation
+log(shellLog, 10e6, shellsetup);
 
-// // TEMP!
-// var serverPort = 3000;
-// loadURL();
+function shellsetup(err){
+    process.on('exit', function(code) {
+        logger.debug('Mapbox Studio exited with', code + '.');
+    });
 
-// Report crashes to our server.
-require('crash-reporter').start();
+    // Start the server child process.
+    var server = spawn(node, [script, '--shell=true']);
+    server.on('exit', process.exit);
+    server.stdout.once('data', function(data) {
+        var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
+        if (!matches) {
+            console.warn('Server port not found');
+            process.exit(1);
+        }
+        serverPort = matches[1];
+        logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
+        loadURL();
+    });
 
-atom.on('window-all-closed', function() {
-    if (server) server.kill();
-    process.exit();
-});
-atom.on('ready', makeWindow);
+    // Report crashes to our server.
+    require('crash-reporter').start();
+
+    atom.on('window-all-closed', function() {
+        if (server) server.kill();
+        process.exit();
+    });
+
+    atom.on('ready', makeWindow);
+};
 
 function makeWindow() {
     // Create the browser window.

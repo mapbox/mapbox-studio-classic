@@ -2,11 +2,9 @@
 // In an ideal world this would be run in the same process/context of
 // atom-shell but there are many hurdles atm, see
 // https://github.com/atom/atom-shell/issues/533
-var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 
 // increase the libuv threadpool size to 1.5x the number of logical CPUs.
 process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().length * 1.5));
-
 process.title = 'mapbox-studio';
 
 if (process.platform === 'win32') {
@@ -15,10 +13,6 @@ if (process.platform === 'win32') {
     // NULL out PATH to avoid potential conflicting dlls
     process.env.PATH = '';
 }
-
-process.on('exit', function(code) {
-    console.warn('Mapbox Studio exited with', code + '.');
-});
 
 var tm = require('./lib/tm');
 var path = require('path');
@@ -30,6 +24,7 @@ config.shell = config.shell || false;
 config.port = config.port || undefined;
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
+var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 
 var usage = function usage() {
   var str = [
@@ -51,12 +46,12 @@ var usage = function usage() {
 }
 
 if (config.version) {
-    console.log(package_json.version);
+    logger.debug(package_json.version);
     process.exit(0);
 }
 
 if (config.help || config.h) {
-    console.log(usage());
+    logger.debug(usage());
     process.exit(0);
 }
 
@@ -85,6 +80,6 @@ function listen(err) {
 function finish(err) {
     if (err) throw err;
     server.emit('ready');
-    console.log('Mapbox Studio @ http://localhost:'+tm.config().port+'/');
+    logger.debug('Mapbox Studio @ http://localhost:'+tm.config().port+'/');
 }
 
