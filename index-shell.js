@@ -5,9 +5,15 @@ var BrowserWindow = require('browser-window');
 var Menu = require('menu');
 var shell = require('shell');
 var versionCheck = require('./lib/version-check');
-
+var log = require('./lib/log');
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
+var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
+var logger = require('fastlog')('', 'debug', '<${timestamp}>');
+
+log(shellLog, 10e6, function(err) {
+    if (err) throw err;
+});
 
 // Start the server child process.
 var server = spawn(node, [script, '--shell=true']);
@@ -18,14 +24,22 @@ server.stdout.once('data', function(data) {
         console.warn('Server port not found');
         process.exit(1);
     }
-    serverPort = matches[1];
+    var serverPort = matches[1];
     loadURL();
 });
 server.stdout.pipe(process.stdout);
 server.stderr.pipe(process.stderr);
 
+process.on('exit', function(code) {
+    console.warn('Mapbox Studio exited with', code + '.');
+});
+
 var serverPort = null;
 var mainWindow = null;
+
+// // TEMP!
+// var serverPort = 3000;
+// loadURL();
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -83,6 +97,8 @@ function loadURL() {
 
 function createMenu() {
     var template;
+
+    console.log('logging menu creation');
 
     if (process.platform == 'darwin') {
     template = [
@@ -190,6 +206,13 @@ function createMenu() {
             click: function() {
                 var cp = require("child_process");
                 cp.exec("open -a /Applications/Utilities/Console.app ~/.mapbox-studio/app.log");
+            }
+          },
+          {
+            label: 'Shell Log',
+            click: function() {
+                var cp = require("child_process");
+                cp.exec("open -a /Applications/Utilities/Console.app ~/.mapbox-studio/shell.log");
             }
           }
         ]

@@ -2,6 +2,7 @@
 // In an ideal world this would be run in the same process/context of
 // atom-shell but there are many hurdles atm, see
 // https://github.com/atom/atom-shell/issues/533
+var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 
 // increase the libuv threadpool size to 1.5x the number of logical CPUs.
 process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().length * 1.5));
@@ -14,6 +15,10 @@ if (process.platform === 'win32') {
     // NULL out PATH to avoid potential conflicting dlls
     process.env.PATH = '';
 }
+
+process.on('exit', function(code) {
+    console.warn('Mapbox Studio exited with', code + '.');
+});
 
 var tm = require('./lib/tm');
 var path = require('path');
