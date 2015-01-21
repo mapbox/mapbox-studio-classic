@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
+var applog = require('../lib/log');
 var dirty = require('dirty');
 var tmppath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'tm-' + +new Date);
 var stream = require('stream');
@@ -304,14 +305,14 @@ test('tm copydir filter', function(t) {
 });
 
 test('tm applog noop', function(t) {
-    tm.applog(false, 1, function(err) {
+    applog(false, 1, function(err) {
         t.ifError(err, 'noop on no filepath');
         t.end();
     });
 });
 
 test('tm applog err: not a file', function(t) {
-    tm.applog(tmppath, 1, function(err) {
+    applog(tmppath, 1, function(err) {
         t.ok(/is not a file$/.test(err.toString()), 'error when filepath is not a file');
         t.end();
     });
@@ -320,7 +321,7 @@ test('tm applog err: not a file', function(t) {
 test('tm applog', function(t) {
     var filepath = tm.join(tmppath + '/app.log');
     t.ok(!fs.existsSync(filepath), 'app.log does not exist');
-    tm.applog(filepath, 10, function(err) {
+    applog(filepath, 10, function(err) {
         t.ifError(err);
         process.stdout.write('      stdout\n');
         process.stderr.write('      stderr\n');
@@ -332,7 +333,7 @@ test('tm applog', function(t) {
     });
 
     function rotates() {
-        tm.applog(filepath, 10, function(err) {
+        applog(filepath, 10, function(err) {
             t.ifError(err);
             t.ok(fs.existsSync(filepath + '.0.gz'), 'rotates app log to app.log.0.gz');
             process.stdout.write('      stdout\n');

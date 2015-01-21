@@ -5,36 +5,48 @@ var BrowserWindow = require('browser-window');
 var Menu = require('menu');
 var shell = require('shell');
 var versionCheck = require('./lib/version-check');
-
+var log = require('./lib/log');
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
-
-// Start the server child process.
-var server = spawn(node, [script, '--shell=true']);
-server.on('exit', process.exit);
-server.stdout.once('data', function(data) {
-    var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
-    if (!matches) {
-        console.warn('Server port not found');
-        process.exit(1);
-    }
-    serverPort = matches[1];
-    loadURL();
-});
-server.stdout.pipe(process.stdout);
-server.stderr.pipe(process.stderr);
-
+var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
+var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 var serverPort = null;
 var mainWindow = null;
+// set up shell.log and log rotation
+log(shellLog, 10e6, shellsetup);
 
-// Report crashes to our server.
-require('crash-reporter').start();
+function shellsetup(err){
+    process.on('exit', function(code) {
+        logger.debug('Mapbox Studio exited with', code + '.');
+    });
 
-atom.on('window-all-closed', function() {
-    if (server) server.kill();
-    process.exit();
-});
-atom.on('ready', makeWindow);
+    // Start the server child process.
+    var server = spawn(node, [script, '--shell=true']);
+    server.on('exit', process.exit);
+    server.stdout.once('data', function(data) {
+        var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
+        if (!matches) {
+            console.warn('Server port not found');
+            process.exit(1);
+        }
+        serverPort = matches[1];
+        logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
+        loadURL();
+    });
+
+    // Report crashes to our server.
+    require('crash-reporter').start();
+
+    atom.on('window-all-closed', exit);
+    atom.on('will-quit', exit);
+
+   function exit() {
+        if (server) server.kill();
+        process.exit();
+    };
+
+    atom.on('ready', makeWindow);
+};
 
 function makeWindow() {
     // Create the browser window.
@@ -190,6 +202,13 @@ function createMenu() {
             click: function() {
                 var cp = require("child_process");
                 cp.exec("open -a /Applications/Utilities/Console.app ~/.mapbox-studio/app.log");
+            }
+          },
+          {
+            label: 'Shell Log',
+            click: function() {
+                var cp = require("child_process");
+                cp.exec("open -a /Applications/Utilities/Console.app ~/.mapbox-studio/shell.log");
             }
           }
         ]
