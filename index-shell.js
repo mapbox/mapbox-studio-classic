@@ -37,10 +37,13 @@ function shellsetup(err){
     // Report crashes to our server.
     require('crash-reporter').start();
 
-    atom.on('window-all-closed', function() {
+    atom.on('window-all-closed', exit);
+    atom.on('will-quit', exit);
+
+   function exit() {
         if (server) server.kill();
         process.exit();
-    });
+    };
 
     atom.on('ready', makeWindow);
 };
