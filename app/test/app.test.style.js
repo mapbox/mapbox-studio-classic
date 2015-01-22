@@ -716,7 +716,7 @@ tape('keybindings bookmark', function(t) {
     e.ctrlKey = true;
     e.which = 66; // b
     $('body').trigger(e);
-    t.ok($('.places-button').hasClass('spinner'), 'ctrl+b => #add-bookmark.spinner');
+    t.ok($('.js-places-button').hasClass('spinner'), 'ctrl+b => #add-bookmark.spinner');
     onajax(function() {
         t.end();
     });
