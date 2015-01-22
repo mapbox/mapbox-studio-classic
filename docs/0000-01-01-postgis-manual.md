@@ -1,0 +1,135 @@
+# PostGIS in Mapbox Studio
+
+Got a large collection of custom data? Need a power boost to efficiently process you data so it converts nicely into [vector tiles](https://www.mapbox.com/developers/vector-tiles/) on Mapbox.com? Look no further than PostGIS and SQL queries in Mapbox Studio.
+
+
+![datasource](https://cloud.githubusercontent.com/assets/4587826/5863497/fe256a2e-a247-11e4-98d3-02b7a788da75.png)
+
+Sometimes you just need more data processing power. We highly recommend housing your larger data into PostgreSQL database with the PostGIS extension. This allows you to upload massive data sets and will provide much more flexibility for querying that data with SQL in Studio.
+
+## Getting started
+
+If you're new to PostGIS, we have written a few bash scripts to painlessly install PostgreSQL, PostGIS, and setting up a "mapbox" spatial database. Download this bash script [postgresql-postgis-db-install.sh](https://gist.github.com/amyleew/ade197e87b3662eac6c3) and run it in your terminal window like this: 
+
+	bash postgresql-postgis-db-install.sh
+
+You'll also want to include `postgis-vt-util` in your project. The [postgis-vt-util](https://github.com/mapbox/postgis-vt-util) module contains a set of custom PostgreSQL functions that are extremely helpful when creating vector tile sources using Mapbox Studio.
+
+To use `postgis-vt-util` in your project, download [lib.sql](https://raw.githubusercontent.com/mapbox/postgis-vt-util/master/lib.sql) to your project. Load `lib.sql` to your `mapbox` PostgreSQL database with a command like this:
+
+	psql -U postgres -d mapbox -f lib.sql
+
+
+## Importing data into PostGIS
+
+If your data is not already managed in a PostGIS database, you will need to import it. It's a good idea to script this process so that you can easily repeat the process again later or collaborate on the project without sharing access to the same database.
+
+For getting any kind of vector geodata into PostGIS in an automated fashion, `ogr2ogr` is probably the simplest and most versatile utility. If you have a lot of data, you may want to look into `shp2pgsql` which is more finicky but can import data much more quickly.
+
+### Basic ogr2ogr example
+
+The following command will create a PostgreSQL table with all the same columns as your Shapefile, plus a `wkb_geometry` column for the geometries. The geometry column will be automatically indexed for efficient spatial queries.
+
+The `-t_srs EPSG:3857` part makes sure your data is projected to Web Mercator, which is what you'll usually want since that's what the final vector tiles will be.
+
+	ogr2ogr \
+    	-f PostgreSQL \
+    	-t_srs EPSG:3857 \
+    	PG:'user=postgres host=localhost dbname=your_db' \
+    	your_data.shp
+
+### Multiple files into one table
+
+Since many of your layers were comprised of many shapefiles, we used this format to easily import them all to a single table.
+
+
+	files=(
+    	file_1.shp
+    	file_2.shp
+	)
+	for file in ${files[@]}; do
+    	ogr2ogr \
+      		-append \
+      		-f PostgreSQL \
+      		-t_srs EPSG:3857 \
+      		PG:'user=postgres host=localhost dbname=your_db' \
+      		$file
+	done
+
+## SQL queries in Mapbox Studio
+
+Once these shapefiles are loaded into a database, we wrote SQL queries to bring them in a the correct zoom and filter then down to fit within 500 MB per zoom level. Refer to the SQL queries in your data.yml file for the specific code. Here is an overview of the Mapnik and `postgis-vt-util` functions you need to know.
+
+
+### Basic query
+
+This example simply includes all geometries from a table at all zoom levels.
+
+	( SELECT * FROM table_name ) AS data
+
+The parts inside the parentheses are the meat of what's going on. The parentheses and the AS data are just syntactic necessities.
+
+### Avoiding spatially-irrelevant features
+
+The SQL queries in a Mapbox Studio source project are run once for each tile you export, so making sure these queries run quickly is they key to efficient exports. One of the best ways to speed up a query is to make sure it's only looking at features that would actually be visible in the given tile. By default, an attempt at this is made behind-the-scenes, but for more complex queries you'll need to ensure this manually.
+
+
+	( SELECT * FROM table_name
+  		WHERE wkb_geometry && !bbox!
+	) AS data
+
+
+Assuming wkb_geometry is your geometry column, this query will only select features whose geometries have bounding boxes that intersect with the tile the query is being run for. Behind the scenes, !bbox! is replaced with a polygon representing the area covered by each tile.
+
+### Limiting a query by zoom level
+
+If you have a layer that's not needed at every zoom level, you can craft your query to limit the selection based on the zoom level. This will require the z() function provided by the postgis-vt-utils package. This also makes for smaller, more efficient tiles and smaller vector tiles when you are uploading this data set to Mapbox.com. 
+
+
+	( SELECT * FROM table_name
+  		WHERE z(!scale_denominator!) >= 6
+  		AND wkb_geometry && !bbox!
+	) AS data
+
+
+It's good practice to include the avoid spatially-irrelevant clause mentioned above after your `WHERE` clause. You just add an `AND` statement to tack on that filter as well.
+
+### Controlling label density with labelgrid
+
+Point data needs to controlled because in some locations you have hundreds of points geographically close to each other, or even on top of each other. These dense areas mean that certain vector tiles will be very heavy, but Mapbox Studio will render them just the same. Now imagine what happens when you zoom out to low zoom levels, again these dense areas become problematic when they are combined with a CartoCSS style + used to generate a raster tile. 
+
+If you ever upload Mapbox Studio style to mapbox.com, and are met with an error like `Drawtime avg. exceeded limit of 300ms` or `Drawtime max exceeded limit of 1000ms` it's likely that the style is using vector tiles that are too dense, and thus requiring `Mapnik` to do too much work to generate .png tiles.
+
+`labelgrid` limits the number of features-per-vector-tile by aligning point geometries to a fixed-pixel-width grid that is generated for each vector tile. And throws out points that would otherwise collide. The choice on which points remain or are salvaged at that zoom for file size is determined by your `ORDER BY` function.
+
+
+	( SELECT * FROM (
+    	SELECT DISTINCT ON(labelgrid(wkb_geometry, 64,!pixel_width!)) *
+    	FROM populated_places
+    	ORDER BY labelgrid(wkb_geometry, 64,!pixel_width!)
+	) AS ordered
+	ORDER BY scalerank, population DESC, id
+	) AS data
+
+### Multiple tables in one layer
+
+Sometimes your source data may be broken up more than necessary, and you want to include multiple tables in one layer for easier styling. As long as you can make the columns for all the tables consistent, you can do this with `UNION ALL`.
+
+We're also using the `z()` function and `!bbox!` token explained in previous examples.
+
+
+	( SELECT wkb_geometry, area
+  		FROM ponds
+  		WHERE z(!scale_denominator!) >= 10
+    	AND wkb_geometry && !bbox!
+	) UNION ALL (
+  		SELECT wkb_geometry, area
+  		FROM lakes
+  		WHERE z(!scale_denominator!) >= 6
+    	AND wkb_geometry && !bbox!
+	) UNION ALL (
+  		SELECT wkb_geometry, area
+  		FROM oceans
+		WHERE wkb_geometry && !bbox!
+	) AS data
+
