@@ -6,7 +6,8 @@ var tiles;
 var xray;
 var grids;
 var gridc;
-var bookmarks = style._bookmarks;
+var bookmarks = style._bookmarks || [];
+
 var mtime = (+new Date).toString(36);
 var placeentry = '<div class="col4 contain places-entry-container animate">' +
                     '<div id="place-sentry-<%= index %>" lat="<%= center[0] %>" lng="<%= center[1] %>" zoom="<%=zoom %>" class="js-places-entry fill-canvas places-entry pin-left col12"></div>' +
@@ -132,7 +133,7 @@ Editor.prototype.addBookmark = function(ev) {
   ev.preventDefault();
 
   var view = this,
-      button = $('.places-button'),
+      button = $('.js-places-button'),
       lat = map.getCenter().wrap().lat,
       lng = map.getCenter().wrap().lng,
       zoom = map.getZoom();
