@@ -14,13 +14,13 @@ Sometimes you just need more data processing power. We highly recommend housing 
 If you're new to PostGIS, you will need to download and install [PostgreSQL](http://www.postgresql.org/download/) then install a [PostGIS extension](http://postgis.net/docs/postgis_installation.html#install_short_version) to your PostgreSQL database. Ideally your versions of PostgreSQL and PostGIS should match what we use on our production servers (or at least not be older). These are PostgreSQL 9.3 and PostGIS 2.1 (defaults provided by Ubuntu 14.04 LTS).
 
 
-### Include PostGIS VT Util
+### Add PostGIS VT (Vector Tile) utility
 
-You'll also want to include `postgis-vt-util` in your project. The [postgis-vt-util](https://github.com/mapbox/postgis-vt-util) module contains a set of custom PostgreSQL functions that are extremely helpful when creating vector tile sources using Mapbox Studio.
+You also need to add our vector tile helper utility, `[postgis-vt-util](https://github.com/mapbox/postgis-vt-util)`, into your database. This module contains a set of custom PostgreSQL functions aid in filtering vector tile sources into Mapbox Studio.
 
-To use `postgis-vt-util` in your project, download [lib.sql](https://raw.githubusercontent.com/mapbox/postgis-vt-util/master/lib.sql) to your project. Load `lib.sql` to your `mapbox` PostgreSQL database with a command like this:
+To add `postgis-vt-util` into your PostgreSQL database, download [lib.sql](https://raw.githubusercontent.com/mapbox/postgis-vt-util/master/lib.sql) then load `lib.sql` to your database with a command like this:
 
-	psql -U postgres -d mapbox -f lib.sql
+	psql -U postgres -d your_db -f lib.sql
 
 
 ## Importing data into PostGIS
