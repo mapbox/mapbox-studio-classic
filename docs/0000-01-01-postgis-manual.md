@@ -1,17 +1,20 @@
-# PostGIS in Mapbox Studio
+# PostGIS + SQL in Mapbox Studio
 
-Got a large collection of custom data? Need a power boost to efficiently process you data so it converts nicely into [vector tiles](https://www.mapbox.com/developers/vector-tiles/) on Mapbox.com? Look no further than PostGIS and SQL queries in Mapbox Studio.
+Got a large collection of custom data? Need a power boost to efficiently process your data so it converts nicely into [vector tiles](https://www.mapbox.com/developers/vector-tiles/) on Mapbox.com? Look no further than PostGIS + SQL in Mapbox Studio.
 
 
 ![datasource](https://cloud.githubusercontent.com/assets/4587826/5863497/fe256a2e-a247-11e4-98d3-02b7a788da75.png)
 
-Sometimes you just need more data processing power. We highly recommend housing your larger data into PostgreSQL database with the PostGIS extension. This allows you to upload massive data sets and will provide much more flexibility for querying that data with SQL in Studio.
+Sometimes you just need more data processing power. We highly recommend housing your larger data sets into a PostgreSQL database with a PostGIS extension. This allows you to upload massive data sets and will provide much more flexibility for querying that data with SQL in Studio.
 
 ## Getting started
 
-If you're new to PostGIS, we have written a few bash scripts to painlessly install PostgreSQL, PostGIS, and setting up a "mapbox" spatial database. Download this bash script [postgresql-postgis-db-install.sh](https://gist.github.com/amyleew/ade197e87b3662eac6c3) and run it in your terminal window like this: 
+### Install PostgreSQL and PostGIS
 
-	bash postgresql-postgis-db-install.sh
+If you're new to PostGIS, you will need to download and install [PostgreSQL](http://www.postgresql.org/download/) then install a [PostGIS extension](http://postgis.net/docs/postgis_installation.html#install_short_version) to your PostgreSQL database. Ideally your versions of PostgreSQL and PostGIS should match what we use on our production servers (or at least not be older). These are PostgreSQL 9.3 and PostGIS 2.1 (defaults provided by Ubuntu 14.04 LTS).
+
+
+### Include PostGIS VT Util
 
 You'll also want to include `postgis-vt-util` in your project. The [postgis-vt-util](https://github.com/mapbox/postgis-vt-util) module contains a set of custom PostgreSQL functions that are extremely helpful when creating vector tile sources using Mapbox Studio.
 
