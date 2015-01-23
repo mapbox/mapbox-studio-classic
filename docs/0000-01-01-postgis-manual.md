@@ -1,7 +1,6 @@
 # PostGIS + SQL in Mapbox Studio
 
-Got a large collection of custom data? Need a power boost to efficiently process your data so it converts nicely into [vector tiles](https://www.mapbox.com/developers/vector-tiles/) on Mapbox.com? Look no further than PostGIS + SQL in Mapbox Studio.
-
+Got a large collection of custom data? Need more processing power to make [vector tiles](https://www.mapbox.com/developers/vector-tiles/) upload smoothly to Mapbox.com? Look no further than PostGIS + SQL in Mapbox Studio.
 
 ![datasource](https://cloud.githubusercontent.com/assets/4587826/5863497/fe256a2e-a247-11e4-98d3-02b7a788da75.png)
 
@@ -84,7 +83,7 @@ The SQL queries in a Mapbox Studio source project are run once for each tile you
 
 Assuming wkb_geometry is your geometry column, this query will only select features whose geometries have bounding boxes that intersect with the tile the query is being run for. Behind the scenes, !bbox! is replaced with a polygon representing the area covered by each tile.
 
-### Limiting a query by zoom level
+### Limiting data by zoom level
 
 If you have a layer that's not needed at every zoom level, you can craft your query to limit the selection based on the zoom level. This will require the z() function provided by the postgis-vt-utils package. This also makes for smaller, more efficient tiles and smaller vector tiles when you are uploading this data set to Mapbox.com. 
 
@@ -97,7 +96,7 @@ If you have a layer that's not needed at every zoom level, you can craft your qu
 
 It's good practice to include the avoid spatially-irrelevant clause mentioned above after your `WHERE` clause. You just add an `AND` statement to tack on that filter as well.
 
-### Controlling label density with labelgrid
+### Controlling label density
 
 Point data needs to controlled because in some locations you have hundreds of points geographically close to each other, or even on top of each other. These dense areas mean that certain vector tiles will be very heavy, but Mapbox Studio will render them just the same. Now imagine what happens when you zoom out to low zoom levels, again these dense areas become problematic when they are combined with a CartoCSS style + used to generate a raster tile. 
 
