@@ -16,7 +16,7 @@ If you're new to PostGIS, you will need to download and install [PostgreSQL](htt
 
 ### Add PostGIS VT (Vector Tile) utility
 
-You also need to add our vector tile helper utility, [postgis-vt-util](https://github.com/mapbox/postgis-vt-util), into your database. This module contains a set of custom PostgreSQL functions aid in filtering vector tile sources into Mapbox Studio.
+You also need to add our vector tile helper utility, [postgis-vt-util](https://github.com/mapbox/postgis-vt-util), into your database. This module contains a set of custom PostgreSQL functions that aid in managing your vector tile sources into Mapbox Studio.
 
 To add `postgis-vt-util` into your PostgreSQL database, download [lib.sql](https://raw.githubusercontent.com/mapbox/postgis-vt-util/master/lib.sql) then load `lib.sql` to your database with a command like this:
 
