@@ -609,20 +609,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         // File browser.
         new views.Browser({
             el: $('#browsefile'),
-            filter: function(file) {
-                if (pattern) {
-                    return file.type === 'dir' || pattern.test(file.basename);
-                } else {
-                    return file.type === 'dir';
-                }
-            },
-            isFile: function(file) {
-                if (pattern) {
-                    return file.type === 'dir' || pattern.test(file);
-                } else {
-                    return file.type === 'dir';
-                }
-            },
             callback: function(err, filepath) {
                 if (err || !target.size()) {
                     window.location.href = '#';
