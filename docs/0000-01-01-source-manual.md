@@ -87,4 +87,6 @@ You can drag and drop layers in the layer list to reorder them. The order they'r
 Advanced PostgreSQL Layers
 --------------------------
 
+Check out our [PostGIS Manual]({{site.baseurl}}/postgis-manual/) for more details on how to use PostGIS + SQL with Mapbox Studio to create fast, performant vector tiles.
+
 Have a look at the [Natural Earth Mapbox Studio project](https://github.com/mapbox/natural-earth-tm2) for a full Mapbox Studio source example, and advanced PostgreSQL tricks like having multiple tables in one layer and scale-aware queries.
