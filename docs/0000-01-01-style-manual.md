@@ -1,6 +1,8 @@
 Style manual
 ============
 
+[id]: #remote-sources
+
 A Mapbox Studio style project is stored in a single directory with a `.tm2` file extension. A typical style project directory looks like this:
 
     sample-project.tm2/
@@ -20,14 +22,13 @@ The components of the style project are:
 - **.thumb.png** is a thumbnail image that serves as a quick preview of the project.
 - **images and any other assets** used by a project should be kept in the project directory so that it is portable.
 
-Referencing vector tile sources
--------------------------------
+## <a name="referencing-sources"></a>[Referencing vector tile sources](#referencing-sources)
 
 In order to design a Mapbox Studio style, you will need to have a vector tile source to supply data. Styles use the [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/) source by default, but can also use custom sources you've uploaded to your Mapbox account.
 
 If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, Mapbox Studio will download the vector tiles on-the-fly as you pan over to France. Mapbox Studio caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
 
-### Remote sources
+### <a name="remote-sources"></a>[Remote sources](#remote-sources)
 
 To change the source of a Mapbox Studio style, click on the __Layers__ icon then click on the blue __Change source__ button at the top of the layers panel. You will be shown a list of any vector tile sources you've uploaded to your Mapbox account.
 
@@ -37,7 +38,7 @@ Mapbox also provides some ready-made sources that you use to design your own cus
 - [Mapbox Terrain](https://www.mapbox.com/developers/vector-tiles/mapbox-terrain/)
 
 
-### Compositing remote sources
+### <a name="compositing"></a>[Compositing remote sources](#compositing)
 
 Multiple vector tile sources can be merged together into a single source if they are coming from the Mapbox API. For example, you can combine up-to-date OpenStreetMap data from Mapbox Streets with a custom overlay of your own data.
 
@@ -45,7 +46,7 @@ To do this, click on the __Layers__ icon, then __Change source__, then use the t
 
     mapbox.mapbox-streets-v5,your-account.abc123
 
-### Local sources
+### <a name="local-sources"></a>[Local sources](#local-sources)
 
 For complex vector tile sources, you might find it helpful to be developing both the source and the style at the same time. Mapbox Studio style projects can also reference local `.tm2source` projects as vector tile sources, so that you can quickly see changes without having to export or upload them.
 
@@ -53,8 +54,7 @@ To reference a local source, click on the __Layers__ icon, then __Change source_
 
 Local sources will not work in packaged & uploaded styles. Make sure to export & upload your source project and change the reference in your style project before you publish the style.
 
-CartoCSS
---------
+## <a name="cartocss"></a>[CartoCSS](#cartocss)
 
 Mapbox Studio styles are defined using CartoCSS. A quick introduction to the language and a full reference list of properties are built into Mapbox Studio - click on the __Docs__ icon. 
 
@@ -66,8 +66,7 @@ If you are new to CartoCSS, the following guides on Mapbox.com will be helpful:
 - [Styling Labels](https://www.mapbox.com/tilemill/docs/guides/styling-labels/)
 - [Symbol Drawing Order](https://www.mapbox.com/tilemill/docs/guides/symbol-drawing-order/)
 
-Publishing styles
------------------
+## <a name="publishing-styles"></a>[Publishing styles](#publishing-styles)
 
 __Note:__ publishing requires an account on the [Mapbox Standard plan](https://www.mapbox.com/plans/) or higher.
 
