@@ -5,6 +5,15 @@ options: full bleed
 <style>
 .doc-content h1 { text-align:center; }
 .doc-content h3 { font-size: 18px; }
+h1 a[href^='#'],
+h2 a[href^='#'],
+.doc-content h1[id],
+.doc-content h2[id],
+.doc-content h3[id],
+.doc-content h4[id] { 
+    color: #FFF;
+    cursor: pointer;
+}
 </style>
 <section class='fill-navy-dark pad8y'>
     <div class='pad8y'>
@@ -14,7 +23,7 @@ options: full bleed
             </h3>
         </div>
         <div class='limiter clearfix contain dark'>
-            <div class='col8 margin2 prose doc-content'>
+            <div class='col8 margin2 prose doc doc-content'>
             {{content}}
             </div>
         </div>
