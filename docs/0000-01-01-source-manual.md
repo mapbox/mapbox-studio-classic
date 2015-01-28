@@ -20,7 +20,7 @@ The components of the style project are:
 Supported formats
 -----------------
 
-Mapbox Studio supports several different types of data sources: 
+Mapbox Studio supports several different types of data sources:
 
 * Shapefiles
 * GeoJSON
@@ -42,7 +42,7 @@ As a general rule, vector tiles are useful for about 4-6  levels of overzooming,
 Buffers
 -------
 
-The buffer setting on a layer allows you to inlcude extra data around the outside of each tile. Depending on the data and desired styles this can be necessary to ensure seamless rendering across tile boundaries. Tile buffers are set individually for each layer; different layers have different requirements and it's important to make boundaries no larger than necessary in order to keep the size of your vector tiles to a minimum.
+The buffer setting on a layer allows you to include extra data around the outside of each tile. Depending on the data and desired styles this can be necessary to ensure seamless rendering across tile boundaries. Tile buffers are set individually for each layer; different layers have different requirements and it's important to make boundaries no larger than necessary in order to keep the size of your vector tiles to a minimum.
 
 The value for the buffer setting is in pixels (with the assumption that the vector tile is rendered at 256x256 pixels). General guidelines:
 
