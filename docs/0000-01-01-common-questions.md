@@ -61,7 +61,7 @@ Check out the [OSM bright repository](https://github.com/mapbox/osm-bright.tm2) 
 Do I need a Mapbox account to use Mapbox Studio?
 ------------------------------------------------
 
-Yes, a Mapbox account is needed to access the default vector tile sources included in Mapbox Studio. You can try out the features of Mapbox Studio for free but to make use of all of the functionality you must be on the Mapbox [Standard plan](https://www.mapbox.com/plans/).
+Yes, a Mapbox account is needed to access the default vector tile sources included in Mapbox Studio and to upload your custom sources and styles.
 
 You are not locked into using Studio with Mapbox -- you can export vector tiles from any source project as a standard [MBTiles file](https://github.com/mapbox/mbtiles-spec) and package any style project as a [`.tm2z` package](https://github.com/mapbox/tilelive-vector).
 
