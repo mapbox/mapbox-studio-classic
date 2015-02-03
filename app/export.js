@@ -5,9 +5,9 @@ window.Export = function(templates, source, job) {
   var Upload = Backbone.Model.extend({});
   Upload.prototype.url = function() { return '/upload.json?id='+ source.id; };
 
-  var Modal = new views.Modal({
-    el: $('.modal-content'),
-    templates: templates
+  var Modal = window.Modal = new views.Modal({
+      el: $('.modal-content'),
+      templates: templates
   });
 
   var Exporter = Backbone.View.extend({});
