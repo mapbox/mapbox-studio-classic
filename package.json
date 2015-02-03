@@ -12,7 +12,7 @@
     "url": "git://github.com/mapbox/mapbox-studio.git"
   },
   "dependencies": {
-    "mapbox-base-css": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-base-css-0.0.5-69f43528fa1f45b180ebe6ea8503692237c37553.tgz",
+    "mapbox-base-css": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-base-css-0.0.6-f4fa048000cce39d2c5bb229f2dfc0347d328519.tgz",
     "node-pre-gyp": "0.6.1",
     "log-rotate": "0.2.x",
     "through": "2.3.x",

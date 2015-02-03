@@ -14,6 +14,9 @@
   margin: auto;
 }
 
+.dark a:focus,
+a:focus { box-shadow: none;}
+
 .code { word-break: break-all;}
 
 /* Hover/acive fills */
