@@ -1,8 +1,12 @@
 Changelog
 =========
 
+### 0.2.3
 - Add shell.log and document log location.
 - Add timestamps and stacktraces to logs.
+- Style UI: Fix bugs around the Places UI.
+- Fix bugs in atom-shell integration.
+- Source UI: Add warnings if tiles are too large.
 
 ### 0.2.2
 
