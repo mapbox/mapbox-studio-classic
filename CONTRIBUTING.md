@@ -80,7 +80,7 @@ Tagging flow is like this:
     git tag -n
 
     # Push all the things to github
-    git push origin master
+    git push origin mb-pages
     git push --tags
 
 Then package using the tag name in the steps below.
