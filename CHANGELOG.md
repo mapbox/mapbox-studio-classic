@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.2.4
+- Upgrade to mapbox-upload 3.0.0
+- Fix version display update UI
+
 ### 0.2.3
 - Add shell.log and document log location.
 - Add timestamps and stacktraces to logs.
