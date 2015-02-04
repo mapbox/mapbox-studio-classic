@@ -245,7 +245,7 @@ Editor.prototype.renderPlaces = function(filter, search) {
 
 Editor.prototype.places = function(ev) {
   var container = $('.js-places-toggle');
-  var filter = $('input:checked',container).attr('value').toLowerCase();
+  var filter = $('input:checked', container).attr('value') ? $('input:checked', container).attr('value').toLowerCase() : '';
   window.editor.renderPlaces(filter, true);
 };
 

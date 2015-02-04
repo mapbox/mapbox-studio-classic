@@ -7,7 +7,7 @@ var limit = 20000;
 var sm = new SphericalMercator();
 
 var Printer = Backbone.View.extend({});
-var Modal = new views.Modal({
+var Modal = window.Modal = new views.Modal({
   el: $('.modal-content'),
   templates: templates
 });
