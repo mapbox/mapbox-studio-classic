@@ -8,10 +8,17 @@ var versionCheck = require('./lib/version-check');
 var log = require('./lib/log');
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
-var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 var serverPort = null;
 var mainWindow = null;
+
+if (process.platform === 'win32') {
+    // HOME is undefined on windows
+    process.env.HOME = process.env.USERPROFILE;
+}
+
+var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
+
 // set up shell.log and log rotation
 log(shellLog, 10e6, shellsetup);
 
