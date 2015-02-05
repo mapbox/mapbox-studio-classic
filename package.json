@@ -47,7 +47,7 @@
     "cors": "~2.3.1",
     "request": "~2.48.0",
     "mapbox-upload": "~3.0.0",
-    "mapnik-omnivore": "~2.2.4",
+    "mapnik-omnivore": "mapbox/mapnik-omnivore#bigtiff",
     "abaculus": "1.1.0",
     "progress-stream": "0.5.0",
     "safer-stringify": "0.0.1",
