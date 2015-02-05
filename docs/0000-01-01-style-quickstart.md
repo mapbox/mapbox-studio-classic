@@ -113,12 +113,42 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 - `text-placement: line` sets labels to follow the orientation of lines rather than horizontally.
 - `text-avoid-edges: true` forces labels to be placed away from tile edges to avoid being clipped.
 
+Add custom fonts
+----------------
+
+Download fonts [Junction](https://www.theleagueofmoveabletype.com/junction) and [Chunk](https://www.theleagueofmoveabletype.com/chunk) from open-source type collective, [League of Moveable Type](https://github.com/theleagueof). Create a new *fonts* folder in your `.tm2` style folder and add the `woff`, `.ttf`, or `.otf` font files inside. 
+
+![new fonts folder](https://cloud.githubusercontent.com/assets/4587826/6063767/d4cc029c-ad27-11e4-8180-06849664013c.png)
+
+Set the font directory reference in the Map element in your `style.mss` file:
+
+	font-directory: url("fonts/");
+
+You will now see your custom fonts listed in Studio. You can use your fonts by name anywhere in your style and they will be packaged with the style when uploaded to Mapbox or exported as a `.tm2z`.
+
+![fonts tab updated](https://cloud.githubusercontent.com/assets/4587826/6064078/a2565f4a-ad29-11e4-8836-5c8526efc467.png)
+
+
+Change font variables in your `style.mss` file from Source Sans Pro to ChunkFive Regular, Junction Light, and Junction Bold. 
+
+
+	// Fonts //
+	@sans: 'ChunkFive Regular';
+	@sans_italic: 'Junction Light';
+	@sans_bold: 'Junction Bold';
+
+**Save** and admire your new font!
+
+![new map with custom fonts](https://cloud.githubusercontent.com/assets/4587826/6064219/89f30434-ad2a-11e4-872e-6be9582cfebe.png)
+
+
 Uploading
 ---------
 
 Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/). You may be prompted if you aren't yet on one.
 
-![Upload style](https://cloud.githubusercontent.com/assets/83384/3870412/70cc4fb8-20cd-11e4-89e6-0012952df580.png)
+![Upload style](https://cloud.githubusercontent.com/assets/4587826/6052186/ce39d394-ac9d-11e4-80cc-5042f6a3cb87.png)
+
 
 Mission complete
 ----------------
