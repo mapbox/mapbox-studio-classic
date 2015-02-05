@@ -14,13 +14,6 @@ var tabbedHandler = function(ev) {
   return false;
 };
 
-var invalidFormHandler = function() {
-  document.querySelector('form')
-        .addEventListener('invalid', function(event) {
-            console.log('wut', event)
-        }, true);
-  };
-
 var rangeHandler = function(el, bound, target) {
   var limit = parseInt($(target).val(),10);
   if (bound === 'max') {
