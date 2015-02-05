@@ -15,12 +15,13 @@ var mainWindow = null;
 if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
+    // skill shell.log setup
+    shellsetup();
+} else {
+    var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
+    // set up shell.log and log rotation
+    log(shellLog, 10e6, shellsetup);
 }
-
-var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
-
-// set up shell.log and log rotation
-log(shellLog, 10e6, shellsetup);
 
 function shellsetup(err){
     process.on('exit', function(code) {
