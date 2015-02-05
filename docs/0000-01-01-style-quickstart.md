@@ -116,7 +116,7 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 Add custom fonts
 ----------------
 
-Download the well-made fonts [Junction](https://www.theleagueofmoveabletype.com/junction) and [Chunk](https://www.theleagueofmoveabletype.com/chunk) from open-source type collective, [League of Moveable Type](https://github.com/theleagueof). Create a new *fonts* folder in your `.tm2` style folder and add the `woff`, `.ttf`, or `.otf` font files inside. 
+Download fonts [Junction](https://www.theleagueofmoveabletype.com/junction) and [Chunk](https://www.theleagueofmoveabletype.com/chunk) from open-source type collective, [League of Moveable Type](https://github.com/theleagueof). Create a new *fonts* folder in your `.tm2` style folder and add the `woff`, `.ttf`, or `.otf` font files inside. 
 
 ![new fonts folder](https://cloud.githubusercontent.com/assets/4587826/6063767/d4cc029c-ad27-11e4-8180-06849664013c.png)
 
