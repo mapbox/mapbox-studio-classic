@@ -89,7 +89,6 @@ Check the layers available to your remote vector tile data source by using the [
 
 	http://a.tiles.mapbox.com/v4/{mapid}.json?access_token={youraccountaccesstoken}
 
-
 _Note: Raster tile sources, such as Mapbox Satellite, must be combined with a vector source to list layer values in the API._
 
 
@@ -105,6 +104,16 @@ If you are new to CartoCSS, the following guides on Mapbox.com will be helpful:
 - [Styling Polygons](https://www.mapbox.com/tilemill/docs/guides/styling-polygons/)
 - [Styling Labels](https://www.mapbox.com/tilemill/docs/guides/styling-labels/)
 - [Symbol Drawing Order](https://www.mapbox.com/tilemill/docs/guides/symbol-drawing-order/)
+
+UTFGrid interactivity
+---------------------
+
+[UTFGrid interactivity](https://github.com/mapbox/utfgrid-spec) can be added to style projects by manually editing the `project.yml` file and filling out these additional fields:
+
+- `interactivity_layer`: the ID of the layer that should be made interactive.
+- `template`: a UTFGrid [html/mustache template](https://github.com/mapbox/utfgrid-spec/blob/master/1.3/interaction.md#template) used to display data on tooltips.
+
+Check out an example of this in action in our [Style Quickstart]({{site.baseurl}}/style-quickstart/#utfgrid-interactivity).
 
 Publishing styles
 -----------------
