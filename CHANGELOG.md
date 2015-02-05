@@ -1,6 +1,9 @@
 Changelog
 =========
 
+### 0.2.5
+- Remove Windows atom shell logging as a stopgap fix.
+
 ### 0.2.4
 - Upgrade to mapbox-upload 3.0.0
 - Fix version display update UI
