@@ -20,14 +20,14 @@ The components of the style project are:
 - **.thumb.png** is a thumbnail image that serves as a quick preview of the project.
 - **images and any other assets** used by a project should be kept in the project directory so that it is portable.
 
-Referencing vector tile sources
--------------------------------
+Referencing vector tile data sources
+------------------------------------
 
 In order to design a Mapbox Studio style, you will need to have a vector tile source to supply data. Styles use the [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/) source by default, but can also use custom sources you've uploaded to your Mapbox account.
 
 If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, Mapbox Studio will download the vector tiles on-the-fly as you pan over to France. Mapbox Studio caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
 
-### Remote sources
+### Remote data sources
 
 To change the source of a Mapbox Studio style, click on the __Layers__ icon then click on the blue __Change source__ button at the top of the layers panel. You will be shown a list of any vector tile sources you've uploaded to your Mapbox account.
 
@@ -45,6 +45,12 @@ To do this, click on the __Layers__ icon, then __Change source__, then use the t
 
     mapbox.mapbox-streets-v5,your-account.abc123
 
+Read more about combining and ordering remote data sources:
+
+- [Data source order]({{site.baseurl}}/layer-and-data-order/#data-source-order)
+- [Layer order]({{site.baseurl}}/layer-and-data-order/#layer-order)
+- [Custom layer ordering]({{site.baseurl}}/layer-and-data-order/#custom-layer-ordering)
+
 ### Local sources
 
 For complex vector tile sources, you might find it helpful to be developing both the source and the style at the same time. Mapbox Studio style projects can also reference local `.tm2source` projects as vector tile sources, so that you can quickly see changes without having to export or upload them.
@@ -52,44 +58,6 @@ For complex vector tile sources, you might find it helpful to be developing both
 To reference a local source, click on the __Layers__ icon, then __Change source__, then toggle from __Remote__ to __Local__. You'll be shown a list of all your local `.tm2source` projects that you can select from.
 
 Local sources will not work in packaged & uploaded styles. Make sure to export & upload your source project and change the reference in your style project before you publish the style.
-
-Custom layer order
-------------------
-
-To alter the layer order of any *remote* vector tile data source, manually edit the `project.yml` file of a style project by adding each layer `{id}` in *top-down* stacking order. Clone layers by listing `{id}.{class}` where `{class}` can be any word you choose to describe that layer. 
-
-Example below specifies layers from Mapbox Terrain (v1) and Mapbox Streets (v5) vector sources with the `contour` layer cloned:
-
-    source: "mapbox:///mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5"
-    layers:
-      - landcover
-      - landuse
-      - contour.line
-      - hillshade
-      - contour.label
-
-Layers are stacked on the map *top-down* based on the `project.yml` list, however once in Studio the stack is listed *bottom-up*.
-
-![Locked](https://cloud.githubusercontent.com/assets/83384/4242524/a059b1ea-39fe-11e4-9aad-8cf8d371e6a7.png)
-
-_Data source is now locked in Studio since custom layer order defined, additional changes must be done manually in `project.yml`._
-
-_Note: After making edits to the `project.yml` file in a text editor, quit and restart Mapbox Studio to see your changes. Studio loads up your project into memory and currently does not detect changes from other text editors._
-
-### Check layers with Mapbox API
-
-Link below to .json files which list `{id}` values of all available layers of Mapbox remote vector tile data sources: 
-
- - [Mapbox Streets (v5)](http://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v5.json?access_token=pk.eyJ1IjoiZW5mIiwiYSI6IkNJek92bnMifQ.xn2_Uj9RkYTGRuCGg4DXZQ)
- - [Mapbox Terrain (v2)](http://a.tiles.mapbox.com/v4/mapbox.mapbox-terrain-v2.json?access_token=pk.eyJ1IjoiZW5mIiwiYSI6IkNJek92bnMifQ.xn2_Uj9RkYTGRuCGg4DXZQ)
- - [Mapbox Terrain (v1)](http://a.tiles.mapbox.com/v4/mapbox.mapbox-terrain-v1.json?access_token=pk.eyJ1IjoiZW5mIiwiYSI6IkNJek92bnMifQ.xn2_Uj9RkYTGRuCGg4DXZQ)
- - [Mapbox Satellite](http://a.tiles.mapbox.com/v4/mapbox.satellite,mapbox.mapbox-terrain-v2.json?access_token=pk.eyJ1IjoiZW5mIiwiYSI6IkNJek92bnMifQ.xn2_Uj9RkYTGRuCGg4DXZQ)
-
-Check the layers available to your remote vector tile data source by using the [Mapbox API](https://www.mapbox.com/developers/api/) in the following format:
-
-	http://a.tiles.mapbox.com/v4/{mapid}.json?access_token={youraccountaccesstoken}
-
-_Note: Raster tile sources, such as Mapbox Satellite, must be combined with a vector source to list layer values in the API._
 
 
 CartoCSS
@@ -99,11 +67,11 @@ Mapbox Studio styles are defined using CartoCSS. A quick introduction to the lan
 
 If you are new to CartoCSS, the following guides on Mapbox.com will be helpful:
 
-- [Selectors](https://www.mapbox.com/tilemill/docs/guides/selectors/)
-- [Styling Lines](https://www.mapbox.com/tilemill/docs/guides/styling-lines/)
-- [Styling Polygons](https://www.mapbox.com/tilemill/docs/guides/styling-polygons/)
-- [Styling Labels](https://www.mapbox.com/tilemill/docs/guides/styling-labels/)
-- [Symbol Drawing Order](https://www.mapbox.com/tilemill/docs/guides/symbol-drawing-order/)
+- [Selectors]({{site.baseurl}}/styling-selectors/)
+- [Styling lines]({{site.baseurl}}/styling-labels/)
+- [Styling polygons]({{site.baseurl}}/styling-polygons/)
+- [Styling labels]({{site.baseurl}}/styling-labels/)
+- [Layer and data order]({{site.baseurl}}/symbol-drawing-order/)
 
 UTFGrid interactivity
 ---------------------

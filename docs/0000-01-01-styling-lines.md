@@ -172,7 +172,7 @@ A simple tunnel style can be created by modifying a regular road style and makin
 
 ## Line patterns with Images
 
-Certain types of line pattens are too complex to be easily achieved with regular compound line styles. TileMill allows you to use repeated images alongside or in place of your other line styles. As an example we'll make a pattern that we'll use to represent a cliff. To do this you'll need to work with external graphics software - we'll be using [Inkscape](http://inkscape.org) in this example.
+Certain types of line pattens are too complex to be easily achieved with regular compound line styles. Mapbox Studio allows you to use repeated images alongside or in place of your other line styles. As an example we'll make a pattern that we'll use to represent a cliff. To do this you'll need to work with external graphics software - we'll be using [Inkscape](http://inkscape.org) in this example.
 
 In Inkscape (or whatever you are using), create a new document. The size should be rather small - the height of the image will be the width of the line pattern and the width of the image will be repeated along the length of the line. Our example is 30x16 pixels.
 
@@ -180,7 +180,7 @@ In Inkscape (or whatever you are using), create a new document. The size should 
 
 Note how the centerline of the pattern is centered on the image (with empty space at the top) for correct alignment with the line data.
 
-To use the image from Inkscape, export it as a PNG file. Line patterns just need a single CartoCSS style to be added to your TileMill project:
+To use the image from Inkscape, export it as a PNG file. Line patterns just need a single CartoCSS style to be added to your Mapbox Studio project:
 
 ![](https://cloud.githubusercontent.com/assets/126952/3893795/0039a7d8-223e-11e4-92b6-253ccf826af3.png)
 
