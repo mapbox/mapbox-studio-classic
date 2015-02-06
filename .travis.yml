@@ -43,4 +43,5 @@ before_script:
 script:
  - npm test
  - ./test/test-client.js
+ - ./jekyll-test.sh
 
