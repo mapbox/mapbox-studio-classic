@@ -20,14 +20,14 @@ The components of the style project are:
 - **.thumb.png** is a thumbnail image that serves as a quick preview of the project.
 - **images and any other assets** used by a project should be kept in the project directory so that it is portable.
 
-Referencing vector tile sources
--------------------------------
+Referencing vector tile data sources
+------------------------------------
 
 In order to design a Mapbox Studio style, you will need to have a vector tile source to supply data. Styles use the [Mapbox Streets](https://www.mapbox.com/developers/vector-tiles/mapbox-streets/) source by default, but can also use custom sources you've uploaded to your Mapbox account.
 
 If you have been working on styles for streets in London and want to check how well your styles apply to data in Paris, Mapbox Studio will download the vector tiles on-the-fly as you pan over to France. Mapbox Studio caches downloaded vector tiles to an MBTiles database on disk so that you can take your work offline in a limited fashion.
 
-### Remote sources
+### Remote data sources
 
 To change the source of a Mapbox Studio style, click on the __Layers__ icon then click on the blue __Change source__ button at the top of the layers panel. You will be shown a list of any vector tile sources you've uploaded to your Mapbox account.
 
@@ -45,6 +45,12 @@ To do this, click on the __Layers__ icon, then __Change source__, then use the t
 
     mapbox.mapbox-streets-v5,your-account.abc123
 
+Read more about combining and ordering remote data sources:
+
+- [Data source order]({{site.baseurl}}/layer-and-data-order/#data-source-order)
+- [Layer order]({{site.baseurl}}/layer-and-data-order/#layer-order)
+- [Custom layer ordering]({{site.baseurl}}/layer-and-data-order/#custom-layer-ordering)
+
 ### Local sources
 
 For complex vector tile sources, you might find it helpful to be developing both the source and the style at the same time. Mapbox Studio style projects can also reference local `.tm2source` projects as vector tile sources, so that you can quickly see changes without having to export or upload them.
@@ -53,6 +59,7 @@ To reference a local source, click on the __Layers__ icon, then __Change source_
 
 Local sources will not work in packaged & uploaded styles. Make sure to export & upload your source project and change the reference in your style project before you publish the style.
 
+
 CartoCSS
 --------
 
@@ -60,11 +67,21 @@ Mapbox Studio styles are defined using CartoCSS. A quick introduction to the lan
 
 If you are new to CartoCSS, the following guides on Mapbox.com will be helpful:
 
-- [Selectors](https://www.mapbox.com/tilemill/docs/guides/selectors/)
-- [Styling Lines](https://www.mapbox.com/tilemill/docs/guides/styling-lines/)
-- [Styling Polygons](https://www.mapbox.com/tilemill/docs/guides/styling-polygons/)
-- [Styling Labels](https://www.mapbox.com/tilemill/docs/guides/styling-labels/)
-- [Symbol Drawing Order](https://www.mapbox.com/tilemill/docs/guides/symbol-drawing-order/)
+- [Selectors]({{site.baseurl}}/styling-selectors/)
+- [Styling lines]({{site.baseurl}}/styling-labels/)
+- [Styling polygons]({{site.baseurl}}/styling-polygons/)
+- [Styling labels]({{site.baseurl}}/styling-labels/)
+- [Layer and data order]({{site.baseurl}}/symbol-drawing-order/)
+
+UTFGrid interactivity
+---------------------
+
+[UTFGrid interactivity](https://github.com/mapbox/utfgrid-spec) can be added to style projects by manually editing the `project.yml` file and filling out these additional fields:
+
+- `interactivity_layer`: the ID of the layer that should be made interactive.
+- `template`: a UTFGrid [html/mustache template](https://github.com/mapbox/utfgrid-spec/blob/master/1.3/interaction.md#template) used to display data on tooltips.
+
+Check out an example of this in action in our [Style Quickstart]({{site.baseurl}}/style-quickstart/#utfgrid-interactivity).
 
 Publishing styles
 -----------------
