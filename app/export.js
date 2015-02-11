@@ -41,9 +41,6 @@ window.Export = function(templates, source, job) {
         }
       }
     });
-
-  // track final layer count
-  analytics.track('final upload layer count', { layercount: source.layers.length });
   };
   Exporter.prototype.initialize = function() {
     _(this).bindAll('poll', 'refresh');

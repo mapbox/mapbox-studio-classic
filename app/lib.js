@@ -23,11 +23,6 @@ var rangeHandler = function(el, bound, target) {
     el.value = parseInt(el.value, 10) > limit ? el.value : limit;
   }
   $('#' + el.id + '-val').text(el.value);
-
-  if (el.name === 'properties-buffer-size') {
-	analytics.track('buffer size setting', { buffer: el.value });
-	}
-
 };
 
 var errorHandler = _(function() {

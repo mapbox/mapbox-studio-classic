@@ -436,10 +436,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
           }
         });
         return false;
-			// Store max and min zooms
-            analytics.track('maxzoom reset', { maxzoom: metadata.maxzoom });
-            analytics.track('minzoom reset', { minzoom: metadata.minzoom });
-
     };
     //This only applies to single-layer sources and PostGIS/SQLite
     Editor.prototype.updateLayername = function(ev) {
@@ -539,6 +535,21 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
 
         this.model.save(attr, options);
         return ev && !! $(ev.currentTarget).is('a');
+
+		// Track layer count
+  		analytics.track('final upload layer count', { layercount: attr.layercount });
+
+		// Track each layers buffer size
+		analytics.track('buffer layer', { buffer: attr.layername });
+		analytics.track('buffer size setting', { bufferlayer: attr.layer.buffer-size });
+
+		// Track max and min zooms
+        analytics.track('maxzoom setting', { maxzoom: attr.maxzoom });
+        analytics.track('minzoom setting', { minzoom: attr.minzoom });
+
+		// Track file size on save
+		analytics.track('file size', { filesize: filesize });
+		
     };
 
     Editor.prototype.refresh = function(ev) {
