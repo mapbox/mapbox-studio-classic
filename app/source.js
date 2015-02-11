@@ -579,13 +579,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             });
         }
         map.options.minZoom = this.model.get('minzoom');
-        map.options.maxZoom = 22;
+        map.options.maxZoom = 16;
         // Refresh map layer.
         if (tiles) map.removeLayer(tiles);
         tiles = L.mapbox.tileLayer({
             tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime],
             minzoom: this.model.get('minzoom'),
-            maxzoom: 22
+            maxzoom: 16
         }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map).on('ready',$('#full').removeClass('loading'));
         // Refresh map title.
         $('title, .js-name').text(this.model.get('name') || 'Untitled');
