@@ -436,7 +436,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
           }
         });
         return false;
-
+			// Store max and min zooms
             analytics.track('maxzoom reset', { maxzoom: metadata.maxzoom });
             analytics.track('minzoom reset', { minzoom: metadata.minzoom });
 
@@ -505,7 +505,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         // Grab layers. Reverse at save time.
         attr.Layer = _(layers).map(function(l) {
             return l.get();
-			analytics.track('number of layers in source', { layers.length });
         });
         attr.Layer.reverse();
 
