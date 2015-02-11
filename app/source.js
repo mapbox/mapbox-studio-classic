@@ -273,6 +273,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         $('#layers-' + id).addClass('target');
         $('#layers .js-layer-content').sortable('destroy').sortable();
         return false;
+
+        analytics.track('amount of layers in database', { layers: layers[id] });
     };
     function consistentSourceType(metadata){
         var sourceType = $('.js-layer .datasourceType').val();
@@ -355,6 +357,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             view.update();
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
+
         });
 
     };
@@ -435,6 +438,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
           }
         });
         return false;
+
+            analytics.track('maxzoom reset', { maxzoom: metadata.maxzoom });
+            analytics.track('minzoom reset', { minzoom: metadata.minzoom });
     };
     //This only applies to single-layer sources and PostGIS/SQLite
     Editor.prototype.updateLayername = function(ev) {
