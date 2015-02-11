@@ -536,19 +536,19 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         this.model.save(attr, options);
         return ev && !! $(ev.currentTarget).is('a');
 
-		// Track layer count
-  		analytics.track('final upload layer count', { layercount: attr.layercount });
+    // Track layer count
+    analytics.track('final upload layer count', { layercount: attr.layercount });
 
-		// Track each layers buffer size
-		analytics.track('buffer layer', { buffer: attr.layername });
-		analytics.track('buffer size setting', { bufferlayer: attr.layer.buffer-size });
+    // Track each layers buffer size
+    analytics.track('buffer layer', { buffer: attr.layername });
+    analytics.track('buffer size setting', { bufferlayer: attr.layer.buffer-size });
 
-		// Track max and min zooms
-        analytics.track('maxzoom setting', { maxzoom: attr.maxzoom });
-        analytics.track('minzoom setting', { minzoom: attr.minzoom });
+    // Track max and min zooms
+    analytics.track('maxzoom setting', { maxzoom: attr.maxzoom });
+    analytics.track('minzoom setting', { minzoom: attr.minzoom });
 
-		// Track file size on save
-		analytics.track('file size', { filesize: filesize });
+    // Track file size on save
+    analytics.track('file size', { filesize: filesize });
 		
     };
 
@@ -590,13 +590,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             });
         }
         map.options.minZoom = this.model.get('minzoom');
-        map.options.maxZoom = 16;
+        map.options.maxZoom = 22;
         // Refresh map layer.
         if (tiles) map.removeLayer(tiles);
         tiles = L.mapbox.tileLayer({
             tiles: ['/source/{z}/{x}/{y}.png?id=' + this.model.id + '&' + mtime],
             minzoom: this.model.get('minzoom'),
-            maxzoom: 16
+            maxzoom: 22
         }).on('tileload', statHandler('srcbytes')).on('load', errorHandler).addTo(map).on('ready',$('#full').removeClass('loading'));
         // Refresh map title.
         $('title, .js-name').text(this.model.get('name') || 'Untitled');
