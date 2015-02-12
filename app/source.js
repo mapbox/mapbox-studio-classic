@@ -275,7 +275,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         return false;
     };
     function consistentSourceType(metadata){
-        var sourceType = $('.js-layer .datasourceType').val();
+        var sourceType = $('.js-layer .datasourceType').val();	
         if(sourceType === undefined) return true;
         //if adding raster among vector sources
         else if(sourceType !== 'gdal' && metadata.hasOwnProperty('raster')) return false;
@@ -324,7 +324,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                 layer.nodata = metadata.raster.nodata;
                 layer.Datasource.nodata = metadata.raster.nodata;
             }
-
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -503,7 +502,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             return l.get();
         });
         attr.Layer.reverse();
-
+	    console.log(attr.Layer.length);
+		for (i=0; i<attr.Layer.length; i++) {
+			console.log(attr.Layer[i].properties);
+		}
         // Grab map center which is dependent upon the "last saved" value.
         attr._prefs = attr._prefs || this.model.attributes._prefs || {};
         attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
@@ -534,22 +536,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         if (refresh) options.url = this.model.url() + '&refresh=1';
 
         this.model.save(attr, options);
+
+        // Track max and min zooms and buffer size
+        analytics.track('zooms', { maxzoom: attr.maxzoom, minzoom: attr.minzoom });
+		for (i=0; i<attr.Layer.length; i++) {
+			analytics.track('buffers', { buffer: attr.Layer[i].properties });
+		}
         return ev && !! $(ev.currentTarget).is('a');
 
-        // Track layer count
-        analytics.track('final upload layer count', { layercount: attr.layercount });
-
-        // Track each layers buffer size
-        analytics.track('buffer layer', { buffer: attr.layername });
-        analytics.track('buffer size setting', { bufferlayer: attr.layer.buffer-size });
-
-        // Track max and min zooms
-        analytics.track('maxzoom setting', { maxzoom: attr.maxzoom });
-        analytics.track('minzoom setting', { minzoom: attr.minzoom });
-
-        // Track file size on save
-        analytics.track('file size', { filesize: filesize });
-		
     };
 
     Editor.prototype.refresh = function(ev) {
