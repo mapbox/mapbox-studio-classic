@@ -216,12 +216,13 @@
 }
 
 #fonts-drawer .font-family .your-font,
-#fonts-drawer .single-font:focus {
+#fonts-drawer .single-font:not(.title-font):focus {
   background-image:none !important;
   color:#fff;
   opacity: 1;
 }
 
+#fonts-drawer .single-font.title-font:focus { background-color: #363636;}
 #fonts-drawer .font-family:hover { background: rgba(0,0,0,.05); }
 #fonts-drawer .font-family.active { background-color: rgba(0,0,0,.15); }
 #fonts-drawer .font-family input.single-font { display:none; }

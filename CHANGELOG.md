@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.2.6
+- Fix rendering issues with when font list titles are focused.
+
+
 ### 0.2.5
 - Remove Windows atom shell logging as a stopgap fix.
 
