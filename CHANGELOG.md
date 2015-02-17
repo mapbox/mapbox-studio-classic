@@ -3,6 +3,7 @@ Changelog
 
 ### 0.2.6
 - Fix rendering issues with when font list titles are focused.
+- Source UI: Tab key now creates soft tabs (2 spaces) instead of Tab character.
 
 
 ### 0.2.5
