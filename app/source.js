@@ -340,7 +340,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
 
             //show new layer
             var center = metadata.center;
-            map.setView([center[1], center[0]], metadata.minzoom || 0);
+            var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
+            map.setView([center[1], center[0]], zoom);
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
@@ -645,7 +646,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
         var filepath = layers[id].get().Datasource.file;
-
+        var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
 
@@ -655,7 +656,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                 // Clear loading state
                 $('#full').removeClass('loading');
                 var center = metadata.center;
-                map.setView([center[1], center[0]], metadata.minzoom || 0);
+                var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
+                map.setView([center[1], center[0]], zoom);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
