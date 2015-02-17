@@ -3,6 +3,7 @@ Changelog
 
 ### 0.2.6
 - Fix rendering issues with when font list titles are focused.
+- Don't show UTF grid tooltips in xray mode.
 
 
 ### 0.2.5
