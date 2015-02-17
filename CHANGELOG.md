@@ -3,6 +3,7 @@ Changelog
 
 ### 0.2.6
 - Fix rendering issues with when font list titles are focused.
+- Source UI: Tab key mapped to two spaces instead of tab character.
 
 
 ### 0.2.5

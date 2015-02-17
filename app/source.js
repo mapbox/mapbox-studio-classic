@@ -12,6 +12,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             };
             if (datasource.table) cmParams.value = datasource.table;
             code = CodeMirror($('#layers-' + id + ' div.sql').get(0), cmParams);
+
+            code.setOption('extraKeys', {
+                Tab: function(cm) {
+                    var spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
+                    cm.replaceSelection(spaces);
+                }
+            });
+
             code.getWrapperElement().id = 'layers-' + id + '-code';
         }
         var layer = {
