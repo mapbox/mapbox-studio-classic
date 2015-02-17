@@ -89,6 +89,7 @@ section:not(.field) + .empty-state { margin: 20px; display: block;}
   }
 .editor .CodeMirror { top: 50px; }
 
+.CodeMirror-linenumber { color: rgba(255,255,255,.5);}
 input.toggle-sql:checked ~ div.sql { visibility:visible; }
 input.toggle-sql:checked ~ div.sql .CodeMirror { visibility:visible; }
 
