@@ -334,13 +334,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
-            //set maxzoom, if needed
+            // set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
             //show new layer
             var center = metadata.center;
-            map.setView([center[1], center[0]], metadata.maxzoom);
+            map.setView([center[1], center[0]], metadata.minzoom || 0);
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
@@ -654,9 +654,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                var center = metadata.center,
-                    zoom = Math.max(metadata.minzoom, metadata.maxzoom - 1);
-                map.setView([center[1], center[0]], zoom);
+                var center = metadata.center;
+                map.setView([center[1], center[0]], metadata.minzoom || 0);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
