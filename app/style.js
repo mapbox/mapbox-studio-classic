@@ -745,9 +745,9 @@ Editor.prototype.refresh = function(ev) {
   }
 
   // Refresh gridcontrol template.
-  if (grids) map.removeLayer(grids);
-  if (gridc) map.removeControl(gridc);
-  if (this.model.get('template') && this.model.get('interactivity_layer')) {
+  if (map.hasLayer(grids)) map.removeLayer(grids);
+  if (map.hasLayer(gridc)) map.removeControl(gridc);
+  if (this.model.get('template') && this.model.get('interactivity_layer') && (window.location.hash !== '#xray')) {
     grids = L.mapbox.gridLayer({
       grids: ['/style/{z}/{x}/{y}.grid.json?id=' + this.model.id + '&' + mtime ],
       minzoom: this.model.get('minzoom'),
