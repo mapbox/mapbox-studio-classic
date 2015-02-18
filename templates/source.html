@@ -94,7 +94,7 @@
               <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= source.minzoom %>' min='0' max='16' step='1' oninput='rangeHandler(this, "max", "#maxzoom");' />
               <span class='micro quiet inline range' id='minzoom-val'><%= source.minzoom %></span>
             </div>
-<em class='quiet small block'>Lowest zoom where data is stored for display on map. Set value to where data is first readable to save file size.</em>
+              <em class='quiet small block'>Lowest zoom where data is stored for display on map. Set value to where data is first readable to save file size.</em>
           </section>
           <section class='space-bottom2 clearfix'>
             <label class='micro inline col4'>Maxzoom</label>
@@ -102,7 +102,7 @@
               <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= source.maxzoom %>' min='0' max='16' step='1' oninput='rangeHandler(this, "min", "#minzoom");' />
               <span class='micro quiet inline range' id='maxzoom-val'><%= source.maxzoom %></span>
             </div>
-<em class='quiet small block'>Highest zoom where data is stored, data displays overzoomed beyond maxzoom. Set maxzoom, then zoom to higher zooms on the map to check render quality and determine optimal level.</em>
+              <em class='quiet small block'>Highest zoom where data is stored, data displays overzoomed beyond maxzoom. Set maxzoom, then zoom to higher zooms on the map to check render quality and determine optimal level.</em>
           </section>
       </fieldset>
     </div>

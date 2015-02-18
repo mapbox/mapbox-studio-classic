@@ -30,11 +30,11 @@
         <label class='pad1x'>PostGIS</label>
         <div class='pad0x contain clearfix space-bottom1'>
           <div class='pad0x col4 contain'>
-            <input type='text' placeholder='database_name' class='short stretch' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' />
+          <input type='text' placeholder='database_name' class='short stretch' name='Datasource-dbname' value='<%= obj.Datasource.dbname %>' />
             <label class='micro ghost'>db</label>
           </div>
           <div class='pad0x col4 contain'>
-            <input type='text' placeholder='pg_hostname' class='short stretch' name='Datasource-host' value='<%= obj.Datasource.host %>' />
+          <input type='text' placeholder='pg_hostname' class='short stretch' name='Datasource-host' value='<%= obj.Datasource.host %>' />
             <label class='micro ghost'>host</label>
           </div>
           <div class='pad0x col4 contain'>
@@ -44,7 +44,7 @@
         </div>
         <div class='pad0x contain clearfix'>
           <div class='pad0x col4 contain'>
-            <input type='text' placeholder='pg_username' class='short stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
+          <input type='text' placeholder='pg_username' class='short stretch' name='Datasource-user' value='<%= obj.Datasource.user %>' />
             <label class='micro ghost'>user</label>
           </div>
           <div class='pad0x col4 contain'>
@@ -80,9 +80,7 @@
       <% if (obj.properties['group-by']) { %>
       <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
       <% } %>
-
-<em class='quiet small block pad2x pad1y keyline-bottom'>
-Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width.</em>
+      <em class='quiet small block pad2x pad1y keyline-bottom'>Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width.</em>
     </fieldset>
   </div>
   <div class='fields col12 pin-right top1 space-top2 scroll-styled'><%= this.layerfields(obj.fields) %></div>

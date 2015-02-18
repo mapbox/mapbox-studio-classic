@@ -283,7 +283,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         return false;
     };
     function consistentSourceType(metadata){
-        var sourceType = $('.js-layer .datasourceType').val();	
+        var sourceType = $('.js-layer .datasourceType').val();
         if(sourceType === undefined) return true;
         //if adding raster among vector sources
         else if(sourceType !== 'gdal' && metadata.hasOwnProperty('raster')) return false;
@@ -363,7 +363,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             view.update();
 
             analytics.track('source add layer', { type: filetype, projection: metadata.projection });
-
         });
 
     };
@@ -511,10 +510,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             return l.get();
         });
         attr.Layer.reverse();
-	    console.log(attr.Layer.length);
-		for (i=0; i<attr.Layer.length; i++) {
-			console.log(attr.Layer[i].properties);
-		}
         // Grab map center which is dependent upon the "last saved" value.
         attr._prefs = attr._prefs || this.model.attributes._prefs || {};
         attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
@@ -545,14 +540,12 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         if (refresh) options.url = this.model.url() + '&refresh=1';
 
         this.model.save(attr, options);
-
         // Track max and min zooms and buffer size
         analytics.track('zooms', { maxzoom: attr.maxzoom, minzoom: attr.minzoom });
 		for (i=0; i<attr.Layer.length; i++) {
 			analytics.track('buffers', { buffer: attr.Layer[i].properties });
 		}
         return ev && !! $(ev.currentTarget).is('a');
-
     };
 
     Editor.prototype.refresh = function(ev) {
