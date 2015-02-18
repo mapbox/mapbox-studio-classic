@@ -41,7 +41,7 @@ When you have a layer containing polygons that should fit together seamlessly, y
 
 With CartoCSS, you can easily fill areas with textures and patterns by bringing in external images. You might create the patterns yourself in image editing software, or find ready-made images from resource websites such as [Subtle Patterns](http://subtlepatterns.com/thumbnail-view/) or [Free Seamless Textures](http://freeseamlesstextures.com/).
 
-You can add a pattern style from any local file or web URL using the `polygon-pattern-file` style. Here is a simple diagonal stripe pattern you can use to try out - you can reference it from CartoCSS as in the snippet below.
+You can add a pattern style from any local file using the `polygon-pattern-file` style. Here is a simple diagonal stripe pattern you can use to try out - you can reference it from CartoCSS as in the snippet below.
 
 ![pattern-stripe](https://cloud.githubusercontent.com/assets/83384/3893834/32389e24-223e-11e4-8ec6-163fd55d6622.png)
 

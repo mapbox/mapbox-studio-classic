@@ -1,7 +1,7 @@
 <% for (var family in obj) { %>
 <% var target = family.toLowerCase().replace(/[^\w+]/g,'_'); %>
 <div class='font-family contain keyline-bottom' id='fontfamily-<%=target%>'>
-    <a href='#fontfamily-<%=target%>' class='pad0x pad1y single-font js-tab' style='background-image:url("/font.png?id=<%=obj[family][0]%>&text=<%=family%>")'><%=family%></a>
+    <a href='#fontfamily-<%=target%>' class='pad0x pad1y single-font title-font js-tab' style='background-image:url("/font.png?id=<%=obj[family][0]%>&text=<%=family%>")'><%=family%></a>
     <div class='pin-right row1 micro pad1 quiet'><%= obj[family].length %> <%= obj[family].length > 1 ? 'fonts' : 'font' %></div>
     <% obj[family].forEach(function(font) { %>
     <input type='text' class='block pad0 col12 single-font clean js-selectall small' style='background-image:url("/font.png?id=<%=font%>")' value='<%=font%>' />
