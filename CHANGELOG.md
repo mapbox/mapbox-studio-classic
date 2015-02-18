@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 0.2.7
+- Add inline helper text for source mode UI on buffer, maxzoom and minzoom
+- Update minzoom / maxzoom maximium slider value to 16 from 22
+- Add tracking to values saved buffer, maxzoom and minzoom in source usage
+
 ### 0.2.6
 - Fix rendering issues with when font list titles are focused.
 - Validate interactivity layer and template.
