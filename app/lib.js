@@ -16,6 +16,11 @@ var tabbedHandler = function(ev) {
 
 var rangeHandler = function(el, bound, target) {
   var limit = parseInt($(target).val(),10);
+  if (bound === 'max') {
+    el.value = parseInt(el.value, 10) < limit ? el.value : limit;
+  } else if (bound === 'min') {
+    el.value = parseInt(el.value, 10) > limit ? el.value : limit;
+  }
   $('#' + el.id + '-val').text(el.value);
 };
 
