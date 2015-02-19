@@ -12,6 +12,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             };
             if (datasource.table) cmParams.value = datasource.table;
             code = CodeMirror($('#layers-' + id + ' div.sql').get(0), cmParams);
+
+            code.setOption('extraKeys', {
+                Tab: function(cm) {
+                    var spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
+                    cm.replaceSelection(spaces);
+                }
+            });
+
             code.getWrapperElement().id = 'layers-' + id + '-code';
         }
         var layer = {
@@ -323,7 +331,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                 layer.nodata = metadata.raster.nodata;
                 layer.Datasource.nodata = metadata.raster.nodata;
             }
-
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -333,13 +340,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             layers[layer.id] = Layer(layer.id, layer.Datasource);
             orderLayers();
 
-            //set maxzoom, if needed
+            // set maxzoom, if needed
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
             //show new layer
             var center = metadata.center;
-            map.setView([center[1], center[0]], metadata.maxzoom);
+            var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
+            map.setView([center[1], center[0]], zoom);
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
@@ -501,7 +509,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             return l.get();
         });
         attr.Layer.reverse();
-
         // Grab map center which is dependent upon the "last saved" value.
         attr._prefs = attr._prefs || this.model.attributes._prefs || {};
         attr._prefs.saveCenter = !$('.js-lockCenter').is('.active');
@@ -532,6 +539,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         if (refresh) options.url = this.model.url() + '&refresh=1';
 
         this.model.save(attr, options);
+        // Track max and min zooms and buffer size
+        analytics.track('zooms', { maxzoom: attr.maxzoom, minzoom: attr.minzoom });
+		for (i=0; i<attr.Layer.length; i++) {
+			analytics.track('buffers', { buffer: attr.Layer[i].properties });
+		}
         return ev && !! $(ev.currentTarget).is('a');
     };
 
@@ -644,7 +656,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
         var filepath = layers[id].get().Datasource.file;
-
+        var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
 
@@ -653,8 +665,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                var center = metadata.center,
-                    zoom = Math.max(metadata.minzoom, metadata.maxzoom - 1);
+                var center = metadata.center;
+                var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
                 map.setView([center[1], center[0]], zoom);
             },
             error: function(jqXHR, textStatus, errorThrown) {

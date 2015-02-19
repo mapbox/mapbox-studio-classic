@@ -3,7 +3,7 @@
     <a href='#fontfamily-userfonts' class='pad1 single-font your-font js-tab'><h4>Your fonts</h4></a>
     <div class='pin-right row1 micro pad1'><%= obj.fonts.length %> <%= obj.fonts.length > 1 ? 'fonts' : 'font' %></div>
     <% obj.fonts.forEach(function(font) { %>
-    <input type='text' class='block pad0 col12 single-font user-font clean js-selectall small' style='background-image:url("/font.png?id=<%=font%>&style=<%=obj.id%>")' value='<%=font%>' />
+    <input type='text' class='block pad0 col12 single-font user-font clean js-selectall small' style='background-image:url("/font.png?id=<%=encodeURIComponent(font)%>&style=<%=obj.id%>")' value='<%=font%>' />
     <% }); %>
   </div>
   <% } else { %>

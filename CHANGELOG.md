@@ -1,6 +1,18 @@
 Changelog
 =========
 
+### 0.2.7
+- Add inline helper text for source mode UI on buffer, maxzoom and minzoom
+- Update minzoom / maxzoom maximium slider value to 16 from 22
+- Add tracking to values saved buffer, maxzoom and minzoom in source usage
+
+### 0.2.6
+- Fix rendering issues with when font list titles are focused.
+- Validate interactivity layer and template.
+- Don't show UTF grid tooltips in xray mode.
+- Source UI: Tab key now creates soft tabs (2 spaces) instead of Tab character.
+- Style UI: Fix bug with broken preview images for fonts with special characters in their names.
+
 ### 0.2.5
 - Remove Windows atom shell logging as a stopgap fix.
 
