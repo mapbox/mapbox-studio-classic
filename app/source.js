@@ -233,8 +233,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [metadata.filename], filepath, metadata);
-                else window.editor.addlayer(extension, metadata.layers, filepath, metadata);
+                window.editor.addlayer(extension, metadata.layers, filepath, metadata);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
