@@ -21,7 +21,6 @@ var count_module = function (name, callback) {
     'srs',
     'tilelive',
     'mbtiles',
-    'tilelive-omnivore'
 ].forEach(function(mod) {
     tape.test('there should only be one ' + mod + ' module, otherwise you are asking for pwnage', function (t) {
         count_module(mod, function (err, count) {
