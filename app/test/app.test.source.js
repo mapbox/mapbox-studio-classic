@@ -357,7 +357,7 @@ var datatests = {
             'Datasource-layer': 'DC_polygon.geo',
             'Datasource-type': 'geojson',
             'description': '',
-            'id': 'DC_polygon.geo',
+            'id': 'DC_polygon_geo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
@@ -369,7 +369,7 @@ var datatests = {
             'Datasource-layer': 'places.geo',
             'Datasource-type': 'geojson',
             'description': '',
-            'id': 'places.geo',
+            'id': 'places_geo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
@@ -378,10 +378,10 @@ var datatests = {
         filepath: '/topojson/topo.json',
         expected: {
             'Datasource-file': window.testParams.dataPath + '/topojson/topo.json',
-            'Datasource-layer': 'escaped',
+            'Datasource-layer': 'topo',
             'Datasource-type': 'topojson',
             'description': '',
-            'id': 'escaped',
+            'id': 'topo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
