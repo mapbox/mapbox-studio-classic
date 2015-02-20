@@ -354,10 +354,10 @@ var datatests = {
         filepath: '/geojson/DC_polygon.geo.json',
         expected: {
             'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
-            'Datasource-layer': 'OGRGeoJSON',
-            'Datasource-type': 'ogr',
+            'Datasource-layer': 'DC_polygon.geo',
+            'Datasource-type': 'geojson',
             'description': '',
-            'id': 'OGRGeoJSON',
+            'id': 'DC_polygon.geo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
@@ -366,10 +366,10 @@ var datatests = {
         filepath: '/geojson/places.geo.json',
         expected: {
             'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
-            'Datasource-layer': 'OGRGeoJSON',
-            'Datasource-type': 'ogr',
+            'Datasource-layer': 'places.geo',
+            'Datasource-type': 'geojson',
             'description': '',
-            'id': 'OGRGeoJSON',
+            'id': 'places.geo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
@@ -379,7 +379,7 @@ var datatests = {
         expected: {
             'Datasource-file': window.testParams.dataPath + '/topojson/topo.json',
             'Datasource-layer': 'escaped',
-            'Datasource-type': 'ogr',
+            'Datasource-type': 'topojson',
             'description': '',
             'id': 'escaped',
             'properties-buffer-size': '8',
