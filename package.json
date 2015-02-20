@@ -64,6 +64,7 @@
     "start": "./index.js",
     "preinstall": "node scripts/run.js scripts/vendor-node.sh",
     "postinstall": "npm dedupe node-pre-gyp",
+    "pretest": "npm ls --depth=Infinity > /dev/null && tape ./test/duplicate_module.pretest.js",
     "test": "retire -n && tape test/*.test.js",
     "posttest": "node test/cleanup.js"
   }
