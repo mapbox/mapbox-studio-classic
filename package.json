@@ -36,7 +36,7 @@
     "mapnik": "3.1.2",
     "mapnik-reference": "^6.0.4",
     "carto": "0.14.0",
-    "tilelive": "5.2.3",
+    "tilelive": "~5.6.1",
     "tilelive-bridge": "^1.2.1",
     "tilelive-vector": "^3.0.2",
     "mapbox-machine-styles": "2.3.0",
@@ -64,7 +64,7 @@
     "start": "./index.js",
     "preinstall": "node scripts/run.js scripts/vendor-node.sh",
     "postinstall": "npm dedupe node-pre-gyp",
-    "pretest": "npm ls --depth=Infinity > /dev/null && tape ./test/duplicate_module.pretest.js",
+    "pretest": "npm ls --depth=Infinity && tape ./test/duplicate_module.pretest.js",
     "test": "retire -n && tape test/*.test.js",
     "posttest": "node test/cleanup.js"
   }
