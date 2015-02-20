@@ -191,6 +191,7 @@ elif [ $platform == "darwin" ]; then
     rm -f $build_dir.zip
 # linux: zip up
 else
+    mv $build_dir/atom $build_dir/Mapbox\ Studio
     zip -qr -9 $build_dir.zip $(basename $build_dir)
     rm -rf $build_dir
     aws s3 cp --acl=public-read $build_dir.zip s3://mapbox/mapbox-studio/
