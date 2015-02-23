@@ -2,9 +2,9 @@ Mapbox Studio
 -------------
 Desktop application for vector tile driven map design.
 
-[![Build Status](https://secure.travis-ci.org/mapbox/mapbox-studio.png)](http://travis-ci.org/mapbox/mapbox-studio)
-[![Build status](https://ci.appveyor.com/api/projects/status/28kreaivb6nv6ju2)](https://ci.appveyor.com/project/Mapbox/mapbox-studio)
-[![Dependencies](https://david-dm.org/mapbox/mapbox-studio.png)](https://david-dm.org/mapbox/mapbox-studio)
+[![Build Status](https://secure.travis-ci.org/mapbox/mapbox-studio.svg)](http://travis-ci.org/mapbox/mapbox-studio)
+[![Build status](https://ci.appveyor.com/api/projects/status/28kreaivb6nv6ju2?svg=true)](https://ci.appveyor.com/project/Mapbox/mapbox-studio)
+[![Dependencies](https://david-dm.org/mapbox/mapbox-studio.svg)](https://david-dm.org/mapbox/mapbox-studio)
 
 ### Install latest release
 
