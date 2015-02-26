@@ -162,7 +162,7 @@ _Note: After making edits to the `project.yml` file in a text editor you should 
 Uploading
 ---------
 
-Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Publishing custom styles requires a [Mapbox Standard plan](https://www.mapbox.com/plans/). You may be prompted if you aren't yet on one.
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. There is a limit to the number of custom styles based on your [Mapbox plan](https://www.mapbox.com/plans/). You may be prompted if you exceed your limit.
 
 ![Upload style](https://cloud.githubusercontent.com/assets/4587826/6052186/ce39d394-ac9d-11e4-80cc-5042f6a3cb87.png)
 
