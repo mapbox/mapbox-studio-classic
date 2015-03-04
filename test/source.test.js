@@ -494,15 +494,14 @@ test('source.mbtilesUpload: uploads map', function(t) {
         // returns a task object with active progress
         task.progress.on('error', function(err){
             t.ifError(err);
+            t.end();
         });
         task.progress.on('finished', function(p){
             t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
             t.equal(task.progress.progress().eta, 0, 'progress.eta');
-        });
-
-        task.progress.on('finished', function(){
             t.end()
         });
+
     });
 
     });
