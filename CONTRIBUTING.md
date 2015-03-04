@@ -39,7 +39,7 @@ On OSX, the logs can also be accessed to through the Help dropdown on the top me
 
 ### Tests
 
-Run tests with `npm test`. Some tests will fail with proper AWS credentials. Team Mapbox
+Run tests with `npm test`. Some tests will fail without proper AWS credentials. Team Mapbox
 can use `mapbox auth` to rull the full test suite.
 
 ### Pull requests
