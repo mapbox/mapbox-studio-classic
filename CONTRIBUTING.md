@@ -37,6 +37,11 @@ Mapbox Studio has an application log and a shell log for error reporting and app
 
 On OSX, the logs can also be accessed to through the Help dropdown on the top menu bar.
 
+### Tests
+
+Run tests with `npm test`. Some tests will fail with proper AWS credentials. Team Mapbox
+can use `mapbox auth` to rull the full test suite.
+
 ### Pull requests
 
 Use PRs for everything but trivial changes and typos. Goals to strive for:
