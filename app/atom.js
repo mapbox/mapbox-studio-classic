@@ -11,6 +11,7 @@ $(document).ready(function() {
     var http = require('http');
     var url = require('url');
     var fs = require('fs');
+    var dialog = remote.require('dialog');
 
     $('body').on('click', 'a', function(ev) {
         var uri = url.parse(ev.currentTarget.href);
@@ -32,7 +33,7 @@ $(document).ready(function() {
         var typeExtension = (uri.pathname || '').split('.').pop().toLowerCase();
         var typeLabel = fileTypes[typeExtension];
         if (typeLabel) {
-            var filePath = remote.require('dialog').showSaveDialog({
+            var filePath = dialog.showSaveDialog({
                 title: 'Save ' + typeLabel,
                 defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension,
                 filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
