@@ -16,6 +16,9 @@ if [ $PLATFORM == "linux" ] && [ -n "$GITSHA" ]; then
     ./scripts/build-atom.sh "$GITSHA" linux
     ./scripts/build-atom.sh "$GITSHA" win32 x64
     ./scripts/build-atom.sh "$GITSHA" win32 ia32
+    aws s3 ls s3://mapbox/mapbox-studio/ > listing.txt
+    ./scripts/generate-s3-listing.py < listing.txt > index.html
+    aws s3 cp --acl=public-read index.html s3://mapbox/mapbox-studio/index.html
 elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA" ]; then
     echo "Publishing $GITSHA"
     brew install python
