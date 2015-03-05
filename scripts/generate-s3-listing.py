@@ -31,7 +31,7 @@ for line in fileinput.input():
         name = parts[4]
         downloads[date+name] = line_template % (locals())
 
-sorted_by_date = sorted(downloads, key=lambda key: downloads[key])
+sorted_by_date = sorted(downloads, key=lambda key: downloads[key], reverse=True)
 
 for dl in sorted_by_date: print downloads[dl]
 
