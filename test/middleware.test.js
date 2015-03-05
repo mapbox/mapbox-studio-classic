@@ -354,15 +354,6 @@ test('userTilesets: adds history entries for tilesets', function(t) {
     });
 });
 
-test('latest: finds latest local project entry', function(t) {
-    var req = {};
-    middleware.latest(req, {}, function(err) {
-        t.ifError(err);
-        t.equal(req.latest, sourceId, 'finds latest source');
-        t.end();
-    });
-});
-
 test('config: bad url', function(t) {
     var res = {};
     res.redirect = function(qs){
