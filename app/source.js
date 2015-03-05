@@ -299,16 +299,17 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
 
         layersArray.forEach(function(current_layer, index, array) {
+
             //Replace spaces with underscores for cartocss
-            var layer_id = current_layer.replace(/[^\w+-]/gi, '_');
+            var layer_id = slug(current_layer);
 
             //all geojson sources have the same layer name, 'OGRGeojson'.
             //To avoid all geojson layers having the same name, replace id with the filename.
-            if (filetype === 'geojson') layer_id = metadata.filename;
+            if (filetype === 'geojson') layer_id = slug(metadata.filename);
 
             //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
             //Append filename to differentiate
-            if (filetype === 'gpx') layer_id = metadata.filename + '_' + current_layer;
+            if (filetype === 'gpx') layer_id = slug(metadata.filename) + '_' + layer_id;
 
             //checks that the layer doesn't already exist
             if (layers[current_layer]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer + '"');
