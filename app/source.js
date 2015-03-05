@@ -241,8 +241,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [metadata.filename], filepath, metadata);
-                else window.editor.addlayer(extension, metadata.layers, filepath, metadata);
+                window.editor.addlayer(extension, filepath, metadata);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
@@ -292,21 +291,18 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         else return true;
     };
 
-    Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
+    Editor.prototype.addlayer = function(filetype, filepath, metadata) {
+        var layer_names = metadata.layers;
         var view = this;
         var consistent = consistentSourceType(metadata);
 
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
 
-        layersArray.forEach(function(current_layer, index, array) {
+        layer_names.forEach(function(current_layer, index, array) {
             //Replace spaces with underscores for cartocss
             var layer_id = current_layer.replace(/[^\w+-]/gi, '_');
 
-            //all geojson sources have the same layer name, 'OGRGeojson'.
-            //To avoid all geojson layers having the same name, replace id with the filename.
-            if (filetype === 'geojson') layer_id = metadata.filename;
-
-            //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
+            //All gpx files have the same layer names (waypoints, routes, tracks, track_points, route_points)
             //Append filename to differentiate
             if (filetype === 'gpx') layer_id = metadata.filename + '_' + current_layer;
 
@@ -327,11 +323,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                     layer: current_layer
                 }
             };
-
             if (metadata.dstype === 'gdal') {
                 layer.nodata = metadata.raster.nodata;
                 layer.Datasource.nodata = metadata.raster.nodata;
             }
+
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -346,15 +342,16 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
             //show new layer
-            var center = metadata.center;
-            var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-            map.setView([center[1], center[0]], zoom);
+            map.fitBounds([
+                [metadata.extent[1], metadata.extent[0]],
+                [metadata.extent[3], metadata.extent[2]]
+            ]);
 
             //open proper modal, depending on if there are multiple layers
-            if (layersArray.length > 1) {
+            if (layer_names.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                $('#layers-' + layersArray[0]).addClass('target');
+                $('#layers-' + layer_id).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
 
@@ -666,9 +663,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                var center = metadata.center;
-                var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-                map.setView([center[1], center[0]], zoom);
+                map.fitBounds([
+                    [metadata.extent[1], metadata.extent[0]],
+                    [metadata.extent[3], metadata.extent[2]]
+                ]);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
