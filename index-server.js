@@ -1,3 +1,5 @@
+"use strict";
+
 // Run only by vendor node.
 // In an ideal world this would be run in the same process/context of
 // atom-shell but there are many hurdles atm, see
@@ -41,9 +43,9 @@ var usage = function usage() {
     , ''
     , 'mbstudio@' + package_json.version + '  ' + path.resolve(__dirname, '..')
     , 'node@' + process.versions.node
-  ].join('\n')
-  return str
-}
+  ].join('\n');
+  return str;
+};
 
 if (config.version) {
     logger.debug(package_json.version);

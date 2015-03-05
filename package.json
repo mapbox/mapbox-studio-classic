@@ -58,14 +58,24 @@
     "retire": "0.3.x",
     "tape": "2.13.x",
     "phantomjs": "1.9.10",
-    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.0.1-98e4e5f4d94979576d4fff22c8e447a3a5048302.tgz"
+    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.0.1-98e4e5f4d94979576d4fff22c8e447a3a5048302.tgz",
+    "jshint": "2.6.3"
   },
   "scripts": {
     "start": "./index.js",
     "preinstall": "node scripts/run.js scripts/vendor-node.sh",
     "postinstall": "npm dedupe node-pre-gyp",
     "pretest": "npm ls --depth=Infinity && tape ./test/duplicate_module.pretest.js",
-    "test": "retire -n && tape test/*.test.js",
+    "test": "retire -n && jshint index-server.js index-shell.js lib && tape test/*.test.js",
     "posttest": "node test/cleanup.js"
+  },
+  "jshintConfig": {
+    "browser": true,
+    "node": true,
+    "globalstrict": true,
+    "laxcomma": true,
+    "undef": true,
+    "unused": true,
+    "noarg": true
   }
 }

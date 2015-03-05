@@ -1,3 +1,5 @@
+"use strict";
+
 var atom = require('app');
 var path = require('path');
 var spawn = require('child_process').spawn;
@@ -23,7 +25,8 @@ if (process.platform === 'win32') {
     log(shellLog, 10e6, shellsetup);
 }
 
-function shellsetup(err){
+function shellsetup(err) {
+    if (err) logger.debug(err);
     process.on('exit', function(code) {
         logger.debug('Mapbox Studio exited with', code + '.');
     });
@@ -51,10 +54,10 @@ function shellsetup(err){
    function exit() {
         if (server) server.kill();
         process.exit();
-    };
+    }
 
     atom.on('ready', makeWindow);
-};
+}
 
 function makeWindow() {
     // Create the browser window.
@@ -95,10 +98,10 @@ function makeWindow() {
         var cp = require("child_process");
         cp.execSync("defaults write com.mapbox.mapbox-studio FullScreen -bool " + mainWindow.isFullScreen());
     }
-    mainWindow.on('enter-full-screen', function(e) {
+    mainWindow.on('enter-full-screen', function() {
         persistFullScreen();
     });
-    mainWindow.on('leave-full-screen', function(e) {
+    mainWindow.on('leave-full-screen', function() {
         persistFullScreen();
     });
     createMenu();
@@ -240,7 +243,7 @@ function createMenu() {
       }
     ];
 
-    menu = Menu.buildFromTemplate(template);
+    var menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
   }
 }
