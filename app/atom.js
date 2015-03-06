@@ -11,6 +11,8 @@ $(document).ready(function() {
     var http = require('http');
     var url = require('url');
     var fs = require('fs');
+    var path = require('path');
+    var dialog = remote.require('dialog');
 
     $('body').on('click', 'a', function(ev) {
         var uri = url.parse(ev.currentTarget.href);
@@ -32,25 +34,29 @@ $(document).ready(function() {
         var typeExtension = (uri.pathname || '').split('.').pop().toLowerCase();
         var typeLabel = fileTypes[typeExtension];
         if (typeLabel) {
-            var filePath = remote.require('dialog').showSaveDialog({
+            // HOME is undefined on windows
+            if (process.platform === 'win32') process.env.HOME = process.env.USERPROFILE;
+            var defaultPath = path.join(process.env.HOME,'Untitled ' + typeLabel + '.' + typeExtension);
+            dialog.showSaveDialog({
                 title: 'Save ' + typeLabel,
-                defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension,
+                defaultPath: defaultPath,
                 filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
-            });
-            if (filePath) {
-                window.Modal.show('atomexporting');
-                uri.method = 'GET';
-                var writeStream = fs.createWriteStream(filePath);
-                var req = http.request(uri, function(res) {
-                    if (res.statusCode !== 200) return;
-                    res.pipe(writeStream);
-                    writeStream.on('finish', function() {
-                        window.Modal.close();
+            }, function(filePath){
+                if (filePath) {
+                    window.Modal.show('atomexporting');
+                    uri.method = 'GET';
+                    var writeStream = fs.createWriteStream(filePath);
+                    var req = http.request(uri, function(res) {
+                        if (res.statusCode !== 200) return;
+                        res.pipe(writeStream);
+                        writeStream.on('finish', function() {
+                            window.Modal.close();
+                        });
                     });
-                });
-                req.end();
-            }
-            return false;
+                    req.end();
+                }
+                return false;
+            });
         }
         // Passthrough everything else.
     });
