@@ -100,7 +100,7 @@ Travis bundles Mapbox Studio with the [atom-shell](https://github.com/atom/atom-
 To package:
 
 1. **Push a commit with `[publish GITSHA]` as the message.** `GITSHA` should be a commit hash, branch name, or tag that can be used with `git checkout`. *Note: the packaging process itself will use the code in the repo as of GITSHA -- in other words, your GITSHA must be able to package itself.*
-2. **Check travis logs for success.** When complete downloads will be available at:
+2. **Watch travis for a for success.** When complete downloads will be available at <https://mapbox.s3.amazonaws.com/mapbox-studio/index.html> in the format of:
 
         https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{GITSHA}.zip
         https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{GITSHA}.zip
