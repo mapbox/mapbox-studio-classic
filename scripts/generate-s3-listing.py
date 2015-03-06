@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import fileinput
+import os
 
 base_url = 'https://mapbox.s3.amazonaws.com/mapbox-studio'
 
@@ -22,7 +23,6 @@ print html_start
 downloads = {}
 
 for line in fileinput.input():
-    import os
     stripped = line.strip()
     if 'mapbox-studio-' in stripped:
         parts = stripped.split(' ')
