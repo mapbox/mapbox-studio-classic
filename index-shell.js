@@ -74,7 +74,7 @@ function makeWindow() {
     mainWindow.loadUrl('file://' + path.join(__dirname, 'app', 'loading.html'));
     // Restore OS X fullscreen state.
     var cp = require("child_process");
-    if (cp.execSync("defaults read com.mapbox.mapbox-studio FullScreen") == 1) {
+    if (cp.execSync("which defaults >/dev/null && defaults read com.mapbox.mapbox-studio FullScreen 2>/dev/null || echo 0") == 1) {
         setTimeout(function(){
             mainWindow.setFullScreen(true);
         }, 100);
@@ -93,7 +93,7 @@ function makeWindow() {
     // Persist OS X fullscreen state.
     function persistFullScreen() {
         var cp = require("child_process");
-        cp.execSync("defaults write com.mapbox.mapbox-studio FullScreen -bool " + mainWindow.isFullScreen());
+        cp.execSync("which defaults >/dev/null && defaults write com.mapbox.mapbox-studio FullScreen -bool " + mainWindow.isFullScreen());
     }
     mainWindow.on('enter-full-screen', function(e) {
         persistFullScreen();
