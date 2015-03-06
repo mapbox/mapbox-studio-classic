@@ -15,13 +15,14 @@ html_end = '''
 </html>
 '''
 
-line_template =  '%(date)s %(time)s  %(size)s  <a href="%(name)s">%(name)s</a>'
+line_template =  '%(date)s %(time)s  %(size)s  <a href="%(name)s">%(name)s</a>  build: <a href="https://github.com/mapbox/mapbox-studio/commit/%(gitSHA)s">%(gitSHA)s</a>'
 
 print html_start
 
 downloads = {}
 
 for line in fileinput.input():
+    import os
     stripped = line.strip()
     if 'mapbox-studio-' in stripped:
         parts = stripped.split(' ')
@@ -29,6 +30,7 @@ for line in fileinput.input():
         time = parts[1]
         size = '%s MB' % (int(parts[3])/1000000)
         name = parts[4]
+        gitSHA = os.path.splitext(name)[0].split('-')[4]
         downloads[date+name] = line_template % (locals())
 
 sorted_by_date = sorted(downloads, key=lambda key: downloads[key], reverse=True)
