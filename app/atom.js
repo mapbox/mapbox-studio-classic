@@ -57,6 +57,7 @@ $(document).ready(function() {
                 }
                 return false;
             });
+            return false;
         }
         // Passthrough everything else.
     });
