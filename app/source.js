@@ -299,7 +299,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
 
         function slugify(text) {
-            return text.toString().toLowerCase()
+            return text
                 .replace(/[àáâãäå]/g,'a')
                 .replace(/æ/g,'ae')
                 .replace(/ç/g,'c')
@@ -325,7 +325,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
 
             //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
             //Append filename to differentiate
-            if (filetype === 'gpx') layer_id = slugify(metadata.filename) + '_' + layer_id;
+            if (filetype === 'gpx') layer_id = slugify(metadata.filename) + '_' + slugify(current_layer);
 
             //checks that the layer doesn't already exist
             if (layers[current_layer]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer + '"');
@@ -349,6 +349,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                 layer.nodata = metadata.raster.nodata;
                 layer.Datasource.nodata = metadata.raster.nodata;
             }
+
             //Add the new layer form and div
             $('#editor').prepend(templates['layer' + layer.Datasource.type](layer));
             $('#layers .js-layer-content').prepend(templates.layeritem(layer));
@@ -362,7 +363,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
-            //show new layer
+            // show new layer
             var center = metadata.center;
             var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
             map.setView([center[1], center[0]], zoom);
@@ -371,11 +372,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             if (layersArray.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
-                $('#layers-' + layersArray[0]).addClass('target');
+                $('#layers-' + layer_id).addClass('target');
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             }
 
-            //mark changed state and refresh
+            // mark changed state and refresh
             view.changed();
             view.update();
 

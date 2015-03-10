@@ -76,11 +76,11 @@
         <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='64' step='2' oninput='rangeHandler(this);'/>
         <span class='small quiet code inline range space-top0' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
         <% } %>
+        <em class='quiet small block space-top0'>Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width.</em>
       </section>
       <% if (obj.properties['group-by']) { %>
       <input type='hidden' name='properties-group-by' value='<%=obj.properties['group-by']%>' />
       <% } %>
-      <em class='quiet small block pad2x pad1y keyline-bottom'>Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width.</em>
     </fieldset>
   </div>
   <div class='fields col12 pin-right top1 space-top2 scroll-styled'><%= this.layerfields(obj.fields) %></div>
