@@ -298,18 +298,37 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
 
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
 
+        function slugify(text) {
+            return text.toString().toLowerCase()
+                .replace(/[àáâãäå]/g,'a')
+                .replace(/æ/g,'ae')
+                .replace(/ç/g,'c')
+                .replace(/[èéêë]/g,'e')
+                .replace(/[ìíîï]/g,'i')
+                .replace(/ñ/g,'n')
+                .replace(/[òóôõö]/g,'o')
+                .replace(/œ/g,'oe')
+                .replace(/[ùúûü]/g,'u')
+                .replace(/[ýÿ]/g,'y')
+                .replace(/\s+/g, '-')     // Replace spaces with -
+                .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+                .replace(/\-\-+/g, '-')   // Replace multiple - with single -
+                .replace(/^-+/, '')       // Trim - from start of text
+                .replace(/-+$/, '');      // Trim - from end of text
+        }
+
         layersArray.forEach(function(current_layer, index, array) {
 
             //Replace spaces with underscores for cartocss
-            var layer_id = slug(current_layer);
+            var layer_id = slugify(current_layer);
 
             //all geojson sources have the same layer name, 'OGRGeojson'.
             //To avoid all geojson layers having the same name, replace id with the filename.
-            if (filetype === 'geojson') layer_id = slug(metadata.filename);
+            if (filetype === 'geojson') layer_id = slugify(metadata.filename);
 
             //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
             //Append filename to differentiate
-            if (filetype === 'gpx') layer_id = slug(metadata.filename) + '_' + layer_id;
+            if (filetype === 'gpx') layer_id = slugify(metadata.filename) + '_' + layer_id;
 
             //checks that the layer doesn't already exist
             if (layers[current_layer]) return Modal.show('error', 'Layer name must be different from existing layer "' + current_layer + '"');
