@@ -198,8 +198,14 @@ views.Browser.prototype.render = function() {
     url: '/browse?path=' + view.cwd,
     dataType: 'json',
     success: function(resp) {
-      var parent = view.cwd.split(sep).slice(0,-1).join(sep);
-      parent = parent.indexOf(sep) === -1 ? parent + sep : parent;
+      var parent;
+      var cwdsplit = view.cwd.split(sep);
+      if (navigator.platform === 'Win32' && 2 === cwdsplit.length && '' === cwdsplit[cwdsplit.length - 1]){
+        parent = '\\';
+      } else {
+        parent = view.cwd.split(sep).slice(0,-1).join(sep);
+        parent = parent.indexOf(sep) === -1 ? parent + sep : parent;
+      }
       view.$('input[name=cwd]').val(view.cwd);
       view.$('.cwd strong').text(view.cwd);
       view.$('.cwd a').attr('href', '#' + parent);
