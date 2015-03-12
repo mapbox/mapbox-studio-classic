@@ -13,6 +13,7 @@ Changelog
 - Source UI: Tab key now creates soft tabs (2 spaces) instead of Tab character.
 - Style UI: Fix bug with broken preview images for fonts with special characters in their names.
 - Fix mbtiles export failure on Windows.
+- Fix fullscreen mode persistence on OS X.
 
 ### 0.2.5
 - Remove Windows atom shell logging as a stopgap fix.
