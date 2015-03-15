@@ -116,7 +116,7 @@ A common way of symbolizing railroad lines is with regular hatches on a thin lin
 
 ![](https://cloud.githubusercontent.com/assets/126952/3893425/b8d7178e-223a-11e4-813a-f14390ac3bd6.png)
 
-    #road[class='major_rail' {
+    #road[class='major_rail'] {
       ::line, ::hatch { line-color: #777; }
       ::line { line-width:1; }
       ::hatch {
