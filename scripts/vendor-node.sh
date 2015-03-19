@@ -24,9 +24,9 @@ set -e -u
 set -o pipefail
 
 cwd=$(pwd)
-mkdir -p $(dirname $0)/../vendor
-cd $(dirname $0)/../vendor
+mkdir -p "$(dirname "$0")/../vendor"
+cd "$(dirname "$0")/../vendor"
 curl https://s3.amazonaws.com/mapbox/apps/install-node/v0.2.0/run |  NV=$NODE_VERSION NP=$platform-$TARGET_ARCH OD=$(pwd) BO=true sh
 
-cd $cwd
+cd "$cwd"
 
