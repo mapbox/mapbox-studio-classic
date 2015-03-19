@@ -77,7 +77,7 @@ test('refresh style (invalid)', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
         t.ifError(err);
         style.refresh(_({id:style.tmpid(),minzoom:-1}).defaults(data), function(err, source) {
-            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.refresh() errors on invalid style');
+            t.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.refresh() errors on invalid style');
             t.end();
         });
     });
@@ -87,7 +87,7 @@ test('refresh style (invalid bookmarks)', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
         t.ifError(err);
         style.refresh(_({id:style.tmpid(),_bookmarks:'asdf'}).defaults(data), function(err, source) {
-            assert.equal(err.toString(), 'Error: bookmarks must be an array', 'style.refresh() errors on invalid style');
+            t.equal(err.toString(), 'Error: bookmarks must be an array', 'style.refresh() errors on invalid style');
             t.end();
         });
     });

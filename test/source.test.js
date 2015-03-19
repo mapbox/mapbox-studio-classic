@@ -240,7 +240,7 @@ test('local: loads', function(t) {
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
-        assert.equal(cache[localsource], source, 'cached');
+        t.equal(cache[localsource], source, 'cached');
         t.end();
     });
 });
@@ -249,7 +249,7 @@ test('local: loads via tilelive', function(t) {
     var localsource = 'tmsource://' + __dirname + '/fixtures-local source';
     var cache = source.cache;
     source.clear(localsource);
-    assert.equal(cache[localsource], undefined, 'uncached');
+    t.equal(cache[localsource], undefined, 'uncached');
     tilelive.load(localsource, function(err, source) {
         t.ifError(err);
         t.equal(source.data.id, localsource);
@@ -257,14 +257,14 @@ test('local: loads via tilelive', function(t) {
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
-        assert.equal(cache[localsource], source, 'cached');
+        t.equal(cache[localsource], source, 'cached');
         t.end();
     });
 });
 
 test('local: refresh source in memory', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.refresh(_({id:source.tmpid()}).defaults(info), function(err, source) {
             t.ifError(err);
             t.ok(source);
@@ -275,9 +275,9 @@ test('local: refresh source in memory', function(t) {
 
 test('local: refresh source (invalid minzoom)', function(t) {
     testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.refresh(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
-            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.refresh() errors on invalid source');
+            t.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.refresh() errors on invalid source');
             t.end();
         });
     });
@@ -285,9 +285,9 @@ test('local: refresh source (invalid minzoom)', function(t) {
 
 test('local: refresh source (invalid center)', function(t) {
     testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.refresh(_({id:source.tmpid(), minzoom:3, center:[0,0,0]}).defaults(info), function(err, source) {
-            assert.equal(err.toString(), 'Error: center zoom value must be greater than or equal to minzoom 3', 'source.refresh() errors on invalid source');
+            t.equal(err.toString(), 'Error: center zoom value must be greater than or equal to minzoom 3', 'source.refresh() errors on invalid source');
             t.end();
         });
     });
@@ -295,7 +295,7 @@ test('local: refresh source (invalid center)', function(t) {
 
 test('local: save temporary errors', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.save(_({id:source.tmpid()}).defaults(info), function(err, source) {
             t.ok(err);
             t.ok(/^Error: Cannot save temporary source/.test(err.toString()));
@@ -306,7 +306,7 @@ test('local: save temporary errors', function(t) {
 
 test('local: saves source to disk', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, data) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.save(data, function(err, source) {
         t.ifError(err);
@@ -365,7 +365,7 @@ test('local: save as tmp => perm', function(t) {
 test('local: saves source with space', function(t) {
     // proxy assertion via createTmpProject stat check of project saves.
     testutil.createTmpProject('source-save space', localsource, function(err, tmpid, data) {
-        assert.ifError(err);
+        t.ifError(err);
         t.end();
     });
 });
@@ -418,14 +418,14 @@ test('source.info: reads source YML (tmp)', function(t) {
 
 test('source export: setup', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, tmpid) {
-        assert.ifError(err);
+        t.ifError(err);
         t.end();
     });
 });
 
 test('source.mbtilesExport: exports mbtiles file', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.toHash(id, function(err, hash) {
         t.ifError(err);
@@ -447,7 +447,7 @@ test('source.mbtilesExport: exports mbtiles file', function(t) {
 
 test('source.mbtilesExport: verify export', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     var MBTiles = require('mbtiles');
     source.toHash(id, function(err, hash) {
@@ -496,7 +496,7 @@ test('source.mbtilesExport: verify export', function(t) {
 
 test('source.mbtilesUpload: uploads map', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.upload(id, false, function(err, task) {
         t.ifError(err);
@@ -520,7 +520,7 @@ test('source.mbtilesUpload: uploads map', function(t) {
 
 test('source.mbtilesUpload: does not allow redundant upload', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.upload(id, false, function(err, task) {
         t.ifError(err);
