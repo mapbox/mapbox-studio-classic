@@ -77,13 +77,13 @@ test('normalizePaths', function(assert) {
     path.sep = '\\';
 
     req = { query: {
-        id:'tmstyle:///path with spaces/style.tm2',
-        source:'tmsource:///path with spaces/source.tm2source'
+        id:'tmstyle://C:\\path with\\spaces/style.tm2',
+        source:'tmsource://C:\\path with\\spaces/source.tm2source'
     } };
     middleware.normalizePaths(req, {}, function(err) {
         assert.ifError(err);
-        assert.deepEqual(req.query.id, 'tmstyle:///path with spaces/style.tm2');
-        assert.deepEqual(req.query.source, 'tmsource:///path with spaces/source.tm2source');
+        assert.deepEqual(req.query.id, 'tmstyle://c:/path with/spaces/style.tm2');
+        assert.deepEqual(req.query.source, 'tmsource://c:/path with/spaces/source.tm2source');
     });
 
     path.sep = sep;
