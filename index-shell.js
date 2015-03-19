@@ -15,13 +15,12 @@ var mainWindow = null;
 if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
-    // skill shell.log setup
-    shellsetup();
-} else {
-    var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
-    // set up shell.log and log rotation
-    log(shellLog, 10e6, shellsetup);
 }
+
+var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
+// set up shell.log and log rotation
+log(shellLog, 10e6, shellsetup);
+
 
 function shellsetup(err){
     process.on('exit', function(code) {
@@ -32,6 +31,7 @@ function shellsetup(err){
     var server = spawn(node, [script, '--shell=true']);
     server.on('exit', process.exit);
     server.stdout.once('data', function(data) {
+        /*
         var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
         if (!matches) {
             console.warn('Server port not found');
@@ -39,6 +39,8 @@ function shellsetup(err){
         }
         serverPort = matches[1];
         logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
+        */
+        serverPort = 3000;
         loadURL();
     });
 
