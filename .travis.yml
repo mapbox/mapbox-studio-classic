@@ -26,7 +26,7 @@ before_install:
 # move from mapbox-studio to "Mapbox Studio" to run tests with spacey paths
 - export TRAVIS_BUILD_DIR_OLD="$TRAVIS_BUILD_DIR"
 - export TRAVIS_BUILD_DIR="$(dirname $TRAVIS_BUILD_DIR)/Mapbox Studio"
-- cd $HOME && mv $TRAVIS_BUILD_DIR_OLD $TRAVIS_BUILD_DIR && cd $TRAVIS_BUILD_DIR
+- cd $HOME && mv "$TRAVIS_BUILD_DIR_OLD" "$TRAVIS_BUILD_DIR" && cd "$TRAVIS_BUILD_DIR"
 - git clone https://github.com/creationix/nvm.git ../.nvm && source ../.nvm/nvm.sh
 - nvm install $NODE_VERSION
 - nvm use $NODE_VERSION
