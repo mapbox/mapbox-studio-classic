@@ -214,7 +214,7 @@ test('remote: save error', function(t) {
 });
 
 test('local: invalid yaml (non-object)', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-invalid-nonobj', function(err, source) {
+    source('tmsource://' + __dirname + '/fixtures-invalid nonobj', function(err, source) {
         t.ok(err);
         t.ok(/^Error: Invalid YAML/.test(err.toString()));
         t.end();
@@ -222,7 +222,7 @@ test('local: invalid yaml (non-object)', function(t) {
 });
 
 test('local: invalid yaml', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-invalid-yaml', function(err, source) {
+    source('tmsource://' + __dirname + '/fixtures-invalid yaml', function(err, source) {
         t.ok(err);
         t.ok(/^JS-YAML/.test(err.toString()));
         t.end();
@@ -230,12 +230,17 @@ test('local: invalid yaml', function(t) {
 });
 
 test('local: loads', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-local source', function(err, source) {
+    var localsource = 'tmsource://' + __dirname + '/fixtures-local source';
+    var cache = source.cache;
+    source.clear(localsource);
+    assert.equal(cache[localsource], undefined, 'uncached');
+    source(localsource, function(err, source) {
         t.ifError(err);
         t.equal('Test source', source.data.name);
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
+        assert.equal(cache[localsource], source, 'cached');
         t.end();
     });
 });
@@ -243,6 +248,7 @@ test('local: loads', function(t) {
 test('local: loads via tilelive', function(t) {
     var localsource = 'tmsource://' + __dirname + '/fixtures-local source';
     var cache = source.cache;
+    source.clear(localsource);
     assert.equal(cache[localsource], undefined, 'uncached');
     tilelive.load(localsource, function(err, source) {
         t.ifError(err);
@@ -251,7 +257,7 @@ test('local: loads via tilelive', function(t) {
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
-        assert.equal(cache[localsource], undefined, 'cached');
+        assert.equal(cache[localsource], source, 'cached');
         t.end();
     });
 });

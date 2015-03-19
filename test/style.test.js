@@ -50,6 +50,7 @@ test('loads default style from disk', function(t) {
 });
 
 test('loads local style via tilelive', function(assert) {
+    style.clear(localstyle);
     assert.equal(style.cache[localstyle], undefined, 'uncached');
     tilelive.load(localstyle, function(err, proj) {
         assert.ifError(err);
