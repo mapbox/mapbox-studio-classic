@@ -41,6 +41,56 @@ test('setup: mockserver', function(t) {
     });
 });
 
+test('normalizePaths', function(assert) {
+    var req;
+
+    req = { query: {} };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query, {});
+    });
+
+    req = { query: { id:'tmstyle:///path with spaces/style.tm2' } };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'tmstyle:///path with spaces/style.tm2');
+    });
+
+    req = { query: { id:'tmstyle:///path with spaces/style.tm2' } };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'tmstyle:///path with spaces/style.tm2');
+    });
+
+    req = { query: {
+        id:'tmstyle:///path with spaces/style.tm2',
+        source:'tmsource:///path with spaces/source.tm2source'
+    } };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'tmstyle:///path with spaces/style.tm2');
+        assert.deepEqual(req.query.source, 'tmsource:///path with spaces/source.tm2source');
+    });
+
+    // Simulate windows if we're not.
+    var sep = path.sep;
+    path.sep = '\\';
+
+    req = { query: {
+        id:'tmstyle://C:\\path with\\spaces/style.tm2',
+        source:'tmsource://C:\\path with\\spaces/source.tm2source'
+    } };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'tmstyle://c:/path with/spaces/style.tm2');
+        assert.deepEqual(req.query.source, 'tmsource://c:/path with/spaces/source.tm2source');
+    });
+
+    path.sep = sep;
+
+    assert.end();
+});
+
 test('history: loads', function(t) {
     var req = {};
     middleware.history(req, {}, function() {
