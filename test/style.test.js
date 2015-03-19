@@ -10,6 +10,7 @@ var style = require('../lib/style');
 var defpath = tm.join(path.dirname(require.resolve('mapbox-studio-default-style')));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var Vector = require('tilelive-vector');
+var tilelive = require('tilelive');
 var testutil = require('./util');
 var UPDATE = !!process.env.UPDATE;
 var tmp = tm.join(require('os').tmpdir(), 'mapbox-studio');
@@ -45,6 +46,16 @@ test('loads default style from disk', function(t) {
         t.ok('style.mss' in proj.data.styles, 'style load expands stylesheets');
         t.equal(proj.data.background, 'rgba(255,255,255,1.00)', 'style load determines map BG color');
         t.end();
+    });
+});
+
+test('loads local style via tilelive', function(assert) {
+    assert.equal(style.cache[localstyle], undefined, 'uncached');
+    tilelive.load(localstyle, function(err, proj) {
+        assert.ifError(err);
+        assert.equal(proj.data.id, localstyle);
+        assert.deepEqual(style.cache[localstyle], proj, 'cached');
+        assert.end();
     });
 });
 

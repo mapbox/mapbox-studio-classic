@@ -241,12 +241,17 @@ test('local: loads', function(t) {
 });
 
 test('local: loads via tilelive', function(t) {
-    tilelive.load('tmsource://' + __dirname + '/fixtures-local source', function(err, source) {
+    var localsource = 'tmsource://' + __dirname + '/fixtures-local source';
+    var cache = source.cache;
+    assert.equal(cache[localsource], undefined, 'uncached');
+    tilelive.load(localsource, function(err, source) {
         t.ifError(err);
+        t.equal(source.data.id, localsource);
         t.equal('Test source', source.data.name);
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
+        assert.equal(cache[localsource], undefined, 'cached');
         t.end();
     });
 });
