@@ -9,6 +9,7 @@ var log = require('./lib/log');
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
 var logger = require('fastlog')('', 'debug', '<${timestamp}>');
+var server = null
 var serverPort = null;
 var mainWindow = null;
 
@@ -16,6 +17,23 @@ if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
 }
+
+atom.on('window-all-closed', exit);
+atom.on('will-quit', exit);
+atom.on('ready', makeWindow);
+console.log('atom', atom);
+
+
+process.on('exit', function(code) {
+    logger.debug('Mapbox Studio exited with', code + '.');
+});
+
+
+function exit() {
+    if (server) server.kill();
+    if (atom) atom.quit(); //https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
+};
+
 
 var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 // set up shell.log and log rotation
@@ -26,18 +44,9 @@ function shellsetup(err){
     try {
       console.log('shellsetup() ENTER');
 
-      atom.on('window-all-closed', exit);
-      atom.on('will-quit', exit);
-      atom.on('ready', makeWindow);
-      console.log('atom', atom);
-
-      process.on('exit', function(code) {
-          logger.debug('Mapbox Studio exited with', code + '.');
-      });
-
       // Start the server child process.
-      var server = spawn(node, [script, '--shell=true']);
-      server.on('exit', process.exit);
+      server = spawn(node, [script, '--shell=true']);
+      server.on('exit', exit);
       server.stdout.once('data', function(data) {
           console.log('server.stdout.once');
           /*
@@ -57,10 +66,6 @@ function shellsetup(err){
       // Report crashes to our server.
       require('crash-reporter').start();
 
-     function exit() {
-          if (server) server.kill();
-          atom.quit(); //https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
-      };
 
       console.log('shellsetup() EXIT');
     }
