@@ -19,59 +19,62 @@ if (process.platform === 'win32') {
 }
 
 atom.on('window-all-closed', exit);
-atom.on('will-quit', exit);
 atom.on('ready', makeWindow);
-console.log('atom', atom);
-
 
 process.on('exit', function(code) {
-    logger.debug('Mapbox Studio exited with', code + '.');
+    logger.debug('Mapbox Studio exited ' + (undefined === code ? 'normally' : 'with ' + code));
 });
 
 
 function exit() {
-    if (server) server.kill();
-    if (atom) atom.quit(); //https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
+    console.log('exit()');
+    if (server){ server.kill() };
+    //if (atom) atom.quit(); //https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
+    console.log('listeners', atom.listeners('window-all-closed').length)
+    if (atom.listeners('window-all-closed').length == 1){ atom.quit(); }
+    //process.exit();
 };
 
 
 var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 // set up shell.log and log rotation
 log(shellLog, 10e6, shellsetup);
-//shellsetup();
 
 function shellsetup(err){
-    try {
-      console.log('shellsetup() ENTER');
+    console.log('shellsetup() ENTER');
 
-      // Start the server child process.
-      server = spawn(node, [script, '--shell=true']);
-      server.on('exit', exit);
-      server.stdout.once('data', function(data) {
-          console.log('server.stdout.once');
-          /*
-          var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
-          if (!matches) {
-              console.warn('Server port not found');
-              process.exit(1);
-          }
-          serverPort = matches[1];
-          logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
-          */
-          serverPort = 3000;
-          console.log('serverPort', serverPort);
-          loadURL();
-      });
+    // Start the server child process.
+    server = spawn(node, [script, '--shell=true'])
+        .on('error', function(error){
+            process.stdout.write('error spawning server process: ' + error + '\n');
+        })
+        .on('exit', exit);
+    if(!server.pid){
+        process.stdout.write('server process has no pid\n');
+    } else {
+        process.stdout.write('server process pid: ' + server.pid + '\n');
+        console.log('after spawn before server.on.exit');
+        server.stdout.once('data', function(data) {
+            console.log('server.stdout.once');
+            /*
+            var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
+            if (!matches) {
+                console.warn('Server port not found');
+                process.exit(1);//?? atom.quit();
+            }
+            serverPort = matches[1];
+            logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
+            */
+            serverPort = 3000;
+            console.log('serverPort', serverPort);
+            loadURL();
+        });
 
-      // Report crashes to our server.
-      require('crash-reporter').start();
-
-
-      console.log('shellsetup() EXIT');
+        // Report crashes to our server.
+        require('crash-reporter').start();
     }
-    catch(ex){
-        console.log('exception', ex);
-    }
+
+    console.log('shellsetup() EXIT');
 };
 
 function makeWindow() {
