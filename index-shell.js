@@ -27,12 +27,9 @@ process.on('exit', function(code) {
 
 
 function exit() {
-    console.log('exit()');
     if (server){ server.kill() };
-    //if (atom) atom.quit(); //https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
-    console.log('listeners', atom.listeners('window-all-closed').length)
+    //atom.quit(); //is the way to do it: https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
     if (atom.listeners('window-all-closed').length == 1){ atom.quit(); }
-    //process.exit();
 };
 
 
@@ -41,7 +38,6 @@ var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 log(shellLog, 10e6, shellsetup);
 
 function shellsetup(err){
-    console.log('shellsetup() ENTER');
 
     // Start the server child process.
     server = spawn(node, [script, '--shell=true'])
@@ -53,10 +49,7 @@ function shellsetup(err){
         process.stdout.write('server process has no pid\n');
     } else {
         process.stdout.write('server process pid: ' + server.pid + '\n');
-        console.log('after spawn before server.on.exit');
         server.stdout.once('data', function(data) {
-            console.log('server.stdout.once');
-            /*
             var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
             if (!matches) {
                 console.warn('Server port not found');
@@ -64,21 +57,15 @@ function shellsetup(err){
             }
             serverPort = matches[1];
             logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
-            */
-            serverPort = 3000;
-            console.log('serverPort', serverPort);
             loadURL();
         });
 
         // Report crashes to our server.
         require('crash-reporter').start();
     }
-
-    console.log('shellsetup() EXIT');
 };
 
 function makeWindow() {
-    console.log('makeWindow()');
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 960,
@@ -94,7 +81,6 @@ function makeWindow() {
         }
     });
     mainWindow.loadUrl('file://' + path.join(__dirname, 'app', 'loading.html'));
-    mainWindow.openDevTools();
     // Restore OS X fullscreen state.
     var cp = require("child_process");
     if (cp.execSync("which defaults >/dev/null && defaults read com.mapbox.mapbox-studio FullScreen 2>/dev/null || echo 0") == 1) {
@@ -129,7 +115,6 @@ function makeWindow() {
 }
 
 function loadURL() {
-    console.log('loadURL()', !mainWindow, !serverPort);
     if (!mainWindow) return;
     if (!serverPort) return;
     versionCheck({
