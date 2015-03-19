@@ -105,10 +105,10 @@ test('tm filterkeys', function(t) {
 test('tm dirfiles', function(t) {
     var platform = require('os').platform();
     if (platform === 'linux' || platform === 'darwin') {
-        fs.symlinkSync('broken',path.join(__dirname,'fixtures-localsource','broken-symlink'));
-        t.ok(fs.existsSync(__dirname,'fixtures-localsource','broken-symlink'));
+        fs.symlinkSync('broken',path.join(__dirname,'fixtures-local source','broken-symlink'));
+        t.ok(fs.existsSync(__dirname,'fixtures-local source','broken-symlink'));
     }
-    tm.dirfiles(__dirname + '/fixtures-localsource', function(err, files) {
+    tm.dirfiles(__dirname + '/fixtures-local source', function(err, files) {
         t.ifError(err);
         t.deepEqual([
             '10m-900913-bounding-box.dbf',
@@ -125,7 +125,7 @@ test('tm dirfiles', function(t) {
             'project.yml'
         ], files.map(function(f) { return f.basename }));
         if (platform === 'linux' || platform === 'darwin') {
-            fs.unlinkSync(path.join(__dirname,'fixtures-localsource','broken-symlink'));
+            fs.unlinkSync(path.join(__dirname,'fixtures-local source','broken-symlink'));
         }
         t.end();
     });
@@ -284,7 +284,7 @@ test('tm copydir invalid from', function(t) {
 
 test('tm copydir copies', function(t) {
     var dest = tm.join(tmppath, 'copydir');
-    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
+    tm.copydir(tm.join(__dirname, 'fixtures-local source'), dest, null, function(err) {
         t.ifError(err);
         t.equal(fs.existsSync(dest), true, 'dest exists');
         t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), true, 'copied files');
@@ -294,7 +294,7 @@ test('tm copydir copies', function(t) {
 
 test('tm copydir filter', function(t) {
     var dest = tm.join(tmppath, 'copydir-filtered');
-    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, [ /\.shx$/, 'data.yml' ], function(err) {
+    tm.copydir(tm.join(__dirname, 'fixtures-local source'), dest, [ /\.shx$/, 'data.yml' ], function(err) {
         t.ifError(err);
         t.equal(fs.existsSync(dest), true, 'dest exists');
         t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), false, 'excludes by regexp');

@@ -19,8 +19,8 @@ var creds = {
 };
 
 var server;
-var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
-var fontstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-fontstyle');
+var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-local style');
+var fontstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-font style');
 var tmppath = tm.join(tmp, 'Style ШЖФ -' + (+new Date));
 
 test('setup: config', function(t) {
@@ -315,7 +315,7 @@ test('style.info: reads style YML (bookmarks)', function(t) {
 });
 
 test('style.info: invalid yaml (non-object)', function(t) {
-    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-nonobj'), function(err, source) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid nonobj'), function(err, source) {
         t.ok(err);
         t.ok(/^Error: Invalid YAML/.test(err.toString()));
         t.end();
@@ -323,7 +323,7 @@ test('style.info: invalid yaml (non-object)', function(t) {
 });
 
 test('style.info: invalid bookmarks', function(t) {
-    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-badbookmarks'), function(err, source) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid badbookmarks'), function(err, source) {
         t.ok(err);
         t.ok(/^JS-YAML: end of the stream or a document separator is expected/.test(err.toString()));
         t.end();
@@ -331,7 +331,7 @@ test('style.info: invalid bookmarks', function(t) {
 });
 
 test('style.info: invalid yaml', function(t) {
-    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-yaml'), function(err, source) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid yaml'), function(err, source) {
         t.ok(err);
         t.ok(/^JS-YAML/.test(err.toString()));
         t.end();

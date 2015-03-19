@@ -19,7 +19,7 @@ var UPDATE = !!process.env.UPDATE;
 var server;
 
 var defaultsource = 'tmsource://' + tm.join(path.dirname(require.resolve('mapbox-studio-default-source')));
-var localsource = 'tmsource://' + path.join(__dirname,'fixtures-localsource');
+var localsource = 'tmsource://' + path.join(__dirname,'fixtures-local source');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
 test('setup: config', function(t) {
@@ -41,7 +41,7 @@ test('setup: mockserver', function(t) {
 
 test('source.normalize', function(t) {
     var n = source.normalize({
-        id: 'tmsource://' + __dirname + '/fixtures-localsource',
+        id: 'tmsource://' + __dirname + '/fixtures-local source',
         Layer: [{
             id: 'box',
             fields: {
@@ -50,7 +50,7 @@ test('source.normalize', function(t) {
             },
             Datasource: {
                 type: 'shape',
-                file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+                file: __dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
                 bogus: 'true'
             }
         }]
@@ -77,20 +77,20 @@ test('source.normalize', function(t) {
 
     // Test a raster source with multiple layers
     n = source.normalize({
-        id: 'tmsource://' + __dirname + '/fixtures-localraster',
+        id: 'tmsource://' + __dirname + '/fixtures-local raster',
         Layer: [{
             id: 'raster2',
             fields: {},
             Datasource: {
                 type: 'gdal',
-                file: __dirname + '/fixtures-localraster/raster2.tif'
+                file: __dirname + '/fixtures-local raster/raster2.tif'
             }
         }, {
             id: 'raster1',
             fields: {},
             Datasource: {
                 type: 'gdal',
-                file: __dirname + '/fixtures-localraster/raster1.tif'
+                file: __dirname + '/fixtures-local raster/raster1.tif'
             }
         }]
     });
@@ -230,7 +230,7 @@ test('local: invalid yaml', function(t) {
 });
 
 test('local: loads', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
+    source('tmsource://' + __dirname + '/fixtures-local source', function(err, source) {
         t.ifError(err);
         t.equal('Test source', source.data.name);
         t.equal(0, source.data.minzoom);
@@ -241,7 +241,7 @@ test('local: loads', function(t) {
 });
 
 test('local: loads via tilelive', function(t) {
-    tilelive.load('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
+    tilelive.load('tmsource://' + __dirname + '/fixtures-local source', function(err, source) {
         t.ifError(err);
         t.equal('Test source', source.data.name);
         t.equal(0, source.data.minzoom);
@@ -335,7 +335,7 @@ test('local: saves source to disk', function(t) {
 });
 
 test('local: save as tmp => perm', function(t) {
-    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-local source');
     source.info(tmpid, function(err, data) {
         t.ifError(err);
         var permid = path.join(tmp, 'source-saveas-' + Math.random().toString(36).split('.').pop());
@@ -368,7 +368,7 @@ test('source.info: fails on bad path', function(t) {
 });
 
 test('source.info: reads source YML', function(t) {
-    var tmpid = 'tmsource://' + tm.join(__dirname, 'fixtures-localsource');
+    var tmpid = 'tmsource://' + tm.join(__dirname, 'fixtures-local source');
     source.info(tmpid, function(err, info) {
         t.ifError(err);
         t.equal(info.id, tmpid, 'source.info adds id key');
@@ -387,7 +387,7 @@ test('source.info: reads source YML', function(t) {
 });
 
 test('source.info: reads source YML (tmp)', function(t) {
-    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-local source');
     source.info(tmpid, function(err, info) {
         t.ifError(err);
         t.equal(info.id, tmpid, 'source.info adds id key');
