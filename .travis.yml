@@ -23,6 +23,7 @@ env:
 #  - psql -c "CREATE EXTENSION postgis" template_postgis
 
 before_install:
+- echo $TRAVIS_BUILD_DIR && exit 1
 - git clone https://github.com/creationix/nvm.git ../.nvm && source ../.nvm/nvm.sh
 - nvm install $NODE_VERSION
 - nvm use $NODE_VERSION
