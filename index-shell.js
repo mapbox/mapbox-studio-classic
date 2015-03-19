@@ -20,45 +20,57 @@ if (process.platform === 'win32') {
 var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 // set up shell.log and log rotation
 log(shellLog, 10e6, shellsetup);
-
+//shellsetup();
 
 function shellsetup(err){
-    process.on('exit', function(code) {
-        logger.debug('Mapbox Studio exited with', code + '.');
-    });
+    try {
+      console.log('shellsetup() ENTER');
 
-    // Start the server child process.
-    var server = spawn(node, [script, '--shell=true']);
-    server.on('exit', process.exit);
-    server.stdout.once('data', function(data) {
-        /*
-        var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
-        if (!matches) {
-            console.warn('Server port not found');
-            process.exit(1);
-        }
-        serverPort = matches[1];
-        logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
-        */
-        serverPort = 3000;
-        loadURL();
-    });
+      atom.on('window-all-closed', exit);
+      atom.on('will-quit', exit);
+      atom.on('ready', makeWindow);
+      console.log('atom', atom);
 
-    // Report crashes to our server.
-    require('crash-reporter').start();
+      process.on('exit', function(code) {
+          logger.debug('Mapbox Studio exited with', code + '.');
+      });
 
-    atom.on('window-all-closed', exit);
-    atom.on('will-quit', exit);
+      // Start the server child process.
+      var server = spawn(node, [script, '--shell=true']);
+      server.on('exit', process.exit);
+      server.stdout.once('data', function(data) {
+          console.log('server.stdout.once');
+          /*
+          var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
+          if (!matches) {
+              console.warn('Server port not found');
+              process.exit(1);
+          }
+          serverPort = matches[1];
+          logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
+          */
+          serverPort = 3000;
+          console.log('serverPort', serverPort);
+          loadURL();
+      });
 
-   function exit() {
-        if (server) server.kill();
-        process.exit();
-    };
+      // Report crashes to our server.
+      require('crash-reporter').start();
 
-    atom.on('ready', makeWindow);
+     function exit() {
+          if (server) server.kill();
+          atom.quit(); //https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
+      };
+
+      console.log('shellsetup() EXIT');
+    }
+    catch(ex){
+        console.log('exception', ex);
+    }
 };
 
 function makeWindow() {
+    console.log('makeWindow()');
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 960,
@@ -74,6 +86,7 @@ function makeWindow() {
         }
     });
     mainWindow.loadUrl('file://' + path.join(__dirname, 'app', 'loading.html'));
+    mainWindow.openDevTools();
     // Restore OS X fullscreen state.
     var cp = require("child_process");
     if (cp.execSync("which defaults >/dev/null && defaults read com.mapbox.mapbox-studio FullScreen 2>/dev/null || echo 0") == 1) {
@@ -108,6 +121,7 @@ function makeWindow() {
 }
 
 function loadURL() {
+    console.log('loadURL()', !mainWindow, !serverPort);
     if (!mainWindow) return;
     if (!serverPort) return;
     versionCheck({
