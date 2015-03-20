@@ -1,5 +1,6 @@
 var test = require('tape');
 var fs = require('fs');
+var url = require('url');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
@@ -240,6 +241,15 @@ test('tm parse', function(t) {
     t.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
     t.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
     t.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+
+    // handles url.parsed objects in the same way as strings
+    t.equal(tm.parse(url.parse('tmstyle:///path/with/encoded%20spaces')).dirname, '/path/with/encoded spaces');
+    t.equal(tm.parse(url.parse('tmstyle:///path/with/free spaces')).dirname, '/path/with/free spaces');
+    t.equal(tm.parse(url.parse('tmstyle:///path/with/nospaces')).dirname, '/path/with/nospaces');
+
+    // handles drivenames
+    t.equal(tm.parse('tmstyle://c:/path/with/free spaces').dirname, 'c:/path/with/free spaces');
+    t.equal(tm.parse(url.parse('tmstyle://C:/path/with/free spaces')).dirname, 'c:/path/with/free spaces');
     t.end();
 });
 
