@@ -131,6 +131,27 @@ test('tm dirfiles', function(t) {
     });
 });
 
+
+test.only('tm dirfiles windows root', function(t) {
+    var platform = require('os').platform();
+    if (platform === 'win32' || platform === 'win64') {
+        tm.dirfiles('C:\\', function(err, files) {
+            t.ifError(err);
+            t.deepEqual(
+                files
+                    .filter(function(f) { return (-1 < f.basename.indexOf('Windows')) || (-1 < f.basename.indexOf('Recycle')) })
+                    .map(function(f){ return f.path }),
+                [
+                    'C:\\$Recycle.Bin',
+                    'C:\\Windows'
+                ]
+            );
+            t.end();
+        });
+    }
+});
+
+
 // @TODO tm.writefiles
 
 test('tm history', function(t) {
