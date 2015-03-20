@@ -366,7 +366,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             // show new layer
             var center = metadata.center;
             var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-            map.setView([center[1], center[0]], zoom, {'animate': false});
+            map.setView([center[1], center[0]], zoom);
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
@@ -569,7 +569,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     Editor.prototype.refresh = function(ev) {
         if (!map) {
             map = L.mapbox.map('map');
-            map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2], {'animate': false});
+            map.setView([this.model.get('center')[1], this.model.get('center')[0]], this.model.get('center')[2]);
             this.map = map;
 
             map.on('zoomend', function() {
@@ -686,7 +686,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                 $('#full').removeClass('loading');
                 var center = metadata.center;
                 var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-                map.setView([center[1], center[0]], zoom, {'animate': false});
+                map.setView([center[1], center[0]], zoom);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state

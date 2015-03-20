@@ -218,8 +218,8 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
         var expectedValue = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
         t.equal(expectedValue, projTarget.val());
         t.equal(maxzoom, '12');
-
         t.end();
+
     });
 });
 
@@ -350,10 +350,10 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
-    'geojson/DC_polygon.geo.json': {
-        filepath: '/geojson/DC_polygon.geo.json',
+    'geojson/places.geo.json': {
+        filepath: '/geojson/places.geo.json',
         expected: {
-            'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
+            'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
             'Datasource-layer': 'OGRGeoJSON',
             'Datasource-type': 'ogr',
             'description': '',
@@ -362,10 +362,10 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
-    'geojson/places.geo.json': {
-        filepath: '/geojson/places.geo.json',
+    'geojson/DC_polygon.geo.json': {
+        filepath: '/geojson/DC_polygon.geo.json',
         expected: {
-            'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
+            'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
             'Datasource-layer': 'OGRGeoJSON',
             'Datasource-type': 'ogr',
             'description': '',
@@ -408,6 +408,18 @@ var datatests = {
             'srs': /ellps=GRS80/
         }
     },
+    'shp/ne_10m_reefs': {
+        filepath: '/shp/ne_10m_reefs/ne_10m_reefs.shp',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/shp/ne_10m_reefs/ne_10m_reefs.shp',
+            'Datasource-type': 'shape',
+            'description': '',
+            'id': 'ne_10m_reefs',
+            'properties-buffer-size': '8',
+            'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+        }
+}
+
 };
 
 tape('Drag and drop layer ', function(t) {
@@ -461,6 +473,8 @@ for (var name in datatests) (function(name, info) {
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
 
+        var initialCenter = [window.editor.map.getCenter().lat,window.editor.map.getCenter().lng, window.editor.map.getZoom()];
+
         onajax(afterOmnivore);
         onajax(afterUpdate);
         onajax(afterUpdate2);
@@ -472,6 +486,13 @@ for (var name in datatests) (function(name, info) {
 
         function afterUpdate() {
             t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
+
+            var newCenter = [window.editor.map.getCenter().lat,window.editor.map.getCenter().lng, window.editor.map.getZoom()];
+            t.notDeepEqual(newCenter, initialCenter, ' map re-centers on new layer');
+
+            var zoom = window.editor.map.getZoom();
+            window.editor.map.zoomIn(1);
+            t.equal(zoom+1,window.editor.map.getZoom());
 
             t.equal($('.pane.target').length,1,'only current layer pane is targeted');
 
