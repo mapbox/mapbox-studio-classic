@@ -50,6 +50,12 @@ test('normalizePaths', function(assert) {
         assert.deepEqual(req.query, {});
     });
 
+    req = { query: { id:'A Font Name' } };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'A Font Name');
+    });
+
     req = { query: { id:'tmstyle:///path with spaces/style.tm2' } };
     middleware.normalizePaths(req, {}, function(err) {
         assert.ifError(err);
