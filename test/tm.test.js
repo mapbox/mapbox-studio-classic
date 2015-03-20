@@ -135,15 +135,14 @@ test('tm dirfiles', function(t) {
 test.only('tm dirfiles windows root', function(t) {
     var platform = require('os').platform();
     if (platform === 'win32' || platform === 'win64') {
-        tm.dirfiles('C:\\', function(err, files) {
+        tm.dirfiles('/', function(err, files) {
             t.ifError(err);
             t.deepEqual(
                 files
-                    .filter(function(f) { return (-1 < f.basename.indexOf('Windows')) || (-1 < f.basename.indexOf('Recycle')) })
+                    .filter(function(f) { return (-1 < f.basename.indexOf('c')) })
                     .map(function(f){ return f.path }),
                 [
-                    'C:\\$Recycle.Bin',
-                    'C:\\Windows'
+                    'c:\\'
                 ]
             );
             t.end();
