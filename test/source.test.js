@@ -494,6 +494,20 @@ test('source.mbtilesExport: verify export', function(t) {
     });
 });
 
+test('source.toMBTiles', function(t) {
+    testutil.createTmpProject('source-export', localsource, function(err, id) {
+        t.ifError(err);
+        var dest = tm.join(tmp, 'test-source-save.mbtiles');
+        var writestream = fs.createWriteStream(dest);
+        source.toMBTiles(id, writestream, function(err) {
+            t.ifError(err);
+            t.equal(fs.statSync(dest).size > 378705, true);
+            fs.unlinkSync(dest);
+            t.end();
+        });
+    });
+});
+
 test('source.mbtilesUpload: uploads map', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
     t.ifError(err);
