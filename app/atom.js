@@ -42,19 +42,36 @@ $(document).ready(function() {
                 defaultPath: defaultPath,
                 filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
             }, function(filePath){
-                if (filePath) {
-                    window.Modal.show('atomexporting');
-                    uri.method = 'GET';
+                if (!filePath) return error(new Error('No filepath specified'));
+
+                window.Modal.show('atomexporting');
+
+                uri.method = 'GET';
+                try {
                     var writeStream = fs.createWriteStream(filePath);
-                    var req = http.request(uri, function(res) {
-                        if (res.statusCode !== 200) return;
-                        res.pipe(writeStream);
-                        writeStream.on('finish', function() {
-                            window.Modal.close();
-                        });
-                    });
-                    req.end();
+                } catch(err) {
+                    return error(err);
                 }
+
+                fs.writeFileSync(filePath, 'asdfasdf');
+
+                var req = http.request(uri, function(res) {
+                    if (res.statusCode !== 200) return error(new Error('Got HTTP code ' + res.statusCode));
+                    res.on('error', error);
+                    writeStream.on('error', error);
+                    res.pipe(writeStream).on('finish', function() {
+                        window.Modal.close();
+                    });
+                });
+                req.on('error', error);
+                req.end();
+
+                function error(err) {
+                    window.Modal.close();
+                    window.Modal.show('err', err);
+                    return false;
+                }
+
                 return false;
             });
             return false;
