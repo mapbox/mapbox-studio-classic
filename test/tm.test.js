@@ -132,7 +132,7 @@ test('tm dirfiles', function(t) {
 });
 
 
-test.only('tm dirfiles windows root', function(t) {
+test('tm dirfiles windows root', function(t) {
     var platform = require('os').platform();
     if (platform === 'win32' || platform === 'win64') {
         tm.dirfiles('/', function(err, files) {
