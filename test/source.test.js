@@ -19,7 +19,7 @@ var UPDATE = !!process.env.UPDATE;
 var server;
 
 var defaultsource = 'tmsource://' + tm.join(path.dirname(require.resolve('mapbox-studio-default-source')));
-var localsource = 'tmsource://' + path.join(__dirname,'fixtures-localsource');
+var localsource = 'tmsource://' + path.join(__dirname,'fixtures-local source');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
 test('setup: config', function(t) {
@@ -41,7 +41,7 @@ test('setup: mockserver', function(t) {
 
 test('source.normalize', function(t) {
     var n = source.normalize({
-        id: 'tmsource://' + __dirname + '/fixtures-localsource',
+        id: 'tmsource://' + __dirname + '/fixtures-local source',
         Layer: [{
             id: 'box',
             fields: {
@@ -50,7 +50,7 @@ test('source.normalize', function(t) {
             },
             Datasource: {
                 type: 'shape',
-                file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+                file: __dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
                 bogus: 'true'
             }
         }]
@@ -77,20 +77,20 @@ test('source.normalize', function(t) {
 
     // Test a raster source with multiple layers
     n = source.normalize({
-        id: 'tmsource://' + __dirname + '/fixtures-localraster',
+        id: 'tmsource://' + __dirname + '/fixtures-local raster',
         Layer: [{
             id: 'raster2',
             fields: {},
             Datasource: {
                 type: 'gdal',
-                file: __dirname + '/fixtures-localraster/raster2.tif'
+                file: __dirname + '/fixtures-local raster/raster2.tif'
             }
         }, {
             id: 'raster1',
             fields: {},
             Datasource: {
                 type: 'gdal',
-                file: __dirname + '/fixtures-localraster/raster1.tif'
+                file: __dirname + '/fixtures-local raster/raster1.tif'
             }
         }]
     });
@@ -214,7 +214,7 @@ test('remote: save error', function(t) {
 });
 
 test('local: invalid yaml (non-object)', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-invalid-nonobj', function(err, source) {
+    source('tmsource://' + __dirname + '/fixtures-invalid nonobj', function(err, source) {
         t.ok(err);
         t.ok(/^Error: Invalid YAML/.test(err.toString()));
         t.end();
@@ -222,7 +222,7 @@ test('local: invalid yaml (non-object)', function(t) {
 });
 
 test('local: invalid yaml', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-invalid-yaml', function(err, source) {
+    source('tmsource://' + __dirname + '/fixtures-invalid yaml', function(err, source) {
         t.ok(err);
         t.ok(/^JS-YAML/.test(err.toString()));
         t.end();
@@ -230,30 +230,41 @@ test('local: invalid yaml', function(t) {
 });
 
 test('local: loads', function(t) {
-    source('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
+    var localsource = 'tmsource://' + __dirname + '/fixtures-local source';
+    var cache = source.cache;
+    source.clear(localsource);
+    assert.equal(cache[localsource], undefined, 'uncached');
+    source(localsource, function(err, source) {
         t.ifError(err);
         t.equal('Test source', source.data.name);
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
+        t.equal(cache[localsource], source, 'cached');
         t.end();
     });
 });
 
 test('local: loads via tilelive', function(t) {
-    tilelive.load('tmsource://' + __dirname + '/fixtures-localsource', function(err, source) {
+    var localsource = 'tmsource://' + __dirname + '/fixtures-local source';
+    var cache = source.cache;
+    source.clear(localsource);
+    t.equal(cache[localsource], undefined, 'uncached');
+    tilelive.load(localsource, function(err, source) {
         t.ifError(err);
+        t.equal(source.data.id, localsource);
         t.equal('Test source', source.data.name);
         t.equal(0, source.data.minzoom);
         t.equal(6, source.data.maxzoom);
         t.ok(!!source.style);
+        t.equal(cache[localsource], source, 'cached');
         t.end();
     });
 });
 
 test('local: refresh source in memory', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.refresh(_({id:source.tmpid()}).defaults(info), function(err, source) {
             t.ifError(err);
             t.ok(source);
@@ -264,9 +275,9 @@ test('local: refresh source in memory', function(t) {
 
 test('local: refresh source (invalid minzoom)', function(t) {
     testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.refresh(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
-            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.refresh() errors on invalid source');
+            t.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.refresh() errors on invalid source');
             t.end();
         });
     });
@@ -274,9 +285,9 @@ test('local: refresh source (invalid minzoom)', function(t) {
 
 test('local: refresh source (invalid center)', function(t) {
     testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.refresh(_({id:source.tmpid(), minzoom:3, center:[0,0,0]}).defaults(info), function(err, source) {
-            assert.equal(err.toString(), 'Error: center zoom value must be greater than or equal to minzoom 3', 'source.refresh() errors on invalid source');
+            t.equal(err.toString(), 'Error: center zoom value must be greater than or equal to minzoom 3', 'source.refresh() errors on invalid source');
             t.end();
         });
     });
@@ -284,7 +295,7 @@ test('local: refresh source (invalid center)', function(t) {
 
 test('local: save temporary errors', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, info) {
-        assert.ifError(err);
+        t.ifError(err);
         source.save(_({id:source.tmpid()}).defaults(info), function(err, source) {
             t.ok(err);
             t.ok(/^Error: Cannot save temporary source/.test(err.toString()));
@@ -295,7 +306,7 @@ test('local: save temporary errors', function(t) {
 
 test('local: saves source to disk', function(t) {
     testutil.createTmpProject('source-save', localsource, function(err, tmpid, data) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.save(data, function(err, source) {
         t.ifError(err);
@@ -335,7 +346,7 @@ test('local: saves source to disk', function(t) {
 });
 
 test('local: save as tmp => perm', function(t) {
-    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-local source');
     source.info(tmpid, function(err, data) {
         t.ifError(err);
         var permid = path.join(tmp, 'source-saveas-' + Math.random().toString(36).split('.').pop());
@@ -354,7 +365,7 @@ test('local: save as tmp => perm', function(t) {
 test('local: saves source with space', function(t) {
     // proxy assertion via createTmpProject stat check of project saves.
     testutil.createTmpProject('source-save space', localsource, function(err, tmpid, data) {
-        assert.ifError(err);
+        t.ifError(err);
         t.end();
     });
 });
@@ -368,7 +379,7 @@ test('source.info: fails on bad path', function(t) {
 });
 
 test('source.info: reads source YML', function(t) {
-    var tmpid = 'tmsource://' + tm.join(__dirname, 'fixtures-localsource');
+    var tmpid = 'tmsource://' + tm.join(__dirname, 'fixtures-local source');
     source.info(tmpid, function(err, info) {
         t.ifError(err);
         t.equal(info.id, tmpid, 'source.info adds id key');
@@ -387,7 +398,7 @@ test('source.info: reads source YML', function(t) {
 });
 
 test('source.info: reads source YML (tmp)', function(t) {
-    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-localsource');
+    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-local source');
     source.info(tmpid, function(err, info) {
         t.ifError(err);
         t.equal(info.id, tmpid, 'source.info adds id key');
@@ -407,14 +418,14 @@ test('source.info: reads source YML (tmp)', function(t) {
 
 test('source export: setup', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, tmpid) {
-        assert.ifError(err);
+        t.ifError(err);
         t.end();
     });
 });
 
 test('source.mbtilesExport: exports mbtiles file', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.toHash(id, function(err, hash) {
         t.ifError(err);
@@ -436,7 +447,7 @@ test('source.mbtilesExport: exports mbtiles file', function(t) {
 
 test('source.mbtilesExport: verify export', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     var MBTiles = require('mbtiles');
     source.toHash(id, function(err, hash) {
@@ -485,7 +496,7 @@ test('source.mbtilesExport: verify export', function(t) {
 
 test('source.mbtilesUpload: uploads map', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.upload(id, false, function(err, task) {
         t.ifError(err);
@@ -509,7 +520,7 @@ test('source.mbtilesUpload: uploads map', function(t) {
 
 test('source.mbtilesUpload: does not allow redundant upload', function(t) {
     testutil.createTmpProject('source-export', localsource, function(err, id) {
-    assert.ifError(err);
+    t.ifError(err);
 
     source.upload(id, false, function(err, task) {
         t.ifError(err);
