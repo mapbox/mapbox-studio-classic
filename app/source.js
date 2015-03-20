@@ -366,7 +366,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             // show new layer
             var center = metadata.center;
             var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-            map.setView([center[1], center[0]], zoom);
+            setTimeout(function() {
+                map.setView([center[1], center[0]], zoom);
+            }, 500);
 
             //open proper modal, depending on if there are multiple layers
             if (layersArray.length > 1) {
