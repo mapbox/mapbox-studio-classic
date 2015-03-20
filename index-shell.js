@@ -98,7 +98,7 @@ function makeWindow() {
     function restoreFullScreen() {
         if (process.platform !== 'darwin') return;
         var cp = require("child_process");
-        if (cp.execSync("which defaults >/dev/null && defaults read com.mapbox.mapbox-studio FullScreen 2>/dev/null || echo 0") == 1) {
+        if (cp.execSync("defaults read com.mapbox.mapbox-studio FullScreen 2>/dev/null || echo 0") == 1) {
             setTimeout(function(){
                 mainWindow.setFullScreen(true);
             }, 100);
@@ -109,7 +109,7 @@ function makeWindow() {
     function persistFullScreen() {
         if (process.platform !== 'darwin') return;
         var cp = require("child_process");
-        cp.execSync("which defaults >/dev/null && defaults write com.mapbox.mapbox-studio FullScreen -bool " + mainWindow.isFullScreen());
+        cp.execSync("defaults write com.mapbox.mapbox-studio FullScreen -bool " + mainWindow.isFullScreen());
     }
 }
 
