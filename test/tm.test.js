@@ -201,7 +201,7 @@ test('tm font (cache hit)', function(t) {
 });
 
 test('tm font (fontdir)', function(t) {
-    tm.font('Comic Neue Oblique', '', path.join(__dirname, 'fixtures-fontstyle'), function(err, buffer) {
+    tm.font('Comic Neue Oblique', '', tm.join(__dirname, 'fixtures-font style'), function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 1200 && buffer.length < 2000, ' valid font size');
         t.end();
