@@ -6,6 +6,7 @@ var path = require('path');
 var assert = require('assert');
 var tilelive = require('tilelive');
 var yaml = require('js-yaml');
+var http = require('http');
 
 var tm = require('../lib/tm');
 var middleware = require('../lib/middleware');
@@ -24,6 +25,7 @@ test('setup: config', function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
+        tmp: path.join(tmppath, 'tmp'),
         cache: path.join(tmppath, 'cache'),
         fonts: path.join(tmppath, 'fonts')
     }, t.end);
@@ -473,6 +475,75 @@ test('config: trailing slash - offline', function(t) {
     };
 
     middleware.config({query: {MapboxAPITile: 'http://localhost:2999/atlas/'}}, res, function(){});
+});
+
+test('saveMBTiles (no export)', function(t) {
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
+    var req = { query: { id: sourceId } };
+    var res = new http.ServerResponse({});
+    middleware.loadSource(req, {}, afterLoad);
+    function afterLoad(err) {
+        t.ifError(err);
+        middleware.saveMBTiles(req, res, function(err) {
+            t.equal(err.code, 'ENOENT');
+            t.end();
+        });
+    }
+});
+
+test('saveMBTiles (with export)', function(t) {
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
+
+    var task = source.mbtilesExport(sourceId);
+    task.progress.once('finished', afterExport);
+
+    var req = { query: { id: sourceId } };
+    function afterExport() {
+        t.ok(true, 'export complete');
+        middleware.loadSource(req, {}, afterLoad);
+    }
+    function afterLoad(err) {
+        t.ifError(err);
+        var once;
+        var dest = tm.join(tmppath, 'middleware-saveMBTiles.mbtiles');
+        var writestream = fs.createWriteStream(dest);
+        writestream.end = function() {
+            if (once) return;
+            once = true;
+            t.equal(fs.statSync(dest).size > 100, true, 'export saved');
+            fs.unlinkSync(dest);
+            t.end();
+        };
+        t.ok(true, 'source loaded');
+        middleware.saveMBTiles(req, writestream, t.ifError);
+    }
+});
+
+test('saveMBTiles (with saveas)', function(t) {
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
+
+    var task = source.mbtilesExport(sourceId);
+    task.progress.once('finished', afterExport);
+
+    var req = { query: { id: sourceId } };
+    function afterExport() {
+        t.ok(true, 'export complete');
+        middleware.loadSource(req, {}, afterLoad);
+    }
+    function afterLoad(err) {
+        t.ifError(err);
+        t.ok(true, 'source loaded');
+        var dest = tm.join(tmppath, 'middleware-saveMBTiles.mbtiles');
+        var res = {};
+        req.query.saveas = dest;
+        res.send = function(status) {
+            t.equal(fs.statSync(dest).size > 100, true, 'export saved');
+            fs.unlinkSync(dest);
+            t.equal(status, 204);
+            t.end();
+        };
+        middleware.saveMBTiles(req, res, t.ifError);
+    }
 });
 
 test('cleanup', function(t) {
