@@ -10,7 +10,6 @@ $(document).ready(function() {
     var shell = require('shell');
     var http = require('http');
     var url = require('url');
-    var fs = require('fs');
     var path = require('path');
     var dialog = remote.require('dialog');
 
@@ -47,28 +46,17 @@ $(document).ready(function() {
                 window.Modal.show('atomexporting');
 
                 uri.method = 'GET';
-                try {
-                    var writeStream = fs.createWriteStream(filePath);
-                } catch(err) {
-                    return error(err);
-                }
-
-                fs.writeFileSync(filePath, 'asdfasdf');
-
+                uri.path += '&saveas=' + encodeURIComponent(filePath);
                 var req = http.request(uri, function(res) {
-                    if (res.statusCode !== 200) return error(new Error('Got HTTP code ' + res.statusCode));
-                    res.on('error', error);
-                    writeStream.on('error', error);
-                    res.pipe(writeStream).on('finish', function() {
-                        window.Modal.close();
-                    });
+                    if (res.statusCode !== 204) return error(new Error('Got HTTP code ' + res.statusCode));
+                    window.Modal.close();
                 });
                 req.on('error', error);
                 req.end();
 
                 function error(err) {
                     window.Modal.close();
-                    window.Modal.show('err', err);
+                    window.Modal.show('error', err);
                     return false;
                 }
 
