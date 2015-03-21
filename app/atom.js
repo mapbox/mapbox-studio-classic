@@ -37,26 +37,24 @@ $(document).ready(function() {
             // HOME is undefined on windows
             if (process.platform === 'win32') process.env.HOME = process.env.USERPROFILE;
             var defaultPath = path.join(process.env.HOME,'Untitled ' + typeLabel + '.' + typeExtension);
-            dialog.showSaveDialog({
+            var filepath = dialog.showSaveDialog({
                 title: 'Save ' + typeLabel,
                 defaultPath: defaultPath,
                 filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
-            }, function(filePath){
-                if (filePath) {
-                    window.Modal.show('atomexporting');
-                    uri.method = 'GET';
-                    var writeStream = fs.createWriteStream(filePath);
-                    var req = http.request(uri, function(res) {
-                        if (res.statusCode !== 200) return;
-                        res.pipe(writeStream);
-                        writeStream.on('finish', function() {
-                            window.Modal.close();
-                        });
-                    });
-                    req.end();
-                }
-                return false;
             });
+            if (filepath) {
+                window.Modal.show('atomexporting');
+                uri.method = 'GET';
+                var writeStream = fs.createWriteStream(filepath);
+                var req = http.request(uri, function(res) {
+                    if (res.statusCode !== 200) return;
+                    res.pipe(writeStream);
+                    writeStream.on('finish', function() {
+                        window.Modal.close();
+                    });
+                });
+                req.end();
+            }
             return false;
         }
         // Passthrough everything else.
