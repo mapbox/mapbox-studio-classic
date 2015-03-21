@@ -8,10 +8,10 @@ $(document).ready(function() {
 
     var remote = require('remote');
     var shell = require('shell');
-    var http = require('http');
     var url = require('url');
-    var fs = require('fs');
     var path = require('path');
+    var fs = remote.require('fs');
+    var http = remote.require('http');
     var dialog = remote.require('dialog');
 
     $('body').on('click', 'a', function(ev) {
@@ -46,15 +46,13 @@ $(document).ready(function() {
 
                 window.Modal.show('atomexporting');
 
-                uri.method = 'GET';
                 try {
                     var writeStream = fs.createWriteStream(filePath);
                 } catch(err) {
                     return error(err);
                 }
 
-                fs.writeFileSync(filePath, 'asdfasdf');
-
+                uri.method = 'GET';
                 var req = http.request(uri, function(res) {
                     if (res.statusCode !== 200) return error(new Error('Got HTTP code ' + res.statusCode));
                     res.on('error', error);
