@@ -37,6 +37,8 @@ $(document).ready(function() {
         // HOME is undefined on windows
         if (process.platform === 'win32') process.env.HOME = process.env.USERPROFILE;
 
+        // The placement of these requires is potentially sensitive on
+        // atom-shell + Windows. Reorder/move in this procedure with caution.
         var fs = remote.require('fs');
         var http = remote.require('http');
         var dialog = remote.require('dialog');
@@ -71,9 +73,15 @@ $(document).ready(function() {
             } catch(err) {
                 return error(err);
             }
-            res.on('error', error);
+            // The order of event listeners here appears to be sensitive
+            // when dealing with atom-shell + Windows. Previous ordering based
+            // on expected node-core like behavior (e.g. adding the 'finish')
+            // listener after res.pipe() is called can lead to the handler
+            // never being called.
             writeStream.on('error', error);
-            res.pipe(writeStream).on('finish', finish);
+            writeStream.on('finish', finish);
+            res.on('error', error);
+            res.pipe(writeStream);
         }).on('error', error);
 
         return false;
