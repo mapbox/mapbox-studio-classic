@@ -10,9 +10,6 @@ $(document).ready(function() {
     var shell = require('shell');
     var url = require('url');
     var path = require('path');
-    var fs = remote.require('fs');
-    var http = remote.require('http');
-    var dialog = remote.require('dialog');
 
     $('body').on('click', 'a', function(ev) {
         var uri = url.parse(ev.currentTarget.href);
@@ -40,41 +37,45 @@ $(document).ready(function() {
         // HOME is undefined on windows
         if (process.platform === 'win32') process.env.HOME = process.env.USERPROFILE;
 
+        var fs = remote.require('fs');
+        var http = remote.require('http');
+        var dialog = remote.require('dialog');
+
         // Show save dialog and make a GET request, piping
         // the response into the specified filePath.
         var defaultPath = path.join(process.env.HOME,'Untitled ' + typeLabel + '.' + typeExtension);
-        dialog.showSaveDialog({
+        var filePath = dialog.showSaveDialog({
             title: 'Save ' + typeLabel,
             defaultPath: defaultPath,
             filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
-        }, function(filePath){
-            if (!filePath) return false;
+        });
 
-            window.Modal.show('atomexporting');
+        if (!filePath) return false;
 
-            function error(err) {
-                window.Modal.close();
-                window.Modal.show('error', err);
-            }
+        window.Modal.show('atomexporting');
 
-            function finish() {
-                window.Modal.close();
-                window.Modal.show('atomcomplete');
-            }
+        function error(err) {
+            window.Modal.close();
+            window.Modal.show('error', err);
+        }
 
+        function finish() {
+            window.Modal.close();
+            window.Modal.show('atomcomplete');
+        }
+
+        http.get(uri, function(res) {
+            if (res.statusCode !== 200) return error(new Error('Got HTTP code ' + res.statusCode));
             try {
                 var writeStream = fs.createWriteStream(filePath);
             } catch(err) {
                 return error(err);
             }
+            res.on('error', error);
+            writeStream.on('error', error);
+            res.pipe(writeStream).on('finish', finish);
+        }).on('error', error);
 
-            http.get(uri, function(res) {
-                if (res.statusCode !== 200) return error(new Error('Got HTTP code ' + res.statusCode));
-                res.on('error', error);
-                writeStream.on('error', error);
-                res.pipe(writeStream).on('finish', finish);
-            }).on('error', error);
-        });
         return false;
     });
 
