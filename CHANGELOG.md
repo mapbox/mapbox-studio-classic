@@ -1,6 +1,9 @@
 Changelog
 =========
 
+### 0.2.8
+- Source UI: Fixed a bug where map would lock up after adding a new data source.
+
 ### 0.2.7
 - Add inline helper text for source mode UI on buffer, maxzoom and minzoom
 - Update minzoom / maxzoom maximium slider value to 16 from 22
