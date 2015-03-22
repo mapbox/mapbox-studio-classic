@@ -482,8 +482,9 @@ for (var name in datatests) (function(name, info) {
             var newCenter = [
                 window.editor.map.getCenter().lat,
                 window.editor.map.getCenter().lng,
-                zoom
+                window.editor.map.getZoom()
             ];
+
             t.notDeepEqual(newCenter, initialCenter, 'map re-centers on new layer');
 
             t.equal($('.pane.target').length,1,'only current layer pane is targeted');
