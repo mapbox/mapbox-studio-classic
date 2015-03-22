@@ -350,10 +350,10 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
-    'geojson/DC_polygon.geo.json': {
-        filepath: '/geojson/DC_polygon.geo.json',
+    'geojson/places.geo.json': {
+        filepath: '/geojson/places.geo.json',
         expected: {
-            'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
+            'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
             'Datasource-layer': 'OGRGeoJSON',
             'Datasource-type': 'ogr',
             'description': '',
@@ -362,10 +362,10 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
-    'geojson/places.geo.json': {
-        filepath: '/geojson/places.geo.json',
+    'geojson/DC_polygon.geo.json': {
+        filepath: '/geojson/DC_polygon.geo.json',
         expected: {
-            'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
+            'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
             'Datasource-layer': 'OGRGeoJSON',
             'Datasource-type': 'ogr',
             'description': '',
@@ -461,6 +461,12 @@ for (var name in datatests) (function(name, info) {
         t.equal($('#addlayer input[name=Datasource-file]').get(0).validity.valid, true);
         $('#addlayer').submit();
 
+        var initialCenter = [
+            window.editor.map.getCenter().lat,
+            window.editor.map.getCenter().lng,
+            window.editor.map.getZoom()
+        ];
+
         onajax(afterOmnivore);
         onajax(afterUpdate);
         onajax(afterUpdate2);
@@ -472,6 +478,14 @@ for (var name in datatests) (function(name, info) {
 
         function afterUpdate() {
             t.ok($('#layers-' + info.expected.id).hasClass('target'),'current layer pane is targeted');
+
+            var newCenter = [
+                window.editor.map.getCenter().lat,
+                window.editor.map.getCenter().lng,
+                window.editor.map.getZoom()
+            ];
+
+            t.notDeepEqual(newCenter, initialCenter, 'map re-centers on new layer');
 
             t.equal($('.pane.target').length,1,'only current layer pane is targeted');
 
