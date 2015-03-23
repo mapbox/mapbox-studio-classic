@@ -105,11 +105,12 @@ test('tm filterkeys', function(t) {
 
 test('tm dirfiles', function(t) {
     var platform = require('os').platform();
+    var dirname = tm.join(__dirname);
     if (platform === 'linux' || platform === 'darwin') {
         fs.symlinkSync('broken',path.join(__dirname,'fixtures-local source','broken-symlink'));
         t.ok(fs.existsSync(__dirname,'fixtures-local source','broken-symlink'));
     }
-    tm.dirfiles(__dirname + '/fixtures-local source', function(err, files) {
+    tm.dirfiles(dirname + '/fixtures-local source', function(err, files) {
         t.ifError(err);
         t.deepEqual([
             '10m-900913-bounding-box.dbf',
@@ -127,21 +128,21 @@ test('tm dirfiles', function(t) {
         ], files.map(function(f) { return f.basename }));
         // Confirm that paths are normalized on windows.
         t.deepEqual([
-            __dirname + '/fixtures-local source/10m-900913-bounding-box.dbf',
-            __dirname + '/fixtures-local source/10m-900913-bounding-box.index',
-            __dirname + '/fixtures-local source/10m-900913-bounding-box.prj',
-            __dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
-            __dirname + '/fixtures-local source/10m-900913-bounding-box.shx',
-            __dirname + '/fixtures-local source/10m_lakes_historic.dbf',
-            __dirname + '/fixtures-local source/10m_lakes_historic.index',
-            __dirname + '/fixtures-local source/10m_lakes_historic.prj',
-            __dirname + '/fixtures-local source/10m_lakes_historic.shp',
-            __dirname + '/fixtures-local source/10m_lakes_historic.shx',
-            __dirname + '/fixtures-local source/data.yml',
-            __dirname + '/fixtures-local source/project.yml'
+            dirname + '/fixtures-local source/10m-900913-bounding-box.dbf',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.index',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.prj',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.shx',
+            dirname + '/fixtures-local source/10m_lakes_historic.dbf',
+            dirname + '/fixtures-local source/10m_lakes_historic.index',
+            dirname + '/fixtures-local source/10m_lakes_historic.prj',
+            dirname + '/fixtures-local source/10m_lakes_historic.shp',
+            dirname + '/fixtures-local source/10m_lakes_historic.shx',
+            dirname + '/fixtures-local source/data.yml',
+            dirname + '/fixtures-local source/project.yml'
         ], files.map(function(f) { return f.path }));
         if (platform === 'linux' || platform === 'darwin') {
-            fs.unlinkSync(path.join(__dirname,'fixtures-local source','broken-symlink'));
+            fs.unlinkSync(path.join(dirname,'fixtures-local source','broken-symlink'));
         }
         t.end();
     });
