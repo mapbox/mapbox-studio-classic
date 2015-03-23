@@ -125,13 +125,27 @@ test('tm dirfiles', function(t) {
             'data.yml',
             'project.yml'
         ], files.map(function(f) { return f.basename }));
+        // Confirm that paths are normalized on windows.
+        t.deepEqual([
+            __dirname + '/fixtures-local source/10m-900913-bounding-box.dbf',
+            __dirname + '/fixtures-local source/10m-900913-bounding-box.index',
+            __dirname + '/fixtures-local source/10m-900913-bounding-box.prj',
+            __dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
+            __dirname + '/fixtures-local source/10m-900913-bounding-box.shx',
+            __dirname + '/fixtures-local source/10m_lakes_historic.dbf',
+            __dirname + '/fixtures-local source/10m_lakes_historic.index',
+            __dirname + '/fixtures-local source/10m_lakes_historic.prj',
+            __dirname + '/fixtures-local source/10m_lakes_historic.shp',
+            __dirname + '/fixtures-local source/10m_lakes_historic.shx',
+            __dirname + '/fixtures-local source/data.yml',
+            __dirname + '/fixtures-local source/project.yml'
+        ], files.map(function(f) { return f.path }));
         if (platform === 'linux' || platform === 'darwin') {
             fs.unlinkSync(path.join(__dirname,'fixtures-local source','broken-symlink'));
         }
         t.end();
     });
 });
-
 
 // @TODO tm.writefiles
 
