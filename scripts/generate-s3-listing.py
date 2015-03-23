@@ -30,7 +30,7 @@ for line in fileinput.input():
         time = parts[1]
         size = '%s MB' % (int(parts[3])/1000000)
         name = parts[4]
-        gitSHA = os.path.splitext(name)[0].split('-')[4]
+        gitSHA = '-'.join(os.path.splitext(name)[0].split('-')[4:])
         downloads[date+name] = line_template % (locals())
 
 sorted_by_date = sorted(downloads, key=lambda key: downloads[key], reverse=True)
