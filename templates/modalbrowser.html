@@ -12,12 +12,12 @@
   <h4 class='pad1'><%=obj.title || 'Browse'%></h4>
   <div>
     <a href='#' class='quiet pad1 icon pin-topright close js-close'></a>
-    <div class='keyline-top quiet cwd z1'>
-      <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='inline pad1 icon prev unround'></a><!--
-      --><strong class='align-top inline pad1y micro'><%=cwd%></strong>
+    <div class='with-icon text-right truncate contain keyline-top quiet js-cwd z1'>
+      <input type='text' value='<%=cwd%>' disabled class='clean transparent col12 small js-printcwd'>
+      <a href='#<%= obj.cwd.split('/').slice(0,-1).join('/') %>' class='js-cwd-back icon prev'></a>
     </div>
   </div>
-  <div class='list scroll-styled fill-darken1 pad1 pin-top bottom2 space-top8'></div>
+  <div class='list js-list scroll-styled fill-darken1 pad1 pin-top bottom2 space-top8'></div>
 
   <div class='clearfix pad1x pad2y pin-bottom'>
     <div class='pill clearfix input-pill'><!--
