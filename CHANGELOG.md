@@ -2,11 +2,13 @@ Changelog
 =========
 
 ### 0.2.7
-- Source UI: Fixed a bug where map would lock up after adding a new data source.
+- Source UI: Fixed bug where map would lock up after adding a new data source.
+- Source UI: Fixed bug where file sources with spaces and diacritics in names wouldn't show up in the UI after load.
 - Windows: Fix atom-shell bug that caused a hang when downloading exported mbtiles, export images.
 - Add inline helper text for source mode UI on buffer, maxzoom and minzoom
 - Update minzoom / maxzoom maximium slider value to 16 from 22
 - Add tracking to values saved buffer, maxzoom and minzoom in source usage
+- On launch, Mapbox Studio opens on a blank style project rather than the last used project.
 
 ### 0.2.6
 - Fix rendering issues with when font list titles are focused.
