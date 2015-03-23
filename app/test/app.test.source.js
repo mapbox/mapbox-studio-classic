@@ -203,11 +203,10 @@ tape('#addlayer-shape: adds new shapefile and checks input values', function(t) 
     //Browse for file and add new shape layer
     $('.js-addlayer').click();
     $('.js-browsefile').click();
-    var cwd = $('div.cwd').text();
+    var cwd = $('.js-printcwd').val();
     //This RegEx can probably be cleaned up, but it works for now
-    cwd = cwd.replace(/\s*$/,"");
     var array = cwd.split(/[\s,]+/);
-    var shpFile = array[1] + '/test/fixtures-local source/10m-900913-bounding-box.shp';
+    var shpFile = array[0] + '/test/fixtures-local source/10m-900913-bounding-box.shp';
     $('#browsefile .col8').val(shpFile);
     $('#browsefile .col4').submit();
     onajax(function() {
