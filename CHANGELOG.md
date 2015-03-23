@@ -1,10 +1,9 @@
 Changelog
 =========
 
-### 0.2.8
-- Source UI: Fixed a bug where map would lock up after adding a new data source.
-
 ### 0.2.7
+- Source UI: Fixed a bug where map would lock up after adding a new data source.
+- Windows: Fix atom-shell bug that caused a hang when downloading exported mbtiles, export images.
 - Add inline helper text for source mode UI on buffer, maxzoom and minzoom
 - Update minzoom / maxzoom maximium slider value to 16 from 22
 - Add tracking to values saved buffer, maxzoom and minzoom in source usage
