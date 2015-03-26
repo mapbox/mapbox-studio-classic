@@ -1,5 +1,6 @@
 var test = require('tape');
 var fs = require('fs');
+var url = require('url');
 var path = require('path');
 var assert = require('assert');
 var tm = require('../lib/tm');
@@ -104,11 +105,12 @@ test('tm filterkeys', function(t) {
 
 test('tm dirfiles', function(t) {
     var platform = require('os').platform();
+    var dirname = tm.join(__dirname);
     if (platform === 'linux' || platform === 'darwin') {
-        fs.symlinkSync('broken',path.join(__dirname,'fixtures-localsource','broken-symlink'));
-        t.ok(fs.existsSync(__dirname,'fixtures-localsource','broken-symlink'));
+        fs.symlinkSync('broken',path.join(__dirname,'fixtures-local source','broken-symlink'));
+        t.ok(fs.existsSync(__dirname,'fixtures-local source','broken-symlink'));
     }
-    tm.dirfiles(__dirname + '/fixtures-localsource', function(err, files) {
+    tm.dirfiles(dirname + '/fixtures-local source', function(err, files) {
         t.ifError(err);
         t.deepEqual([
             '10m-900913-bounding-box.dbf',
@@ -124,8 +126,23 @@ test('tm dirfiles', function(t) {
             'data.yml',
             'project.yml'
         ], files.map(function(f) { return f.basename }));
+        // Confirm that paths are normalized on windows.
+        t.deepEqual([
+            dirname + '/fixtures-local source/10m-900913-bounding-box.dbf',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.index',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.prj',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
+            dirname + '/fixtures-local source/10m-900913-bounding-box.shx',
+            dirname + '/fixtures-local source/10m_lakes_historic.dbf',
+            dirname + '/fixtures-local source/10m_lakes_historic.index',
+            dirname + '/fixtures-local source/10m_lakes_historic.prj',
+            dirname + '/fixtures-local source/10m_lakes_historic.shp',
+            dirname + '/fixtures-local source/10m_lakes_historic.shx',
+            dirname + '/fixtures-local source/data.yml',
+            dirname + '/fixtures-local source/project.yml'
+        ], files.map(function(f) { return f.path }));
         if (platform === 'linux' || platform === 'darwin') {
-            fs.unlinkSync(path.join(__dirname,'fixtures-localsource','broken-symlink'));
+            fs.unlinkSync(path.join(dirname,'fixtures-local source','broken-symlink'));
         }
         t.end();
     });
@@ -201,7 +218,7 @@ test('tm font (cache hit)', function(t) {
 });
 
 test('tm font (fontdir)', function(t) {
-    tm.font('Comic Neue Oblique', '', path.join(__dirname, 'fixtures-fontstyle'), function(err, buffer) {
+    tm.font('Comic Neue Oblique', '', tm.join(__dirname, 'fixtures-font style'), function(err, buffer) {
         t.ifError(err);
         t.ok(buffer.length > 1200 && buffer.length < 2000, ' valid font size');
         t.end();
@@ -240,6 +257,15 @@ test('tm parse', function(t) {
     t.equal(tm.parse('tmstyle:///path/with/encoded%20spaces').dirname, '/path/with/encoded spaces');
     t.equal(tm.parse('tmstyle:///path/with/free spaces').dirname, '/path/with/free spaces');
     t.equal(tm.parse('tmstyle:///path/with/nospaces').dirname, '/path/with/nospaces');
+
+    // handles url.parsed objects in the same way as strings
+    t.equal(tm.parse(url.parse('tmstyle:///path/with/encoded%20spaces')).dirname, '/path/with/encoded spaces');
+    t.equal(tm.parse(url.parse('tmstyle:///path/with/free spaces')).dirname, '/path/with/free spaces');
+    t.equal(tm.parse(url.parse('tmstyle:///path/with/nospaces')).dirname, '/path/with/nospaces');
+
+    // handles drivenames
+    t.equal(tm.parse('tmstyle://c:/path/with/free spaces').dirname, 'c:/path/with/free spaces');
+    t.equal(tm.parse(url.parse('tmstyle://C:/path/with/free spaces')).dirname, 'c:/path/with/free spaces');
     t.end();
 });
 
@@ -284,7 +310,7 @@ test('tm copydir invalid from', function(t) {
 
 test('tm copydir copies', function(t) {
     var dest = tm.join(tmppath, 'copydir');
-    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, null, function(err) {
+    tm.copydir(tm.join(__dirname, 'fixtures-local source'), dest, null, function(err) {
         t.ifError(err);
         t.equal(fs.existsSync(dest), true, 'dest exists');
         t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), true, 'copied files');
@@ -294,7 +320,7 @@ test('tm copydir copies', function(t) {
 
 test('tm copydir filter', function(t) {
     var dest = tm.join(tmppath, 'copydir-filtered');
-    tm.copydir(tm.join(__dirname, 'fixtures-localsource'), dest, [ /\.shx$/, 'data.yml' ], function(err) {
+    tm.copydir(tm.join(__dirname, 'fixtures-local source'), dest, [ /\.shx$/, 'data.yml' ], function(err) {
         t.ifError(err);
         t.equal(fs.existsSync(dest), true, 'dest exists');
         t.equal(fs.existsSync(tm.join(dest, '10m_lakes_historic.shx')), false, 'excludes by regexp');

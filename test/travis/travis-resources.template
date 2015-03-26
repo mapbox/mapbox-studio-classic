@@ -12,6 +12,20 @@
                             "Statement": [
                                 {
                                     "Action": [
+                                        "s3:ListBucket"
+                                    ],
+                                    "Condition": {
+                                        "StringLike": {
+                                            "s3:prefix": "mapbox-studio/*"
+                                        }
+                                    },
+                                    "Effect": "Allow",
+                                    "Resource": [
+                                        "arn:aws:s3:::mapbox"
+                                    ]
+                                },
+                                {
+                                    "Action": [
                                         "s3:GetObject",
                                         "s3:PutObject",
                                         "s3:PutObjectAcl"

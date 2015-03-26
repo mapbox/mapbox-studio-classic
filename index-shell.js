@@ -72,6 +72,8 @@ function makeWindow() {
         }
     });
     mainWindow.loadUrl('file://' + path.join(__dirname, 'app', 'loading.html'));
+    // Restore OS X fullscreen state.
+    restoreFullScreen();
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
@@ -83,9 +85,32 @@ function makeWindow() {
     mainWindow.on('page-title-updated', function(e) {
         e.preventDefault();
     });
-
+    mainWindow.on('enter-full-screen', function(e) {
+        persistFullScreen();
+    });
+    mainWindow.on('leave-full-screen', function(e) {
+        persistFullScreen();
+    });
     createMenu();
     loadURL();
+
+    // Restore OS X fullscreen state.
+    function restoreFullScreen() {
+        if (process.platform !== 'darwin') return;
+        var cp = require("child_process");
+        if (cp.execSync("defaults read com.mapbox.mapbox-studio FullScreen 2>/dev/null || echo 0") == 1) {
+            setTimeout(function(){
+                mainWindow.setFullScreen(true);
+            }, 100);
+        }
+    }
+
+    // Persist OS X fullscreen state.
+    function persistFullScreen() {
+        if (process.platform !== 'darwin') return;
+        var cp = require("child_process");
+        cp.execSync("defaults write com.mapbox.mapbox-studio FullScreen -bool " + mainWindow.isFullScreen());
+    }
 }
 
 function loadURL() {

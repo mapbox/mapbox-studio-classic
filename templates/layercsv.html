@@ -35,7 +35,7 @@
         <label>Projection</label>
         <input class='js-metadata-projection short stretch' name='srs' type='text' value='<%= obj.srs %>' readonly />
       </section>
-      <section class='clearfix pad2x pad1y keyline-bottom'>
+      <section class='clearfix pad2x pad1y'>
         <label class='pad0y col3 inline'>Buffer size</label>
         <% if (obj.properties['buffer-size'] > 64) { %>
         <input type='text' class='short' size='8' name='properties-buffer-size' value='<%= obj.properties['buffer-size'] %>' pattern='[\d+]+' />
@@ -43,6 +43,7 @@
         <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='64' step='2' oninput='rangeHandler(this);'/>
         <span class='small quiet code inline range space-top0' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
         <% } %>
+        <em class='quiet small block pad2x keyline-bottom'>Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width.</em>
       </section>
     </fieldset>
   </div>

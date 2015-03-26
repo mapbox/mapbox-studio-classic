@@ -34,7 +34,7 @@
       <a href='/source?id=<%=source.id%>' class='button submit icon x task js-cancel'> Cancel export</a>
       <div class='stat col8 margin2 pad1'>
         <% if (job.type === 'upload') { %>
-        <a href='https://www.mapbox.com/data/' target='_blank' class='col12 short button icon stat cloud'>View data</a>
+        <a href='https://www.mapbox.com/uploads/?source=data' target='_blank' class='col12 short button icon stat cloud'>View data</a>
         <% } else if (job.type === 'export') { %>
         <a href='/source.mbtiles?id=<%= job.id %>' class='col12 short button icon folder stat'>Download</a>
         <% } %>
