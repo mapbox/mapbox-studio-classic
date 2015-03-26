@@ -96,6 +96,24 @@ test('normalizePaths', function(assert) {
         assert.deepEqual(req.body.source, 'tmsource://c:/path with/spaces/source.tm2source');
     });
 
+    req = {
+	// NOTE: these are empty for this test - we do not check their values
+	// but they are required to be present.
+	query: {
+	    id: '',
+	    style: '',
+	    source: ''
+	},
+	body: {
+	    id: '',
+	    source: 'http://localhost:31337/path/to/tile.json'
+	}
+    }
+    middleware.normalizePaths(req, {}, function(err) {
+	assert.ifError(err);
+	assert.deepEqual(req.body.source, 'http://localhost:31337/path/to/tile.json');
+    });
+
     assert.end();
 });
 
