@@ -241,8 +241,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                if (extension === 'tif' || extension === 'vrt') window.editor.addlayer(extension, [metadata.filename], filepath, metadata);
-                else window.editor.addlayer(extension, metadata.layers, filepath, metadata);
+                window.editor.addlayer(extension, filepath, metadata);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
@@ -292,8 +291,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         else return true;
     };
 
-    Editor.prototype.addlayer = function(filetype, layersArray, filepath, metadata) {
+    Editor.prototype.addlayer = function(filetype, filepath, metadata) {
         var view = this;
+        var layer_names = metadata.layers;
         var consistent = consistentSourceType(metadata);
 
         if (!consistent) return Modal.show('error', 'Projects are restricted to entirely raster layers or entirely vector layers.');
@@ -314,16 +314,12 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
                 .replace(/[^\w\-]+/g, '_');
         }
 
-        layersArray.forEach(function(current_layer, index, array) {
+        layer_names.forEach(function(current_layer, index, array) {
 
             //Replace spaces with underscores for cartocss
             var layer_id = slugify(current_layer);
 
-            //all geojson sources have the same layer name, 'OGRGeojson'.
-            //To avoid all geojson layers having the same name, replace id with the filename.
-            if (filetype === 'geojson') layer_id = slugify(metadata.filename);
-
-            //All gpx files have the same layer names (wayponts, routes, tracks, track_points, route_points)
+            //All gpx files have the same layer names (waypoints, routes, tracks, track_points, route_points)
             //Append filename to differentiate
             if (filetype === 'gpx') layer_id = slugify(metadata.filename) + '_' + slugify(current_layer);
 
@@ -363,13 +359,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             var maxzoomTarget = $('.max');
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
-            // show new layer
-            var center = metadata.center;
-            var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-            map.setView([center[1], center[0]], zoom, {'animate': false});
-
+            // zoom to new layer
+            map.fitBounds([
+                [metadata.extent[1], metadata.extent[0]],
+                [metadata.extent[3], metadata.extent[2]]
+            ],{'animate': false});
             //open proper modal, depending on if there are multiple layers
-            if (layersArray.length > 1) {
+            if (layer_names.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
             } else {
                 $('#layers-' + layer_id).addClass('target');
@@ -684,9 +680,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                var center = metadata.center;
-                var zoom = Math.max(metadata.minzoom, view.model.get('minzoom'));
-                map.setView([center[1], center[0]], zoom, {'animate': false});
+                map.fitBounds([
+                    [metadata.extent[1], metadata.extent[0]],
+                    [metadata.extent[3], metadata.extent[2]]
+                  ],{'animate': false})
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
