@@ -51,11 +51,11 @@ test('loads default style from disk', function(t) {
 
 test('loads local style via tilelive', function(assert) {
     style.clear(localstyle);
-    assert.equal(style.cache[localstyle], undefined, 'uncached');
+    assert.equal(style.cache[localstyle] === undefined, true, 'uncached');
     tilelive.load(localstyle, function(err, proj) {
         assert.ifError(err);
         assert.equal(proj.data.id, localstyle);
-        assert.deepEqual(style.cache[localstyle], proj, 'cached');
+        assert.deepEqual(style.cache[localstyle] === proj, true, 'cached');
         assert.end();
     });
 });

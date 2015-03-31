@@ -2,14 +2,18 @@ Changelog
 =========
 
 ### 0.2.7
+- Source UI: Fixed bug where map would lock up after adding a new data source.
+- Windows: Fix atom-shell bug that caused a hang when downloading exported mbtiles, export images.
 - Add inline helper text for source mode UI on buffer, maxzoom and minzoom
 - Update minzoom / maxzoom maximium slider value to 16 from 22
 - Add tracking to values saved buffer, maxzoom and minzoom in source usage
 
 ### 0.2.6
+- On launch, Mapbox Studio opens on a blank style project rather than the last used project.
 - Fix rendering issues with when font list titles are focused.
 - Validate interactivity layer and template.
 - Don't show UTF grid tooltips in xray mode.
+- Source UI: Fixed bug where file sources with spaces and diacritics in names wouldn't show up in the UI after load.
 - Source UI: Tab key now creates soft tabs (2 spaces) instead of Tab character.
 - Style UI: Fix bug with broken preview images for fonts with special characters in their names.
 - Fix mbtiles export failure on Windows.

@@ -174,8 +174,8 @@ var views = {};
 
 views.Browser = Backbone.View.extend({});
 views.Browser.prototype.events = {
-  'click .cwd a': 'browse',
-  'click .list a': 'browse',
+  'click .js-cwd a': 'browse',
+  'click .js-list a': 'browse',
   'submit': 'submit'
 };
 views.Browser.prototype.initialize = function(options, initCallback) {
@@ -207,9 +207,9 @@ views.Browser.prototype.render = function() {
         parent = parent.indexOf(sep) === -1 ? parent + sep : parent;
       }
       view.$('input[name=cwd]').val(view.cwd);
-      view.$('.cwd strong').text(view.cwd);
-      view.$('.cwd a').attr('href', '#' + parent);
-      view.$('.list').html(_(resp).chain()
+      view.$('.js-printcwd').val(view.cwd);
+      view.$('.js-cwd-back').attr('href', '#' + parent);
+      view.$('.js-list').html(_(resp).chain()
         .filter(view.filter)
         .map(function(f) {
           var type = (f.type == 'dir') ? 'folder' : 'document';
@@ -225,7 +225,7 @@ views.Browser.prototype.render = function() {
         .value()
         .join('\n'));
       // Reset scroll position to top.
-      view.$('.list').get(0).scrollTop = 0;
+      view.$('.js-list').get(0).scrollTop = 0;
     },
     error: function(resp) {
 
