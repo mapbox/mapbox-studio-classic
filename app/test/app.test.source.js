@@ -353,10 +353,10 @@ var datatests = {
         filepath: '/geojson/places.geo.json',
         expected: {
             'Datasource-file': window.testParams.dataPath + '/geojson/places.geo.json',
-            'Datasource-layer': 'DC_polygon_geo',
+            'Datasource-layer': 'places.geo',
             'Datasource-type': 'geojson',
             'description': '',
-            'id': 'DC_polygon_geo',
+            'id': 'places_geo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
@@ -365,10 +365,10 @@ var datatests = {
         filepath: '/geojson/DC_polygon.geo.json',
         expected: {
             'Datasource-file': window.testParams.dataPath + '/geojson/DC_polygon.geo.json',
-            'Datasource-layer': 'places.geo',
+            'Datasource-layer': 'DC_polygon.geo',
             'Datasource-type': 'geojson',
             'description': '',
-            'id': 'places.geo',
+            'id': 'DC_polygon_geo',
             'properties-buffer-size': '8',
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
