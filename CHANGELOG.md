@@ -1,6 +1,15 @@
 Changelog
 =========
 
+### Upcoming
+
+- New `dot` symbolizer for faster rendering of points (better that `marker`).
+- Improved performance of GeoJSON, TopoJSON, and GeoTIFF.
+- Update to node-mapnik 3.2.1 from 3.1.2.
+- Update to mapnik-omnivore 5.0.7.
+- Fixed crashes when vector tiles are generated >= 64 MB.
+- New CartoCSS styling properties for text: `text-transform:reverse;`, `text-upright:auto-down;`, and `marker-direction`.
+
 ### 0.2.7
 - Source UI: Fixed bug where map would lock up after adding a new data source.
 - Windows: Fix atom-shell bug that caused a hang when downloading exported mbtiles, export images.
