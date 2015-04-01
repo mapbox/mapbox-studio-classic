@@ -28,4 +28,6 @@ elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA" ]; then
 
     pip install -q awscli
     ./scripts/build-atom.sh "$GITSHA" darwin
+else
+    echo "Not publishing for $PLATFORM / $GITSHA"
 fi
