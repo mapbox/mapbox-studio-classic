@@ -14,7 +14,7 @@ defaults:
     path: ""
     type: post
   values:
-    layout: studiodoc
+    layout: pages
     date: 0000-01-01
 
 ### latest release
