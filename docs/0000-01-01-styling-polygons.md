@@ -1,5 +1,6 @@
-Styling polygons
-================
+---
+category: "Style"
+---
 
 Polygons are areas that can be filled with a solid color or a pattern, and also given an outline.
 

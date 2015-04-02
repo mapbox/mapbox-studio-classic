@@ -1,5 +1,6 @@
-Style quickstart
-================
+---
+category: "Getting started"
+---
 
 Mapbox Studio uses a language called CartoCSS to determine the look of a map. Colors, sizes, and shapes can all be manipulated by applying their specific CartoCSS parameters in the stylesheet panel to the right of the map. Read the [CartoCSS manual](https://www.mapbox.com/carto/) for a more detailed introduction to the language.
 
@@ -82,14 +83,14 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 
 - `#landuse` selects features from the landuse layer.
 - `[class='park']` restricts the landuse layer to features where the `class` attribute is `park`.
-- `#poi_label` selects the poi_label layer for labelling parks.
+- `#poi_label` selects the poi_label layer for labeling parks.
 - `[maki='park'][scalerank<=3][zoom>=15]` restricts the poi_label layer to prominent park labels and restricts their visibility to zoom level 15 or greater.
 - `text-name: @name` sets the field that label contents will use for their text. It references the existing `@name` variable defined in the `style` tab.
 - `text-face-name: @sans` sets the font to use for displaying labels. It references the existing `@sans` variable defined in the `style` tab.
 - `text-wrap-width: 60` sets a maximum width for a single line of text.
 - `text-halo-rasterizer: fast` uses an alternative optimized algorithm for drawing halos around text that improves rendering speed.
 
-Labelling roads
+Labeling roads
 ---------------
 
 Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
@@ -106,7 +107,7 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
       text-halo-rasterizer:fast;
     }
 
-![Labelling roads](https://cloud.githubusercontent.com/assets/83384/3870380/23717e70-20cb-11e4-99f5-68a80914a0ce.png)
+![labeling roads](https://cloud.githubusercontent.com/assets/83384/3870380/23717e70-20cb-11e4-99f5-68a80914a0ce.png)
 
 - `#road_label` selects features from the road_label layer.
 - `[zoom>=13]` restricts the road_label layer to zoom level 13 or greater.
@@ -116,7 +117,7 @@ Add the following CartoCSS to your _custom_ stylesheet and then click __Save__.
 Add custom fonts
 ----------------
 
-Download fonts [Junction](https://www.theleagueofmoveabletype.com/junction) and [Chunk](https://www.theleagueofmoveabletype.com/chunk) from open-source type collective, [League of Moveable Type](https://github.com/theleagueof). Create a new *fonts* folder in your `.tm2` style folder and copy the `.otf` files from both fonts there. 
+Download fonts [Junction](https://www.theleagueofmoveabletype.com/junction) and [Chunk](https://www.theleagueofmoveabletype.com/chunk) from open-source type collective, [League of Moveable Type](https://github.com/theleagueof). Create a new *fonts* folder in your `.tm2` style folder and copy the `.otf` files from both fonts there.
 
 ![new fonts folder](https://cloud.githubusercontent.com/assets/4587826/6070586/d5bccdec-ad5b-11e4-9c21-77db8c320e8f.png)
 
@@ -130,7 +131,7 @@ You will now see your custom fonts listed in Studio. You can use your fonts by n
 
 ![fonts tab updated](https://cloud.githubusercontent.com/assets/4587826/6064078/a2565f4a-ad29-11e4-8836-5c8526efc467.png)
 
-Change font variables in your `style.mss` file from Source Sans Pro to ChunkFive Regular, Junction Light, and Junction Bold. 
+Change font variables in your `style.mss` file from Source Sans Pro to ChunkFive Regular, Junction Light, and Junction Bold.
 
 	// Fonts //
 	@sans: 'ChunkFive Regular';
@@ -152,7 +153,7 @@ Now remove the single quotes (`' '`) to the right of `template` field and replac
 
 ![Template code](https://cloud.githubusercontent.com/assets/4587826/6071384/49926afe-ad63-11e4-8628-0ada1fd85d38.png)
 
-Restart Studio and hover over a park location to see your layer in action. 
+Restart Studio and hover over a park location to see your layer in action.
 
 ![UTFGrid layer](https://cloud.githubusercontent.com/assets/4587826/6071164/e7200b58-ad60-11e4-933e-f97bf06e2fdb.png)
 

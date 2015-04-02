@@ -1,5 +1,6 @@
-Styling lines
-=============
+---
+category: "Style"
+---
 
 Line styles can be applied to both line and polygon layers. The simplest line styles have just a `line-width` (in pixels) and a `line-color` making a single solid line. The default values for these properties are `1` and `black` respectively if they are not specified.
 
@@ -11,7 +12,7 @@ Line styles can be applied to both line and polygon layers. The simplest line st
     }
 
 ## Dashed lines
- 
+
 Simple dashed lines can be created with the `line-dasharray` property. The value of this property is a comma-separated list of pixel widths that will alternatively be applied to dashes and spaces. This style draws a line with 5 pixel dashes separated by 3 pixel spaces:
 
 ![](https://cloud.githubusercontent.com/assets/126952/3893044/893cb6ee-2237-11e4-886b-d35dad27acb2.png)
@@ -21,7 +22,7 @@ Simple dashed lines can be created with the `line-dasharray` property. The value
       line-color: #426;
       line-dasharray: 5,3;
     }
- 
+
 You can make your dash patterns as complex as you want, with the limitation that the dasharray values must all be whole numbers.
 
 ![](https://cloud.githubusercontent.com/assets/126952/3893076/d7d35dda-2237-11e4-99ff-7b04d27e44f4.png)
@@ -31,7 +32,7 @@ You can make your dash patterns as complex as you want, with the limitation that
       line-color: #426;
       line-dasharray: 10,3,2,3;
     }
- 
+
 ## Caps & Joins
 
 With thicker line widths you'll notice long points at sharp angles and odd gaps on small polygons.
@@ -143,7 +144,7 @@ Another common railroad line style is similar, but with a thin dash and a thick 
 
 ### Tunnels
 
-A simple tunnel style can be created by modifying a regular road style and making the background line dashed. 
+A simple tunnel style can be created by modifying a regular road style and making the background line dashed.
 
 ![](https://cloud.githubusercontent.com/assets/126952/3893606/73e3eeac-223c-11e4-83dd-8343f8525513.png)
 

@@ -1,5 +1,7 @@
-Compositing reference
-=====================
+---
+category: "Style"
+date: 0000-01-02
+---
 
 Compositing operations affect the way colors and textures of different elements and styles interact with each other.
 

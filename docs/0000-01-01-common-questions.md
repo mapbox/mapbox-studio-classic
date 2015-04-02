@@ -1,5 +1,6 @@
-Common questions
-================
+---
+category: "Installation"
+---
 
 - [What are vector tiles?](#what-are-vector-tiles)
 - [What is the difference between style and source projects?](#what-is-the-difference-between-style-and-source-projects)
@@ -85,7 +86,7 @@ Mapbox Studio includes over 300 pro fonts licensed from [FontShop](http://www.fo
 How is Mapbox Studio related to TileMill?
 -----------------------------------------
 
-Mapbox Studio is a new map design application from Mapbox. It is powered exclusively by vector tiles and aims to fully replace and improve upon TileMill in functionality.
+Mapbox Studio is a new Style application from Mapbox. It is powered exclusively by vector tiles and aims to fully replace and improve upon TileMill in functionality.
 
 ### Similarities
 

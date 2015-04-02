@@ -1,4 +1,9 @@
-# PostGIS + SQL in Mapbox Studio
+---
+title: PostGIS Manual
+category: "Source"
+date: 0000-01-03
+---
+
 
 Got a large collection of custom data? Need more processing power to make [vector tiles](https://www.mapbox.com/developers/vector-tiles/) upload smoothly to Mapbox.com? Look no further than PostGIS + SQL in Mapbox Studio.
 
@@ -85,7 +90,7 @@ Assuming wkb_geometry is your geometry column, this query will only select featu
 
 ### Limiting data by zoom level
 
-If you have a layer that's not needed at every zoom level, you can craft your query to limit the selection based on the zoom level. This will require the z() function provided by the postgis-vt-utils package. This also makes for smaller, more efficient tiles and smaller vector tiles when you are uploading this data set to Mapbox.com. 
+If you have a layer that's not needed at every zoom level, you can craft your query to limit the selection based on the zoom level. This will require the z() function provided by the postgis-vt-utils package. This also makes for smaller, more efficient tiles and smaller vector tiles when you are uploading this data set to Mapbox.com.
 
 
     ( SELECT * FROM table_name
@@ -98,7 +103,7 @@ It's good practice to include the avoid spatially-irrelevant clause mentioned ab
 
 ### Controlling label density
 
-Point data needs to controlled because in some locations you have hundreds of points geographically close to each other, or even on top of each other. These dense areas mean that certain vector tiles will be very heavy, but Mapbox Studio will render them just the same. Now imagine what happens when you zoom out to low zoom levels, again these dense areas become problematic when they are combined with a CartoCSS style + used to generate a raster tile. 
+Point data needs to controlled because in some locations you have hundreds of points geographically close to each other, or even on top of each other. These dense areas mean that certain vector tiles will be very heavy, but Mapbox Studio will render them just the same. Now imagine what happens when you zoom out to low zoom levels, again these dense areas become problematic when they are combined with a CartoCSS style + used to generate a raster tile.
 
 If you ever upload Mapbox Studio style to mapbox.com, and are met with an error like `Drawtime avg. exceeded limit of 300ms` or `Drawtime max exceeded limit of 1000ms` it's likely that the style is using vector tiles that are too dense, and thus requiring `Mapnik` to do too much work to generate .png tiles.
 

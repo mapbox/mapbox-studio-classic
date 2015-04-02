@@ -1,5 +1,6 @@
-Styling labels
-==============
+---
+category: "Style"
+---
 
 ## Basic Point Labels
 

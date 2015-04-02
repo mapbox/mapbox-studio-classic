@@ -1,5 +1,7 @@
-Source quickstart
-=================
+---
+category: "Getting started"
+date: 0000-01-03
+---
 
 Mapbox Studio does not apply visual styles to geospatial data files directly. Instead, raw data is converted into Mapbox Vector Tiles. The *Source editor* transforms traditional geodata formats into vector tiles containing the appropriate layers and configurations needed for styling.
 
@@ -42,7 +44,7 @@ Adding your first layer
 
 4. Set the __Buffer size__ slider to __32__. The vector tile buffer determines how much extra data is included around the edges of each tile and can be used to prevent visual clipping artifacts when styling data.
 
-5. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview. You may need to zoom and pan a little to see your data in the preview. 
+5. Click __Done__ to see your new layer. It is automatically given a color and style in the data preview. You may need to zoom and pan a little to see your data in the preview.
 
     ![Layer settings](https://cloud.githubusercontent.com/assets/83384/3870117/ccf6bd8a-20bb-11e4-8000-5c0401a62292.png)
 
@@ -78,7 +80,7 @@ Mapbox Studio source projects are saved as a directory of files with a suffix of
 Uploading
 ---------
 
-Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects. 
+Upload your project by click on the __Settings__ button, then __Upload to Mapbox__. Uploading a Mapbox Studio source project to Mapbox.com will allow you to use the source for Mapbox Studio style projects.
 
 ![Upload source](https://cloud.githubusercontent.com/assets/134753/5309044/63eb2cae-7bd3-11e4-86d8-510db64f2e57.png)
 

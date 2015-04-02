@@ -1,5 +1,6 @@
-Previous releases
-=================
+---
+category: "Installation"
+---
 
 ### OS X
 

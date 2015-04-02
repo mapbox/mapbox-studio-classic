@@ -1,5 +1,6 @@
-Styling selectors
-=================
+---
+category: "Style"
+---
 
 CartoCSS styles are constructed by applying blocks of style rules to groups of objects. Style blocks are bounded by curly braces `{}` and contain style properties and values. _Selectors_ are what allow you restrict these styles to specific layers or groups of objects within layers.
 

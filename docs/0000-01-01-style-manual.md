@@ -1,5 +1,6 @@
-Style manual
-============
+---
+category: "Getting started"
+---
 
 A Mapbox Studio style project is stored in a single directory with a `.tm2` file extension. A typical style project directory looks like this:
 
@@ -63,7 +64,7 @@ Local sources will not work in packaged & uploaded styles. Make sure to export &
 CartoCSS
 --------
 
-Mapbox Studio styles are defined using CartoCSS. A quick introduction to the language and a full reference list of properties are built into Mapbox Studio - click on the __Docs__ icon. 
+Mapbox Studio styles are defined using CartoCSS. A quick introduction to the language and a full reference list of properties are built into Mapbox Studio - click on the __Docs__ icon.
 
 If you are new to CartoCSS, the following guides on Mapbox.com will be helpful:
 
@@ -85,8 +86,6 @@ Check out an example of this in action in our [Style Quickstart]({{site.baseurl}
 
 Publishing styles
 -----------------
-
-__Note:__ publishing requires an account on the [Mapbox Standard plan](https://www.mapbox.com/plans/) or higher.
 
 Mapbox Studio styles are packaged into `.tm2z` files for publishing on Mapbox.com. The package contains only the styling information and no data and thus is relatively small. Inside it are:
 

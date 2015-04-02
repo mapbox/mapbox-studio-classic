@@ -1,5 +1,7 @@
-Source manual
-=============
+---
+category: "Getting started"
+date: 0000-01-02
+---
 
 A Mapbox Studio source project is stored in a single directory with a `.tm2source` file extension. A typical source project directory looks like this:
 
@@ -77,7 +79,7 @@ Using PostGIS you can perform the centroid computation on the fly using `ST_Poin
 Layer ordering
 --------------
 
-You can drag and drop layers in the layer list to reorder them. The order they're listed here will be the order they're stored in the vector tiles and the default order styles will use to draw. Layers at the top of the list will be drawn on top of layers further down. For most map designs, you will want an order that looks some thing like this:
+You can drag and drop layers in the layer list to reorder them. The order they're listed here will be the order they're stored in the vector tiles and the default order styles will use to draw. Layers at the top of the list will be drawn on top of layers further down. For most Styles, you will want an order that looks some thing like this:
 
 - least important labels at the top
 - most important labels below less important labels but above everything else

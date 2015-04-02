@@ -1,7 +1,9 @@
-Layer and data order
-====================
+---
+category: "Source"
+date: 0000-01-02
+---
 
-Data in Mapbox Studio - *sources, layers, objects, and symbols* - are drawn using a [Painter's Algorithm](http://en.wikipedia.org/wiki/Painter's_algorithm), meaning everything is drawn in a specific order, and things that are drawn first might be covered by things that are drawn later. 
+Data in Mapbox Studio - *sources, layers, objects, and symbols* - are drawn using a [Painter's Algorithm](http://en.wikipedia.org/wiki/Painter's_algorithm), meaning everything is drawn in a specific order, and things that are drawn first might be covered by things that are drawn later.
 
 ## Overview
 
@@ -105,7 +107,7 @@ The order in which your data sources are listed in Studio also influences render
 
 ## Custom layer ordering
 
-Alter the layer order of any remote vector tile data source by manually edit the `project.yml` file of a style project by adding each layer `{id}` in *top-down* stacking order. Clone layers by listing `{id}.{class}` where `{class}` can be any word you choose to describe that layer. 
+Alter the layer order of any remote vector tile data source by manually edit the `project.yml` file of a style project by adding each layer `{id}` in *top-down* stacking order. Clone layers by listing `{id}.{class}` where `{class}` can be any word you choose to describe that layer.
 
 Example below specifies layers from Mapbox Terrain (v1) and Mapbox Streets (v5) vector sources with the `contour` layer cloned:
 
@@ -127,7 +129,7 @@ _Note: After making edits to the `project.yml` file in a text editor, quit and r
 
 ### Check data source layers with Mapbox API
 
-Link below to .json files which list `{id}` values of all available layers of Mapbox remote vector tile data sources: 
+Link below to .json files which list `{id}` values of all available layers of Mapbox remote vector tile data sources:
 
  - [Mapbox Streets (v5)](http://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v5.json?access_token=pk.eyJ1IjoiZW5mIiwiYSI6IkNJek92bnMifQ.xn2_Uj9RkYTGRuCGg4DXZQ)
  - [Mapbox Terrain (v2)](http://a.tiles.mapbox.com/v4/mapbox.mapbox-terrain-v2.json?access_token=pk.eyJ1IjoiZW5mIiwiYSI6IkNJek92bnMifQ.xn2_Uj9RkYTGRuCGg4DXZQ)
