@@ -1,0 +1,53 @@
+<form class='pane editor dark fill-dark col12 pin-right z10' id='layers-<%=obj.id%>'>
+
+  <input id='conf-<%=obj.id%>'   class='hidden toggle-conf' type='radio' name='toggle' checked='true'>
+  <input id='fields-<%=obj.id%>' class='hidden toggle-fields' type='radio' name='toggle'>
+
+  <nav class='pin-top pad1y pad2x keyline-bottom'>
+    <h3 class='fl'>
+      <%= obj.id %>
+      <a href='#' id='updatename-<%=obj.id%>' class='micro block js-updatename'>Rename</a>
+    </h3>
+    <input type='hidden' name='id' value='<%=obj.id%>' />
+    <div class='pin-right pad1'>
+      <div class='pane-pager rounded-toggle inline strong'>
+        <label class='toggle-conf' for='conf-<%=obj.id%>'>Configure</label>
+        <label class='toggle-fields' for='fields-<%=obj.id%>'>Fields</label>
+      </div>
+      <a href='#' class='js-offpane offpane-button button short quiet icon check'>Done</a>
+    </div>
+  </nav>
+
+  <div class='conf col12 pin-right top1 space-top2 scroll-styled'>
+    <fieldset>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>Description</label>
+        <input class='short stretch' type='text' name='description' value='<%= _(obj.description).escape() %>' />
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>TopoJSON File</label>
+        <div class='input-pill clearfix'>
+          <input type='hidden' name='Datasource-type' value='topojson' />
+          <input type='hidden' name='Datasource-layer' value='<%= obj.Datasource.layer %>' />
+          <input class='col12 short filepath' type='text' name='Datasource-file' value='<%= obj.Datasource.file %>'/>
+        </div>
+      </section>
+      <section class='pad2x pad1y keyline-bottom'>
+        <label>Projection</label>
+        <input class='js-metadata-projection short stretch' name='srs' type='text' value='<%= obj.srs %>' readonly />
+      </section>
+      <section class='clearfix pad2x pad1y'>
+        <label class='pad0y col3 inline'>Buffer size</label>
+        <% if (obj.properties['buffer-size'] > 64) { %>
+        <input type='text' class='short' size='8' name='properties-buffer-size' value='<%= obj.properties['buffer-size'] %>' pattern='[\d+]+' />
+        <% } else { %>
+        <input id='<%=obj.id%>-buffer-size' name='properties-buffer-size' type='range' value='<%= obj.properties['buffer-size'] %>' min='0' max='64' step='2' oninput='rangeHandler(this);'/>
+        <span class='space-top0 small quiet code inline range' id='<%=obj.id%>-buffer-size-val'><%= obj.properties['buffer-size'] %></span>
+        <% } %>
+        <em class='quiet small block space-top0'>Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width.</em>
+      </section>
+    </fieldset>
+  </div>
+
+  <div class='fields col12 pin-right top1 space-top2 scroll-styled'><%= this.layerfields(obj.fields) %></div>
+</form>
