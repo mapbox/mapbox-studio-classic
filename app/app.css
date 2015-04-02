@@ -751,6 +751,11 @@ a.toolbar-button.saveas:hover {
 
 .user-icon a.toolbar-button {
   margin-bottom: 0;
+  line-height: 16px;
+}
+
+.user-icon .icon {
+ margin-bottom: 6px;
 }
 
 a.toolbar-button:hover {

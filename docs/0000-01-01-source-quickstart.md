@@ -18,9 +18,9 @@ In this crash course, we’ll use [earthquake data from the USGS](http://earthqu
 Create a source project
 -----------------------
 
-Open Mapbox Studio and click on __Projects__ in the lower left - this will open up a listing of your projects. Click the __New project__ button to open the New Style and Source window.
+Open Mapbox Studio and click on __Styles & Sources__ in the lower left - this will open up a listing of your styles and sources. Click the __New style or source__ button to open the New Style and Source window.
 
-![New Project](https://cloud.githubusercontent.com/assets/134753/5308558/0b6aaf06-7bcd-11e4-94e1-6c4494bb81b6.png)
+![New Style or Source](https://cloud.githubusercontent.com/assets/865298/6955574/5f663462-d894-11e4-9b4d-9e7d3b5054aa.png)
 
 From this menu, create a New Source by selecting a __Blank source__.
 
