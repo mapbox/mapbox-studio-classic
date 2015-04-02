@@ -63,19 +63,19 @@
     background-size:cover;
 }
 .studio-2 {
-    background:url(img/studio-2.png) 50% 0% no-repeat;
+    background:url(img/own-data@2x.png) 50% 0% no-repeat;
     background-size:cover;
 }
 .studio-3 {
-    background:url(img/studio-3.png) 50% 0% no-repeat;
+    background:url(img/own-data@2x.png) 50% 0% no-repeat;
     background-size:cover;
 }
 .studio-4 {
-    background:url(img/studio-4.jpg) 50% 50% no-repeat;
+    background:url(img/design.jpg) 50% 50% no-repeat;
     background-size:cover;
 }
 .studio-5 {
-    background:url(img/studio-5.png) 50% 50% no-repeat;
+    background:url(img/data.png) 50% 50% no-repeat;
     background-size:cover;
 }
 .studio-editor {
@@ -83,3 +83,84 @@
     background-size:cover;
 }
 
+/* Own Data
+-------------------------------------------------- */
+
+.own-data {
+  background: url(img/own-data@2x.png) 0 100% no-repeat;
+  /*background: url(img/samedata.gif) 0 100% no-repeat;*/
+  background-size: 100% auto;
+  padding-bottom: 32%;
+  height: 0;
+}
+
+/* Maps
+-------------------------------------------------- */
+
+.leaflet-container {
+  background: #333;
+}
+
+.map-container .leaflet-control-zoom.leaflet-control {
+  margin: 0;
+  top: 10px;
+  left: 10px;
+  height: 30px;
+  border: 0;
+  background-color: rgba(0,0,0,.5);
+}
+
+.zoomlevel {
+  top: 10px;
+  left: 70px;
+}
+
+.map-container .leaflet-control-zoom.leaflet-control a {
+  border:0;
+  float: left;
+  height: 30px;
+}
+.map-container .leaflet-control-zoom.leaflet-control a:hover { background-color: rgba(0,0,0,.9);}
+
+.leaflet-bar .leaflet-control-zoom-out { background-position: 0 -24px;}
+.leaflet-bar .leaflet-control-zoom-in { background-position: 0 2px;}
+
+.map1 { border-bottom: 1px solid black;}
+.map3 { border-left: 1px solid black;}
+
+.xray-listing:hover {
+  cursor: pointer;
+  opacity: .75;
+}
+.xray-listing:hover:after {
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 3px;
+  max-width: 50%;
+  content: attr(tooltip);
+  display: block;
+  max-height: 200px;
+  height: auto;
+  background-color: black;
+  overflow: auto;
+  white-space: normal;
+  position: absolute;
+  text-align: left;
+  margin-top: 10px;
+  color: white;
+}
+
+.xray-listing:last-child { margin-bottom: 0;}
+
+.xray-details { padding-left: 30px;}
+
+@media only screen and (min-width:1200px) {
+  [class*='map-overlay'] { width: 400px;}
+  .map-left { right: 400px; margin: 0; left: 33.3333%; width: auto;}
+  .map-right { left: 400px; margin: 0; right: 33.3333%; width: auto;}
+}
+
+@media only screen and (max-width:640px) {
+  .map-overlay { height: auto; position: relative;}
+  .map { position: relative; height: 300px;}
+}
