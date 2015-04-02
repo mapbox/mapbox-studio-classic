@@ -15,20 +15,22 @@
 
   <div class='dark pad8y clearfix pin-left col12 fill-darken0 gradient'>
     <div class='limiter'>
-        <div class='center'>
-          <div class='mb-logo white row1 space-bottom'></div>
-          <h1 class='space-bottom2'>
-              A new version of Mapbox Studio<br/> is available
-          </h1>
-        </div>
-        <div class='space-bottom2 clearfix'>
-          <div class='pad1 col6 block code text-right'>Your version: <%= version || 'Unavailable' %></div>
-          <div class='pad1 col6 block code'>Latest version: <%= latest || 'Unavailable' %></div>
-        </div>
+      <div class='center'>
+        <div class='mb-logo white row1 space-bottom'></div>
+        <h1 class='space-bottom2'>
+            A new version of Mapbox Studio<br/> is available
+        </h1>
+      </div>
+      <div class='col12 space-bottom2 clearfix'>
+        <div class='pad1 col6 block code text-right'>Your version: <%= version || 'Unavailable' %></div>
+        <div class='pad1 col6 block code'>Latest version: <%= latest || 'Unavailable' %></div>
+      </div>
+      <div class='col12 space-bottom2 clearfix'>
         <div class='center margin2 col8 pill'>
           <a href='https://www.mapbox.com/mapbox-studio/' class='col6 button loud icon star'>Download the update</a>
           <a href='/' class='col6 button icon close'>Skip upgrade</a>
         </div>
+      </div>
     </div>
   </div>
 

@@ -10,6 +10,7 @@ var style = require('../lib/style');
 var defpath = tm.join(path.dirname(require.resolve('mapbox-studio-default-style')));
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var Vector = require('tilelive-vector');
+var tilelive = require('tilelive');
 var testutil = require('./util');
 var UPDATE = !!process.env.UPDATE;
 var tmp = tm.join(require('os').tmpdir(), 'mapbox-studio');
@@ -19,8 +20,8 @@ var creds = {
 };
 
 var server;
-var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-localstyle');
-var fontstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-fontstyle');
+var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-local style');
+var fontstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-font style');
 var tmppath = tm.join(tmp, 'Style ШЖФ -' + (+new Date));
 
 test('setup: config', function(t) {
@@ -48,6 +49,17 @@ test('loads default style from disk', function(t) {
     });
 });
 
+test('loads local style via tilelive', function(assert) {
+    style.clear(localstyle);
+    assert.equal(style.cache[localstyle] === undefined, true, 'uncached');
+    tilelive.load(localstyle, function(err, proj) {
+        assert.ifError(err);
+        assert.equal(proj.data.id, localstyle);
+        assert.deepEqual(style.cache[localstyle] === proj, true, 'cached');
+        assert.end();
+    });
+});
+
 test('refresh style in memory', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
     t.ifError(err);
@@ -65,7 +77,7 @@ test('refresh style (invalid)', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
         t.ifError(err);
         style.refresh(_({id:style.tmpid(),minzoom:-1}).defaults(data), function(err, source) {
-            assert.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.refresh() errors on invalid style');
+            t.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'style.refresh() errors on invalid style');
             t.end();
         });
     });
@@ -75,7 +87,7 @@ test('refresh style (invalid bookmarks)', function(t) {
     testutil.createTmpProject('style-save', localstyle, function(err, tmpid, data) {
         t.ifError(err);
         style.refresh(_({id:style.tmpid(),_bookmarks:'asdf'}).defaults(data), function(err, source) {
-            assert.equal(err.toString(), 'Error: bookmarks must be an array', 'style.refresh() errors on invalid style');
+            t.equal(err.toString(), 'Error: bookmarks must be an array', 'style.refresh() errors on invalid style');
             t.end();
         });
     });
@@ -315,7 +327,7 @@ test('style.info: reads style YML (bookmarks)', function(t) {
 });
 
 test('style.info: invalid yaml (non-object)', function(t) {
-    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-nonobj'), function(err, source) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid nonobj'), function(err, source) {
         t.ok(err);
         t.ok(/^Error: Invalid YAML/.test(err.toString()));
         t.end();
@@ -323,7 +335,7 @@ test('style.info: invalid yaml (non-object)', function(t) {
 });
 
 test('style.info: invalid bookmarks', function(t) {
-    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-badbookmarks'), function(err, source) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid badbookmarks'), function(err, source) {
         t.ok(err);
         t.ok(/^JS-YAML: end of the stream or a document separator is expected/.test(err.toString()));
         t.end();
@@ -331,7 +343,7 @@ test('style.info: invalid bookmarks', function(t) {
 });
 
 test('style.info: invalid yaml', function(t) {
-    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid-yaml'), function(err, source) {
+    style.info('tmstyle://' + path.join(__dirname,'fixtures-invalid yaml'), function(err, source) {
         t.ok(err);
         t.ok(/^JS-YAML/.test(err.toString()));
         t.end();

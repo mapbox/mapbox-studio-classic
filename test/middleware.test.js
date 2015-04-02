@@ -15,8 +15,8 @@ var mockOauth = require('../lib/mapbox-mock')(require('express')());
 var mockAtlas = require('../lib/mapbox-mock').AtlasServer(require('express')());
 var tmppath = tm.join(os.tmpdir(), 'mapbox-studio', 'middleware-' + (+new Date));
 var tmpId = tm.join(os.tmpdir(), 'mapbox-studio', 'middlewareProject-' + (+new Date));
-var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
-var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
+var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
+var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
 var server;
 var atlas;
 
@@ -39,6 +39,64 @@ test('setup: mockserver', function(t) {
     server = mockOauth.listen(3001, function(){
         atlas = mockAtlas.listen(2999, t.end);
     });
+});
+
+test('normalizePaths', function(assert) {
+    var req;
+
+    req = { query: {} };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query, {});
+    });
+
+    req = { query: { id:'A Font Name' } };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'A Font Name');
+    });
+
+    req = {
+        query: {
+            id:'tmstyle:///path with spaces/style.tm2',
+            style:'tmstyle:///path with spaces/style.tm2',
+            source:'tmsource:///path with spaces/source.tm2source'
+        },
+        body: {
+            id:'tmstyle:///path with spaces/style.tm2',
+            source:'tmsource:///path with spaces/source.tm2source'
+        }
+    };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'tmstyle:///path with spaces/style.tm2');
+        assert.deepEqual(req.query.style, 'tmstyle:///path with spaces/style.tm2');
+        assert.deepEqual(req.query.source, 'tmsource:///path with spaces/source.tm2source');
+        assert.deepEqual(req.body.id, 'tmstyle:///path with spaces/style.tm2');
+        assert.deepEqual(req.body.source, 'tmsource:///path with spaces/source.tm2source');
+    });
+
+    req = {
+        query: {
+            id:'tmstyle://C:\\path with\\spaces/style.tm2',
+            style:'tmstyle://C:\\path with\\spaces/style.tm2',
+            source:'tmsource://C:\\path with\\spaces/source.tm2source'
+        },
+        body: {
+            id:'tmstyle://C:\\path with\\spaces/style.tm2',
+            source:'tmsource://C:\\path with\\spaces/source.tm2source'
+        }
+    };
+    middleware.normalizePaths(req, {}, function(err) {
+        assert.ifError(err);
+        assert.deepEqual(req.query.id, 'tmstyle://c:/path with/spaces/style.tm2');
+        assert.deepEqual(req.query.style, 'tmstyle://c:/path with/spaces/style.tm2');
+        assert.deepEqual(req.query.source, 'tmsource://c:/path with/spaces/source.tm2source');
+        assert.deepEqual(req.body.id, 'tmstyle://c:/path with/spaces/style.tm2');
+        assert.deepEqual(req.body.source, 'tmsource://c:/path with/spaces/source.tm2source');
+    });
+
+    assert.end();
 });
 
 test('history: loads', function(t) {
@@ -162,7 +220,7 @@ test('loadStyle: loads a tmp style', function(t) {
 });
 
 test('newStyle: creates a tmp style with source', function(t) {
-    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
     var req = { body: {}, query: { source:sourceId } };
     middleware.newStyle(req, {}, function(err) {
         t.ifError(err);
@@ -176,7 +234,7 @@ test('newStyle: creates a tmp style with source', function(t) {
 });
 
 test('newStyle: creates a tmp style with a raster source', function(t) {
-    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localraster');
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local raster');
     var req = { body: {}, query: { source:sourceId } };
     middleware.newStyle(req, {}, function(err) {
         t.ifError(err);
@@ -200,8 +258,8 @@ test('newStyle: errors a tmp style with bad source', function(t) {
 });
 
 test('loadStyle: loads a persistent style', function(t) {
-    var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
-    var styleDoc = require('./fixtures-localsource/project.yml');
+    var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
+    var styleDoc = require('./fixtures-local source/project.yml');
     var req = { query: { id: styleId } };
     middleware.loadStyle(req, {}, function() {
         t.ok(req.style, 'appends style to req');
@@ -243,7 +301,7 @@ test('writeSource: makes persistent sources', function(t) {
                 maxzoom: 6
             },
             Datasource: {
-                file: __dirname + '/fixtures-localsource/10m-900913-bounding-box.shp',
+                file: __dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
                 type: 'shape'
             }
         } ]
@@ -277,8 +335,8 @@ test('loadSource: loads a tmp source', function(t) {
 });
 
 test('loadSource: loads a persistent source', function(t) {
-    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-localsource');
-    var sourceDoc = require('./fixtures-localsource/data.yml');
+    var sourceId = 'tmsource://' + tm.join(path.resolve(__dirname), 'fixtures-local source');
+    var sourceDoc = require('./fixtures-local source/data.yml');
     var req = { query: { id: sourceId } };
     middleware.loadSource(req, {}, function() {
         t.ok(req.source, 'appends source to req');

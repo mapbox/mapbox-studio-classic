@@ -28,7 +28,7 @@ function createTmpProject(testname, id, callback) {
 
         // no source applies a local source
         if (!info.source){
-            info.source = 'tmsource://' + path.join(__dirname, 'fixtures-localsource');
+            info.source = 'tmsource://' + path.join(__dirname, 'fixtures-local source');
         }
 
         // Make relative paths absolute.

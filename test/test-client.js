@@ -13,7 +13,7 @@ var testutil = require('./util');
 
 var basePath = path.resolve(path.join(__dirname, '..'));
 var styleId = 'tmstyle://'+basePath+'/node_modules/mapbox-studio-default-style';
-var sourceId = 'tmsource://'+basePath+'/test/fixtures-localsource';
+var sourceId = 'tmsource://'+basePath+'/test/fixtures-local source';
 var exportId = 'tmsource://'+basePath+'/test/fixtures-export';
 var testPath = path.resolve(path.join(__dirname, '..'));
 var tmp = path.join(require('os').tmpdir(), 'tm2-client-' + (+new Date));
@@ -61,7 +61,7 @@ function ready(err) {
         {
             name: 'style-userlayers',
             url: 'http://localhost:3001/style?id={id}&test[userlayers]=true',
-            src: 'tmstyle://'+basePath+'/test/fixtures-localstyle-userlayers'
+            src: 'tmstyle://'+basePath+'/test/fixtures-local style userlayers'
         },
         {
             name: 'style-tmp',
@@ -71,27 +71,27 @@ function ready(err) {
         {
             name: 'style-fonts',
             url: 'http://localhost:3001/style?id={id}&test[fonts]=true',
-            src: 'tmpstyle://'+basePath+'/test/fixtures-fontstyle'
+            src: 'tmpstyle://'+basePath+'/test/fixtures-font style'
         },
         {
             name: 'source-export',
             url: 'http://localhost:3001/mbtiles?id={id}&test=true',
-            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+            src: 'tmsource://'+basePath+'/test/fixtures-local source'
         },
         {
             name: 'source-upload',
             url: 'http://localhost:3001/upload?id={id}&test=true',
-            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+            src: 'tmsource://'+basePath+'/test/fixtures-local source'
         },
         {
             name: 'source',
             url: 'http://localhost:3001/source?id={id}&test[dataPath]='+dataPath,
-            src: 'tmsource://'+basePath+'/test/fixtures-localsource'
+            src: 'tmsource://'+basePath+'/test/fixtures-local source'
         },
         {
             name: 'source-tmp',
             url: 'http://localhost:3001/source?id={id}&test[tmp]=true',
-            src: 'tmpsource://'+basePath+'/test/fixtures-localsource'
+            src: 'tmpsource://'+basePath+'/test/fixtures-local source'
         }
     ].filter(function(t) {
         return !only || t.name === only;
