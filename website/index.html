@@ -4,6 +4,7 @@ title: Mapbox
 options: full bleed
 head: |
     <script src='index.js'></script>
+    <link href='index.css' rel='stylesheet' />
 ---
 <a id='win32' class='fixed'></a>
 <a id='win64' class='fixed'></a>
@@ -11,20 +12,19 @@ head: |
 <a id='darwin' class='fixed'></a>
 
 
-<section class='fill-navy-dark studio-1 pad8y'>
-    <div class='limiter pad8y row12 clearfix contain dark space-bottom2'>
+<section class='fill-navy-dark intro pad8y'>
+    <div class='limiter pad8y row13 clearfix contain dark space-bottom2'>
         <div class='clearfix space-bottom2'>  
     
     <div class='col6 prose-big prose'>
       <h2 class='fancy'>Mapbox Studio</h2>
-      <p class="bottom-space4 col9">Design radically custom maps powered by vector tiles. Easily work with huge global datasets, publish updates in seconds, and design with resolution independence from retina devices to high resolution printing.</p>
+      <p class="bottom-space4 col9">Design radically custom maps powered by vector tiles. Studio allows you to easily work with huge global datasets, publish updates in seconds, and design with resolution independence from retina devices to high resolution printing.</p>
     </div>
 
-<!--{% include docsubnav.html %}-->
-
     <div class='device device-browser row2 col6'>
-            <div class='device-content'><div class='clearfix contain clip row7 mobile-cols studio-editor'>
-                <div class='fill-dark pin-left pad1 animate offcanvas-left-onhover'>
+            <div class='device-content'>
+			<div class='clearfix contain clip row8 mobile-cols studio-editor'>
+                <div class='fill-dark pin-left pad1'>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
                     <div class='block icon dot fill-darken1 space-bottom1'></div>
@@ -33,13 +33,40 @@ head: |
                         <div class='block icon dot fill-darken1'></div>
                     </div>
                 </div>
-                <div class='fill-white pin-right col4 animate offcanvas-right-onhover'>
-                    <div class='contain mobile-cols'>
-                        <div class='col3 pad1 keyline-right fill-white'></div>
-                        <div class='col3 pad1 keyline-right fill-light keyline-bottom'></div>
-                        <div class='col6 pad1 fill-light keyline-bottom'></div>
+
+<!-- source UI -->
+                <div class='fill-dark pin-right col4 studio-editor-source'>
+                    <div class='contain mobile-cols space-bottom1'>
+                        <div class='col9 margin1 pad1 fill-blue'></div>
+                        <div class='col2 pad1'></div>
                     </div>
-                    <div class='pad1y pad2x clip mobile-cols'>
+					<div class='pad0y pad1x clip mobile-cols'>
+                    <div class='space-top1 contain clip mobile-cols'>
+                        <div class='col3 icon marker'></div>
+                        <div class='col7 textline2'></div>
+					</div>
+                    <div class='contain clip mobile-cols'>
+                        <div class='col3 icon marker'></div>
+                        <div class='col7 textline2'></div>
+					</div>
+                    <div class='contain clip mobile-cols'>
+                        <div class='col3 icon marker'></div>
+                        <div class='col7 textline2'></div>
+					</div>
+                    <div class='contain clip mobile-cols'>
+                        <div class='col3 icon marker'></div>
+                        <div class='col7 textline2'></div>
+					</div>
+					</div>
+                </div>
+
+<!-- style UI -->
+                <div class='fill-white pin-right col4 studio-editor-style'>
+                    <div class='contain mobile-cols'>
+                        <div class='col9 margin1 pad1 fill-light'></div>
+                        <div class='col2 pad1'></div>
+                    </div>
+                    <div class='pad2y pad2x clip mobile-cols'>
                         <div class='textline col5'></div>
                         <div class='textline col7'></div>
                         <div class='textline col7'></div>
@@ -52,6 +79,7 @@ head: |
                         <div class='textline col7'></div>
                     </div>
                 </div>
+
             </div></div>
             <div class='device-details'></div>
         </div></div>
@@ -67,60 +95,88 @@ head: |
              --><a class='inline pad0x fill-darken1' href='#linux'>Linux</a>
             </span>
             <span class='quiet pad0'>with code on</span>
-            <a class='inline icon github pad0x round fill-darken1' href='https://github.com/mapbox/mapbox-studio' target='_blank' rel='noreferrer'>GitHub</a>
+            <a class='inline icon github pad0x round fill-darken1' href='https://github.com/mapbox/mapbox-studio' target='_blank'>GitHub</a>
         </div>
     </div>
 </section>
 
-<section class='pad8y fill-gray studio-2'>
+<section class='pad8y fill-gray vectortiles'>
 <div class='row8 clearfix limiter'>
-    <div class='fill-gray pad5 col5 prose'>
+    <div class='fill-gray pad5 col6 prose'>
         <h2><span class='inline icon pad0 layers dot fill-dark dark'></span> Powered by Vector Tiles</h2>
-<p>Studio provides a new level of design control and interaction, all while being more performant - lighter and faster. By packing layers, geometries, and feature attributes into lower zoom levels, vector tiles allow the highest zoom levels to be rendered at a fraction of the storage cost of raster tiles. Paired with a renderer like the super fast Mapnik and a CartoCSS stylesheet, VTs can be rendered as images, UTFGrids, geojson, and more.</p>
+<p>Studio provides a new level of design control and interaction. All while being more performant, lighter, and faster - thanks to vector tiles. By packing layers, geometries, and feature attributes into lower zoom levels, vector tiles allow high zoom renders at a fraction of the storage cost of raster tiles. Paired with Mapnik and a CartoCSS stylesheet, vector tiles can be rendered as images, UTFGrids, geojson, and more.</p>
 </div>
+	<div class="col6 clearfix own-data"></div>
 </section>
 
-<section class='pad8y studio-3 fill-cyan dark'>
-<div class='row6 clearfix limiter'>
-    <div class='pad5 col5 prose'>
-        <h2><span class='inline icon pad0 polygon dot fill-darken1 dark'></span> Access to global Mapbox Data</h2>
-<p>Mapbox Studio gives you instant streaming access to massive global datasets Mapbox Streets, Mapbox Terrain, and Mapbox Satellite without importing any data onto your computer. We manage all the data on our platform, providing live updates every minute to all our global data sets, and serve maps fast wherever you are in the world.</p>
-</div>
-</section>
-
-<section class='pad8y studio-4 fill-blue dark'>
+<section class='pad8y mapboxdata'>
 <div class='row7 clearfix limiter'>
-    <div class='fill-blue col6 dark prose'>
-        <h2><span class='inline icon pad0 paint dot fill-darken1'></span> Style: Design</h2>
-		<p>Style maps using CartoCSS stylesheets, basic metadata (name, description, attribution, etc.), and a reference to a source. Add  custom fonts, patterns, and textures and even export high-resolution images for print publications or to hang on your walls.</p>
+    <div class='pad5 space-top1 col5 fill-darken2 prose dark row6'>
+        <h2><span class='inline icon pad0 polygon dot fill-darken2 dark'></span> Access to global data</h2>
+<p>Studio gives you instant streaming access to Mapbox's massive global datasets: Streets, Terrain, and Satellite. We manage all the data on our platform, providing live updates every minute to all our global data sets, and serve maps fast wherever you are in the world.</p>
+</div>
+</section>
+
+<section class='pad8y fill-cyan'>
+<div class='row7 clearfix limiter'>
+    <div class='col5 prose dark'>
+        <h2><span class='inline icon pad0 paint dot fill-darken1 dark'></span> Style: Design</h2>
+		<p>Style maps in Studio using CartoCSS stylesheets, basic metadata (name, description, attribution, etc.), and a reference to a source. Add custom fonts, patterns, and textures and export for print or publish to the web instantly.</p>
 		<div class='pill'>
-			<a href="{{site.baseurl}}/style-quickstart/" class="col12 button rcon fill-darken1 dark next">Style quickstart</a>
-			<a href="{{site.baseurl}}/style-manual/" class="col12 button rcon fill-darken1 dark next">Style manual</a>
+		<a href="{{site.baseurl}}/style-quickstart/" class="col12 button rcon fill-darken1 dark next">Style quickstart</a>
+		<a href="{{site.baseurl}}/style-manual/" class="col12 button rcon fill-darken1 dark next">Style manual</a>
 		</div>
+	</div>
+	<div class='col7'>
+	<div class='device device-browser row6 margin1 col11'>
+        <div class='device-content'>
+		<div class='clearfix contain clip row7 mobile-cols style'></div>
+		</div>
+        <div class='device-details'></div>
+	</div>
 	</div>
 </div>
 </section>
 
-<section class='pad8y studio-5 fill-denim dark'>
+<section class='pad8y fill-blue'>
 <div class='row8 clearfix limiter'>
-    <div class='fill-denim dark col6 prose'>
-        <h2><span class='inline icon pad0 polygon dot fill-darken1'></span> Source: Data</h2>
-		<p>Source data projects contain configuration for converting a traditional geodata storage format (Shapefile, GeoJSON, etc.) into vector tiles. Once converted, the original datasource—shapefile, geojson, postgis database—is no longer necessary and VT data source can be referenced by style projects Studio using your Mapbox access token.</p>
+    <div class='col5 prose dark'>
+        <h2><span class='inline icon pad0 polygon dot fill-darken1 dark'></span> Source: Data</h2>
+		<p>Create custom vector tiles for your own datasets in Studio. Source projects contain configuration for converting a traditional geodata storage format (Shapefile, GeoJSON, etc.) into vector tiles. Once converted, the original datasource is no longer necessary, reference source with Mapbox access token and style layer by layer in Studio.</p>
 		<div class='pill'>
 			<a href="{{site.baseurl}}/source-quickstart/" class="col12 button fill-darken1 dark rcon next">Source quickstart</a>
 			<a href="{{site.baseurl}}/source-manual/" class="col12 button fill-darken1 dark rcon next">Source manual</a>
-			<a href="{{site.baseurl}}/postgis-manual/" class="col12 button fill-darken1 dark rcon next">PostGIS + SQL manuals</a>
+			<a href="{{site.baseurl}}/postgis-manual/" class="col12 button fill-darken1 dark rcon next">PostGIS + SQL manual</a>
 		</div>
     </div>
+	<div class='col7'>
+	<div class='device device-browser row6 margin1 col11'>
+        <div class='device-content'>
+		<div class='clearfix contain clip row7 mobile-cols source'></div>
+		</div>
+        <div class='device-details'></div>
+	</div>
+	</div>
 </div>
 </section>
 
-<section class='pad8y fill-purple dark'>
-<div class='row6 clearfix limiter'>
+<section class='pad8y extend fill-purple dark'>
+<div class='row8 clearfix limiter'>
     <div class='pad5 col5 prose dark'>
         <h2><span class='inline icon pad0 marker dot fill-darken1 dark'></span> Extend your maps</h2>
-<p>Push your custom designed maps further by exporting for <a href="https://www.mapbox.com/blog/web-to-canvas-print/">hi-resolution printing</a>, publish and host on <a href="https://www.mapbox.com/plans/">Mapbox.com</a>, or serve as basemaps for interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a> and many more tools from our <a href="https://www.mapbox.com/developers/">Mapbox stack</a>.
+    <p>Push your custom designed maps further by exporting for <a href="https://www.mapbox.com/blog/web-to-canvas-print/">hi-resolution printing</a>, publish and host on <a href="https://www.mapbox.com/plans/">Mapbox.com</a>, or serve as basemaps for interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a> and many more tools from our <a href="https://www.mapbox.com/developers/">Mapbox stack</a>.</p>
+      <a href='https://www.mapbox.com/developers' class='col6 button rcon next'>Developer tools</a>
+	</div>
+    <div class='col6 margin1 clearfix data-api'></div>
+<!--
+		<div class='pill'>
+			<a href="{{site.baseurl}}/source-quickstart/" class="col12 button fill-blue dark rcon next">Source quickstart</a>
+			<a href="{{site.baseurl}}/source-manual/" class="col12 button fill-blue dark rcon next">Source manual</a>
+			<a href="{{site.baseurl}}/postgis-manual/" class="col12 button fill-blue dark rcon next">PostGIS + SQL manuals</a>
+		</div>
+-->
 </div></section>
+
 
 <section class='clearfix fill-navy dark pad2y'>
 <div class='row8 clearfix limiter'>

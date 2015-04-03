@@ -18,17 +18,20 @@
     -webkit-transform: translateX(0%);
 }
 
-*:hover > .offcanvas-left-onhover {
-    transform: translateX(-101%);
-    -ms-transform: translateX(-101%);
-    -moz-transform: translateX(-101%);
-    -webkit-transform: translateX(-101%);
+/* over-write textline */
+.textline2 {
+    display:block;
+    height:15px;
+    padding:8px 0px 6px;
 }
-*:hover > .offcanvas-right-onhover {
-    transform: translateX(101%);
-    -ms-transform: translateX(101%);
-    -moz-transform: translateX(101%);
-    -webkit-transform: translateX(101%);
+.textline2:before {
+    display:block;
+    content:'';
+    height:4px;
+    background:#aaa;
+    border-radius:2px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
 }
 
  #linux:target ~ * [href='#linux'],
@@ -58,40 +61,90 @@
 .fill-blue-gradient {
     background-image:linear-gradient(to bottom, #3887be, #8a8acb);
 }
-.studio-1 {
+
+/*  BACKGROUND IMAGE TREATMENT FOR SECTIONS ON PAGE */
+.intro {
     background:url(img/studio-1.png) 100% 100% no-repeat;
     background-size:cover;
 }
-.studio-2 {
-    background:url(img/own-data@2x.png) 50% 0% no-repeat;
+.vectortiles {
+    /*background:url(img/own-data@2x.png) 50% 0% no-repeat;
+    background-size:cover;*/
+}
+.mapboxdata {
+    background:url(img/data.png) 50% 0% no-repeat;
     background-size:cover;
 }
-.studio-3 {
-    background:url(img/own-data@2x.png) 50% 0% no-repeat;
+.extend {
+    /*background:url(img/studio-editor.jpg) 50% 50% no-repeat;
+    background-size:cover;*/
+}
+.style {
+    background:url(img/studio-editor_design.png) 50% 50% no-repeat;
     background-size:cover;
 }
-.studio-4 {
-    background:url(img/design.jpg) 50% 50% no-repeat;
-    background-size:cover;
-}
-.studio-5 {
-    background:url(img/data.png) 50% 50% no-repeat;
-    background-size:cover;
-}
-.studio-editor {
-    background:url(img/studio-editor.jpg) 50% 50% no-repeat;
+.source {
+    background:url(img/studio-editor_data.jpg) 50% 50% no-repeat;
     background-size:cover;
 }
 
-/* Own Data
+
+
+/* Studio Editor Illustration
+-------------------------------------------------- */
+
+/* DESIGN / DATA IMAGE */
+.studio-editor {
+    background:url(img/studio-editor_design.jpg) 50% 50% no-repeat;
+    background-size:cover;
+}
+.studio-editor:hover {
+	background:url(img/studio-editor_data.jpg) 50% 50% no-repeat;
+    background-size:cover;
+}
+
+/* ANIMATE NAV */
+*:hover > .offcanvas-right-onhover {
+    transform: translateX(101%);
+    -ms-transform: translateX(101%);
+    -moz-transform: translateX(101%);
+    -webkit-transform: translateX(101%);
+}
+
+/* SHOW OR HIDE DATA / DESIGN NAV */
+*:hover > .studio-editor-source {
+    display: block;
+	}
+*:hover > .studio-editor-style {
+	display: none;
+	}
+
+
+
+/*  Own Data
 -------------------------------------------------- */
 
 .own-data {
   background: url(img/own-data@2x.png) 0 100% no-repeat;
-  /*background: url(img/samedata.gif) 0 100% no-repeat;*/
   background-size: 100% auto;
-  padding-bottom: 32%;
+  padding-bottom: 37%;
   height: 0;
+}
+
+/* More than tiles
+-------------------------------------------------- */
+
+.data-api {
+  background: url(img/data-api@2x.png) 0 100% no-repeat;
+  background-size: 92% auto;
+  padding-bottom: 34%;
+  height: 0;
+}
+
+@media only screen and (max-width:640px) {
+  .own-data, .data-api  {
+    padding-bottom: 85%;
+  }
 }
 
 /* Maps
