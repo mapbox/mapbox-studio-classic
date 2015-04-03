@@ -39,8 +39,31 @@ On OSX, the logs can also be accessed to through the Help dropdown on the top me
 
 ### Tests
 
-Run tests with `npm test`. Some tests will fail without proper AWS credentials. Team Mapbox
-can use `mapbox auth` to run the full test suite.
+Note: some tests are expected to fail without proper AWS credentials. Team Mapbox should use `mapbox auth` before running the tests.
+
+#### Unit tests
+
+The majority of tests can be run like:
+
+    npm test
+
+#### Client tests
+
+These test that the UI functions as we expect:
+
+    ./test/test-client.js
+
+They run slowly, so if you are debugging failing tests you may want to run just the tests that are failing. You can run just a single test by passing the test name like:
+
+    ./test/test-client.js source
+
+See the entire list of tests [here](https://github.com/mapbox/mapbox-studio/blob/1e7ab282b2dcebb1b831e1eb95f6ae2b5b649fff/test/test-client.js#L55-L95)
+
+#### Website tests
+
+These test that the web pages that make up the documentation build okay:
+
+    ./jekyll-test.sh
 
 ### Pull requests
 
