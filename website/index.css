@@ -88,7 +88,33 @@
     background-size:cover;
 }
 
+/********** STUDIO FEATURES **********/
+.studio-style {
+  background: url(img/studio-style.png) left top no-repeat;
+  display: block;
+  background-size: 100% auto;
+  top: 20px;
+  right: -100px;
+}
 
+.studio-source {
+  background: url(img/studio-source.png) left top no-repeat;
+  display: block;
+  background-size: 100% auto;
+  top: 20px;
+  right: -100px;
+}
+
+#design-tools .icon.check:before {
+  color: #39abc7; 
+}
+
+.studio-features p, .studio-features h3, .bullet-list p, .bullet-list h3 {
+  padding-left: 60px;
+}
+.studio-features li, .bullet-list li {
+  padding-bottom: 30px;
+}
 
 /* Studio Editor Illustration
 -------------------------------------------------- */
@@ -125,10 +151,10 @@
 -------------------------------------------------- */
 
 .own-data {
-  background: url(img/own-data@2x.png) 0 100% no-repeat;
-  background-size: 100% auto;
-  padding-bottom: 37%;
-  height: 0;
+  background: url(img/own-data@2x.png) 90% 40% no-repeat;
+  background-size: 90% auto;
+  margin-top: -35px;
+  height: 120%;
 }
 
 /* More than tiles
