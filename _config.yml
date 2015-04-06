@@ -5,7 +5,7 @@ source: website
 permalink: /:title
 baseurl: /mapbox-studio
 highlighter: true
-mapboxjs: v2.0.0
+mapboxjs: v2.1.7
 tileapi: 'https://api.tiles.mapbox.com'
 rdiscount:
   extensions: [smart]
