@@ -114,7 +114,7 @@ if [ $platform == "win32" ]; then
     rm $build_dir/mapbox-studio.exe.bak
 
     echo "downloading c++ lib vcredist_$arch_common_name.exe"
-    curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$arch_common_name.exe"
+    curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/vcredist_$arch_common_name.exe"
 
     if [[ $arch == "x64" ]]; then
         # alternative package for windows: no-installer / can be run from usb drive
