@@ -24,8 +24,8 @@ install:
   - if %platform% == x64 (SET ARCHPATH=x64/)
   - ps: Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
   - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
-  - ps: Write-Output "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
-  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - ps: Write-Output "https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/vcredist_$env:platform.exe"
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/vcredist_$env:platform.exe"
   - .\vcredist_%platform%.exe /q /norestart
   - node -v
   - node -e "console.log(process.argv,process.execPath,process.arch)"
