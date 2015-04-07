@@ -18,7 +18,8 @@
     -webkit-transform: translateX(0%);
 }
 
-/* over-write textline */
+/*  Textline for source illustration
+-------------------------------------------------- */
 .textline2 {
     display:block;
     height:15px;
@@ -41,7 +42,6 @@
     background: rgba(0,0,0,.75);
     color: white;
 }
-
 
 .textline {
     clear:left;
@@ -88,21 +88,35 @@
     background-size:cover;
 }
 
-/********** STUDIO FEATURES **********/
+/*  Swipe data code
+-------------------------------------------------- 
+.range {
+  position:absolute;
+  width:100%;
+  }
+.leaflet-top .leaflet-control-zoom {
+  top:20px;
+  }
+*/
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+
+/*  Studio callout desktop shots
+-------------------------------------------------- */
 .studio-style {
   background: url(img/studio-style.png) left top no-repeat;
   display: block;
-  background-size: 100% auto;
-  top: 20px;
-  right: -100px;
+  background-size: 110% auto;
+  top: -40px;
+  right: -150px;
 }
 
 .studio-source {
   background: url(img/studio-source.png) left top no-repeat;
   display: block;
-  background-size: 100% auto;
-  top: 20px;
-  right: -100px;
+  background-size: 110% auto;
+  top: -40px;
+  right: -150px;
 }
 
 #design-tools .icon.check:before {
@@ -146,7 +160,6 @@
 	}
 
 
-
 /*  Own Data
 -------------------------------------------------- */
 
@@ -171,75 +184,4 @@
   .own-data, .data-api  {
     padding-bottom: 85%;
   }
-}
-
-/* Maps
--------------------------------------------------- */
-
-.leaflet-container {
-  background: #333;
-}
-
-.map-container .leaflet-control-zoom.leaflet-control {
-  margin: 0;
-  top: 10px;
-  left: 10px;
-  height: 30px;
-  border: 0;
-  background-color: rgba(0,0,0,.5);
-}
-
-.zoomlevel {
-  top: 10px;
-  left: 70px;
-}
-
-.map-container .leaflet-control-zoom.leaflet-control a {
-  border:0;
-  float: left;
-  height: 30px;
-}
-.map-container .leaflet-control-zoom.leaflet-control a:hover { background-color: rgba(0,0,0,.9);}
-
-.leaflet-bar .leaflet-control-zoom-out { background-position: 0 -24px;}
-.leaflet-bar .leaflet-control-zoom-in { background-position: 0 2px;}
-
-.map1 { border-bottom: 1px solid black;}
-.map3 { border-left: 1px solid black;}
-
-.xray-listing:hover {
-  cursor: pointer;
-  opacity: .75;
-}
-.xray-listing:hover:after {
-  border: 1px solid white;
-  padding: 5px;
-  border-radius: 3px;
-  max-width: 50%;
-  content: attr(tooltip);
-  display: block;
-  max-height: 200px;
-  height: auto;
-  background-color: black;
-  overflow: auto;
-  white-space: normal;
-  position: absolute;
-  text-align: left;
-  margin-top: 10px;
-  color: white;
-}
-
-.xray-listing:last-child { margin-bottom: 0;}
-
-.xray-details { padding-left: 30px;}
-
-@media only screen and (min-width:1200px) {
-  [class*='map-overlay'] { width: 400px;}
-  .map-left { right: 400px; margin: 0; left: 33.3333%; width: auto;}
-  .map-right { left: 400px; margin: 0; right: 33.3333%; width: auto;}
-}
-
-@media only screen and (max-width:640px) {
-  .map-overlay { height: auto; position: relative;}
-  .map { position: relative; height: 300px;}
 }

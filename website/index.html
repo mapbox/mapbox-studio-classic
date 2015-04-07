@@ -6,10 +6,13 @@ head: |
     <script src='index.js'></script>
     <link href='index.css' rel='stylesheet' />
 ---
+
 <a id='win32' class='fixed'></a>
 <a id='win64' class='fixed'></a>
 <a id='linux' class='fixed'></a>
 <a id='darwin' class='fixed'></a>
+
+
 
 
 <section class='fill-navy-dark intro pad8y'>
@@ -110,24 +113,50 @@ head: |
 </section>
 
 <section class='pad8y mapboxdata'>
+<!--<section class='js-xraystreets-container row16 z1 clearfix contain unlimiter pad4y container'>-->
 <div class='row7 clearfix limiter'>
     <div class='pad4 space-top1 col5 fill-darken2 prose dark row6'>
-        <h2><span class='inline icon pad0 polygon dot fill-darken2 dark'></span> Access to global data</h2>
+        <h2><span class='inline icon pad0 polygon dot dark'></span> Access to global data</h2>
 <p>Studio gives you instant streaming access to Mapbox's massive global datasets: Streets, Terrain, and Satellite. We manage all the data on our platform, providing live updates every minute to all our global data sets, and serve maps fast wherever you are in the world.</p>
 </div>
+
+<!-- MAP GOES HERE -->
+
+<div id='map contain'></div>
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoibXNsZWUiLCJhIjoiclpiTWV5SSJ9.P_h8r37vD8jpIH1A6i1VRg';
+var map = L.mapbox.map('map', 'examples.map-i86nkdio')
+    .setView([40, -74.50], 9);
+</script>
+
 </section>
 
 
 
 <section class='pad8y fill-blue'>
 <div class='row13 clearfix limiter contain'>
-    <div class='col4 prose dark'>
-        <h2><span class='inline icon pad0 polygon dot fill-darken1 dark'></span> Source: Add custom data</h2>
-		<p>Convert your own traditional geodata sources (Shapefile, GeoJSON, etc.) into vector tiles in Studio. Once converted,  original datasource is no longer necessary, reference source with Mapbox access token and style layer by layer in Studio.</p>
-		<div class='pill'>
-			<a href="{{site.baseurl}}/source-quickstart/" class="col12 button fill-darken1 dark rcon next">Source quickstart</a>
-			<a href="{{site.baseurl}}/source-manual/" class="col12 button fill-darken1 dark rcon next">Source manual</a>
-			<a href="{{site.baseurl}}/postgis-manual/" class="col12 button fill-darken1 dark rcon next">PostGIS + SQL manual</a>
+    <div class='col5 dark'>
+		<div class='inline icon pad0 polygon dot fill-darken1'></div>
+        <h2 class='inline'> Source: Add custom data</h2>
+		<p class='prose space-top2'>Convert traditional geodata sources (Shapefile, GeoJSON, etc.) into vector tiles, upload and reference with Mapbox access token, then style layer-by-layer... all inside Studio.</p>
+		
+		<div class='col12 clearfix space-bottom2'>
+			<h3><span class='inline icon pad0 check dot fill-blue'></span>  Composite multiple datasets</h3>
+          	<p class='margin1'>Combine your point, polygon, and line datasets into individual layers in one vector tile dataset for styling.</p>
+		</div>
+		<div class='col12 clearfix space-bottom2'>
+			<h3><span class='inline icon pad0 check dot fill-blue'></span>  Control your data</h3>
+          	<p class='margin1'>Keep your vector tiles small and performant by defining minzoom, maxzoom, and buffer size.</p>
+		</div>
+		<div class='col12 clearfixs space-bottom2'>
+			<h3><span class='inline icon pad0 check dot fill-blue'></span>  Inspect your data</h3>
+          	<p class='margin1'>Peek into your data before rendering and even style locally as you edit down your datasets.</p>
+		</div>
+
+	<div class='pill space-top2'><!--
+			--><a href="{{site.baseurl}}/source-quickstart/" class="button stroke dark rcon next">Source quickstart</a><!--
+			--><a href="{{site.baseurl}}/source-manual/" class="button stroke rcon next dark">Source manual</a><!--
+			--><a href="{{site.baseurl}}/postgis-manual/" class="button stroke rcon next dark">PostGIS manual</a>
 		</div>
     </div>
 	<div class='col9 pin-right hide-mobile studio-source'></div>
@@ -136,27 +165,28 @@ head: |
 </section>
 
 <section class='pad8y fill-cyan'>
-<div class='row14 clearfix limiter contain'>
-    <div class='col4 dark'>
+<div class='row13 clearfix limiter contain'>
+    <div class='col5 dark'>
 		<div class='inline icon pad0 paint dot fill-darken1'></div> 
         <h2 class='inline'> Style: Design custom maps</h2>
 		<p class='prose space-top2'>Create custom styles for Mapbox global data and your own custom data in Studio. From there you can customize everything to match your brand: typography, colors, pins, patterns, icons, and more.</p>
+
 		<div class='col12 clearfix space-bottom2'>
 			<h3><span class='inline icon pad0 check dot fill-cyan'></span>  Your brand, your colors</h3>
           	<p class='margin1'>Full design control over everything, from colors to data to feature visibility both on web and mobile.</p>
 		</div>
 		<div class='col12 clearfix space-bottom2'>
-			<h3><span class='inline icon pad0 check dot fill-cyan'></span>  Custom fonts</h3>
-          	<p class='margin1'>Customize your map's typography with different fonts and effects.</p>
+			<h3><span class='inline icon pad0 check dot fill-cyan'></span>  Custom fonts and icons</h3>
+          	<p class='margin1'>Customize your map's typography with different fonts and effects. Add POIs using our Maki icon set or your own icon set.</p>
 		</div>
-		<div class='col12 clearfixs pace-bottom2'>
+		<div class='col12 clearfixs space-bottom2'>
 			<h3><span class='inline icon pad0 check dot fill-cyan'></span>  Textures and illustrations</h3>
           	<p class='margin1'>Enhance the look and feel of your map with illustrations and textures.</p>
 		</div>
 
-		<div class='pill space-top2'>
-			<a href="{{site.baseurl}}/style-quickstart/" class="col12 button rcon fill-darken1 dark next">Style quickstart</a>
-			<a href="{{site.baseurl}}/style-manual/" class="col12 button rcon fill-darken1 dark next">Style manual</a>
+		<div class='pill space-top2'><!--
+			--><a href="{{site.baseurl}}/style-quickstart/" class="button stroke dark rcon next">Style quickstart</a><!--
+			--><a href="{{site.baseurl}}/style-manual/" class="button stroke dark rcon next">Style manual</a>
 		</div>
 	</div>
 
@@ -170,7 +200,7 @@ head: |
     <div class='pad5 col5 prose dark'>
         <h2><span class='inline icon pad0 marker dot fill-darken1 dark'></span> Extend your maps</h2>
     <p>Push your custom designed maps further by exporting for <a href="https://www.mapbox.com/blog/web-to-canvas-print/">hi-resolution printing</a>, publish and host on <a href="https://www.mapbox.com/plans/">Mapbox.com</a>, or serve as basemaps for interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a> and many more tools from our <a href="https://www.mapbox.com/developers/">Mapbox stack</a>.</p>
-      <a href='https://www.mapbox.com/developers' class='col6 button rcon next'>Developer tools</a>
+      <a href='https://www.mapbox.com/developers' class='col6 button rcon next stroke'>Developer tools</a>
 	</div>
     <div class='col6 margin1 clearfix data-api'></div>
 <!--
