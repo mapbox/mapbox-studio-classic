@@ -1,5 +1,6 @@
 $(function() {
 
+// start computer type sniffer
 switch (window.location.hash) {
 case '#darwin':
 case '#linux':
@@ -21,5 +22,7 @@ default:
     }
     break;
 }
+// end computer type sniffer
 
 });
+
