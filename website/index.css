@@ -62,9 +62,15 @@
     background-image:linear-gradient(to bottom, #3887be, #8a8acb);
 }
 
+.device-studio {
+    right: -8%;
+    position: absolute;
+    bottom: -10px;
+}
+
 /*  BACKGROUND IMAGE TREATMENT FOR SECTIONS ON PAGE */
 .intro {
-    background:url(img/studio-1.png) 100% 100% no-repeat;
+    /*background:url(img/studio-1.png) 100% 100% no-repeat;*/
     background-size:cover;
 }
 .vectortiles {
@@ -165,9 +171,9 @@ body { margin:0; padding:0; }
 
 .own-data {
   background: url(img/own-data@2x.png) 90% 40% no-repeat;
-  background-size: 90% auto;
+  background-size: contain;
   margin-top: -35px;
-  height: 120%;
+  height: 290px;
 }
 
 /* More than tiles
