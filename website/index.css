@@ -168,3 +168,9 @@
     padding-bottom: 85%;
   }
 }
+
+@media only screen and (min-width:640px) and (max-width:940px) {
+   h2 {
+    font-size: 18px;
+  }
+}
