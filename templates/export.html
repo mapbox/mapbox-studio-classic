@@ -35,6 +35,9 @@
       <div class='stat col8 margin2 pad1'>
         <% if (job.type === 'upload') { %>
         <a href='https://www.mapbox.com/uploads/?source=data' target='_blank' class='col12 short button icon stat cloud'>View data</a>
+        <small class='space-top2'>
+            It may take some time for your changes to process and propagate. Check <a href='https://www.mapbox.com/uploads/?source=data'>our web interface</a> for the status of your uploads
+        </small>
         <% } else if (job.type === 'export') { %>
         <a href='/source.mbtiles?id=<%= job.id %>' class='col12 short button icon folder stat'>Download</a>
         <% } %>
