@@ -35,9 +35,9 @@
     -webkit-border-radius:2px;
 }
 
- #linux:target ~ * [href='#linux'],
- #win32:target ~ * [href='#win32'],
- #win64:target ~ * [href='#win64'],
+#linux:target ~ * [href='#linux'],
+#win32:target ~ * [href='#win32'],
+#win64:target ~ * [href='#win64'],
 #darwin:target ~ * [href='#darwin'] {
     background: rgba(0,0,0,.75);
     color: white;
@@ -70,20 +70,11 @@
 
 /*  BACKGROUND IMAGE TREATMENT FOR SECTIONS ON PAGE */
 .intro {
-    /*background:url(img/studio-1.png) 100% 100% no-repeat;*/
     background-size:cover;
-}
-.vectortiles {
-    /*background:url(img/own-data@2x.png) 50% 0% no-repeat;
-    background-size:cover;*/
 }
 .mapboxdata {
     background:url(img/data.png) 50% 0% no-repeat;
     background-size:cover;
-}
-.extend {
-    /*background:url(img/studio-editor.jpg) 50% 50% no-repeat;
-    background-size:cover;*/
 }
 .style {
     background:url(img/studio-editor_design.png) 50% 50% no-repeat;
@@ -93,19 +84,6 @@
     background:url(img/studio-editor_data.jpg) 50% 50% no-repeat;
     background-size:cover;
 }
-
-/*  Swipe data code
--------------------------------------------------- 
-.range {
-  position:absolute;
-  width:100%;
-  }
-.leaflet-top .leaflet-control-zoom {
-  top:20px;
-  }
-*/
-body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
 
 /*  Studio callout desktop shots
 -------------------------------------------------- */
@@ -143,28 +121,27 @@ body { margin:0; padding:0; }
 .studio-editor {
     background:url(img/studio-editor_design.jpg) 50% 50% no-repeat;
     background-size:cover;
+	transition: background-image 0.2s ease-in-out;
+	-webkit-transition: background-image 0.2s ease-in-out;
+	-ms-transition: background-image 0.2s ease-in-out;
+	-moz-transition: background-image 0.2s ease-in-out;
 }
 .studio-editor:hover {
 	background:url(img/studio-editor_data.jpg) 50% 50% no-repeat;
     background-size:cover;
 }
 
-/* ANIMATE NAV */
-*:hover > .offcanvas-right-onhover {
-    transform: translateX(101%);
-    -ms-transform: translateX(101%);
-    -moz-transform: translateX(101%);
-    -webkit-transform: translateX(101%);
-}
-
 /* SHOW OR HIDE DATA / DESIGN NAV */
 *:hover > .studio-editor-source {
-    display: block;
+	opacity: 1;
 	}
 *:hover > .studio-editor-style {
-	display: none;
-	}
-
+	opacity: 0;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+}
 
 /*  Own Data
 -------------------------------------------------- */

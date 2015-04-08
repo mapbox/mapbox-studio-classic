@@ -103,49 +103,28 @@ head: |
 
 <section class="pad8y fill-gray vectortiles">
     <div class="clearfix limiter">
-        <div class="fill-gray pad5 col6 ">
-            <span class="inline icon pad0 layers dot fill-dark dark"></span><h2 class="inline prose pad2x"> Powered by Vector Tiles</h2>
+    <div class="col5 row7 own-data"></div>
+	<div class="fill-gray pad5 margin1 col6 ">
+            <span class="inline icon pad0 layers dot fill-dark dark"></span><h2 class="inline prose pad1x"> Powered by Vector Tiles</h2>
               <p class="quiet prose-big space-top2">Studio provides a new level of design control and interaction. By packing layers, geometries, and feature attributes into lower zoom levels, higher zooms render at a fraction of the storage cost of raster tiles. Paired with Mapnik and CartoCSS, vector tiles can be rendered as images, UTFGrids, GeoJSON, and more.</p>
          </div>
-    <div class="col6 row7 own-data"></div>
 </div></section>
 
 <section class="pad8y mapboxdata">
-<!--<section class='js-xraystreets-container row16 z1 clearfix contain unlimiter pad4y container'>-->
 <div class="clearfix limiter">
     <div class="pad2 space-top1 col5 fill-darken2 dark round ">
-        <span class="inline icon pad0 polygon dot dark"></span><h2 class="inline pad2x"> Access to global data</h2>
+        <span class="inline icon pad0 polygon dot dark"></span><h2 class="inline pad1x"> Access to global data</h2>
 <p class="prose-big space-top2">Studio gives you instant streaming access to our massive global datasets: Streets, Terrain, and Satellite. We manage all the data on our platform, providing live updates every minute, and serve maps fast wherever you are in the world.</p>
 </div>
 
-<!-- MAP GOES HERE -->
-
-<div id="map contain"></div>
-<script>
-L.mapbox.accessToken = 'pk.eyJ1IjoibXNsZWUiLCJhIjoiclpiTWV5SSJ9.P_h8r37vD8jpIH1A6i1VRg';
-var map = L.mapbox.map('map', 'examples.map-i86nkdio')
-    .setView([40, -74.50], 9);
-</script>
-
 </div></section>
-
-<!-- MAP GOES HERE -->
-
-<div id='map contain'></div>
-<script>
-L.mapbox.accessToken = 'pk.eyJ1IjoibXNsZWUiLCJhIjoiclpiTWV5SSJ9.P_h8r37vD8jpIH1A6i1VRg';
-var map = L.mapbox.map('map', 'examples.map-i86nkdio')
-    .setView([40, -74.50], 9);
-</script>
-
-</section>
 
 
 <section class="pad8y fill-blue clip">
 <div class="row13 clearfix limiter contain">
     <div class="col5 dark">
         <div class="inline icon pad0 polygon dot fill-darken1"></div>
-        <h2 class="inline pad2x"> Source: Add custom data</h2>
+        <h2 class="inline pad1x"> Source: Add custom data</h2>
         <p class="prose space-top2">Convert traditional geodata sources into vector tiles and then style them layer-by-layer.</p>
 
         <div class="col12 clearfix space-bottom2">
@@ -156,15 +135,15 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio')
             <h3><span class="inline icon pad0 check dot fill-blue"></span>  Control your data</h3>
             <p class="margin1">Define minzoom, maxzoom, and buffer size to keep your vector tiles small and performant.</p>
         </div>
-        <div class="col12 clearfixs space-bottom2">
+        <div class="col12 clearfix space-bottom2">
             <h3><span class="inline icon pad0 check dot fill-blue"></span>  Inspect your data</h3>
             <p class="margin1">Peek into your data before rendering and even style locally as you edit down your datasets.</p>
         </div>
 
-    <div class="pill space-top2"><!--
-            --><a href="/mapbox-studio/source-quickstart/" class="button stroke dark rcon next">Source quickstart</a><!--
-            --><a href="/mapbox-studio/source-manual/" class="button stroke rcon next dark">Source manual</a><!--
-            --><a href="/mapbox-studio/postgis-manual/" class="button stroke rcon next dark">PostGIS manual</a>
+    <div class="pill space-top2 col4"><!--
+            --><a href="/mapbox-studio/source-quickstart/" class="button stroke dark rcon next col12">Source quickstart</a><!--
+            --><a href="/mapbox-studio/source-manual/" class="button stroke rcon next dark col12">Source manual</a><!--
+            --><a href="/mapbox-studio/postgis-manual/" class="button stroke rcon next dark col12">PostGIS manual</a>
         </div>
     </div>
     <div class="col9 pin-right hide-mobile studio-source"></div>
@@ -176,8 +155,8 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio')
 <div class="row13 clearfix limiter contain">
     <div class="col5 dark">
         <div class="inline icon pad0 paint dot fill-darken1"></div>
-        <h2 class="inline pad2x "> Style: Design custom maps</h2>
-        <p class="prose space-top2">Create custom styles in Studio or import your own custom data. Style everything to match your brand: typography, colors, patterns, icons, and more.</p>
+        <h2 class="inline pad1x"> Style: Design custom maps</h2>
+        <p class="prose space-top2">Create custom styles in Studio with Mapbox data or your own custom data. Style everything to match your brand: typography, colors, patterns, icons, and more.</p>
 
         <div class="col12 clearfix space-bottom2">
             <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Your brand, your colors</h3>
@@ -187,14 +166,14 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio')
             <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Custom fonts and icons</h3>
             <p class="margin1">Customize your map's typography with different fonts and effects. Add POIs using our <a href="/maki">Maki</a> icon set or your own icon set.</p>
         </div>
-        <div class="col12 clearfixs space-bottom2">
+        <div class="col12 clearfix space-bottom2">
             <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Textures and illustrations</h3>
             <p class="margin1">Enhance the look and feel of your map with illustrations and textures.</p>
         </div>
 
-        <div class="pill space-top2 col10"><!--
-            --><a href="/mapbox-studio/style-quickstart/" class="button stroke dark rcon next col6">Style quickstart</a><!--
-            --><a href="/mapbox-studio/style-manual/" class="button stroke dark rcon next col6">Style manual</a>
+        <div class="pill space-top2 col4"><!--
+            --><a href="/mapbox-studio/style-quickstart/" class="button stroke dark rcon next col12">Style quickstart</a><!--
+            --><a href="/mapbox-studio/style-manual/" class="button stroke dark rcon next col12">Style manual</a>
         </div>
     </div>
 
@@ -202,21 +181,14 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio')
 </div>
 </section>
 
-<section class="pad8y extend fill-light ">
+<section class="pad8y fill-light ">
 <div class="clearfix limiter">
-    <div class="pad5 col5">
-        <span class="inline icon pad0 marker dot fill-darken1 dark"></span><h2 class="inline pad2x"> Extend your design</h2>
-    <p class="space-top2 prose-big">Once you upload your style to Mapbox.com, you can use it with any of our developer tools. Add interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, or data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a>. Build anything with your map style with our <a href="https://www.mapbox.com/developers/">developer tools</a>.</p>
-      <a href="https://www.mapbox.com/developers" class="col6 button rcon next stroke">Developer tools</a>
+	<div class="col6 clearfix data-api"></div>
+    <div class="pad5 margin1 col5">
+        <span class="inline icon pad0 marker dot fill-darken1 dark"></span><h2 class="inline pad1x"> Push your map</h2>
+    <p class="space-top2 prose-big">Once you upload your style to Mapbox.com, you can use it with any of our developer tools. Add interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, or data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a>. Build anything with your new map and the Mapbox stack.</p>
+      <a href="https://www.mapbox.com/developers" class="col5 button rcon next stroke">Developer tools</a>
     </div>
-    <div class="col6 margin1 clearfix data-api"></div>
-<!--
-        <div class='pill'>
-            <a href="/mapbox-studio/source-quickstart/" class="col12 button fill-blue dark rcon next">Source quickstart</a>
-            <a href="/mapbox-studio/source-manual/" class="col12 button fill-blue dark rcon next">Source manual</a>
-            <a href="/mapbox-studio/postgis-manual/" class="col12 button fill-blue dark rcon next">PostGIS + SQL manuals</a>
-        </div>
--->
 </div></section>
 
 
