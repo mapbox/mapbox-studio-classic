@@ -6,114 +6,199 @@ head: |
     <script src='index.js'></script>
     <link href='index.css' rel='stylesheet' />
 ---
+
 <a id='win32' class='fixed'></a>
 <a id='win64' class='fixed'></a>
 <a id='linux' class='fixed'></a>
 <a id='darwin' class='fixed'></a>
 
-<section class='fill-navy-dark studio-1 pad8y'>
-    <div class='limiter pad8y clearfix contain dark'>
-        <h2 class='fancy center dark z1 contain'>Mapbox Studio</h2>
-        <h2 class='center dark space-bottom2'>Vector tile driven map design</h2>
-        <div class='clearfix space-bottom1'><div class='device device-browser col6 margin3'>
-            <div class='device-content'><div class='clearfix contain clip row6 mobile-cols studio-editor'>
-                <div class='fill-dark pin-left pad1 animate offcanvas-left-onhover'>
-                    <div class='block icon dot fill-darken1 space-bottom1'></div>
-                    <div class='block icon dot fill-darken1 space-bottom1'></div>
-                    <div class='block icon dot fill-darken1 space-bottom1'></div>
-                    <div class='block icon dot fill-darken1 space-bottom1'></div>
-                    <div class='pin-bottomleft pad1'>
-                        <div class='block icon dot fill-darken1'></div>
+<section class="fill-midnight intro clip">
+    <div class="limiter pad8y clearfix contain dark">
+        <div class="clearfix space-bottom2 space-top8">
+
+    <div class="col6 prose-big prose space-top4">
+      <h2 class="fancy">Mapbox Studio</h2>
+      <p class="bottom-space4 col9">Design radically custom maps and datasets powered by vector tiles.</p>
+    </div>
+
+    <div class="device device-browser device-studio hide-mobile col7">
+            <div class="device-content">
+            <div class="clearfix contain clip row11 mobile-cols studio-editor">
+                <div class="fill-denim pin-left pad1">
+                    <div class="block icon dot fill-darken1 space-bottom1"></div>
+                    <div class="block icon dot fill-darken1 space-bottom1"></div>
+                    <div class="block icon dot fill-darken1 space-bottom1"></div>
+                    <div class="block icon dot fill-darken1 space-bottom1"></div>
+                    <div class="pin-bottomleft pad1">
+                        <div class="block icon dot fill-darken1"></div>
                     </div>
                 </div>
-                <div class='fill-white pin-right col4 animate offcanvas-right-onhover'>
-                    <div class='contain mobile-cols'>
-                        <div class='col3 pad1 keyline-right fill-white'></div>
-                        <div class='col3 pad1 keyline-right fill-light keyline-bottom'></div>
-                        <div class='col6 pad1 fill-light keyline-bottom'></div>
+
+<!-- source UI -->
+                <div class="fill-denim pin-right col4 studio-editor-source">
+                    <div class="contain mobile-cols space-bottom1">
+                        <div class="col9 margin1 pad1 fill-blue"></div>
+                        <div class="col2 pad1"></div>
                     </div>
-                    <div class='pad1y pad2x clip mobile-cols'>
-                        <div class='textline col5'></div>
-                        <div class='textline col7'></div>
-                        <div class='textline col7'></div>
-                        <div class='textline col2'></div>
-                        <div class='textline col2'></div>
-                        <div class='textline col7'></div>
-                        <div class='textline col2'></div>
-                        <div class='textline col2'></div>
-                        <div class='textline col7'></div>
-                        <div class='textline col7'></div>
+                    <div class="pad0y pad1x clip mobile-cols">
+                    <div class="space-top1 contain clip mobile-cols">
+                        <div class="col3 icon marker"></div>
+                        <div class="col7 textline2"></div>
+                    </div>
+                    <div class="contain clip mobile-cols">
+                        <div class="col3 icon marker"></div>
+                        <div class="col7 textline2"></div>
+                    </div>
+                    <div class="contain clip mobile-cols">
+                        <div class="col3 icon marker"></div>
+                        <div class="col7 textline2"></div>
+                    </div>
+                    <div class="contain clip mobile-cols">
+                        <div class="col3 icon marker"></div>
+                        <div class="col7 textline2"></div>
+                    </div>
                     </div>
                 </div>
+
+<!-- style UI -->
+                <div class="fill-white pin-right col4 studio-editor-style">
+                    <div class="contain mobile-cols">
+                        <div class="col9 margin1 pad1 fill-light"></div>
+                        <div class="col2 pad1"></div>
+                    </div>
+                    <div class="pad2y pad2x clip mobile-cols">
+                        <div class="textline col5"></div>
+                        <div class="textline col7"></div>
+                        <div class="textline col7"></div>
+                        <div class="textline col2"></div>
+                        <div class="textline col2"></div>
+                        <div class="textline col7"></div>
+                        <div class="textline col2"></div>
+                        <div class="textline col2"></div>
+                        <div class="textline col7"></div>
+                        <div class="textline col7"></div>
+                    </div>
+                </div>
+
             </div></div>
-            <div class='device-details'></div>
+            <div class="device-details"></div>
         </div></div>
 
-        {% include download.html %}
+   {% include download.html %}
 
-        <div class='micro center space-bottom4'>
-            <span class='quiet pad0'>Available for</span>
-            <span class='pill mobile-cols'>
-                <a class='inline pad0x fill-darken1' href='#darwin'>OS X</a><!--
-             --><a class='inline pad0x fill-darken1' href='#win32'>Win 32-bit</a><!--
-             --><a class='inline pad0x fill-darken1' href='#win64'>Win 64-bit</a><!--
-             --><a class='inline pad0x fill-darken1' href='#linux'>Linux</a>
+
+        <div class="micro space-bottom3">
+            <span class="quiet pad0">Available for</span>
+            <span class="pill mobile-cols">
+                <a class="inline pad0x fill-darken1" href="#darwin">OS X</a><!--
+             --><a class="inline pad0x fill-darken1" href="#win32">Win 32-bit</a><!--
+             --><a class="inline pad0x fill-darken1" href="#win64">Win 64-bit</a><!--
+             --><a class="inline pad0x fill-darken1" href="#linux">Linux</a>
             </span>
-            <span class='quiet pad0'>with code on</span>
-            <a class='inline icon github pad0x round fill-darken1' href='https://github.com/mapbox/mapbox-studio' target='_blank' rel='noreferrer'>GitHub</a>
-        </div>
-
-        <div class='clearfix dark'>
-            {% include docnav.html %}
+            <span class="quiet pad0">with code on</span>
+            <a class="inline icon github pad0x round fill-darken1" href="https://github.com/mapbox/mapbox-studio" target="_blank">GitHub</a>
         </div>
     </div>
-
 </section>
 
-<section class='pad8y fill-purple studio-2'>
-<div class='row12 clearfix limiter'>
-    <div class='fill-purple pad4 col6 dark prose'>
-        <h2><span class='inline icon pad0 polygon dot fill-darken1'></span> Powered by vector tiles</h2>
-        <p>Mapbox Studio gives you instant streaming access to massive global datasets like Mapbox Streets, Mapbox Terrain, and Mapbox Satellite without importing any data onto your computer.</p>
-        <p><strong>Create your own vector tiles</strong> using Mapbox Studio. Convert data from traditional formats (Shapefile, GeoJSON, KML, GPX) and upload directly to Mapbox to deploy your vector tiles at scale.</p>
+<section class="pad8y fill-gray vectortiles">
+    <div class="clearfix limiter">
+    <div class="col5 row7 own-data"></div>
+	<div class="fill-gray pad5 margin1 col6 ">
+            <span class="inline icon pad0 layers dot fill-dark dark"></span><h2 class="inline prose pad1x"> Powered by Vector Tiles</h2>
+              <p class="quiet prose-big space-top2">Studio provides a new level of design control and interaction. By packing layers, geometries, and feature attributes into lower zoom levels, higher zooms render at a fraction of the storage cost of raster tiles. Paired with Mapnik and CartoCSS, vector tiles can be rendered as images, UTFGrids, GeoJSON, and more.</p>
+         </div>
+</div></section>
+
+<section class="pad8y mapboxdata">
+<div class="clearfix limiter">
+    <div class="pad2 space-top1 col5 fill-darken2 dark round ">
+        <span class="inline icon pad0 polygon dot dark"></span><h2 class="inline pad1x"> Access to global data</h2>
+<p class="prose-big space-top2">Studio gives you instant streaming access to our massive global datasets: Streets, Terrain, and Satellite. We manage all the data on our platform, providing live updates every minute, and serve maps fast wherever you are in the world.</p>
+</div>
+
+</div></section>
+
+
+<section class="pad8y fill-blue clip">
+<div class="row13 clearfix limiter contain">
+    <div class="col5 dark">
+        <div class="inline icon pad0 polygon dot fill-darken1"></div>
+        <h2 class="inline pad1x"> Source: Add custom data</h2>
+        <p class="prose space-top2">Convert traditional geodata sources into vector tiles and then style them layer-by-layer.</p>
+
+        <div class="col12 clearfix space-bottom2">
+            <h3><span class="inline icon pad0 check dot fill-blue"></span>  Composite multiple datasets</h3>
+            <p class="margin1">Combine your point, polygon, and line datasets into in a single vector tile dataset for styling.</p>
+        </div>
+        <div class="col12 clearfix space-bottom2">
+            <h3><span class="inline icon pad0 check dot fill-blue"></span>  Control your data</h3>
+            <p class="margin1">Define minzoom, maxzoom, and buffer size to keep your vector tiles small and performant.</p>
+        </div>
+        <div class="col12 clearfix space-bottom2">
+            <h3><span class="inline icon pad0 check dot fill-blue"></span>  Inspect your data</h3>
+            <p class="margin1">Peek into your data before rendering and even style locally as you edit down your datasets.</p>
+        </div>
+
+    <div class="pill space-top2 col6"><!--
+            --><a href="/mapbox-studio/source-quickstart/" class="button stroke dark rcon next col12">Source quickstart</a><!--
+            --><a href="/mapbox-studio/source-manual/" class="button stroke rcon next dark col12">Source manual</a><!--
+            --><a href="/mapbox-studio/postgis-manual/" class="button stroke rcon next dark col12">PostGIS manual</a>
+        </div>
+    </div>
+    <div class="col9 pin-right hide-mobile studio-source"></div>
+
+</div>
+</section>
+
+<section class="pad8y fill-cyan clip">
+<div class="row13 clearfix limiter contain">
+    <div class="col5 dark">
+        <div class="inline icon pad0 paint dot fill-darken1"></div>
+        <h2 class="inline pad1x"> Style: Design custom maps</h2>
+        <p class="prose space-top2">Create custom styles in Studio with Mapbox data or your own custom data. Style everything to match your brand: typography, colors, patterns, icons, and more.</p>
+
+        <div class="col12 clearfix space-bottom2">
+            <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Your brand, your colors</h3>
+            <p class="margin1">You have full design control over everything, from colors to data to feature visibility both on the web and mobile.</p>
+        </div>
+        <div class="col12 clearfix space-bottom2">
+            <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Custom fonts and icons</h3>
+            <p class="margin1">Customize your map's typography with different fonts and effects. Add POIs using our <a href="/maki">Maki</a> icon set or your own icon set.</p>
+        </div>
+        <div class="col12 clearfix space-bottom2">
+            <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Textures and illustrations</h3>
+            <p class="margin1">Enhance the look and feel of your map with illustrations and textures.</p>
+        </div>
+
+        <div class="pill space-top2 col6"><!--
+            --><a href="/mapbox-studio/style-quickstart/" class="button stroke dark rcon next col12">Style quickstart</a><!--
+            --><a href="/mapbox-studio/style-manual/" class="button stroke dark rcon next col12">Style manual</a>
+        </div>
+    </div>
+
+    <div class="col9 pin-right hide-mobile studio-style"></div>
+</div>
+</section>
+
+<section class="pad8y fill-light ">
+<div class="clearfix limiter">
+	<div class="col6 clearfix data-api"></div>
+    <div class="pad5 margin1 col5">
+        <span class="inline icon pad0 marker dot fill-darken1 dark"></span><h2 class="inline pad1x"> Build on your map</h2>
+    <p class="space-top2 prose-big">Once you upload your style to Mapbox.com, you can use it with any of our developer tools. Add interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, or data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a>. Build anything with your new map and the Mapbox stack.</p>
+      <a href="https://www.mapbox.com/developers" class="col5 button rcon next stroke">Developer tools</a>
+    </div>
+</div></section>
+
+
+<section class="clearfix fill-midnight dark pad2y">
+<div class="clearfix limiter">
+    <div class="pad4y clearfix">
+
+        <h3 class="fancy center space-bottom">Download Now</h3>
+       {% include download_center.html %}
     </div>
 </div>
 </section>
 
-<section class='pad8y fill-blue studio-3'>
-<div class='row12 clearfix limiter'>
-    <div class='fill-blue pad4 margin6 col6 dark prose'>
-        <h2><span class='inline icon pad0 font dot fill-darken1'></span> Typography</h2>
-        <p>Mapbox Studio comes bundled with over 300 pro fonts selected for use with digital cartography thanks to our friends at <strong>FontFont</strong>. You'll find a variety of fonts ranging from clean, highly readable sans-serifs to expressive, stylized scripts.</p>
-    </div>
-</div>
-</section>
-
-<section class='pad8y fill-yellow studio-4'>
-<div class='row12 clearfix limiter'>
-    <div class='fill-yellow pad4 col6 prose'>
-        <h2><span class='inline icon pad0 sun dot fill-darken1'></span> Imagery &amp; effects</h2>
-        <p>Take full control of the visual impact of your maps by leveraging aerial imagery, textures, and compositing effects, built directly into the Mapbox Studio style editor.</p>
-    </div>
-</div>
-</section>
-
-<section class='pad8y fill-green studio-5'>
-<div class='row12 clearfix limiter'>
-    <div class='fill-green pad4 margin6 col6 dark prose'>
-        <h2><span class='inline icon pad0 search dot fill-darken1'></span> Resolution independence</h2>
-        <p>Every Mapbox Studio project adapts automatically to HiDPI and Retina displays making it possible to design maps for multiple screens and devices at once.</p>
-        <p><strong>Prepare print-ready images</strong> of your maps at up to 600dpi using the image export UI.</p>
-    </div>
-</div>
-</section>
-
-<section class='fill-navy-dark pad8y dark'>
-<div class='clearfix limiter'>
-    <div class='pad4y clearfix'>
-        <h3 class='fancy center space-bottom'>Start designing</h3>
-        {% include download.html %}
-        {% include docnav.html %}
-    </div>
-</div>
-</section>

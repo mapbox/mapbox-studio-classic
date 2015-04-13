@@ -18,27 +18,30 @@
     -webkit-transform: translateX(0%);
 }
 
-*:hover > .offcanvas-left-onhover {
-    transform: translateX(-101%);
-    -ms-transform: translateX(-101%);
-    -moz-transform: translateX(-101%);
-    -webkit-transform: translateX(-101%);
+/*  Textline for source illustration
+-------------------------------------------------- */
+.textline2 {
+    display:block;
+    height:15px;
+    padding:8px 0px 6px;
 }
-*:hover > .offcanvas-right-onhover {
-    transform: translateX(101%);
-    -ms-transform: translateX(101%);
-    -moz-transform: translateX(101%);
-    -webkit-transform: translateX(101%);
+.textline2:before {
+    display:block;
+    content:'';
+    height:4px;
+    background:#aaa;
+    border-radius:2px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
 }
 
- #linux:target ~ * [href='#linux'],
- #win32:target ~ * [href='#win32'],
- #win64:target ~ * [href='#win64'],
+#linux:target ~ * [href='#linux'],
+#win32:target ~ * [href='#win32'],
+#win64:target ~ * [href='#win64'],
 #darwin:target ~ * [href='#darwin'] {
     background: rgba(0,0,0,.75);
     color: white;
 }
-
 
 .textline {
     clear:left;
@@ -58,28 +61,116 @@
 .fill-blue-gradient {
     background-image:linear-gradient(to bottom, #3887be, #8a8acb);
 }
-.studio-1 {
-    background:url(img/studio-1.png) 100% 100% no-repeat;
+
+.device-studio {
+    right: -8%;
+    position: absolute;
+    bottom: -10px;
+}
+
+/*  BACKGROUND IMAGE TREATMENT FOR SECTIONS ON PAGE */
+.intro {
     background-size:cover;
 }
-.studio-2 {
-    background:url(img/studio-2.png) 50% 0% no-repeat;
+.mapboxdata {
+    background:url(img/data.png) 50% 0% no-repeat;
     background-size:cover;
 }
-.studio-3 {
-    background:url(img/studio-3.png) 50% 0% no-repeat;
+.style {
+    background:url(img/studio-editor_design.png) 50% 50% no-repeat;
     background-size:cover;
 }
-.studio-4 {
-    background:url(img/studio-4.jpg) 50% 50% no-repeat;
-    background-size:cover;
-}
-.studio-5 {
-    background:url(img/studio-5.png) 50% 50% no-repeat;
-    background-size:cover;
-}
-.studio-editor {
-    background:url(img/studio-editor.jpg) 50% 50% no-repeat;
+.source {
+    background:url(img/studio-editor_data.jpg) 50% 50% no-repeat;
     background-size:cover;
 }
 
+/*  Studio callout desktop shots
+-------------------------------------------------- */
+.studio-style {
+  background: url(img/studio-style.png) left top no-repeat;
+  display: block;
+  background-size: 110% auto;
+  top: -40px;
+  right: -150px;
+}
+
+.studio-source {
+  background: url(img/studio-source.png) left top no-repeat;
+  display: block;
+  background-size: 110% auto;
+  top: -40px;
+  right: -150px;
+}
+
+#design-tools .icon.check:before {
+  color: #39abc7; 
+}
+
+.studio-features p, .studio-features h3, .bullet-list p, .bullet-list h3 {
+  padding-left: 60px;
+}
+.studio-features li, .bullet-list li {
+  padding-bottom: 30px;
+}
+
+/* Studio Editor Illustration
+-------------------------------------------------- */
+
+/* DESIGN / DATA IMAGE */
+.studio-editor {
+    background:url(img/studio-editor_design.jpg) 50% 50% no-repeat;
+    background-size:cover;
+	transition: background-image 0.2s ease-in-out;
+	-webkit-transition: background-image 0.2s ease-in-out;
+	-ms-transition: background-image 0.2s ease-in-out;
+	-moz-transition: background-image 0.2s ease-in-out;
+}
+.studio-editor:hover {
+	background:url(img/studio-editor_data.jpg) 50% 50% no-repeat;
+    background-size:cover;
+}
+
+/* SHOW OR HIDE DATA / DESIGN NAV */
+*:hover > .studio-editor-source {
+	opacity: 1;
+	}
+*:hover > .studio-editor-style {
+	opacity: 0;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/*  Own Data
+-------------------------------------------------- */
+
+.own-data {
+  background: url(img/own-data@2x.png) 90% 40% no-repeat;
+  background-size: contain;
+  margin-top: -35px;
+  height: 290px;
+}
+
+/* More than tiles
+-------------------------------------------------- */
+
+.data-api {
+  background: url(img/data-api@2x.png) 0 100% no-repeat;
+  background-size: 92% auto;
+  padding-bottom: 34%;
+  height: 0;
+}
+
+@media only screen and (max-width:640px) {
+  .own-data, .data-api  {
+    padding-bottom: 85%;
+  }
+}
+
+@media only screen and (min-width:640px) and (max-width:940px) {
+   h2 {
+    font-size: 18px;
+  }
+}
