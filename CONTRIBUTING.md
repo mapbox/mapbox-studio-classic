@@ -26,7 +26,9 @@ Mapbox Studio targets the latest stable release of Node.js. When you install Map
  - For packaged builds this variable is set in the `.travis.yml` config
  - For local source installs the default node version is found in `scripts/vendor-node.sh` but it can be overriden by setting `NODE_VERSION` in your environment before running `npm install`.
 
-A note on Windows: Windows builds of Mapbox Studio target Visual Studio 2014 and depend on a custom node.exe available at https://github.com/mapbox/node-cpp11. This means that:
+For Linux and Mac the version must be packaged ahead of time with [install-node](https://github.com/mapbox/install-node#allowed-versions).
+
+For Windows custom builds need to be done and available at https://github.com/mapbox/node-cpp11. This means that:
 
  - The node installs from https://nodejs.org/download are not supported for Windows.
  - To release a new Mapbox Studio version for Windows against a new Node.js version Windows binaries need to first be built via the toolchain at https://github.com/mapbox/node-cpp11.

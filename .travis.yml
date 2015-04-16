@@ -9,6 +9,8 @@ os:
 
 env:
   matrix:
+  # NOTE: do not increment the NODE_VERSION without
+  # reading the "Node.js Version" in CONTRIBUTING.MD
   - NODE_VERSION="0.10.33" ATOM_VERSION="0.21.1"
   - NODE_VERSION="0.12.0" ATOM_VERSION="0.21.1"
   global:
