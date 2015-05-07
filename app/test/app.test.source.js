@@ -349,6 +349,7 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
+/*
     'geojson/places.geo.json': {
         filepath: '/geojson/places.geo.json',
         expected: {
@@ -361,6 +362,7 @@ var datatests = {
             'srs': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         }
     },
+*/
     'geojson/DC_polygon.geo.json': {
         filepath: '/geojson/DC_polygon.geo.json',
         expected: {
