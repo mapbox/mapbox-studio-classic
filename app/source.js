@@ -579,10 +579,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             });
 
             function setCenter(e) {
-                $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
+                $('.js-mapCenter').text(map.getCenter().wrap().lat.toFixed(4) + ', ' + map.getCenter().wrap().lng.toFixed(4));
                 if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
-                    map.getCenter().wrap().lng.toFixed(4) + ',' +
                     map.getCenter().wrap().lat.toFixed(4) + ',' +
+                    map.getCenter().wrap().lng.toFixed(4) + ',' +
                     map.getZoom()
                 );
             }
