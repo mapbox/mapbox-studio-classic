@@ -38,19 +38,19 @@ tape('.js-mapCenter', function(t) {
     var y = (window.editor.map.getCenter().lng);
     var xy = x.toFixed(4) + ', ' + y.toFixed(4);
 
-    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: '+xy);
-    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.equal($('.js-mapCenter').text(), xy, '.js-mapCenter text: ' + xy);
+    //t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
 
     window.editor.map.setView([40,-40],6);
     t.equal($('.js-mapCenter').text(),'40.0000, -40.0000', '.js-mapCenter text: 40.0000, -40.0000');
-    t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
+    //t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
 
     window.editor.map.setView([x,y],z);
-    t.equal($('.js-mapCenter').text(),xy, '.js-mapCenter text: ' + xy);
-    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.equal($('.js-mapCenter').text(), xy, '.js-mapCenter text: ' + xy);
+    //t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
     t.end();
 });
-/*
+
 tape('.js-lockCenter unlocked', function(t) {
     var z = (window.editor.map.getZoom());
     var y = (window.editor.map.getCenter().lng);
@@ -771,5 +771,6 @@ function testFonts() {
         t.ok($('.js-userfonts input:first-of-type').attr('value','Comic Neue Oblique'), true, ' includes correct fonts');
         t.end();
     });
+
 }
-*/
+
