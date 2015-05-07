@@ -39,31 +39,31 @@ tape('.js-mapCenter', function(t) {
     var xy = x.toFixed(4) + ', ' + y.toFixed(4);
 
     t.equal($('.js-mapCenter').text(), xy, '.js-mapCenter text: ' + xy);
-    //t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
 
     window.editor.map.setView([40,-40],6);
     t.equal($('.js-mapCenter').text(),'40.0000, -40.0000', '.js-mapCenter text: 40.0000, -40.0000');
-    //t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
+    t.equal($('#zoomedto').is('.zoom6'),true, '#zoomedto.zoom6');
 
     window.editor.map.setView([x,y],z);
     t.equal($('.js-mapCenter').text(), xy, '.js-mapCenter text: ' + xy);
-    //t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
+    t.equal($('#zoomedto').is('.zoom3'),true, '#zoomedto.zoom3');
     t.end();
 });
 
 tape('.js-lockCenter unlocked', function(t) {
     var z = (window.editor.map.getZoom());
-    var y = (window.editor.map.getCenter().lng);
     var x = (window.editor.map.getCenter().lat);
+    var y = (window.editor.map.getCenter().lng);
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
     t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
     window.editor.map.setView([40,-40],6);
-    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,6', '.js-savedCenter text: -40.0000,40.0000,6');
+    t.equal($('.js-savedCenter').text(), '40.0000,-40.0000,6', '.js-savedCenter text: 40.0000,-40.0000,6');
     window.editor.save();
     onajax(function() {
-        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
-        window.editor.map.setView([y,x],z);
+        t.deepEqual(window.editor.model.attributes.center,[40,-40,6],'saves center @ 40,-40,6');
+        window.editor.map.setView([x,y],z);
         t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
         window.editor.save();
         onajax(function() {
@@ -75,28 +75,28 @@ tape('.js-lockCenter unlocked', function(t) {
 
 tape('.js-lockCenter unlocked zoomrange', function(t) {
     var z = (window.editor.map.getZoom());
-    var x = (window.editor.map.getCenter().lng);
-    var y = (window.editor.map.getCenter().lat);
+    var x = (window.editor.map.getCenter().lat);
+    var y = (window.editor.map.getCenter().lng);
     var minzoom = $('#minzoom').prop('value');
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
     t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
     window.editor.map.setView([40,-40],4);
-    t.equal($('.js-savedCenter').text(), '-40.0000,40.0000,4', '.js-savedCenter text: -40.0000,40.0000,4');
+    t.equal($('.js-savedCenter').text(), '40.0000,-40.0000,4', '.js-savedCenter text: 40.0000,-40.0000,4');
     $('#minzoom').prop('value', 6);
     window.editor.save();
     onajax(a);
     function a() {
         t.ok(!hasModal('#error'));
         t.deepEqual(window.editor.model.attributes.minzoom,6,'saves minzoom @ 6');
-        t.deepEqual(window.editor.model.attributes.center,[-40,40,6],'saves center @ -40,40,6');
+        t.deepEqual(window.editor.model.attributes.center,[40,-40,6],'saves center @ 40,-40,6');
         $('#minzoom').prop('value', minzoom);
         window.editor.save();
         onajax(b);
     }
     function b() {
         t.ok(!hasModal('#error'));
-        window.editor.map.setView([y,x],z);
+        window.editor.map.setView([x,y],z);
         t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
         window.editor.save();
         onajax(c);
@@ -110,8 +110,8 @@ tape('.js-lockCenter unlocked zoomrange', function(t) {
 
 tape('.js-lockCenter locked', function(t) {
     var z = (window.editor.map.getZoom());
-    var x = (window.editor.map.getCenter().lng);
-    var y = (window.editor.map.getCenter().lat);
+    var x = (window.editor.map.getCenter().lat);
+    var y = (window.editor.map.getCenter().lng);
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
     t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
@@ -124,7 +124,7 @@ tape('.js-lockCenter locked', function(t) {
     window.editor.save();
     onajax(function() {
         t.deepEqual(window.editor.model.attributes.center,[x,y,z],'saves center @ ' + [x,y,z]);
-        window.editor.map.setView([y,x],z);
+        window.editor.map.setView([x,y],z);
         $('.js-lockCenter').click();
         t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
         window.editor.save();
@@ -137,8 +137,8 @@ tape('.js-lockCenter locked', function(t) {
 
 tape('.js-lockCenter locked zoomrange', function(t) {
     var z = (window.editor.map.getZoom());
-    var x = (window.editor.map.getCenter().lng);
-    var y = (window.editor.map.getCenter().lat);
+    var x = (window.editor.map.getCenter().lat);
+    var y = (window.editor.map.getCenter().lng);
     var minzoom = $('#minzoom').prop('value');
     var xyz = x.toFixed(4) + ',' + y.toFixed(4) + ',' + z;
     t.equal($('.js-savedCenter').text(), xyz, '.js-savedCenter text: ' + xyz);
@@ -161,7 +161,7 @@ tape('.js-lockCenter locked zoomrange', function(t) {
     }
     function b() {
         t.ok(!hasModal('#error'));
-        window.editor.map.setView([y,x],z);
+        window.editor.map.setView([x,y],z);
         $('.js-lockCenter').click();
         t.equal($('.js-lockCenter').is('.active'), false, '.js-lockCenter is unlocked');
         window.editor.save();
