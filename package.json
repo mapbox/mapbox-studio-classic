@@ -5,7 +5,7 @@
   "author": "Mapbox (https://www.mapbox.com)",
   "engineStrict": true,
   "engines": {
-    "node": "0.10.x"
+    "node": "0.10.x || 0.12.x"
   },
   "repository": {
     "type": "git",
