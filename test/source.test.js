@@ -457,7 +457,7 @@ test('source.mbtilesExport: verify export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 5461);
-                t.equal(row.size, 378705);
+                t.equal(row.size, 376824);
                 check([
                     [0,0,0],
                     [1,0,0],
