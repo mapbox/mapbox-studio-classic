@@ -13,9 +13,9 @@ Changelog
 ### 0.2.7
 - Source UI: Fixed bug where map would lock up after adding a new data source.
 - Windows: Fix atom-shell bug that caused a hang when downloading exported mbtiles, export images.
-- Add inline helper text for source mode UI on buffer, maxzoom and minzoom
-- Update minzoom / maxzoom maximium slider value to 16 from 22
-- Add tracking to values saved buffer, maxzoom and minzoom in source usage
+- Add inline helper text for source mode UI on buffer, maxzoom and minzoom.
+- Set minzoom and maxzoom slider max level to 16 in UI (from 22). Can be increased [manually by editing data.yml](https://www.mapbox.com/guides/source-manual/#source-project), however z16+ is not recommended or necessary due to [overzooming](https://www.mapbox.com/guides/source-manual/#overzooming).
+- Add tracking to values saved buffer, maxzoom and minzoom in source usage.
 
 ### 0.2.6
 - On launch, Mapbox Studio opens on a blank style project rather than the last used project.
