@@ -19,7 +19,7 @@
     "queue-async": "1.0.x",
     "rimraf": "2.2.x",
     "getport": "0.1.x",
-    "express": "3.18.x",
+    "express": "3.19.x",
     "body-parser": "1.9.x",
     "passport": "0.2.x",
     "passport-oauth": "1.0.x",
