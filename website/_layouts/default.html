@@ -87,7 +87,7 @@ footer:
   <title>{% if page.title == 'Mapbox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | Mapbox{% endif %}</title>
 
   <meta class='swiftype' name='title' data-type='string' content='{{page.title | replace:"'","&lsquo;" | replace:"'","&lsquo;" | replace:"| Mapbox",""}}' />
-  <meta class='swiftype' name='type' data-type='string' content='{% if page.section %}{{page.section}}{% elsif page.category %}{{page.category}}{% else %}site{% endif %}' />
+  <meta class='swiftype' name='type' data-type='enum' content='{% if page.section %}{{page.section}}{% elsif page.category %}{{page.category}}{% else %}site{% endif %}' />
   <meta class='swiftype' name='info' data-type='string' content='{% if page.version %}{{page.version}}{% else %}site{% endif %}' />{% if page.date and site.baseurl == '/blog' %}
   <meta class='swiftype' name='published_at' data-type='date' content='{{ page.date | date_to_xmlschema }}' />{% endif %}{% if page.tags %}
   {% for tags in page.tags %}<meta class='swiftype' name='tags' data-type='string' content='{{tags}}' />
@@ -104,8 +104,8 @@ footer:
   <meta property='og:url' content='{{page.permalink}}' />
   <meta name='twitter:title' content='{{page.title | replace:"'","&rsquo;"}}' />
   <meta property='og:title' content='{{page.title | replace:"'","&rsquo;"}}' />
-  <meta name='twitter:description' content='{{content | markdownify | strip_html | trim_spaces | truncatewords: 30 | escape | replace:"'","&rsquo;" | replace: '&#39;',"&rsquo;" }}' />
-  <meta property='og:description' content='{{content | markdownify | strip_html | trim_spaces | truncatewords: 30 | escape | replace:"'","&rsquo;" | replace: '&#39;',"&rsquo;" }}' />
+  <meta name='twitter:description' content='{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | replace:"'","&lsquo;" | replace:"'","&lsquo;" | truncatewords: 30 }}{% else %}{{content | markdownify | strip_html | trim_spaces | truncatewords: 30 | escape | replace:"'","&rsquo;" | replace: '&#39;',"&rsquo;" }}{% endif %}' />
+  <meta property='og:description' content='{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | replace:"'","&lsquo;" | replace:"'","&lsquo;" | truncatewords: 30 }}{% else %}{{content | markdownify | strip_html | trim_spaces | truncatewords: 30 | escape | replace:"'","&rsquo;" | replace: '&#39;',"&rsquo;" }}{% endif %}' />
   {% if page.video %}
   <meta name='twitter:card' content='player' />
   <meta name='twitter:player' content='{{page.video | replace: "http:" , "https:" }}' />
@@ -157,7 +157,7 @@ footer:
   {% if site.test %}<script src='{{site.url}}/test/tape.js'></script>{% endif %}
   {% if page.head %}{{page.head}}{% endif %}
 </head>
-<body class='{{page.class}} {{page.options}}{% if page.blog-featured == true %} bleed{% endif %}'>
+<body class='{{page.class}} {{page.options}}{% if page.blog_featured == true %} bleed{% endif %}'>
 <div class='page-content'>
 {% if page.app %}
 {{content}}

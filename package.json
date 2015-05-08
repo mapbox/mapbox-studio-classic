@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "mapbox-base-css": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-base-css-0.0.7-0e00453aefa340251baa4d2e12e293f4558a23f9.tgz",
-    "node-pre-gyp": "0.6.4",
+    "node-pre-gyp": "0.6.7",
     "log-rotate": "0.2.x",
     "through": "2.3.x",
     "queue-async": "1.0.x",
@@ -33,7 +33,7 @@
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "0.1.x",
     "tar": "0.1.x",
-    "mapnik": "https://github.com/mapnik/node-mapnik/tarball/master",
+    "mapnik": "3.2.0",
     "mapnik-reference": "^7.0.1",
     "carto": "0.14.1",
     "tilelive": "~5.7.0",
@@ -65,7 +65,7 @@
     "preinstall": "node scripts/run.js scripts/vendor-node.sh",
     "postinstall": "npm dedupe node-pre-gyp",
     "pretest": "npm ls --depth=Infinity && tape ./test/duplicate_module.pretest.js",
-    "test": "retire -n && tape test/*.test.js",
+    "test": "tape test/*.test.js",
     "posttest": "node test/cleanup.js"
   }
 }
