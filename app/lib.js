@@ -400,7 +400,10 @@ views.Maputils.prototype.search = function(ev) {
 
   var latlon = (function(q) {
       var parts = sexagesimal.pair(q);
-      if (parts) return { lon: parts[0], lat: parts[1] };
+	  // original code
+      if (parts) return { lat: parts[0], lon: parts[1] };
+      // fixed code
+      //if (parts) return { lon: parts[0], lat: parts[1] };
   })(query);
 
   if (latlon) {
