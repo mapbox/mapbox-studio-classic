@@ -29,6 +29,8 @@
 <body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> <%= isMapboxAPI ? 'api-mapbox' : 'api-offline' %> clip dark'><div id='app' class='pin-top pin-bottom mobile-cols'>
 
 <a id='settings'></a>
+<a id='docs'></a>
+
 <a id='user'></a>
 
 <div id='perf'></div>
@@ -107,6 +109,15 @@
       </fieldset>
     </div>
   </form>
+
+  <div id='docs-drawer' class='drawer col12 animate offcanvas-left'>
+    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+      <h3>Documentation</h3>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
+    </div>
+    <div class='col12 pin-left top1 scroll-styled'>
+    </div>
+  </div>
 
   <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='row1 pin-top keyline-botom pad1 keyline-bottom'>
@@ -197,6 +208,8 @@
   <% } %>
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
+  <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
+  <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
 
   <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Styles & Sources</a>

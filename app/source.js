@@ -1,4 +1,5 @@
 window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapboxAPI) {
+	console.log(window);
     var map;
     var tiles;
     var mtime = (+new Date).toString(36);
@@ -61,6 +62,25 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         };
         return layer;
     };
+/*
+	// addding table for cartoRef
+	var Tab = function(id, value) {
+  	var tab = CodeMirror(function(cm) {
+    	document.getElementById('stylesheets').appendChild(cm);
+  	}, {
+    	value: value,
+    	lineNumbers: true,
+    	paletteHints: true,
+    	gutters: ['CodeMirror-linenumbers', 'errors'],
+    	mode: {
+      		name: 'carto',
+      		reference: window.cartoRef
+    	}
+  	});
+
+  var completer = cartoCompletion(tab, window.cartoRef);
+*/
+
     var layers = _(revlayers).reduce(function(memo, l) {
         memo[l.id] = Layer(l.id, l.Datasource);
         return memo;
@@ -136,6 +156,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
                 this.togglePane('full');
+                break;
+            case (which === 191): // / for help
+                ev.preventDefault();
+                this.togglePane('docs');
                 break;
             case (which === 220): // \ for settings
                 ev.preventDefault();
@@ -730,4 +754,13 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     // Sortable layers for local sources.
     $('#layers .js-layer-content').sortable();
     $('#layers .js-layer-content').bind('sortupdate', window.editor.dragOrder);
+/*
+	// Syntax highlighting for carto ref.
+	$('pre.carto-snippet').each(function(i, elem) {
+  		var text = $(elem).text();
+  		$(elem).empty();
+  		CodeMirror.runMode(text, {name:'carto',reference:window.cartoRef}, $(elem).get(0));
+	});
+*/
+
 };
