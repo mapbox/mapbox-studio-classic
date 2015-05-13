@@ -18,7 +18,6 @@
   <script src='/ext/sexagesimal.js?<%=obj.nocache%>'></script>
   <script src='/ext/backbone.js?<%=obj.nocache%>'></script>
   <script src='/ext/mapbox.js?<%=obj.nocache%>'></script>
-  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>
   <script src='/app/sourceref.js?<%=obj.nocache%>'></script>
   <script src='/app/lib.js?<%=obj.nocache%>'></script>
   <script src='/app/source.js?<%=obj.nocache%>'></script>
@@ -117,6 +116,7 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='col12 pin-left top1 scroll-styled'>
+      <%= this['sourcereference'](sourceRef) %>
     </div>
   </div>
 
@@ -210,7 +210,6 @@
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
   <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
-  <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
 
   <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Styles & Sources</a>
