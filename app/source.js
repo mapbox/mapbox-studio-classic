@@ -136,7 +136,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
                 this.togglePane('full');
-                break;
+                break;  
+			case (which === 191): // / for help
+			    ev.preventDefault();
+			    this.togglePane('docs');
+			    break;
             case (which === 220): // \ for settings
                 ev.preventDefault();
                 this.togglePane('settings');
