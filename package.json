@@ -39,7 +39,7 @@
     "tilelive": "~5.7.0",
     "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/mapnik33",
     "tilelive-vector": "https://github.com/mapbox/tilelive-vector/tarball/simplify",
-    "mapnik-omnivore": "https://github.com/mapbox/mapnik-omnivore/tarball/mapnik-up",
+    "mapnik-omnivore": "https://github.com/mapbox/mapnik-omnivore/tarball/v6.1.0",
     "abaculus": "https://github.com/mapbox/abaculus/tarball/mapnik-up",
     "mapbox-machine-styles": "2.3.0",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
