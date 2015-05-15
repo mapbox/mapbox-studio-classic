@@ -40,24 +40,12 @@ var sections = {
 <section class='small pad1x pad2y contain keyline-bottom'>
   <a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/mapbox-studio/' target='_blank'>Documentation</a>
   <a class='icon space-bottom2 star button col12 short js-demo' href='#demo'>Interface tour</a>
-  <ul class='space-bottom1'>
-    <li><kbd class='code prefixed'>s</kbd> Save.</li>
-    <li><kbd class='code prefixed'>alt</kbd>+<kbd>s</kbd> Export image.</li>
-    <li><kbd class='code prefixed'>r</kbd> Refresh map.</li>
-    <li><kbd class='code prefixed'>.</kbd> View map.</li>
-    <li><kbd class='code prefixed'>\</kbd> View settings.</li>
-    <li><kbd class='code prefixed'>/</kbd> View help.</li>
-    <li><kbd class='code prefixed'>p</kbd> View places.</li>
-    <li><kbd class='code prefixed'>b</kbd> Save bookmark.</li>
-    <li><kbd class='code prefixed'>i</kbd> View data.</li>
-    <li><kbd class='code prefixed'>alt</kbd>+<kbd>[1-9]</kbd> Switch active stylesheet.</li>
-    <li><kbd class='code prefixed'>f</kbd> Search current stylesheet.</li>
-  </ul>
-  <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
 
+<!-- titles -->
 <div id='reference'>
 <% _(sections).each(function(symbolizers, name) { %>
+
 <article id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <div class='row pad1 contain section-name'>
     <span class='<%= symbolizers.icon %> icon quiet strong'><%= name %></span>
@@ -67,16 +55,20 @@ var sections = {
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
-  <section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
+
+
+<section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
     <a href='#reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
     <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
     </a>
+</section>
+
+<!--
     <div class='pad1 details clip'>
     <div class='quiet'>
       <div class='space-bottom0'>Default:</div>
 
-      <!-- 'false' and 'none' are valid default values, so show those. Only hide if default is empty.' -->
       <div class='space-bottom1'>
       <% if (!(p['default-value'] === '')) { %>
         <span class='truncate micro code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
@@ -84,72 +76,25 @@ var sections = {
         <span class='truncate micro code pad0x round inline fill-darken1'>no default value</span>
       <% } %>
       </div>
+-->
 
-      <% if (_(p.type).isArray()) { %>
-      <div class='space-bottom0'>Options:</div>
-      <div class='micro space-bottom1'>
-        <% _(p.type).each(function(option, i) { %>
-          <span class='pad0x reference-entry code inline fill-darken1 quiet round'><%= option %></span>
-        <% }); %>
-      </div>
-      <% } %>
-
-      <% if (p.type==='uri') { %>
-      <%
-      var exampleuri = 'url("image.png")';
-      if (p.css === 'font-directory') exampleuri = 'url("fonts/")';
-      %>
-      <div class='space-bottom1'>
-        <div class='space-bottom0'>Example:</div>
-        <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: <%= exampleuri %>;</span>
-      </div>
-      <% } %>
-
-      <% if (p.type==='numbers') { %>
-          <div class='space-bottom0'>Example:</div>
-          <span class='space-bottom1 micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: 2,2;</span>
-      <% } %>
-
-      <% if (p.type==='color') { %>
-          <div class='space-bottom1'>
-          <div class='space-bottom0'>Examples:</div>
-            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: #ffff00;</span>
-            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: rgb(255, 255, 0);</span>
-            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: rgba(255, 255, 0, 1);</span>
-            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: hsl(100, 50%, 50%);</span>
-            <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: yellow;</span>
-          </div>
-      <% } %>
-
-      <% if (p.functions) { %>
-        <div class='space-bottom1'>
-          <div class='space-bottom0'>Examples:</div>
-         <% _(p.functions).each(function(option, i) { %>
-          <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>:<%= option[0] %>(<% if (option[0] === 'colorize-alpha') { %>blue, yellow, red<% } else if (option[0] === 'color-to-alpha') { %>blue<% } else { %><% for (var i=0;i<option[1];i++) {%>2<%= (option[1]===(i+1)) ? '' : ',' %><% } %><% } %>);</span>
-          <% }); %>
-        </div>
-      <% }; %>
-
-
-    </div>
-    <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
-    <% if (p.expression===true) { %>
-      <%
-      var property = '[some_field]';
-      if (p.type === 'uri') property = 'url("[some_field].svg")';
-      if (p.type === 'functions') {
-        property = p.functions[0][0] + '([some_field])';
-      }
-
-      %>
-      <div class='quiet keyline-top pad1y'>
-        <div class='space-bottom0'><strong>Accepts expressions</strong>: You can pass values from your data source to this property:</div>
-        <code class='truncate micro fill-darken1'><%= p['css'] %>: <%= property%>;</code>
-      </div>
-    <% } %>
-  </section>
   <% }); %>
   <% }); %>
 </article>
+<!-- end titles -->
 <% }); %>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

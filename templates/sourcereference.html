@@ -1,9 +1,108 @@
+<%
+var sections = {
+    csv: {
+        icon: 'marker',
+        csv: sourceRef.csv
+    },
+    gdal: {
+        icon: 'polyline',
+        line: sourceRef.gdal
+    },
+    geojson: {
+        icon: 'polygon',
+        polygon: sourceRef.geojson
+    },
+    occi: {
+      icon: 'raster',
+      raster: sourceRef.occi
+       },
+    ogr: {
+        icon: 'font',
+        text: sourceRef.ogr
+    },
+    osm: {
+        icon: 'star',
+        misc: sourceRef.osm
+    },
+    postgis: {
+        icon: 'polyline',
+        line: sourceRef.postgis
+    },
+    python: {
+        icon: 'polygon',
+        polygon: sourceRef.python
+    },
+    raster: {
+      icon: 'raster',
+      raster: sourceRef.raster
+    },
+    rasterlite: {
+        icon: 'star',
+        misc: sourceRef.rasterlite
+    },
+    sqlite: {
+        icon: 'polyline',
+        line: sourceRef.sqlite
+    },
+    topojson: {
+        icon: 'polygon',
+        polygon: sourceRef.topojson
+    },
+};
+%>
+
 <section class='small pad1x pad2y contain keyline-bottom'>
   <a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/guides/source-quickstart/' target='_blank'>Source Quickstart</a>
-<!-- Need to make a demo first 
-<a class='icon space-bottom2 star button col12 short js-demo' href='#demo'>Interface tour</a>
--->
-  <a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/guides/source-manual/' target='_blank'>Source Manual</a>  
-<a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/guides/converting-thousands-points-to-vts/' target='_blank'>Converting point data</a>
-  <a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/guides/postgis-manual/' target='_blank'>PostGIS manual</a>
+  <a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/guides/source-manual/' target='_blank'>Source Manual</a> 
 </section>
+
+<!-- titles -->
+<div id='reference'>
+<% _(sections).each(function(sourceRef, name) { %>
+
+<article id='reference-<%= name %>' class='small'>
+  <div class='row pad1 contain section-name'>
+    <span class='<%= sourceRef.icon %> icon quiet strong'><%= name %></span>
+  </div>
+  <% _(sourceRef).each(function(sourceRef) { %>
+  <% _(sourceRef).chain()
+      .filter(function(p) { return p.type; })
+      .each(function(p, name) {
+console.log(p);
+  %>
+
+<!--
+<section id='reference-<%= p.file %>' class='contain carto-ref'>
+    <a href='#reference-<%= p.file %>' class='js-tab pin-left pin-right js-tab'></a>
+    <div class='small pad1x pad0y keyline-bottom'><%= p.file %></div>
+    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
+    </a>
+    <div class='pad1 details clip'>
+    <div class='quiet'>
+      <div class='space-bottom0'>Default:</div>
+      <div class='space-bottom1'>
+      <% if (!(p['default-value'] === '')) { %>
+        <span class='truncate micro code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
+      <% } else { %>
+        <span class='truncate micro code pad0x round inline fill-darken1'>no default value</span>
+      <% } %>
+      </div>
+-->
+
+  <% }); %>
+  <% }); %>
+</article>
+<!-- end titles -->
+<% }); %>
+</div>
+
+
+
+
+
+
+
+
+
+
+

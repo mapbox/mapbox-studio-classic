@@ -210,8 +210,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #user:target ~ #drawers,
 #settings:target ~ #drawers,
+#docs:target ~ #drawers,
 #user:target ~ #drawers #user-drawer,
-#settings:target ~ #drawers #settings-drawer {
+#settings:target ~ #drawers #settings-drawer,
+#docs:target ~ #drawers #docs-drawer {
   -webkit-transform:translateX(0%);
      -moz-transform:translateX(0%);
       -ms-transform:translateX(0%);
@@ -220,7 +222,8 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 }
 
 #user:target ~ #drawers #user-drawer ~ .drawer,
-#settings:target ~ #drawers #settings-drawer ~ .drawer {
+#settings:target ~ #drawers #settings-drawer ~ .drawer,
+#docs:target ~ #drawers #docs-drawer ~ .drawer {
   -webkit-transform:translateX(100%);
      -moz-transform:translateX(100%);
       -ms-transform:translateX(100%);
@@ -229,8 +232,10 @@ section .CodeMirror { display:block; position:static; height:400px; visibility:v
 
 #user:target ~ #drawers > *,
 #settings:target ~ #drawers > *,
+#docs:target ~ #drawers > *,
 #user:target ~ #drawers #user-drawer > *,
-#settings:target ~ #drawers #settings-drawer > * { display:block; }
+#settings:target ~ #drawers #settings-drawer > *,
+#docs:target ~ #drawers #docs-drawer > * { display:block; }
 
 /* Project state
 ------------------------------------------------------- */
@@ -785,6 +790,7 @@ a.bookmark-y,
 a.user-y,
 a.search-y,
 a.settings-y,
+a.docs-y
 a.print-y,
 a.data-y { display:none; }
 
@@ -792,6 +798,7 @@ a.data-y { display:none; }
 .xray-toggle.active a.xray-y,
 #user:target      ~ * a.user-y,
 #settings:target  ~ * a.settings-y,
+#docs:target  ~ * a.docs-y,
 #print:target     ~ * a.print-y,
 #data:target      ~ * a.layers-y,
 .menu:target      ~ * a.menu-y,
@@ -802,6 +809,7 @@ a.data-y { display:none; }
 
 #user:target      ~ * a.user-n,
 #settings:target  ~ * a.settings-n,
+#docs:target  ~ * a.docs-n,
 #print:target     ~ * a.print-n,
 #data:target      ~ * a.layers-n,
 .menu:target      ~ * a.menu-n,
