@@ -116,7 +116,7 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='col12 pin-left top1 scroll-styled'>
-		<%=this['sourcereference']({sourceRef: sourceRef}) %>`
+		<%=this['sourcereference']({sourceRef: sourceRef}) %>
     </div>
   </div>
 
@@ -128,6 +128,12 @@
     </div>
     <%= this.history(obj) %>
   </div>
+
+<!-- animate -->
+  <div class='drawer col12 animate offcanvas-left'>
+
+  </div>
+<!-- end animation -->
 
 </div>
 
@@ -164,7 +170,15 @@
   var revlayers = source.Layer.slice(0);
   revlayers.reverse();
 %>
+
+
 <div id='source-ui' class='z1 animate fill-dark dark col6 pin-right'>
+
+<!-- add animation for code -->
+
+<!-- end animation for code -->
+
+
   <div id='layers'>
     <div class='fill-darken1 pad1 clearfix'>
       <a href='#' class='js-addlayer short button col6 icon plus'>New layer</a>

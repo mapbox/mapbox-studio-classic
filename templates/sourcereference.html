@@ -56,45 +56,59 @@ var sections = {
   <a class='icon space-bottom1 book button col12 short' href='https://www.mapbox.com/guides/source-manual/' target='_blank'>Source Manual</a> 
 </section>
 
-<!-- titles -->
+<!-- data format sections -->
 <div id='reference'>
-<% _(sections).each(function(sourceRef, name) { %>
+<% _(sections).each(function(sourcetype, name) { %>
 
 <article id='reference-<%= name %>' class='small'>
   <div class='row pad1 contain section-name'>
-    <span class='<%= sourceRef.icon %> icon quiet strong'><%= name %></span>
+    <span class='<%= sourcetype.icon %> icon quiet strong'><%= name %></span>
   </div>
-  <% _(sourceRef).each(function(sourceRef) { %>
-  <% _(sourceRef).chain()
-      .filter(function(p) { return p; })
-      .each(function(p, name) {
-		console.log('type: ', p.type, ' def: ', p.doc);
+  <% _(sourcetype).each(function(ref) { %>
+  <% if (typeof ref === 'object')_(ref).each(function(p,name) { 
   %>
 
-<!--
-<section id='reference-<%= p.file %>' class='contain carto-ref'>
-    <a href='#reference-<%= p.file %>' class='js-tab pin-left pin-right js-tab'></a>
-    <div class='small pad1x pad0y keyline-bottom'><%= p.file %></div>
+<!-- properties -->
+<section id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='contain source-ref'>
+    <a href='#reference-<%= name.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+    <div class='small pad1x pad0y keyline-bottom'><%= name %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
     </a>
+
+
+<!-- data format information -->
     <div class='pad1 details clip'>
     <div class='quiet'>
       <div class='space-bottom0'>Default:</div>
+      <!-- 'false' and 'none' are valid default values, so show those. Only hide if default is empty.' -->
+
+
       <div class='space-bottom1'>
       <% if (!(p['default-value'] === '')) { %>
-        <span class='truncate micro code pad0x round fill-darken1 inline value'><%= p['css'] %>: <%=p['default-value']%>;</span>
+        <span class='truncate micro code pad0x round fill-darken1 inline value'><%=p['default-value']%>;</span>
       <% } else { %>
         <span class='truncate micro code pad0x round inline fill-darken1'>no default value</span>
       <% } %>
       </div>
--->
 
+      <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
+    </div>
+  </div>
+
+
+
+</section>
   <% }); %>
   <% }); %>
 </article>
 <!-- end titles -->
 <% }); %>
 </div>
+
+
+
+
+
 
 
 
