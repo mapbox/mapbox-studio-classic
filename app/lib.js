@@ -9,8 +9,10 @@ var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
   $('#' + context + ' .active').removeClass('active');
+  console.log('context: ',context);
   $(ev.currentTarget).addClass('active');
   $('#' + target).addClass('active');
+  console.log('target: ',target);
   return false;
 };
 

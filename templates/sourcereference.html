@@ -2,51 +2,63 @@
 var sections = {
     csv: {
         icon: 'marker',
-        csv: sourceRef.csv
+        csv: sourceRef.csv,
+		format: 'csv'
     },
     gdal: {
         icon: 'polyline',
-        line: sourceRef.gdal
+        line: sourceRef.gdal,
+		format: 'gdal'
     },
     geojson: {
         icon: 'polygon',
-        polygon: sourceRef.geojson
+        polygon: sourceRef.geojson,
+		format: 'geojson'
     },
     occi: {
       icon: 'raster',
-      raster: sourceRef.occi
+      raster: sourceRef.occi,
+		format: 'occi'
        },
     ogr: {
         icon: 'font',
-        text: sourceRef.ogr
+        text: sourceRef.ogr,
+		format: 'ogr'
     },
     osm: {
         icon: 'star',
-        misc: sourceRef.osm
+        misc: sourceRef.osm,
+		format: 'osm'
     },
     postgis: {
         icon: 'polyline',
-        line: sourceRef.postgis
+        line: sourceRef.postgis,
+		format: 'postgis'
     },
     python: {
         icon: 'polygon',
-        polygon: sourceRef.python
+        polygon: sourceRef.python,
+		format: 'python'
     },
     raster: {
       icon: 'raster',
-      raster: sourceRef.raster
+      raster: sourceRef.raster,
+	  format: 'raster'
     },
     rasterlite: {
         icon: 'star',
-        misc: sourceRef.rasterlite
+        misc: sourceRef.rasterlite,
+		format: 'rasterlite'
     },
     sqlite: {
         icon: 'polyline',
-        line: sourceRef.sqlite
+        line: sourceRef.sqlite,
+		format: 'sqlite'
     },
     topojson: {
         icon: 'polygon',
-        polygon: sourceRef.topojson
+        polygon: sourceRef.topojson,
+		format: 'topojson'
     },
 };
 %>
@@ -69,9 +81,10 @@ var sections = {
   %>
 
 <!-- properties -->
-<section id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='contain source-ref'>
-    <a href='#reference-<%= name.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
-    <div class='small pad1x pad0y keyline-bottom'><%= name %></div>
+<section id='reference-<%= sourcetype.format %>-<%= name.replace(/[^\w+]/g,'_') %>' class='contain source-ref'>
+    <a href='#reference-<%= sourcetype.format %>-<%= name.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+    <div class='small pad1x pad0y keyline-bottom'><%= name %>
+</div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
     </a>
 
