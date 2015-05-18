@@ -66,9 +66,9 @@ var sections = {
   </div>
   <% _(sourceRef).each(function(sourceRef) { %>
   <% _(sourceRef).chain()
-      .filter(function(p) { return p.type; })
+      .filter(function(p) { return p; })
       .each(function(p, name) {
-console.log(p);
+		console.log('type: ', p.type, ' def: ', p.doc);
   %>
 
 <!--
