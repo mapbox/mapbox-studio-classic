@@ -95,22 +95,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
         'click .js-browsefile': 'browsefile',	
-		// call tabbed handler for reference tag
+        // call tabbed handler for reference tag
         'click #reference .js-tab': 'tabbed',
-        'click #history .js-tab': 'tabbed',
-		'click #reference-csv .js-tab': 'tabbed',
-		'click #reference-gdal .js-tab': 'tabbed',
-		'click #reference-geojson .js-tab': 'tabbed',
-		'click #reference-occi .js-tab': 'tabbed',
-		'click #reference-ogr  .js-tab': 'tabbed',
-		'click #reference-osm  .js-tab': 'tabbed',
-		'click #reference-postgis  .js-tab': 'tabbed',
-		'click #reference-python  .js-tab': 'tabbed',
-		'click #reference-raster  .js-tab': 'tabbed',
-		'click #reference-rasterlite .js-tab': 'tabbed',
-		'click #reference-sqlite .js-tab': 'tabbed',
-		'click #reference-topojson  .js-tab': 'tabbed',
-        // 'click .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
         'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
@@ -223,6 +209,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     };
     Editor.prototype.tabbedFields = function(ev) {
         $(ev.currentTarget).parent('.layer').addClass('active').siblings('.layer').removeClass('active');
+		console.log(ev);
         return false;
     };
     Editor.prototype.togglePane = function(name) {
