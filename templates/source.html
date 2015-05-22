@@ -18,8 +18,7 @@
   <script src='/ext/sexagesimal.js?<%=obj.nocache%>'></script>
   <script src='/ext/backbone.js?<%=obj.nocache%>'></script>
   <script src='/ext/mapbox.js?<%=obj.nocache%>'></script>
-  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>  
-  <script src='/app/sourceref.js?<%=obj.nocache%>'></script>
+  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>
   <script src='/app/lib.js?<%=obj.nocache%>'></script>
   <script src='/app/source.js?<%=obj.nocache%>'></script>
   <script src='/app/atom.js?<%=obj.nocache%>'></script>
@@ -116,7 +115,9 @@
       <a href='#' class='icon x pin-right pad1 quiet'></a>
     </div>
     <div class='col12 pin-left top1 scroll-styled'>
+		<%console.log(sourceRef);%>
 		<%=this['sourcereference']({sourceRef: sourceRef}) %>
+
     </div>
   </div>
 
