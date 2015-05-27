@@ -1,19 +1,20 @@
 <%
+console.log(sourceRef)
 var sections = {
     vector_tiles: {
-		icon: 'layers',
-		vts: sourceRef.vector_tiles,
-		format: 'vector_tiles'
+      icon: 'layers',
+      vts: sourceRef.references.vector_tiles,
+      format: 'vector tiles'
     },
     shapefile: {
-        icon: 'polygon',
-        line: sourceRef.shapefile,
-		format: 'shapefile'
+      icon: 'polygon',
+      line: sourceRef.references.shapefile,
+      format: 'shapefile'
     },
     csv: {
-        icon: 'marker',
-        csv: sourceRef.csv,
-		format: 'csv'
+      icon: 'marker',
+      csv: sourceRef.references.csv,
+      format: 'CSV'
     }
 };
 %>
@@ -29,62 +30,37 @@ var sections = {
 
 <article id='reference-<%= name %>' class='small'>
   <div class='row pad1 contain section-name'>
-    <span class='<%= sourcetype.icon %> icon quiet strong'><%= name %></span>
+    <span class='<%= sourcetype.icon %> icon quiet strong'><%= sourcetype.format %></span>
   </div>
-  <% _(sourcetype).each(function(ref) { %>
-  <% if (typeof ref === 'object')_(ref).each(function(p,name) { 
+  <% _(sourcetype).each(function(ref) {
+    _(ref).chain()
+      .filter(function(p) { return p.css; })
+      .each(function(p) {
   %>
-
-<!-- properties -->
-<section id='reference-<%= sourcetype.format %>-<%= name.replace(/[^\w+]/g,'_') %>' class='contain source-ref'>
-    <a href='#reference-<%= sourcetype.format %>-<%= name.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
-    <div class='small pad1x pad0y keyline-bottom'><%= name %>
-</div>
-    <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
-    </a>
-
-
-<!-- data format information -->
-    <div class='pad1 details clip'>
-    <div class='quiet'>
-      <div class='space-bottom0'>Default:</div>
-      <!-- 'false' and 'none' are valid default values, so show those. Only hide if default is empty.' -->
-
-
-      <div class='space-bottom1'>
-      <% if (!(p['default-value'] === '')) { %>
-        <span class='truncate micro code pad0x round fill-darken1 inline value'><%=p['default-value']%>;</span>
-      <% } else { %>
-        <span class='truncate micro code pad0x round inline fill-darken1'>no default value</span>
-      <% } %>
+    <section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain source-ref'>
+      <a href='#reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
+      <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
+      <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
+      </a>
+      <div class='pad1 details clip'>
+      <div class='quiet'>
+        <% if (p['default-value'] !== undefined) { %>
+        <div class='space-bottom0'>Default:</div>
+          <div class='space-bottom1'>
+          <% if (!(p['default-value'] === '')) {%>
+            <span class='truncate micro code pad0x round fill-darken1 inline value'><%=p['default-value']%></span>
+          <% } else { %>
+            <span class='truncate micro code pad0x round inline fill-darken1'>no default value</span>
+          <% } %>
+          </div>
+       <% } %>
+        <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
       </div>
-
-      <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
     </div>
-  </div>
-
-
-
-</section>
+  </section>
   <% }); %>
-  <% }); %>
+<% }); %>
 </article>
 <!-- end titles -->
 <% }); %>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
