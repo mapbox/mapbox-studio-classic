@@ -21,8 +21,9 @@
           transform:translateX(100%);
 }
 
-#docs:target ~ #drawers > * 
-  { display:block; }
+#docs:target ~ #drawers > * {
+  display:block;
+}
 
 
 /* Reference/docs pane

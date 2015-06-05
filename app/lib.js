@@ -13,13 +13,10 @@ var tabbedHandler = function(ev) {
   $(ev.currentTarget).addClass('active');
   $('#' + target).addClass('active');
   if (lastClicked && $(context) !=  $(context) ) {
-	$('#' + lastClicked + ' .active').removeClass('active');
+  $('#' + lastClicked + ' .active').removeClass('active');
     lastClicked = $(context);
   }
   lastClick = $(context);
-  console.log('current target: ' + target);
-  console.log('context: ' + context);
-  console.log('last: ' + lastClicked);
   return false;
 };
 

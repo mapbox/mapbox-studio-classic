@@ -125,7 +125,6 @@ var sections = {
             <span class='micro pad0x code inline fill-darken1 quiet round truncate'><%= p['css'] %>: yellow;</span>
           </div>
       <% } %>
-
       <% if (p.functions) { %>
         <div class='space-bottom1'>
           <div class='space-bottom0'>Examples:</div>
@@ -134,10 +133,7 @@ var sections = {
           <% }); %>
         </div>
       <% }; %>
-
-
     </div>
-
 
     <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
     <% if (p.expression===true) { %>
@@ -149,8 +145,6 @@ var sections = {
       }
 
       %>
-
-
 
       <div class='quiet keyline-top pad1y'>
         <div class='space-bottom0'><strong>Accepts expressions</strong>: You can pass values from your data source to this property:</div>
