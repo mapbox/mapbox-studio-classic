@@ -86,8 +86,10 @@ App_Running_Check:
   ${EndIf}
 
   StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
-  ${If} ${RunningX64} ${AndIf} ${TARGET_ARCH} == "x64"
-    StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
+  ${If} ${RunningX64}
+    ${If} ${TARGET_ARCH} == "x64"
+      StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
+    ${EndIf}
   ${EndIf}
 
   StrCpy $PREV_VER_DIR ""
