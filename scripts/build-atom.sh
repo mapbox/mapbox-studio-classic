@@ -125,7 +125,7 @@ if [ $platform == "win32" ]; then
     7z -y e $vc_runtime_file -o"$build_dir/resources/app/vendor/"
     echo "extracting c++ lib to node-mapnik binding dir"
     #TODO determine node version automatically
-    7z -y e $vc_runtime_file -o"$build_dir/resources/app/node_modules/mapnik/lib/binding/node-v11-win32-${arch_common_name}/"
+    7z -y e $vc_runtime_file -o"$build_dir/resources/app/node_modules/mapnik/lib/binding/node-v11-win32-${arch}/"
 
     if [[ $arch == "x64" ]]; then
         # alternative package for windows: no-installer / can be run from usb drive
