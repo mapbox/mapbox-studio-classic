@@ -7,7 +7,7 @@
           "default-value": 0,
           "type":"numeric",
           "default-meaning": "First zoom where data is introduced.",
-          "doc": "Lowest zoom where data is stored for display on map. Set value to where data is first readable to save file size."
+          "doc": "First zoom where data appears on the map. Set minzoom based on zoom level where data must legible, zoom levels set too low can result in failed uploads."
         },
         "maxzoom": {
           "css":"maxzoom",
@@ -15,7 +15,7 @@
           "type":"numeric",
           "default-meaning": "Last zoom data where is stored.",
           "max-size": "22",
-          "doc": "Highest zoom where data is stored, data displays overzoomed beyond maxzoom. Set maxzoom, then zoom to higher zooms on the map to check render quality and determine optimal level."
+          "doc": "Final zoom where data is stored for map. Note: data will display 'overzoomed' at zoom levels beyond set maxzoom. Test visual data accuracy beyond set maxzoom to determine optimal level."
         },
         "buffer-size": {
           "css": "buffer-size",

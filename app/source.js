@@ -97,6 +97,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         'click .js-browsefile': 'browsefile',
         // call tabbed handler for reference tag
         'click #reference .js-tab': 'tabbed',
+		'click .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
         'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
