@@ -6,6 +6,81 @@
   box-shadow: rgba(0,0,0,0.1) -2px 0px 0px;
 }
 
+#docs:target ~ #drawers {
+  -webkit-transform:translateX(0%);
+     -moz-transform:translateX(0%);
+      -ms-transform:translateX(0%);
+          transform:translateX(0%);
+  visibility: visible;
+}
+
+#docs:target ~ #drawers #docs-drawer ~ .drawer {
+  -webkit-transform:translateX(100%);
+     -moz-transform:translateX(100%);
+      -ms-transform:translateX(100%);
+          transform:translateX(100%);
+}
+
+#docs:target ~ #drawers > * 
+  { display:block; }
+
+
+/* Reference/docs pane
+------------------------------------------------------- */
+#reference-csv section .type   { color: #8a8acb; } /* fill purple */
+#reference-gdal section .type    { color: #3887be; } /* fill blue */
+#reference-geojson section .type   { color: #ee8a65; } /* fill orange */
+#reference-occi section .type     { color: #ee6565; } /* fill red */
+#reference-ogr section .type   { color: #8a8acb; } /* fill purple */
+#reference-osm section .type    { color: #3887be; } /* fill blue */
+#reference-postgis section .type   { color: #ee8a65; } /* fill orange */
+#reference-python section .type     { color: #ee6565; } /* fill red */
+#reference-raster section .type   { color: #8a8acb; } /* fill purple */
+#reference-rasterlite section .type    { color: #3887be; } /* fill blue */
+#reference-sqlite section .type   { color: #ee8a65; } /* fill orange */
+#reference-topojson section .type     { color: #ee6565; } /* fill red */
+
+#reference-csv .section-name   { border-right-color: #8a8acb; } /* fill purple */
+#reference-gdal .section-name    { border-right-color: #3887be; } /* fill blue */
+#reference-geojson .section-name { border-right-color: #56b881; } /* fill green */
+#reference-occi .section-name   { border-right-color: #ee8a65; } /* fill orange */
+#reference-ogr .section-name     { border-right-color: #ee6565; } /* fill red */
+#reference-osm .section-name   { border-right-color: #8a8acb; } /* fill purple */
+#reference-postgis .section-name    { border-right-color: #3887be; } /* fill blue */
+#reference-python .section-name { border-right-color: #56b881; } /* fill green */
+#reference-raster .section-name   { border-right-color: #ee8a65; } /* fill orange */
+#reference-rasterlite .section-name     { border-right-color: #ee6565; } /* fill red */
+#reference-sqlite .section-name   { border-right-color: #8a8acb; } /* fill purple */
+#reference-topojson .section-name    { border-right-color: #3887be; } /* fill blue */
+
+#reference .section-name {
+  border-right-width: 5px;
+  border-right-style: solid;
+  text-transform: capitalize;
+}
+
+#reference .section-name + section {
+  border-top: 1px solid rgba(0,0,0,0.25);
+}
+
+#reference section.source-ref:not(.active):hover {
+  background: rgba(0,0,0,.05);
+}
+
+.reference-entry { margin-bottom: 3px;}
+
+#reference section.active a,
+#reference .details { display: none;}
+#reference section.active { background-color: rgba(0,0,0,.15);}
+#reference section.active .details { display: block;}
+
+/* Button toggles
+------------------------------------------------------- */
+a.docs-y { display:none; }
+#docs:target      ~ * a.docs-y { display:inline-block; }
+#docs:target      ~ * a.docs-n { display:none; }
+
+
 /* Data list pane
 ------------------------------------------------------- */
 .offpane-button { margin-left: 5px;}

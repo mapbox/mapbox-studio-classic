@@ -8,9 +8,18 @@
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
+  var lastClicked = null;
   $('#' + context + ' .active').removeClass('active');
   $(ev.currentTarget).addClass('active');
   $('#' + target).addClass('active');
+  if (lastClicked && $(context) !=  $(context) ) {
+	$('#' + lastClicked + ' .active').removeClass('active');
+    lastClicked = $(context);
+  }
+  lastClick = $(context);
+  console.log('current target: ' + target);
+  console.log('context: ' + context);
+  console.log('last: ' + lastClicked);
   return false;
 };
 

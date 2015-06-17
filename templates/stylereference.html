@@ -56,8 +56,10 @@ var sections = {
   <p>Override shortcuts by holding <kbd>Shift</kbd>.</p>
 </section>
 
+<!-- sections -->
 <div id='reference'>
 <% _(sections).each(function(symbolizers, name) { %>
+
 <article id='reference-<%= name.replace(/[^\w+]/g,'_') %>' class='small'>
   <div class='row pad1 contain section-name'>
     <span class='<%= symbolizers.icon %> icon quiet strong'><%= name %></span>
@@ -67,11 +69,14 @@ var sections = {
       .filter(function(p) { return p.css; })
       .each(function(p, name) {
   %>
+
+<!-- properties -->
   <section id='reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='contain carto-ref'>
     <a href='#reference-<%= p.css.replace(/[^\w+]/g,'_') %>' class='js-tab pin-left pin-right js-tab'></a>
     <div class='small pad1x pad0y keyline-bottom'><%= p.css %></div>
     <span class='quiet micro pin-topright pad0 code type'><%=_(p.type).isArray() ? 'keyword' : p.type%></span>
     </a>
+
     <div class='pad1 details clip'>
     <div class='quiet'>
       <div class='space-bottom0'>Default:</div>
@@ -132,6 +137,8 @@ var sections = {
 
 
     </div>
+
+
     <% if (p.doc) { %><div class='space-bottom1 quiet description break-word small'><%=p.doc%></div><% } %>
     <% if (p.expression===true) { %>
       <%
@@ -142,6 +149,9 @@ var sections = {
       }
 
       %>
+
+
+
       <div class='quiet keyline-top pad1y'>
         <div class='space-bottom0'><strong>Accepts expressions</strong>: You can pass values from your data source to this property:</div>
         <code class='truncate micro fill-darken1'><%= p['css'] %>: <%= property%>;</code>

@@ -34,7 +34,7 @@
     "fstream": "0.1.x",
     "tar": "0.1.x",
     "mapnik": "3.2.0",
-    "mapnik-reference": "^7.0.1",
+    "mapnik-reference": "https://github.com/mapnik/mapnik-reference/tarball/source-docs",
     "carto": "0.14.1",
     "tilelive": "~5.7.0",
     "tilelive-bridge": "~1.2.7",

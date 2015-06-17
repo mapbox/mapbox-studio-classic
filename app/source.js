@@ -94,8 +94,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         'click .layer .js-delete': 'deletelayer',
         'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
-        'click .js-browsefile': 'browsefile',
-        'click #history .js-tab': 'tabbed',
+        'click .js-browsefile': 'browsefile',	
+        // call tabbed handler for reference tag
+        'click #reference .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
         'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
@@ -136,7 +137,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
                 this.togglePane('full');
-                break;
+                break;  
+			case (which === 191): // / for help
+			    ev.preventDefault();
+			    this.togglePane('docs');
+			    break;
             case (which === 220): // \ for settings
                 ev.preventDefault();
                 this.togglePane('settings');
@@ -204,6 +209,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     };
     Editor.prototype.tabbedFields = function(ev) {
         $(ev.currentTarget).parent('.layer').addClass('active').siblings('.layer').removeClass('active');
+		console.log(ev);
         return false;
     };
     Editor.prototype.togglePane = function(name) {
