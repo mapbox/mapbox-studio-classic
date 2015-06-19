@@ -2,6 +2,12 @@
 SETLOCAL
 SET EL=0
 
+ECHO PLATFORM^: %platform%
+::sometimes platform is lower case on AppVeyor
+IF "%platform%"=="X64" SET platform=x64
+ECHO PLATFORM^: %platform%
+
+
 ECHO CWD^: %CD%
 SET PATH=%HOME%;%PATH%
 
@@ -18,7 +24,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 ::download custom mapbox node.exe
 SET ARCHPATH=
-if "%platform%"=="x64" SET ARCHPATH=x64/
+IF "%platform%"=="x64" SET ARCHPATH=x64/
 SET NODE_URL=https://mapbox.s3.amazonaws.com/node-cpp11/v%NODE_VERSION%/%ARCHPATH%node.exe
 ECHO fetching %NODE_URL%
 powershell Invoke-WebRequest $env:NODE_URL -OutFile $env:HOME\node.exe
@@ -50,7 +56,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 ::AFTER npm install: extract vcredist next to node-mapnik binaries
 ECHO ============ TODO do not hardcode path to binding dir =============
-SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-x64
+IF "%platform%"=="x64" (SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-x64 ) ELSE (SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-ia32)
 7z -y e %VCREDIST_FILE% -o%BINDING_DIR%\ | %windir%\system32\FIND "ing archive"
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 tree node_modules\mapnik\lib
