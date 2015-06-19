@@ -5,7 +5,8 @@ SET EL=0
 ECHO CWD^: %CD%
 SET PATH=%HOME%;%PATH%
 
-IF DEFINED SKIP_DL IF %SKIP_DL% EQU 1 GOTO RUN_INSTALL
+IF NOT DEFINED SKIP_DL SET SKIP_DL=0
+IF %SKIP_DL% EQU 1 GOTO RUN_INSTALL
 
 REM find and remove default node.exe to avoid conflicts
 FOR /F "tokens=*" %%i in ('node -e "console.log(process.execPath)"') do SET NODE_EXE_PATH=%%i
@@ -27,7 +28,7 @@ SET VCREDIST_URL=https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-ru
 ECHO fetching %VCREDIST_URL%
 IF NOT EXIST %HOME%\%VCREDIST_FILE% powershell Invoke-WebRequest $env:VCREDIST_URL -OutFile $env:HOME\$env:VCREDIST_FILE
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-7z e %VCREDIST_FILE%
+7z -y e %VCREDIST_FILE%
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 :RUN_INSTALL
