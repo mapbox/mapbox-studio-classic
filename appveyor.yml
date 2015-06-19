@@ -1,5 +1,5 @@
 environment:
-  HOME: "c:\\projects\\tm2"
+  HOME: "c:\\projects\\mapbox-studio"
   AWS_ACCESS_KEY_ID:
     secure: "yr0cfv7H8uVu2iyIn93+brMT6oEhvm9FpkJPvwGZMlA="
   AWS_SECRET_ACCESS_KEY:
