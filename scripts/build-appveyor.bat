@@ -53,12 +53,17 @@ ECHO ============ TODO do not hardcode path to binding dir =============
 SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-x64
 7z -y e %VCREDIST_FILE% -o%BINDING_DIR%\ | %windir%\system32\FIND "ing archive"
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+ECHO BINDING_DIR^: %BINDING_DIR%
+DIR %BINDING_DIR%
 
 ::put dumpbin on path: required by check_shared_libs.py
 SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
 python test\check_shared_libs.py .\
 ECHO ========== TODO ENABLE AGAIN ======== IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
+::run tests
 CALL npm test
+DIR %BINDING_DIR%
 ECHO ========== TODO ENABLE AGAIN ======== IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 node test/test-client.js
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
