@@ -508,7 +508,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         map.fitBounds([
             [clamp(extent[1],-180),clamp(extent[0],-85.0511)],
             [clamp(extent[3],180),clamp(extent[2],85.0511)]
-        ]);
+        ],{'animate': false});
     };
 
     Editor.prototype.update = function(ev) {
