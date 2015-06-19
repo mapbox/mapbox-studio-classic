@@ -53,6 +53,7 @@ ECHO ============ TODO do not hardcode path to binding dir =============
 SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-x64
 7z -y e %VCREDIST_FILE% -o%BINDING_DIR%\ | %windir%\system32\FIND "ing archive"
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+tree node_modules\mapnik\lib
 ECHO BINDING_DIR^: %BINDING_DIR%
 DIR %BINDING_DIR%
 
