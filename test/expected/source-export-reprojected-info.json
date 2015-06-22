@@ -1,0 +1,29 @@
+{
+  "scheme": "tms",
+  "attribution": "John Doe 2013.",
+  "center": [
+    0,
+    0,
+    3
+  ],
+  "format": "pbf",
+  "maxzoom": 6,
+  "minzoom": 0,
+  "name": "Test source",
+  "vector_layers": [
+    {
+      "id": "NZ_Coastline_NZMG",
+      "description": "",
+      "fields": {
+        "featurecla": "String",
+        "scalerank": "Number"
+      }
+    }
+  ],
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.0511287798066
+  ]
+}
