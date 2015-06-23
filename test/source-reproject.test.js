@@ -140,8 +140,7 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
                 });
                 var zxy = queue.shift();
                 src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
-                    t.ifError(err);
-                    t.ok(!!buffer);
+                    t.ok(!err && !!buffer, zxy.join('/'));
                     check(queue);
                 });
             }
