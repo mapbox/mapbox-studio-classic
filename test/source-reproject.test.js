@@ -108,7 +108,19 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
                 t.equal(row.count, 19);
                 t.equal(row.size, 3624);
                 check([
-                    [0,0,0]
+                    [0,0,0],
+                    [1,1,1],
+                    [2,3,2],
+                    [3,7,5],
+                    [3,7,4],
+                    [4,15,10],
+                    [4,15,9],
+                    [5,30,20],
+                    [5,31,20],
+                    [5,31,19],
+                    [6,61,41],
+                    [6,61,40],
+                    [6,62,41]
                 ]);
             });
             function check(queue) {
