@@ -108,7 +108,13 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
                 t.equal(row.count, 19);
                 t.equal(row.size, 3624);
                 check([
-                    [0,0,0]
+                    [0,0,0],
+                    [1,1,1],
+                    [2,3,2],
+                    [3,7,5],
+                    [3,7,4],
+                    [4,15,10],
+                    [4,15,9],
                 ]);
             });
             function check(queue) {
@@ -128,8 +134,7 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
                 });
                 var zxy = queue.shift();
                 src.getTile(zxy[0],zxy[1],zxy[2], function(err, buffer) {
-                    t.ifError(err);
-                    t.ok(!!buffer);
+                    t.ok(!err && !!buffer, zxy.join('/'));
                     check(queue);
                 });
             }
