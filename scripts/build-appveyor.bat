@@ -2,17 +2,19 @@
 SETLOCAL
 SET EL=0
 
-ECHO PLATFORM^: %platform%
+ECHO original PLATFORM^: %platform%
 ::sometimes platform is lower case on AppVeyor
 IF "%platform%"=="X64" SET platform=x64
-ECHO PLATFORM^: %platform%
+ECHO modified PLATFORM^: %platform%
 
+SET VCREDIST_FILE=vcredist_%platform%-mini.7z
+ECHO VCREDIST_FILE^: %VCREDIST_FILE%
 
-ECHO CWD^: %CD%
+ECHO HOME^: %HOME%
 SET PATH=%HOME%;%PATH%
 
 IF NOT DEFINED SKIP_DL SET SKIP_DL=0
-IF %SKIP_DL% EQU 1 GOTO RUN_INSTALL
+IF %SKIP_DL% EQU 1 ECHO SKIPPING DOWNLOAD && GOTO RUN_INSTALL
 
 ::delete default node.exe to avoid conflicts
 FOR /F "tokens=*" %%i in ('node -e "console.log(process.execPath)"') do SET NODE_EXE_PATH=%%i
@@ -31,7 +33,6 @@ powershell Invoke-WebRequest $env:NODE_URL -OutFile $env:HOME\node.exe
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 ::download vcredist DLLs
-SET VCREDIST_FILE=vcredist_%platform%-mini.7z
 SET VCREDIST_URL=https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/%VCREDIST_FILE%
 ECHO fetching %VCREDIST_URL%
 IF NOT EXIST %HOME%\%VCREDIST_FILE% powershell Invoke-WebRequest $env:VCREDIST_URL -OutFile $env:HOME\$env:VCREDIST_FILE
@@ -39,8 +40,7 @@ IF NOT EXIST %HOME%\%VCREDIST_FILE% powershell Invoke-WebRequest $env:VCREDIST_U
 
 :RUN_INSTALL
 
-::extract vcredist next to node.exe
-IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+ECHO extracting vcredist next to node.exe ...
 7z -y e %VCREDIST_FILE% | %windir%\system32\FIND "ing archive"
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
@@ -52,28 +52,32 @@ CALL npm -v
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 CALL npm install --fallback-to-build=false --toolset=v140
+IF %ERRORLEVEL% NEQ 0 ECHO npm install failed && GOTO ERROR
+
+CD node_modules\mapnik
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+FOR /F "tokens=*" %%i in ('CALL ..\..\node_modules\.bin\node-pre-gyp reveal module_path --silent') do SET BINDING_DIR=%%i
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+ECHO BINDING_DIR^: %BINDING_DIR%
+
+CD ..\..
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
-::AFTER npm install: extract vcredist next to node-mapnik binaries
-ECHO ============ TODO do not hardcode path to binding dir =============
-IF "%platform%"=="x64" (SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-x64 ) ELSE (SET BINDING_DIR=%HOME%\node_modules\mapnik\lib\binding\node-v11-win32-ia32)
+ECHO AFTER npm install, extracting vcredist next to node-mapnik binaries
 7z -y e %VCREDIST_FILE% -o%BINDING_DIR%\ | %windir%\system32\FIND "ing archive"
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-tree node_modules\mapnik\lib
-ECHO BINDING_DIR^: %BINDING_DIR%
-DIR %BINDING_DIR%
 
 ::put dumpbin on path: required by check_shared_libs.py
 SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
 python test\check_shared_libs.py .\
-ECHO ========== TODO ENABLE AGAIN ======== IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+IF %ERRORLEVEL% NEQ 0 ECHO ========== TODO ENABLE AGAIN ======== error during "python test\check_shared_libs.py .\"
+::IF %ERRORLEVEL% NEQ 0 ECHO error during "python test\check_shared_libs.py .\" && GOTO ERROR
 
 ::run tests
 CALL npm test
-DIR %BINDING_DIR%
-ECHO ========== TODO ENABLE AGAIN ======== IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+ECHO ========== TODO ENABLE AGAIN ======== error during "npm test" IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 node test/test-client.js
-IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+IF %ERRORLEVEL% NEQ 0 ECHO error during "node test/test-client.js" && GOTO ERROR
 
 
 GOTO DONE

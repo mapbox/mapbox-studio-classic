@@ -1,9 +1,10 @@
 @ECHO OFF
+SETLOCAL
 
-ECHO CD^: %CD%
+ECHO CWD^: %CD%
 
 SET SKIP_DL=1
-SET HOME=c:\projects\tm2
+SET HOME=%CD%
 SET NODE_VERSION=0.10.33
 SET platform=x64
 

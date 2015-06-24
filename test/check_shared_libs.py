@@ -47,7 +47,8 @@ for match in matches:
                 sys.stderr.write('%s found in %s\n' % (bad_check,match))
         good_checks = ['VCRUNTIME140.dll','APPCRT140.dll','DESKTOPCRT140.dll']
         # exceptions that are known to not link to vs 2014 and this is okay
-        exceptions = ['nsProcess.dll','nsProcessW.dll','icudt53.dll','icudt54.dll','libexpat.dll','nsisFirewall.dll','nsisFirewallW.dll']
+        # add runtime DLLs themselves to exceptions if they are copied into the modules directly
+        exceptions = ['vcruntime140.dll','appcrt140.dll','desktopcrt140.dll','vcomp140.dll','nsProcess.dll','nsProcessW.dll','icudt53.dll','icudt54.dll','libexpat.dll','nsisFirewall.dll','nsisFirewallW.dll']
         found_one = False
         for good_check in good_checks:
             if good_check in result:
