@@ -151,25 +151,22 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
 
 test('source.mbtilesUpload: uploads reprojected map', function(t) {
     testutil.createTmpProject('source-export-reprojected', localreprojectedsource, function(err, id) {
-    t.ifError(err);
-
-    source.upload(id, false, function(err, task) {
         t.ifError(err);
-        t.strictEqual(task.id, id, 'sets task.id');
-        t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
-        // returns a task object with active progress
-        task.progress.on('error', function(err){
+        source.upload(id, false, function(err, task) {
             t.ifError(err);
-            t.end();
+            t.strictEqual(task.id, id, 'sets task.id');
+            t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
+            // returns a task object with active progress
+            task.progress.on('error', function(err){
+                t.ifError(err);
+                t.end();
+            });
+            task.progress.on('finished', function(p){
+                t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
+                t.equal(task.progress.progress().eta, 0, 'progress.eta');
+                t.end()
+            });
         });
-        task.progress.on('finished', function(p){
-            t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
-            t.equal(task.progress.progress().eta, 0, 'progress.eta');
-            t.end()
-        });
-
-    });
-
     });
 });
 
