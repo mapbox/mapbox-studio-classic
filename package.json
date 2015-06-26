@@ -36,7 +36,7 @@
     "mapnik": "3.2.0",
     "mapnik-reference": "^7.0.1",
     "carto": "0.14.1",
-    "tilelive": "~5.7.0",
+    "tilelive": "~5.8.0",
     "tilelive-bridge": "~1.2.7",
     "tilelive-vector": "~3.2.5",
     "mapnik-omnivore": "~5.0.7",
