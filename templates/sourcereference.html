@@ -1,19 +1,14 @@
 <%
 var sections = {
-    vector_tiles: {
+    settings: {
+      icon: 'sprocket',
+      vts: sourceRef.references.settings,
+      format: 'settings'
+    },
+    layers: {
       icon: 'layers',
-      vts: sourceRef.references.vector_tiles,
-      format: 'vector tiles'
-    },
-    shapefile: {
-      icon: 'polygon',
-      line: sourceRef.references.shapefile,
-      format: 'shapefile'
-    },
-    csv: {
-      icon: 'marker',
-      csv: sourceRef.references.csv,
-      format: 'CSV'
+      line: sourceRef.references.layers,
+      format: 'layers'
     }
 };
 %>

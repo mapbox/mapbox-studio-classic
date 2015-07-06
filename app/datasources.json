@@ -1,13 +1,12 @@
 {
   "datasources": {
     "references": {
-      "vector_tiles": {
-        "minzoom": {
-          "css": "minzoom",
-          "default-value": 0,
-          "type":"numeric",
-          "default-meaning": "First zoom where data is introduced.",
-          "doc": "First zoom where data appears on the map. Set minzoom based on zoom level where data must legible, zoom levels set too low can result in failed uploads."
+      "settings": {
+        "center": {
+          "css":"center",
+          "default-value": "0, 0, 0",
+          "default-meaning": "Latitude, longitude, and zoom level for center point of the map data.",
+          "doc": "Latitude, longitude, and zoom level for center point of the map data. To edit: navigate and zoom in / out to prefered center point, click lock icon next to settings panel to capture that zoom, then save."
         },
         "maxzoom": {
           "css":"maxzoom",
@@ -15,46 +14,31 @@
           "type":"numeric",
           "default-meaning": "Last zoom data where is stored.",
           "max-size": "22",
-          "doc": "Final zoom where data is stored for map. Note: data will display 'overzoomed' at zoom levels beyond set maxzoom. Test visual data accuracy beyond set maxzoom to determine optimal level."
+          "doc": "Final zoom where data is stored for map. Data will 'overzoomed' beyond set maxzoom. Test visual data accuracy beyond set maxzoom to determine optimal level. Manually edit maxzoom beyond z16 in .tm2 folder's project.yml and restart Studio to save update."
         },
+        "minzoom": {
+          "css": "minzoom",
+          "default-value": 0,
+          "type":"numeric",
+          "default-meaning": "First zoom where data is introduced.",
+          "doc": "First zoom where data appears on the map. Set minzoom based on zoom level where data must legible, zoom levels set too low can result in failed uploads."
+        }
+      },
+      "layers": {
         "buffer-size": {
           "css": "buffer-size",
-          "default-value": 0,
+          "default-value": 8,
           "default-meaning": "Padding around each tile.",
           "type": "numeric",
           "max-size": "128",
-          "doc": "Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width."
+          "doc": "Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width. Manually edit layer's buffer values up to 128 in .tm2 folder's project.yml and restart Studio to save update."
         },
         "projection": {
           "css": "projection",
           "default-value": "none",
           "default-meaning": "Re-projection algorithm converting data into Web Mercator (EPSG:3857).",
           "type": "string",
-          "doc": "Input data clipped to (±180/±85) WGS84 then reprojected to Web Mercator."
-        }
-      },
-      "shapefile": {
-        "points": {
-          "css": "points",
-          "type": "trouble-shooting",
-          "doc": "Optimize large point-only shapefiles by removing all column data from .dxf file."
-        },
-        "label-polygons": {
-          "css": "label-polygons",
-          "type": "trouble-shooting",
-          "doc": "Create centroid point data for each polygon to prevent repeating labels across tiles."
-        }
-      },
-      "csv": {
-        "lat-lng": {
-          "css": "lat-lng",
-          "type": "trouble-shooting",
-          "doc": "Ensure latitude and longitude columns are labeled as named instead of x,y which results in file-type error."
-        },
-        "geom": {
-          "css": "geom",
-          "type": "trouble-shooting",
-          "doc": "Mapnik renderer requires the_geom column data as WKT, which results in file-type error."
+          "doc": "Re-projected automatically as data sources are loaded into Studio. Input data clipped to (±180/±85) WGS84 then reprojected to Web Mercator. "
         }
       }
     }
