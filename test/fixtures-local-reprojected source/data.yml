@@ -1,0 +1,14 @@
+name: Test source
+attribution: "John Doe 2013."
+minzoom: 0
+maxzoom: 6
+Layer: 
+  - Datasource: 
+      file: "NZ_Coastline_NZMG.shp"
+      type: shape
+    description: ""
+    id: NZ_Coastline_NZMG
+    name: NZ_Coastline_NZMG
+    properties: 
+      "buffer-size": 0
+    srs: "+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +units=m +no_defs"

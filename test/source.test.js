@@ -74,7 +74,6 @@ test('source.normalize', function(t) {
         source.normalize({ Layer: [{ Datasource: { type: 'shape' } }] });
     }, /Missing required field/);
 
-
     // Test a raster source with multiple layers
     n = source.normalize({
         id: 'tmsource://' + __dirname + '/fixtures-local raster',
