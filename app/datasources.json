@@ -5,6 +5,7 @@
         "center": {
           "css":"center",
           "default-value": "0, 0, 0",
+          "type":"numeric",
           "default-meaning": "Latitude, longitude, and zoom level for center point of the map data.",
           "doc": "Latitude, longitude, and zoom level for center point of the map data. To edit: navigate and zoom in / out to prefered center point, click lock icon next to settings panel to capture that zoom, then save."
         },
