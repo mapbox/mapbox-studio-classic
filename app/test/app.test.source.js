@@ -409,6 +409,17 @@ var datatests = {
             'srs': /ellps=GRS80/
         }
     },
+    'shp/NZ_Coastline_NZMG': {
+        filepath: '/shp/NZ_Coastline_NZMG/NZ_Coastline_NZMG.shp',
+        expected: {
+            'Datasource-file': window.testParams.dataPath + '/shp/NZ_Coastline_NZMG/NZ_Coastline_NZMG.shp',
+            'Datasource-type': 'shape',
+            'description': '',
+            'id': 'NZ_Coastline_NZMG',
+            'properties-buffer-size': '8',
+            'srs': '+proj=nzmg +lat_0=-41 +lon_0=173 +x_0=2510000 +y_0=6023150 +ellps=intl +units=m +no_defs'
+        }
+    }
 };
 
 tape('Drag and drop layer ', function(t) {

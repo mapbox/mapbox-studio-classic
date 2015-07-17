@@ -842,10 +842,6 @@ window.onhashchange = function(ev) {
     break;
   case 'export':
     $('#zoomedto').removeClass('warning');
-    if ($('body').hasClass('local')) {
-      window.location.hash = '#';
-      break;
-    }
     window.exporter.refresh();
     break;
   default:

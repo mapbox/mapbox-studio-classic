@@ -48,7 +48,7 @@
     "mapbox-studio-default-source": "1.0.0",
     "cors": "~2.3.1",
     "request": "~2.48.0",
-    "mapbox-upload": "~3.0.0",
+    "mapbox-upload": "~3.2.0",
     "progress-stream": "0.5.0",
     "safer-stringify": "0.0.1",
     "gazetteer": "0.1.4",
@@ -58,7 +58,7 @@
     "retire": "0.3.x",
     "tape": "2.13.x",
     "phantomjs": "1.9.10",
-    "mapnik-test-data": "http://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.0.1-98e4e5f4d94979576d4fff22c8e447a3a5048302.tgz"
+    "mapnik-test-data": "https://mapbox-npm.s3.amazonaws.com/package/mapnik-test-data-2.0.6-ed505d5585bb53e283a94957f1bb792c47816253.tgz"
   },
   "scripts": {
     "start": "./index.js",
