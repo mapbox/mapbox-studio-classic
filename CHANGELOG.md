@@ -3,6 +3,9 @@ Changelog
 
 ### Upcoming
 
+- Added reference docs to source mode, removed inline helper text from UI.
+- Made UI lat/lng format consistent after searching in tool.
+- Enabled export image / print option for local datasets.
 - New `dot` symbolizer for faster rendering of points (better that `marker`).
 - Improved performance of GeoJSON, TopoJSON, and GeoTIFF.
 - Update to node-mapnik 3.2.1 from 3.1.2.
