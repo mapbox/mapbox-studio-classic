@@ -113,8 +113,19 @@ if [ $platform == "win32" ]; then
 
     rm $build_dir/mapbox-studio.exe.bak
 
-    echo "downloading c++ lib vcredist_$arch_common_name.exe"
-    curl -Lfo "$build_dir/resources/app/vendor/vcredist_$arch_common_name.exe" "https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/vcredist_$arch_common_name.exe"
+    #bundle runtime DLLs directly into vendor and node-mapnik binding directory
+    vc_runtime_version="VS2014-CTP4"
+    vc_runtime_file="vcredist_${arch_common_name}-mini.7z"
+    vc_runtime_file_local="/tmp/vcredist_${arch_common_name}-mini.7z"
+    vc_runtime_url="https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-${vc_runtime_version}/${vc_runtime_file}"
+
+    echo "downloading c++ lib ${vc_runtime_file}"
+    curl -Lfo $vc_runtime_file_local $vc_runtime_url
+    echo "extracting c++ lib to $build_dir"
+    7z -y e $vc_runtime_file -o"$build_dir/resources/app/vendor/"
+    echo "extracting c++ lib to node-mapnik binding dir"
+    #TODO determine node version automatically
+    7z -y e $vc_runtime_file -o"$build_dir/resources/app/node_modules/mapnik/lib/binding/node-v11-win32-${arch}/"
 
     if [[ $arch == "x64" ]]; then
         # alternative package for windows: no-installer / can be run from usb drive
