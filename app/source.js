@@ -360,10 +360,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
             // zoom to new layer
-            map.fitBounds([
-                [metadata.extent[1], metadata.extent[0]],
-                [metadata.extent[3], metadata.extent[2]]
-            ],{'animate': false});
+            view.fitBounds(map,metadata.extent);
             //open proper modal, depending on if there are multiple layers
             if (layer_names.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
@@ -500,6 +497,18 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         } else {
             Modal.show('error', 'Could not save source "' + model.id + '"');
         }
+    };
+
+    Editor.prototype.fitBounds = function(map,extent) {
+        // https://github.com/mapbox/mapbox-studio/issues/1388
+        function clamp(value,expected) {
+            if (value > expected || value < expected) return expected;
+            return value;
+        }
+        map.fitBounds([
+            [clamp(extent[1],-180),clamp(extent[0],-85.0511)],
+            [clamp(extent[3],180),clamp(extent[2],85.0511)]
+        ],{'animate': false});
     };
 
     Editor.prototype.update = function(ev) {
@@ -680,10 +689,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                map.fitBounds([
-                    [metadata.extent[1], metadata.extent[0]],
-                    [metadata.extent[3], metadata.extent[2]]
-                  ],{'animate': false})
+                view.fitBounds(map,metadata.extent);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state
