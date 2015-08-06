@@ -62,7 +62,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
     </div>
     <form class='js-remotedata js-applydata pin-bottom pad2 keyline-top row3'>
       <div class='input-pill clearfix'><!--
-        --><input class='col9' type='text' placeholder='Mapbox map ID' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' size='20' name='id' pattern='((([\w-]+\.[\w-]+),?)+)|((https?:\/\/)+[\w\\\/\-./\:]*)' value='<% if (style.source.indexOf('mapbox://') > -1) { %><%= style.source.replace('mapbox:///','') %><% } %>'/><!--
+        --><input class='col9' type='text' placeholder='Mapbox map ID' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' size='20' name='id' pattern='((([\w-]+\.[\w-]+),?)+)|(https?://[^ ]+)' value='<% if (style.source.indexOf('mapbox://') > -1) { %><%= style.source.replace('mapbox:///','') %><% } %>'/><!--
         --><input class='col3' type='submit' value='Apply'/>
       </div>
       <div class='micro quiet center pad1y'>
