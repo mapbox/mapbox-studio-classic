@@ -148,6 +148,24 @@ test('tm dirfiles', function(t) {
     });
 });
 
+test('tm dirfiles windows root', function(t) {
+    var platform = require('os').platform();
+    if (platform === 'win32' || platform === 'win64') {
+        tm.dirfiles('/', function(err, files) {
+            t.ifError(err);
+            t.deepEqual(
+                files
+                    .filter(function(f) { return (-1 < f.basename.indexOf('c')) })
+                    .map(function(f){ return f.path }),
+                [
+                    'c:\\'
+                ]
+            );
+            t.end();
+        });
+    }
+});
+
 // @TODO tm.writefiles
 
 test('tm history', function(t) {
