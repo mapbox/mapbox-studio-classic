@@ -342,7 +342,7 @@ Editor.prototype.keys = function(ev) {
     ev.preventDefault();
     window.editor.addBookmark(ev);
     break;
-  case ((which > 48 && which < 58) && ev.altKey): // 1-9
+  case ((which > 48 && which < 55) && ev.altKey): // 1-6
     var tab = $('#tabs a.tab')[(which-48)-1];
     if (tab) $(tab).click();
     break;
