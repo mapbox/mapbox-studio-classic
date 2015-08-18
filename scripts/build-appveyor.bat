@@ -56,12 +56,8 @@ ECHO BINDING_DIR^: %BINDING_DIR%
 CD ..\..
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
-ECHO AFTER npm install, extracting vcredist next to node-mapnik binaries
-7z -y e %VCREDIST_FILE% -o%BINDING_DIR%\ | %windir%\system32\FIND "ing archive"
-IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-
 ::put dumpbin on path: required by check_shared_libs.py
-SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
+SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
 python test\check_shared_libs.py .\
 IF %ERRORLEVEL% NEQ 0 ECHO ========== TODO ENABLE AGAIN ======== error during "python test\check_shared_libs.py .\"
 ::IF %ERRORLEVEL% NEQ 0 ECHO error during "python test\check_shared_libs.py .\" && GOTO ERROR

@@ -1,3 +1,5 @@
+os: Visual Studio 2015
+
 environment:
   HOME: "c:\\projects\\mapbox-studio"
   AWS_ACCESS_KEY_ID:
