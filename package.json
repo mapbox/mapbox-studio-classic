@@ -24,7 +24,7 @@
     "passport": "0.2.x",
     "passport-oauth": "1.0.x",
     "minimist": "1.1.x",
-    "underscore": "1.8.x",
+    "underscore": "1.6.x",
     "tilejson": "0.13.x",
     "mbtiles": "0.8.0",
     "mkdirp": "0.5.x",
