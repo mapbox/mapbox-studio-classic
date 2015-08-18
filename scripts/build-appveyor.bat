@@ -2,6 +2,8 @@
 SETLOCAL
 SET EL=0
 
+ECHO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %~f0 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ECHO original PLATFORM^: %platform%
 ::sometimes platform is lower case on AppVeyor
 IF "%platform%"=="X64" SET platform=x64
@@ -32,17 +34,8 @@ ECHO fetching %NODE_URL%
 powershell Invoke-WebRequest $env:NODE_URL -OutFile $env:HOME\node.exe
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
-::download vcredist DLLs
-SET VCREDIST_URL=https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/%VCREDIST_FILE%
-ECHO fetching %VCREDIST_URL%
-IF NOT EXIST %HOME%\%VCREDIST_FILE% powershell Invoke-WebRequest $env:VCREDIST_URL -OutFile $env:HOME\$env:VCREDIST_FILE
-
 
 :RUN_INSTALL
-
-ECHO extracting vcredist next to node.exe ...
-7z -y e %VCREDIST_FILE% | %windir%\system32\FIND "ing archive"
-IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 node -v
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
@@ -84,10 +77,11 @@ GOTO DONE
 
 :ERROR
 SET EL=%ERRORLEVEL%
-ECHO ============== ERRORLEVEL^: %EL% ===============
+ECHO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ERROR^: %~f0 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ECHO ERRORLEVEL^: %EL%
 
 :DONE
-ECHO ============= DONE ===============
+ECHO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DONE %~f0 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CD %HOME%
 EXIT /b %EL%
 
