@@ -64,7 +64,7 @@ IF %ERRORLEVEL% NEQ 0 ECHO ========== TODO ENABLE AGAIN ======== error during "p
 
 ::run tests
 CALL npm test
-ECHO ========== TODO ENABLE AGAIN ======== error during "npm test" IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+IF %ERRORLEVEL% NEQ 0 ECHO error during "npm test" && GOTO ERROR
 node test/test-client.js
 IF %ERRORLEVEL% NEQ 0 ECHO error during "node test/test-client.js" && GOTO ERROR
 
@@ -80,48 +80,3 @@ ECHO ERRORLEVEL^: %EL%
 ECHO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DONE %~f0 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CD %HOME%
 EXIT /b %EL%
-
-
-
-environment:
-  HOME: "c:\\projects\\tm2"
-  AWS_ACCESS_KEY_ID:
-    secure: "yr0cfv7H8uVu2iyIn93+brMT6oEhvm9FpkJPvwGZMlA="
-  AWS_SECRET_ACCESS_KEY:
-    secure: "cqTj03yqur/yCYCrMI0+A2ttBJ5r7uA8Xb0i0prEcM7lDLczYssPdp3DnqUnvIPN"
-  matrix:
-    - NODE_VERSION: 0.10.33
-      platform: x64
-    - NODE_VERSION: 0.10.33
-      platform: x86
-
-shallow_clone: true
-
-install:
-  # find and remove default node.exe to avoid conflicts
-  - node -e "console.log(process.execPath)" > node_path.txt
-  - SET /p NODE_EXE_PATH=<node_path.txt
-  - del node_path.txt
-  - del /q /s "%NODE_EXE_PATH%"
-  # add local node to path
-  - SET PATH=%CD%;%PATH%;
-  - SET ARCHPATH=
-  - if %platform% == x64 (SET ARCHPATH=x64/)
-  - ps: Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
-  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
-  - ps: Write-Output "https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/vcredist_$env:platform.exe"
-  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2014-CTP4/vcredist_$env:platform.exe"
-  - .\vcredist_%platform%.exe /q /norestart
-  - node -v
-  - node -e "console.log(process.argv,process.execPath,process.arch)"
-  - npm -v
-  - npm install --fallback-to-build=false --toolset=v140
-  # put dumpbin on path: required by check_shared_libs.py
-  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
-  - python test\check_shared_libs.py .\
-  - npm test
-  - node test/test-client.js
-
-build: off
-test: off
-deploy: off
