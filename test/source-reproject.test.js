@@ -44,7 +44,7 @@ test('source.normalize', function(t) {
         Layer: [{
             id: 'NZ_Coastline_NZMG',
             fields: {
-                featurecla: 'String', 
+                featurecla: 'String',
                 scalerank: 'Number'
             },
             Datasource: {
@@ -173,8 +173,8 @@ test('source.mbtilesUpload: uploads reprojected map', function(t) {
 test('cleanup ' + __filename, function(t) {
     server.close(function() {
         setTimeout(function () {
-            t.end(); 
-        }, 1000); 
+            t.end();
+        }, 2000);
 
     });
 });
