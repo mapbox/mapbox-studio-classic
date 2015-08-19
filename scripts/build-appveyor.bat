@@ -9,9 +9,6 @@ ECHO original PLATFORM^: %platform%
 IF "%platform%"=="X64" SET platform=x64
 ECHO modified PLATFORM^: %platform%
 
-SET VCREDIST_FILE=vcredist_%platform%-mini.7z
-ECHO VCREDIST_FILE^: %VCREDIST_FILE%
-
 ECHO HOME^: %HOME%
 SET PATH=%HOME%;%PATH%
 
@@ -54,6 +51,17 @@ IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 ECHO BINDING_DIR^: %BINDING_DIR%
 
 CD ..\..
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
+ECHO ==== TODO ====
+ECHO ==== remove when updated phantomjs package is availble
+ECHO ==== currently there is no binary for Linux
+ECHO ==== so, node package is stuck at 1.9
+
+IF NOT EXIST phantom.7z ECHO downloading phantom.exe 2.0.0 && powershell Invoke-WebRequest https://mapbox.s3.amazonaws.com/windows-builds/windows-deps/phantomjs-2.0.0.7z -OutFile $env:HOME\phantom.7z
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
+7z -y x phantom.7z -o%HOME%\node_modules\phantomjs\lib\phantom\ | %windir%\system32\FIND "ing archive"
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 ::put dumpbin on path: required by check_shared_libs.py

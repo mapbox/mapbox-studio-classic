@@ -21,6 +21,7 @@ page.open(url, function(status) {
         system.stderr.writeLine('failed to open ' + url);
         phantom.exit(1);
     }
+    phantom.exit(0);
 });
 
 setTimeout(function() {

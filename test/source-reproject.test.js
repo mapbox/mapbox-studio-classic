@@ -174,7 +174,7 @@ test('cleanup ' + __filename, function(t) {
     server.close(function() {
         setTimeout(function () {
             t.end();
-        }, 2000);
+        }, 1000);
 
     });
 });

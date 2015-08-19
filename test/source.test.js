@@ -32,7 +32,10 @@ test('setup: config ' + __filename, function(t) {
         cache: path.join(tmppath, 'cache')
     }, function(){
         console.log('after tm.config - waiting to end');
-        setTimeout(function(){t.end();}, 500) 
+        setTimeout(function(){
+            console.log('after tm.config - ending test');
+            t.end();
+        }, 1000) 
     })
 });
 

@@ -1,6 +1,7 @@
 .DS_Store
 _site
 .settings
+*.7z
 typings
 node_modules
 node.exe
