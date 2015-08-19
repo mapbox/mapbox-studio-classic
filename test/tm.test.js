@@ -11,7 +11,7 @@ var stream = require('stream');
 var progress = require('progress-stream');
 var UPDATE = process.env.UPDATE;
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),

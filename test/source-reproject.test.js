@@ -21,7 +21,7 @@ var server;
 var localreprojectedsource = 'tmsource://' + path.join(__dirname,'fixtures-local-reprojected source');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
@@ -170,6 +170,6 @@ test('source.mbtilesUpload: uploads reprojected map', function(t) {
     });
 });
 
-test('cleanup', function(t) {
+test('cleanup ' + __filename, function(t) {
     server.close(function() { t.end(); });
 });
