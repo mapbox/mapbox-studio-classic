@@ -1,6 +1,7 @@
 .DS_Store
 _site
 node_modules
+node.exe
 test/fixtures-oauth/test-clone.db
 vendor/node
 vendor/node.exe
