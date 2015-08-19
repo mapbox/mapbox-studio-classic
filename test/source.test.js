@@ -29,7 +29,7 @@ test('setup: config ' + __filename, function(t) {
         tmp: path.join(tmppath, 'tmp'),
         fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
-    }, t.end);
+    }, setTimeout(function(){t.end;}, 500) );
 });
 
 test('setup: mockserver', function(t) {
