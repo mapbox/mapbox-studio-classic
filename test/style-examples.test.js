@@ -3,7 +3,7 @@ var tm = require('../lib/tm');
 var style = require('../lib/style');
 var source = require('../lib/source');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
-var tmppath = tm.join(require('os').tmpdir(), 'Examples ШЖФ -' + (+new Date));
+var tmppath = tm.join(require('os').tmpdir(), 'mapbox-studio', 'Examples ШЖФ -' + (+new Date));
 var server;
 
 test('setup', function(t) {

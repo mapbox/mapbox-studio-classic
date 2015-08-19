@@ -1,5 +1,7 @@
 .DS_Store
 _site
+.settings
+typings
 node_modules
 node.exe
 test/fixtures-oauth/test-clone.db
