@@ -171,5 +171,10 @@ test('source.mbtilesUpload: uploads reprojected map', function(t) {
 });
 
 test('cleanup ' + __filename, function(t) {
-    server.close(function() { t.end(); });
+    server.close(function() {
+        setTimeout(function () {
+            t.end(); 
+        }, 500); 
+
+    });
 });

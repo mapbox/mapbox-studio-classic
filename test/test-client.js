@@ -111,9 +111,7 @@ function ready(err) {
             });
         }
         function run(testURL) {
-            console.log('=========================== about to start phantombin');
             execFile(phantombin, [path.join(__dirname, 'test-phantom.js')], { env: { testURL: testURL } }, function(err, stdout, stderr) {
-                console.log('===========================phantombin finished???');
                 if (err && err.code) {
                     exit = err.code;
                     console.log(test.name + ' exit ' + err.code);
