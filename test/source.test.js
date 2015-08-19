@@ -23,13 +23,17 @@ var localsource = 'tmsource://' + path.join(__dirname,'fixtures-local source');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
 test('setup: config ' + __filename, function(t) {
+    console.log('before tm.config');
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
         tmp: path.join(tmppath, 'tmp'),
         fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
-    }, setTimeout(function(){t.end;}, 500) );
+    }, function(){
+        console.log('after tm.config - waiting to end');
+        setTimeout(function(){t.end();}, 500) 
+    })
 });
 
 test('setup: mockserver', function(t) {
