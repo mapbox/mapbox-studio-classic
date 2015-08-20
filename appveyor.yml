@@ -7,9 +7,9 @@ environment:
   AWS_SECRET_ACCESS_KEY:
     secure: "cqTj03yqur/yCYCrMI0+A2ttBJ5r7uA8Xb0i0prEcM7lDLczYssPdp3DnqUnvIPN"
   matrix:
-    - NODE_VERSION: 0.10.33
+    - NODE_VERSION: 0.10.40
       platform: x64
-    - NODE_VERSION: 0.10.33
+    - NODE_VERSION: 0.10.40
       platform: x86
     - NODE_VERSION: 0.12.7
       platform: x64
