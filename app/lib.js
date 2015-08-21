@@ -8,9 +8,15 @@
 var tabbedHandler = function(ev) {
   var target = ev.currentTarget.href.split('#').pop();
   var context = target.split('-').slice(0,-1).join('-');
+  var lastClicked = null;
   $('#' + context + ' .active').removeClass('active');
   $(ev.currentTarget).addClass('active');
   $('#' + target).addClass('active');
+  if (lastClicked && $(context) !=  $(context) ) {
+  $('#' + lastClicked + ' .active').removeClass('active');
+    lastClicked = $(context);
+  }
+  lastClick = $(context);
   return false;
 };
 
@@ -198,8 +204,14 @@ views.Browser.prototype.render = function() {
     url: '/browse?path=' + view.cwd,
     dataType: 'json',
     success: function(resp) {
-      var parent = view.cwd.split(sep).slice(0,-1).join(sep);
-      parent = parent.indexOf(sep) === -1 ? parent + sep : parent;
+      var parent;
+      var cwdsplit = view.cwd.split(sep);
+      if (navigator.platform === 'Win32' && 2 === cwdsplit.length && '' === cwdsplit[cwdsplit.length - 1]){
+        parent = '\\';
+      } else {
+        parent = view.cwd.split(sep).slice(0,-1).join(sep);
+        parent = parent.indexOf(sep) === -1 ? parent + sep : parent;
+      }
       view.$('input[name=cwd]').val(view.cwd);
       view.$('.js-printcwd').val(view.cwd);
       view.$('.js-cwd-back').attr('href', '#' + parent);

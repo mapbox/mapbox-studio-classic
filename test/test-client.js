@@ -16,6 +16,7 @@ var styleId = 'tmstyle://'+basePath+'/node_modules/mapbox-studio-default-style';
 var sourceId = 'tmsource://'+basePath+'/test/fixtures-local source';
 var exportId = 'tmsource://'+basePath+'/test/fixtures-export';
 var testPath = path.resolve(path.join(__dirname, '..'));
+//var tmp = path.join(require('os').tmpdir(), 'mapbox-studio', 'tm2-client-' + (+new Date));
 var tmp = path.join(require('os').tmpdir(), 'tm2-client-' + (+new Date));
 var execFile = require('child_process').execFile;
 var phantombin = require('phantomjs').path;

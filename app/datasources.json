@@ -1,0 +1,47 @@
+{
+  "datasources": {
+    "references": {
+      "settings": {
+        "center": {
+          "css":"center",
+          "default-value": "0, 0, 0",
+          "type":"numeric",
+          "default-meaning": "Latitude, longitude, and zoom level for center point of the map data.",
+          "doc": "Latitude, longitude, and zoom level for center point of the map data. To edit: navigate and zoom in / out to prefered center point, click lock icon next to settings panel to capture that zoom, then save."
+        },
+        "maxzoom": {
+          "css":"maxzoom",
+          "default-value": 6,
+          "type":"numeric",
+          "default-meaning": "Last zoom data where is stored.",
+          "max-size": "22",
+          "doc": "Final zoom where data is stored for map. Data will 'overzoomed' beyond set maxzoom. Test visual data accuracy beyond set maxzoom to determine optimal level. Manually edit maxzoom beyond z16 in .tm2 folder's project.yml and restart Studio to save update."
+        },
+        "minzoom": {
+          "css": "minzoom",
+          "default-value": 0,
+          "type":"numeric",
+          "default-meaning": "First zoom where data is introduced.",
+          "doc": "First zoom where data appears on the map. Set minzoom based on zoom level where data must legible, zoom levels set too low can result in failed uploads."
+        }
+      },
+      "layers": {
+        "buffer-size": {
+          "css": "buffer-size",
+          "default-value": 8,
+          "default-meaning": "Padding around each tile.",
+          "type": "numeric",
+          "max-size": "128",
+          "doc": "Sets pixels added to outside of each tile to help with seamless rendering. Label data requires higher buffer size, lines and polygons require buffer size at least half their anticipated styling stroke width. Manually edit layer's buffer values up to 128 in .tm2 folder's project.yml and restart Studio to save update."
+        },
+        "projection": {
+          "css": "projection",
+          "default-value": "none",
+          "default-meaning": "Re-projection algorithm converting data into Web Mercator (EPSG:3857).",
+          "type": "string",
+          "doc": "Re-projected automatically as data sources are loaded into Studio. Input data clipped to (±180/±85) WGS84 then reprojected to Web Mercator. "
+        }
+      }
+    }
+  }
+}

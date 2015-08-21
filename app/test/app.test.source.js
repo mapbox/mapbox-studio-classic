@@ -324,7 +324,7 @@ var datatests = {
             'description': '',
             'id': 'DC_rgb',
             'properties-buffer-size': '0',
-            'srs': '+proj=utm +zone=18 +datum=NAD83 +units=m +no_defs'
+            'srs': '+proj=utm +zone=18 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
         }
     },
     'vrt/sample.vrt': {

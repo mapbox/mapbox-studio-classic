@@ -20,7 +20,7 @@ var styleId = 'tmstyle://' + tm.join(path.resolve(__dirname), 'fixtures-local so
 var server;
 var atlas;
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
@@ -495,7 +495,7 @@ test('config: trailing slash - offline', function(t) {
     middleware.config({query: {MapboxAPITile: 'http://localhost:2999/atlas/'}}, res, function(){});
 });
 
-test('cleanup', function(t) {
+test('cleanup ' + __filename, function(t) {
     tm.db.rm('oauth');
     tm.history(sourceId, true);
     tm.history(styleId, true);

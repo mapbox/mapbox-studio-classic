@@ -95,7 +95,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
         'click .js-browsefile': 'browsefile',
-        'click #history .js-tab': 'tabbed',
+        // call tabbed handler for reference tag
+        'click #reference .js-tab': 'tabbed',
+		'click .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
         'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
@@ -136,6 +138,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
                 this.togglePane('full');
+                break;
+            case (which === 191): // / for help
+                ev.preventDefault();
+                this.togglePane('docs');
                 break;
             case (which === 220): // \ for settings
                 ev.preventDefault();
@@ -556,9 +562,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         this.model.save(attr, options);
         // Track max and min zooms and buffer size
         analytics.track('zooms', { maxzoom: attr.maxzoom, minzoom: attr.minzoom });
-		for (i=0; i<attr.Layer.length; i++) {
-			analytics.track('buffers', { buffer: attr.Layer[i].properties });
-		}
+        for (i=0; i<attr.Layer.length; i++) {
+            analytics.track('buffers', { buffer: attr.Layer[i].properties });
+        }
         return ev && !! $(ev.currentTarget).is('a');
     };
 
