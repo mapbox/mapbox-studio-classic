@@ -150,7 +150,7 @@ test('tm dirfiles', function(t) {
 
 test('tm dirfiles windows root', function(t) {
     var platform = require('os').platform();
-    if (platform === 'win32' || platform === 'win64') {
+    if (platform === 'win32') {
         tm.dirfiles('/', function(err, files) {
             t.ifError(err);
             t.deepEqual(
@@ -163,6 +163,8 @@ test('tm dirfiles windows root', function(t) {
             );
             t.end();
         });
+    } else {
+        t.end();
     }
 });
 
