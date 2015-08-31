@@ -95,7 +95,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         'click .layer .js-refresh-source': 'refreshSource',
         'click .layer .js-xrayswatch': 'togglelayer',
         'click .js-browsefile': 'browsefile',
-        'click #history .js-tab': 'tabbed',
+        // call tabbed handler for reference tag
+        'click #reference .js-tab': 'tabbed',
+		'click .js-tab': 'tabbed',
         'click #history .js-ref-delete': 'delstyle',
         'click .js-settings-drawer .js-tab': 'tabbed',
         'click #docs .js-docs-nav': 'scrollto',
@@ -136,6 +138,10 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             case (which === 190): // . for fullscreen
                 ev.preventDefault();
                 this.togglePane('full');
+                break;
+            case (which === 191): // / for help
+                ev.preventDefault();
+                this.togglePane('docs');
                 break;
             case (which === 220): // \ for settings
                 ev.preventDefault();
@@ -360,10 +366,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             if (maxzoomTarget.val() < metadata.maxzoom) maxzoomTarget.val(metadata.maxzoom);
 
             // zoom to new layer
-            map.fitBounds([
-                [metadata.extent[1], metadata.extent[0]],
-                [metadata.extent[3], metadata.extent[2]]
-            ],{'animate': false});
+            view.fitBounds(map,metadata.extent);
             //open proper modal, depending on if there are multiple layers
             if (layer_names.length > 1) {
                 $('#layers .js-layer-content').sortable('destroy').sortable();
@@ -502,6 +505,18 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         }
     };
 
+    Editor.prototype.fitBounds = function(map,extent) {
+        // https://github.com/mapbox/mapbox-studio/issues/1388
+        function clamp(value,expected) {
+            if (value > expected || value < expected) return expected;
+            return value;
+        }
+        map.fitBounds([
+            [clamp(extent[1],-180),clamp(extent[0],-85.0511)],
+            [clamp(extent[3],180),clamp(extent[2],85.0511)]
+        ],{'animate': false});
+    };
+
     Editor.prototype.update = function(ev) {
         this.save(null, null, true);
     };
@@ -556,9 +571,9 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         this.model.save(attr, options);
         // Track max and min zooms and buffer size
         analytics.track('zooms', { maxzoom: attr.maxzoom, minzoom: attr.minzoom });
-		for (i=0; i<attr.Layer.length; i++) {
-			analytics.track('buffers', { buffer: attr.Layer[i].properties });
-		}
+        for (i=0; i<attr.Layer.length; i++) {
+            analytics.track('buffers', { buffer: attr.Layer[i].properties });
+        }
         return ev && !! $(ev.currentTarget).is('a');
     };
 
@@ -680,10 +695,7 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                map.fitBounds([
-                    [metadata.extent[1], metadata.extent[0]],
-                    [metadata.extent[3], metadata.extent[2]]
-                  ],{'animate': false})
+                view.fitBounds(map,metadata.extent);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Clear loading state

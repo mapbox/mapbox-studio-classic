@@ -21,7 +21,7 @@ var server;
 var localreprojectedsource = 'tmsource://' + path.join(__dirname,'fixtures-local-reprojected source');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
@@ -44,7 +44,7 @@ test('source.normalize', function(t) {
         Layer: [{
             id: 'NZ_Coastline_NZMG',
             fields: {
-                featurecla: 'String', 
+                featurecla: 'String',
                 scalerank: 'Number'
             },
             Datasource: {
@@ -106,7 +106,7 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 19);
-                t.equal(row.size, 3624);
+                t.equal(row.size, 3301);
                 check([
                     [0,0,0],
                     [1,1,1],
@@ -170,6 +170,11 @@ test('source.mbtilesUpload: uploads reprojected map', function(t) {
     });
 });
 
-test('cleanup', function(t) {
-    server.close(function() { t.end(); });
+test('cleanup ' + __filename, function(t) {
+    server.close(function() {
+        setTimeout(function () {
+            t.end();
+        }, 1000);
+
+    });
 });

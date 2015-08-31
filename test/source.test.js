@@ -22,14 +22,21 @@ var defaultsource = 'tmsource://' + tm.join(path.dirname(require.resolve('mapbox
 var localsource = 'tmsource://' + path.join(__dirname,'fixtures-local source');
 var tmppath = tm.join(tmp, 'Source ШЖФ - ' + +new Date);
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
+    console.log('before tm.config');
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
         tmp: path.join(tmppath, 'tmp'),
         fonts: path.join(tmppath, 'fonts'),
         cache: path.join(tmppath, 'cache')
-    }, t.end);
+    }, function(){
+        console.log('after tm.config - waiting to end');
+        setTimeout(function(){
+            console.log('after tm.config - ending test');
+            t.end();
+        }, 1000) 
+    })
 });
 
 test('setup: mockserver', function(t) {
@@ -456,7 +463,7 @@ test('source.mbtilesExport: verify export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 5461);
-                t.equal(row.size, 378705);
+                t.equal(row.size, 376830);
                 check([
                     [0,0,0],
                     [1,0,0],
@@ -539,6 +546,6 @@ test('source.mbtilesUpload: does not allow redundant upload', function(t) {
     });
 });
 
-test('cleanup', function(t) {
+test('cleanup ' + __filename, function(t) {
     server.close(function() { t.end(); });
 });

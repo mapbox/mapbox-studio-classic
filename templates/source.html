@@ -18,7 +18,7 @@
   <script src='/ext/sexagesimal.js?<%=obj.nocache%>'></script>
   <script src='/ext/backbone.js?<%=obj.nocache%>'></script>
   <script src='/ext/mapbox.js?<%=obj.nocache%>'></script>
-  <script src='/app/cartoref.js?<%=obj.nocache%>'></script>
+  <script src='/app/sourceref.js?<%=obj.nocache%>'></script>
   <script src='/app/lib.js?<%=obj.nocache%>'></script>
   <script src='/app/source.js?<%=obj.nocache%>'></script>
   <script src='/app/atom.js?<%=obj.nocache%>'></script>
@@ -29,6 +29,7 @@
 <body id='view' class='<%= agent %> <%= source._tmp ? 'tmp' : '' %> <%= isMapboxAPI ? 'api-mapbox' : 'api-offline' %> clip dark'><div id='app' class='pin-top pin-bottom mobile-cols'>
 
 <a id='settings'></a>
+<a id='docs'></a>
 <a id='user'></a>
 
 <div id='perf'></div>
@@ -94,7 +95,6 @@
               <input id='minzoom' name='minzoom' class='min zoomrange' type='range' value='<%= source.minzoom %>' min='0' max='16' step='1' oninput='rangeHandler(this, "max", "#maxzoom");' />
               <span class='micro quiet inline range' id='minzoom-val'><%= source.minzoom %></span>
             </div>
-              <em class='quiet small block'>Lowest zoom where data is stored for display on map. Set value to where data is first readable to save file size.</em>
           </section>
           <section class='space-bottom2 clearfix'>
             <label class='micro inline col4'>Maxzoom</label>
@@ -102,11 +102,22 @@
               <input id='maxzoom' name='maxzoom' class='max zoomrange' type='range' value='<%= source.maxzoom %>' min='0' max='16' step='1' oninput='rangeHandler(this, "min", "#minzoom");' />
               <span class='micro quiet inline range' id='maxzoom-val'><%= source.maxzoom %></span>
             </div>
-              <em class='quiet small block'>Highest zoom where data is stored, data displays overzoomed beyond maxzoom. Set maxzoom, then zoom to higher zooms on the map to check render quality and determine optimal level.</em>
           </section>
       </fieldset>
     </div>
   </form>
+
+  <div id='docs-drawer' class='drawer col12 animate offcanvas-left'>
+    <div class='pin-top keyline-botom pad1 keyline-bottom'>
+      <h3>Documentation</h3>
+      <a href='#' class='icon x pin-right pad1 quiet'></a>
+    </div>
+    <div class='col12 pin-left top1 scroll-styled'>
+    <%=this['sourcereference']({sourceRef: sourceRef}) %>
+
+    </div>
+  </div>
+
 
   <div id='user-drawer' class='drawer col12 animate offcanvas-left'>
     <div class='row1 pin-top keyline-botom pad1 keyline-bottom'>
@@ -115,6 +126,12 @@
     </div>
     <%= this.history(obj) %>
   </div>
+
+<!-- animate -->
+  <div class='drawer col12 animate offcanvas-left'>
+
+  </div>
+<!-- end animation -->
 
 </div>
 
@@ -151,7 +168,15 @@
   var revlayers = source.Layer.slice(0);
   revlayers.reverse();
 %>
+
+
 <div id='source-ui' class='z1 animate fill-dark dark col6 pin-right'>
+
+<!-- add animation for code -->
+
+<!-- end animation for code -->
+
+
   <div id='layers'>
     <div class='fill-darken1 pad1 clearfix'>
       <a href='#' class='js-addlayer short button col6 icon plus'>New layer</a>
@@ -197,6 +222,8 @@
   <% } %>
   <a class='toolbar-button strong icon settings-n sprocket' href='#settings'>Settings</a>
   <a class='toolbar-button strong icon settings-y sprocket active fill-lighten1' href='#'>Settings</a>
+  <a class='toolbar-button strong icon docs-n info' href='#docs'>Docs</a>
+  <a class='toolbar-button strong icon docs-y info active fill-lighten1' href='#'>Docs</a>
 
   <div class='user-icon pad1 pin-bottom'>
     <a class='toolbar-button strong user-n' href='#user'><div class='icon inline avatar dot' style='background-image:url(<%= user.avatar %>)' /></div>Styles & Sources</a>

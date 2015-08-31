@@ -24,7 +24,7 @@ var localstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-local style');
 var fontstyle = 'tmstyle://' + tm.join(__dirname, 'fixtures-font style');
 var tmppath = tm.join(tmp, 'Style ШЖФ -' + (+new Date));
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
@@ -481,7 +481,7 @@ test('style.upload: errors on unsaved id', function(t) {
     });
 });
 
-test('cleanup', function(t) {
+test('cleanup ' + __filename, function(t) {
     server.close(function() { t.end(); });
 });
 

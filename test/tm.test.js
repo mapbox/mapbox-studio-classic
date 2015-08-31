@@ -11,7 +11,7 @@ var stream = require('stream');
 var progress = require('progress-stream');
 var UPDATE = process.env.UPDATE;
 
-test('setup: config', function(t) {
+test('setup: config ' + __filename, function(t) {
     tm.config({
         log: false,
         db: path.join(tmppath, 'app.db'),
@@ -146,6 +146,26 @@ test('tm dirfiles', function(t) {
         }
         t.end();
     });
+});
+
+test('tm dirfiles windows root', function(t) {
+    var platform = require('os').platform();
+    if (platform === 'win32') {
+        tm.dirfiles('/', function(err, files) {
+            t.ifError(err);
+            t.deepEqual(
+                files
+                    .filter(function(f) { return (-1 < f.basename.indexOf('c')) })
+                    .map(function(f){ return f.path }),
+                [
+                    'c:\\'
+                ]
+            );
+            t.end();
+        });
+    } else {
+        t.end();
+    }
 });
 
 // @TODO tm.writefiles

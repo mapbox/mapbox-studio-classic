@@ -87,7 +87,9 @@ App_Running_Check:
 
   StrCpy $INSTDIR "$programfiles32\${PRODUCT_DIR}"
   ${If} ${RunningX64}
-    StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
+    ${If} ${TARGET_ARCH} == "x64"
+      StrCpy $INSTDIR "$programfiles64\${PRODUCT_DIR}"
+    ${EndIf}
   ${EndIf}
 
   StrCpy $PREV_VER_DIR ""
@@ -141,7 +143,6 @@ Section "MainSection" SEC01
   SetOverwrite try
   SetOutPath "$INSTDIR"
   File /r ${SOURCE_ROOT}*.*
-  ExecWait "$INSTDIR\resources\app\vendor\vcredist_${TARGET_ARCH}.exe /q /norestart"
 SectionEnd
 
 ; Add firewall rule
