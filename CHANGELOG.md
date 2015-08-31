@@ -1,17 +1,23 @@
 Changelog
 =========
 
-### Upcoming
+### 0.2.8
 
 - Added reference docs to source mode, removed inline helper text from UI.
 - Made UI lat/lng format consistent after searching in tool.
 - Enabled export image / print option for local datasets.
 - New `dot` symbolizer for faster rendering of points (better that `marker`).
 - Improved performance of GeoJSON, TopoJSON, and GeoTIFF.
-- Update to node-mapnik 3.2.1 from 3.1.2.
-- Update to mapnik-omnivore 5.0.7.
+- Update to node-mapnik 3.4.5 from 3.1.2.
+- Update to mapnik-omnivore 6.3.0.
 - Fixed crashes when vector tiles are generated >= 64 MB.
 - New CartoCSS styling properties for text: `text-transform:reverse;`, `text-upright:auto-down;`, and `marker-direction`.
+- Added CartoCSS filters for colorblindness: `color-blind-protanope`,`color-blind-deuteranope`,`color-blind-tritanope`
+- Improved performance for creating vector tiles.
+- Vector tiles now are created with consistent winding orders no matter what source winding order exists.
+- Offset in polygons now consistently extends outwards from the polygon, rather then possibly inwards.
+- Offset on lines is now always positive to the right.
+- Fixed issues with offsets in polygons not starting and ending at the same position.
 
 ### 0.2.7
 - Source UI: Fixed bug where map would lock up after adding a new data source.
