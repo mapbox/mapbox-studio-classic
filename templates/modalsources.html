@@ -35,7 +35,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
     <form class='js-localdata js-applydata pin-bottom pad2 keyline-top row3'>
       <div class='input-pill clearfix'><!--
         --><input class='col9' type='text' placeholder='tmsource:///example.tm2source' title='Must use valid path to local source. No spaces allowed.' size='20' name='id' pattern='((([\w/\/:-]+\.tm2source),?)+)' value='<% if (style.source.indexOf('.tm2source') > -1) { %><%= style.source %><% } %>'/><!--
-        --><input class='col3' type='submit' value='Apply'/>
+        --><input class='col3 button' type='submit' value='Apply'/>
       </div>
       <div class='micro quiet center pad1y'>
         Upload and host your local sources on mapbox.com to use them in composite sources.
@@ -63,7 +63,7 @@ if (active && active.id.indexOf('tmsource://') === 0) activeType = 'local';
     <form class='js-remotedata js-applydata pin-bottom pad2 keyline-top row3'>
       <div class='input-pill clearfix'><!--
         --><input class='col9' type='text' placeholder='Mapbox map ID' title='Must use valid mapbox map ID or tilejson source. Compositing tilejson sources is not allowed. No spaces allowed.' size='20' name='id' pattern='((([\w-]+\.[\w-]+),?)+)|((https?:\/\/)+[\w\\\/\-./\:]*)' value='<% if (style.source.indexOf('mapbox://') > -1) { %><%= style.source.replace('mapbox:///','') %><% } %>'/><!--
-        --><input class='col3' type='submit' value='Apply'/>
+        --><input class='col3 button' type='submit' value='Apply'/>
       </div>
       <div class='micro quiet center pad1y'>
         To use a composite source, string together comma-separated map IDs. Accepts <strong>TileJSON URLs</strong> for sources not hosted by Mapbox.
