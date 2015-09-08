@@ -25,6 +25,14 @@ process.on('exit', function(code) {
     logger.debug('Mapbox Studio exited ' + (undefined === code ? 'normally' : 'with ' + code));
 });
 
+process.on('uncaughtException', function(err) {
+    logger.debug('Hit unexpected JS Error in server, please report this entire log to https://github.com/mapbox/mapbox-studio/issues');
+    if (err) {
+      logger.debug(err);
+    } else {
+      logger.debug('no error reported');
+    }
+});
 
 function exit() {
     if (server){ server.kill() };
