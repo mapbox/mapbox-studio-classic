@@ -1,4 +1,4 @@
-Mapbox Studio
+Mapbox Studio Classic
 -------------
 Desktop application for vector tile driven map design.
 
@@ -21,7 +21,7 @@ Install [node v0.10.x](http://nodejs.org/download/). Then
 
 ### Depends
 
-Mapbox Studio ships with pre-built binaries for common platforms:
+Mapbox Studio Classic ships with pre-built binaries for common platforms:
 
   - 32 and 64 bit Windows
   - 64 bit OS X
@@ -50,12 +50,12 @@ You can do this like:
 
 ### Getting started
 
-The docs offer both a step-by-step guide to creating your first projects in Mapbox Studio and detailed information about styling and creating vector sources.
+The docs offer both a step-by-step guide to creating your first projects in Mapbox Studio Classic and detailed information about styling and creating vector sources.
 
 - [Style quickstart](https://www.mapbox.com/mapbox-studio/style-quickstart/)
 - [Source quickstart](https://www.mapbox.com/mapbox-studio/source-quickstart/)
 - [Common questions](https://www.mapbox.com/mapbox-studio/common-questions/)
-- [Contributing to Mapbox Studio](https://github.com/mapbox/mapbox-studio/blob/mb-pages/CONTRIBUTING.md)
+- [Contributing to Mapbox Studio Classic](https://github.com/mapbox/mapbox-studio/blob/mb-pages/CONTRIBUTING.md)
 
 ------
 

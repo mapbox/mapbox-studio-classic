@@ -5,7 +5,7 @@
 	<key>BuildMachineOSBuild</key>
 	<string>12F45</string>
 	<key>CFBundleDisplayName</key>
-	<string>Mapbox Studio</string>
+	<string>Mapbox Studio Classic</string>
 	<key>CFBundleExecutable</key>
 	<string>Atom</string>
 	<key>CFBundleIconFile</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Mapbox Studio</string>
+	<string>Mapbox Studio Classic</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleVersion</key>

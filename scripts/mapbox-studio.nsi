@@ -1,4 +1,4 @@
-; Mapbox Studio nsis installer script
+; Mapbox Studio Classic nsis installer script
 
 ; block creating installer unless expected variables are provided
 !ifndef TARGET_ARCH
@@ -20,7 +20,7 @@ Var PREV_VER_DIR
 ; parent directory of install
 Var PAR_DIR
 !define PRODUCT_DIR "mapbox-studio"
-!define PRODUCT_NAME "Mapbox Studio"
+!define PRODUCT_NAME "Mapbox Studio Classic"
 !define PRODUCT_VERSION "${VERSION}"
 !define PRODUCT_PUBLISHER "Mapbox"
 !define PRODUCT_WEB_SITE "https://www.mapbox.com/"
@@ -151,7 +151,7 @@ Section "Add Windows Firewall Rule"
     nsisFirewall::AddAuthorizedApplication "$INSTDIR\resources\app\vendor\node.exe" "Evented I/O for V8 JavaScript"
     Pop $0
     IntCmp $0 0 +3
-        MessageBox MB_OK "Notice: unable to add node.exe (used by Mapbox Studio) to the Firewall exception list. This means that you will likely need to allow node.exe access to the firewall upon first run (code=$0)" /SD IDOK
+        MessageBox MB_OK "Notice: unable to add node.exe (used by Mapbox Studio Classic) to the Firewall exception list. This means that you will likely need to allow node.exe access to the firewall upon first run (code=$0)" /SD IDOK
         Return
 SectionEnd
 
@@ -188,7 +188,7 @@ Section Uninstall
    nsisFirewall::RemoveAuthorizedApplication "$PREV_VER_DIR\resources\app\vendor\node.exe"
    Pop $0
    IntCmp $0 0 +3
-       MessageBox MB_OK "A problem happened while removing node.exe (used by Mapbox Studio) from the Firewall exception list (result=$0)" /SD IDOK
+       MessageBox MB_OK "A problem happened while removing node.exe (used by Mapbox Studio Classic) from the Firewall exception list (result=$0)" /SD IDOK
        Return
 
   ; cd into parent directory, otherwise install dir cannot be deleted

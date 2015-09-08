@@ -9,7 +9,7 @@
   <script src='/ext/jquery-2.0.3.min.js?<%=obj.nocache%>'></script>
   <script src='/app/atom.js?<%=obj.nocache%>'></script>
   <%= this.analytics(obj) %>
-  <title>Mapbox Studio Authorization</title>
+  <title>Mapbox Studio Classic Authorization</title>
 </head>
 
 <body id='view' class='fill-blue <%= isMapboxAPI ? 'api-mapbox' : 'api-offline' %>'>
@@ -48,7 +48,7 @@
           <button type='submit' value='Connect' id='connect' class='quiet space-bottom4 button icon lock col12'>Connect</button>
 
           <section class='space-bottom0 micro'>
-            <strong>Using Atlas Server?</strong> Enter its URL to connect Mapbox Studio.
+            <strong>Using Atlas Server?</strong> Enter its URL to connect Mapbox Studio Classic.
           </section>
           <section id='config' class='contain'>
             <a href='#' class='pin-right pad0y pad2x js-reseturl quiet micro fill-darken0 round-right'>Reset</a>

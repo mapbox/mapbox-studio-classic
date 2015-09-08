@@ -27,7 +27,7 @@ Changelog
 - Add tracking to values saved buffer, maxzoom and minzoom in source usage.
 
 ### 0.2.6
-- On launch, Mapbox Studio opens on a blank style project rather than the last used project.
+- On launch, Mapbox Studio Classic opens on a blank style project rather than the last used project.
 - Fix rendering issues with when font list titles are focused.
 - Validate interactivity layer and template.
 - Don't show UTF grid tooltips in xray mode.
@@ -85,7 +85,7 @@ Changelog
 - Update to node-mapnik 3.0.5.
 - Style UI: Fix bugs in places UI.
 - Source UI: Clarify "create style" action.
-- Windows: run Mapbox Studio as a 64-bit application.
+- Windows: run Mapbox Studio Classic as a 64-bit application.
 
 ### 0.1.5
 
@@ -109,7 +109,7 @@ Changelog
 - Style UI: Add color picker.
 - Source UI: Improved flow of actions into refreshed state.
 - Source editor: support for topojson files (via mapnik-omnivore@1.4.15)
-- Windows: install now prompts to uninstall previous installations of Mapbox Studio.
+- Windows: install now prompts to uninstall previous installations of Mapbox Studio Classic.
 - Windows: install now uses a flatter directory structure for easier removal of long paths.
 
 ### 0.1.2
