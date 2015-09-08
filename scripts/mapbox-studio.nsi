@@ -82,6 +82,7 @@ App_Running_Check:
 
   ${If} $R0 == 0
       MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Please stop mapbox-studio.exe before continuing" /SD IDCANCEL IDRETRY App_Running_Check
+      SetErrorLevel 1
       Quit
   ${EndIf}
 
@@ -95,17 +96,19 @@ App_Running_Check:
   StrCpy $PREV_VER_DIR ""
 
   ${IfNot} ${AtLeastWin7}
-    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above"
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above" /SD IDOK
+    SetErrorLevel 1
     Quit
   ${EndIf}
-  
+
   ${If} ${RunningX64}
     ${If} ${TARGET_ARCH} == "x86"
-      MessageBox MB_OK|MB_ICONEXCLAMATION "You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine. This works, but for best performance it is recommended to instead install the 64 bit version."
+      MessageBox MB_OK|MB_ICONEXCLAMATION "You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine. This works, but for best performance it is recommended to instead install the 64 bit version." /SD IDOK
     ${EndIf}
   ${Else}
     ${If} ${TARGET_ARCH} == "x64"
-      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are attempting to install the 64 bit ${PRODUCT_NAME} on a 32 bit machine. This will not work. Please install the 32 bit version instead."
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are attempting to install the 64 bit ${PRODUCT_NAME} on a 32 bit machine. This will not work. Please install the 32 bit version instead." /SD IDOK
+      SetErrorLevel 1
       Quit
     ${EndIf}
   ${EndIf}
@@ -122,7 +125,7 @@ App_Running_Check:
     will be removed before upgrading.\
     $\n$\nClick 'OK' to remove \
     $PREV_VER_DIR $\nor 'Cancel' to stop this upgrade." \
-    IDOK uninst
+    /SD IDOK IDOK uninst
   Abort
 
 ;Run the uninstaller
