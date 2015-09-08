@@ -133,7 +133,12 @@ uninst:
   ClearErrors
   ;Do not copy the uninstaller to a temp file
   ;otherwise ExecWait will not wait
-  ExecWait '$R0 _?=$PREV_VER_DIR'
+  ;if installer was called with silent flag, call uninstaller with /S, too
+  ${If} ${Silent}
+    ExecWait '$R0 /S _?=$PREV_VER_DIR'
+  ${Else}
+    ExecWait '$R0 _?=$PREV_VER_DIR'
+  ${EndIf}
   ;manually delete remaining install dir containing uninstall.exe
   ;because it wasn't copied to a temp file
   RMDir /r "$PREV_VER_DIR\*.*"
@@ -150,7 +155,7 @@ SectionEnd
 
 ; Add firewall rule
 Section "Add Windows Firewall Rule"
-    ; Add TileMill to the authorized list
+    ; Add node.exe to the authorized list
     nsisFirewall::AddAuthorizedApplication "$INSTDIR\resources\app\vendor\node.exe" "Evented I/O for V8 JavaScript"
     Pop $0
     IntCmp $0 0 +3
@@ -179,7 +184,8 @@ SectionEnd
 Function un.onUninstSuccess
   SetShellVarContext all
   HideWindow
-  IfSilent +2 0 ;hrm, HACK: jump over msgbox! "/SD IDOK" is not working. Why???
+  ;IfSilent +2 0 ;hrm, HACK: jump over msgbox! "/SD IDOK" is not working. Why???
+  ;uninstaller wasn't called with /S
   MessageBox MB_OK|MB_ICONINFORMATION "$(^Name) was successfully removed from your computer." /SD IDOK
 FunctionEnd
 
