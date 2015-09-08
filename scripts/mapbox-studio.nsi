@@ -179,6 +179,7 @@ SectionEnd
 Function un.onUninstSuccess
   SetShellVarContext all
   HideWindow
+  IfSilent +2 0 ;hrm, HACK: jump over msgbox! "/SD IDOK" is not working. Why???
   MessageBox MB_OK|MB_ICONINFORMATION "$(^Name) was successfully removed from your computer." /SD IDOK
 FunctionEnd
 
