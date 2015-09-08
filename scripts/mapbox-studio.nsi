@@ -179,7 +179,7 @@ SectionEnd
 Function un.onUninstSuccess
   SetShellVarContext all
   HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer." /SD IDOK
+  MessageBox MB_OK|MB_ICONINFORMATION "$(^Name) was successfully removed from your computer." /SD IDOK
 FunctionEnd
 
 Section Uninstall
