@@ -52,10 +52,10 @@ You can do this like:
 
 The docs offer both a step-by-step guide to creating your first projects in Mapbox Studio Classic and detailed information about styling and creating vector sources.
 
-- [Style quickstart](https://www.mapbox.com/mapbox-studio/style-quickstart/)
-- [Source quickstart](https://www.mapbox.com/mapbox-studio/source-quickstart/)
-- [Common questions](https://www.mapbox.com/mapbox-studio/common-questions/)
-- [Contributing to Mapbox Studio Classic](https://github.com/mapbox/mapbox-studio/blob/mb-pages/CONTRIBUTING.md)
+- [Style quickstart](https://www.mapbox.com/guides/style-quickstart/)
+- [Source quickstart](https://www.mapbox.com/guides/source-quickstart/)
+- [Common questions](https://www.mapbox.com/guides/common-questions/)
+- [Contributing to Mapbox Studio Classic](https://github.com/mapbox/mapbox-studio-classic/blob/mb-pages/CONTRIBUTING.md)
 
 ------
 
