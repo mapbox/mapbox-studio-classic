@@ -18,6 +18,11 @@ Changelog
 - Offset in polygons now consistently extends outwards from the polygon, rather then possibly inwards.
 - Offset on lines is now always positive to the right.
 - Fixed issues with offsets in polygons not starting and ending at the same position.
+- Partial proxy support: very first start has to be done without proxy. Next starts work through proxies via environment variables `HTTP_PROXY` and `HTTPS_PROXY`
+- Windows installer supports silent option `/S`. Use like this `start /wait mapbox-studio-win32-x64-v0.2.8.exe /S` to check `%ERRORLEVEL%` for success.
+- Added Windows atom shell logging again (removed in 0.2.5): `%USERPROFILE%\.mapbox-studio\shell.log`
+- Characters `{[#]}` can be typed with non US keyboard layout
+- Windows: no breakage when Visual Studio 2015 is installed
 
 ### 0.2.7
 - Source UI: Fixed bug where map would lock up after adding a new data source.

@@ -9,51 +9,68 @@ var log = require('./lib/log');
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
 var logger = require('fastlog')('', 'debug', '<${timestamp}>');
+var server = null
 var serverPort = null;
 var mainWindow = null;
 
 if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
-    // skill shell.log setup
-    shellsetup();
-} else {
-    var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
-    // set up shell.log and log rotation
-    log(shellLog, 10e6, shellsetup);
 }
 
+atom.on('window-all-closed', exit);
+atom.on('ready', makeWindow);
+
+process.on('exit', function(code) {
+    logger.debug('Mapbox Studio exited ' + (undefined === code ? 'normally' : 'with ' + code));
+});
+
+process.on('uncaughtException', function(err) {
+    logger.debug('Hit unexpected JS Error in server, please report this entire log to https://github.com/mapbox/mapbox-studio/issues');
+    if (err) {
+      logger.debug(err);
+    } else {
+      logger.debug('no error reported');
+    }
+});
+
+function exit() {
+    if (server){ server.kill() };
+    //atom.quit(); //is the way to do it: https://github.com/atom/atom-shell/blob/master/docs/api/app.md#app
+    if (atom.listeners('window-all-closed').length == 1){ atom.quit(); }
+};
+
+
+var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
+// set up shell.log and log rotation
+log(shellLog, 10e6, shellsetup);
+
 function shellsetup(err){
-    process.on('exit', function(code) {
-        logger.debug('Mapbox Studio exited with', code + '.');
-    });
 
     // Start the server child process.
-    var server = spawn(node, [script, '--shell=true']);
-    server.on('exit', process.exit);
-    server.stdout.once('data', function(data) {
-        var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
-        if (!matches) {
-            console.warn('Server port not found');
-            process.exit(1);
-        }
-        serverPort = matches[1];
-        logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
-        loadURL();
-    });
+    server = spawn(node, [script, '--shell=true'])
+        .on('error', function(error){
+            process.stdout.write('error spawning server process: ' + error + '\n');
+        })
+        .on('exit', exit);
+    if(!server.pid){
+        process.stdout.write('server process has no pid\n');
+    } else {
+        process.stdout.write('server process pid: ' + server.pid + '\n');
+        server.stdout.once('data', function(data) {
+            var matches = data.toString().match(/Mapbox Studio @ http:\/\/localhost:([0-9]+)\//);
+            if (!matches) {
+                console.warn('Server port not found');
+                process.exit(1);//?? atom.quit();
+            }
+            serverPort = matches[1];
+            logger.debug('Mapbox Studio @ http://localhost:'+serverPort+'/');
+            loadURL();
+        });
 
-    // Report crashes to our server.
-    require('crash-reporter').start();
-
-    atom.on('window-all-closed', exit);
-    atom.on('will-quit', exit);
-
-   function exit() {
-        if (server) server.kill();
-        process.exit();
-    };
-
-    atom.on('ready', makeWindow);
+        // Report crashes to our server.
+        require('crash-reporter').start();
+    }
 };
 
 function makeWindow() {
