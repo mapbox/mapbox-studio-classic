@@ -1,5 +1,5 @@
 _prefs: 
-  mapid: test.8de2a034
+  mapid: test.0ae251ee
   saveCenter: true
 _properties: 
   bridge: 
@@ -12,16 +12,16 @@ bounds:
   - 85.0511
 center: 
   - 0
-  - 20
-  - 3
+  - 0
+  - 6
 description: ''
 format: "png8:m=h"
 interactivity_layer: ''
 layers: null
 maxzoom: 22
 minzoom: 0
-name: ''
-source: "mapbox:///mapbox.mapbox-streets-v6"
+name: Test
+source: "mapbox:///mapbox.mapbox-streets-v5"
 styles: 
   - style.mss
 template: ''
