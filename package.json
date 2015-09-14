@@ -35,7 +35,7 @@
     "tar": "2.1.x",
     "mapnik": "3.4.3",
     "mapnik-reference": "^8.2.0",
-    "carto": "0.15.0",
+    "carto": "0.15.1",
     "tilelive": "~5.8.0",
     "tilelive-bridge": "~1.4.1",
     "tilelive-vector": "~3.3.2",
