@@ -127,8 +127,8 @@ To package:
 1. **Push a commit with `[publish GITSHA]` as the message.** `GITSHA` should be a commit hash, branch name, or tag that can be used with `git checkout`. *Note: the packaging process itself will use the code in the repo as of GITSHA -- in other words, your GITSHA must be able to package itself.*
 2. **Watch travis for a for success.** When complete downloads will be available at <https://mapbox.s3.amazonaws.com/mapbox-studio/index.html> in the format of:
 
-        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{GITSHA}.zip
-        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{GITSHA}.zip
-        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-x64-{GITSHA}.exe
+        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-classic-linux-x64-{GITSHA}.zip
+        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-classic-darwin-x64-{GITSHA}.zip
+        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-classic-win32-x64-{GITSHA}.exe
 
 3. **If a tagged release, update _config.yml, _config.mb-pages.yml.** Update the `release` key in `_config.yml, _config.mb-pages.yml` to be the name of the tag.

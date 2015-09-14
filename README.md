@@ -14,8 +14,8 @@ Download the [latest release](https://www.mapbox.com/mapbox-studio/) for your pl
 
 Install [node v0.10.x](http://nodejs.org/download/). Then
 
-    git clone https://github.com/mapbox/mapbox-studio.git
-    cd mapbox-studio
+    git clone https://github.com/mapbox/mapbox-studio-classic.git
+    cd mapbox-studio-classic
     npm install
     npm start
 
@@ -67,4 +67,3 @@ Build status of modules:
  - tilelive.js - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive.js.png)](http://travis-ci.org/mapbox/tilelive.js)
  - tilelive-vector - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-vector.png)](http://travis-ci.org/mapbox/tilelive-vector)
  - tilelive-bridge - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-bridge.png)](http://travis-ci.org/mapbox/tilelive-bridge)
-

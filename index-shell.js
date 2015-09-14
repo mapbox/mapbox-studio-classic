@@ -26,7 +26,7 @@ process.on('exit', function(code) {
 });
 
 process.on('uncaughtException', function(err) {
-    logger.debug('Hit unexpected JS Error in server, please report this entire log to https://github.com/mapbox/mapbox-studio/issues');
+    logger.debug('Hit unexpected JS Error in server, please report this entire log to https://github.com/mapbox/mapbox-studio-classic/issues');
     if (err) {
       logger.debug(err);
     } else {
@@ -269,4 +269,3 @@ function createMenu() {
     Menu.setApplicationMenu(menu);
   }
 }
-

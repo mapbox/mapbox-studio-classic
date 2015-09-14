@@ -41,14 +41,14 @@ if ! which tar > /dev/null; then echo "tar command not found"; exit 1; fi;
 if ! which curl > /dev/null; then echo "curl command not found"; exit 1; fi;
 if ! which unzip > /dev/null; then echo "unzip command not found"; exit 1; fi;
 
-build_dir="/tmp/mapbox-studio-$platform-$arch_common_name-$gitsha"
+build_dir="/tmp/mapbox-studio-classic-$platform-$arch_common_name-$gitsha"
 shell_url="https://github.com/atom/atom-shell/releases/download/v$ATOM_VERSION/atom-shell-v$ATOM_VERSION-$platform-$atom_arch.zip"
 shell_file="/tmp/atom-shell-v$ATOM_VERSION-$platform-$atom_arch.zip"
 
 if [ "$platform" == "darwin" ]; then
-    app_dir="/tmp/mapbox-studio-$platform-$arch_common_name-$gitsha/Atom.app/Contents/Resources/app"
+    app_dir="/tmp/mapbox-studio-classic-$platform-$arch_common_name-$gitsha/Atom.app/Contents/Resources/app"
 else
-    app_dir="/tmp/mapbox-studio-$platform-$arch_common_name-$gitsha/resources/app"
+    app_dir="/tmp/mapbox-studio-classic-$platform-$arch_common_name-$gitsha/resources/app"
 fi
 
 echo "Building bundle in $build_dir"
@@ -64,7 +64,7 @@ unzip -qq $shell_file -d $build_dir
 rm $shell_file
 
 echo "downloading studio"
-git clone https://github.com/mapbox/mapbox-studio.git $app_dir
+git clone https://github.com/mapbox/mapbox-studio-classic.git $app_dir
 cd $app_dir
 git checkout $gitsha
 rm -rf $app_dir/.git
@@ -217,4 +217,3 @@ if [ "$ver" ==  "$(echo $gitsha | tr -d v)" ]; then
 fi
 
 cd $cwd
-
