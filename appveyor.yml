@@ -1,5 +1,7 @@
 os: Visual Studio 2015
 
+clone_folder: c:\projects\mapbox-studio-classic
+
 environment:
   HOME: "c:\\projects\\mapbox-studio-classic"
   AWS_ACCESS_KEY_ID:
