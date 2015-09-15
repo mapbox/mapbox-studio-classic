@@ -82,6 +82,7 @@ App_Running_Check:
 
   ${If} $R0 == 0
       MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Please stop mapbox-studio.exe before continuing" /SD IDCANCEL IDRETRY App_Running_Check
+      SetErrorLevel 1
       Quit
   ${EndIf}
 
@@ -95,17 +96,19 @@ App_Running_Check:
   StrCpy $PREV_VER_DIR ""
 
   ${IfNot} ${AtLeastWin7}
-    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above"
+    MessageBox MB_OK|MB_ICONEXCLAMATION "${PRODUCT_NAME} requires Windows 7 or above" /SD IDOK
+    SetErrorLevel 1
     Quit
   ${EndIf}
-  
+
   ${If} ${RunningX64}
     ${If} ${TARGET_ARCH} == "x86"
-      MessageBox MB_OK|MB_ICONEXCLAMATION "You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine. This works, but for best performance it is recommended to instead install the 64 bit version."
+      MessageBox MB_OK|MB_ICONEXCLAMATION "You are installing the 32 bit ${PRODUCT_NAME} on a 64 bit machine. This works, but for best performance it is recommended to instead install the 64 bit version." /SD IDOK
     ${EndIf}
   ${Else}
     ${If} ${TARGET_ARCH} == "x64"
-      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are attempting to install the 64 bit ${PRODUCT_NAME} on a 32 bit machine. This will not work. Please install the 32 bit version instead."
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Error: You are attempting to install the 64 bit ${PRODUCT_NAME} on a 32 bit machine. This will not work. Please install the 32 bit version instead." /SD IDOK
+      SetErrorLevel 1
       Quit
     ${EndIf}
   ${EndIf}
@@ -122,7 +125,7 @@ App_Running_Check:
     will be removed before upgrading.\
     $\n$\nClick 'OK' to remove \
     $PREV_VER_DIR $\nor 'Cancel' to stop this upgrade." \
-    IDOK uninst
+    /SD IDOK IDOK uninst
   Abort
 
 ;Run the uninstaller
@@ -130,7 +133,12 @@ uninst:
   ClearErrors
   ;Do not copy the uninstaller to a temp file
   ;otherwise ExecWait will not wait
-  ExecWait '$R0 _?=$PREV_VER_DIR'
+  ;if installer was called with silent flag, call uninstaller with /S, too
+  ${If} ${Silent}
+    ExecWait '$R0 /S _?=$PREV_VER_DIR'
+  ${Else}
+    ExecWait '$R0 _?=$PREV_VER_DIR'
+  ${EndIf}
   ;manually delete remaining install dir containing uninstall.exe
   ;because it wasn't copied to a temp file
   RMDir /r "$PREV_VER_DIR\*.*"
@@ -147,7 +155,7 @@ SectionEnd
 
 ; Add firewall rule
 Section "Add Windows Firewall Rule"
-    ; Add TileMill to the authorized list
+    ; Add node.exe to the authorized list
     nsisFirewall::AddAuthorizedApplication "$INSTDIR\resources\app\vendor\node.exe" "Evented I/O for V8 JavaScript"
     Pop $0
     IntCmp $0 0 +3
@@ -176,7 +184,9 @@ SectionEnd
 Function un.onUninstSuccess
   SetShellVarContext all
   HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer." /SD IDOK
+  ;IfSilent +2 0 ;hrm, HACK: jump over msgbox! "/SD IDOK" is not working. Why???
+  ;uninstaller wasn't called with /S
+  MessageBox MB_OK|MB_ICONINFORMATION "$(^Name) was successfully removed from your computer." /SD IDOK
 FunctionEnd
 
 Section Uninstall
