@@ -24,7 +24,7 @@ downloads = {}
 
 for line in fileinput.input():
     stripped = line.strip()
-    if 'mapbox-studio-classic-' in stripped:
+    if 'mapbox-studio-' in stripped:
         parts = stripped.split(' ')
         date = parts[0]
         time = parts[1]
