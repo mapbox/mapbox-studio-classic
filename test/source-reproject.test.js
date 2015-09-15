@@ -84,7 +84,7 @@ test('source.mbtilesExport: exports reprojected mbtiles file', function(t) {
         t.ok(task.progress instanceof stream.Duplex, 'sets task.progress');
         task.progress.once('finished', function() {
             t.equal(task.progress.progress().percentage, 100, 'progress.percentage');
-            t.equal(task.progress.progress().transferred, 23, 'progress.transferred');
+            t.equal(task.progress.progress().transferred, 20, 'progress.transferred');
             t.equal(task.progress.progress().eta, 0, 'progress.eta');
             t.equal(true, fs.existsSync(hash), 'export moved into place');
             t.end();
@@ -105,8 +105,8 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
             t.ifError(err);
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
-                t.equal(row.count, 22);
-                t.equal(row.size, 3439);
+                t.equal(row.count, 19);
+                t.equal(row.size, 3301);
                 check([
                     [0,0,0],
                     [1,1,1],
