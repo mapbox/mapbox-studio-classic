@@ -80,7 +80,7 @@ function makeWindow() {
         height: 600,
         'min-width': 720,
         'min-height': 480,
-        title: 'Mapbox Studio',
+        title: 'Mapbox Studio Classic',
         'node-integration': 'all',
         'web-preferences': {
             webgl: true,
