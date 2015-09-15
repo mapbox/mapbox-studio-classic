@@ -4,7 +4,7 @@ Notes for developers.
 
 ### Dependencies to know
 
-Mapbox Studio relies on its dependencies for key parts of its functionality. When reporting an issue or looking into fixing/improving functionality Mapbox Studio know that a dependent module may be the right place to focus your efforts.
+Mapbox Studio Classic relies on its dependencies for key parts of its functionality. When reporting an issue or looking into fixing/improving functionality Mapbox Studio Classic know that a dependent module may be the right place to focus your efforts.
 
 - [carto](https://github.com/mapbox/carto) parses and interprets CartoCSS
 - [mapnik](https://github.com/mapnik/mapnik) and [node-mapnik](https://github.com/mapnik/node-mapnik) provide core tile rendering functionality
@@ -12,7 +12,7 @@ Mapbox Studio relies on its dependencies for key parts of its functionality. Whe
 
 ### Atom shell
 
-The packaged desktop app version of Studio uses [atom shell](https://github.com/atom/atom-shell) as an app wrapper. To use atom shell to test studio in development:
+The packaged desktop app version of Mapbox Studio Classic uses [atom shell](https://github.com/atom/atom-shell) as an app wrapper. To use atom shell to test studio in development:
 
 1. Download the latest release of atom shell from https://github.com/atom/atom-shell/releases
 2. Unzip it and run the `atom` binary pointing at your mapbox-studio repo:
@@ -21,7 +21,7 @@ The packaged desktop app version of Studio uses [atom shell](https://github.com/
 
 ### Node.js Version
 
-Mapbox Studio targets the latest stable release of Node.js. When you install Mapbox Studio the target version of Node.js is vendorized locally at `./vendor/node`. The version is controlled via the `NODE_VERSION` environment variable.
+Mapbox Studio Classic targets the latest stable release of Node.js. When you install Mapbox Studio Classic the target version of Node.js is vendorized locally at `./vendor/node`. The version is controlled via the `NODE_VERSION` environment variable.
 
  - For packaged builds this variable is set in the `.travis.yml` config
  - For local source installs the default node version is found in `scripts/vendor-node.sh` but it can be overriden by setting `NODE_VERSION` in your environment before running `npm install`.
@@ -31,11 +31,11 @@ For Linux and Mac the version must be packaged ahead of time with [install-node]
 For Windows custom builds need to be done and available at https://github.com/mapbox/node-cpp11. This means that:
 
  - The node installs from https://nodejs.org/download are not supported for Windows.
- - To release a new Mapbox Studio version for Windows against a new Node.js version Windows binaries need to first be built via the toolchain at https://github.com/mapbox/node-cpp11.
+ - To release a new Mapbox Studio Classic version for Windows against a new Node.js version Windows binaries need to first be built via the toolchain at https://github.com/mapbox/node-cpp11.
 
 ### Logs
 
-Mapbox Studio has an application log and a shell log for error reporting and application messages for the Mapbox Studio server and Atom shell, respectively. On Linux and OSX, `app.log` and `shell.log` are located in `~/.mapbox-studio/`. On Windows, `app.log` and `shell.log` can be found in `C:\Users\<YOUR-USER-NAME>\.mapbox-studio`.
+Mapbox Studio Classic has an application log and a shell log for error reporting and application messages for the Mapbox Studio Classic server and Atom shell, respectively. On Linux and OSX, `app.log` and `shell.log` are located in `~/.mapbox-studio/`. On Windows, `app.log` and `shell.log` can be found in `C:\Users\<YOUR-USER-NAME>\.mapbox-studio`.
 
 On OSX, the logs can also be accessed to through the Help dropdown on the top menu bar.
 
@@ -77,7 +77,7 @@ Use PRs for everything but trivial changes and typos. Goals to strive for:
 
 ### Documentation
 
-Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the Mapbox Studio website. Rules!
+Docs live in the `/docs` dir and are `.md` files that are built by jekyll on the Mapbox Studio Classic website. Rules!
 
 - Keep docs consolidated and sustainable. Let's add docs sparingly and focus on improving what we have.
 - Do not commit doc images (screenshots, diagrams, etc.) to the mapbox-studio repo. Host them externally, either on github's issue image hosting or elsewhere.
@@ -117,7 +117,7 @@ Then package using the tag name in the steps below.
 
 ### Packaging
 
-Travis bundles Mapbox Studio with the [atom-shell](https://github.com/atom/atom-shell) wrapper and uploads packages to S3 for hosting. There are two OSs in the travis matrix:
+Travis bundles Mapbox Studio Classic with the [atom-shell](https://github.com/atom/atom-shell) wrapper and uploads packages to S3 for hosting. There are two OSs in the travis matrix:
 
 - linux: builds linux, win32 platforms
 - osx: builds darwin (because of osx-only code signing tools)
@@ -127,8 +127,8 @@ To package:
 1. **Push a commit with `[publish GITSHA]` as the message.** `GITSHA` should be a commit hash, branch name, or tag that can be used with `git checkout`. *Note: the packaging process itself will use the code in the repo as of GITSHA -- in other words, your GITSHA must be able to package itself.*
 2. **Watch travis for a for success.** When complete downloads will be available at <https://mapbox.s3.amazonaws.com/mapbox-studio/index.html> in the format of:
 
-        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-linux-x64-{GITSHA}.zip
-        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-darwin-x64-{GITSHA}.zip
-        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-win32-x64-{GITSHA}.exe
+        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-classic-linux-x64-{GITSHA}.zip
+        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-classic-darwin-x64-{GITSHA}.zip
+        https://mapbox.s3.amazonaws.com/mapbox-studio/mapbox-studio-classic-win32-x64-{GITSHA}.exe
 
 3. **If a tagged release, update _config.yml, _config.mb-pages.yml.** Update the `release` key in `_config.yml, _config.mb-pages.yml` to be the name of the tag.

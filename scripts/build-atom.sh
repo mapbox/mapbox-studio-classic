@@ -220,4 +220,3 @@ if [ "$ver" ==  "$(echo $gitsha | tr -d v)" ]; then
 fi
 
 cd $cwd
-

@@ -1,4 +1,4 @@
-; Mapbox Studio nsis installer script
+; Mapbox Studio Classic nsis installer script
 
 ; block creating installer unless expected variables are provided
 !ifndef TARGET_ARCH
