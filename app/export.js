@@ -30,7 +30,7 @@ window.Export = function(templates, source, job) {
       error:function(job, response) {
         // Tolerate timing errors between client and server
         // to create breathing room for error to pass.
-        // See https://github.com/mapbox/mapbox-studio/issues/773
+        // See https://github.com/mapbox/mapbox-studio-classic/issues/773
         if (retry < 5){
           view.poll();
           retry += 1;

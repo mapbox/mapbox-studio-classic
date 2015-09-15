@@ -18,6 +18,11 @@ Changelog
 - Offset in polygons now consistently extends outwards from the polygon, rather then possibly inwards.
 - Offset on lines is now always positive to the right.
 - Fixed issues with offsets in polygons not starting and ending at the same position.
+- Partial proxy support: very first start has to be done without proxy. Next starts work through proxies via environment variables `HTTP_PROXY` and `HTTPS_PROXY`
+- Windows installer supports silent option `/S`. Use like this `start /wait mapbox-studio-win32-x64-v0.2.8.exe /S` to check `%ERRORLEVEL%` for success.
+- Added Windows atom shell logging again (removed in 0.2.5): `%USERPROFILE%\.mapbox-studio\shell.log`
+- Characters `{[#]}` can be typed with non US keyboard layout
+- Windows: no breakage when Visual Studio 2015 is installed
 
 ### 0.2.7
 - Source UI: Fixed bug where map would lock up after adding a new data source.
@@ -27,7 +32,7 @@ Changelog
 - Add tracking to values saved buffer, maxzoom and minzoom in source usage.
 
 ### 0.2.6
-- On launch, Mapbox Studio opens on a blank style project rather than the last used project.
+- On launch, Mapbox Studio Classic opens on a blank style project rather than the last used project.
 - Fix rendering issues with when font list titles are focused.
 - Validate interactivity layer and template.
 - Don't show UTF grid tooltips in xray mode.
@@ -85,7 +90,7 @@ Changelog
 - Update to node-mapnik 3.0.5.
 - Style UI: Fix bugs in places UI.
 - Source UI: Clarify "create style" action.
-- Windows: run Mapbox Studio as a 64-bit application.
+- Windows: run Mapbox Studio Classic as a 64-bit application.
 
 ### 0.1.5
 
@@ -109,7 +114,7 @@ Changelog
 - Style UI: Add color picker.
 - Source UI: Improved flow of actions into refreshed state.
 - Source editor: support for topojson files (via mapnik-omnivore@1.4.15)
-- Windows: install now prompts to uninstall previous installations of Mapbox Studio.
+- Windows: install now prompts to uninstall previous installations of Mapbox Studio Classic.
 - Windows: install now uses a flatter directory structure for easier removal of long paths.
 
 ### 0.1.2

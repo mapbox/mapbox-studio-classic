@@ -6,9 +6,9 @@ base_url = 'https://mapbox.s3.amazonaws.com/mapbox-studio'
 
 html_start = '''
 <html>
-<head><title>Mapbox Studio downloads</title></head>
+<head><title>Mapbox Studio Classic downloads</title></head>
 <body bgcolor="white">
-<h1>Mapbox Studio downloads</h1><hr><pre>
+<h1>Mapbox Studio Classic downloads</h1><hr><pre>
 '''
 
 html_end = '''
@@ -16,7 +16,7 @@ html_end = '''
 </html>
 '''
 
-line_template =  '%(date)s %(time)s  %(size)s  <a href="%(name)s">%(name)s</a>  build: <a href="https://github.com/mapbox/mapbox-studio/commit/%(gitSHA)s">%(gitSHA)s</a>'
+line_template =  '%(date)s %(time)s  %(size)s  <a href="%(name)s">%(name)s</a>  build: <a href="https://github.com/mapbox/mapbox-studio-classic/commit/%(gitSHA)s">%(gitSHA)s</a>'
 
 print html_start
 
