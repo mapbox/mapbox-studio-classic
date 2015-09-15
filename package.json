@@ -37,7 +37,7 @@
     "mapnik-reference": "^8.3.0",
     "carto": "0.15.1",
     "tilelive": "https://github.com/mapbox/tilelive/tarball/pyramid-smarterskip",
-    "tilelive-bridge": "~1.5.0",
+    "tilelive-bridge": "~1.5.1",
     "tilelive-vector": "~3.4.0",
     "mapnik-omnivore": "~6.3.0",
     "abaculus": "1.2.1",
