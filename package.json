@@ -38,7 +38,7 @@
     "carto": "0.15.1",
     "tilelive": "~5.9.0",
     "tilelive-bridge": "~1.6.0",
-    "tilelive-vector": "~3.4.0",
+    "tilelive-vector": "~3.5.0",
     "mapnik-omnivore": "~6.3.0",
     "abaculus": "1.2.1",
     "mapbox-machine-styles": "2.3.1",
