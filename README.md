@@ -2,7 +2,7 @@ Mapbox Studio Classic
 -------------
 Desktop application for vector tile driven map design.
 
-[![Build Status](https://secure.travis-ci.org/mapbox/mapbox-studio.svg)](http://travis-ci.org/mapbox/mapbox-studio)
+[![Build Status](https://secure.travis-ci.org/mapbox/mapbox-studio-classic.svg)](http://travis-ci.org/mapbox/mapbox-studio-classic)
 [![Build status](https://ci.appveyor.com/api/projects/status/28kreaivb6nv6ju2?svg=true)](https://ci.appveyor.com/project/Mapbox/mapbox-studio)
 [![Dependencies](https://david-dm.org/mapbox/mapbox-studio.svg)](https://david-dm.org/mapbox/mapbox-studio)
 
@@ -61,9 +61,9 @@ The docs offer both a step-by-step guide to creating your first projects in Mapb
 
 Build status of modules:
 
- - mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/mapnik.png?branch=2.3.x)](http://travis-ci.org/mapnik/mapnik)
+ - mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/mapnik.png)](http://travis-ci.org/mapnik/mapnik)
  - node-mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/node-mapnik.png)](http://travis-ci.org/mapnik/node-mapnik)
  - carto - [![Build Status](https://secure.travis-ci.org/mapbox/carto.png)](http://travis-ci.org/mapbox/carto)
- - tilelive.js - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive.js.png)](http://travis-ci.org/mapbox/tilelive.js)
+ - tilelive - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive.png)](http://travis-ci.org/mapbox/tilelive)
  - tilelive-vector - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-vector.png)](http://travis-ci.org/mapbox/tilelive-vector)
  - tilelive-bridge - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-bridge.png)](http://travis-ci.org/mapbox/tilelive-bridge)
