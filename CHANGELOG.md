@@ -1,6 +1,13 @@
 Changelog
 =========
 
+### 0.3.0
+
+- Changed the name of Mapbox Studio to Mapbox Studio Classic!
+- Updated to node-mapnik 3.4.6
+- Updated tilelive to 5.9.0
+- Updated tilelive-bridge to 1.6.0
+
 ### 0.2.8
 
 - Added reference docs to source mode, removed inline helper text from UI.
@@ -8,7 +15,7 @@ Changelog
 - Enabled export image / print option for local datasets.
 - New `dot` symbolizer for faster rendering of points (better that `marker`).
 - Improved performance of GeoJSON, TopoJSON, and GeoTIFF.
-- Update to node-mapnik 3.4.5 from 3.1.2.
+- Update to node-mapnik 3.4.6 from 3.1.2.
 - Update to mapnik-omnivore 6.3.0.
 - Fixed crashes when vector tiles are generated >= 64 MB.
 - New CartoCSS styling properties for text: `text-transform:reverse;`, `text-upright:auto-down;`, and `marker-direction`.
