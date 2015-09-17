@@ -7,6 +7,7 @@ Changelog
 - Updated to node-mapnik 3.4.6
 - Updated tilelive to 5.9.0
 - Updated tilelive-bridge to 1.6.0
+- Fixes a bug where some data might have gone missing during vector tile creation.
 
 ### 0.2.8
 

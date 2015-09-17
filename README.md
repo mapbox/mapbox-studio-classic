@@ -8,7 +8,7 @@ Desktop application for vector tile driven map design.
 
 ### Install latest release
 
-Download the [latest release](https://www.mapbox.com/mapbox-studio/) for your platform and run the packaged app.
+Download the [latest release](https://www.mapbox.com/mapbox-studio-classic/) for your platform and run the packaged app.
 
 ### Install from source
 
