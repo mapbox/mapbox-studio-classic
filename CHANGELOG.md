@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 0.3.1
+
+- Updated to use node-mapnik 3.4.7
+- `scale-hsla` filter now works for values greater then 1.0.
+- Fixed bug in topojson uploads not working properly.
+- Improved CSV support with better support for different line-endings.
+- Improved CSV performance for large files.
+
 ### 0.3.0
 
 - Changed the name of Mapbox Studio to Mapbox Studio Classic!
