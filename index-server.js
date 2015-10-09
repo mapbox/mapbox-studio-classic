@@ -14,6 +14,7 @@ if (process.platform === 'win32') {
     process.env.PATH = '';
 }
 
+var fs = require('fs');
 var tm = require('./lib/tm');
 var path = require('path');
 var getport = require('getport');
@@ -22,6 +23,7 @@ var server;
 var config = require('minimist')(process.argv.slice(2));
 config.shell = config.shell || false;
 config.port = config.port || undefined;
+config.socket = config.socket || false;
 config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
 var logger = require('fastlog')('', 'debug', '<${timestamp}>');
@@ -34,6 +36,7 @@ var usage = function usage() {
     , '  where [options] is any of:'
     , '    --version - Returns running version then exits'
     , '    --port - Port to run on (default: ' + config.port + ')'
+    , '    --socket - Unix socket to run on'
     , '    --cwd - Working directory to run within (default: ' + config.cwd + ')'
     // TODO - are these used?
     , '    --shell - (default: ' + config.shell + ')'
@@ -55,7 +58,7 @@ if (config.help || config.h) {
     process.exit(0);
 }
 
-if (!config.port) {
+if (!config.port || !config.socket) {
     getport(3000, 3999, configure);
 } else {
     configure();
@@ -64,6 +67,7 @@ if (!config.port) {
 function configure(err, port) {
     if (err) throw err;
     config.port = config.port || port;
+    config.handle = config.socket || config.port || port;
     tm.config(config, listen);
 }
 
@@ -73,13 +77,25 @@ function listen(err) {
     if (config.shell) {
         server.listen(tm.config().port, '127.0.0.1', finish);
     } else {
-        server.listen(tm.config().port, finish);
+        server.listen(tm.config().handle, finish);
     }
 }
 
 function finish(err) {
     if (err) throw err;
+    var connection = '';
+    var socket = tm.config().socket;
+    if (socket) {
+        connection = socket;
+        fs.chmodSync(socket, '1766');
+    } else {
+        connection = 'http://localhost:'+tm.config().port+'/';
+    }
+    process.on('SIGINT', function () {
+        if (socket) fs.unlinkSync(socket);
+        process.exit();
+    });
     server.emit('ready');
-    logger.debug('Mapbox Studio @ http://localhost:'+tm.config().port+'/');
+    logger.debug('Mapbox Studio @ '+connection);
 }
 
