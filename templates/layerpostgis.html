@@ -55,6 +55,7 @@
         <input type='hidden' name='Datasource-type' value='postgis' />
         <input type='hidden' name='Datasource-max_size' value='512' />
         <input type='hidden' name='Datasource-srid' value='<%= obj.Datasource.srid %>' />
+        <input type='hidden' name='Datasource-key_field_as_attribute' value='<%= typeof obj.Datasource.key_field_as_attribute !== undefined ? obj.Datasource.key_field_as_attribute : 1 %>' />
       </section>
       <section class='clearfix pad2x pad1y keyline-bottom'>
         <label class='pad0y col3 inline'>Extent </label>
