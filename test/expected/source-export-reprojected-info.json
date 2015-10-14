@@ -15,8 +15,8 @@
       "id": "NZ_Coastline_NZMG",
       "description": "",
       "fields": {
-        "featurecla": "String",
-        "scalerank": "Number"
+        "scalerank": "Number",
+        "featurecla": "String"
       }
     }
   ],

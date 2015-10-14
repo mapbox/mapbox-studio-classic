@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### 0.3.2
+
+- Updated to use node-mapnik 3.4.9
+- Vector tile sizes reduced due to removing repeated points in polylines and multi-polylines
+- Simplify distance reduced from 8 to 4 causing vector tiles that are created to be LESS simplified
+- Fixed various bugs with CSVs
+- Various Vector Tile creation speed improvements
+
 ### 0.3.1
 
 - Updated to use node-mapnik 3.4.7
