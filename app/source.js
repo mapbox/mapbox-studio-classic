@@ -695,6 +695,8 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         } else {
             url += 'ds=' + layer.id;
         }
+        console.log('app, layer', layer);
+        console.log('app, url:', url);
         $.ajax({
             url: url,
             success: function(metadata) {
