@@ -67,5 +67,6 @@
     "pretest": "npm ls --depth=Infinity && tape ./test/duplicate_module.pretest.js",
     "test": "tape test/*.test.js",
     "posttest": "node test/cleanup.js"
-  }
+  },
+  "license": "BSD-3-Clause"
 }
