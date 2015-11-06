@@ -1,6 +1,6 @@
 {
   "name": "mapbox-studio",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "./index",
   "author": "Mapbox (https://www.mapbox.com)",
   "engines": {
@@ -39,7 +39,7 @@
     "tilelive-bridge": "~2.1.0",
     "tilelive-vector": "~3.5.0",
     "mapnik-omnivore": "~6.3.0",
-    "gdal": "0.7.0", 
+    "gdal": "0.7.0",
     "abaculus": "1.2.1",
     "mapbox-machine-styles": "2.3.1",
     "mapbox-studio-pro-fonts": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-studio-pro-fonts-1.0.0-9870a90b713f307b9391829602f4d5857e419615.tgz",
