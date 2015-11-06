@@ -36,7 +36,7 @@
     "mapnik-reference": "~8.5.1",
     "carto": "0.15.3",
     "tilelive": "~5.9.0",
-    "tilelive-bridge": "~2.1.0",
+    "tilelive-bridge": "https://github.com/mapbox/tilelive-bridge/tarball/master",
     "tilelive-vector": "~3.5.0",
     "mapnik-omnivore": "~6.3.0",
     "gdal": "0.7.0", 

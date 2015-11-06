@@ -7,6 +7,7 @@ var assert = require('assert');
 var upload = require('mapbox-upload');
 var tm = require('../lib/tm');
 var source = require('../lib/source');
+var mkdirp = require('mkdirp');
 var tilelive = require('tilelive');
 var testutil = require('./util');
 var mockOauth = require('../lib/mapbox-mock')(require('express')());
@@ -352,14 +353,33 @@ test('local: saves source to disk', function(t) {
 });
 
 test('local: save as tmp => perm', function(t) {
-    var tmpid = 'tmpsource://' + tm.join(__dirname, '/fixtures-local source');
+    var source_dir = tm.join(__dirname, '/fixtures-local source');
+    var tmpid = 'tmpsource://' + source_dir;
     source.info(tmpid, function(err, data) {
         t.ifError(err);
         var permid = path.join(tmp, 'source-saveas-' + Math.random().toString(36).split('.').pop());
+        mkdirp.sync(permid);
+        [
+         '10m-900913-bounding-box.dbf',
+         '10m-900913-bounding-box.shx',
+         '10m-900913-bounding-box.index',
+         '10m-900913-bounding-box.shp',
+         '10m_lakes_historic.dbf',
+         '10m_lakes_historic.shx',
+         '10m_lakes_historic.index',
+         '10m_lakes_historic.shp'
+        ].forEach(function(f) {
+            //fs.writeFileSync(path.join(permid,f),fs.readFileSync(path.join(source_dir,f)));
+        });
         source.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
             t.ifError(err);
             t.ok(source);
-            t.equal(source.data._tmp, false);
+            if (source) {
+                t.ok(source.data);
+                if (source.data) {
+                    t.equal(source.data._tmp, false);
+                }
+            }
             var tmpdir = tm.parse(permid).dirname;
             t.ok(fs.existsSync(tm.join(tmpdir,'data.yml')));
             t.ok(fs.existsSync(tm.join(tmpdir,'data.xml')));
