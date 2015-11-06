@@ -369,7 +369,7 @@ test('local: save as tmp => perm', function(t) {
          '10m_lakes_historic.index',
          '10m_lakes_historic.shp'
         ].forEach(function(f) {
-            //fs.writeFileSync(path.join(permid,f),fs.readFileSync(path.join(source_dir,f)));
+            fs.writeFileSync(path.join(permid,f),fs.readFileSync(path.join(source_dir,f)));
         });
         source.save(_({_tmp:tmpid, id:permid}).defaults(data), function(err, source) {
             t.ifError(err);
