@@ -46,7 +46,11 @@ var shellLog = path.join(process.env.HOME, '.mapbox-studio', 'shell.log');
 log(shellLog, 10e6, shellsetup);
 
 function shellsetup(err){
-
+    if(err){
+      console.log('shellsetup:', err);
+      exit();
+      return;
+    }
     // Start the server child process.
     server = spawn(node, [script, '--shell=true'])
         .on('error', function(error){
