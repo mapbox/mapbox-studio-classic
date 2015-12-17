@@ -514,7 +514,6 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
             [clamp(extent[1], -85.0511, 85.0511, -85.0511), clamp(extent[0], -180, 180, -180)],
             [clamp(extent[3], -85.0511, 85.0511, 85.0511), clamp(extent[2], -180, 180, 180)]
         ];
-        console.log('bounds:', JSON.stringify(bounds));
         map.fitBounds(bounds,{'animate': false});
     };
 
@@ -697,14 +696,11 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         } else {
             url += 'ds=' + layer.id;
         }
-        console.log('app, layer', layer);
-        console.log('app, url:', url);
         $.ajax({
             url: url,
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
-                console.log('app, metadata:', metadata.extent);
                 view.fitBounds(map,metadata.extent);
             },
             error: function(jqXHR, textStatus, errorThrown) {
