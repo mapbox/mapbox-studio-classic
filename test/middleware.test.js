@@ -87,6 +87,13 @@ test('normalizePaths', function(assert) {
             source:'tmsource://C:\\path with\\spaces/source.tm2source'
         }
     };
+
+    //fake Windows platform for these Windows specific tests
+    //process.platform is readonly, using Object.defineProperty to override
+    var orig_platform = process.platform;
+    if ('win32' !== process.platform) {
+        Object.defineProperty(process, 'platform', {value: 'win32'});
+    }
     middleware.normalizePaths(req, {}, function(err) {
         assert.ifError(err);
         assert.deepEqual(req.query.id, 'tmstyle://c:/path with/spaces/style.tm2');
@@ -95,6 +102,10 @@ test('normalizePaths', function(assert) {
         assert.deepEqual(req.body.id, 'tmstyle://c:/path with/spaces/style.tm2');
         assert.deepEqual(req.body.source, 'tmsource://c:/path with/spaces/source.tm2source');
     });
+    if (orig_platform !== process.platform) {
+        Object.defineProperty(process, 'platform', {value: orig_platform});
+    }
+    assert.deepEqual(process.platform, orig_platform);
 
     req = {
 	// NOTE: these are empty for this test - we do not check their values
