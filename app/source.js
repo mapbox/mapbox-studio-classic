@@ -685,13 +685,19 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
-        var filepath = layers[id].get().Datasource.file;
+        var layer = layers[id].get();
         var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
 
+        var url = '/metadata?';
+        if (layer.Datasource.file) {
+            url += 'file=' + layer.Datasource.file;
+        } else {
+            url += 'ds=' + layer.id;
+        }
         $.ajax({
-            url: '/metadata?file=' + filepath,
+            url: url,
             success: function(metadata) {
                 // Clear loading state
                 $('#full').removeClass('loading');
