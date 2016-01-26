@@ -114,12 +114,10 @@ test('tm dirfiles', function(t) {
         t.ifError(err);
         t.deepEqual([
             '10m-900913-bounding-box.dbf',
-            '10m-900913-bounding-box.index',
             '10m-900913-bounding-box.prj',
             '10m-900913-bounding-box.shp',
             '10m-900913-bounding-box.shx',
             '10m_lakes_historic.dbf',
-            '10m_lakes_historic.index',
             '10m_lakes_historic.prj',
             '10m_lakes_historic.shp',
             '10m_lakes_historic.shx',
@@ -129,12 +127,10 @@ test('tm dirfiles', function(t) {
         // Confirm that paths are normalized on windows.
         t.deepEqual([
             dirname + '/fixtures-local source/10m-900913-bounding-box.dbf',
-            dirname + '/fixtures-local source/10m-900913-bounding-box.index',
             dirname + '/fixtures-local source/10m-900913-bounding-box.prj',
             dirname + '/fixtures-local source/10m-900913-bounding-box.shp',
             dirname + '/fixtures-local source/10m-900913-bounding-box.shx',
             dirname + '/fixtures-local source/10m_lakes_historic.dbf',
-            dirname + '/fixtures-local source/10m_lakes_historic.index',
             dirname + '/fixtures-local source/10m_lakes_historic.prj',
             dirname + '/fixtures-local source/10m_lakes_historic.shp',
             dirname + '/fixtures-local source/10m_lakes_historic.shx',
