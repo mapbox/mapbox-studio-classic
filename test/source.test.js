@@ -362,11 +362,9 @@ test('local: save as tmp => perm', function(t) {
         [
          '10m-900913-bounding-box.dbf',
          '10m-900913-bounding-box.shx',
-         '10m-900913-bounding-box.index',
          '10m-900913-bounding-box.shp',
          '10m_lakes_historic.dbf',
          '10m_lakes_historic.shx',
-         '10m_lakes_historic.index',
          '10m_lakes_historic.shp'
         ].forEach(function(f) {
             fs.writeFileSync(path.join(permid,f),fs.readFileSync(path.join(source_dir,f)));
