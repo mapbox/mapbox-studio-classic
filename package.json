@@ -24,7 +24,7 @@
     "passport-oauth": "1.0.x",
     "minimist": "1.1.x",
     "underscore": "1.6.x",
-    "tilejson": "git://github.com/mapbox/node-tilejson.git#request-mbs",
+    "tilejson": "git://github.com/mapbox/node-tilejson.git#request-mbs2",
     "mbtiles": "0.8.0",
     "mkdirp": "0.5.x",
     "dirty": "0.9.9",
