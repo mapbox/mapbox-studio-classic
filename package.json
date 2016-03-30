@@ -32,7 +32,7 @@
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "1.0.x",
     "tar": "2.2.x",
-    "mapnik": "3.4.16",
+    "mapnik": "git://github.com/mapnik/node-mapnik.git#3.4.x",
     "mapnik-reference": "~8.5.1",
     "carto": "0.15.3",
     "tilelive": "~5.11.0",
