@@ -1,6 +1,20 @@
 Changelog
 =========
 
+### 0.4.0
+
+- Update tilelive-bridge to validate mapnik XML at source creation
+- `.index` files for shapefiles [are no longer backwards compatible](https://github.com/mapbox/mapbox-studio-classic/issues/1523) and must be regenerated. New index files can be regenerated locally on OS X:
+```
+cd ~/Downloads/mapbox-studio-darwin-x64-v0.3.3
+"Mapbox Studio.app/Contents/Resources/app/vendor/node" "Mapbox Studio.app/Contents/Resources/app/node_modules/mapnik/bin/mapnik-shapeindex.js" <path/to/shapefile.shp>
+```
+- Update node-mapnik (v3.4.18) to support backwards compatible vector tiles (v1/v2)
+- Update node-gdal ([v0.8.0](https://github.com/naturalatlas/node-gdal/releases))
+- Update tilelive-vector to include tm2z bug fixes, `transparent` background support for xray tiles, [etc](https://github.com/mapbox/tilelive-vector/blob/master/CHANGELOG.md)
+- Update mapnik-omnivore with maxzoom adjustments for rasters, shapefile projection bug fix, and dep updates
+- Update minor dependencies
+
 ### 0.3.2
 
 - Updated to use node-mapnik 3.4.9
