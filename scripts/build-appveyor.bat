@@ -31,6 +31,16 @@ ECHO fetching %NODE_URL%
 powershell Invoke-WebRequest $env:NODE_URL -OutFile $env:HOME\node.exe
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
+IF EXIST "%ProgramFiles(x86)%\nodejs\node.exe" DEL /Q "%ProgramFiles(x86)%\nodejs\node.exe"
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+IF EXIST "%ProgramFiles%\nodejs\node.exe" DEL /Q "%ProgramFiles%\nodejs\node.exe"
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
+IF EXIST "%ProgramFiles(x86)%\nodejs" COPY node.exe "%ProgramFiles(x86)%\nodejs\"
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+IF EXIST "%ProgramFiles%\nodejs" COPY node.exe "%ProgramFiles%\nodejs\"
+IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+
 
 :RUN_INSTALL
 
