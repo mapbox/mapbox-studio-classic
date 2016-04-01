@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "mapbox-base-css": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-base-css-0.1.1-278e718f85f9f1711eb1348b4aba18a380e031c9.tgz",
-    "node-pre-gyp": "0.6.9",
+    "node-pre-gyp": "https://github.com/mapbox/node-pre-gyp/tarball/v0.7.x",
     "log-rotate": "0.2.x",
     "through": "2.3.x",
     "queue-async": "1.0.x",
@@ -32,7 +32,7 @@
     "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
     "fstream": "1.0.x",
     "tar": "2.2.x",
-    "mapnik": "3.4.16",
+    "mapnik": "https://github.com/mapnik/node-mapnik/tarball/npg-v0.7.x",
     "mapnik-reference": "~8.5.1",
     "carto": "0.15.3",
     "tilelive": "~5.11.0",
