@@ -3,7 +3,7 @@ Changelog
 
 ### 0.3.3
 
-- fixes a bug that prevented startup on fresh installation of studio
+- fixes a bug that prevented startup on fresh installation of Mapbox Studio Classic
 
 ### 0.3.2
 
