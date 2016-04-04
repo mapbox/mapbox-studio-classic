@@ -15,6 +15,10 @@ cd ~/Downloads/mapbox-studio-darwin-x64-v0.3.3
 - Update mapnik-omnivore with maxzoom adjustments for rasters, shapefile projection bug fix, and dep updates
 - Update minor dependencies
 
+### 0.3.3
+
+- fixes a bug that prevented startup on fresh installation of Mapbox Studio Classic
+
 ### 0.3.2
 
 - Updated to use node-mapnik 3.4.9
