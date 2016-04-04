@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.3.3
+
+- fixes a bug that prevented startup on fresh installation of studio
+
 ### 0.3.2
 
 - Updated to use node-mapnik 3.4.9
