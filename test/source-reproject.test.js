@@ -106,7 +106,7 @@ test('source.mbtilesExport: verify reprojected export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 19);
-                t.equal(row.size, 3386);
+                t.equal(row.size, 3401);
                 check([
                     [0,0,0],
                     [1,1,1],
