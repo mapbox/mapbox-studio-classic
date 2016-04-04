@@ -48,7 +48,7 @@
     "mapbox-studio-default-source": "1.0.0",
     "cors": "~2.7.1",
     "request": "~2.60.0",
-    "mapbox-upload": "~4.1.0",
+    "mapbox-upload": "4.2.x",
     "progress-stream": "1.1.1",
     "safer-stringify": "0.0.1",
     "gazetteer": "0.1.4",
