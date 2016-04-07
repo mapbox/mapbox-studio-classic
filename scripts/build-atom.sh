@@ -86,8 +86,7 @@ BUILD_PLATFORM=$platform TARGET_ARCH=$arch npm install --production \
 
 # Remove extra deps dirs to save space
 deps="node_modules/mbtiles/node_modules/sqlite3/deps
-node_modules/gdal/deps
-node_modules/mapnik-omnivore/node_modules/srs/deps"
+node_modules/gdal/deps"
 for depdir in $deps; do
     rm -r $app_dir/$depdir
 done
