@@ -689,26 +689,25 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
         var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
-
-        var url = '/metadata?';
-        if (layer.Datasource.file) {
-            url += 'file=' + layer.Datasource.file;
-        } else {
-            url += 'ds=' + layer.id;
-        }
         $.ajax({
-            url: url,
-            success: function(metadata) {
-                // Clear loading state
-                $('#full').removeClass('loading');
-                view.fitBounds(map,metadata.extent);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Clear loading state
-                $('#full').removeClass('loading');
-                Modal.show('error', 'Cannot access source metadata. ' + jqXHR.responseText);
-            }
+            url: '/dsextent',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(layer),
+            dataType: 'json',
+            success: on_extent,
+            error: on_error
         });
+        function on_error(jqXHR, textStatus, errorThrown) {
+            // Clear loading state
+            $('#full').removeClass('loading');
+            Modal.show('error', 'Cannot access extent of layer ' + jqXHR.responseText);
+        }
+        function on_extent(metadata) {
+            // Clear loading state
+            $('#full').removeClass('loading');
+            view.fitBounds(map,metadata.extent);
+        }
     };
     Editor.prototype.sourceNewStyle = function(){
         Modal.show('sourcenewstyle', {source: source, isMapboxAPI: isMapboxAPI});
