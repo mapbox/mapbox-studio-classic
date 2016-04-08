@@ -1,8 +1,10 @@
 Changelog
 =========
 
-### 0.4.0
+### 0.3.4
 
+- Fixed support for KML and GPX formats
+ - Known issue: GPX file with `<time>` element are broken but will work in the next release  
 - Update tilelive-bridge to validate mapnik XML at source creation
 - `.index` files for shapefiles [are no longer backwards compatible](https://github.com/mapbox/mapbox-studio-classic/issues/1523) and must be regenerated. New index files can be regenerated locally on OS X:
 ```
