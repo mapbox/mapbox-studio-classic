@@ -29,7 +29,9 @@ for (var key in style.examples) (function(key) {
     test(key, function(t) {
         style(style.examples[key], function(err, s) {
             t.ifError(err);
-            t.ok(!s.data._prefs.mapid, 'no mapid set');
+            if (!err && !s) {
+                t.ok(!s.data._prefs.mapid, 'no mapid set');
+            }
             t.end();
         });
     });

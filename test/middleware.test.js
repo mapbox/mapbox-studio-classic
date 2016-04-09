@@ -182,7 +182,9 @@ test('examples: gets style info', function(t) {
             'mapbox-studio-pirates',
             'mapbox-studio-run-bike-hike',
             'mapbox-studio-satellite-afternoon',
+            'mapbox-studio-satellite-outdoors',
             'mapbox-studio-streets-basic',
+            'mapbox-studio-streets-overlay',
             'mapbox-studio-streets-satellite',
             'mapbox-studio-streets',
             'mapbox-studio-wheatpaste'
