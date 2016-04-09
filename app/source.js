@@ -507,14 +507,14 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
 
     Editor.prototype.fitBounds = function(map,extent) {
         // https://github.com/mapbox/mapbox-studio/issues/1388
-        function clamp(value,expected) {
-            if (value > expected || value < expected) return expected;
-            return value;
+        function clamp(value, min, max, defaultvalue) {
+            return ((value < min) || (value > max)) ? defaultvalue : value;
         }
-        map.fitBounds([
-            [clamp(extent[1],-180),clamp(extent[0],-85.0511)],
-            [clamp(extent[3],180),clamp(extent[2],85.0511)]
-        ],{'animate': false});
+        var bounds = [
+            [clamp(extent[1], -85.0511, 85.0511, -85.0511), clamp(extent[0], -180, 180, -180)],
+            [clamp(extent[3], -85.0511, 85.0511, 85.0511), clamp(extent[2], -180, 180, 180)]
+        ];
+        map.fitBounds(bounds,{'animate': false});
     };
 
     Editor.prototype.update = function(ev) {
@@ -685,24 +685,29 @@ window.Source = function(templates, cwd, tm, source, revlayers, examples, isMapb
     Editor.prototype.tabbed = tabbedHandler;
     Editor.prototype.zoomToLayer = function(ev) {
         var id = $(ev.currentTarget).attr('id').split('zoom-').pop();
-        var filepath = layers[id].get().Datasource.file;
+        var layer = layers[id].get();
         var view = this;
         // Set map in loading state
         $('#full').addClass('loading');
-
         $.ajax({
-            url: '/metadata?file=' + filepath,
-            success: function(metadata) {
-                // Clear loading state
-                $('#full').removeClass('loading');
-                view.fitBounds(map,metadata.extent);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Clear loading state
-                $('#full').removeClass('loading');
-                Modal.show('error', 'Cannot access source metadata. ' + jqXHR.responseText);
-            }
+            url: '/dsextent',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(layer),
+            dataType: 'json',
+            success: on_extent,
+            error: on_error
         });
+        function on_error(jqXHR, textStatus, errorThrown) {
+            // Clear loading state
+            $('#full').removeClass('loading');
+            Modal.show('error', 'Cannot access extent of layer ' + jqXHR.responseText);
+        }
+        function on_extent(metadata) {
+            // Clear loading state
+            $('#full').removeClass('loading');
+            view.fitBounds(map,metadata.extent);
+        }
     };
     Editor.prototype.sourceNewStyle = function(){
         Modal.show('sourcenewstyle', {source: source, isMapboxAPI: isMapboxAPI});
