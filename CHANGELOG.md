@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### Upcoming
+
+- Zoom to layer extent now works for PostGIS and SQlite sources (#1515)
+
 ### 0.3.4
 
 - Fixed support for KML and GPX formats
