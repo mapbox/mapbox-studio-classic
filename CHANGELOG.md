@@ -4,6 +4,7 @@ Changelog
 ### Upcoming
 
 - Zoom to layer extent now works for PostGIS and SQlite sources (#1515)
+- Upgraded to Carto v0.16.0
 
 ### 0.3.4
 
