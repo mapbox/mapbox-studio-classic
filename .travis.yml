@@ -15,7 +15,6 @@ env:
   # published binaries will conflict since they are not versioned
   # on NODE_VERSION or ATOM_VERSION
   - NODE_VERSION="0.10.40" ATOM_VERSION="0.21.1" PACKAGABLE=true
-  - NODE_VERSION="0.12.7" ATOM_VERSION="0.21.1"
   global:
   - secure: "EXgVgtayyyxt7flmPhwKZIvkqfkpX1TnrX/EX7ZEQ36TuZGYYX5OXjLTtXWk9sSE6l6O3wRewpkou2PvQQpX25yOI8XYD8vBjx3ymt1lg5RS8nTDZO0XHsd0aTV7JxJCyZGCkIYXvVRPpVbLDbGwULhJe55p8YYKx/lohDB3FYM="
   - secure: "YvtR+B6yC+MxsU7tP6FCEHKLZoRfvlfwX5HSs8eAYWxqrZmIqJTbavSlj4bQ919szyQ1vZ8wTMkXd/8tCqWARTyWA8tLOHgXm/ZAlxdtdtotyZzNsbC0FmtJHF/wmaQcJ4lX2vcWWhOwtEetEULO6Hv0xGiW26aK+Jp240f6NJE="
