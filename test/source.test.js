@@ -481,7 +481,8 @@ test('source.mbtilesExport: verify export', function(t) {
             src._db.get('select count(1) as count, sum(length(tile_data)) as size from tiles;', function(err, row) {
                 t.ifError(err);
                 t.equal(row.count, 5461);
-                t.equal(row.size, 377704);
+                // may shift slightly per node-mapnik release
+                t.ok(row.size > 370000 && row.size < 390000);
                 check([
                     [0,0,0],
                     [1,0,0],
