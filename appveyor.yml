@@ -13,10 +13,6 @@ environment:
       platform: x64
     - NODE_VERSION: 0.10.40
       platform: x86
-    - NODE_VERSION: 0.12.7
-      platform: x64
-    - NODE_VERSION: 0.12.7
-      platform: x86
 
 shallow_clone: true
 
