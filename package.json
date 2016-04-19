@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "mapbox-base-css": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-base-css-0.1.1-278e718f85f9f1711eb1348b4aba18a380e031c9.tgz",
-    "node-pre-gyp": "0.6.9",
     "log-rotate": "0.2.x",
     "through": "2.3.x",
     "queue-async": "1.0.x",
