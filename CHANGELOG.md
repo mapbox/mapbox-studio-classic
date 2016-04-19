@@ -1,11 +1,16 @@
 Changelog
 =========
 
+### 0.3.6
+
+- Upgraded to Carto v0.16.1, fixing regression in the CartoCSS `mix` function
+- Upgraded to node-mapnik@3.5.13
+
 ### 0.3.5
 
 - Zoom to layer extent now works for PostGIS and SQlite sources (#1515)
 - Upgraded to Carto v0.16.0
-- Upgraded to node-mapnik@3.5.10, now supporting to creation of vector tiles
+- Upgraded to node-mapnik@3.5.10, now supporting the creation of vector tiles
   adhering to the v2 spec: https://github.com/mapbox/vector-tile-spec/tree/master/2.1
 
 ### 0.3.4
