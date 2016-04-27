@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.3.7
+
+- Upgraded to Carto v0.16.2, fixing regression in CartoCSS color subtraction
+
 ### 0.3.6
 
 - Upgraded to Carto v0.16.1, fixing regression in the CartoCSS `mix` function
