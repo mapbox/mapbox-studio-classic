@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### 0.3.8
+
+- Downgraded to Carto v0.15.x to full back compatibility in color parsing.
+
 ### 0.3.7
 
 - Upgraded to Carto v0.16.2, fixing regression in CartoCSS color subtraction
