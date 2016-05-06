@@ -14,7 +14,8 @@ head: |
 
 <section class="fill-midnight intro clip">
     <div class="limiter pad8y clearfix contain dark">
-        <div class="clearfix space-bottom2 space-top8">
+     
+     <div class="clearfix space-bottom2 space-top8">
 
     <div class="col6 prose-big prose space-top4">
       <h2 class="fancy">Mapbox Studio Classic</h2>
@@ -101,104 +102,24 @@ head: |
     </div>
 </section>
 
-<section class="pad8y fill-gray vectortiles">
-    <div class="clearfix limiter">
-    <div class="col5 row7 own-data"></div>
-	<div class="fill-gray pad5 margin1 col6 ">
-            <span class="inline icon pad0 layers dot fill-dark dark"></span><h2 class="inline prose pad1x"> Powered by Vector Tiles</h2>
-              <p class="quiet prose-big space-top2">Mapbox Studio Classic provides a new level of design control and interaction. By packing layers, geometries, and feature attributes into lower zoom levels, higher zooms render at a fraction of the storage cost of raster tiles. Paired with Mapnik and CartoCSS, vector tiles can be rendered as images, UTFGrids, GeoJSON, and more.</p>
+<div class="modal-content modal active" id='removeme'>
+   <div class='modal-popup modal-auth'>
+      <div class='col6 fill-white modal-body round-top contain prose'>
+         <div class='pad4'>
+            Mapbox Studio Classic has been replaced by the new and awesome
+            <a href='https://www.mapbox.com/mapbox-studio/'>Mapbox Studio</a>.
+            We no longer offer support or updates.
+
+            <a class='button col12 space-top2' href='https://www.mapbox.com/mapbox-studio/'>Try Mapbox Studio</a>
+            <a href='#' class='small space-top2 block center quiet' id='remove-modal'>I really want Mapbox Studio Classic</a>
          </div>
-</div></section>
-
-<section class="pad8y mapboxdata">
-<div class="clearfix limiter">
-    <div class="pad2 space-top1 col5 fill-darken2 dark round ">
-        <span class="inline icon pad0 polygon dot dark"></span><h2 class="inline pad1x"> Access to global data</h2>
-<p class="prose-big space-top2"> Mapbox Studio Classic gives you instant streaming access to our massive global datasets: Streets, Terrain, and Satellite. We manage all the data on our platform, providing live updates every minute, and serve maps fast wherever you are in the world.</p>
+      </div>
+   </div>
 </div>
 
-</div></section>
-
-
-<section class="pad8y fill-blue clip">
-<div class="row13 clearfix limiter contain">
-    <div class="col5 dark">
-        <div class="inline icon pad0 polygon dot fill-darken1"></div>
-        <h2 class="inline pad1x"> Source: Add custom data</h2>
-        <p class="prose space-top2">Convert traditional geodata sources into vector tiles and then style them layer-by-layer.</p>
-
-        <div class="col12 clearfix space-bottom2">
-            <h3><span class="inline icon pad0 check dot fill-blue"></span>  Composite multiple datasets</h3>
-            <p class="margin1">Combine your point, polygon, and line datasets into in a single vector tile dataset for styling.</p>
-        </div>
-        <div class="col12 clearfix space-bottom2">
-            <h3><span class="inline icon pad0 check dot fill-blue"></span>  Control your data</h3>
-            <p class="margin1">Define minzoom, maxzoom, and buffer size to keep your vector tiles small and performant.</p>
-        </div>
-        <div class="col12 clearfix space-bottom2">
-            <h3><span class="inline icon pad0 check dot fill-blue"></span>  Inspect your data</h3>
-            <p class="margin1">Peek into your data before rendering and even style locally as you edit down your datasets.</p>
-        </div>
-
-    <div class="pill space-top2 col6"><!--
-            --><a href="/guides/source-quickstart/" class="button stroke dark rcon next col12">Source quickstart</a><!--
-            --><a href="/guides/source-manual/" class="button stroke rcon next dark col12">Source manual</a><!--
-            --><a href="/guides/postgis-manual/" class="button stroke rcon next dark col12">PostGIS manual</a>
-        </div>
-    </div>
-    <div class="col9 pin-right hide-mobile studio-source"></div>
-
-</div>
-</section>
-
-<section class="pad8y fill-cyan clip">
-<div class="row13 clearfix limiter contain">
-    <div class="col5 dark">
-        <div class="inline icon pad0 paint dot fill-darken1"></div>
-        <h2 class="inline pad1x"> Style: Design custom maps</h2>
-        <p class="prose space-top2">Create custom styles in Mapbox Studio Classic with Mapbox data or your own custom data. Style everything to match your brand: typography, colors, patterns, icons, and more.</p>
-
-        <div class="col12 clearfix space-bottom2">
-            <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Your brand, your colors</h3>
-            <p class="margin1">You have full design control over everything, from colors to data to feature visibility both on the web and mobile.</p>
-        </div>
-        <div class="col12 clearfix space-bottom2">
-            <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Custom fonts and icons</h3>
-            <p class="margin1">Customize your map's typography with different fonts and effects. Add POIs using our <a href="/maki">Maki</a> icon set or your own icon set.</p>
-        </div>
-        <div class="col12 clearfix space-bottom2">
-            <h3><span class="inline icon pad0 check dot fill-cyan"></span>  Textures and illustrations</h3>
-            <p class="margin1">Enhance the look and feel of your map with illustrations and textures.</p>
-        </div>
-
-        <div class="pill space-top2 col6"><!--
-            --><a href="/guides/style-quickstart/" class="button stroke dark rcon next col12">Style quickstart</a><!--
-            --><a href="/guides/style-manual/" class="button stroke dark rcon next col12">Style manual</a>
-        </div>
-    </div>
-
-    <div class="col9 pin-right hide-mobile studio-style"></div>
-</div>
-</section>
-
-<section class="pad8y fill-light ">
-<div class="clearfix limiter">
-	<div class="col6 clearfix data-api"></div>
-    <div class="pad5 margin1 col5">
-        <span class="inline icon pad0 marker dot fill-darken1 dark"></span><h2 class="inline pad1x"> Build on your map</h2>
-    <p class="space-top2 prose-big">Once you upload your style to Mapbox.com, you can use it with any of our developer tools. Add interactivity with <a href="https://www.mapbox.com/mapbox.js/api/v2.1.6/">Mapbox.js</a>, routing with <a href="https://www.mapbox.com/developers/api/">Mapbox Directions API</a>, or data analysis with <a href="https://www.mapbox.com/developers/turf/">Turf.js</a>. Build anything with your new map and the Mapbox stack.</p>
-      <a href="https://www.mapbox.com/developers" class="col5 button rcon next stroke">Developer tools</a>
-    </div>
-</div></section>
-
-
-<section class="clearfix fill-midnight dark pad2y">
-<div class="clearfix limiter">
-    <div class="pad4y clearfix">
-
-        <h3 class="fancy center space-bottom">Download Now</h3>
-       {% include download_center.html %}
-    </div>
-</div>
-</section>
-
+<script>
+$('#remove-modal').click(function(e) {
+   e.preventDefault();
+   $('#removeme').remove();
+});
+</script>
