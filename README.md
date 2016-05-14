@@ -1,12 +1,10 @@
-Mapbox Studio Classic
--------------
+### **[Mapbox Studio](https://www.mapbox.com/mapbox-studio/) is the modern alternative to Mapbox Studio Classic**: if you're starting out and creating a map today, we recommend starting with [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) rather than Mapbox Studio Classic.
+
 Desktop application for vector tile driven map design.
 
 [![Build Status](https://secure.travis-ci.org/mapbox/mapbox-studio-classic.svg)](http://travis-ci.org/mapbox/mapbox-studio-classic)
 [![Build status](https://ci.appveyor.com/api/projects/status/vmvkol2diegfo7gc?svg=true)](https://ci.appveyor.com/project/Mapbox/mapbox-studio-classic)
 [![Dependencies](https://david-dm.org/mapbox/mapbox-studio-classic.svg)](https://david-dm.org/mapbox/mapbox-studio-classic)
-
-**[Mapbox Studio](https://www.mapbox.com/mapbox-studio/) is the modern alternative to Mapbox Studio Classic**: if you're starting out and creating a map today, we recommend starting with [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) rather than Mapbox Studio Classic.
 
 ### Install latest release
 
@@ -48,7 +46,6 @@ You can do this like:
 
 
     npm install --build-from-source
-
 
 ### Getting started
 
