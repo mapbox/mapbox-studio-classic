@@ -2,7 +2,7 @@ url: https://www.mapbox.com
 api: https://www.mapbox.com/core
 tileApi: https://api.tiles.mapbox.com
 source: website
-permalink: /:title
+permalink: /:title/
 baseurl: /mapbox-studio
 mapboxjs: v2.1.7
 tileapi: 'https://api.tiles.mapbox.com'
