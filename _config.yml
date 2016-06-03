@@ -3,7 +3,7 @@ api: https://122e4e-mapbox.global.ssl.fastly.net/core
 tileApi: https://api-maps-staging.tilestream.net
 source: website
 permalink: /:title/
-baseurl: /mapbox-studio
+baseurl: /mapbox-studio-classic
 mapboxjs: v2.1.7
 tileapi: 'https://api.tiles.mapbox.com'
 defaults:
