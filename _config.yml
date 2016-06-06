@@ -2,20 +2,16 @@ url: https://122e4e-mapbox.global.ssl.fastly.net
 api: https://122e4e-mapbox.global.ssl.fastly.net/core
 tileApi: https://api-maps-staging.tilestream.net
 source: website
-permalink: /:title
-baseurl: /mapbox-studio
-highlighter: true
+permalink: /:title/
+baseurl: /mapbox-studio-classic
 mapboxjs: v2.1.7
 tileapi: 'https://api.tiles.mapbox.com'
-rdiscount:
-  extensions: [smart]
 defaults:
 - scope:
     path: ""
-    type: post
+    type: posts
   values:
     layout: studiodoc
-    date: 0000-01-01
 
 ### latest release
 release: v0.3.8
