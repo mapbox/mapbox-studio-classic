@@ -7,6 +7,8 @@ os:
   - linux
   - osx
 
+dist: trusty
+
 env:
   matrix:
   # NOTE: do not increment the NODE_VERSION without
