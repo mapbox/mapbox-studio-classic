@@ -28,7 +28,7 @@
     "mkdirp": "0.5.x",
     "dirty": "1.0.0",
     "sphericalmercator": "1.0.x",
-    "js-yaml": "https://github.com/mapbox/js-yaml/tarball/scalar-styles",
+    "js-yaml": "https://github.com/springmeyer/js-yaml/tarball/master",
     "fstream": "1.0.x",
     "tar": "2.2.x",
     "mapnik": "3.5.13",
