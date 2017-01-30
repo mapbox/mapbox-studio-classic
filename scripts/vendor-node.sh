@@ -27,7 +27,7 @@ cwd=$(pwd)
 mkdir -p "$(dirname "$0")/../vendor"
 cd "$(dirname "$0")/../vendor"
 # Note: the node version must be pre-cached by https://github.com/mapbox/install-node#allowed-versions
-curl https://s3.amazonaws.com/mapbox/apps/install-node/v1.1.0/run | NV=$NODE_VERSION NP=$platform-$TARGET_ARCH OD=$(pwd) BO=true sh
+curl https://s3.amazonaws.com/mapbox/apps/install-node/v2.2.0/run | NV=$NODE_VERSION NP=$platform-$TARGET_ARCH OD=$(pwd) BO=true sh
 
 cd "$cwd"
 
