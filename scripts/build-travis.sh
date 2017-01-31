@@ -17,6 +17,7 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         git checkout nsis-2.51
         ./mason install nsis 2.51
         export PATH=$(./mason prefix nsis 2.51)/bin:${PATH}
+        mkdir -p /tmp/makensis-data/share/nsis/Stubs/
         cp -r $(./mason prefix nsis 2.51)/share/nsis/Stubs/* /tmp/makensis-data/share/nsis/Stubs/
         cd ../
         makensis || true
