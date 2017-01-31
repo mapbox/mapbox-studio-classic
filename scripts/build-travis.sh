@@ -20,8 +20,7 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         which gdb
         ./mason install nsis 3.01
         export PATH=$(./mason prefix nsis 3.01)/bin:${PATH}
-        mkdir -p /tmp/makensis-data/share/nsis/Stubs/
-        cp -r $(./mason prefix nsis 3.01)/share/nsis/Stubs/* /tmp/makensis-data/share/nsis/Stubs/
+        export NSISDIR=$(./mason prefix nsis 3.01)
         cd ../
         makensis || true
         makensis --version || true
