@@ -137,8 +137,7 @@ if [ $platform == "win32" ]; then
         echo "Build at https://mapbox.s3.amazonaws.com/mapbox-studio/$(basename ${build_dir}.7z)"
     fi
 
-    curl -sSfL https://github.com/mapbox/logbt/archive/master.tar.gz | tar --gunzip --extract --strip-components=2 --exclude="*md" --exclude="test*" --directory=.
-    sudo ./logbt --setup
+    sudo logbt --setup
     echo "running makensis"
     ./logbt -- makensis -V2 \
       -DTARGET_ARCH=${arch_common_name} \
