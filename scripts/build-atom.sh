@@ -139,7 +139,7 @@ if [ $platform == "win32" ]; then
 
     sudo logbt --setup
     echo "running makensis"
-    ./logbt -- makensis -V2 \
+    logbt -- makensis -V2 \
       -DTARGET_ARCH=${arch_common_name} \
       -DSOURCE_ROOT=${build_dir}/ \
       -DOUTPUT_FILE=${build_dir}.exe \
