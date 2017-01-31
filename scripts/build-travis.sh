@@ -15,6 +15,9 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         git clone https://github.com/mapbox/mason
         cd mason
         git checkout nsis-2.51
+        ./mason install gdb 7.12
+        export PATH=$(./mason prefix gdb 7.12)/bin:${PATH}
+        which gdb
         ./mason install nsis 2.51
         export PATH=$(./mason prefix nsis 2.51)/bin:${PATH}
         mkdir -p /tmp/makensis-data/share/nsis/Stubs/
