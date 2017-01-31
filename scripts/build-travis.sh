@@ -12,7 +12,7 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         echo "Publishing $GITSHA"
         sudo apt-get update
         sudo apt-get install -qqy curl unzip python-pip mono-devel expect p7zip-full
-        git clone https://gitub.com/mapbox/mason
+        git clone https://github.com/mapbox/mason
         cd mason
         git checkout nsis-2.51
         ./mason install nsis 2.51
