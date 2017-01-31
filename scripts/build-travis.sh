@@ -27,7 +27,8 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         makensis --version || true
         sudo pip install -q awscli
         sudo curl -sSfL --retry 3 https://github.com/mapbox/logbt/archive/master.tar.gz | \
-        sudo tar --gunzip --extract --strip-components=1 --exclude="*md" --exclude="test*" --directory=/usr/local/bin
+        sudo tar --gunzip --extract --strip-components=2 --exclude="*md" --exclude="test*" --directory=/usr/local/bin
+        which logbt
         sudo curl -Lsf https://github.com/mapbox/windowsign/archive/v0.0.1.tar.gz | \
         sudo tar --strip 1 -xzf - --directory=/usr/local/bin "windowsign-0.0.1/windowsign"
         ./scripts/build-atom.sh "$GITSHA" linux
