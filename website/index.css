@@ -1,3 +1,4 @@
+body { background-color: #f8f8f8; }
 .fixed { position:fixed; }
 .on-linux,
 .on-darwin,
@@ -104,7 +105,7 @@
 }
 
 #design-tools .icon.check:before {
-  color: #39abc7; 
+  color: #39abc7;
 }
 
 .studio-features p, .studio-features h3, .bullet-list p, .bullet-list h3 {
