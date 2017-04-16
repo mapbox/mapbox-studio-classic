@@ -45,7 +45,13 @@ install:
 - python test/check_shared_libs.py node_modules/
 
 before_script:
- - npm ls
+- npm ls
+
+# move from mapbox-studio to "Mapbox Studio" to run tests with spacey paths
+- export TRAVIS_BUILD_DIR_OLD="$TRAVIS_BUILD_DIR"
+- export TRAVIS_BUILD_DIR="$(dirname $TRAVIS_BUILD_DIR)/Mapbox Studio"
+- cd $HOME && mv "$TRAVIS_BUILD_DIR_OLD" "$TRAVIS_BUILD_DIR" && cd "$TRAVIS_BUILD_DIR"
+- export LD_PRELOAD="$(pwd)/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
 
 script:
  - npm test
