@@ -72,8 +72,29 @@ var Tab = function(id, value) {
   updateSelectors(this.model);
   */
 
+  var watchForChange = (function() {
+    var valueOf = function(tab) {
+      return tab.doc.getValue();
+    };
+    var strip = function(input) {
+      return $.trim(input).replace(/\s*\n+/g, '');
+    };
+    var old = strip(valueOf(tab));
+    return _.debounce(function(fn, ctx) {
+      if (old != (old = strip(valueOf(tab)))) {
+        fn && fn.call(ctx, fn);
+      }
+    }, 500);
+  }());
+
   tab.on('keydown', completer.onKeyEvent);
-  tab.on('change', function() { return window.editor && window.editor.changed(); });
+  tab.on('change', function() { 
+    var _editor = window.editor;
+    if (_editor) {
+      watchForChange(_editor.update, _editor);
+      return _editor.changed();
+    }
+  });
   tab.setOption('onHighlightComplete', _(completer.setTitles).throttle(100));
   tab.getWrapperElement().id = 'code-' + id.replace(/[^\w+]/g,'_');
   return tab;
