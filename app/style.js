@@ -691,12 +691,21 @@ Editor.prototype.refresh = function(ev) {
     });
 
     function setCenter(e) {
+        $('.js-mapCenter').text(map.getCenter().wrap().lat.toFixed(4) + ', ' + map.getCenter().wrap().lng.toFixed(4));
+        if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
+            map.getCenter().wrap().lat.toFixed(4) + ',' +
+            map.getCenter().wrap().lng.toFixed(4) + ',' +
+            map.getZoom()
+        );
+/*
+    function setCenter(e) {
         $('.js-mapCenter').text(map.getCenter().wrap().lng.toFixed(4) + ', ' + map.getCenter().wrap().lat.toFixed(4));
         if (!$('.js-lockCenter').is('.active')) $('.js-savedCenter').text(
             map.getCenter().wrap().lng.toFixed(4) + ',' +
             map.getCenter().wrap().lat.toFixed(4) + ',' +
             map.getZoom()
         );
+*/
     }
     setCenter();
     map.on('moveend', setCenter);
