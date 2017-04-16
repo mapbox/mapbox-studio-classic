@@ -26,6 +26,12 @@ config.test = config.test || false;
 config.cwd = path.resolve(config.cwd || process.env.HOME);
 var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 
+process.on('uncaughtException', function(err) {
+    logger.debug('Hit unexpected JS Error in server, please report this entire log to https://github.com/mapbox/mapbox-studio/issues');
+    if (err) logger.debug(err);
+    else logger.debug('no error reported');
+});
+
 var usage = function usage() {
   var str = [
       ''
