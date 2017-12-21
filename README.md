@@ -6,10 +6,6 @@ Desktop application for vector tile driven map design.
 [![Build status](https://ci.appveyor.com/api/projects/status/vmvkol2diegfo7gc?svg=true)](https://ci.appveyor.com/project/Mapbox/mapbox-studio-classic)
 [![Dependencies](https://david-dm.org/mapbox/mapbox-studio-classic.svg)](https://david-dm.org/mapbox/mapbox-studio-classic)
 
-### Install latest release
-
-Download the [latest release](https://www.mapbox.com/mapbox-studio-classic/) for your platform and run the packaged app.
-
 ### Install from source
 
 Install [node v0.10.x](http://nodejs.org/download/). Then
