@@ -284,7 +284,7 @@ test('local: refresh source (invalid minzoom)', function(t) {
     testutil.createTmpProject('source-save', defaultsource, function(err, tmpid, info) {
         t.ifError(err);
         source.refresh(_({id:source.tmpid(), minzoom:-1}).defaults(info), function(err, source) {
-            t.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 22', 'source.refresh() errors on invalid source');
+            t.equal(err.toString(), 'Error: minzoom must be an integer between 0 and 30', 'source.refresh() errors on invalid source');
             t.end();
         });
     });
