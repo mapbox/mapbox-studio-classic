@@ -30,6 +30,7 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         curl -O https://bootstrap.pypa.io/get-pip.py
         sudo python get-pip.py
         pip install awscli --user
+        export PATH=$(python -m site --user-base)/bin:${PATH}
 
         ./scripts/build-atom.sh "$GITSHA" darwin
     else
