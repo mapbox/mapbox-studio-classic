@@ -171,9 +171,9 @@ elif [ $platform == "darwin" ]; then
     mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
 
     # Test getting signing key.
-    aws s3 cp "s3://mapbox/mapbox-studio/keys/Developer ID Certification Authority.cer" authority.cer
-    aws s3 cp "s3://mapbox/mapbox-studio/keys/Developer ID Application: Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
-    aws s3 cp "s3://mapbox/mapbox-studio/keys/Mac Developer ID Application: Mapbox, Inc..p12" signing-key.p12
+    aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Certification Authority.cer" authority.cer
+    aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Application- Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
+    aws s3 cp "s3://mapbox/mapbox-studio/keys2/Mac Developer ID Application- Mapbox, Inc..p12" signing-key.p12
     security create-keychain -p travis signing.keychain \
         && echo "+ signing keychain created"
     security import authority.cer -k ~/Library/Keychains/signing.keychain -T /usr/bin/codesign \
@@ -186,11 +186,11 @@ elif [ $platform == "darwin" ]; then
     rm signing-key.cer
     rm signing-key.p12
 
-    # update time to try to avoid occaisonal codesign error of "timestamps differ by N seconds - check your system clock"
+    # update time to try to avoid occasional codesign error of "timestamps differ by N seconds - check your system clock"
     sudo ntpdate -u time.apple.com
 
     # Sign .app file.
-    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app" || true
+    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
 
     # Nuke signin keychain.
     security delete-keychain signing.keychain
