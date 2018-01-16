@@ -18,7 +18,7 @@ step-library:
         command: |
           node -v
           npm -v
-          ./scripts/build-travis.sh $TRAVIS_COMMIT
+          ./scripts/build-travis.sh $(echo $CIRCLE_SHA1 | cut -c -7)
           npm install --fallback-to-build=false
           python test/check_shared_libs.py node_modules/
           npm ls
@@ -33,7 +33,6 @@ jobs:
       - NODE_VERSION: "0.10.40"
       - ATOM_VERSION: "0.21.1"
       - PACKAGABLE: true
-      - TRAVIS_COMMIT: $(echo $CIRCLE_SHA1 | cut -c -7)
       - WINCERT_PASSWORD: "not-actually-password" # to prevent Unbound var error in script (not used on OS X)
 
     steps:
