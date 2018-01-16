@@ -190,7 +190,7 @@ elif [ $platform == "darwin" ]; then
     sudo ntpdate -u time.apple.com
 
     # Sign .app file.
-    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
+    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app" || true
 
     # Nuke signin keychain.
     security delete-keychain signing.keychain
