@@ -175,16 +175,17 @@ elif [ $platform == "darwin" ]; then
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Application- Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Mac Developer ID Application- Mapbox, Inc..p12" signing-key.p12
     KEYCHAIN_NAME="signing.keychain"
-    security create-keychain -p travis ${KEYCHAIN_NAME} \
+    KEYCHAIN_PASSWORD="travis"
+    security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
         && echo "+ signing keychain created"
     security list-keychains -s ${KEYCHAIN_NAME}
     security list-keychains
     security show-keychain-info ${KEYCHAIN_NAME}
-    security import authority.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign \
+    security import authority.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign -A \
         && echo "+ authority cer added to keychain"
-    security import signing-key.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign \
+    security import signing-key.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign -A \
         && echo "+ signing cer added to keychain"
-    security import signing-key.p12 -k ~/Library/Keychains/${KEYCHAIN_NAME} -P "" -T /usr/bin/codesign \
+    security import signing-key.p12 -k ~/Library/Keychains/${KEYCHAIN_NAME} -P "" -T /usr/bin/codesign -A \
         && echo "+ signing key added to keychain"
     rm authority.cer
     rm signing-key.cer
@@ -194,6 +195,8 @@ elif [ $platform == "darwin" ]; then
     sudo ntpdate -u time.apple.com
 
     # Sign .app file.
+    which codesign
+    security unlock-keychain -p ${KEYCHAIN_PASSWORD} ~/Library/Keychains/${KEYCHAIN_NAME}
     codesign --keychain ~/Library/Keychains/${KEYCHAIN_NAME} --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
 
     # Nuke signin keychain.
