@@ -27,7 +27,7 @@ step-library:
 jobs:
   build-osx:
     macos:
-      xcode: "9.0"
+      xcode: "8.2"
     environment:
       - FOO: "bar"
       - NODE_VERSION: "0.10.40"
