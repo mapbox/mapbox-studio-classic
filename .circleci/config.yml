@@ -1,0 +1,49 @@
+version: 2
+
+step-library:
+  - &install-node
+      run:
+        name: Install node
+        command: |
+          set +e
+          curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+          [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+          nvm install ${NODE_VERSION}
+          nvm alias default ${NODE_VERSION}
+          echo "[ -s \"${NVM_DIR}/nvm.sh\" ] && . \"${NVM_DIR}/nvm.sh\"" >> $BASH_ENV
+
+  - &build-and-test
+      run:
+        name: Build and test
+        command: |
+          node -v
+          npm -v
+          ./scripts/build-travis.sh $(echo $CIRCLE_SHA1 | cut -c -7)
+          npm install --fallback-to-build=false
+          python test/check_shared_libs.py node_modules/
+          npm ls
+          npm test
+
+jobs:
+  build-osx:
+    macos:
+      xcode: "9.2.0"
+    environment:
+      - FOO: "bar"
+      - NODE_VERSION: "0.10.40"
+      - ATOM_VERSION: "0.21.1"
+      - PACKAGABLE: true
+      - WINCERT_PASSWORD: "not-actually-password" # to prevent Unbound var error in script (not used on OS X)
+
+    steps:
+      - checkout
+      - run: echo 'export NVM_DIR=${HOME}/.nvm' >> $BASH_ENV
+      - *install-node
+      - *build-and-test
+
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-osx

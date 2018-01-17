@@ -25,12 +25,13 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
         aws s3 cp --acl=public-read index.html s3://mapbox/mapbox-studio/index.html
     elif [ $PLATFORM == "darwin" ] && [ -n "$GITSHA" ]; then
         echo "Publishing $GITSHA"
-        brew install python
-        brew link --overwrite python
-
         set -eu
 
-        pip install -q awscli
+        curl -O https://bootstrap.pypa.io/get-pip.py
+        sudo python get-pip.py
+        pip install awscli --user
+        export PATH=$(python -m site --user-base)/bin:${PATH}
+
         ./scripts/build-atom.sh "$GITSHA" darwin
     else
         echo "Not publishing for $PLATFORM / $GITSHA / node $NODE_VERSION / atom $ATOM_VERSION"

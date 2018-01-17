@@ -171,29 +171,41 @@ elif [ $platform == "darwin" ]; then
     mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
 
     # Test getting signing key.
-    aws s3 cp "s3://mapbox/mapbox-studio/keys/Developer ID Certification Authority.cer" authority.cer
-    aws s3 cp "s3://mapbox/mapbox-studio/keys/Developer ID Application: Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
-    aws s3 cp "s3://mapbox/mapbox-studio/keys/Mac Developer ID Application: Mapbox, Inc..p12" signing-key.p12
-    security create-keychain -p travis signing.keychain \
+    aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Certification Authority.cer" authority.cer
+    aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Application- Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
+    aws s3 cp "s3://mapbox/mapbox-studio/keys2/Mac Developer ID Application- Mapbox, Inc..p12" signing-key.p12
+    KEYCHAIN_NAME="circle.keychain"
+    KEYCHAIN_PASSWORD="circle"
+    security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
         && echo "+ signing keychain created"
-    security import authority.cer -k ~/Library/Keychains/signing.keychain -T /usr/bin/codesign \
+    security list-keychains -s ${KEYCHAIN_NAME}
+    security list-keychains
+    security show-keychain-info ${KEYCHAIN_NAME}
+    security unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME}
+    security set-keychain-settings -lut 7200 ${KEYCHAIN_NAME}
+    security import authority.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign -A \
         && echo "+ authority cer added to keychain"
-    security import signing-key.cer -k ~/Library/Keychains/signing.keychain -T /usr/bin/codesign \
+    security import signing-key.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign -A \
         && echo "+ signing cer added to keychain"
-    security import signing-key.p12 -k ~/Library/Keychains/signing.keychain -P "" -T /usr/bin/codesign \
+    security import signing-key.p12 -k ~/Library/Keychains/${KEYCHAIN_NAME} -P "" -T /usr/bin/codesign -A \
         && echo "+ signing key added to keychain"
+
+    security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME}
+
     rm authority.cer
     rm signing-key.cer
     rm signing-key.p12
 
-    # update time to try to avoid occaisonal codesign error of "timestamps differ by N seconds - check your system clock"
+    # update time to try to avoid occasional codesign error of "timestamps differ by N seconds - check your system clock"
     sudo ntpdate -u time.apple.com
 
     # Sign .app file.
-    codesign --keychain ~/Library/Keychains/signing.keychain --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
+    which codesign
+    security list-keychains
+    codesign --keychain ~/Library/Keychains/${KEYCHAIN_NAME} --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
 
     # Nuke signin keychain.
-    security delete-keychain signing.keychain
+    #security delete-keychain ${KEYCHAIN_NAME}
 
     # Use ditto rather than zip to preserve code signing.
     ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 $(basename $build_dir) $build_dir.zip
