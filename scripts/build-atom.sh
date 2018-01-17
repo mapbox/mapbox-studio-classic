@@ -189,6 +189,9 @@ elif [ $platform == "darwin" ]; then
         && echo "+ signing cer added to keychain"
     security import signing-key.p12 -k ~/Library/Keychains/${KEYCHAIN_NAME} -P "" -T /usr/bin/codesign -A \
         && echo "+ signing key added to keychain"
+
+    security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME}
+
     rm authority.cer
     rm signing-key.cer
     rm signing-key.p12
