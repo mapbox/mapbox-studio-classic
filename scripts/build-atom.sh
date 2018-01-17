@@ -176,8 +176,8 @@ elif [ $platform == "darwin" ]; then
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Mac Developer ID Application- Mapbox, Inc..p12" signing-key.p12
     KEYCHAIN_NAME="circle.keychain"
     KEYCHAIN_PASSWORD="circle"
-    #security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
-    #    && echo "+ signing keychain created"
+    security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
+        && echo "+ signing keychain created"
     security list-keychains -s ${KEYCHAIN_NAME}
     security list-keychains -d user -s login.keychain
     security list-keychains
