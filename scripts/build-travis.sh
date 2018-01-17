@@ -11,9 +11,15 @@ if [[ ${PACKAGABLE:-false} == true ]]; then
 
         echo "Publishing $GITSHA"
         sudo apt-get update
-        sudo apt-get install -qqy curl unzip nsis python-pip mono-devel expect p7zip-full
-        nsis -v || true
-        nsis --version || true
+        sudo apt-get install -qqy curl unzip python-pip mono-devel expect p7zip-full
+        mkdir ./mason
+        curl -sSfL https://github.com/mapbox/mason/archive/v0.17.0.tar.gz | tar --gunzip --extract --strip-components=1 --exclude="*md" --exclude="test*" --directory=./mason
+        NSIS_VERSION="3.01"
+        ./mason/mason install nsis ${NSIS_VERSION}
+        export PATH=$(./mason/mason prefix nsis ${NSIS_VERSION})/bin:${PATH}
+        export NSISDIR=$(./mason/mason prefix nsis ${NSIS_VERSION})
+        makensis || true
+        makensis --version || true
         sudo pip install -q awscli
         sudo curl -Lsf https://github.com/mapbox/windowsign/archive/v0.0.1.tar.gz | \
         sudo tar --strip 1 -xzf - --directory=/usr/local/bin "windowsign-0.0.1/windowsign"
