@@ -179,7 +179,6 @@ elif [ $platform == "darwin" ]; then
     security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
         && echo "+ signing keychain created"
     security list-keychains -s ${KEYCHAIN_NAME}
-    security list-keychains -d user -s login.keychain
     security list-keychains
     security show-keychain-info ${KEYCHAIN_NAME}
     security unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME}
