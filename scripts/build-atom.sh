@@ -174,13 +174,16 @@ elif [ $platform == "darwin" ]; then
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Certification Authority.cer" authority.cer
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Application- Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Mac Developer ID Application- Mapbox, Inc..p12" signing-key.p12
-    KEYCHAIN_NAME="signing.keychain"
-    KEYCHAIN_PASSWORD="travis"
-    security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
-        && echo "+ signing keychain created"
+    KEYCHAIN_NAME="circle.keychain"
+    KEYCHAIN_PASSWORD="circle"
+    #security create-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME} \
+    #    && echo "+ signing keychain created"
     security list-keychains -s ${KEYCHAIN_NAME}
+    security list-keychains -d user -s login.keychain
     security list-keychains
     security show-keychain-info ${KEYCHAIN_NAME}
+    security unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME}
+    security set-keychain-settings -lut 7200 ${KEYCHAIN_NAME}
     security import authority.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign -A \
         && echo "+ authority cer added to keychain"
     security import signing-key.cer -k ~/Library/Keychains/${KEYCHAIN_NAME} -T /usr/bin/codesign -A \
@@ -196,11 +199,11 @@ elif [ $platform == "darwin" ]; then
 
     # Sign .app file.
     which codesign
-    security unlock-keychain -p ${KEYCHAIN_PASSWORD} ~/Library/Keychains/${KEYCHAIN_NAME}
+    security list-keychains
     codesign --keychain ~/Library/Keychains/${KEYCHAIN_NAME} --sign "Developer ID Application: Mapbox, Inc." --deep --verbose --force "$build_dir/Mapbox Studio.app"
 
     # Nuke signin keychain.
-    security delete-keychain ${KEYCHAIN_NAME}
+    #security delete-keychain ${KEYCHAIN_NAME}
 
     # Use ditto rather than zip to preserve code signing.
     ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 $(basename $build_dir) $build_dir.zip
