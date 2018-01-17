@@ -190,6 +190,7 @@ elif [ $platform == "darwin" ]; then
     security import signing-key.p12 -k ~/Library/Keychains/${KEYCHAIN_NAME} -P "" -T /usr/bin/codesign -A \
         && echo "+ signing key added to keychain"
 
+    # https://discuss.circleci.com/t/xcode-8-3-build-timing-out/11721
     security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k ${KEYCHAIN_PASSWORD} ${KEYCHAIN_NAME}
 
     rm authority.cer
