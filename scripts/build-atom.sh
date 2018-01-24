@@ -101,6 +101,7 @@ if [ $platform == "win32" ]; then
     if ! which windowsign > /dev/null; then echo "windowsign command not found"; exit 1; fi;
 
     # windows code signing
+    # context on signing at https://github.com/mapbox/mapbox-studio-classic-internal/wiki/code-signing
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.pvk authenticode.pvk
     aws s3 cp s3://mapbox/mapbox-studio/certs/authenticode.spc authenticode.spc
 
@@ -171,6 +172,7 @@ elif [ $platform == "darwin" ]; then
     mv $build_dir/Atom.app "$build_dir/Mapbox Studio.app"
 
     # Test getting signing key.
+    # context on signing at https://github.com/mapbox/mapbox-studio-classic-internal/wiki/code-signing
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Certification Authority.cer" authority.cer
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Developer ID Application- Mapbox, Inc. (GJZR2MEM28).cer" signing-key.cer
     aws s3 cp "s3://mapbox/mapbox-studio/keys2/Mac Developer ID Application- Mapbox, Inc..p12" signing-key.p12
