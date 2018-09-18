@@ -1,6 +1,6 @@
 # Mapbox Studio Classic style quickstart
 
-Mapbox Studio Classic uses a language called CartoCSS to determine the look of a map. You can manipulate the map's colors, sizes, and shapes by applying specific CartoCSS rules. Read the [CartoCSS section](https://www.mapbox.com/help/studio-classic-cartocss/) of the Mapbox Studio Classic manual for a more detailed introduction to the language.
+Mapbox Studio Classic uses a language called CartoCSS to determine the look of a map. You can manipulate the map's colors, sizes, and shapes by applying specific CartoCSS rules. Read the [CartoCSS section](../studio-classic-manual/04-classic-manual-cartocss.md) of the Mapbox Studio Classic manual for a more detailed introduction to the language.
 
 In this guide, you'll take the Mapbox Basic style and add buildings, roads, and parks by writing CartoCSS. You'll also make the map style interactive by adding tooltips to the POI (points of interest) layer.
 
@@ -229,4 +229,4 @@ Your map style is now deployed Mapbox on your [Classic](https://www.mapbox.com/s
 
 ## Next steps
 
-Want to build more with Mapbox Studio Classic? Check out the [Mapbox Studio Classic source quickstart](https://www.mapbox.com/help/source-quickstart/).
+Want to build more with Mapbox Studio Classic? Check out the [Mapbox Studio Classic source quickstart](./source-quickstart.md).

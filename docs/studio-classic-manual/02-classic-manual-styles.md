@@ -5,7 +5,7 @@ You can use the style mode in Mapbox Studio Classic to create map styles. A **[c
 
 ## What is a style?
 
-**Styles** contain the design rules that customize the display of your maps. Mapbox Studio Classic styles are written using a language called [*CartoCSS*](https://www.mapbox.com/help/define-cartocss), which assigns certain style properties (like color, line-width, opacity, etc.) to your data features. The way in which features are styled can be modified based on the map's zoom level and your data's attributes. Once you're finished editing your style, you'll upload it to your Mapbox account where it will appear on your [Classic styles page](https://www.mapbox.com/help/studio/classic/styles/) with a [map ID](https://www.mapbox.com/help/define-map-id) so you can use it with other Mapbox tools and a __share URL__ so you can share or embed it on your website.
+**Styles** contain the design rules that customize the display of your maps. Mapbox Studio Classic styles are written using a language called [*CartoCSS*](https://www.mapbox.com/help/define-cartocss), which assigns certain style properties (like color, line-width, opacity, etc.) to your data features. The way in which features are styled can be modified based on the map's zoom level and your data's attributes. Once you're finished editing your style, you'll upload it to your Mapbox account where it will appear on your [Classic styles page](https://www.mapbox.com/studio/classic/styles/) with a [map ID](https://www.mapbox.com/help/define-map-id) so you can use it with other Mapbox tools and a __share URL__ so you can share or embed it on your website.
 
 Sources and styles are independent; the same style can be applied to different data sources and the same data source can power different styles. This makes iterative map designing fast and efficient.
 
@@ -49,7 +49,7 @@ Mapbox Studio Classic comes with 16 starter styles for you to use or customize f
 
 If you'd like to use one of these map styles in your project, even if you'll eventually be adding custom tilesets, select a style to get started.
 
-If you don't want to use these map styles in your project and would rather start with a blank style, you can type the [map ID](https://www.mapbox.com/help/define-map-id) of your custom tilesets into the form at the bottom of your screen and click **Create**. If you created your tileset in Mapbox Studio Classic source mode, make sure you've uploaded your source to your Mapbox account first. You can find the [map ID](https://www.mapbox.com/help/define-map-id) of your tilesets from your [**Tilesets**](https://www.mapbox.com/help/studio/tilesets) page. Click the hamburger menu next to the tileset and the clipboard icon next to the map ID to copy it.
+If you don't want to use these map styles in your project and would rather start with a blank style, you can type the [map ID](https://www.mapbox.com/help/define-map-id) of your custom tilesets into the form at the bottom of your screen and click **Create**. If you created your tileset in Mapbox Studio Classic source mode, make sure you've uploaded your source to your Mapbox account first. You can find the [map ID](https://www.mapbox.com/help/define-map-id) of your tilesets from your [**Tilesets**](https://www.mapbox.com/studio/tilesets) page. Click the hamburger menu next to the tileset and the clipboard icon next to the map ID to copy it.
 
 #### Browse
 
@@ -67,7 +67,7 @@ Before you start building your style, be sure to familiarize yourself with the s
 
 ### Add custom data
 
-To add custom data to your Mapbox Studio Classic style, you'll need to use your tileset source's [map ID](https://www.mapbox.com/help/define-map-id). If you created your tileset in Mapbox Studio Classic source mode, make sure you've uploaded your source to your Mapbox account first. You can find the [map ID](https://www.mapbox.com/help/define-map-id) of your tilesets from your [**Tilesets**](https://www.mapbox.com/help/studio/tilesets) page. Click the hamburger menu next to the tileset and the clipboard icon next to the map ID to copy it.
+To add custom data to your Mapbox Studio Classic style, you'll need to use your tileset source's [map ID](https://www.mapbox.com/help/define-map-id). If you created your tileset in Mapbox Studio Classic source mode, make sure you've uploaded your source to your Mapbox account first. You can find the [map ID](https://www.mapbox.com/help/define-map-id) of your tilesets from your [**Tilesets**](https://www.mapbox.com/studio/tilesets) page. Click the hamburger menu next to the tileset and the clipboard icon next to the map ID to copy it.
 
 ![tilesets page in Mapbox Studio](https://www.mapbox.com/help/img/studio/tilesets.png)
 
@@ -83,7 +83,7 @@ Sources are rendered in order in which they are listed in the style editor. So f
 
 ### Styling with CartoCSS
 
-To style the sources you've added to your style project, you'll need to write CartoCSS. Check out the [CartoCSS](https://www.mapbox.com/help/studio-classic-cartocss) guide in this manual to get started.
+To style the sources you've added to your style project, you'll need to write CartoCSS. Check out the [CartoCSS](./04-classic-manual-cartocss.md) guide in this manual to get started.
 
 ## Publishing styles
 
@@ -95,7 +95,7 @@ The **Settings** button at the top left of your style editor window opens a new 
 
 Before you package your style, be sure to review the following options and save your style.
 
-**Name**. This will be the name of your style in the in the **Styles & Sources** panel and in your [Classic](https://www.mapbox.com/help/studio/classic/styles/) page from your Mapbox account. If this field is left blank, you style will be named 'Untitled'.
+**Name**. This will be the name of your style in the in the **Styles & Sources** panel and in your [Classic](https://www.mapbox.com/studio/classic/styles/) page from your Mapbox account. If this field is left blank, you style will be named 'Untitled'.
 
 **Description**. An optional field to describe the style. This will only be visible from your style editor.
 
@@ -107,7 +107,7 @@ Now that you've reviewed your style options, you can package your style for rend
 
 #### Upload to Mapbox
 
-From the **Settings** menu, click **Upload to Mapbox** to upload your classic style your Mapbox account's [Classic](https://www.mapbox.com/help/studio/classic/styles/) page. The classic style will have the [map ID](https://www.mapbox.com/help/define-map-id/) shown in the **Map ID** field. You can use this map ID to add a style to another of Mapbox project.
+From the **Settings** menu, click **Upload to Mapbox** to upload your classic style your Mapbox account's [Classic](https://www.mapbox.com/studio/classic/styles/) page. The classic style will have the [map ID](https://www.mapbox.com/help/define-map-id/) shown in the **Map ID** field. You can use this map ID to add a style to another of Mapbox project.
 
 
 #### Download a package
@@ -138,7 +138,7 @@ With Mapbox Studio Classic's export functions, you can set your canvas size, ima
 
 ### Printing options
 
-You can create a [static map](https://www.mapbox.com/help/api-documentation/#static-classic) from a [classic style](https://www.mapbox.com/help/define-classic-style) or a map designed in [Mapbox Studio Classic](https://github.com/mapbox/mapbox-studio-classic) using Mapbox Studio Classic's image export tool or by writing the API call manually to the [Mapbox Static API (Classic)](https://www.mapbox.com/api-documentation/pages/static_classic.html). The Mapbox Studio Classic export tool also allows the export of high resolution images from classic styles.
+You can create a [static map](https://www.mapbox.com/api-documentation/#static-classic) from a [classic style](https://www.mapbox.com/help/define-classic-style) or a map designed in [Mapbox Studio Classic](https://github.com/mapbox/mapbox-studio-classic) using Mapbox Studio Classic's image export tool or by writing the API call manually to the [Mapbox Static API (Classic)](https://www.mapbox.com/api-documentation/pages/static_classic.html). The Mapbox Studio Classic export tool also allows the export of high resolution images from classic styles.
 
 Export options:
 

@@ -8,8 +8,8 @@
 
 This manual contains a comprehensive explanation of Mapbox Studio Classic, including narrative descriptions of how to use different parts of the tool and tutorials with guided walk throughs of specific projects.
 
-- **Manual** &mdash; The [Manual](https://www.mapbox.com/help/studio-classic-manual/) section is the reference portion of this document. It contains both technical descriptions of the Mapbox Studio Classic interface as well as conceptual explanations of the map components you're working with.
-- **Tutorials** &mdash; The [Tutorials](https://www.mapbox.com/help/studio-classic-manual-tutorials) section contains several step-by-step guides for creating custom projects in Mapbox Studio Classic.
+- **Manual** &mdash; The Manual section is the reference portion of this document. It contains both technical descriptions of the Mapbox Studio Classic interface as well as conceptual explanations of the map components you're working with.
+- **Tutorials** &mdash; The [Tutorials folder](../tutorials/) contains several step-by-step guides for creating custom projects in Mapbox Studio Classic.
 
 
 ## What is Mapbox Studio Classic?

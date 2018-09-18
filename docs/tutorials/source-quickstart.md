@@ -4,7 +4,7 @@ When you import geospatial data, Mapbox Studio Classic doesn't apply visual styl
 
 In this guide, you'll import a [CSV file with earthquake data from the USGS](http://earthquake.usgs.gov/earthquakes/feed/) and create vector tiles from the data. You'll add the source as a layer and create a custom map style showing points for all the earthquakes that have occurred.
 
-If you're new to Mapbox Studio Classic, we recommend going through the [CartoCSS section](https://www.mapbox.com/help/studio-classic-cartocss/) of the Mapbox Studio Classic manual and [Mapbox Studio Classic style quickstart](https://www.mapbox.com/help/style-quickstart/) guides before continuing.
+If you're new to Mapbox Studio Classic, we recommend going through the [CartoCSS section](../studio-classic-manual/04-classic-manual-cartocss.md) of the Mapbox Studio Classic manual and [Mapbox Studio Classic style quickstart](./style-quickstart.md) guides before continuing.
 
 ## Getting started
 
